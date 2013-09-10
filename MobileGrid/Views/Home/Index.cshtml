@@ -54,6 +54,29 @@
         update: function (element, valueAccessor) {
         }
     };
+
+    ko.bindingHandlers.DPFooter = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var rowMarkup = "";
+            rowMarkup += "<input class=\"dp-grid-paging-first\" type=\"button\" value=\"<<\" title=\"<<\"data-bind=\"click: function(){" +
+                "$root.gridConfig.pageNumber(1);}\"/>"
+            rowMarkup += "<input class=\"dp-grid-paging-previous\" type=\"button\" value=\"<\" title=\"<\"data-bind=\"click: " +
+                "function(){var newPage = $root.gridConfig.pageNumber() - 1;" +
+                "if (newPage != 0) "+
+                "{$root.gridConfig.pageNumber(newPage);}}\"/>"
+            rowMarkup += "Page:<input class=\"dp-grid-paging-page\" data-bind=\"value:$root.gridConfig.pageNumber\"/>" +
+                " from <span data-bind=\"text:$root.gridConfig.pageCount()\"></span>"
+            rowMarkup += "<input class=\"dp-grid-paging-next\" type=\"button\" value=\">\" title=\">\"data-bind=\"click: " +
+                "function(){var newPage = $root.gridConfig.pageNumber() + 1;" +
+                "if (newPage != $root.gridConfig.pageCount()+1) " +
+                "{$root.gridConfig.pageNumber(newPage);}}\"/>"
+            rowMarkup += "<input class=\"dp-grid-paging-last\" type=\"button\" value=\">>\" title=\">>\"data-bind=\"click: function(){" +
+                "$root.gridConfig.pageNumber(" + valueAccessor().pageCount() + ");}\"/>"
+            $(element).html(rowMarkup);
+        },
+        update: function (element, valueAccessor) {
+        }
+    }
 </script>
 
 <div class="dp-grid-wrapper"> 
@@ -63,6 +86,10 @@
     </div>
     <div class="dp-grid-content" data-bind="foreach: gridConfig.sortedData">
         <div class="dp-grid-row" data-bind="DPContent: { columns: $parent.gridConfig.columns, data: $data, mobileHeader: $parent.gridConfig.mobileHeader }">
+        </div>
+    </div>
+    <div class="dp-grid-footer">
+        <div class="dp-grid-footer-context" data-bind="DPFooter: gridConfig">
         </div>
     </div>
 </div>
@@ -76,11 +103,16 @@
         $ref.columns = gridConfig.columns;
         $ref.mobileHeader = gridConfig.mobileHeader;
 
-        $ref.displayLimiter = ko.observable(gridConfig.display);
-
         $ref.sortOrder = ko.observable({ propertyName: $ref.columns[0].property, order: 1});
 
         $ref.lastPropertyName = $ref.sortOrder().propertyName;
+
+        $ref.pageNumber = ko.observable(gridConfig.pager.pageNumber);
+        $ref.pageSize = ko.observable(gridConfig.pager.pagerSize);
+        $ref.pageCount = ko.computed(function () {
+            var count = Math.ceil(gridConfig.data.length / $ref.pageSize());
+            return count;
+        });
 
         $ref.sortedData = ko.computed(function () {
             var order = $ref.sortOrder().order;
@@ -95,21 +127,17 @@
             var result = $ref.data.sort(function (a, b) {
                 return CompareByProperty(a, b, propertyName) * order;
             });
-            
-            
-            // refactor this piece of code
+
+            //show page number pager.pageNumber==$ref.pageNumber 
             var semiresult = [];
-            var i = 0;
-            while (semiresult.length < $ref.displayLimiter()) {
+            for (i = ($ref.pageNumber()-1) * $ref.pageSize(); semiresult.length < $ref.pageSize(); i++) {
+                if (i == result.length) break;
                 semiresult.push(result[i]);
-                i++;
             }
-                        
-            // end
 
             return semiresult;
         });
-
+      
         return $ref;
     }
 
@@ -133,7 +161,10 @@
             mobileHeader: {
                 width: "200px"
             },
-            display: 5
+            pager: {
+                pageNumber: 1,
+                pagerSize: 3
+            }
         });
     };
 
