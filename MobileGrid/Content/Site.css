@@ -7,6 +7,10 @@
     }
 
     /*Heading*/
+    .dp-mobile-grid-sorting{
+        display: none;
+    }
+
     .dp-grid-heading{
         display: table;
         width: 100%;
@@ -103,6 +107,14 @@
             display: none;
         }
 
+        .dp-mobile-grid-sorting{
+            display: table-row;
+            width: 100%;
+        }
+
+        .dp-mobile-grid-sorting-sort {
+        }
+
         /*Content*/
         .dp-grid-row {
             background-color: #e3e3e3;
@@ -129,7 +141,7 @@
 
         /*Footer*/
         .dp-grid-footer {
-            display: none;
+            display: table-row;
         }
     }
 

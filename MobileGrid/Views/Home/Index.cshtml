@@ -15,14 +15,17 @@
 
                 // TODO: rework sort order so it changes to opposite only if column changed, otherwise make it equal 1.
 
-                headerMarkup += "<span data-bind=\"click: function () { $root.gridConfig.sortOrder({ propertyName : '" + column.property + "', order: -$root.gridConfig.sortOrder().order}); }\" style=\"" + widthStyle + "\" class=\"dp-inner-header\">" + column.header;
+                headerMarkup += "<span data-bind=\"click: function () { $root.gridConfig.sortOrder({ propertyName : '" + column.property +
+                    "', order: -$root.gridConfig.sortOrder().order}); " +
+                    "}\" style=\"" + widthStyle + "\" class=\"dp-inner-header\">" + column.header;
 
                 // TODO: add arrow icons, leave css arrows.
-                headerMarkup += "<span class=\"arrow-down\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '-1' && $root.gridConfig.sortOrder().propertyName == '" + column.property + "'\"></span>";
-                headerMarkup += "<span class=\"arrow-up\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '1' && $root.gridConfig.sortOrder().propertyName == '" + column.property + "'\"></span>";
+                headerMarkup += "<span class=\"arrow-down\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '-1' && $root.gridConfig.sortOrder().propertyName == '" +
+                    column.property + "'\"></span>";
+                headerMarkup += "<span class=\"arrow-up\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '1' && $root.gridConfig.sortOrder().propertyName == '" +
+                    column.property + "'\"></span>";
 
                 headerMarkup +="</span>";
-
             }
 
             $(element).html(headerMarkup);
@@ -62,7 +65,7 @@
                 "$root.gridConfig.pageNumber(1);}\"/>"
             rowMarkup += "<input class=\"dp-grid-paging-previous\" type=\"button\" value=\"<\" title=\"<\"data-bind=\"click: " +
                 "function(){var newPage = $root.gridConfig.pageNumber() - 1;" +
-                "if (newPage != 0) "+
+                "if (newPage != 0) " +
                 "{$root.gridConfig.pageNumber(newPage);}}\"/>"
             rowMarkup += "Page:<input class=\"dp-grid-paging-page\" data-bind=\"value:$root.gridConfig.pageNumber\"/>" +
                 " from <span data-bind=\"text:$root.gridConfig.pageCount()\"></span>"
@@ -76,10 +79,31 @@
         },
         update: function (element, valueAccessor) {
         }
+    };
+
+    ko.bindingHandlers.MobileGridSorting = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var rowMarkup = "";
+            rowMarkup += "Sorted: "
+                + "<select data-bind=\"options: $root.gridConfig.columns, optionsText: 'property', value: $root.gridConfig.sortedColumn \"></select>"
+            rowMarkup += "<span class=\"arrow-down\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '-1',"
+                + "click:function(){ var prop = $root.gridConfig.sortOrder().propertyName;  $root.gridConfig.sortOrder({ propertyName : prop, order: '1'}) }"
+                + "\"></span>";
+            rowMarkup += "<span class=\"arrow-up\" data-bind=\"visible: $root.gridConfig.sortOrder().order == '1',"
+                + "click:function(){ var prop = $root.gridConfig.sortOrder().propertyName;  $root.gridConfig.sortOrder({ propertyName : prop, order: '-1'}) }"
+                + "\"></span>";
+            $(element).html(rowMarkup);
+        },
+        update: function (element, valueAccessor) {
+        }
     }
 </script>
 
 <div class="dp-grid-wrapper"> 
+    <div class="dp-mobile-grid-sorting">
+        <div class="dp-mobile-grid-sorting-sort" data-bind="MobileGridSorting: gridConfig">
+        </div>    
+    </div>
     <div class="dp-grid-heading">
         <div class="dp-grid-column-header" data-bind="DPHeader: gridConfig">
         </div>
@@ -137,7 +161,12 @@
 
             return semiresult;
         });
-      
+        
+        $ref.sortedColumn = ko.observable();
+        $ref.sortedColumn.subscribe(function (newValue) {
+            $ref.sortOrder({ propertyName: newValue.property, order: $ref.sortOrder().order });
+        });
+
         return $ref;
     }
 
