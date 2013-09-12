@@ -2,7 +2,7 @@
 /// <reference path="../typings/tgrid.d.ts" />
 var TGridBindingHandler = (function () {
     function TGridBindingHandler() {
-        this.options;
+        this.options = null;
     }
     TGridBindingHandler.prototype.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     };
