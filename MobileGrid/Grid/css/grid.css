@@ -1,0 +1,148 @@
+﻿    /*General*/
+    .dp-grid-wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding-bottom: 20px;
+        position: relative; 
+    }
+
+    /*Heading*/
+    .dp-mobile-grid-sorting{
+        display: none;
+    }
+
+    .dp-grid-heading{
+        display: table;
+        width: 100%;
+    }
+
+    .dp-grid-column-header {
+        display:table-row;
+        background-color: #e3e3e3;
+    }
+
+    .dp-inner-header {
+        display:table-cell;
+    }
+
+    /*Content*/
+    .dp-grid-content {
+        display:table;
+    }
+
+    .dp-grid-row {
+        display: table-row;
+    }
+
+    .dp-grid-cell {
+        display: table-cell;
+    }
+
+    .dp-grid-mobile-heading {
+        display: none;
+    }
+    
+    /*Arrows*/
+    .arrow-down {
+        width: 16px;
+        height: 16px; 
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        position: relative;
+        top: 14px;
+        left: 5px;
+        border-top: 8px solid #a6a6a6;/**/
+        /*background-image: url('../../Content/icons/sort_asc.png');
+        background-repeat: no-repeat;/**/
+    }
+
+    .arrow-up {
+        width: 16px;
+        height: 16px; 
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        position: relative;
+        bottom: 14px;
+        left: 5px;
+        border-bottom: 8px solid #a6a6a6;/**/
+        /*background-image: url('../../Content/icons/sort_desc.png');
+        background-repeat: no-repeat;/**/
+    }
+
+    /*Footer*/
+    .dp-grid-footer {
+        display:table;
+        width: 100%;
+    }
+
+    .dp-grid-footer-context {
+        text-align:left;
+    }
+
+    .dp-grid-footer-pager {
+        padding:5px;
+        background-color:brown;
+    }
+
+    .dp-grid-paging-first {
+    }
+
+    .dp-grid-paging-previous {
+    }
+
+    .dp-grid-paging-next {
+    }
+
+    .dp-grid-paging-last {
+    }
+
+    .dp-grid-paging-page {
+        width: 50px;
+    }
+
+
+    @media (max-width: 1024px) {
+        /*Heading*/
+        .dp-grid-mobile-heading {
+            display: table-cell;
+        }
+
+        .dp-grid-heading {
+            display: none;
+        }
+
+        .dp-mobile-grid-sorting{
+            display: table-row;
+            width: 100%;
+        }
+
+        .dp-mobile-grid-sorting-sort {
+        }
+
+        /*Content*/
+        .dp-grid-row {
+            background-color: #e3e3e3;
+            display: block;
+            margin-bottom: 4px;
+            display: table;
+            width: 100%;        
+        }
+
+        .dp-grid-cell-content {
+            display: table-cell !important;
+        }
+
+        .dp-grid-cell {
+            display: table-row;
+        }
+
+        .dp-grid-content {
+            display: block;
+        }
+
+        /*Footer*/
+        .dp-grid-footer {
+            display: table-row;
+        }
+    }
+
