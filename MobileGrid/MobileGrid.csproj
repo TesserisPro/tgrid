@@ -176,14 +176,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -250,9 +247,25 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\Libs\jquery-1.8.2-vsdoc.js" />
-    <Content Include="Grid\css\grid.css" />
-    <Content Include="Grid\js\grid.ts" />
-    <Content Include="Grid\js\tgrid.ts" />
+    <Content Include="Grid\Scripts\Grid.js" />
+    <Content Include="Grid\Scripts\Grid.min.js" />
+    <Content Include="Grid\Scripts\Grid.ts" />
+    <Content Include="Grid\Scripts\knokout\TGridBinding.js" />
+    <Content Include="Grid\Scripts\knokout\TGridBinding.min.js" />
+    <Content Include="Grid\Scripts\knokout\TGridBinding.ts" />
+    <Content Include="Grid\Scripts\knokout\TGridBindings.js" />
+    <Content Include="Grid\Scripts\knokout\TGridBindings.min.js" />
+    <Content Include="Grid\Scripts\Options.js" />
+    <Content Include="Grid\Scripts\Options.min.js" />
+    <Content Include="Grid\Scripts\Options.ts" />
+    <Content Include="Grid\Scripts\TGrid.js" />
+    <Content Include="Grid\Scripts\TGrid.min.js" />
+    <Content Include="Grid\Scripts\TGrid.ts" />
+    <Content Include="Grid\Scripts\typings\tgrid.d.ts" />
+    <Content Include="Grid\Styles\grid.css" />
+    <Content Include="References.xml" />
+    <Content Include="Scripts\knockout-2.3.0.debug.js" />
+    <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\Libs\jquery-1.8.2.js" />
     <Content Include="Scripts\Libs\jquery-1.8.2.min.js" />
     <None Include="Scripts\Libs\jquery.validate-vsdoc.js" />
@@ -267,6 +280,16 @@
     <Content Include="Scripts\Libs\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\Libs\knockout-2.2.0.js" />
     <Content Include="Scripts\Libs\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <Content Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <Content Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <Content Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <Content Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
+    <Content Include="Scripts\typings\angularjs\angular.d.ts" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
+    <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.d.ts" />
     <Content Include="Scripts\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -278,26 +301,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Libs\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Grid\Images\" />
-    <Folder Include="Grid\Scripts\" />
-    <Folder Include="Grid\Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
