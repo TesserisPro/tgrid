@@ -1,0 +1,4 @@
+
+interface KnockoutBindingHandlers {
+    tgrid: KnockoutBindingHandler;
+}
