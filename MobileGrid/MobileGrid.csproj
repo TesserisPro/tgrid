@@ -295,6 +295,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Grid\Images\" />
+    <Folder Include="Grid\Scripts\" />
+    <Folder Include="Grid\Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
