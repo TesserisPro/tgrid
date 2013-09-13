@@ -184,7 +184,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -247,19 +246,33 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\Libs\jquery-1.8.2-vsdoc.js" />
-    <Content Include="Grid\Scripts\Grid.js" />
-    <Content Include="Grid\Scripts\Grid.min.js" />
     <Content Include="Grid\Scripts\Grid.ts" />
-    <Content Include="Grid\Scripts\knokout\TGridBinding.js" />
-    <Content Include="Grid\Scripts\knokout\TGridBinding.min.js" />
+    <Content Include="Grid\Scripts\Grid.js">
+      <DependentUpon>Grid.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\Grid.min.js">
+      <DependentUpon>Grid.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\knokout\TGridBinding.js">
+      <DependentUpon>TGridBinding.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\knokout\TGridBinding.min.js">
+      <DependentUpon>TGridBinding.ts</DependentUpon>
+    </Content>
     <Content Include="Grid\Scripts\knokout\TGridBinding.ts" />
-    <Content Include="Grid\Scripts\knokout\TGridBindings.js" />
-    <Content Include="Grid\Scripts\knokout\TGridBindings.min.js" />
-    <Content Include="Grid\Scripts\Options.js" />
-    <Content Include="Grid\Scripts\Options.min.js" />
     <Content Include="Grid\Scripts\Options.ts" />
-    <Content Include="Grid\Scripts\TGrid.js" />
-    <Content Include="Grid\Scripts\TGrid.min.js" />
+    <Content Include="Grid\Scripts\Options.js">
+      <DependentUpon>Options.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\Options.min.js">
+      <DependentUpon>Options.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\TGrid.js">
+      <DependentUpon>TGrid.ts</DependentUpon>
+    </Content>
+    <Content Include="Grid\Scripts\TGrid.min.js">
+      <DependentUpon>TGrid.ts</DependentUpon>
+    </Content>
     <Content Include="Grid\Scripts\TGrid.ts" />
     <Content Include="Grid\Scripts\typings\tgrid.d.ts" />
     <Content Include="Grid\Styles\grid.css" />
