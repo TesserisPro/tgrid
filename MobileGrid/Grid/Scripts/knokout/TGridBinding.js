@@ -1,4 +1,5 @@
 /// <reference path="../../../Scripts/typings/knockout/knockout.d.ts" />
+/// <reference path="../../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/tgrid.d.ts" />
 var TGridBindingHandler = (function () {
     function TGridBindingHandler() {
