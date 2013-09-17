@@ -48,3 +48,7 @@ _ReSharper*/
 #NuGet
 packages/
 RazorTemplatesMvc.NuGet/
+/TGrid.Tests/Tests/options.js.map
+/MobileGrid/Grid/Scripts/_Chutzpah.1.Options.js
+/TGrid.Tests/Scripts/_Chutzpah.1._references.js
+/TGrid.Tests/Tests/_Chutzpah.69e4fd7378a67dffff280084adce64a7.test.html
