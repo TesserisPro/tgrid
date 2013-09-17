@@ -250,10 +250,10 @@
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Scripts\Libs\jquery-1.8.2-vsdoc.js" />
-    <Content Include="Grid\Scripts\knokout\TGridBinding.js">
+    <Content Include="Grid\Scripts\knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
-    <Content Include="Grid\Scripts\knokout\TGridBinding.ts" />
+    <Content Include="Grid\Scripts\knockout\TGridBinding.ts" />
     <Content Include="Grid\Scripts\Options.ts" />
     <Content Include="Grid\Scripts\Options.js">
       <DependentUpon>Options.ts</DependentUpon>
