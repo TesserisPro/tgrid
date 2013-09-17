@@ -3,17 +3,12 @@
     /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
     (function (TGrid) {
         var Options = (function () {
-            //public dataProvider: (fromItem: number, toItem: number) => Array<any>;
-            //public mobileViewMaxWidth: number;
-            //public pageSize: number;
-            //public currentPage: number;
             function Options(element) {
-                //public data: JQuery;
                 this.columnHeaders = [];
                 this.columnDataField = [];
                 this.columnWidth = [];
                 this.columnDevice = [];
-                //this.data = element;
+                this.mainBinding = element.attr("data-bind");
                 var text = element.find("script")[0].innerHTML;
                 var JQ = $("<div>" + text + "</div");
 

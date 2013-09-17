@@ -4,6 +4,7 @@ var TesserisPro;
     (function (TGrid) {
         var Grid = (function () {
             function Grid(element, option) {
+                //element.removeAttr("data-bind");
                 var table = document.createElement("table");
                 table.setAttribute("border", 1);
 
@@ -21,6 +22,7 @@ var TesserisPro;
 
                 //cells
                 var body = document.createElement("tbody");
+                body.setAttribute("data-bind", "foreach:" + option.mainBinding.split(':')[1]);
                 var row = document.createElement("tr");
                 for (var i = 0; i < option.columnDataField.length; i++) {
                     var cell = document.createElement("td");
@@ -32,7 +34,8 @@ var TesserisPro;
                 body.appendChild(row);
                 table.appendChild(body);
                 element.append(table);
-                element.find("script").remove();
+
+                //element.find("script").remove();
                 this.table = table;
             }
             return Grid;

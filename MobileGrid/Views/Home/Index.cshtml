@@ -22,44 +22,43 @@
     </div>
 </div>*@
 
-<div data-bind="grid: items" id="test">
+<div data-bind="tgrid: items" id="test">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop">
             <header>
                 <span>Name</span>
             </header>
             <cell>
-                <span data-bind="html: name"></span>
+                <span style="color: red;" data-bind="text: name"></span>
             </cell>
         </column>
         <column data-g-width="100" data-g-views="mobile,desktop">
-            <header>Type</header>
-            <cell data-bind="html: type" />
+            <header>Key</header>
+            <cell data-bind="text: key" />
         </column>
       
          <mobile>
             <div>
-
             </div>
         </mobile>
 
         <details>
-
         </details>
-
-
     </script>
-
 </div>
+
+<script src="~/Grid/Scripts/knockout/TGridBinding.js"></script>
 <script src="~/Grid/Scripts/TGrid.js"></script>
 <script src="~/Grid/Scripts/Options.js"></script>
 <script type="text/javascript">
-    $(function () {
-        var test = $("#test")
-        var option = new TesserisPro.TGrid.Options(test);
-        var grid = new TesserisPro.TGrid.Grid(test, option);
-    });
-
+    function vm() {
+        var self = this;
+        self.items = ko.observableArray([
+            { name: "First", key: "Last" },
+            { name: "First 1", key: "Last 1" }
+        ]);
+    };
+    ko.applyBindings(new vm());
 </script>
 @Scripts.Render("~/bundles/gridjs")
 

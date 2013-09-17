@@ -2,13 +2,15 @@
 
 module TesserisPro.TGrid {
 
-	export class Options {
+    export class Options {
+        public mainBinding: string;
         public columnHeaders: Array<string> = [];
         public columnDataField: Array<string> = [];
         public columnWidth: Array<string> = [];
         public columnDevice: Array<string> = [];
 
         constructor(element: JQuery) {
+            this.mainBinding = element.attr("data-bind");
             var text = element.find("script")[0].innerHTML;
             var JQ = $("<div>" + text + "</div");
             // Headers
