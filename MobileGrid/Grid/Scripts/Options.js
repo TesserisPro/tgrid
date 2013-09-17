@@ -3,11 +3,9 @@
     /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
     (function (TGrid) {
         var Options = (function () {
-            function Options() {
+            function Options(element) {
+                this.data = element;
             }
-            Options.prototype.constructor = function (element) {
-                $(element).children;
-            };
             return Options;
         })();
         TGrid.Options = Options;

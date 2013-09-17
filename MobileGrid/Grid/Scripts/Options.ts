@@ -10,8 +10,8 @@ module TesserisPro.TGrid {
 		public pageSize: number;
 		public currentPage: number;
 
-		public constructor(element: any) {
-            $(element).children;
+		constructor(element: JQuery) {
+            this.data = element;
 		}
 	}
 

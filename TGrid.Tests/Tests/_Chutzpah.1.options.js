@@ -1,5 +1,3 @@
-/// <reference path="../Scripts/typings/qunit/qunit.d.ts" />
-/// <reference path="../../MobileGrid/Grid/Scripts/Options.ts" />
 test("Options parser general test", function () {
     var testElement = $("<div data-bind='grid: items'>\
             <script type = 'text/html' > \
@@ -19,5 +17,6 @@ test("Options parser general test", function () {
           </div>");
 
     var options = new TesserisPro.TGrid.Options(testElement);
+
+    equal(options.data, testElement);
 });
-//# sourceMappingURL=Test.js.map

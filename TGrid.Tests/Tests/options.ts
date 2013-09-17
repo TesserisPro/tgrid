@@ -1,5 +1,4 @@
-/// <reference path="../Scripts/typings/qunit/qunit.d.ts" />
-/// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../Scripts/_references.ts" />
 /// <reference path="../../MobileGrid/Grid/Scripts/Options.ts" />
 
 
@@ -22,9 +21,8 @@ test("Options parser general test", () => {
             </script>\
           </div>");
 
+    
     var options = new TesserisPro.TGrid.Options(testElement);
-    
-    
 
-
+    equal(options.data, testElement);
 });

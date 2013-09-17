@@ -245,6 +245,10 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Scripts\Libs\jquery-1.8.2-vsdoc.js" />
     <Content Include="Grid\Scripts\knokout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
@@ -261,6 +265,8 @@
     <Content Include="Grid\Scripts\typings\tgrid.d.ts" />
     <Content Include="Grid\Styles\grid.css" />
     <Content Include="References.xml" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\knockout-2.3.0.debug.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\Libs\jquery-1.8.2.js" />

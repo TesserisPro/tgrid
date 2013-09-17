@@ -28,16 +28,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>falase</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60390</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:37266/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
@@ -55,8 +46,12 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Content\qunit.css" />
+    <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\typings\qunit\qunit.d.ts" />
-    <TypeScriptCompile Include="Tests\Test.ts" />
+    <Content Include="Scripts\_references.ts" />
+    <Content Include="tests.tmpl.html" />
+    <TypeScriptCompile Include="Tests\options.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
