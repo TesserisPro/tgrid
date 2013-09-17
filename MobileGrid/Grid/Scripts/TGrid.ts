@@ -1,25 +1,38 @@
-// Interface
-interface IPoint {
-    getDist(): number;
-}
+/// <reference path="Options.ts" />
 
-// Module
-module Shapes {
+module TesserisPro.TGrid {
 
-    // Class
-    export class Point implements IPoint {
-        // Constructor
-        constructor (public x: number, public y: number) { }
-
-        // Instance member
-        getDist() { return Math.sqrt(this.x * this.x + this.y * this.y); }
-
-        // Static member
-        static origin = new Point(0, 0);
+    export class Grid {
+        public table: any; 
+        constructor(element: JQuery, option: Options) {
+            var table = document.createElement("table");
+            table.setAttribute("border", 1);
+            // header
+            var header = document.createElement("thead");
+            var head = document.createElement("tr");
+            for (var i = 0; i < option.columnHeaders.length; i++) {
+                var cell = document.createElement("th");
+                cell.setAttribute("width", option.columnWidth[i]);
+                cell.innerText = option.columnHeaders[i];
+                head.appendChild(cell);
+            }
+            header.appendChild(head);
+            table.appendChild(header);
+            //cells
+            var body = document.createElement("tbody");
+            var row = document.createElement("tr");
+            for (var i = 0; i < option.columnDataField.length; i++) {
+                var cell = document.createElement("td");
+                cell.setAttribute("width", option.columnWidth[i]);
+                cell.setAttribute("data-bind", option.columnDataField[i]);
+                cell.innerText = option.columnDataField[i];
+                row.appendChild(cell);
+            }
+            body.appendChild(row);
+            table.appendChild(body);
+            element.append(table)
+            element.find("script").remove();
+            this.table = table;
+        }
     }
-
 }
-
-// Local variables
-var p: IPoint = new Shapes.Point(3, 4);
-var dist = p.getDist();

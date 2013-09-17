@@ -1,24 +1,44 @@
-// Module
-var Shapes;
-(function (Shapes) {
-    // Class
-    var Point = (function () {
-        // Constructor
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        // Instance member
-        Point.prototype.getDist = function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
-        };
+var TesserisPro;
+(function (TesserisPro) {
+    /// <reference path="Options.ts" />
+    (function (TGrid) {
+        var Grid = (function () {
+            function Grid(element, option) {
+                var table = document.createElement("table");
+                table.setAttribute("border", 1);
 
-        Point.origin = new Point(0, 0);
-        return Point;
-    })();
-    Shapes.Point = Point;
-})(Shapes || (Shapes = {}));
+                // header
+                var header = document.createElement("thead");
+                var head = document.createElement("tr");
+                for (var i = 0; i < option.columnHeaders.length; i++) {
+                    var cell = document.createElement("th");
+                    cell.setAttribute("width", option.columnWidth[i]);
+                    cell.innerText = option.columnHeaders[i];
+                    head.appendChild(cell);
+                }
+                header.appendChild(head);
+                table.appendChild(header);
 
-// Local variables
-var p = new Shapes.Point(3, 4);
-var dist = p.getDist();
+                //cells
+                var body = document.createElement("tbody");
+                var row = document.createElement("tr");
+                for (var i = 0; i < option.columnDataField.length; i++) {
+                    var cell = document.createElement("td");
+                    cell.setAttribute("width", option.columnWidth[i]);
+                    cell.setAttribute("data-bind", option.columnDataField[i]);
+                    cell.innerText = option.columnDataField[i];
+                    row.appendChild(cell);
+                }
+                body.appendChild(row);
+                table.appendChild(body);
+                element.append(table);
+                element.find("script").remove();
+                this.table = table;
+            }
+            return Grid;
+        })();
+        TGrid.Grid = Grid;
+    })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
+    var TGrid = TesserisPro.TGrid;
+})(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=TGrid.js.map
