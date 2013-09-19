@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<References>
-  <Reference Include="Typings">
-    <HintPath>Scripts/typings/knockout/knockout.d.ts</HintPath>
-  </Reference>
-  
-</References>

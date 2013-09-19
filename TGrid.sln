@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGrid.Tests", "TGrid.Tests\TGrid.Tests.csproj", "{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid", "TesserisPro.TGrid\TesserisPro.TGrid.csproj", "{F9339722-A757-47E2-897B-70AB9D202365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Demo", "TesserisPro.TGrid.Demo\TesserisPro.TGrid.Demo.csproj", "{E7ECF736-2221-469C-B45F-D6E4205CB8B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9339722-A757-47E2-897B-70AB9D202365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9339722-A757-47E2-897B-70AB9D202365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9339722-A757-47E2-897B-70AB9D202365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9339722-A757-47E2-897B-70AB9D202365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

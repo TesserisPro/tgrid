@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "TGrid Demo";
+}
+
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/Scripts/knockout-2.3.0.js"></script>
+
+<script src="~/Scripts/TGrid.js" type="text/javascript"></script> 
+<script src="~/Scripts/options.js" type="text/javascript"></script>
+<script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
+
+
+<h1>TGrid Demo</h1>
+
+<h2>Pure JavaScript</h2>
+
+<div id="test-pure-js">
+    <script type="text/html">
+        <column data-g-width="150" data-g-views="mobile,desktop">
+            <header>
+                <span>Name</span>
+            </header>
+            <cell>
+                <span style="color: red;" >test</span>
+            </cell>
+        </column>
+
+        <column data-g-width="100" data-g-views="mobile,desktop">
+            <header>Key</header>
+            <cell/>
+        </column>
+      
+         <mobile>
+            <div>
+            </div>
+        </mobile>
+
+        <details>
+        </details>
+    </script>
+</div>
+
+<script>
+    $(function () {
+        var target = $("#test-pure-js");
+        var options = new TesserisPro.TGrid.Options(target);
+        var grid = new TesserisPro.TGrid.Grid(target, options);
+    });
+</script>
+
+
+
+<h2>Knockout</h2>
+
+<div id="test-knockout" data-bind="tgrid: items">
+    <script type="text/html">
+        <column data-g-width="150" data-g-views="mobile,desktop">
+            <header>
+                <span style="color: red;" data-bind="text: nameColumnTitle"></span>
+            </header>
+            <cell>
+                <span style="color: red;" data-bind="text: name"></span>
+            </cell>
+        </column>
+        <column data-g-width="100" data-g-views="mobile,desktop">
+            <header>Key</header>
+            <cell data-bind="text: key" />
+        </column>
+      
+         <mobile>
+            <div>
+            </div>
+        </mobile>
+
+        <details>
+        </details>
+    </script>
+</div>
+
+<script type="text/javascript">
+    function vm() {
+        var self = this;
+        self.nameColumnTitle = "Name";
+        self.items = ko.observableArray([
+            { name: "First", key: "Last" },
+            { name: "First 1", key: "Last 1" }
+        ]);
+    };
+
+    $(function () { ko.applyBindings(new vm()); });
+</script>
+
+<h2>Angular</h2>
+
+<div>TBD</div>
