@@ -16,6 +16,10 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="angular\Controller.ts" />
+    <Content Include="angular\Controller.js">
+      <DependentUpon>Controller.ts</DependentUpon>
+    </Content>
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
@@ -24,6 +28,7 @@
       <DependentUpon>Options.ts</DependentUpon>
     </Content>
     <Content Include="Options.ts" />
+    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\typings\angularjs\angular-cookies.d.ts" />

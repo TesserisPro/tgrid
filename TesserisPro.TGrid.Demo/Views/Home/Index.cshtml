@@ -2,6 +2,7 @@
     ViewBag.Title = "TGrid Demo";
 }
 
+<script src="~/Scripts/angular.js"></script>
 <script src="~/Scripts/jquery-2.0.3.js"></script>
 <script src="~/Scripts/knockout-2.3.0.js"></script>
 
@@ -48,8 +49,6 @@
     });
 </script>
 
-
-
 <h2>Knockout</h2>
 
 <div id="test-knockout" data-bind="tgrid: items">
@@ -92,4 +91,58 @@
 
 <h2>Angular</h2>
 
-<div>TBD</div>
+<div id="test-angular" data-bind="agrid: items">
+    <script type="text/html">
+        <column data-g-width="150" data-g-views="mobile,desktop">
+            <header>
+                <span style="color: red;" data-bind="text: nameColumnTitle"></span>
+            </header>
+            <cell>
+                <span style="color: red;" data-bind="text: name"></span>
+            </cell>
+        </column>
+        <column data-g-width="100" data-g-views="mobile,desktop">
+            <header>Key</header>
+            <cell data-bind="text: key" />
+        </column>
+      
+         <mobile>
+            <div>
+            </div>
+        </mobile>
+
+        <details>
+        </details>
+    </script>
+</div>
+
+@*<div>
+    <div ng-app>
+        <table ng-controller="ctrl" border="1">
+            <thead>
+                <tr>
+                    <th ng-repeat="item in header"> {{item}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in items">
+                  <td>  
+                      {{item.Name}}
+                  </td>
+                  <td>  
+                      {{item.Key}}
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    'use strict';
+    function ctrl($scope) {
+        $scope.header = ["name" ,"key" ]
+        $scope.items = [
+                { "Name": "First ", "Key": "Last" },
+                { "Name": "Second", "Key": "Last 1" }];
+    }
+</script>*@
