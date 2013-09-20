@@ -4,23 +4,53 @@ var TesserisPro;
     (function (TGrid) {
         var Grid = (function () {
             function Grid(element, option) {
-                //element.removeAttr("data-bind");
-                var table = document.createElement("table");
-                table.setAttribute("border", "1");
+                var table = this.getTableElement(option);
 
                 // header
-                var header = document.createElement("thead");
-                var head = document.createElement("tr");
-                for (var i = 0; i < option.columnHeaders.length; i++) {
-                    var headerCell = document.createElement("th");
-                    headerCell.setAttribute("width", option.columnWidth[i]);
-                    option.columnHeaders[i].apply(headerCell);
-                    head.appendChild(headerCell);
-                }
-                header.appendChild(head);
+                var header = this.getTableHeadElement(option);
                 table.appendChild(header);
 
                 //cells
+                var body = this.getTableBodyElement(option);
+                table.appendChild(body);
+
+                element.appendChild(table);
+
+                var script = element.getElementsByTagName("script").item(0);
+                element.removeChild(script);
+                element.removeAttribute("data-bind");
+
+                this.table = table;
+            }
+            Grid.prototype.getHtmlProvider = function (options) {
+            };
+
+            Grid.prototype.getTableElement = function (option) {
+                var table = document.createElement("table");
+                table.border = "1";
+                table.className = "tp-tgrid";
+                return table;
+            };
+
+            Grid.prototype.getTableHeadElement = function (option) {
+                var header = document.createElement("thead");
+                header.className = "tp-tgrid";
+                var headRow = document.createElement("tr");
+                headRow.className = "tp-tgrid";
+
+                for (var i = 0; i < option.columnHeaders.length; i++) {
+                    var headerCell = document.createElement("th");
+                    headerCell.setAttribute("width", option.columnWidth[i]);
+                    headerCell.className = "tp-tgrid";
+                    option.columnHeaders[i].apply(headerCell);
+                    headRow.appendChild(headerCell);
+                }
+                header.appendChild(headRow);
+
+                return header;
+            };
+
+            Grid.prototype.getTableBodyElement = function (option) {
                 var body = document.createElement("tbody");
                 body.setAttribute("data-bind", "foreach:" + option.mainBinding.split(':')[1]);
                 var row = document.createElement("tr");
@@ -31,12 +61,9 @@ var TesserisPro;
                     row.appendChild(cell);
                 }
                 body.appendChild(row);
-                table.appendChild(body);
-                element.append(table);
 
-                //element.find("script").remove();
-                this.table = table;
-            }
+                return body;
+            };
             return Grid;
         })();
         TGrid.Grid = Grid;

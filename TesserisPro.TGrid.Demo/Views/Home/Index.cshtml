@@ -43,8 +43,8 @@
 <script>
     $(function () {
         var target = $("#test-pure-js");
-        var options = new TesserisPro.TGrid.Options(target);
-        var grid = new TesserisPro.TGrid.Grid(target, options);
+        var options = new TesserisPro.TGrid.Options(target[0]);
+        var grid = new TesserisPro.TGrid.Grid(target[0], options);
     });
 </script>
 

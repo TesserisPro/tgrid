@@ -1,4 +1,9 @@
 ﻿    /*General*/
+
+    table.tp-tgrid {
+        border: 1px solid gray;
+    }
+
     .dp-grid-wrapper {
         margin-left: 10px;
         margin-right: 10px;

@@ -8,19 +8,19 @@ module TesserisPro.TGrid {
 
 	export class Template {
 		private content: string = "";
-        private binding: string = "";	
+		private binding: string = "";	
 
-        constructor(prototype: HTMLElement) {
-            this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
-            this.binding = prototype.getAttribute("data-bind");
-        }
+		constructor(prototype: HTMLElement) {
+			this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
+			this.binding = prototype.getAttribute("data-bind");
+		}
 
-        public apply(element: HTMLElement) {
-            element.innerHTML = this.content != null ? this.content : "";
-            if (this.binding != null && this.binding.length > 0) {
-                element.setAttribute("data-bind", this.binding);
-            }
-        }
+		public apply(element: HTMLElement) {
+			element.innerHTML = this.content != null ? this.content : "";
+			if (this.binding != null && this.binding.length > 0) {
+				element.setAttribute("data-bind", this.binding);
+			}
+		}
 	}
 		   
 	export class Options {
@@ -30,10 +30,10 @@ module TesserisPro.TGrid {
 		public columnWidth: Array<string> = [];
 		public columnDevice: Array<string> = [];
 		public framework: Framework;
-		public target: JQuery;
+		public target: HTMLElement;
 
 
-		constructor(element: JQuery) {
+		constructor(element: HTMLElement) {
 			this.target = element;
 			this.framework = Framework.Knockout;
 
@@ -43,26 +43,26 @@ module TesserisPro.TGrid {
 		}
 
 		private initializeKnockout(): void {
-			this.mainBinding = this.target.attr("data-bind");
+			this.mainBinding = this.target.getAttribute("data-bind");
 
 			if (this.mainBinding == undefined) {
 				this.mainBinding = "";
 			}
 
-			var text = this.target.find("script")[0].innerHTML;
+			var text = this.target.getElementsByTagName("script").item(0).innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
 			// Headers
 			var headers = optionsElement.find("header");
 			for (var i = 0; i < headers.length; i++) {
-                var template = new Template(headers[i]);
+				var template = new Template(headers[i]);
 				this.columnHeaders.push(template);
 			}
 
 			// Cells
 			var cells = optionsElement.find("cell");
 			for (var i = 0; i < cells.length; i++) {
-                var cell = new Template(cells[i]);
+				var cell = new Template(cells[i]);
 				this.columnDataField.push(cell);
 			}
 

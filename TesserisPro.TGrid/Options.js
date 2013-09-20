@@ -39,13 +39,13 @@
                 }
             }
             Options.prototype.initializeKnockout = function () {
-                this.mainBinding = this.target.attr("data-bind");
+                this.mainBinding = this.target.getAttribute("data-bind");
 
                 if (this.mainBinding == undefined) {
                     this.mainBinding = "";
                 }
 
-                var text = this.target.find("script")[0].innerHTML;
+                var text = this.target.getElementsByTagName("script").item(0).innerHTML;
                 var optionsElement = $("<div>" + text + "</div");
 
                 // Headers

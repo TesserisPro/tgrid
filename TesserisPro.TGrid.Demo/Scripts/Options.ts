@@ -30,10 +30,10 @@ module TesserisPro.TGrid {
 		public columnWidth: Array<string> = [];
 		public columnDevice: Array<string> = [];
 		public framework: Framework;
-		public target: JQuery;
+		public target: HTMLElement;
 
 
-		constructor(element: JQuery) {
+		constructor(element: HTMLElement) {
 			this.target = element;
 			this.framework = Framework.Knockout;
 
@@ -43,13 +43,13 @@ module TesserisPro.TGrid {
 		}
 
 		private initializeKnockout(): void {
-			this.mainBinding = this.target.attr("data-bind");
+			this.mainBinding = this.target.getAttribute("data-bind");
 
 			if (this.mainBinding == undefined) {
 				this.mainBinding = "";
 			}
 
-			var text = this.target.find("script")[0].innerHTML;
+            var text = this.target.getElementsByTagName("script").item(0).innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
 			// Headers
