@@ -50,3 +50,7 @@ packages/
 RazorTemplatesMvc.NuGet/
 *.js.map
 _Chutzpah*.*
+/TesserisPro.TGrid.Demo/Scripts/KnockoutHtmlProvider.ts
+/TesserisPro.TGrid.Demo/Scripts/IHtmlProvider.js
+/TesserisPro.TGrid.Demo/Scripts/IHtmlProvider.ts
+/TesserisPro.TGrid.Demo/Scripts/KnockoutHtmlProvider.js
