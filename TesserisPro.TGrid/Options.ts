@@ -8,17 +8,38 @@ module TesserisPro.TGrid {
 
 	export class Template {
 		private content: string = "";
-        private binding: string = "";	
+        private binding: string = "";
+        private innerBinding: string = "";	
 
         constructor(prototype: HTMLElement) {
             this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
-            this.binding = prototype.getAttribute("data-bind");
+            if (prototype.firstElementChild != null && prototype.firstElementChild.hasAttribute("data-bind")){
+                this.innerBinding = prototype.firstElementChild.getAttribute("data-bind");
+            } else {
+                this.binding = prototype.getAttribute("data-bind");
+            }
         }
 
-        public apply(element: HTMLElement) {
-            element.innerHTML = this.content != null ? this.content : "";
-            if (this.binding != null && this.binding.length > 0) {
-                element.setAttribute("data-bind", this.binding);
+        public apply(element: HTMLElement, framework: Framework) {
+            if (framework == Framework.Knockout) {
+                element.innerHTML = this.content != null ? this.content : "";
+                if (this.binding != null && this.binding.length > 0) {
+                    element.setAttribute("data-bind", this.binding);
+                }
+            }
+            if (framework == Framework.Angular) {
+                element.innerHTML = this.content != null ? this.content : "";
+                if (this.binding != null && this.binding.length > 0) {
+                    element.innerHTML = "{{item." + this.binding.split(':')[1].trim() +"}}"
+                }
+                if (this.innerBinding != null && this.innerBinding.length > 0) {
+                    if (element.innerHTML != "") {
+                        element.innerHTML = element.innerHTML.replace("</", "{{item." + this.innerBinding.split(':')[1].trim() + "}}</")
+                    } else {
+                        element.innerHTML = "{{item." + this.binding.split(':')[1].trim() + "}}"
+                    }
+
+                }
             }
         }
 	}

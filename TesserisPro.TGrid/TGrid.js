@@ -14,7 +14,7 @@ var TesserisPro;
                     for (var i = 0; i < option.columnHeaders.length; i++) {
                         var headerCell = document.createElement("th");
                         headerCell.setAttribute("width", option.columnWidth[i]);
-                        option.columnHeaders[i].apply(headerCell);
+                        option.columnHeaders[i].apply(headerCell, TesserisPro.TGrid.Framework.Knockout);
                         head.appendChild(headerCell);
                     }
                     header.appendChild(head);
@@ -27,7 +27,7 @@ var TesserisPro;
                     for (var i = 0; i < option.columnDataField.length; i++) {
                         var cell = document.createElement("td");
                         cell.setAttribute("width", option.columnWidth[i]);
-                        option.columnDataField[i].apply(cell);
+                        option.columnDataField[i].apply(cell, TesserisPro.TGrid.Framework.Knockout);
                         row.appendChild(cell);
                     }
                     body.appendChild(row);
@@ -47,7 +47,7 @@ var TesserisPro;
                     for (var i = 0; i < option.columnHeaders.length; i++) {
                         var headerCell = document.createElement("th");
                         headerCell.setAttribute("width", option.columnWidth[i]);
-                        option.columnHeaders[i].apply(headerCell);
+                        option.columnHeaders[i].apply(headerCell, TesserisPro.TGrid.Framework.Angular);
                         head.appendChild(headerCell);
                     }
                     header.appendChild(head);
@@ -60,7 +60,7 @@ var TesserisPro;
                     for (var i = 0; i < option.columnDataField.length; i++) {
                         var cell = document.createElement("td");
                         cell.setAttribute("width", option.columnWidth[i]);
-                        option.columnDataField[i].apply(cell);
+                        option.columnDataField[i].apply(cell, TesserisPro.TGrid.Framework.Angular);
                         row.appendChild(cell);
                     }
                     body.appendChild(row);
