@@ -9,6 +9,7 @@
 <script src="~/Scripts/TGrid.js" type="text/javascript"></script> 
 <script src="~/Scripts/options.js" type="text/javascript"></script>
 <script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
+<script src="~/Scripts/Controller.js" type="text/javascript"></script>
 
 
 <h1>TGrid Demo</h1>
@@ -44,7 +45,7 @@
 <script>
     $(function () {
         var target = $("#test-pure-js");
-        var options = new TesserisPro.TGrid.Options(target);
+        var options = new TesserisPro.TGrid.Options(target,TesserisPro.TGrid.Framework.Knockout);
         var grid = new TesserisPro.TGrid.Grid(target, options);
     });
 </script>
@@ -115,7 +116,15 @@
         </details>
     </script>
 </div>
+<script type="text/javascript">
 
+    $(function () {
+        var id = $(document.getElementById('test-angular'));
+        var opt = new TesserisPro.TGrid.Options(id, TesserisPro.TGrid.Framework.Angular);
+        var grid = TesserisPro.TGrid.Grid(id,opt)
+        //var ang = new TesserisPro.TGrid.Controller(id, opt)
+    })
+</script>
 @*<div>
     <div ng-app>
         <table ng-controller="ctrl" border="1">

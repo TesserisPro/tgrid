@@ -1,5 +1,9 @@
 ﻿/// <reference path="../Options.ts" />
 module TesserisPro.TGrid {
+    //export interface Dictionary {
+    //    [key: string]: TesserisPro.TGrid.Template;
+    //}
+
 
     export interface Scope {
         Headers: Array<TesserisPro.TGrid.Template>;
@@ -13,5 +17,6 @@ module TesserisPro.TGrid {
             this.$scope.Headers = options.columnHeaders;
             this.$scope.Data = options.columnDataField;
         }
+
     }
 }
