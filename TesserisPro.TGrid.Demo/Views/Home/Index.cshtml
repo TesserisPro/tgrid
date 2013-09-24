@@ -116,16 +116,26 @@
         </details>
     </script>
 </div>
+
 <script type="text/javascript">
 
     $(function () {
         var id = $(document.getElementById('test-angular'));
         var opt = new TesserisPro.TGrid.Options(id, TesserisPro.TGrid.Framework.Angular);
-        var grid = TesserisPro.TGrid.Grid(id,opt)
         //var ang = new TesserisPro.TGrid.Controller(id, opt)
+        var grid = TesserisPro.TGrid.Grid(id, opt)
+        function agrid($scope) {
+            $scope.nameColumnTitle = "name"
+            $scope.header = ["name", "keys"]
+            $scope.items = [
+                    { "name": "First ", "key": "Last" },
+                    { "name": "Second", "key": "Last 1" }];
+        }
     })
 </script>
-@*<div>
+
+<h2>Angular sample of result</h2>
+<div>
     <div ng-app>
         <table ng-controller="ctrl" border="1">
             <thead>
@@ -154,4 +164,4 @@
                 { "Name": "First ", "Key": "Last" },
                 { "Name": "Second", "Key": "Last 1" }];
     }
-</script>*@
+</script>

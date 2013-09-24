@@ -20,7 +20,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public apply(element: HTMLElement, framework: Framework) {
+        public apply(element: HTMLElement, framework: Framework, prefix?: string) {
             if (framework == Framework.Knockout) {
                 element.innerHTML = this.content != null ? this.content : "";
                 if (this.binding != null && this.binding.length > 0) {
@@ -30,15 +30,15 @@ module TesserisPro.TGrid {
             if (framework == Framework.Angular) {
                 element.innerHTML = this.content != null ? this.content : "";
                 if (this.binding != null && this.binding.length > 0) {
-                    element.innerHTML = "{{item." + this.binding.split(':')[1].trim() +"}}"
+                    element.innerHTML = "{{" + prefix  + this.binding.split(':')[1].trim() +"}}"
                 }
                 if (this.innerBinding != null && this.innerBinding.length > 0) {
                     if (element.innerHTML != "") {
-                        element.innerHTML = element.innerHTML.replace("</", "{{item." + this.innerBinding.split(':')[1].trim() + "}}</")
+                        element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
+                        element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</")
                     } else {
-                        element.innerHTML = "{{item." + this.binding.split(':')[1].trim() + "}}"
+                        element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
                     }
-
                 }
             }
         }

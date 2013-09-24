@@ -3,7 +3,8 @@
     /// <reference path="../Options.ts" />
     (function (TGrid) {
         var Controller = (function () {
-            function Controller(element, options) {
+            function Controller(element, $scope, options) {
+                this.$scope = $scope;
                 this.$scope.Headers = options.columnHeaders;
                 this.$scope.Data = options.columnDataField;
             }

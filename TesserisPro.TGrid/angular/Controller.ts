@@ -7,9 +7,8 @@ module TesserisPro.TGrid {
     }
 
     export class Controller {
-        public $scope: Scope;
 
-        constructor(element: JQuery, options: TesserisPro.TGrid.Options) {
+        constructor(element: JQuery, private $scope: Scope, options: TesserisPro.TGrid.Options) {
             this.$scope.Headers = options.columnHeaders;
             this.$scope.Data = options.columnDataField;
         }
