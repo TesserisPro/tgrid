@@ -1,16 +1,17 @@
 ﻿/// <reference path="../Options.ts" />
+/// <reference path="../Scripts/typings/angularjs/angular.d.ts" />
+
 module TesserisPro.TGrid {
 
-    export interface Scope {
-        Headers: Array<TesserisPro.TGrid.Template>;
-        Data: Array<TesserisPro.TGrid.Template>;
-    }
+    var app = angular.module("myApp", []);
+    app.controller("Ctrl", Controller);
 
-    export class Controller {
-
-        constructor(element: JQuery, private $scope: Scope, options: TesserisPro.TGrid.Options) {
-            this.$scope.Headers = options.columnHeaders;
-            this.$scope.Data = options.columnDataField;
+    class Controller {
+        constructor(private $scope: any) {
+            $scope.nameColumnTitle = "name"
+            $scope.items = [
+                { "name": "First ", "key": "Last" },
+                { "name": "Second", "key": "Last 1" }];
         }
     }
 }

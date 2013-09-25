@@ -120,7 +120,6 @@
     angular.module('App', [])
     .controller('Ctrl', function agrid($scope) {
         $scope.nameColumnTitle = "name"
-        $scope.header = ["name", "keys"]
         $scope.items = [
             { "name": "First ", "key": "Last" },
             { "name": "Second", "key": "Last 1" }];
@@ -130,8 +129,9 @@
         var id = $(document.getElementById('test-angular'));
         var opt = new TesserisPro.TGrid.Options(id, TesserisPro.TGrid.Framework.Angular);
         var grid = TesserisPro.TGrid.Grid(id, opt)
-        id = $(document.getElementById('test-angular').getElementsByTagName('div'));
-        angular.bootstrap(id, ['App'])
+
+        // App - module in this file, myApp - module in angular\Controller.ts
+        angular.bootstrap(id, ['myApp']) 
     })
 </script>
 
