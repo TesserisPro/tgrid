@@ -39,8 +39,11 @@ module TesserisPro.TGrid {
                 this.table = table;
             }
             if (option.framework == TesserisPro.TGrid.Framework.Angular) {
+                var controllerName: string = "Ctrl";
+                var appName: string = "App";
+
                 var table = document.createElement("table");
-                table.setAttribute("ng-controller", "agrid");
+                table.setAttribute("ng-controller", controllerName);
                 table.setAttribute("border", "2");
                 // header
                 var header = document.createElement("thead");
@@ -53,7 +56,6 @@ module TesserisPro.TGrid {
                     option.columnHeaders[i].apply(headerCell, TesserisPro.TGrid.Framework.Angular,"");
                     head.appendChild(headerCell);
                 }
-                //headerCell.innerText = "{{item}}";
                 head.appendChild(headerCell);
  
                 header.appendChild(head);
@@ -71,8 +73,8 @@ module TesserisPro.TGrid {
                 body.appendChild(row);
                 table.appendChild(body);
                 var div = document.createElement("div");
-                div.setAttribute("ng-app", "app");
-                div.setAttribute("compile", "html");
+                div.setAttribute("ng-app", appName);
+                //div.setAttribute("compile", "html");
                 div.appendChild(table);
                 element.append(div);
                 //element.find("script").remove();

@@ -116,21 +116,22 @@
         </details>
     </script>
 </div>
-
 <script type="text/javascript">
-
+    angular.module('App', [])
+    .controller('Ctrl', function agrid($scope) {
+        $scope.nameColumnTitle = "name"
+        $scope.header = ["name", "keys"]
+        $scope.items = [
+            { "name": "First ", "key": "Last" },
+            { "name": "Second", "key": "Last 1" }];
+    })
+    
     $(function () {
         var id = $(document.getElementById('test-angular'));
         var opt = new TesserisPro.TGrid.Options(id, TesserisPro.TGrid.Framework.Angular);
-        //var ang = new TesserisPro.TGrid.Controller(id, opt)
         var grid = TesserisPro.TGrid.Grid(id, opt)
-        function agrid($scope) {
-            $scope.nameColumnTitle = "name"
-            $scope.header = ["name", "keys"]
-            $scope.items = [
-                    { "name": "First ", "key": "Last" },
-                    { "name": "Second", "key": "Last 1" }];
-        }
+        id = $(document.getElementById('test-angular').getElementsByTagName('div'));
+        angular.bootstrap(id, ['App'])
     })
 </script>
 

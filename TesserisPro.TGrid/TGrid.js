@@ -38,8 +38,11 @@ var TesserisPro;
                     this.table = table;
                 }
                 if (option.framework == TesserisPro.TGrid.Framework.Angular) {
+                    var controllerName = "Ctrl";
+                    var appName = "App";
+
                     var table = document.createElement("table");
-                    table.setAttribute("ng-controller", "agrid");
+                    table.setAttribute("ng-controller", controllerName);
                     table.setAttribute("border", "2");
 
                     // header
@@ -52,7 +55,8 @@ var TesserisPro;
                         option.columnHeaders[i].apply(headerCell, TesserisPro.TGrid.Framework.Angular, "");
                         head.appendChild(headerCell);
                     }
-                    //head.appendChild(headerCell);
+                    head.appendChild(headerCell);
+
                     header.appendChild(head);
                     table.appendChild(header);
 
@@ -69,8 +73,9 @@ var TesserisPro;
                     body.appendChild(row);
                     table.appendChild(body);
                     var div = document.createElement("div");
-                    div.setAttribute("ng-app", "app");
-                    div.setAttribute("compile", "html");
+                    div.setAttribute("ng-app", appName);
+
+                    //div.setAttribute("compile", "html");
                     div.appendChild(table);
                     element.append(div);
 
