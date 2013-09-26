@@ -6,7 +6,8 @@ module TesserisPro.TGrid {
         public table: any; 
 
         constructor(element: JQuery, option: Options) {
-            //element.removeAttr("data-bind");
+            
+            // Create Table Knockout
             if (option.framework == TesserisPro.TGrid.Framework.Knockout)
             {
                 var table = document.createElement("table");
@@ -17,19 +18,20 @@ module TesserisPro.TGrid {
                 for (var i = 0; i < option.columnHeaders.length; i++) {
                     var headerCell = document.createElement("th");
                     headerCell.setAttribute("width", option.columnWidth[i]);
-                    option.columnHeaders[i].apply(headerCell,TesserisPro.TGrid.Framework.Knockout);
+                    option.columnHeaders[i].applyKnockout(headerCell);
+                    //headerCell = headerCell.("<div class=\"arrow-up\"></div><div class=\"arrow-down\"></div>");
                     head.appendChild(headerCell);
                 }
                 header.appendChild(head);
                 table.appendChild(header);
                 //cells
                 var body = document.createElement("tbody");
-                body.setAttribute("data-bind", "foreach:" + option.mainBinding.split(':')[1]);
+                body.setAttribute("data-bind", "foreach:sortedData");//option.mainBinding.split(':')[1]);
                 var row = document.createElement("tr");
                 for (var i = 0; i < option.columnDataField.length; i++) {
                     var cell = document.createElement("td");
                     cell.setAttribute("width", option.columnWidth[i]);
-                    option.columnDataField[i].apply(cell, TesserisPro.TGrid.Framework.Knockout);
+                    option.columnDataField[i].applyKnockout(cell);
                     row.appendChild(cell);
                 }
                 body.appendChild(row);
@@ -38,6 +40,8 @@ module TesserisPro.TGrid {
                 //element.find("script").remove();
                 this.table = table;
             }
+
+            // Create Table Angular
             if (option.framework == TesserisPro.TGrid.Framework.Angular) {
                 var controllerName: string = "Ctrl";
                 var appName: string = "App";
@@ -53,7 +57,7 @@ module TesserisPro.TGrid {
                 for (var i = 0; i < option.columnHeaders.length; i++) {
                     var headerCell = document.createElement("th");
                     headerCell.setAttribute("width", option.columnWidth[i]);
-                    option.columnHeaders[i].apply(headerCell, TesserisPro.TGrid.Framework.Angular,"");
+                    option.columnHeaders[i].applyAngular(headerCell,"");
                     head.appendChild(headerCell);
                 }
                 head.appendChild(headerCell);
@@ -63,11 +67,11 @@ module TesserisPro.TGrid {
                 //cells
                 var body = document.createElement("tbody");
                 var row = document.createElement("tr");
-                row.setAttribute("ng-repeat", "item in items");
+                row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder");
                 for (var i = 0; i < option.columnDataField.length; i++) {
                     var cell = document.createElement("td");
                     cell.setAttribute("width", option.columnWidth[i]);
-                    option.columnDataField[i].apply(cell, TesserisPro.TGrid.Framework.Angular, "item.");
+                    option.columnDataField[i].applyAngular(cell, "item.");
                     row.appendChild(cell);
                 }
                 body.appendChild(row);
@@ -80,7 +84,6 @@ module TesserisPro.TGrid {
                 //element.find("script").remove();
                 this.table = table;
             }
-
         }
     }
 }

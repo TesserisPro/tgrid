@@ -20,25 +20,24 @@
                     this.binding = prototype.getAttribute("data-bind");
                 }
             }
-            Template.prototype.apply = function (element, framework, prefix) {
-                if (framework == Framework.Knockout) {
-                    element.innerHTML = this.content != null ? this.content : "";
-                    if (this.binding != null && this.binding.length > 0) {
-                        element.setAttribute("data-bind", this.binding);
-                    }
+            Template.prototype.applyKnockout = function (element) {
+                element.innerHTML = this.content != null ? this.content : "";
+                if (this.binding != null && this.binding.length > 0) {
+                    element.setAttribute("data-bind", this.binding);
                 }
-                if (framework == Framework.Angular) {
-                    element.innerHTML = this.content != null ? this.content : "";
-                    if (this.binding != null && this.binding.length > 0) {
+            };
+
+            Template.prototype.applyAngular = function (element, prefix) {
+                element.innerHTML = this.content != null ? this.content : "";
+                if (this.binding != null && this.binding.length > 0) {
+                    element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}";
+                }
+                if (this.innerBinding != null && this.innerBinding.length > 0) {
+                    if (element.innerHTML != "") {
+                        element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
+                        element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</");
+                    } else {
                         element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}";
-                    }
-                    if (this.innerBinding != null && this.innerBinding.length > 0) {
-                        if (element.innerHTML != "") {
-                            element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
-                            element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</");
-                        } else {
-                            element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}";
-                        }
                     }
                 }
             };

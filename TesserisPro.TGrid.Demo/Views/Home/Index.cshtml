@@ -82,9 +82,22 @@
         var self = this;
         self.nameColumnTitle = "Name";
         self.items = ko.observableArray([
-            { name: "First", key: "Last" },
-            { name: "First 1", key: "Last 1" }
+            { name: "a1", key: "d1" },
+            { name: "c1", key: "b1" },
+            { name: "b1", key: "c1" },
+            { name: "d1", key: "a1" }
         ]);
+
+        self.sortColumn = ko.observable("key");
+        self.sortOrder = ko.observable(-1);
+
+        self.sortedData = ko.computed(function (a, b) {
+            return self.items.sort(
+                function (a, b) {
+                    return a[self.sortColumn()] == b[self.sortColumn()] ? 0 :
+                    (a[self.sortColumn()] < b[self.sortColumn()] ? -1 * self.sortOrder() : self.sortOrder())
+                })
+        });
     };
 
     $(function () { ko.applyBindings(new vm()); });
@@ -121,8 +134,13 @@
     .controller('Ctrl', function agrid($scope) {
         $scope.nameColumnTitle = "name"
         $scope.items = [
-            { "name": "First ", "key": "Last" },
-            { "name": "Second", "key": "Last 1" }];
+            { "name": "a1", "key": "c2" },
+            { "name": "b1", "key": "b2" },
+            { "name": "d3", "key": "d2" },
+            { "name": "c4", "key": "a2" }
+        ];
+        $scope.sortColumn = "key";
+        $scope.sortOrder = true;
     })
     
     $(function () {
@@ -131,7 +149,7 @@
         var grid = TesserisPro.TGrid.Grid(id, opt)
 
         // App - module in this file, myApp - module in angular\Controller.ts
-        angular.bootstrap(id, ['myApp']) 
+        angular.bootstrap(id, ['App']) 
     })
 </script>
 

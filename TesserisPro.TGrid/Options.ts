@@ -20,27 +20,27 @@ module TesserisPro.TGrid {
             }
         }
 
-        public apply(element: HTMLElement, framework: Framework, prefix?: string) {
-            if (framework == Framework.Knockout) {
-                element.innerHTML = this.content != null ? this.content : "";
-                if (this.binding != null && this.binding.length > 0) {
-                    element.setAttribute("data-bind", this.binding);
-                }
+        public applyKnockout(element: HTMLElement) {
+            element.innerHTML = this.content != null ? this.content : "";
+            if (this.binding != null && this.binding.length > 0) {
+                element.setAttribute("data-bind", this.binding);
             }
-            if (framework == Framework.Angular) {
-                element.innerHTML = this.content != null ? this.content : "";
-                if (this.binding != null && this.binding.length > 0) {
-                    element.innerHTML = "{{" + prefix  + this.binding.split(':')[1].trim() +"}}"
+        }
+
+        public applyAngular(element: HTMLElement, prefix: string) {
+            element.innerHTML = this.content != null ? this.content : "";
+            if (this.binding != null && this.binding.length > 0) {
+                element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
                 }
-                if (this.innerBinding != null && this.innerBinding.length > 0) {
-                    if (element.innerHTML != "") {
-                        element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
-                        element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</")
+            if (this.innerBinding != null && this.innerBinding.length > 0) {
+                if (element.innerHTML != "") {
+                    element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
+                    element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</")
                     } else {
-                        element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
+                    element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
                     }
-                }
             }
+
         }
 	}
 		   
@@ -53,8 +53,7 @@ module TesserisPro.TGrid {
 		public framework: Framework;
 		public target: JQuery;
 
-
-        constructor(element: JQuery, framework : Framework) {
+        constructor(element: JQuery, framework: Framework) {
 			this.target = element;
             this.framework = framework;
 
@@ -129,7 +128,5 @@ module TesserisPro.TGrid {
                 this.columnDevice.push(columns[i].attributes['data-g-views'].nodeValue);
             }
         }
-
-	}
-
+   }
 }
