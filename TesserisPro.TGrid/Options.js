@@ -62,7 +62,7 @@
                     this.initializeKnockout();
                 }
                 if (this.framework == Framework.Angular) {
-                    this.initializeAngular();
+                    this.initializeKnockout();
                 }
             }
             Options.prototype.initializeKnockout = function () {
@@ -70,6 +70,12 @@
 
                 if (this.mainBinding == undefined) {
                     this.mainBinding = "";
+                }
+
+                var rowsAtt = this.target.attr("rowOnPage");
+                this.rowsOnPage = parseInt(rowsAtt);
+                if (isNaN(this.rowsOnPage)) {
+                    this.rowsOnPage = 10;
                 }
 
                 var text = this.target.find("script")[0].innerHTML;

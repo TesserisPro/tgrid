@@ -45,15 +45,15 @@
 
 <script>
     $(function () {
-        var target = $("#test-pure-js");
-        var options = new TesserisPro.TGrid.Options(target,TesserisPro.TGrid.Framework.Knockout);
-        var grid = new TesserisPro.TGrid.Grid(target, options);
+        //var target = $("#test-pure-js");
+        //var options = new TesserisPro.TGrid.Options(target,TesserisPro.TGrid.Framework.Knockout);
+        //var grid = new TesserisPro.TGrid.Grid(target, options);
     });
 </script>
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: items">
+<div id="test-knockout" data-bind="tgrid: items" rowOnPage="2">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop">
             <header>
@@ -84,8 +84,8 @@
         self.nameColumnTitle = "Name";
         self.items = ko.observableArray([
             { name: "a1", key: "d1" },
-            { name: "c1", key: "b1" },
-            { name: "b1", key: "c1" },
+            { name: "c1", key: "c1" },
+            { name: "b1", key: "b1" },
             { name: "d1", key: "a1" }
         ]);
 
@@ -105,7 +105,7 @@
 
 <h2>Angular</h2>
 
-<div id="test-angular" data-bind="agrid: items">
+<div id="test-angular" data-bind="agrid: items" rowOnPage="2">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop">
             <header>

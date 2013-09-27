@@ -58,6 +58,7 @@ module TesserisPro.TGrid {
 		public columnDevice: Array<string> = [];
 		public framework: Framework;
 		public target: JQuery;
+        public rowsOnPage: number;
 
         constructor(element: JQuery, framework: Framework) {
 			this.target = element;
@@ -67,16 +68,22 @@ module TesserisPro.TGrid {
 				this.initializeKnockout();
             }
             if (this.framework == Framework.Angular) {
-                this.initializeAngular();
+                this.initializeKnockout();
             }
 		}
 
-		private initializeKnockout(): void {
-			this.mainBinding = this.target.attr("data-bind");
+        private initializeKnockout(): void {
+            this.mainBinding = this.target.attr("data-bind");
 
-			if (this.mainBinding == undefined) {
-				this.mainBinding = "";
-			}
+            if (this.mainBinding == undefined) {
+                this.mainBinding = "";
+            }
+
+            var rowsAtt = this.target.attr("rowOnPage");
+            this.rowsOnPage = parseInt(rowsAtt);
+            if (isNaN(this.rowsOnPage)) {
+                this.rowsOnPage = 10;
+            }
 
 			var text = this.target.find("script")[0].innerHTML;
 			var optionsElement = $("<div>" + text + "</div");

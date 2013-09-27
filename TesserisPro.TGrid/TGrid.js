@@ -8,7 +8,7 @@ var TesserisPro;
                     var table = document.createElement("table");
                     table.setAttribute("border", "1");
 
-                    // header
+                    // Knockout desktop header
                     var header = document.createElement("thead");
                     var head = document.createElement("tr");
 
@@ -24,7 +24,7 @@ var TesserisPro;
                         }
 
                         // Method changing sorting
-                        headerCell.setAttribute("data-bind", "click: function(){" + "if(sort().column == \"" + columnName + "\")" + "{sort({ column : \"" + columnName + "\", order: -1 * sort().order});}" + "else {sort({ column : \"" + columnName + "\", order: 1}); }" + "}");
+                        headerCell.setAttribute("data-bind", "click: function(){" + "if(sort().column == \"" + columnName + "\"){sort({ column : \"" + columnName + "\", order: -1 * sort().order});}" + "else {sort({ column : \"" + columnName + "\", order: 1}); }" + "}");
 
                         // Arrows
                         var up = document.createElement("div");
@@ -41,7 +41,7 @@ var TesserisPro;
                     header.appendChild(head);
                     table.appendChild(header);
 
-                    //cells
+                    // Knockout desktop cells
                     var body = document.createElement("tbody");
                     body.setAttribute("data-bind", "foreach:sortedData");
                     var row = document.createElement("tr");
@@ -53,6 +53,22 @@ var TesserisPro;
                     }
                     body.appendChild(row);
                     table.appendChild(body);
+
+                    // Knockout desktop footer
+                    var footer = document.createElement("tfoot");
+                    var footrow = document.createElement("tr");
+                    var footcell = document.createElement("td");
+                    footcell.setAttribute("align", "center");
+                    footcell.setAttribute("colspan", option.columnHeaders.length.toString());
+                    var data = document.createElement("b");
+
+                    // add paging hire
+                    data.innerHTML = option.rowsOnPage.toString() + " items on page";
+
+                    footcell.appendChild(data);
+                    footrow.appendChild(footcell);
+                    footer.appendChild(footrow);
+                    table.appendChild(footer);
                     element.append(table);
                     this.table = table;
                 }
@@ -65,7 +81,7 @@ var TesserisPro;
                     table.setAttribute("ng-controller", controllerName);
                     table.setAttribute("border", "2");
 
-                    // header
+                    // Angular desktop header
                     var header = document.createElement("thead");
                     var head = document.createElement("tr");
                     for (var i = 0; i < option.columnHeaders.length; i++) {
@@ -99,7 +115,7 @@ var TesserisPro;
                     header.appendChild(head);
                     table.appendChild(header);
 
-                    //cells
+                    // Angular desktop cells
                     var body = document.createElement("tbody");
                     var row = document.createElement("tr");
                     row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder");
@@ -115,8 +131,24 @@ var TesserisPro;
                     div.setAttribute("ng-app", appName);
                     div.appendChild(table);
                     element.append(div);
+                    this.table = table;
 
-                    //element.find("script").remove();
+                    // Angular desktop footer
+                    var footer = document.createElement("tfoot");
+                    var footrow = document.createElement("tr");
+                    var footcell = document.createElement("td");
+                    footcell.setAttribute("align", "center");
+                    footcell.setAttribute("colspan", option.columnHeaders.length.toString());
+                    var data = document.createElement("b");
+
+                    // add paging hire
+                    data.innerHTML = option.rowsOnPage.toString() + " items on page";
+
+                    footcell.appendChild(data);
+                    footrow.appendChild(footcell);
+                    footer.appendChild(footrow);
+                    table.appendChild(footer);
+                    element.append(table);
                     this.table = table;
                 }
             }
