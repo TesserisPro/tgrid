@@ -11,12 +11,31 @@ var TesserisPro;
                     // header
                     var header = document.createElement("thead");
                     var head = document.createElement("tr");
+
                     for (var i = 0; i < option.columnHeaders.length; i++) {
                         var headerCell = document.createElement("th");
                         headerCell.setAttribute("width", option.columnWidth[i]);
                         option.columnHeaders[i].applyKnockout(headerCell);
 
-                        //headerCell = headerCell.("<div class=\"arrow-up\"></div><div class=\"arrow-down\"></div>");
+                        // Get column
+                        var columnName = option.columnDataField[i].GetBinding();
+                        if (columnName != null && columnName != "") {
+                            columnName = columnName.split(':')[1].trim();
+                        }
+
+                        // Method changing sorting
+                        headerCell.setAttribute("data-bind", "click: function(){" + "if(sort().column == \"" + columnName + "\")" + "{sort({ column : \"" + columnName + "\", order: -1 * sort().order});}" + "else {sort({ column : \"" + columnName + "\", order: 1}); }" + "}");
+
+                        // Arrows
+                        var up = document.createElement("div");
+                        up.classList.add("arrow-up");
+                        up.setAttribute("data-bind", "visible:sort().order == 1 && sort().column == \"" + columnName + "\"");
+                        headerCell.appendChild(up);
+                        var down = document.createElement("div");
+                        down.classList.add("arrow-down");
+                        down.setAttribute("data-bind", "visible:sort().order == -1 && sort().column == \"" + columnName + "\"");
+                        headerCell.appendChild(down);
+
                         head.appendChild(headerCell);
                     }
                     header.appendChild(head);
@@ -35,8 +54,6 @@ var TesserisPro;
                     body.appendChild(row);
                     table.appendChild(body);
                     element.append(table);
-
-                    //element.find("script").remove();
                     this.table = table;
                 }
 
@@ -51,11 +68,30 @@ var TesserisPro;
                     // header
                     var header = document.createElement("thead");
                     var head = document.createElement("tr");
-
                     for (var i = 0; i < option.columnHeaders.length; i++) {
                         var headerCell = document.createElement("th");
                         headerCell.setAttribute("width", option.columnWidth[i]);
                         option.columnHeaders[i].applyAngular(headerCell, "");
+
+                        // Get column
+                        var columnName = option.columnDataField[i].GetBinding();
+                        if (columnName != null && columnName != "") {
+                            columnName = columnName.split(':')[1].trim();
+                        }
+
+                        // Method changing sorting
+                        headerCell.setAttribute("ng-click", "sortColumn = \"" + columnName + "\";" + "sortOrder=!sortOrder;");
+
+                        // Arrows
+                        var up = document.createElement("div");
+                        up.classList.add("arrow-up");
+                        up.setAttribute("ng-show", "!sortOrder&&sortColumn==\"" + columnName + "\"");
+                        headerCell.appendChild(up);
+                        var down = document.createElement("div");
+                        down.classList.add("arrow-down");
+                        down.setAttribute("ng-show", "sortOrder&&sortColumn==\"" + columnName + "\"");
+                        headerCell.appendChild(down);
+
                         head.appendChild(headerCell);
                     }
                     head.appendChild(headerCell);
@@ -77,8 +113,6 @@ var TesserisPro;
                     table.appendChild(body);
                     var div = document.createElement("div");
                     div.setAttribute("ng-app", appName);
-
-                    //div.setAttribute("compile", "html");
                     div.appendChild(table);
                     element.append(div);
 

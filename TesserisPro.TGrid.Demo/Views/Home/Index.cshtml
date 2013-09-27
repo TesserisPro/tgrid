@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "TGrid Demo";
 }
+<link rel="stylesheet" type="text/css" href="~/Styles/Grid.css">
 
 <script src="~/Scripts/angular.js"></script>
 <script src="~/Scripts/jquery-2.0.3.js"></script>
@@ -88,14 +89,13 @@
             { name: "d1", key: "a1" }
         ]);
 
-        self.sortColumn = ko.observable("key");
-        self.sortOrder = ko.observable(-1);
+        self.sort = ko.observable({ column: "name", order: -1 });
 
         self.sortedData = ko.computed(function (a, b) {
             return self.items.sort(
                 function (a, b) {
-                    return a[self.sortColumn()] == b[self.sortColumn()] ? 0 :
-                    (a[self.sortColumn()] < b[self.sortColumn()] ? -1 * self.sortOrder() : self.sortOrder())
+                    return a[self.sort().column] == b[self.sort().column] ? 0 :
+                    (a[self.sort().column] < b[self.sort().column] ? -1 * self.sort().order : self.sort().order)
                 })
         });
     };
@@ -139,8 +139,8 @@
             { "name": "d3", "key": "d2" },
             { "name": "c4", "key": "a2" }
         ];
-        $scope.sortColumn = "key";
-        $scope.sortOrder = true;
+        $scope.sortColumn = "name";
+        $scope.sortOrder = false;
     })
     
     $(function () {

@@ -20,6 +20,10 @@
                     this.binding = prototype.getAttribute("data-bind");
                 }
             }
+            Template.prototype.GetBinding = function () {
+                return this.binding != "" ? this.binding : this.innerBinding;
+            };
+
             Template.prototype.applyKnockout = function (element) {
                 element.innerHTML = this.content != null ? this.content : "";
                 if (this.binding != null && this.binding.length > 0) {

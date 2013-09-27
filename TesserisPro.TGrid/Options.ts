@@ -11,6 +11,12 @@ module TesserisPro.TGrid {
         private binding: string = "";
         private innerBinding: string = "";	
 
+        public GetBinding(): string{
+            return this.binding != ""
+            ? this.binding
+            : this.innerBinding;
+        }
+
         constructor(prototype: HTMLElement) {
             this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
             if (prototype.firstElementChild != null && prototype.firstElementChild.hasAttribute("data-bind")){
