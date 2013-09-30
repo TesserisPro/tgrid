@@ -116,7 +116,7 @@ var TesserisPro;
                     // Angular desktop cells
                     var body = document.createElement("tbody");
                     var row = document.createElement("tr");
-                    row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder");
+                    row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
                     for (var i = 0; i < option.columnDataField.length; i++) {
                         var cell = document.createElement("td");
                         cell.setAttribute("width", option.columnWidth[i]);
@@ -140,7 +140,18 @@ var TesserisPro;
                     var data = document.createElement("b");
 
                     // add paging hire
-                    data.innerHTML = option.pageSize.toString() + " items on page";
+                    data.innerHTML = "<div>\
+                    <b>{{firstItemIndex()}}</b> -\
+                    <b>{{lastItemIndex()}}</b> of\
+                    <b>{{totalItemCount}}</b> total results.\
+                 </div>\
+                 <ul>\
+                    <li><button ng-disabled=\"currentPage == 0\" ng-click=\"currentPage = 0\">&laquo;&laquo;</button ></li>\
+                    <li><button ng-disabled=\"currentPage == 0\" ng-click=\"currentPage = currentPage - 1\">&laquo;</button ></li>\
+                    <li>{{currentPage+1}}</li>\
+                    <li><button ng-disabled=\"currentPage >= items.length/pageSize - 1\" ng-click=\"currentPage = currentPage + 1\">&raquo;</button></li>\
+                    <li><button ng-disabled=\"currentPage >= items.length/pageSize - 1\" ng-click=\"currentPage = maxPage()\">&raquo;&raquo;</button></li>\
+                 </ul>";
 
                     footcell.appendChild(data);
                     footrow.appendChild(footcell);
