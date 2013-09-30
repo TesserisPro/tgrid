@@ -43,7 +43,7 @@ var TesserisPro;
 
                     // Knockout desktop cells
                     var body = document.createElement("tbody");
-                    body.setAttribute("data-bind", "foreach:sortedData");
+                    body.setAttribute("data-bind", "foreach:pagedData");
                     var row = document.createElement("tr");
                     for (var i = 0; i < option.columnDataField.length; i++) {
                         var cell = document.createElement("td");
@@ -63,9 +63,7 @@ var TesserisPro;
                     var data = document.createElement("b");
 
                     // add paging hire
-                    data.innerHTML = option.rowsOnPage.toString() + " items on page";
-
-                    footcell.appendChild(data);
+                    data.innerHTML = "<div class=\"pagination\"  data-bind=\"template:{ name: 'tpl-pager', data: Pager }\" >" + footcell.appendChild(data);
                     footrow.appendChild(footcell);
                     footer.appendChild(footrow);
                     table.appendChild(footer);
@@ -142,7 +140,7 @@ var TesserisPro;
                     var data = document.createElement("b");
 
                     // add paging hire
-                    data.innerHTML = option.rowsOnPage.toString() + " items on page";
+                    data.innerHTML = option.pageSize.toString() + " items on page";
 
                     footcell.appendChild(data);
                     footrow.appendChild(footcell);

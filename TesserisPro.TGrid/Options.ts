@@ -58,7 +58,9 @@ module TesserisPro.TGrid {
 		public columnDevice: Array<string> = [];
 		public framework: Framework;
 		public target: JQuery;
-        public rowsOnPage: number;
+        public pageSize: number;
+        public pageSlide: number = 1;
+        public currentPage: number = 1;
 
         constructor(element: JQuery, framework: Framework) {
 			this.target = element;
@@ -80,9 +82,9 @@ module TesserisPro.TGrid {
             }
 
             var rowsAtt = this.target.attr("rowOnPage");
-            this.rowsOnPage = parseInt(rowsAtt);
-            if (isNaN(this.rowsOnPage)) {
-                this.rowsOnPage = 10;
+            this.pageSize = parseInt(rowsAtt);
+            if (isNaN(this.pageSize)) {
+                this.pageSize = 10;
             }
 
 			var text = this.target.find("script")[0].innerHTML;

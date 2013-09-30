@@ -51,7 +51,7 @@ module TesserisPro.TGrid {
                 
                 // Knockout desktop cells
                 var body = document.createElement("tbody");
-                body.setAttribute("data-bind", "foreach:sortedData");
+                body.setAttribute("data-bind", "foreach:pagedData");
                 var row = document.createElement("tr");
                 for (var i = 0; i < option.columnDataField.length; i++) {
                     var cell = document.createElement("td");
@@ -70,10 +70,11 @@ module TesserisPro.TGrid {
                 footcell.setAttribute("colspan", option.columnHeaders.length.toString());
                 var data = document.createElement("b");
 
-                // add paging hire
-                data.innerHTML = option.rowsOnPage.toString()+" items on page";
-
-                footcell.appendChild(data)
+                // add paging hire 
+                data.innerHTML = 
+                "<div class=\"pagination\"  data-bind=\"template:{ name: 'tpl-pager', data: Pager }\" >"+
+                
+                footcell.appendChild(data) 
                 footrow.appendChild(footcell);
                 footer.appendChild(footrow);
                 table.appendChild(footer);
@@ -153,7 +154,7 @@ module TesserisPro.TGrid {
                 var data = document.createElement("b");
 
                 // add paging hire
-                data.innerHTML = option.rowsOnPage.toString() + " items on page";
+                data.innerHTML = option.pageSize.toString() + " items on page";
 
                 footcell.appendChild(data);
                 footrow.appendChild(footcell);

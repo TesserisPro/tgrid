@@ -55,6 +55,8 @@
                 this.columnDataField = [];
                 this.columnWidth = [];
                 this.columnDevice = [];
+                this.pageSlide = 1;
+                this.currentPage = 1;
                 this.target = element;
                 this.framework = framework;
 
@@ -73,9 +75,9 @@
                 }
 
                 var rowsAtt = this.target.attr("rowOnPage");
-                this.rowsOnPage = parseInt(rowsAtt);
-                if (isNaN(this.rowsOnPage)) {
-                    this.rowsOnPage = 10;
+                this.pageSize = parseInt(rowsAtt);
+                if (isNaN(this.pageSize)) {
+                    this.pageSize = 10;
                 }
 
                 var text = this.target.find("script")[0].innerHTML;

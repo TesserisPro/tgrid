@@ -23,3 +23,13 @@
     border-bottom: 8px solid #a6a6a6;
     border-left: 8px solid transparent;
 }
+
+ul {
+    display:block;
+    margin: 0;
+    padding: 0;
+}
+
+li{
+    display:inline;
+}

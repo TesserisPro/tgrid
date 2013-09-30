@@ -20,6 +20,7 @@
     <Content Include="angular\Controller.js">
       <DependentUpon>Controller.ts</DependentUpon>
     </Content>
+    <Content Include="knockout\ko.pager.js" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
