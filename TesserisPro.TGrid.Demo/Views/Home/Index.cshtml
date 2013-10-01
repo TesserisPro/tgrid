@@ -123,30 +123,28 @@
         -
         <span data-bind="text: LastItemIndex"></span>
         of
-        <strong>
-            <span data-bind="text: TotalItemCount"></span>
-        </strong>
+        <span data-bind="text: TotalItemCount"></span>
         total results.
     </div>
     <ul>
         <!-- ko if:CurrentPage() === 1 -->
         <li class="disabled">
-            <button class="disabledPage" disabled="disabled">&laquo;&laquo;</button>
+            <a href="#" class="disabledPage" disabled="disabled"><span>&laquo;&laquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko ifnot:CurrentPage() === 1 -->
         <li>
-            <button  data-bind="click: function () { CurrentPage(1); }">&laquo;&laquo;</button>
+            <a href="#" data-bind="click: function () { CurrentPage(1); }"><span>&laquo;&laquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko if:HasPrevPage -->
         <li>
-            <button data-bind="click: function () { CurrentPage(CurrentPage() - 1); }">&laquo;</button>
+            <a href="#" data-bind="click: function () { CurrentPage(CurrentPage() - 1); }"><span>&laquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko ifnot:HasPrevPage -->
         <li class="disabled">
-            <button href="#" class="disabledPage" disabled="disabled">&laquo;</button>
+            <a href="#" class="disabledPage" disabled="disabled"><span>&laquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko foreach:Pages -->
@@ -157,28 +155,28 @@
             <!-- /ko -->
             <!-- ko if:$data !== $parent.CurrentPage() -->
             <li>
-                <a href="#" data-bind="text: $data, click: function () { $parent.CurrentPage($data); }"></a>
+                <a href="#" data-bind="text: $data, click: function () { $parent.CurrentPage($data); }"><span></span></a>
             </li>
             <!-- /ko -->
         <!-- /ko -->
         <!-- ko if:HasNextPage -->
         <li>
-            <button data-bind="click: function () { CurrentPage(CurrentPage() + 1); }">&raquo;</button>
+            <a href="#" data-bind="click: function () { CurrentPage(CurrentPage() + 1); }"><span>&raquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko ifnot:HasNextPage -->
         <li class="disabled">
-            <button href="#" class="disabledPage" disabled="disabled">&raquo;</button>
+            <a href="#" class="disabledPage" disabled="disabled"><span>&raquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko ifnot:CurrentPage() === LastPage() -->
         <li>
-            <button href="#" data-bind="click: function () { CurrentPage(LastPage()); }">&raquo;&raquo;</button>
+            <a href="#" data-bind="click: function () { CurrentPage(LastPage()); }"><span>&raquo;&raquo;</span></a>
         </li>
         <!-- /ko -->
         <!-- ko if:CurrentPage() === LastPage() -->
         <li class="disabled">
-            <button href="#" class="disabledPage" disabled="disabled">&raquo;&raquo;</button>
+            <a href="#" class="disabledPage" disabled="disabled"><span>&raquo;&raquo;</span></a>
         </li>
         <!-- /ko -->
     </ul>
@@ -236,9 +234,21 @@
         $scope.pageSize = 3;
         $scope.pageSlide = 1;
         $scope.currentPage = 1;
-        $scope.firstItemIndex = function () { return ($scope.currentPage * $scope.pageSize) + 1; }
-        $scope.lastItemIndex = function () { return Math.min(($scope.currentPage + 1) * $scope.pageSize, $scope.totalItemCount); }
-        $scope.maxPage = function () { return Math.ceil($scope.totalItemCount / $scope.pageSize - 1); }
+        $scope.firstItemIndex = function () {
+            return ($scope.currentPage * $scope.pageSize) + 1;
+        }
+        $scope.lastItemIndex = function () {
+            return Math.min(($scope.currentPage + 1) * $scope.pageSize, $scope.totalItemCount);
+        }
+        $scope.maxPage = function () {
+            return Math.ceil($scope.totalItemCount / $scope.pageSize - 1);
+        }
+        $scope.nextPage = function () {
+            if ($scope.currentPage != $scope.maxPage()) $scope.currentPage++
+        }
+        $scope.previousPage = function () {
+            if ($scope.currentPage != 0) $scope.currentPage--;
+        }
         //$scope.pages = function () {
         //    var pageCount = $scope.maxPage();
         //    var pageFrom = Math.max(1, $scope.CurrentPage - $scope.PageSlide);
@@ -271,6 +281,7 @@
 </script>
 
 <h2>Angular sample of result</h2>
+
 <div>
     <div ng-app>
         <table ng-controller="ctrl" border="1">
@@ -292,6 +303,7 @@
         </table>
     </div>
 </div>
+
 <script type="text/javascript">
     'use strict';
     function ctrl($scope) {

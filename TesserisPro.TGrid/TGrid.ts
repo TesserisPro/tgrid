@@ -11,11 +11,12 @@ module TesserisPro.TGrid {
             if (option.framework == TesserisPro.TGrid.Framework.Knockout)
             {
                 var table = document.createElement("table");
-                table.setAttribute("border", "1");
-
+                table.className = "tgrid-table";
+                
                 // Knockout desktop header
                 var header = document.createElement("thead");
                 var head = document.createElement("tr");
+                head.className = "tgrid-header"
 
                 for (var i = 0; i < option.columnHeaders.length; i++) {
                     var headerCell = document.createElement("th");
@@ -68,7 +69,7 @@ module TesserisPro.TGrid {
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
                 footcell.setAttribute("colspan", option.columnHeaders.length.toString());
-                var data = document.createElement("b");
+                var data = document.createElement("div");
 
                 // add paging hire 
                 data.innerHTML = 
@@ -89,7 +90,8 @@ module TesserisPro.TGrid {
 
                 var table = document.createElement("table");
                 table.setAttribute("ng-controller", controllerName);
-                table.setAttribute("border", "2");
+                //table.setAttribute("border", "2");
+                table.className = "tgrid-table";
                 
                 // Angular desktop header
                 var header = document.createElement("thead");
@@ -151,21 +153,19 @@ module TesserisPro.TGrid {
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
                 footcell.setAttribute("colspan", option.columnHeaders.length.toString());
-                var data = document.createElement("b");
+                var data = document.createElement("div");
 
                 // add paging hire
                 data.innerHTML = //option.pageSize.toString() + " items on page";
                 "<div>\
-                    <b>{{firstItemIndex()}}</b> -\
-                    <b>{{lastItemIndex()}}</b> of\
-                    <b>{{totalItemCount}}</b> total results.\
+                    {{firstItemIndex()}} - {{lastItemIndex()}} of {{totalItemCount}} total results.\
                  </div>\
                  <ul>\
-                    <li><button ng-disabled=\"currentPage == 0\" ng-click=\"currentPage = 0\">&laquo;&laquo;</button ></li>\
-                    <li><button ng-disabled=\"currentPage == 0\" ng-click=\"currentPage = currentPage - 1\">&laquo;</button ></li>\
-                    <li>{{currentPage+1}}</li>\
-                    <li><button ng-disabled=\"currentPage >= items.length/pageSize - 1\" ng-click=\"currentPage = currentPage + 1\">&raquo;</button></li>\
-                    <li><button ng-disabled=\"currentPage >= items.length/pageSize - 1\" ng-click=\"currentPage = maxPage()\">&raquo;&raquo;</button></li>\
+                    <li><a href ng-class=\"{disabledPage:currentPage == 0}\" ng-click=\"currentPage = 0\">&laquo;&laquo;</a ></li>\
+                    <li><a href ng-class=\"{disabledPage:currentPage == 0}\" ng-click=\"previousPage()\">&laquo;</a ></li>\
+                    <li class=\"active\">{{currentPage+1}}</li>\
+                    <li><a href ng-class=\"{disabledPage:currentPage == maxPage()}\" ng-click=\"nextPage()\">&raquo;</a></li>\
+                    <li><a href ng-class=\"{disabledPage:currentPage == maxPage()}\" ng-click=\"currentPage = maxPage()\">&raquo;&raquo;</a></li>\
                  </ul>";
 
                 footcell.appendChild(data);

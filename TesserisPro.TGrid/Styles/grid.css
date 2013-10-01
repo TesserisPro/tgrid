@@ -1,4 +1,64 @@
-﻿
+﻿.tgrid-table {
+    border: 1px solid;
+    background-color: cornsilk;
+    border-collapse: collapse;
+}
+
+.tgrid-header {
+
+}
+
+tr, td, th {
+    padding: 0.4em 0.6em;
+    border-right:1px solid;
+}
+
+th {
+    border-bottom:1px solid;
+    background-color:azure;
+}
+
+/*Pager*/
+.pagexofx {
+
+}
+
+li > a, .active {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    background-color: rgb(241, 234, 217);
+}
+
+li > a:hover {
+    background-color: #ff6a00;
+}
+
+.active {
+    background-color: #A1A1CE;
+}
+
+.disabled{
+}
+
+.disabledPage{
+    background-color: #c66767;
+}
+
+.currentPage{
+
+}
+
+span > a {
+    padding: 3px;
+} 
+
+tfoot > tr > td {
+    border-top:1px solid;
+}
+
 /*Arrows*/
 .arrow-down {
     display:inline;
@@ -27,7 +87,7 @@
 ul {
     display:block;
     margin: 0;
-    padding: 0;
+    padding: 3px;
 }
 
 li{
