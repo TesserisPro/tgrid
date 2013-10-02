@@ -16,8 +16,11 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="knockout\KnockoutHtmlProvider.ts" />
-    <TypeScriptCompile Include="IHtmlProvider.ts" />
+    <TypeScriptCompile Include="angular\Controller.ts" />
+    <Content Include="angular\Controller.js">
+      <DependentUpon>Controller.ts</DependentUpon>
+    </Content>
+    <Content Include="knockout\ko.pager.js" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
@@ -26,6 +29,7 @@
       <DependentUpon>Options.ts</DependentUpon>
     </Content>
     <Content Include="Options.ts" />
+    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -107,6 +111,10 @@ copy /Y "$(ProjectDir)*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 
 copy /Y "$(ProjectDir)knockout\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)knockout\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+copy /Y "$(ProjectDir)angular\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+copy /Y "$(ProjectDir)angular\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+copy /Y "$(ProjectDir)angular\*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+copy /Y "$(ProjectDir)Styles\*.css" "$(SolutionDir)TesserisPro.TGrid.Demo\Styles\"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

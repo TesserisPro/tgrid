@@ -22,7 +22,7 @@ test("Options parser general test", () => {
           </div>");
 
     
-    var options = new TesserisPro.TGrid.Options(testElement);
+    var options = new TesserisPro.TGrid.Options(testElement,TesserisPro.TGrid.Framework.Angular);
         
     equal(options.columnHeaders.length, 2);
 });
@@ -46,8 +46,9 @@ test("TGrid builder test", () => {
             </script>\
           </div>");
 
-    var options = new TesserisPro.TGrid.Options(testElement);
+    var options = new TesserisPro.TGrid.Options(testElement, TesserisPro.TGrid.Framework.Angular);
     var grid = new TesserisPro.TGrid.Grid(testElement, options);
+    var table = grid.table;
 
     ok(true, "Test is ok");
 });

@@ -1,153 +1,95 @@
-﻿    /*General*/
+﻿.tgrid-table {
+    border: 1px solid;
+    background-color: cornsilk;
+    border-collapse: collapse;
+}
 
-    table.tp-tgrid {
-        border: 1px solid gray;
-    }
+.tgrid-header {
 
-    .dp-grid-wrapper {
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-bottom: 20px;
-        position: relative; 
-    }
+}
 
-    /*Heading*/
-    .dp-mobile-grid-sorting{
-        display: none;
-    }
+tr, td, th {
+    padding: 0.4em 0.6em;
+    border-right:1px solid;
+}
 
-    .dp-grid-heading{
-        display: table;
-        width: 100%;
-    }
+th {
+    border-bottom:1px solid;
+    background-color:azure;
+}
 
-    .dp-grid-column-header {
-        display:table-row;
-        background-color: #e3e3e3;
-    }
+/*Pager*/
+.pagexofx {
 
-    .dp-inner-header {
-        display:table-cell;
-    }
+}
 
-    /*Content*/
-    .dp-grid-content {
-        display:table;
-    }
+li > a, .active {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    background-color: rgb(241, 234, 217);
+}
 
-    .dp-grid-row {
-        display: table-row;
-    }
+li > a:hover {
+    background-color: #ff6a00;
+}
 
-    .dp-grid-cell {
-        display: table-cell;
-    }
+.active {
+    background-color: #A1A1CE;
+}
 
-    .dp-grid-mobile-heading {
-        display: none;
-    }
-    
-    /*Arrows*/
-    .arrow-down {
-        width: 16px;
-        height: 16px; 
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        position: relative;
-        top: 14px;
-        left: 5px;
-        border-top: 8px solid #a6a6a6;/**/
-        /*background-image: url('../../Content/icons/sort_asc.png');
-        background-repeat: no-repeat;/**/
-    }
+.disabled{
+}
 
-    .arrow-up {
-        width: 16px;
-        height: 16px; 
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        position: relative;
-        bottom: 14px;
-        left: 5px;
-        border-bottom: 8px solid #a6a6a6;/**/
-        /*background-image: url('../../Content/icons/sort_desc.png');
-        background-repeat: no-repeat;/**/
-    }
+.disabledPage{
+    background-color: #c66767;
+}
 
-    /*Footer*/
-    .dp-grid-footer {
-        display:table;
-        width: 100%;
-    }
+.currentPage{
 
-    .dp-grid-footer-context {
-        text-align:left;
-    }
+}
 
-    .dp-grid-footer-pager {
-        padding:5px;
-        background-color:brown;
-    }
+span > a {
+    padding: 3px;
+} 
 
-    .dp-grid-paging-first {
-    }
+tfoot > tr > td {
+    border-top:1px solid;
+}
 
-    .dp-grid-paging-previous {
-    }
+/*Arrows*/
+.arrow-down {
+    display:inline;
+    position: relative;
+    top: 14px;
+    left: 5px;
+    /*width: 8px;
+    height: 8px;*/
+    border-top: 8px solid #a6a6a6;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
 
-    .dp-grid-paging-next {
-    }
+.arrow-up {
+    display:inline;
+    position: relative;
+    bottom: 14px;
+    left: 5px;
+    /*width: 8px;
+    height: 8px;*/
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #a6a6a6;
+    border-left: 8px solid transparent;
+}
 
-    .dp-grid-paging-last {
-    }
+ul {
+    display:block;
+    margin: 0;
+    padding: 3px;
+}
 
-    .dp-grid-paging-page {
-        width: 50px;
-    }
-
-
-    @media (max-width: 1024px) {
-        /*Heading*/
-        .dp-grid-mobile-heading {
-            display: table-cell;
-        }
-
-        .dp-grid-heading {
-            display: none;
-        }
-
-        .dp-mobile-grid-sorting{
-            display: table-row;
-            width: 100%;
-        }
-
-        .dp-mobile-grid-sorting-sort {
-        }
-
-        /*Content*/
-        .dp-grid-row {
-            background-color: #e3e3e3;
-            display: block;
-            margin-bottom: 4px;
-            display: table;
-            width: 100%;        
-        }
-
-        .dp-grid-cell-content {
-            display: table-cell !important;
-        }
-
-        .dp-grid-cell {
-            display: table-row;
-        }
-
-        .dp-grid-content {
-            display: block;
-        }
-
-        /*Footer*/
-        .dp-grid-footer {
-            display: table-row;
-        }
-    }
-
+li{
+    display:inline;
+}

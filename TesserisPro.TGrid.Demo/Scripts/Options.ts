@@ -8,19 +8,19 @@ module TesserisPro.TGrid {
 
 	export class Template {
 		private content: string = "";
-        private binding: string = "";	
+		private binding: string = "";	
 
-        constructor(prototype: HTMLElement) {
-            this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
-            this.binding = prototype.getAttribute("data-bind");
-        }
+		constructor(prototype: HTMLElement) {
+			this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
+			this.binding = prototype.getAttribute("data-bind");
+		}
 
-        public apply(element: HTMLElement) {
-            element.innerHTML = this.content != null ? this.content : "";
-            if (this.binding != null && this.binding.length > 0) {
-                element.setAttribute("data-bind", this.binding);
-            }
-        }
+		public apply(element: HTMLElement) {
+			element.innerHTML = this.content != null ? this.content : "";
+			if (this.binding != null && this.binding.length > 0) {
+				element.setAttribute("data-bind", this.binding);
+			}
+		}
 	}
 		   
 	export class Options {
@@ -49,20 +49,20 @@ module TesserisPro.TGrid {
 				this.mainBinding = "";
 			}
 
-            var text = this.target.getElementsByTagName("script").item(0).innerHTML;
+			var text = this.target.getElementsByTagName("script").item(0).innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
 			// Headers
 			var headers = optionsElement.find("header");
 			for (var i = 0; i < headers.length; i++) {
-                var template = new Template(headers[i]);
+				var template = new Template(headers[i]);
 				this.columnHeaders.push(template);
 			}
 
 			// Cells
 			var cells = optionsElement.find("cell");
 			for (var i = 0; i < cells.length; i++) {
-                var cell = new Template(cells[i]);
+				var cell = new Template(cells[i]);
 				this.columnDataField.push(cell);
 			}
 
