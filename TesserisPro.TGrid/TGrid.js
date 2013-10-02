@@ -1,9 +1,12 @@
 var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="Options.ts" />
+    /// <reference path="IHtmlProvider.ts" />
     (function (TGrid) {
         var Grid = (function () {
             function Grid(element, option) {
+                var htmlProvider;
+
                 if (option.framework == TesserisPro.TGrid.Framework.Knockout) {
                     var table = document.createElement("table");
                     table.className = "tgrid-table";
@@ -43,30 +46,9 @@ var TesserisPro;
                     table.appendChild(header);
 
                     // Knockout desktop cells
-                    var body = document.createElement("tbody");
-                    body.setAttribute("data-bind", "foreach:pagedData");
-                    var row = document.createElement("tr");
-                    for (var i = 0; i < option.columnDataField.length; i++) {
-                        var cell = document.createElement("td");
-                        cell.setAttribute("width", option.columnWidth[i]);
-                        option.columnDataField[i].applyKnockout(cell);
-                        row.appendChild(cell);
-                    }
-                    body.appendChild(row);
                     table.appendChild(body);
 
                     // Knockout desktop footer
-                    var footer = document.createElement("tfoot");
-                    var footrow = document.createElement("tr");
-                    var footcell = document.createElement("td");
-                    footcell.setAttribute("align", "center");
-                    footcell.setAttribute("colspan", option.columnHeaders.length.toString());
-                    var data = document.createElement("div");
-
-                    // add paging hire
-                    data.innerHTML = "<div class=\"pagination\"  data-bind=\"template:{ name: 'tpl-pager', data: Pager }\" >" + footcell.appendChild(data);
-                    footrow.appendChild(footcell);
-                    footer.appendChild(footrow);
                     table.appendChild(footer);
                     element.append(table);
                     this.table = table;

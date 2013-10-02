@@ -10,8 +10,9 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void
     {
-        var options = new TesserisPro.TGrid.Options(element);
-        var grid = new TesserisPro.TGrid.Grid(element, options);
+        var $element = $(element);
+        var options = new TesserisPro.TGrid.Options($element, TesserisPro.TGrid.Framework.Knockout);
+        var grid = new TesserisPro.TGrid.Grid($element, options);
         //element.tgrid = grid;
     }
 

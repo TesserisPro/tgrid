@@ -5,5 +5,6 @@ module TesserisPro.TGrid {
         getTableElement(option: Options): HTMLElement;
         getTableHeadElement(option: Options): HTMLElement;
         getTableBodyElement(option: Options): HTMLElement;
+        getTableFooterElement(option: Options): HTMLElement;
     }
 }

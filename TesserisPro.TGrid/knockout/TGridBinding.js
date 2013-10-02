@@ -6,12 +6,10 @@ var TGridBindingHandler = (function () {
         this.options = null;
     }
     TGridBindingHandler.prototype.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        var $element = $(element);
-        var options = new TesserisPro.TGrid.Options($element, TesserisPro.TGrid.Framework.Knockout);
-        var grid = new TesserisPro.TGrid.Grid($element, options);
+        var options = new TesserisPro.TGrid.Options(element);
+        var grid = new TesserisPro.TGrid.Grid(element, options);
         //element.tgrid = grid;
     };
-
     TGridBindingHandler.prototype.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     };
     return TGridBindingHandler;

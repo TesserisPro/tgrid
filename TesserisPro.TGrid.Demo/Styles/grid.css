@@ -1,148 +1,95 @@
-﻿    /*General*/
-    .dp-grid-wrapper {
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-bottom: 20px;
-        position: relative; 
-    }
+﻿.tgrid-table {
+    border: 1px solid;
+    background-color: cornsilk;
+    border-collapse: collapse;
+}
 
-    /*Heading*/
-    .dp-mobile-grid-sorting{
-        display: none;
-    }
+.tgrid-header {
 
-    .dp-grid-heading{
-        display: table;
-        width: 100%;
-    }
+}
 
-    .dp-grid-column-header {
-        display:table-row;
-        background-color: #e3e3e3;
-    }
+tr, td, th {
+    padding: 0.4em 0.6em;
+    border-right:1px solid;
+}
 
-    .dp-inner-header {
-        display:table-cell;
-    }
+th {
+    border-bottom:1px solid;
+    background-color:azure;
+}
 
-    /*Content*/
-    .dp-grid-content {
-        display:table;
-    }
+/*Pager*/
+.pagexofx {
 
-    .dp-grid-row {
-        display: table-row;
-    }
+}
 
-    .dp-grid-cell {
-        display: table-cell;
-    }
+li > a, .active {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    background-color: rgb(241, 234, 217);
+}
 
-    .dp-grid-mobile-heading {
-        display: none;
-    }
-    
-    /*Arrows*/
-    .arrow-down {
-        width: 16px;
-        height: 16px; 
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        position: relative;
-        top: 14px;
-        left: 5px;
-        border-top: 8px solid #a6a6a6;/**/
-        /*background-image: url('../../Content/icons/sort_asc.png');
-        background-repeat: no-repeat;/**/
-    }
+li > a:hover {
+    background-color: #ff6a00;
+}
 
-    .arrow-up {
-        width: 16px;
-        height: 16px; 
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        position: relative;
-        bottom: 14px;
-        left: 5px;
-        border-bottom: 8px solid #a6a6a6;/**/
-        /*background-image: url('../../Content/icons/sort_desc.png');
-        background-repeat: no-repeat;/**/
-    }
+.active {
+    background-color: #A1A1CE;
+}
 
-    /*Footer*/
-    .dp-grid-footer {
-        display:table;
-        width: 100%;
-    }
+.disabled{
+}
 
-    .dp-grid-footer-context {
-        text-align:left;
-    }
+.disabledPage{
+    background-color: #c66767;
+}
 
-    .dp-grid-footer-pager {
-        padding:5px;
-        background-color:brown;
-    }
+.currentPage{
 
-    .dp-grid-paging-first {
-    }
+}
 
-    .dp-grid-paging-previous {
-    }
+span > a {
+    padding: 3px;
+} 
 
-    .dp-grid-paging-next {
-    }
+tfoot > tr > td {
+    border-top:1px solid;
+}
 
-    .dp-grid-paging-last {
-    }
+/*Arrows*/
+.arrow-down {
+    display:inline;
+    position: relative;
+    top: 14px;
+    left: 5px;
+    /*width: 8px;
+    height: 8px;*/
+    border-top: 8px solid #a6a6a6;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
 
-    .dp-grid-paging-page {
-        width: 50px;
-    }
+.arrow-up {
+    display:inline;
+    position: relative;
+    bottom: 14px;
+    left: 5px;
+    /*width: 8px;
+    height: 8px;*/
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #a6a6a6;
+    border-left: 8px solid transparent;
+}
 
+ul {
+    display:block;
+    margin: 0;
+    padding: 3px;
+}
 
-    @media (max-width: 1024px) {
-        /*Heading*/
-        .dp-grid-mobile-heading {
-            display: table-cell;
-        }
-
-        .dp-grid-heading {
-            display: none;
-        }
-
-        .dp-mobile-grid-sorting{
-            display: table-row;
-            width: 100%;
-        }
-
-        .dp-mobile-grid-sorting-sort {
-        }
-
-        /*Content*/
-        .dp-grid-row {
-            background-color: #e3e3e3;
-            display: block;
-            margin-bottom: 4px;
-            display: table;
-            width: 100%;        
-        }
-
-        .dp-grid-cell-content {
-            display: table-cell !important;
-        }
-
-        .dp-grid-cell {
-            display: table-row;
-        }
-
-        .dp-grid-content {
-            display: block;
-        }
-
-        /*Footer*/
-        .dp-grid-footer {
-            display: table-row;
-        }
-    }
-
+li{
+    display:inline;
+}
