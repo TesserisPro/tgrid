@@ -16,12 +16,11 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="angular\Controller.ts" />
+    <TypeScriptCompile Include="BaseHtmlProvider.ts" />
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
-    <Content Include="angular\Controller.js">
-      <DependentUpon>Controller.ts</DependentUpon>
-    </Content>
     <Content Include="IHtmlProvider.ts" />
+    <Content Include="IItemProvider.ts" />
+    <TypeScriptCompile Include="ISortableItemProvider.ts" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\ko.pager.js" />
     <Content Include="knockout\TGridBinding.js">
@@ -41,6 +40,7 @@
     <Content Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <Content Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
     <Content Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\extenders.d.ts" />
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
     <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />

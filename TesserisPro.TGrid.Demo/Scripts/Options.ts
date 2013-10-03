@@ -65,16 +65,11 @@ module TesserisPro.TGrid {
         constructor(element: JQuery, framework: Framework) {
 			this.target = element;
             this.framework = framework;
-
-			if (this.framework == Framework.Knockout) {
-				this.initializeKnockout();
-            }
-            if (this.framework == Framework.Angular) {
-                this.initializeKnockout();
-            }
+            
+    		this.initialize();
 		}
 
-        private initializeKnockout(): void {
+        private initialize(): void {
             this.mainBinding = this.target.attr("data-bind");
 
             if (this.mainBinding == undefined) {
@@ -110,38 +105,6 @@ module TesserisPro.TGrid {
 				this.columnWidth.push(columns[i].attributes['data-g-width'].nodeValue);
 				this.columnDevice.push(columns[i].attributes['data-g-views'].nodeValue);
 			}
-        }
-
-        private initializeAngular(): void {
-            this.mainBinding = this.target.attr("data-bind");
-
-            if (this.mainBinding == undefined) {
-                this.mainBinding = "";
-            }
-
-            var text = this.target.find("script")[0].innerHTML;
-            var optionsElement = $("<div>" + text + "</div");
-
-            // Headers
-            var headers = optionsElement.find("header");
-            for (var i = 0; i < headers.length; i++) {
-                var template = new Template(headers[i]);
-                this.columnHeaders.push(template);
-            }
-
-            // Cells
-            var cells = optionsElement.find("cell");
-            for (var i = 0; i < cells.length; i++) {
-                var cell = new Template(cells[i]);
-                this.columnDataField.push(cell);
-            }
-
-            // Columns width
-            var columns = optionsElement.find("column");
-            for (var i = 0; i < columns.length; i++) {
-                this.columnWidth.push(columns[i].attributes['data-g-width'].nodeValue);
-                this.columnDevice.push(columns[i].attributes['data-g-views'].nodeValue);
-            }
         }
    }
 }

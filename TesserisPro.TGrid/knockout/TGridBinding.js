@@ -1,5 +1,6 @@
 /// <reference path="../Scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../Scripts/typings/extenders.d.ts" />
 /// <reference path="../TGrid.ts" />
 var TGridBindingHandler = (function () {
     function TGridBindingHandler() {
@@ -9,7 +10,7 @@ var TGridBindingHandler = (function () {
         var $element = $(element);
         var options = new TesserisPro.TGrid.Options($element, TesserisPro.TGrid.Framework.Knockout);
         var grid = new TesserisPro.TGrid.Grid($element, options);
-        //element.tgrid = grid;
+        element.grid = grid;
     };
 
     TGridBindingHandler.prototype.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

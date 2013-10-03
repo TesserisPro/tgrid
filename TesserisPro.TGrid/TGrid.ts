@@ -1,36 +1,79 @@
+/// <reference path="Scripts/typings/extenders.d.ts" />
 /// <reference path="Options.ts" />
 /// <reference path="IHtmlProvider.ts" />
+/// <reference path="IItemProvider.ts" />
+/// <reference path="ISortableItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
 
+
 module TesserisPro.TGrid {
 
+    
     export class Grid {
-        public table: any; 
+        private table: HTMLElement; 
+        private tableBody: HTMLElement;
+        private htmlProvider: IHtmlProvider;
+        public itemProvider: IItemProvider;
+        public options: Options;
 
+
+        
         constructor(element: JQuery, option: Options) {
             var htmlProvider: IHtmlProvider;
 
-            htmlProvider = new KnockoutHtmlProvider();
-            if (option.framework == TesserisPro.TGrid.Framework.Knockout)   {
-                this.table = htmlProvider.getTableElement(option);
+            this.htmlProvider = this.getHtmlProvider(option);
+            
+            this.table = htmlProvider.getTableElement(option);
+            this.table.appendChild(htmlProvider.getTableHeadElement(option));
+            this.tableBody = document.createElement("tbody");
+            this.table.appendChild(this.tableBody);
+            
+            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+            
+            this.table.appendChild(htmlProvider.getTableFooterElement(option));
 
-                this.table.appendChild(htmlProvider.getTableHeadElement(option));
-                this.table.appendChild(htmlProvider.getTableBodyElement(option));
-                this.table.appendChild(htmlProvider.getTableFooterElement(option));
+            element.append(this.table)
 
-                element.append(this.table)
+        }
+
+        public sortBy(columnName: string): void {
+            (<ISortableItemProvider><any>this.itemProvider).sort(columnName);
+        }
+
+        public static getGridObject(element: HTMLElement): Grid {
+            if (element.grid == undefined || element.grid == null) {
+                if (element.parentElement == document.body) {
+                    return null;
+                }
+
+                return Grid.getGridObject(element.parentElement);
             }
 
-            htmlProvider = new AngularHtmlProvider();
-            if (option.framework == TesserisPro.TGrid.Framework.Angular) {
-                this.table = htmlProvider.getTableElement(option);
+            return element.grid;
+        }
 
-                this.table.appendChild(htmlProvider.getTableHeadElement(option));
-                this.table.appendChild(htmlProvider.getTableBodyElement(option));
-                this.table.appendChild(htmlProvider.getTableFooterElement(option));
+        
 
-                element.append(this.table)
+        private getFirstItemNumber(): number {
+            return this.options.pageSize * this.options.currentPage;
+        }
+
+        private getPageSize(): number {
+            return this.options.pageSize;
+        }
+
+        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
+            this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, items);
+        }
+
+        private getHtmlProvider(options: Options): IHtmlProvider {
+            if (options.framework == Framework.Knockout) {
+                return new KnockoutHtmlProvider();
+            }
+
+            if (options.framework == Framework.Angular) {
+                return new AngularHtmlProvider();
             }
         }
     }

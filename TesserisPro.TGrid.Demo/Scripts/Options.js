@@ -60,14 +60,9 @@
                 this.target = element;
                 this.framework = framework;
 
-                if (this.framework == Framework.Knockout) {
-                    this.initializeKnockout();
-                }
-                if (this.framework == Framework.Angular) {
-                    this.initializeKnockout();
-                }
+                this.initialize();
             }
-            Options.prototype.initializeKnockout = function () {
+            Options.prototype.initialize = function () {
                 this.mainBinding = this.target.attr("data-bind");
 
                 if (this.mainBinding == undefined) {
@@ -78,38 +73,6 @@
                 this.pageSize = parseInt(rowsAtt);
                 if (isNaN(this.pageSize)) {
                     this.pageSize = 10;
-                }
-
-                var text = this.target.find("script")[0].innerHTML;
-                var optionsElement = $("<div>" + text + "</div");
-
-                // Headers
-                var headers = optionsElement.find("header");
-                for (var i = 0; i < headers.length; i++) {
-                    var template = new Template(headers[i]);
-                    this.columnHeaders.push(template);
-                }
-
-                // Cells
-                var cells = optionsElement.find("cell");
-                for (var i = 0; i < cells.length; i++) {
-                    var cell = new Template(cells[i]);
-                    this.columnDataField.push(cell);
-                }
-
-                // Columns width
-                var columns = optionsElement.find("column");
-                for (var i = 0; i < columns.length; i++) {
-                    this.columnWidth.push(columns[i].attributes['data-g-width'].nodeValue);
-                    this.columnDevice.push(columns[i].attributes['data-g-views'].nodeValue);
-                }
-            };
-
-            Options.prototype.initializeAngular = function () {
-                this.mainBinding = this.target.attr("data-bind");
-
-                if (this.mainBinding == undefined) {
-                    this.mainBinding = "";
                 }
 
                 var text = this.target.find("script")[0].innerHTML;

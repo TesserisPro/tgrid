@@ -1,9 +1,10 @@
 /// <reference path="../TGrid.ts" />
 /// <reference path="../IHtmlProvider.ts" />
+/// <reference path="../BaseHtmlProvider.ts" />
 
 module TesserisPro.TGrid {
 
-    export class AngularHtmlProvider implements IHtmlProvider {
+    export class AngularHtmlProvider extends BaseHtmlProvider {
 
         public getTableElement(option: Options): HTMLElement {
             var controllerName: string = "Ctrl";
@@ -51,8 +52,7 @@ module TesserisPro.TGrid {
             return header;
         }
 
-        public getTableBodyElement(option: Options): HTMLElement {
-            var body = document.createElement("tbody");
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<any>): void {
             var row = document.createElement("tr");
             row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
             for (var i = 0; i < option.columnDataField.length; i++) {
@@ -62,34 +62,6 @@ module TesserisPro.TGrid {
                 row.appendChild(cell);
             }
             body.appendChild(row);
-            return body;
-        }
-
-        public getTableFooterElement(option: Options): HTMLElement {
-            var footer = document.createElement("tfoot");
-            var footrow = document.createElement("tr");
-            var footcell = document.createElement("td");
-            footcell.setAttribute("align", "center");
-            footcell.setAttribute("colspan", option.columnHeaders.length.toString());
-            var data = document.createElement("div");
-
-            // add paging hire
-            data.innerHTML = //option.pageSize.toString() + " items on page";
-            "<div>\
-                    {{firstItemIndex()}} - {{lastItemIndex()}} of {{totalItemCount}} total results.\
-                 </div>\
-                 <ul>\
-                    <li><a href ng-class=\"{disabledPage:currentPage == 0}\" ng-click=\"currentPage = 0\">&laquo;&laquo;</a ></li>\
-                    <li><a href ng-class=\"{disabledPage:currentPage == 0}\" ng-click=\"previousPage()\">&laquo;</a ></li>\
-                    <li class=\"active\">{{currentPage+1}}</li>\
-                    <li><a href ng-class=\"{disabledPage:currentPage == maxPage()}\" ng-click=\"nextPage()\">&raquo;</a></li>\
-                    <li><a href ng-class=\"{disabledPage:currentPage == maxPage()}\" ng-click=\"currentPage = maxPage()\">&raquo;&raquo;</a></li>\
-                 </ul>";
-
-            footcell.appendChild(data);
-            footrow.appendChild(footcell);
-            footer.appendChild(footrow);
-            return footer;
         }
     }
 

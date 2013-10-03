@@ -1,6 +1,8 @@
 /// <reference path="../Scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../Scripts/typings/extenders.d.ts" />
 /// <reference path="../TGrid.ts" />
+
 
 class TGridBindingHandler implements KnockoutBindingHandler  {
     constructor()
@@ -13,7 +15,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         var $element = $(element);
         var options = new TesserisPro.TGrid.Options($element, TesserisPro.TGrid.Framework.Knockout);
         var grid = new TesserisPro.TGrid.Grid($element, options);
-        //element.tgrid = grid;
+        element.grid = grid;
     }
 
     public update(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void
@@ -24,9 +26,6 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     public options: any;  
 }
 
-interface KnockoutBindingHandlers {
-    tgrid: KnockoutBindingHandler;
-}
 
 ko.bindingHandlers.tgrid = new TGridBindingHandler();
 
