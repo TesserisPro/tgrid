@@ -2,56 +2,22 @@ var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="Options.ts" />
     /// <reference path="IHtmlProvider.ts" />
+    /// <reference path="knockout/KnockoutHtmlProvider.ts" />
     (function (TGrid) {
         var Grid = (function () {
             function Grid(element, option) {
                 var htmlProvider;
 
+                htmlProvider = new TGrid.KnockoutHtmlProvider();
+
                 if (option.framework == TesserisPro.TGrid.Framework.Knockout) {
-                    var table = document.createElement("table");
-                    table.className = "tgrid-table";
+                    this.table = htmlProvider.getTableElement(option);
 
-                    // Knockout desktop header
-                    var header = document.createElement("thead");
-                    var head = document.createElement("tr");
-                    head.className = "tgrid-header";
+                    this.table.appendChild(htmlProvider.getTableHeadElement(option));
+                    this.table.appendChild(htmlProvider.getTableBodyElement(option));
+                    this.table.appendChild(htmlProvider.getTableFooterElement(option));
 
-                    for (var i = 0; i < option.columnHeaders.length; i++) {
-                        var headerCell = document.createElement("th");
-                        headerCell.setAttribute("width", option.columnWidth[i]);
-                        option.columnHeaders[i].applyKnockout(headerCell);
-
-                        // Get column
-                        var columnName = option.columnDataField[i].GetBinding();
-                        if (columnName != null && columnName != "") {
-                            columnName = columnName.split(':')[1].trim();
-                        }
-
-                        // Method changing sorting
-                        headerCell.setAttribute("data-bind", "click: function(){" + "if(sort().column == \"" + columnName + "\"){sort({ column : \"" + columnName + "\", order: -1 * sort().order});}" + "else {sort({ column : \"" + columnName + "\", order: 1}); }" + "}");
-
-                        // Arrows
-                        var up = document.createElement("div");
-                        up.classList.add("arrow-up");
-                        up.setAttribute("data-bind", "visible:sort().order == 1 && sort().column == \"" + columnName + "\"");
-                        headerCell.appendChild(up);
-                        var down = document.createElement("div");
-                        down.classList.add("arrow-down");
-                        down.setAttribute("data-bind", "visible:sort().order == -1 && sort().column == \"" + columnName + "\"");
-                        headerCell.appendChild(down);
-
-                        head.appendChild(headerCell);
-                    }
-                    header.appendChild(head);
-                    table.appendChild(header);
-
-                    // Knockout desktop cells
-                    table.appendChild(body);
-
-                    // Knockout desktop footer
-                    table.appendChild(footer);
-                    element.append(table);
-                    this.table = table;
+                    element.append(this.table);
                 }
 
                 if (option.framework == TesserisPro.TGrid.Framework.Angular) {
