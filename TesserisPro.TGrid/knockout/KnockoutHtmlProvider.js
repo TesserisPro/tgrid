@@ -39,7 +39,7 @@ var TesserisPro;
 
                     // Method changing sorting
                     headerCell.onclick = function (e) {
-                        return TGrid.Grid.getGridObject(e.srcElement).sortBy(columnName);
+                        return TGrid.Grid.getGridObject(e.target).sortBy(columnName);
                     };
 
                     // Arrows

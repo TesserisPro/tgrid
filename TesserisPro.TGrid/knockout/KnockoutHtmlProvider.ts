@@ -29,7 +29,7 @@ module TesserisPro.TGrid {
                 }
 
                 // Method changing sorting
-                headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.srcElement).sortBy(columnName);
+                headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(columnName);
                 
                 // Arrows
                 var up = document.createElement("div");

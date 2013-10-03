@@ -9,6 +9,25 @@
 
 module TesserisPro.TGrid {
     
+    class SimpleItemsProvider implements IItemProvider {
+        public getItems(firstItem: number, itemsNumber: number, callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void) {
+            var items = [
+                { name: "a1", key: "a4" },
+                { name: "b1", key: "c3" },
+                { name: "c1", key: "b3" },
+                { name: "a2", key: "a3" },
+                { name: "b2", key: "c2" },
+                { name: "c2", key: "b2" },
+                { name: "a3", key: "a2" },
+                { name: "b3", key: "c1" },
+                { name: "c3", key: "b1" },
+                { name: "a4", key: "a1" }
+            ];
+
+            callback(items, firstItem, itemsNumber);
+        }
+    }
+
     export class Grid {
         private table: HTMLElement; 
         private tableBody: HTMLElement;
@@ -17,12 +36,15 @@ module TesserisPro.TGrid {
         public options: Options;
                 
         constructor(element: JQuery, option: Options) {
+            this.options = option;
             this.htmlProvider = this.getHtmlProvider(option);
             this.table = this.htmlProvider.getTableElement(option);
             this.table.appendChild(this.htmlProvider.getTableHeadElement(option));
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
-            
+
+            this.itemProvider = new SimpleItemsProvider();
+
             this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
             
             this.table.appendChild(this.htmlProvider.getTableFooterElement(option));
@@ -32,7 +54,9 @@ module TesserisPro.TGrid {
         }
 
         public sortBy(columnName: string): void {
-            (<ISortableItemProvider><any>this.itemProvider).sort(columnName);
+            if ((<ISortableItemProvider><any>this.itemProvider).sort != undefined) {
+                (<ISortableItemProvider><any>this.itemProvider).sort(columnName);
+            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {
