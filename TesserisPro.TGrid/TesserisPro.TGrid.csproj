@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="angular\Controller.ts" />
+    <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
     <Content Include="angular\Controller.js">
       <DependentUpon>Controller.ts</DependentUpon>
     </Content>
