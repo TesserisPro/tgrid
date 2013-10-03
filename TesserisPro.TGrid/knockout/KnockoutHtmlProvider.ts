@@ -29,8 +29,8 @@ module TesserisPro.TGrid {
                 }
 
                 // Method changing sorting
-                headerCell.setAttribute("data-bind", "click: TesserisPro.TGrid.Grid.getGridObject().sortBy(" + columnName + ");");
-
+                headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.srcElement).sortBy(columnName);
+                
                 // Arrows
                 var up = document.createElement("div");
                 up.classList.add("arrow-up");

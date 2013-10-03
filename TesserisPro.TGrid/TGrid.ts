@@ -8,7 +8,6 @@
 
 
 module TesserisPro.TGrid {
-
     
     export class Grid {
         private table: HTMLElement; 
@@ -16,22 +15,17 @@ module TesserisPro.TGrid {
         private htmlProvider: IHtmlProvider;
         public itemProvider: IItemProvider;
         public options: Options;
-
-
-        
+                
         constructor(element: JQuery, option: Options) {
-            var htmlProvider: IHtmlProvider;
-
             this.htmlProvider = this.getHtmlProvider(option);
-            
-            this.table = htmlProvider.getTableElement(option);
-            this.table.appendChild(htmlProvider.getTableHeadElement(option));
+            this.table = this.htmlProvider.getTableElement(option);
+            this.table.appendChild(this.htmlProvider.getTableHeadElement(option));
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
             
             this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
             
-            this.table.appendChild(htmlProvider.getTableFooterElement(option));
+            this.table.appendChild(this.htmlProvider.getTableFooterElement(option));
 
             element.append(this.table)
 

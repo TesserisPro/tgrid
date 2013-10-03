@@ -43,7 +43,6 @@ test("TGrid builder test", function () {
 
     var options = new TesserisPro.TGrid.Options(testElement, TesserisPro.TGrid.Framework.Angular);
     var grid = new TesserisPro.TGrid.Grid(testElement, options);
-    var table = grid.table;
 
     ok(true, "Test is ok");
 });

@@ -38,7 +38,9 @@ var TesserisPro;
                     }
 
                     // Method changing sorting
-                    headerCell.setAttribute("data-bind", "click: TesserisPro.TGrid.Grid.getGridObject().sortBy(" + columnName + ");");
+                    headerCell.onclick = function (e) {
+                        return TGrid.Grid.getGridObject(e.srcElement).sortBy(columnName);
+                    };
 
                     // Arrows
                     var up = document.createElement("div");
