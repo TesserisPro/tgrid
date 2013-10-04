@@ -7,10 +7,8 @@ var TGridBindingHandler = (function () {
         this.options = null;
     }
     TGridBindingHandler.prototype.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        var $element = $(element);
-        var options = new TesserisPro.TGrid.Options($element, TesserisPro.TGrid.Framework.Knockout);
-        var grid = new TesserisPro.TGrid.Grid($element, options);
-        element.grid = grid;
+        var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
+        var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     };
 
     TGridBindingHandler.prototype.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

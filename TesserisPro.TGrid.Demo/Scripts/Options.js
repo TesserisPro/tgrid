@@ -8,42 +8,20 @@
         })(TGrid.Framework || (TGrid.Framework = {}));
         var Framework = TGrid.Framework;
 
+        var ColumnInfo = (function () {
+            function ColumnInfo() {
+            }
+            return ColumnInfo;
+        })();
+        TGrid.ColumnInfo = ColumnInfo;
+
         var Template = (function () {
             function Template(prototype) {
                 this.content = "";
-                this.binding = "";
-                this.innerBinding = "";
                 this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
-                if (prototype.firstElementChild != null && prototype.firstElementChild.hasAttribute("data-bind")) {
-                    this.innerBinding = prototype.firstElementChild.getAttribute("data-bind");
-                } else {
-                    this.binding = prototype.getAttribute("data-bind");
-                }
             }
-            Template.prototype.GetBinding = function () {
-                return this.binding != "" ? this.binding : this.innerBinding;
-            };
-
-            Template.prototype.applyKnockout = function (element) {
+            Template.prototype.applyTemplate = function (element) {
                 element.innerHTML = this.content != null ? this.content : "";
-                if (this.binding != null && this.binding.length > 0) {
-                    element.setAttribute("data-bind", this.binding);
-                }
-            };
-
-            Template.prototype.applyAngular = function (element, prefix) {
-                element.innerHTML = this.content != null ? this.content : "";
-                if (this.binding != null && this.binding.length > 0) {
-                    element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}";
-                }
-                if (this.innerBinding != null && this.innerBinding.length > 0) {
-                    if (element.innerHTML != "") {
-                        element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
-                        element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</");
-                    } else {
-                        element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}";
-                    }
-                }
             };
             return Template;
         })();
@@ -51,25 +29,21 @@
 
         var Options = (function () {
             function Options(element, framework) {
+                this.columns = [];
+                // TODO: remove
                 this.columnHeaders = [];
                 this.columnDataField = [];
                 this.columnWidth = [];
                 this.columnDevice = [];
                 this.pageSlide = 1;
                 this.currentPage = 1;
-                this.target = element;
+                this.target = $(element);
                 this.framework = framework;
 
                 this.initialize();
             }
             Options.prototype.initialize = function () {
-                this.mainBinding = this.target.attr("data-bind");
-
-                if (this.mainBinding == undefined) {
-                    this.mainBinding = "";
-                }
-
-                var rowsAtt = this.target.attr("rowOnPage");
+                var rowsAtt = this.target.attr("data-g-page-size");
                 this.pageSize = parseInt(rowsAtt);
                 if (isNaN(this.pageSize)) {
                     this.pageSize = 10;

@@ -1,4 +1,5 @@
 /// <reference path="IHtmlProvider.ts" />
+/// <reference path="ItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 
@@ -14,7 +15,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<any>): void {
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
 
         }
 
@@ -27,7 +28,7 @@ module TesserisPro.TGrid {
             var data = document.createElement("div");
 
             // add paging hire 
-            data.innerHTML = "<div class=\"pagination\"  data-bind=\"template:{ name: 'tpl-pager', data: Pager }\" >" +
+            data.innerHTML = "<div class=\"pagination\"   >" +
 
             footcell.appendChild(data)
                 footrow.appendChild(footcell);

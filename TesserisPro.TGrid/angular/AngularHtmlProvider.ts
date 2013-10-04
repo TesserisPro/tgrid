@@ -1,6 +1,7 @@
 /// <reference path="../TGrid.ts" />
 /// <reference path="../IHtmlProvider.ts" />
 /// <reference path="../BaseHtmlProvider.ts" />
+/// <reference path="../ItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 
@@ -21,16 +22,16 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columnHeaders.length; i++) {
                 var headerCell = document.createElement("th");
                 headerCell.setAttribute("width", option.columnWidth[i]);
-                option.columnHeaders[i].applyAngular(headerCell, "");
+                /*option.columnHeaders[i].applyAngular(headerCell, "");
 
                 // Get column 
                 var columnName = option.columnDataField[i].GetBinding();
                 if (columnName != null && columnName != "") {
                     columnName = columnName.split(':')[1].trim();
                 }
-
+*/
                 // Method changing sorting
-                headerCell.setAttribute("ng-click",
+  /*              headerCell.setAttribute("ng-click",
                     "sortColumn = \"" + columnName + "\";" +
                     "sortOrder=!sortOrder;");
 
@@ -43,7 +44,7 @@ module TesserisPro.TGrid {
                 down.classList.add("arrow-down");
                 down.setAttribute("ng-show", "sortOrder&&sortColumn==\"" + columnName + "\"");
                 headerCell.appendChild(down);
-
+*/
                 head.appendChild(headerCell);
             }
             head.appendChild(headerCell);
@@ -52,15 +53,15 @@ module TesserisPro.TGrid {
             return header;
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<any>): void {
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
             var row = document.createElement("tr");
-            row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
+            /*row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
             for (var i = 0; i < option.columnDataField.length; i++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("width", option.columnWidth[i]);
                 option.columnDataField[i].applyAngular(cell, "item.");
                 row.appendChild(cell);
-            }
+            }*/
             body.appendChild(row);
         }
     }

@@ -4,79 +4,49 @@ module TesserisPro.TGrid {
 
 	export enum Framework { Knockout, Angular }
 
-	
+    export class ColumnInfo {
+        public header: Template;
+        public cell: Template;
+        public width: string;
+        public device: string;
+    }
 
 	export class Template {
 		private content: string = "";
-        private binding: string = "";
-        private innerBinding: string = "";	
-
-        public GetBinding(): string{
-            return this.binding != ""
-            ? this.binding
-            : this.innerBinding;
-        }
 
         constructor(prototype: HTMLElement) {
             this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
-            if (prototype.firstElementChild != null && prototype.firstElementChild.hasAttribute("data-bind")){
-                this.innerBinding = prototype.firstElementChild.getAttribute("data-bind");
-            } else {
-                this.binding = prototype.getAttribute("data-bind");
-            }
         }
 
-        public applyKnockout(element: HTMLElement) {
+        public applyTemplate(element: HTMLElement) {
             element.innerHTML = this.content != null ? this.content : "";
-            if (this.binding != null && this.binding.length > 0) {
-                element.setAttribute("data-bind", this.binding);
-            }
-        }
-
-        public applyAngular(element: HTMLElement, prefix: string) {
-            element.innerHTML = this.content != null ? this.content : "";
-            if (this.binding != null && this.binding.length > 0) {
-                element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
-                }
-            if (this.innerBinding != null && this.innerBinding.length > 0) {
-                if (element.innerHTML != "") {
-                    element.innerHTML = element.innerHTML.replace(this.innerBinding, "");
-                    element.innerHTML = element.innerHTML.replace("</", "{{" + prefix + this.innerBinding.split(':')[1].trim() + "}}</")
-                    } else {
-                    element.innerHTML = "{{" + prefix + this.binding.split(':')[1].trim() + "}}"
-                    }
-            }
-
         }
 	}
 		   
-	export class Options {
-		public mainBinding: string;
-		public columnHeaders: Array<Template> = [];
+    export class Options {
+        public columns: Array<ColumnInfo> = [];
+
+        // TODO: remove
+        public columnHeaders: Array<Template> = [];
 		public columnDataField: Array<Template> = [];
 		public columnWidth: Array<string> = [];
 		public columnDevice: Array<string> = [];
-		public framework: Framework;
-		public target: JQuery;
+
+        public framework: Framework;
+        public target: JQuery;
         public pageSize: number;
         public pageSlide: number = 1;
         public currentPage: number = 1;
 
-        constructor(element: JQuery, framework: Framework) {
-			this.target = element;
+        constructor(element: HTMLElement, framework: Framework) {
+			this.target = $(element);
             this.framework = framework;
             
     		this.initialize();
 		}
 
         private initialize(): void {
-            this.mainBinding = this.target.attr("data-bind");
-
-            if (this.mainBinding == undefined) {
-                this.mainBinding = "";
-            }
-
-            var rowsAtt = this.target.attr("rowOnPage");
+            var rowsAtt = this.target.attr("data-g-page-size");
             this.pageSize = parseInt(rowsAtt);
             if (isNaN(this.pageSize)) {
                 this.pageSize = 10;

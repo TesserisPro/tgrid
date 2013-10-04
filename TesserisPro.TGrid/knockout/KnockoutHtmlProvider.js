@@ -9,6 +9,7 @@ var TesserisPro;
     /// <reference path="../TGrid.ts" />
     /// <reference path="../IHtmlProvider.ts" />
     /// <reference path="../BaseHtmlProvider.ts" />
+    /// <reference path="../ItemViewModel.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -29,13 +30,7 @@ var TesserisPro;
                 for (var i = 0; i < option.columnHeaders.length; i++) {
                     var headerCell = document.createElement("th");
                     headerCell.setAttribute("width", option.columnWidth[i]);
-                    option.columnHeaders[i].applyKnockout(headerCell);
-
-                    // Get column
-                    var columnName = option.columnDataField[i].GetBinding();
-                    if (columnName != null && columnName != "") {
-                        columnName = columnName.split(':')[1].trim();
-                    }
+                    option.columnHeaders[i].applyTemplate(headerCell);
 
                     // Method changing sorting
                     headerCell.onclick = function (e) {
@@ -61,15 +56,17 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
-                body.setAttribute("data-bind", "foreach: pagedData");
-                var row = document.createElement("tr");
-                for (var i = 0; i < option.columnDataField.length; i++) {
-                    var cell = document.createElement("td");
-                    cell.setAttribute("width", option.columnWidth[i]);
-                    option.columnDataField[i].applyKnockout(cell);
-                    row.appendChild(cell);
+                for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+                    var row = document.createElement("tr");
+                    for (var i = 0; i < option.columnDataField.length; i++) {
+                        var cell = document.createElement("td");
+                        cell.setAttribute("width", option.columnWidth[i]);
+                        option.columnDataField[i].applyTemplate(cell);
+                        row.appendChild(cell);
+                    }
+                    body.appendChild(row);
+                    ko.applyBindings(items[itemIndex], row);
                 }
-                body.appendChild(row);
             };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);

@@ -1,6 +1,7 @@
 var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="IHtmlProvider.ts" />
+    /// <reference path="ItemViewModel.ts" />
     (function (TGrid) {
         var BaseHtmlProvider = (function () {
             function BaseHtmlProvider() {
@@ -27,7 +28,7 @@ var TesserisPro;
                 var data = document.createElement("div");
 
                 // add paging hire
-                data.innerHTML = "<div class=\"pagination\"  data-bind=\"template:{ name: 'tpl-pager', data: Pager }\" >" + footcell.appendChild(data);
+                data.innerHTML = "<div class=\"pagination\"   >" + footcell.appendChild(data);
                 footrow.appendChild(footcell);
                 footer.appendChild(footrow);
 

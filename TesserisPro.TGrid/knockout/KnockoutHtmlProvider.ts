@@ -1,6 +1,7 @@
 /// <reference path="../TGrid.ts" />
 /// <reference path="../IHtmlProvider.ts" />
 /// <reference path="../BaseHtmlProvider.ts" />
+/// <reference path="../ItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 
@@ -20,14 +21,8 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columnHeaders.length; i++) {
                 var headerCell = document.createElement("th");
                 headerCell.setAttribute("width", option.columnWidth[i]);
-                option.columnHeaders[i].applyKnockout(headerCell);
-
-                // Get column 
-                var columnName = option.columnDataField[i].GetBinding();
-                if (columnName != null && columnName != "") {
-                    columnName = columnName.split(':')[1].trim();
-                }
-
+                option.columnHeaders[i].applyTemplate(headerCell);
+                
                 // Method changing sorting
                 headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(columnName);
                 
@@ -42,6 +37,7 @@ module TesserisPro.TGrid {
                 headerCell.appendChild(down);
 
                 head.appendChild(headerCell);
+
             }
 
             header.appendChild(head);
@@ -49,16 +45,18 @@ module TesserisPro.TGrid {
             return header;
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<any>): void {
-            body.setAttribute("data-bind", "foreach: pagedData");
-            var row = document.createElement("tr");
-            for (var i = 0; i < option.columnDataField.length; i++) {
-                var cell = document.createElement("td");
-                cell.setAttribute("width", option.columnWidth[i]);
-                option.columnDataField[i].applyKnockout(cell);
-                row.appendChild(cell);
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
+            for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+                var row = document.createElement("tr");
+                for (var i = 0; i < option.columnDataField.length; i++) {
+                    var cell = document.createElement("td");
+                    cell.setAttribute("width", option.columnWidth[i]);
+                    option.columnDataField[i].applyTemplate(cell);
+                    row.appendChild(cell);
+                }
+                body.appendChild(row);
+                ko.applyBindings(items[itemIndex], row);
             }
-            body.appendChild(row);
         }
     }
     

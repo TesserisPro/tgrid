@@ -6,56 +6,39 @@
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
 
-
 module TesserisPro.TGrid {
-    
-    class SimpleItemsProvider implements IItemProvider {
-        public getItems(firstItem: number, itemsNumber: number, callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void) {
-            var items = [
-                { name: "a1", key: "a4" },
-                { name: "b1", key: "c3" },
-                { name: "c1", key: "b3" },
-                { name: "a2", key: "a3" },
-                { name: "b2", key: "c2" },
-                { name: "c2", key: "b2" },
-                { name: "a3", key: "a2" },
-                { name: "b3", key: "c1" },
-                { name: "c3", key: "b1" },
-                { name: "a4", key: "a1" }
-            ];
-
-            callback(items, firstItem, itemsNumber);
-        }
-    }
 
     export class Grid {
-        private table: HTMLElement; 
+        private targetElement: HTMLElement;
+        private table: HTMLElement;
         private tableBody: HTMLElement;
         private htmlProvider: IHtmlProvider;
-        public itemProvider: IItemProvider;
-        public options: Options;
+        private itemProvider: IItemProvider;
+        private options: Options;
                 
-        constructor(element: JQuery, option: Options) {
-            this.options = option;
-            this.htmlProvider = this.getHtmlProvider(option);
-            this.table = this.htmlProvider.getTableElement(option);
-            this.table.appendChild(this.htmlProvider.getTableHeadElement(option));
+        constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
+            element.grid = this;
+            this.targetElement = element;
+            this.options = options;
+            this.itemProvider = provider;
+
+            this.htmlProvider = this.getHtmlProvider(this.options);
+            this.table = this.htmlProvider.getTableElement(this.options);
+            this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
 
-            this.itemProvider = new SimpleItemsProvider();
-
-            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
             
-            this.table.appendChild(this.htmlProvider.getTableFooterElement(option));
+            
+            this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
 
-            element.append(this.table)
-
+            element.appendChild(this.table);
         }
 
         public sortBy(columnName: string): void {
             if ((<ISortableItemProvider><any>this.itemProvider).sort != undefined) {
                 (<ISortableItemProvider><any>this.itemProvider).sort(columnName);
+                this.refreshTableBody();
             }
         }
 
@@ -82,7 +65,12 @@ module TesserisPro.TGrid {
         }
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
-            this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, items);
+            var itemModels: Array<ItemViewModel> = [];
+
+            for (var i = 0; i < items.length; i++) {
+                itemModels.push(new ItemViewModel(null, items[i]));
+            }
+            setTimeout(() => this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, itemModels), 1);
         }
 
         private getHtmlProvider(options: Options): IHtmlProvider {
@@ -93,6 +81,10 @@ module TesserisPro.TGrid {
             if (options.framework == Framework.Angular) {
                 return new AngularHtmlProvider();
             }
+        }
+
+        private refreshTableBody() {
+            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
         }
     }
 }
