@@ -11,7 +11,6 @@ module TesserisPro.TGrid {
             var controllerName: string = "Ctrl";
             var table = document.createElement("table");
             table.setAttribute("ng-controller", controllerName);
-            //table.setAttribute("border", "2");
             table.className = "tgrid-table";
             return table;
         }
@@ -19,19 +18,18 @@ module TesserisPro.TGrid {
         public getTableHeadElement(option: Options): HTMLElement {
             var header = document.createElement("thead");
             var head = document.createElement("tr");
-            for (var i = 0; i < option.columnHeaders.length; i++) {
+            for (var i = 0; i < option.columns.length; i++) {
                 var headerCell = document.createElement("th");
-                headerCell.setAttribute("width", option.columnWidth[i]);
-                /*option.columnHeaders[i].applyAngular(headerCell, "");
+                headerCell.setAttribute("width", option.columns[i].width);
+                option.columns[i].header.applyTemplate(headerCell);
 
                 // Get column 
-                var columnName = option.columnDataField[i].GetBinding();
+                /*var columnName = option.columnDataField[i].GetBinding();
                 if (columnName != null && columnName != "") {
                     columnName = columnName.split(':')[1].trim();
                 }
-*/
-                // Method changing sorting
-  /*              headerCell.setAttribute("ng-click",
+               // Method changing sorting
+               headerCell.setAttribute("ng-click",
                     "sortColumn = \"" + columnName + "\";" +
                     "sortOrder=!sortOrder;");
 
@@ -55,13 +53,13 @@ module TesserisPro.TGrid {
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
             var row = document.createElement("tr");
-            /*row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
-            for (var i = 0; i < option.columnDataField.length; i++) {
-                var cell = document.createElement("td");
-                cell.setAttribute("width", option.columnWidth[i]);
-                option.columnDataField[i].applyAngular(cell, "item.");
-                row.appendChild(cell);
-            }*/
+            //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
+            //for (var i = 0; i < option.columns.length; i++) {
+            //    var cell = document.createElement("td");
+            //    cell.setAttribute("width", option.columns[i].width);
+            //    option.columns[i].cell.applyTemplate(cell);
+            //    row.appendChild(cell);
+            //}
             body.appendChild(row);
         }
     }

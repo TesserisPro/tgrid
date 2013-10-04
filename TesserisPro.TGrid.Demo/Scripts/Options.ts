@@ -26,12 +26,6 @@ module TesserisPro.TGrid {
     export class Options {
         public columns: Array<ColumnInfo> = [];
 
-        // TODO: remove
-        public columnHeaders: Array<Template> = [];
-		public columnDataField: Array<Template> = [];
-		public columnWidth: Array<string> = [];
-		public columnDevice: Array<string> = [];
-
         public framework: Framework;
         public target: JQuery;
         public pageSize: number;
@@ -46,8 +40,8 @@ module TesserisPro.TGrid {
 		}
 
         private initialize(): void {
-            var rowsAtt = this.target.attr("data-g-page-size");
-            this.pageSize = parseInt(rowsAtt);
+            var pageSizeAtt = this.target.attr("data-g-page-size");
+            this.pageSize = parseInt(pageSizeAtt);
             if (isNaN(this.pageSize)) {
                 this.pageSize = 10;
             }
@@ -55,26 +49,24 @@ module TesserisPro.TGrid {
 			var text = this.target.find("script")[0].innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
-			// Headers
-			var headers = optionsElement.find("header");
-			for (var i = 0; i < headers.length; i++) {
-                var template = new Template(headers[i]);
-				this.columnHeaders.push(template);
-			}
-
-			// Cells
+            var headers = optionsElement.find("header");
 			var cells = optionsElement.find("cell");
-			for (var i = 0; i < cells.length; i++) {
-                var cell = new Template(cells[i]);
-				this.columnDataField.push(cell);
-			}
+            var columns = optionsElement.find("column");
 
-			// Columns width
-			var columns = optionsElement.find("column");
-			for (var i = 0; i < columns.length; i++) {
-				this.columnWidth.push(columns[i].attributes['data-g-width'].nodeValue);
-				this.columnDevice.push(columns[i].attributes['data-g-views'].nodeValue);
-			}
+            for (var i = 0; i < headers.length; i++) {
+                var column = new ColumnInfo();
+
+                var header = new Template(headers[i]);
+                column.header = header;
+
+                var cell = new Template(cells[i]);
+                column.cell = cell;
+
+                column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
+                column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
+
+                this.columns.push(column);
+            }
         }
    }
 }

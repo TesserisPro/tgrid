@@ -21,23 +21,24 @@ module TesserisPro.TGrid {
             this.targetElement = element;
             this.options = options;
             this.itemProvider = provider;
-
             this.htmlProvider = this.getHtmlProvider(this.options);
+
             this.table = this.htmlProvider.getTableElement(this.options);
             this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
 
-            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
-            
             this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
 
+            this.refreshTableBody()
+            
             element.appendChild(this.table);
         }
 
-        public sortBy(columnName: string): void {
+        public sortBy(columnNumber: number): void {
             if ((<ISortableItemProvider><any>this.itemProvider).sort != undefined) {
-                (<ISortableItemProvider><any>this.itemProvider).sort(columnName);
+                (<ISortableItemProvider><any>this.itemProvider).sort(columnNumber);
+                this.refreshTableBody();
             }
         }
 
@@ -52,8 +53,6 @@ module TesserisPro.TGrid {
 
             return element.grid;
         }
-
-        
 
         private getFirstItemNumber(): number {
             return this.options.pageSize * this.options.currentPage;
@@ -80,6 +79,10 @@ module TesserisPro.TGrid {
             if (options.framework == Framework.Angular) {
                 return new AngularHtmlProvider();
             }
+        }
+
+        private refreshTableBody() {
+            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
         }
     }
 }

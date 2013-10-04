@@ -27,26 +27,25 @@ var TesserisPro;
                 var head = document.createElement("tr");
                 head.className = "tgrid-header";
 
-                for (var i = 0; i < option.columnHeaders.length; i++) {
+                for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
-                    headerCell.setAttribute("width", option.columnWidth[i]);
-                    option.columnHeaders[i].applyTemplate(headerCell);
+                    headerCell.setAttribute("width", option.columns[i].width);
+                    option.columns[i].header.applyTemplate(headerCell);
 
                     // Method changing sorting
                     headerCell.onclick = function (e) {
-                        return TGrid.Grid.getGridObject(e.target).sortBy(columnName);
+                        return TGrid.Grid.getGridObject(e.target).sortBy(i);
                     };
 
                     // Arrows
-                    var up = document.createElement("div");
+                    /*var up = document.createElement("div");
                     up.classList.add("arrow-up");
                     up.setAttribute("data-bind", "visible:sort().order == 1 && sort().column == \"" + columnName + "\"");
                     headerCell.appendChild(up);
                     var down = document.createElement("div");
                     down.classList.add("arrow-down");
                     down.setAttribute("data-bind", "visible:sort().order == -1 && sort().column == \"" + columnName + "\"");
-                    headerCell.appendChild(down);
-
+                    headerCell.appendChild(down);*/
                     head.appendChild(headerCell);
                 }
 
@@ -58,10 +57,10 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
-                    for (var i = 0; i < option.columnDataField.length; i++) {
+                    for (var i = 0; i < option.columns.length; i++) {
                         var cell = document.createElement("td");
-                        cell.setAttribute("width", option.columnWidth[i]);
-                        option.columnDataField[i].applyTemplate(cell);
+                        cell.setAttribute("width", option.columns[i].width);
+                        option.columns[i].cell.applyTemplate(cell);
                         row.appendChild(cell);
                     }
                     body.appendChild(row);

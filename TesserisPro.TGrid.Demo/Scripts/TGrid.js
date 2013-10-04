@@ -10,29 +10,27 @@ var TesserisPro;
     (function (TGrid) {
         var Grid = (function () {
             function Grid(element, options, provider) {
-                var _this = this;
                 element.grid = this;
                 this.targetElement = element;
                 this.options = options;
                 this.itemProvider = provider;
-
                 this.htmlProvider = this.getHtmlProvider(this.options);
+
                 this.table = this.htmlProvider.getTableElement(this.options);
                 this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
                 this.tableBody = document.createElement("tbody");
                 this.table.appendChild(this.tableBody);
 
-                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), function (items, first, count) {
-                    return _this.updateItems(items, first, count);
-                });
-
                 this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
+
+                this.refreshTableBody();
 
                 element.appendChild(this.table);
             }
-            Grid.prototype.sortBy = function (columnName) {
+            Grid.prototype.sortBy = function (columnNumber) {
                 if ((this.itemProvider).sort != undefined) {
-                    (this.itemProvider).sort(columnName);
+                    (this.itemProvider).sort(columnNumber);
+                    this.refreshTableBody();
                 }
             };
 
@@ -76,6 +74,13 @@ var TesserisPro;
                 if (options.framework == TGrid.Framework.Angular) {
                     return new TGrid.AngularHtmlProvider();
                 }
+            };
+
+            Grid.prototype.refreshTableBody = function () {
+                var _this = this;
+                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), function (items, first, count) {
+                    return _this.updateItems(items, first, count);
+                });
             };
             return Grid;
         })();

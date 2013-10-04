@@ -24,11 +24,13 @@ var TesserisPro;
                 var footrow = document.createElement("tr");
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
-                footcell.setAttribute("colspan", option.columnHeaders.length.toString());
+                footcell.setAttribute("colspan", option.columns.length.toString());
                 var data = document.createElement("div");
 
                 // add paging hire
-                data.innerHTML = "<div class=\"pagination\"   >" + footcell.appendChild(data);
+                data.innerHTML = "<div>Paging</div>";
+
+                footcell.appendChild(data);
                 footrow.appendChild(footcell);
                 footer.appendChild(footrow);
 

@@ -14,8 +14,8 @@ var TesserisPro;
                 this.targetElement = element;
                 this.options = options;
                 this.itemProvider = provider;
-
                 this.htmlProvider = this.getHtmlProvider(this.options);
+
                 this.table = this.htmlProvider.getTableElement(this.options);
                 this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
                 this.tableBody = document.createElement("tbody");
@@ -23,11 +23,13 @@ var TesserisPro;
 
                 this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
 
+                this.refreshTableBody();
+
                 element.appendChild(this.table);
             }
-            Grid.prototype.sortBy = function (columnName) {
+            Grid.prototype.sortBy = function (columnNumber) {
                 if ((this.itemProvider).sort != undefined) {
-                    (this.itemProvider).sort(columnName);
+                    (this.itemProvider).sort(columnNumber);
                     this.refreshTableBody();
                 }
             };
@@ -53,10 +55,11 @@ var TesserisPro;
             };
 
             Grid.prototype.updateItems = function (items, firstItem, itemsNumber) {
+                var _this = this;
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {
-                    itemModels.push(new ItemViewModel(null, items[i]));
+                    itemModels.push(new TGrid.ItemViewModel(null, items[i]));
                 }
                 setTimeout(function () {
                     return _this.htmlProvider.updateTableBodyElement(_this.options, _this.tableBody, itemModels);
@@ -74,6 +77,7 @@ var TesserisPro;
             };
 
             Grid.prototype.refreshTableBody = function () {
+                var _this = this;
                 this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), function (items, first, count) {
                     return _this.updateItems(items, first, count);
                 });

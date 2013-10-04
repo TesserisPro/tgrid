@@ -70,7 +70,7 @@
         <column data-g-width="100" data-g-views="mobile,desktop">
             <header>Key</header>
             <cell>
-                <span style="color: red;" data-bind="text: item.key"></span>
+                <span data-bind="text: item.key"></span>
             </cell>
         </column>
       
@@ -107,22 +107,16 @@
         return SimpleItemsProvider;
     })();
 
-
     function vm() {
         var self = this;
         self.nameColumnTitle = "Name";
        
         self.itemsProvider = new SimpleItemsProvider();
 
-        self.sort = ko.observable({ column: "name", order: -1 });
-
-        self.sortedData = ko.computed(function (a, b) {
-            return null;
-        });
-
-        self.currentPage = ko.observable(1);
-        
-        self.TotalItemCount = ko.observable(10);
+        //self.sort = ko.observable({ column: "name", order: -1 });
+        //self.sortedData = ko.computed(function (a, b) {return null;});
+        //self.currentPage = ko.observable(1);
+        //self.TotalItemCount = ko.observable(10);
     };
 
     $(function () {
@@ -136,16 +130,16 @@
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop">
             <header>
-                <span style="color: red;" data-bind="text: nameColumnTitle"></span>
+                <span style="color: red;">{{nameColumnTitle}}</span>
             </header>
             <cell>
-                <span style="color: red;" data-bind="text: name"></span>
+                <span style="color: red;">{{name}}</span>
             </cell>
         </column>
         <column data-g-width="100" data-g-views="mobile,desktop">
             <header>Key</header>
             <cell>
-                <span style="color: red;" data-bind="text: item.key"></span>
+                <span style="color: red;">{{key}}</span>
             </cell>
         </column>
       
