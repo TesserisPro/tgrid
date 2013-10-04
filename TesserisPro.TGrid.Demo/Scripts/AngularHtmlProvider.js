@@ -24,7 +24,7 @@ var TesserisPro;
                 return table;
             };
 
-            AngularHtmlProvider.prototype.getTableHeadElement = function (option) {
+            AngularHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 var header = document.createElement("thead");
                 var head = document.createElement("tr");
                 for (var i = 0; i < option.columns.length; i++) {
@@ -62,13 +62,14 @@ var TesserisPro;
 
             AngularHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
                 var row = document.createElement("tr");
-                row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
-                for (var i = 0; i < option.columns.length; i++) {
-                    var cell = document.createElement("td");
-                    cell.setAttribute("width", option.columns[i].width);
-                    option.columns[i].cell.applyTemplate(cell);
-                    row.appendChild(cell);
-                }
+
+                //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
+                //for (var i = 0; i < option.columns.length; i++) {
+                //    var cell = document.createElement("td");
+                //    cell.setAttribute("width", option.columns[i].width);
+                //    option.columns[i].cell.applyTemplate(cell);
+                //    row.appendChild(cell);
+                //}
                 body.appendChild(row);
             };
             return AngularHtmlProvider;

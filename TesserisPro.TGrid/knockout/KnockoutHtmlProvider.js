@@ -22,7 +22,7 @@ var TesserisPro;
                 return table;
             };
 
-            KnockoutHtmlProvider.prototype.getTableHeadElement = function (option) {
+            KnockoutHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 var header = document.createElement("thead");
                 var head = document.createElement("tr");
                 head.className = "tgrid-header";
@@ -33,19 +33,24 @@ var TesserisPro;
                     option.columns[i].header.applyTemplate(headerCell);
 
                     // Method changing sorting
-                    headerCell.onclick = function (e) {
-                        return TGrid.Grid.getGridObject(e.target).sortBy(i);
-                    };
+                    (function (i) {
+                        headerCell.onclick = function (e) {
+                            return TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
+                        };
+                    })(i);
 
-                    // Arrows
-                    /*var up = document.createElement("div");
-                    up.classList.add("arrow-up");
-                    up.setAttribute("data-bind", "visible:sort().order == 1 && sort().column == \"" + columnName + "\"");
-                    headerCell.appendChild(up);
-                    var down = document.createElement("div");
-                    down.classList.add("arrow-down");
-                    down.setAttribute("data-bind", "visible:sort().order == -1 && sort().column == \"" + columnName + "\"");
-                    headerCell.appendChild(down);*/
+                    if (isSortable) {
+                        if (option.sortDescriptor.column == option.columns[i].sortMemberPath && option.sortDescriptor.asc) {
+                            var up = document.createElement("div");
+                            up.classList.add("arrow-up");
+                            headerCell.appendChild(up);
+                        }
+                        if (option.sortDescriptor.column == option.columns[i].sortMemberPath && !option.sortDescriptor.asc) {
+                            var down = document.createElement("div");
+                            down.classList.add("arrow-down");
+                            headerCell.appendChild(down);
+                        }
+                    }
                     head.appendChild(headerCell);
                 }
 
@@ -55,6 +60,7 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
+                body.innerHTML = '';
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
                     for (var i = 0; i < option.columns.length; i++) {

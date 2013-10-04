@@ -45,6 +45,7 @@
     <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
     <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />
     <Content Include="Scripts\typings\knockout\knockout.d.ts" />
+    <TypeScriptCompile Include="SortDescriptor.ts" />
     <Content Include="Styles\grid.css" />
     <Content Include="TGrid.js">
       <DependentUpon>TGrid.ts</DependentUpon>

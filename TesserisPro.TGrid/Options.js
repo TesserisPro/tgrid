@@ -1,6 +1,7 @@
 ﻿var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="Scripts/typings/jquery/jquery.d.ts" />
+    /// <reference path="SortDescriptor.ts" />
     (function (TGrid) {
         (function (Framework) {
             Framework[Framework["Knockout"] = 0] = "Knockout";
@@ -60,11 +61,13 @@
                     var cell = new Template(cells[i]);
                     column.cell = cell;
 
+                    column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
                     column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                     column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 
                     this.columns.push(column);
                 }
+                this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, false);
             };
             return Options;
         })();

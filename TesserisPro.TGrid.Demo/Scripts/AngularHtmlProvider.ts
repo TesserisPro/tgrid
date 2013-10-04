@@ -15,7 +15,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options): HTMLElement {
+        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
             var header = document.createElement("thead");
             var head = document.createElement("tr");
             for (var i = 0; i < option.columns.length; i++) {
@@ -53,13 +53,13 @@ module TesserisPro.TGrid {
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
             var row = document.createElement("tr");
-            row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
-            for (var i = 0; i < option.columns.length; i++) {
-                var cell = document.createElement("td");
-                cell.setAttribute("width", option.columns[i].width);
-                option.columns[i].cell.applyTemplate(cell);
-                row.appendChild(cell);
-            }
+            //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
+            //for (var i = 0; i < option.columns.length; i++) {
+            //    var cell = document.createElement("td");
+            //    cell.setAttribute("width", option.columns[i].width);
+            //    option.columns[i].cell.applyTemplate(cell);
+            //    row.appendChild(cell);
+            //}
             body.appendChild(row);
         }
     }

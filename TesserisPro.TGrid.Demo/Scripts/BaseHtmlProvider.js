@@ -12,7 +12,7 @@ var TesserisPro;
                 return table;
             };
 
-            BaseHtmlProvider.prototype.getTableHeadElement = function (option) {
+            BaseHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 return null;
             };
 

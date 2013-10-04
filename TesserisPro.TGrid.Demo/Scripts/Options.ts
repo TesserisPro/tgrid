@@ -1,4 +1,5 @@
 ﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="SortDescriptor.ts" />
 
 module TesserisPro.TGrid {
 
@@ -9,6 +10,7 @@ module TesserisPro.TGrid {
         public cell: Template;
         public width: string;
         public device: string;
+        public sortMemberPath: string;
     }
 
 	export class Template {
@@ -31,12 +33,13 @@ module TesserisPro.TGrid {
         public pageSize: number;
         public pageSlide: number = 1;
         public currentPage: number = 1;
+        public sortDescriptor: SortDescriptor;
 
         constructor(element: HTMLElement, framework: Framework) {
 			this.target = $(element);
             this.framework = framework;
             
-    		this.initialize();
+            this.initialize();
 		}
 
         private initialize(): void {
@@ -62,11 +65,13 @@ module TesserisPro.TGrid {
                 var cell = new Template(cells[i]);
                 column.cell = cell;
 
+                column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 
                 this.columns.push(column);
             }
+            this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, false);
         }
-   }
+    }
 }

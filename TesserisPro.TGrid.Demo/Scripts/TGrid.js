@@ -17,7 +17,8 @@ var TesserisPro;
                 this.htmlProvider = this.getHtmlProvider(this.options);
 
                 this.table = this.htmlProvider.getTableElement(this.options);
-                this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
+
+                this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options, this.isSortable()));
                 this.tableBody = document.createElement("tbody");
                 this.table.appendChild(this.tableBody);
 
@@ -27,11 +28,21 @@ var TesserisPro;
 
                 element.appendChild(this.table);
             }
-            Grid.prototype.sortBy = function (columnNumber) {
-                if ((this.itemProvider).sort != undefined) {
-                    (this.itemProvider).sort(columnNumber);
+            Grid.prototype.sortBy = function (name) {
+                if (this.isSortable()) {
+                    if (name == this.options.sortDescriptor.column) {
+                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                    } else {
+                        this.options.sortDescriptor.column = name;
+                        this.options.sortDescriptor.asc = false;
+                    }
+                    (this.itemProvider).sort(this.options.sortDescriptor);
                     this.refreshTableBody();
                 }
+            };
+
+            Grid.prototype.isSortable = function () {
+                return (this.itemProvider).sort != undefined ? true : false;
             };
 
             Grid.getGridObject = function (element) {

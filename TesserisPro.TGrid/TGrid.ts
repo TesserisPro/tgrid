@@ -24,7 +24,8 @@ module TesserisPro.TGrid {
             this.htmlProvider = this.getHtmlProvider(this.options);
 
             this.table = this.htmlProvider.getTableElement(this.options);
-            this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options));
+
+            this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options, this.isSortable()));
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
 
@@ -35,11 +36,21 @@ module TesserisPro.TGrid {
             element.appendChild(this.table);
         }
 
-        public sortBy(columnNumber: number): void {
-            if ((<ISortableItemProvider><any>this.itemProvider).sort != undefined) {
-                (<ISortableItemProvider><any>this.itemProvider).sort(columnNumber);
+        public sortBy(name: string): void {
+            if (this.isSortable()) {
+                if (name == this.options.sortDescriptor.column) {
+                    this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                } else {
+                    this.options.sortDescriptor.column = name;
+                    this.options.sortDescriptor.asc = false;
+                }
+                (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
                 this.refreshTableBody();
             }
+        }
+
+        public isSortable(): boolean {
+            return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
         }
 
         public static getGridObject(element: HTMLElement): Grid {

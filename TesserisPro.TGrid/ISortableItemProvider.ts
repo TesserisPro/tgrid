@@ -1,6 +1,6 @@
 module TesserisPro.TGrid {
 
     export interface ISortableItemProvider {
-        sort(columnNumber: number): void;
+        sort(sortDescriptor: SortDescriptor): void;
     }
 }

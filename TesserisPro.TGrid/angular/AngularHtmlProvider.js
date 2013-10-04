@@ -24,7 +24,7 @@ var TesserisPro;
                 return table;
             };
 
-            AngularHtmlProvider.prototype.getTableHeadElement = function (option) {
+            AngularHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 var header = document.createElement("thead");
                 var head = document.createElement("tr");
                 for (var i = 0; i < option.columns.length; i++) {

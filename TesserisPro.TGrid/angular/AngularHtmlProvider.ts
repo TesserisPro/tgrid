@@ -15,7 +15,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options): HTMLElement {
+        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
             var header = document.createElement("thead");
             var head = document.createElement("tr");
             for (var i = 0; i < option.columns.length; i++) {

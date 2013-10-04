@@ -11,7 +11,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options): HTMLElement {
+        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
             return null;
         }
 
