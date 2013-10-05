@@ -34,7 +34,7 @@ module TesserisPro.TGrid {
 
             this.tableFooter = document.createElement("tfoot");
             this.table.appendChild(this.tableFooter);
-
+           
             element.appendChild(this.table);
 
             this.refreshTableBody();

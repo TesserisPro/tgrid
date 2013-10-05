@@ -42,7 +42,7 @@
                 var pageSizeAtt = this.target.attr("data-g-page-size");
                 this.pageSize = parseInt(pageSizeAtt);
                 if (isNaN(this.pageSize)) {
-                    this.pageSize = 10;
+                    this.pageSize = 5;
                 }
 
                 var text = this.target.find("script")[0].innerHTML;

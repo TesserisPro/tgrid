@@ -102,9 +102,15 @@
 
         function SimpleItemsProvider() {
         }
+
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, callback) {
-            callback(items, firstItem, itemsNumber);
+            callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
         };
+
+        SimpleItemsProvider.prototype.getTotalItemsCount = function (callback) {
+            callback(items.length);
+        };
+
         SimpleItemsProvider.prototype.sort = function (sortDescriptor) {
             items.sort(function (a, b) {
                 var ascOrder = sortDescriptor.asc ? -1 : 1;

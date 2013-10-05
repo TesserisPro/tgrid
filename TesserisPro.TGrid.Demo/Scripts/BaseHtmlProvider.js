@@ -12,7 +12,7 @@ var TesserisPro;
                 return table;
             };
 
-            BaseHtmlProvider.prototype.getTableHeadElement = function (option) {
+            BaseHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 return null;
             };
 
@@ -23,7 +23,7 @@ var TesserisPro;
                 var footrow = document.createElement("tr");
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
-                footcell.setAttribute("colspan", option.columnHeaders.length.toString());
+                footcell.setAttribute("colspan", option.columns.length.toString());
 
                 var firstVisiblePage = option.currentPage - Math.ceil(option.pageSlide / 2);
 

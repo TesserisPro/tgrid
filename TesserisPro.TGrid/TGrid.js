@@ -19,14 +19,17 @@ var TesserisPro;
                 this.table = this.htmlProvider.getTableElement(this.options);
 
                 this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options, this.isSortable()));
+
                 this.tableBody = document.createElement("tbody");
                 this.table.appendChild(this.tableBody);
 
-                this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
-
-                this.refreshTableBody();
+                this.tableFooter = document.createElement("tfoot");
+                this.table.appendChild(this.tableFooter);
 
                 element.appendChild(this.table);
+
+                this.refreshTableBody();
+                this.refreshTableFooter();
             }
             Grid.prototype.sortBy = function (name) {
                 if (this.isSortable()) {
@@ -43,6 +46,12 @@ var TesserisPro;
 
             Grid.prototype.isSortable = function () {
                 return (this.itemProvider).sort != undefined ? true : false;
+            };
+
+            Grid.prototype.selectPage = function (page) {
+                this.options.currentPage = page;
+                this.refreshTableBody();
+                this.refreshTableFooter();
             };
 
             Grid.getGridObject = function (element) {
@@ -65,8 +74,9 @@ var TesserisPro;
                 return this.options.pageSize;
             };
 
-            Grid.prototype.updateItems = function (items, firstItem, itemsNumber) {
+            Grid.prototype.updateItems = function (items, firstItem, itemsNumber, total) {
                 var _this = this;
+                this.tableBody.innerHTML = "";
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {
@@ -89,8 +99,17 @@ var TesserisPro;
 
             Grid.prototype.refreshTableBody = function () {
                 var _this = this;
-                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), function (items, first, count) {
-                    return _this.updateItems(items, first, count);
+                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), function (items, first, count, total) {
+                    return _this.updateItems(items, first, count, total);
+                });
+            };
+
+            Grid.prototype.refreshTableFooter = function () {
+                var _this = this;
+                this.itemProvider.getTotalItemsCount(function (total) {
+                    _this.tableFooter.innerHTML = "";
+                    _this.totalItemsCount = total;
+                    _this.htmlProvider.getTableFooterElement(_this.options, _this.tableFooter, _this.totalItemsCount);
                 });
             };
             return Grid;

@@ -11,7 +11,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options): HTMLElement {
+        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
             return null;
         }
 
@@ -23,7 +23,7 @@ module TesserisPro.TGrid {
             var footrow = document.createElement("tr");
             var footcell = document.createElement("td");
             footcell.setAttribute("align", "center");
-            footcell.setAttribute("colspan", option.columnHeaders.length.toString());
+            footcell.setAttribute("colspan", option.columns.length.toString());
 
             var firstVisiblePage = option.currentPage - Math.ceil(option.pageSlide / 2);
 
