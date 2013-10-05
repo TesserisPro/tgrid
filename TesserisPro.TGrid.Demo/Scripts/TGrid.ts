@@ -86,6 +86,7 @@ module TesserisPro.TGrid {
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number, total: number): void {
             this.tableBody.innerHTML = "";
+
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {

@@ -77,6 +77,7 @@ var TesserisPro;
             Grid.prototype.updateItems = function (items, firstItem, itemsNumber, total) {
                 var _this = this;
                 this.tableBody.innerHTML = "";
+
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {

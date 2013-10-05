@@ -32,7 +32,7 @@ module TesserisPro.TGrid {
         public target: JQuery;
         public pageSize: number;
         public pageSlide: number = 1;
-        public currentPage: number = 1;
+        public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
 
         constructor(element: HTMLElement, framework: Framework) {

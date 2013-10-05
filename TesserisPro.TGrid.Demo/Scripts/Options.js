@@ -32,7 +32,7 @@
             function Options(element, framework) {
                 this.columns = [];
                 this.pageSlide = 1;
-                this.currentPage = 1;
+                this.currentPage = 0;
                 this.target = $(element);
                 this.framework = framework;
 

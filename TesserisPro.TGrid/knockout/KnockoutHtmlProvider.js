@@ -25,7 +25,6 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
                 var header = document.createElement("thead");
                 var head = document.createElement("tr");
-                head.className = "tgrid-header";
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -60,7 +59,6 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
-                body.innerHTML = '';
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
                     for (var i = 0; i < option.columns.length; i++) {
