@@ -12,9 +12,11 @@ module TesserisPro.TGrid {
         private targetElement: HTMLElement;
         private table: HTMLElement;
         private tableBody: HTMLElement;
+        private tableFooter: HTMLElement;
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
         private options: Options;
+        private totalItemsCount: number;
                 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -26,14 +28,17 @@ module TesserisPro.TGrid {
             this.table = this.htmlProvider.getTableElement(this.options);
 
             this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options, this.isSortable()));
+
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
 
-            this.table.appendChild(this.htmlProvider.getTableFooterElement(this.options));
-
-            this.refreshTableBody()
-            
+            this.tableFooter = document.createElement("tfoot");
+            this.table.appendChild(this.tableFooter);
+           
             element.appendChild(this.table);
+
+            this.refreshTableBody();
+            this.refreshTableFooter();
         }
 
         public sortBy(name: string): void {
@@ -51,6 +56,12 @@ module TesserisPro.TGrid {
 
         public isSortable(): boolean {
             return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
+        }
+
+        public selectPage(page: number): void {
+            this.options.currentPage = page;
+            this.refreshTableBody();
+            this.refreshTableFooter();
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -73,7 +84,8 @@ module TesserisPro.TGrid {
             return this.options.pageSize;
         }
 
-        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
+        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number, total: number): void {
+            this.tableBody.innerHTML = "";
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
@@ -93,7 +105,15 @@ module TesserisPro.TGrid {
         }
 
         private refreshTableBody() {
-            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count, total) => this.updateItems(items, first, count, total));
+        }
+
+        private refreshTableFooter() {
+            this.itemProvider.getTotalItemsCount((total: number) => {
+                this.tableFooter.innerHTML = "";
+                this.totalItemsCount = total;
+                this.htmlProvider.getTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
+            });
         }
     }
 }

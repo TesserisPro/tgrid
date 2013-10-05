@@ -12,29 +12,46 @@ var TesserisPro;
                 return table;
             };
 
-            BaseHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
+            BaseHtmlProvider.prototype.getTableHeadElement = function (option) {
                 return null;
             };
 
             BaseHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
             };
 
-            BaseHtmlProvider.prototype.getTableFooterElement = function (option) {
-                var footer = document.createElement("tfoot");
+            BaseHtmlProvider.prototype.getTableFooterElement = function (option, footer, totalItemsCount) {
                 var footrow = document.createElement("tr");
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
-                footcell.setAttribute("colspan", option.columns.length.toString());
-                var data = document.createElement("div");
+                footcell.setAttribute("colspan", option.columnHeaders.length.toString());
 
-                // add paging hire
-                data.innerHTML = "<div>Paging</div>";
+                var firstVisiblePage = option.currentPage - Math.ceil(option.pageSlide / 2);
 
-                footcell.appendChild(data);
+                if (firstVisiblePage < 0) {
+                    firstVisiblePage = 0;
+                }
+
+                var lastVisiblePage = firstVisiblePage + option.pageSlide;
+                var pageCount = totalItemsCount / option.pageSize;
+
+                if (lastVisiblePage >= pageCount) {
+                    lastVisiblePage = pageCount - 1;
+                }
+
+                var pagerElement = document.createElement("div");
+                pagerElement.setAttribute("class", "tgird-pagination");
+
+                for (var i = firstVisiblePage; i <= lastVisiblePage; i++) {
+                    if (option.currentPage == i) {
+                        pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
+                    } else {
+                        pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
+                    }
+                }
+
+                footcell.appendChild(pagerElement);
                 footrow.appendChild(footcell);
                 footer.appendChild(footrow);
-
-                return footer;
             };
             return BaseHtmlProvider;
         })();

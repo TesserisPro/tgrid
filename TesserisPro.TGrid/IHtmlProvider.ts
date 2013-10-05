@@ -6,6 +6,6 @@ module TesserisPro.TGrid {
         getTableElement(option: Options): HTMLElement;
         getTableHeadElement(option: Options, isSortable: boolean): HTMLElement;
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void;
-        getTableFooterElement(option: Options): HTMLElement;
+        getTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void;
     }
 }
