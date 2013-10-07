@@ -15,8 +15,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
-            var header = document.createElement("thead");
+        public upadteTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
             var head = document.createElement("tr");
             for (var i = 0; i < option.columns.length; i++) {
                 var headerCell = document.createElement("th");
@@ -48,7 +47,6 @@ module TesserisPro.TGrid {
             head.appendChild(headerCell);
 
             header.appendChild(head);
-            return header;
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {

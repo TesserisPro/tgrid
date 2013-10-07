@@ -13,6 +13,7 @@ module TesserisPro.TGrid {
         private table: HTMLElement;
         private tableBody: HTMLElement;
         private tableFooter: HTMLElement;
+        private tableHeader: HTMLElement;
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
         private options: Options;
@@ -27,7 +28,8 @@ module TesserisPro.TGrid {
 
             this.table = this.htmlProvider.getTableElement(this.options);
 
-            this.table.appendChild(this.htmlProvider.getTableHeadElement(this.options, this.isSortable()));
+            this.tableHeader = document.createElement("thead");
+            this.table.appendChild(this.tableHeader);
 
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
@@ -37,6 +39,7 @@ module TesserisPro.TGrid {
            
             element.appendChild(this.table);
 
+            this.refereshTableHeader();
             this.refreshTableBody();
             this.refreshTableFooter();
         }
@@ -105,6 +108,10 @@ module TesserisPro.TGrid {
             }
         }
 
+        private refereshTableHeader() {
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.isSortable());
+        }
+
         private refreshTableBody() {
             this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count, total) => this.updateItems(items, first, count, total));
         }
@@ -113,7 +120,7 @@ module TesserisPro.TGrid {
             this.itemProvider.getTotalItemsCount((total: number) => {
                 this.tableFooter.innerHTML = "";
                 this.totalItemsCount = total;
-                this.htmlProvider.getTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
+                this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
             });
         }
     }

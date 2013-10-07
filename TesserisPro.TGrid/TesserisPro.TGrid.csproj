@@ -53,6 +53,7 @@
     <Content Include="TGrid.ts" />
     <Content Include="web.config" />
     <Content Include="Scripts\_references.js" />
+    <TypeScriptCompile Include="utils.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -4,8 +4,8 @@
 module TesserisPro.TGrid {
     export interface IHtmlProvider {
         getTableElement(option: Options): HTMLElement;
-        getTableHeadElement(option: Options, isSortable: boolean): HTMLElement;
+        updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void;
-        getTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void;
+        updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void;
     }
 }

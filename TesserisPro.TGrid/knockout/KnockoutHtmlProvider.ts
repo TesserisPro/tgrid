@@ -13,8 +13,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
-            var header = document.createElement("thead");
+        public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
             var head = document.createElement("tr");
 
             for (var i = 0; i < option.columns.length; i++) {
@@ -45,8 +44,6 @@ module TesserisPro.TGrid {
             }
 
             header.appendChild(head);
-
-            return header;
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
@@ -61,6 +58,16 @@ module TesserisPro.TGrid {
                 body.appendChild(row);
                 ko.applyBindings(items[itemIndex], row);
             }
+
+            //Hide table on mobile devices
+            var bodyClass = body.getAttribute("class");
+            if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                bodyClass = "desktop";
+            }
+            else {
+                bodyClass += " desktop";
+            }
+            body.setAttribute("class", bodyClass);
         }
     }
 }

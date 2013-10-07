@@ -22,8 +22,7 @@ var TesserisPro;
                 return table;
             };
 
-            KnockoutHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
-                var header = document.createElement("thead");
+            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, isSortable) {
                 var head = document.createElement("tr");
 
                 for (var i = 0; i < option.columns.length; i++) {
@@ -54,8 +53,6 @@ var TesserisPro;
                 }
 
                 header.appendChild(head);
-
-                return header;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
@@ -70,6 +67,15 @@ var TesserisPro;
                     body.appendChild(row);
                     ko.applyBindings(items[itemIndex], row);
                 }
+
+                //Hide table on mobile devices
+                var bodyClass = body.getAttribute("class");
+                if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                    bodyClass = "desktop";
+                } else {
+                    bodyClass += " desktop";
+                }
+                body.setAttribute("class", bodyClass);
             };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);

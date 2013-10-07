@@ -11,15 +11,15 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getTableHeadElement(option: Options, isSortable: boolean): HTMLElement {
-            return null;
+        public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
+
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
 
         }
 
-        public getTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {
             var footrow = document.createElement("tr");
             var footcell = document.createElement("td");
             footcell.setAttribute("align", "center");

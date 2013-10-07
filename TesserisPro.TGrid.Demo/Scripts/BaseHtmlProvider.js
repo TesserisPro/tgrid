@@ -12,14 +12,13 @@ var TesserisPro;
                 return table;
             };
 
-            BaseHtmlProvider.prototype.getTableHeadElement = function (option, isSortable) {
-                return null;
+            BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, isSortable) {
             };
 
             BaseHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
             };
 
-            BaseHtmlProvider.prototype.getTableFooterElement = function (option, footer, totalItemsCount) {
+            BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount) {
                 var footrow = document.createElement("tr");
                 var footcell = document.createElement("td");
                 footcell.setAttribute("align", "center");
