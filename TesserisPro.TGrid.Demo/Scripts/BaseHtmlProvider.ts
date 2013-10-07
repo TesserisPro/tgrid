@@ -15,7 +15,7 @@ module TesserisPro.TGrid {
 
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
         }
 
@@ -56,7 +56,7 @@ module TesserisPro.TGrid {
             footer.appendChild(pagerElement);
         }
 
-        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>): void {
+        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             
         }
     }

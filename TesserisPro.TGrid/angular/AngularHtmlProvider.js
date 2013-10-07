@@ -58,7 +58,7 @@ var TesserisPro;
                 header.appendChild(head);
             };
 
-            AngularHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
+            AngularHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
                 var row = document.createElement("tr");
 
                 //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");

@@ -49,7 +49,7 @@ module TesserisPro.TGrid {
             header.appendChild(head);
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel) => boolean): void {
             var row = document.createElement("tr");
             //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
             //for (var i = 0; i < option.columns.length; i++) {

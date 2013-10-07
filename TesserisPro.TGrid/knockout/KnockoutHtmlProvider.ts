@@ -62,28 +62,53 @@ module TesserisPro.TGrid {
                     }
                     head.appendChild(headerCell);
                 }
-            var placeholderColumn = document.createElement("th");
-            placeholderColumn.setAttribute("class", "tgrid-placeholder");
-            head.appendChild(placeholderColumn);
+                var placeholderColumn = document.createElement("th");
+                placeholderColumn.setAttribute("class", "tgrid-placeholder");
+                head.appendChild(placeholderColumn);
 
                 header.appendChild(head);
             }
         }
 
-        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {
+        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                 var row = document.createElement("tr");
+                
+                if(option.isSelected(items[itemIndex].item)) {
+                    row.setAttribute("class", "selected");
+                }
+
                 for (var i = 0; i < option.columns.length; i++) {
                     var cell = document.createElement("td");
                     cell.setAttribute("width", option.columns[i].width);
                     option.columns[i].cell.applyTemplate(cell);
                     row.appendChild(cell);
                 }
+
                 var placeholderColumn = document.createElement("td");
                 placeholderColumn.setAttribute("class", "tgrid-placeholder");
                 row.appendChild(placeholderColumn);
+
                 body.appendChild(row);
                 ko.applyBindings(items[itemIndex], row);
+                (function (item) {
+                    row.onclick = function (e) {
+                        selected(item, e.ctrlKey);
+
+                        if (!e.ctrlKey) {
+                            for (var i = 0; i < body.children.length; i++) {
+                                body.children.item(i).removeAttribute("class");
+                            }
+                        }
+
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    };
+                })(items[itemIndex]);
             }
 
             //Hide table on mobile devices
@@ -97,7 +122,7 @@ module TesserisPro.TGrid {
             body.setAttribute("class", bodyClass);
         }
 
-        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>): void {
+        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
             for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                 var row = document.createElement("div");
@@ -105,6 +130,32 @@ module TesserisPro.TGrid {
                 row.innerHTML = option.mobileTemplateHtml;
                 container.appendChild(row);
                 ko.applyBindings(items[itemIndex], row);
+
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (!e.ctrlKey) {
+                            if (selected(item, false)) {
+                                for (var i = 0; i < container.children.length; i++) {
+                                    container.children.item(i).removeAttribute("class");
+                                }
+                                (<HTMLElement>this).setAttribute("class", "selected");
+                            }
+                        }
+                        else {
+                            if ((<HTMLElement>this).getAttribute("class") == "selected") {
+                                if (selected(item, true)) {
+                                    (<HTMLElement>this).removeAttribute("class");
+                                }
+                            }
+                            else {
+                                if (selected(item, true)) {
+                                    (<HTMLElement>this).setAttribute("class", "selected");
+                                }
+                            }
+                        }
+
+                    };
+                })(items[itemIndex]);
             }
 
             //Hide table on mobile devices

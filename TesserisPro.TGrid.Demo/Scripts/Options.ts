@@ -37,12 +37,22 @@ module TesserisPro.TGrid {
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
 
+        public selection: Array<any> = [];
+
         constructor(element: HTMLElement, framework: Framework) {
 			this.target = $(element);
             this.framework = framework;
-            
             this.initialize();
-		}
+        }
+
+        public isSelected(item: any): boolean {
+            for (var i = 0; i < this.selection.length; i++) {
+                if (this.selection[i] == item) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private initialize(): void {
             var pageSizeAtt = this.target.attr("data-g-page-size");

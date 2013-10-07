@@ -87,17 +87,38 @@ var TesserisPro;
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {
-                    itemModels.push(new TGrid.ItemViewModel(null, items[i]));
+                    itemModels.push(new TGrid.ItemViewModel(null, items[i], this));
                 }
+
                 setTimeout(function () {
                     _this.tableBody.innerHTML = "";
-                    _this.htmlProvider.updateTableBodyElement(_this.options, _this.tableBody, itemModels);
+                    _this.htmlProvider.updateTableBodyElement(_this.options, _this.tableBody, itemModels, function (x, m) {
+                        return _this.selectItem(x, m);
+                    });
                 }, 1);
 
                 setTimeout(function () {
                     _this.mobileContainer.innerHTML = "";
-                    _this.htmlProvider.updateMobileItemsList(_this.options, _this.mobileContainer, itemModels);
+                    _this.htmlProvider.updateMobileItemsList(_this.options, _this.mobileContainer, itemModels, function (x, m) {
+                        return _this.selectItem(x, m);
+                    });
                 }, 1);
+            };
+
+            Grid.prototype.selectItem = function (item, multi) {
+                if (multi) {
+                    for (var i = 0; i < this.options.selection.length; i++) {
+                        if (item.item == this.options.selection[i]) {
+                            this.options.selection.splice(i, 1);
+                            return false;
+                        }
+                    }
+
+                    this.options.selection.push(item.item);
+                } else {
+                    this.options.selection = [item.item];
+                }
+                return true;
             };
 
             Grid.prototype.getHtmlProvider = function (options) {

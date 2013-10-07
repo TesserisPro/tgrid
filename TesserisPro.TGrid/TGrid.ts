@@ -95,25 +95,48 @@ module TesserisPro.TGrid {
         }
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number, total: number): void {
-            
-
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
-                itemModels.push(new ItemViewModel(null, items[i]));
+                itemModels.push(new ItemViewModel(null, items[i], this));
             }
+
             setTimeout(() => {
                 this.tableBody.innerHTML = "";
-                this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, itemModels)
-            }, 1);
-
-
+                this.htmlProvider.updateTableBodyElement(
+                    this.options,
+                    this.tableBody,
+                    itemModels,
+                    (x,m) => this.selectItem(x, m))
+                }, 1);
+            
             setTimeout(() => {
                 this.mobileContainer.innerHTML = "";
-                this.htmlProvider.updateMobileItemsList(this.options, this.mobileContainer, itemModels)
+                this.htmlProvider.updateMobileItemsList(
+                    this.options,
+                    this.mobileContainer,
+                    itemModels,
+                    (x,m) => this.selectItem(x, m))
             }, 1);
         }
 
+        public selectItem(item: ItemViewModel, multi: boolean): boolean {
+            if (multi) {
+                for (var i = 0; i < this.options.selection.length; i++) {
+                    if (item.item == this.options.selection[i]) {
+                        this.options.selection.splice(i, 1);
+                        return false;
+                    }
+                }
+
+                this.options.selection.push(item.item);
+            }
+            else {
+                this.options.selection = [item.item];
+            }
+            return true;
+        }
+        
         private getHtmlProvider(options: Options): IHtmlProvider {
             if (options.framework == Framework.Knockout) {
                 return new KnockoutHtmlProvider();

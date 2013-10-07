@@ -80,20 +80,44 @@ var TesserisPro;
                 }
             };
 
-            KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items) {
+            KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
+
+                    if (option.isSelected(items[itemIndex].item)) {
+                        row.setAttribute("class", "selected");
+                    }
+
                     for (var i = 0; i < option.columns.length; i++) {
                         var cell = document.createElement("td");
                         cell.setAttribute("width", option.columns[i].width);
                         option.columns[i].cell.applyTemplate(cell);
                         row.appendChild(cell);
                     }
+
                     var placeholderColumn = document.createElement("td");
                     placeholderColumn.setAttribute("class", "tgrid-placeholder");
                     row.appendChild(placeholderColumn);
+
                     body.appendChild(row);
                     ko.applyBindings(items[itemIndex], row);
+                    (function (item) {
+                        row.onclick = function (e) {
+                            selected(item, e.ctrlKey);
+
+                            if (!e.ctrlKey) {
+                                for (var i = 0; i < body.children.length; i++) {
+                                    body.children.item(i).removeAttribute("class");
+                                }
+                            }
+
+                            if (option.isSelected(item.item)) {
+                                (this).setAttribute("class", "selected");
+                            } else {
+                                (this).removeAttribute("class");
+                            }
+                        };
+                    })(items[itemIndex]);
                 }
 
                 //Hide table on mobile devices
@@ -106,13 +130,36 @@ var TesserisPro;
                 body.setAttribute("class", bodyClass);
             };
 
-            KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items) {
+            KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("div");
                     row.setAttribute("class", "tgrid-mobile-row");
                     row.innerHTML = option.mobileTemplateHtml;
                     container.appendChild(row);
                     ko.applyBindings(items[itemIndex], row);
+
+                    (function (item) {
+                        row.onclick = function (e) {
+                            if (!e.ctrlKey) {
+                                if (selected(item, false)) {
+                                    for (var i = 0; i < container.children.length; i++) {
+                                        container.children.item(i).removeAttribute("class");
+                                    }
+                                    (this).setAttribute("class", "selected");
+                                }
+                            } else {
+                                if ((this).getAttribute("class") == "selected") {
+                                    if (selected(item, true)) {
+                                        (this).removeAttribute("class");
+                                    }
+                                } else {
+                                    if (selected(item, true)) {
+                                        (this).setAttribute("class", "selected");
+                                    }
+                                }
+                            }
+                        };
+                    })(items[itemIndex]);
                 }
 
                 //Hide table on mobile devices

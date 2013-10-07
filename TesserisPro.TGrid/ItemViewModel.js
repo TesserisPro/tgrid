@@ -2,9 +2,10 @@ var TesserisPro;
 (function (TesserisPro) {
     (function (TGrid) {
         var ItemViewModel = (function () {
-            function ItemViewModel(model, item) {
+            function ItemViewModel(model, item, grid) {
                 this.model = model;
                 this.item = item;
+                this.grid = grid;
             }
             return ItemViewModel;
         })();

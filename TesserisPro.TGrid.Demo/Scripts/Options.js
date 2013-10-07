@@ -33,11 +33,20 @@
                 this.columns = [];
                 this.pageSlide = 1;
                 this.currentPage = 0;
+                this.selection = [];
                 this.target = $(element);
                 this.framework = framework;
-
                 this.initialize();
             }
+            Options.prototype.isSelected = function (item) {
+                for (var i = 0; i < this.selection.length; i++) {
+                    if (this.selection[i] == item) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
             Options.prototype.initialize = function () {
                 var pageSizeAtt = this.target.attr("data-g-page-size");
                 this.pageSize = parseInt(pageSizeAtt);

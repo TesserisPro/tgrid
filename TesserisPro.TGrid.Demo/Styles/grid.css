@@ -30,6 +30,10 @@
     background-color: white;
 }
 
+    .tgrid-table tbody tr.selected td {
+        background-color: rgba(152,190,222,1);
+    }
+
 .tgrid-footer {
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
