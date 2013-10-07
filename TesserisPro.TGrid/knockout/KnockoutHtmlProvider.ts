@@ -39,7 +39,7 @@ module TesserisPro.TGrid {
                         element[0].parentNode.removeChild(element[0]);
                     }
                     element = header.getElementsByTagName("th");
-                    for (var i = 0; i < element.length; i++) {
+                    for (var i = 0; i < element.length && i < option.columns.length; i++) {
                         element[i] = this.addArrows(element[i], option, i);
                     }
                 }

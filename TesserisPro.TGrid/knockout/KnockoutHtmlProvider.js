@@ -48,7 +48,7 @@ var TesserisPro;
                             element[0].parentNode.removeChild(element[0]);
                         }
                         element = header.getElementsByTagName("th");
-                        for (var i = 0; i < element.length; i++) {
+                        for (var i = 0; i < element.length && i < option.columns.length; i++) {
                             element[i] = this.addArrows(element[i], option, i);
                         }
                     }
@@ -72,9 +72,9 @@ var TesserisPro;
                         }
                         head.appendChild(headerCell);
                     }
-                var placeholderColumn = document.createElement("th");
-                placeholderColumn.setAttribute("class", "tgrid-placeholder");
-                head.appendChild(placeholderColumn);
+                    var placeholderColumn = document.createElement("th");
+                    placeholderColumn.setAttribute("class", "tgrid-placeholder");
+                    head.appendChild(placeholderColumn);
 
                     header.appendChild(head);
                 }
