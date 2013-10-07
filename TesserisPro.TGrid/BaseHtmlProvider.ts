@@ -25,14 +25,14 @@ module TesserisPro.TGrid {
             footcell.setAttribute("align", "center");
             footcell.setAttribute("colspan", option.columns.length.toString());
 
-            var firstVisiblePage = option.currentPage - Math.ceil(option.pageSlide / 2);
+            var firstVisiblePage = option.currentPage - option.pageSlide;
 
             if (firstVisiblePage < 0) {
                 firstVisiblePage = 0;
             }
 
-            var lastVisiblePage = firstVisiblePage + option.pageSlide;
-            var pageCount = totalItemsCount / option.pageSize;
+            var lastVisiblePage = option.currentPage + option.pageSlide;
+            var pageCount = Math.ceil(totalItemsCount / option.pageSize);
 
             if (lastVisiblePage >= pageCount) {
                 lastVisiblePage = pageCount - 1;
@@ -41,6 +41,10 @@ module TesserisPro.TGrid {
             var pagerElement = document.createElement("div");
             pagerElement.setAttribute("class", "tgird-pagination");
 
+            if (firstVisiblePage > 0) {
+                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + (firstVisiblePage - 1).toString() + ")' >...</span>";
+            }
+
             for (var i = firstVisiblePage; i <= lastVisiblePage; i++) {
                 if (option.currentPage == i) {
                     pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
@@ -48,6 +52,10 @@ module TesserisPro.TGrid {
                 else {
                     pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage("+ i +")' >" + (i + 1) + "</span>";
                 }
+            }
+
+            if (lastVisiblePage < (pageCount - 1)) {
+                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
             }
 
             footcell.appendChild(pagerElement);
