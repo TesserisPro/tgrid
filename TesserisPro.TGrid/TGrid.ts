@@ -14,6 +14,7 @@ module TesserisPro.TGrid {
         private tableBody: HTMLElement;
         private tableFooter: HTMLElement;
         private tableHeader: HTMLElement;
+        private mobileContainer: HTMLElement;
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
         private options: Options;
@@ -33,11 +34,15 @@ module TesserisPro.TGrid {
 
             this.tableBody = document.createElement("tbody");
             this.table.appendChild(this.tableBody);
+            this.targetElement.appendChild(this.table);
 
-            this.tableFooter = document.createElement("tfoot");
-            this.table.appendChild(this.tableFooter);
-           
-            element.appendChild(this.table);
+            this.mobileContainer = document.createElement("div");
+            this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
+            this.targetElement.appendChild(this.mobileContainer);
+
+            this.tableFooter = document.createElement("div");
+            this.tableFooter.setAttribute("class", "tgrid-footer");
+            this.targetElement.appendChild(this.tableFooter);
 
             this.refereshTableHeader();
             this.refreshTableBody();
@@ -90,14 +95,23 @@ module TesserisPro.TGrid {
         }
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number, total: number): void {
-            this.tableBody.innerHTML = "";
+            
 
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
                 itemModels.push(new ItemViewModel(null, items[i]));
             }
-            setTimeout(() => this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, itemModels), 1);
+            setTimeout(() => {
+                this.tableBody.innerHTML = "";
+                this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, itemModels)
+            }, 1);
+
+
+            setTimeout(() => {
+                this.mobileContainer.innerHTML = "";
+                this.htmlProvider.updateMobileItemsList(this.options, this.mobileContainer, itemModels)
+            }, 1);
         }
 
         private getHtmlProvider(options: Options): IHtmlProvider {

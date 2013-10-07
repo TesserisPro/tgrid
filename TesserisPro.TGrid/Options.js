@@ -68,6 +68,9 @@
                     this.columns.push(column);
                 }
                 this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, false);
+
+                var mobileTemplate = optionsElement.find("mobile");
+                this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
             };
             return Options;
         })();

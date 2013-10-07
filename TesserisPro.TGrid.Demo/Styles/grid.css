@@ -1,22 +1,25 @@
 ﻿.tgrid-table {
     border: 1px solid rgb(122,188,255);
     border-collapse: collapse;
+    width: 100%;
+
+    background: rgb(222,239,255);
 }
 
 .tgrid-table thead tr th {
-    border-bottom: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
     
     margin: 1px;
 
-    background: rgb(184,225,252); /* Old browsers */
-    background: -moz-linear-gradient(top,  rgba(184,225,252,1) 0%, rgba(169,210,243,1) 10%, rgba(144,186,228,1) 25%, rgba(144,188,234,1) 37%, rgba(144,191,240,1) 50%, rgba(107,168,229,1) 51%, rgba(162,218,245,1) 83%, rgba(189,243,253,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(184,225,252,1)), color-stop(10%,rgba(169,210,243,1)), color-stop(25%,rgba(144,186,228,1)), color-stop(37%,rgba(144,188,234,1)), color-stop(50%,rgba(144,191,240,1)), color-stop(51%,rgba(107,168,229,1)), color-stop(83%,rgba(162,218,245,1)), color-stop(100%,rgba(189,243,253,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(184,225,252,1) 0%,rgba(169,210,243,1) 10%,rgba(144,186,228,1) 25%,rgba(144,188,234,1) 37%,rgba(144,191,240,1) 50%,rgba(107,168,229,1) 51%,rgba(162,218,245,1) 83%,rgba(189,243,253,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(184,225,252,1) 0%,rgba(169,210,243,1) 10%,rgba(144,186,228,1) 25%,rgba(144,188,234,1) 37%,rgba(144,191,240,1) 50%,rgba(107,168,229,1) 51%,rgba(162,218,245,1) 83%,rgba(189,243,253,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(184,225,252,1) 0%,rgba(169,210,243,1) 10%,rgba(144,186,228,1) 25%,rgba(144,188,234,1) 37%,rgba(144,191,240,1) 50%,rgba(107,168,229,1) 51%,rgba(162,218,245,1) 83%,rgba(189,243,253,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(184,225,252,1) 0%,rgba(169,210,243,1) 10%,rgba(144,186,228,1) 25%,rgba(144,188,234,1) 37%,rgba(144,191,240,1) 50%,rgba(107,168,229,1) 51%,rgba(162,218,245,1) 83%,rgba(189,243,253,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e1fc', endColorstr='#bdf3fd',GradientType=0 ); /* IE6-9 */
+    background: rgb(222,239,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
 
 }
 
@@ -27,9 +30,16 @@
     background-color: white;
 }
 
+.tgrid-footer {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+    padding: 2px;
+    background-color: #f5f8fb;
+}
+
 .tgird-pagination {
     margin: 0px;
-    background-color: whitesmoke;
     text-align: center;
 }
 
@@ -40,7 +50,7 @@
     width: 22px;
     height: 22px;
     border: 1px solid gray;
-    background-color: lightgray;
+    background: rgb(222, 232, 255);
     display: inline-block;
 }
 
@@ -53,6 +63,17 @@
     color: gray;
     cursor: default;
 }
+
+.tgrid-mobile-container {
+
+}
+
+.tgrid-mobile-row {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
 
 /*Arrows*/
 .tgrid-arrow-down {
@@ -77,4 +98,19 @@
     border-right: 8px solid transparent;
     border-bottom: 8px solid #a6a6a6;
     border-left: 8px solid transparent;
+}
+
+
+/* Mobile */
+@media  (max-width: 480px) {
+    .desktop{
+        display: none;
+    }
+}
+
+/* Desktop */
+@media  (min-width: 481px) {
+    .mobile{
+        display: none;
+    }
 }

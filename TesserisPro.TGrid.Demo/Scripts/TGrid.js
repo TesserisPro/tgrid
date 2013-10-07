@@ -23,11 +23,15 @@ var TesserisPro;
 
                 this.tableBody = document.createElement("tbody");
                 this.table.appendChild(this.tableBody);
+                this.targetElement.appendChild(this.table);
 
-                this.tableFooter = document.createElement("tfoot");
-                this.table.appendChild(this.tableFooter);
+                this.mobileContainer = document.createElement("div");
+                this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
+                this.targetElement.appendChild(this.mobileContainer);
 
-                element.appendChild(this.table);
+                this.tableFooter = document.createElement("div");
+                this.tableFooter.setAttribute("class", "tgrid-footer");
+                this.targetElement.appendChild(this.tableFooter);
 
                 this.refereshTableHeader();
                 this.refreshTableBody();
@@ -80,15 +84,19 @@ var TesserisPro;
 
             Grid.prototype.updateItems = function (items, firstItem, itemsNumber, total) {
                 var _this = this;
-                this.tableBody.innerHTML = "";
-
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {
                     itemModels.push(new TGrid.ItemViewModel(null, items[i]));
                 }
                 setTimeout(function () {
-                    return _this.htmlProvider.updateTableBodyElement(_this.options, _this.tableBody, itemModels);
+                    _this.tableBody.innerHTML = "";
+                    _this.htmlProvider.updateTableBodyElement(_this.options, _this.tableBody, itemModels);
+                }, 1);
+
+                setTimeout(function () {
+                    _this.mobileContainer.innerHTML = "";
+                    _this.htmlProvider.updateMobileItemsList(_this.options, _this.mobileContainer, itemModels);
                 }, 1);
             };
 

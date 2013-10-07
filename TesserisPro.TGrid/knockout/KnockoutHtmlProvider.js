@@ -72,6 +72,10 @@ var TesserisPro;
                         }
                         head.appendChild(headerCell);
                     }
+                var placeholderColumn = document.createElement("th");
+                placeholderColumn.setAttribute("class", "tgrid-placeholder");
+                head.appendChild(placeholderColumn);
+
                     header.appendChild(head);
                 }
             };
@@ -85,6 +89,9 @@ var TesserisPro;
                         option.columns[i].cell.applyTemplate(cell);
                         row.appendChild(cell);
                     }
+                    var placeholderColumn = document.createElement("td");
+                    placeholderColumn.setAttribute("class", "tgrid-placeholder");
+                    row.appendChild(placeholderColumn);
                     body.appendChild(row);
                     ko.applyBindings(items[itemIndex], row);
                 }
@@ -97,6 +104,25 @@ var TesserisPro;
                     bodyClass += " desktop";
                 }
                 body.setAttribute("class", bodyClass);
+            };
+
+            KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items) {
+                for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+                    var row = document.createElement("div");
+                    row.setAttribute("class", "tgrid-mobile-row");
+                    row.innerHTML = option.mobileTemplateHtml;
+                    container.appendChild(row);
+                    ko.applyBindings(items[itemIndex], row);
+                }
+
+                //Hide table on mobile devices
+                var bodyClass = container.getAttribute("class");
+                if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                    bodyClass = "mobile";
+                } else {
+                    bodyClass += " mobile";
+                }
+                container.setAttribute("class", bodyClass);
             };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);

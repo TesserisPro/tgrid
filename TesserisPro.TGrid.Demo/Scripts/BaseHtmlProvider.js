@@ -19,11 +19,6 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount) {
-                var footrow = document.createElement("tr");
-                var footcell = document.createElement("td");
-                footcell.setAttribute("align", "center");
-                footcell.setAttribute("colspan", option.columns.length.toString());
-
                 var firstVisiblePage = option.currentPage - option.pageSlide;
 
                 if (firstVisiblePage < 0) {
@@ -56,9 +51,10 @@ var TesserisPro;
                     pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
                 }
 
-                footcell.appendChild(pagerElement);
-                footrow.appendChild(footcell);
-                footer.appendChild(footrow);
+                footer.appendChild(pagerElement);
+            };
+
+            BaseHtmlProvider.prototype.updateMobileItemsList = function (option, container, items) {
             };
             return BaseHtmlProvider;
         })();

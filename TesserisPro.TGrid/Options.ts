@@ -28,6 +28,8 @@ module TesserisPro.TGrid {
     export class Options {
         public columns: Array<ColumnInfo> = [];
 
+        public mobileTemplateHtml: string;
+
         public framework: Framework;
         public target: JQuery;
         public pageSize: number;
@@ -72,6 +74,9 @@ module TesserisPro.TGrid {
                 this.columns.push(column);
             }
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, false);
+
+            var mobileTemplate = optionsElement.find("mobile");
+            this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
         }
     }
 }

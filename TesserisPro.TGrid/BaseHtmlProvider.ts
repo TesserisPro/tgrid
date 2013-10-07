@@ -20,11 +20,6 @@ module TesserisPro.TGrid {
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {
-            var footrow = document.createElement("tr");
-            var footcell = document.createElement("td");
-            footcell.setAttribute("align", "center");
-            footcell.setAttribute("colspan", option.columns.length.toString());
-
             var firstVisiblePage = option.currentPage - option.pageSlide;
 
             if (firstVisiblePage < 0) {
@@ -58,9 +53,11 @@ module TesserisPro.TGrid {
                 pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
             }
 
-            footcell.appendChild(pagerElement);
-            footrow.appendChild(footcell);
-            footer.appendChild(footrow);
+            footer.appendChild(pagerElement);
+        }
+
+        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>): void {
+            
         }
     }
 

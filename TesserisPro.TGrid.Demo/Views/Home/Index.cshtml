@@ -12,8 +12,8 @@
 <script src="~/Scripts/KnockoutHtmlProvider.js" type="text/javascript"></script>
 <script src="~/Scripts/AngularHtmlProvider.js" type="text/javascript"></script>
 <script src="~/Scripts/options.js" type="text/javascript"></script>
-<script src="~/Scripts/ItemViewModel.js" type="text/javascript"></script> 
-<script src="~/Scripts/TGrid.js" type="text/javascript"></script> 
+<script src="~/Scripts/ItemViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/TGrid.js" type="text/javascript"></script>
 <script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
 <script src="~/Scripts/SortDescriptor.js" type="text/javascript"></script>
 
@@ -29,22 +29,21 @@
                 <span>Name</span>
             </header>
             <cell>
-                <span style="color: red;" >test</span>
+                <span style="color: red;">test</span>
             </cell>
         </column>
 
         <column data-g-width="100" data-g-views="mobile,desktop">
             <header>Key</header>
-            <cell/>
+            <cell />
         </column>
-      
-         <mobile>
+
+        <mobile>
             <div>
             </div>
         </mobile>
 
-        <details>
-        </details>
+        <details></details>
     </script>
 </div>
 
@@ -74,14 +73,18 @@
                 <span data-bind="text: item.key"></span>
             </cell>
         </column>
-      
-         <mobile>
+
+        <mobile>
             <div>
+                <span>Name: </span>
+                <span style="color: red;" data-bind="text: item.name"></span>
+                <br />
+                <span>Key: </span>
+                <span data-bind="text: item.key"></span>
             </div>
         </mobile>
 
-        <details>
-        </details>
+        <details></details>
     </script>
 </div>
 
@@ -129,7 +132,7 @@
     function vm() {
         var self = this;
         self.nameColumnTitle = "Name";
-       
+
         self.itemsProvider = new SimpleItemsProvider();
     };
 
@@ -156,14 +159,13 @@
                 <span style="color: red;">{{key}}</span>
             </cell>
         </column>
-      
+
         <mobile>
             <div>
             </div>
         </mobile>
 
-        <details>
-        </details>
+        <details></details>
     </script>
 </div>
 
@@ -214,18 +216,18 @@
             return input.slice(start);
         }
     });
-    
+
     $(function () {
         var id = $(document.getElementById('test-angular'));
         //var opt = new TesserisPro.TGrid.Options(id, TesserisPro.TGrid.Framework.Angular);
-       // var grid = TesserisPro.TGrid.Grid(id, opt)
+        // var grid = TesserisPro.TGrid.Grid(id, opt)
 
         angular.bootstrap(id, ['App'])
     })
 </script>
 
 <h2>Angular sample of result</h2>
-<!-- 
+<!--
 <div>
     <div ng-app>
         <table ng-controller="ctrl" border="1">
@@ -236,10 +238,10 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in items">
-                  <td>  
+                  <td>
                       {{item.Name}}
                   </td>
-                  <td>  
+                  <td>
                       {{item.Key}}
                   </td>
                 </tr>
@@ -253,7 +255,7 @@
 <script type="text/javascript">
     'use strict';
     function ctrl($scope) {
-        $scope.header = ["name" ,"key" ]
+        $scope.header = ["name", "key"]
         $scope.items = [
                 { "Name": "First ", "Key": "Last" },
                 { "Name": "Second", "Key": "Last 1" }];
