@@ -55,7 +55,7 @@ module TesserisPro.TGrid {
                     this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
                 } else {
                     this.options.sortDescriptor.column = name;
-                    this.options.sortDescriptor.asc = true;
+                    this.options.sortDescriptor.asc = false;
                 }
                 (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
                 this.refereshTableHeader();
