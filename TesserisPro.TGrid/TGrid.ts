@@ -15,6 +15,7 @@ module TesserisPro.TGrid {
         private tableFooter: HTMLElement;
         private tableHeader: HTMLElement;
         private mobileContainer: HTMLElement;
+        private mobileHeader: HTMLElement;
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
         private options: Options;
@@ -29,7 +30,12 @@ module TesserisPro.TGrid {
 
             this.table = this.htmlProvider.getTableElement(this.options);
 
+            this.mobileHeader = document.createElement("div");
+            this.mobileHeader.setAttribute("class", "tgrid-mobile-header mobile");
+            this.targetElement.appendChild(this.mobileHeader);
+
             this.tableHeader = document.createElement("thead");
+            this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
             this.table.appendChild(this.tableHeader);
 
             this.tableBody = document.createElement("tbody");
@@ -149,6 +155,7 @@ module TesserisPro.TGrid {
 
         private refereshTableHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.isSortable());
+            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.isSortable());
         }
 
         private refreshTableBody() {

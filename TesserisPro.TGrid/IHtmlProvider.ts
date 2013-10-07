@@ -8,5 +8,6 @@ module TesserisPro.TGrid {
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
         updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void;
         updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
+        updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
     }
 }

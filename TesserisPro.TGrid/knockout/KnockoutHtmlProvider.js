@@ -171,6 +171,21 @@ var TesserisPro;
                 }
                 container.setAttribute("class", bodyClass);
             };
+
+            KnockoutHtmlProvider.prototype.updateMobileHeadElement = function (option, header, isSortable) {
+                if (isSortable) {
+                    header.innerHTML = "<div>mobile sorting will insert hire</div>";
+                }
+
+                //Hide table on mobile devices
+                var headerClass = header.getAttribute("class");
+                if (headerClass == null || headerClass == undefined || headerClass == '') {
+                    headerClass = "mobile";
+                } else {
+                    headerClass += " mobile";
+                }
+                header.setAttribute("class", headerClass);
+            };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);
         TGrid.KnockoutHtmlProvider = KnockoutHtmlProvider;

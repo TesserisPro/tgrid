@@ -54,6 +54,9 @@ var TesserisPro;
                 footer.appendChild(pagerElement);
             };
 
+            BaseHtmlProvider.prototype.updateMobileHeadElement = function (option, header, isSortable) {
+            };
+
             BaseHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
             };
             return BaseHtmlProvider;

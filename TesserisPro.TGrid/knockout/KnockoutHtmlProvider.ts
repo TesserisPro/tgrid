@@ -168,5 +168,20 @@ module TesserisPro.TGrid {
             }
             container.setAttribute("class", bodyClass);
         }
+
+        updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean): void {
+            if (isSortable) {
+                header.innerHTML = "<div>mobile sorting will insert hire</div>";
+            }
+            //Hide table on mobile devices
+            var headerClass = header.getAttribute("class");
+            if (headerClass == null || headerClass == undefined || headerClass == '') {
+                headerClass = "mobile";
+            }
+            else {
+                headerClass += " mobile";
+            }
+            header.setAttribute("class", headerClass);
+        }
     }
 }
