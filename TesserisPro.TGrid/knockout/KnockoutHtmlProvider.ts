@@ -13,37 +13,57 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
+            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
+                var up = document.createElement("div");
+                up.classList.add("tgrid-arrow-up");
+                htmlNode.appendChild(up);
+            }
+            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
+                var down = document.createElement("div");
+                down.classList.add("tgrid-arrow-down");
+                htmlNode.appendChild(down);
+            }
+            return htmlNode;
+        }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
-            var head = document.createElement("tr");
-
-            for (var i = 0; i < option.columns.length; i++) {
-                var headerCell = document.createElement("th");
-                headerCell.setAttribute("width", option.columns[i].width);
-                option.columns[i].header.applyTemplate(headerCell);
-
-                // Method changing sorting
-                (function (i) {
-                    headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
-                })(i);
-
-                // Arrows
+            if (header.innerHTML != null && header.innerHTML != "") {
                 if (isSortable) {
-                    if (option.sortDescriptor.column == option.columns[i].sortMemberPath && option.sortDescriptor.asc) {
-                        var up = document.createElement("div");
-                        up.classList.add("arrow-up");
-                        headerCell.appendChild(up);
+                    var element = header.getElementsByClassName("tgrid-arrow-up");
+                    if (element.length == 1) {
+                        element[0].parentNode.removeChild(element[0]);
                     }
-                    if (option.sortDescriptor.column == option.columns[i].sortMemberPath && !option.sortDescriptor.asc) {
-                        var down = document.createElement("div");
-                        down.classList.add("arrow-down");
-                        headerCell.appendChild(down);
+                    var element = header.getElementsByClassName("tgrid-arrow-down");
+                    if (element.length == 1) {
+                        element[0].parentNode.removeChild(element[0]);
+                    }
+                    element = header.getElementsByTagName("th");
+                    for (var i = 0; i < element.length; i++) {
+                        element[i] = this.addArrows(element[i], option, i);
                     }
                 }
-                head.appendChild(headerCell);
-                
-            }
+            } else {
+                var head = document.createElement("tr");
 
-            header.appendChild(head);
+                for (var i = 0; i < option.columns.length; i++) {
+                    var headerCell = document.createElement("th");
+                    headerCell.setAttribute("width", option.columns[i].width);
+                    option.columns[i].header.applyTemplate(headerCell);
+
+                    // Method changing sorting
+                    (function (i) {
+                        headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
+                    })(i);
+
+                    // Arrows
+                    if (isSortable) {
+                        headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
+                    }
+                    head.appendChild(headerCell);
+                }
+                header.appendChild(head);
+            }
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>): void {

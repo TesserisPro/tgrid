@@ -55,7 +55,7 @@
 }
 
 /*Arrows*/
-.arrow-down {
+.tgrid-arrow-down {
     display:inline;
     position: relative;
     top: 14px;
@@ -67,7 +67,7 @@
     border-left: 8px solid transparent;
 }
 
-.arrow-up {
+.tgrid-arrow-up {
     display:inline;
     position: relative;
     bottom: 14px;

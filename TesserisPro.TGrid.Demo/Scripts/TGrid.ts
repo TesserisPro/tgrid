@@ -50,9 +50,10 @@ module TesserisPro.TGrid {
                     this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
                 } else {
                     this.options.sortDescriptor.column = name;
-                    this.options.sortDescriptor.asc = false;
+                    this.options.sortDescriptor.asc = true;
                 }
                 (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
+                this.refereshTableHeader();
                 this.refreshTableBody();
             }
         }
@@ -63,6 +64,7 @@ module TesserisPro.TGrid {
 
         public selectPage(page: number): void {
             this.options.currentPage = page;
+            this.refereshTableHeader();
             this.refreshTableBody();
             this.refreshTableFooter();
         }
