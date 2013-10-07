@@ -9,7 +9,7 @@
 .tgrid-table thead tr th {
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
-    
+    cursor: pointer;
     margin: 1px;
 
     background: rgb(222,239,255); /* Old browsers */
