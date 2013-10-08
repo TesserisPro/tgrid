@@ -85,6 +85,9 @@
     border-bottom: 1px solid rgb(122,188,255);
 }
 
+.tgrid-inline-block {
+    display:inline-block;
+}
 
 /*Arrows*/
 .tgrid-arrow-down {
@@ -92,6 +95,7 @@
     width: 16px;
     height: 16px;
     background: url(../images/arrow_up.png) no-repeat;
+    margin-left: 5px;
 }
 
 .tgrid-arrow-up {
@@ -99,6 +103,7 @@
     width: 16px;
     height: 16px;
     background: url(../images/arrow_down.png) no-repeat;
+    margin-left: 5px;
 }
 
 /* Mobile */

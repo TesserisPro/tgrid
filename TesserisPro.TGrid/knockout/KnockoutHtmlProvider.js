@@ -36,23 +36,28 @@ var TesserisPro;
                 return htmlNode;
             };
 
+            KnockoutHtmlProvider.prototype.removeArrows = function (htmlNode) {
+                var element = htmlNode.getElementsByClassName("tgrid-arrow-up");
+                if (element.length == 1) {
+                    element[0].parentNode.removeChild(element[0]);
+                }
+                var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
+                if (element.length == 1) {
+                    element[0].parentNode.removeChild(element[0]);
+                }
+            };
+
             KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, isSortable) {
                 if (header.innerHTML != null && header.innerHTML != "") {
                     if (isSortable) {
-                        var element = header.getElementsByClassName("tgrid-arrow-up");
-                        if (element.length == 1) {
-                            element[0].parentNode.removeChild(element[0]);
-                        }
-                        var element = header.getElementsByClassName("tgrid-arrow-down");
-                        if (element.length == 1) {
-                            element[0].parentNode.removeChild(element[0]);
-                        }
-                        element = header.getElementsByTagName("th");
+                        this.removeArrows(header);
+                        var element = header.getElementsByTagName("th");
                         for (var i = 0; i < element.length && i < option.columns.length; i++) {
                             element[i] = this.addArrows(element[i], option, i);
                         }
                     }
                 } else {
+                    // Create table header
                     var head = document.createElement("tr");
 
                     for (var i = 0; i < option.columns.length; i++) {
@@ -172,19 +177,72 @@ var TesserisPro;
                 container.setAttribute("class", bodyClass);
             };
 
-            KnockoutHtmlProvider.prototype.updateMobileHeadElement = function (option, header, isSortable) {
-                if (isSortable) {
-                    header.innerHTML = "<div>mobile sorting will insert hire</div>";
-                }
+            KnockoutHtmlProvider.prototype.updateMobileHeadElement = function (option, mobileHeader, isSortable) {
+                if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
+                    // Update mobile sort arrow
+                    this.removeArrows(mobileHeader);
+                    var arrowUpdate = document.getElementsByClassName("tgrid-inline-block");
+                    if (option.sortDescriptor.asc) {
+                        var up = document.createElement("div");
+                        up.classList.add("tgrid-arrow-up");
+                        arrowUpdate[0].appendChild(up);
+                    } else {
+                        var down = document.createElement("div");
+                        down.classList.add("tgrid-arrow-down");
+                        arrowUpdate[0].appendChild(down);
+                    }
 
-                //Hide table on mobile devices
-                var headerClass = header.getAttribute("class");
-                if (headerClass == null || headerClass == undefined || headerClass == '') {
-                    headerClass = "mobile";
+                    // Update mobile sort column
+                    var selectUpdate = document.getElementsByTagName("select");
+                    for (var i = 0; i < option.columns.length; i++) {
+                        if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                            selectUpdate[0].selectedIndex = i;
+                        }
+                    }
                 } else {
-                    headerClass += " mobile";
+                    // Create mobile header
+                    // Hide table on mobile devices
+                    var headerClass = mobileHeader.getAttribute("class");
+                    if (headerClass == null || headerClass == undefined || headerClass == '') {
+                        headerClass = "mobile";
+                    } else {
+                        headerClass += " mobile";
+                    }
+                    mobileHeader.setAttribute("class", headerClass);
+
+                    if (isSortable) {
+                        var div = document.createElement("div");
+                        var arrow = document.createElement("div");
+                        var select = document.createElement("select");
+
+                        select.onchange = function (e) {
+                            TGrid.Grid.getGridObject(e.target).sortBy(select.options[select.selectedIndex].value);
+                        };
+
+                        for (var i = 0; i < option.columns.length; i++) {
+                            var selectOption = document.createElement("option");
+                            selectOption.value = option.columns[i].sortMemberPath;
+                            selectOption.text = option.columns[i].sortMemberPath;
+                            select.appendChild(selectOption);
+                            if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                                arrow = this.addArrows(arrow, option, i);
+                            }
+                        }
+
+                        arrow.classList.add("tgrid-inline-block");
+                        div.innerHTML += "Sorting by ";
+                        div.appendChild(select);
+                        div.appendChild(arrow);
+
+                        arrow.onclick = function (e) {
+                            TGrid.Grid.getGridObject(e.target).sortBy(select.options[select.selectedIndex].value);
+                        };
+
+                        mobileHeader.appendChild(div);
+                    } else {
+                        mobileHeader.innerHTML = "<div></div>";
+                    }
                 }
-                header.setAttribute("class", headerClass);
             };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);
