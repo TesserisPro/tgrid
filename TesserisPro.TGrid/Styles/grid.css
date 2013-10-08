@@ -37,9 +37,19 @@
     background-color: white;
 }
 
-    .tgrid-table tbody tr.selected td {
-        background-color: rgba(152,190,222,1);
-    }
+.tgrid-table tbody tr.selected td {
+    background-color: rgba(152,190,222,1);
+}
+
+.tgrid-mobile-row {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
+.tgrid-mobile-container .selected {
+    background-color: rgba(152,190,222,1);
+}
 
 .tgrid-footer {
     border-left: 1px solid rgb(122,188,255);
@@ -77,12 +87,6 @@
 
 .tgrid-mobile-container {
 
-}
-
-.tgrid-mobile-row {
-    border-left: 1px solid rgb(122,188,255);
-    border-right: 1px solid rgb(122,188,255);
-    border-bottom: 1px solid rgb(122,188,255);
 }
 
 .tgrid-inline-block {

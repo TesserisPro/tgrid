@@ -130,7 +130,9 @@ var TesserisPro;
                 if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
                     bodyClass = "desktop";
                 } else {
-                    bodyClass += " desktop";
+                    if (bodyClass.indexOf("desktop") == -1) {
+                        bodyClass += " desktop";
+                    }
                 }
                 body.setAttribute("class", bodyClass);
             };
@@ -143,25 +145,24 @@ var TesserisPro;
                     container.appendChild(row);
                     ko.applyBindings(items[itemIndex], row);
 
+                    if (option.isSelected(items[itemIndex].item)) {
+                        row.setAttribute("class", "tgrid-mobile-row selected");
+                    }
+
                     (function (item) {
                         row.onclick = function (e) {
+                            selected(item, e.ctrlKey);
+
                             if (!e.ctrlKey) {
-                                if (selected(item, false)) {
-                                    for (var i = 0; i < container.children.length; i++) {
-                                        container.children.item(i).removeAttribute("class");
-                                    }
-                                    (this).setAttribute("class", "selected");
+                                for (var i = 0; i < container.children.length; i++) {
+                                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
                                 }
+                            }
+
+                            if (option.isSelected(item.item)) {
+                                (this).setAttribute("class", "tgrid-mobile-row selected");
                             } else {
-                                if ((this).getAttribute("class") == "selected") {
-                                    if (selected(item, true)) {
-                                        (this).removeAttribute("class");
-                                    }
-                                } else {
-                                    if (selected(item, true)) {
-                                        (this).setAttribute("class", "selected");
-                                    }
-                                }
+                                (this).setAttribute("class", "tgrid-mobile-row");
                             }
                         };
                     })(items[itemIndex]);
@@ -172,7 +173,9 @@ var TesserisPro;
                 if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
                     bodyClass = "mobile";
                 } else {
-                    bodyClass += " mobile";
+                    if (bodyClass.indexOf("mobile") == -1) {
+                        bodyClass += " mobile";
+                    }
                 }
                 container.setAttribute("class", bodyClass);
             };
