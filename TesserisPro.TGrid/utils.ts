@@ -27,4 +27,13 @@ function isFunction(target: any): boolean {
     var getType = {};
     return target && getType.toString.call(target) === '[object Function]';
 }
+
+function insertAfter(target: any, add:any):void {
+    if (target.nextSibling == null) {
+        target.parentElement.appendChild(add);
+    } else {
+        target.nextSibling.insertBefore(add);
+    }
+}
+
 //#endregion

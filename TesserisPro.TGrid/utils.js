@@ -32,4 +32,12 @@ function isFunction(target) {
     var getType = {};
     return target && getType.toString.call(target) === '[object Function]';
 }
+
+function insertAfter(target, add) {
+    if (target.nextSibling == null) {
+        target.parentElement.appendChild(add);
+    } else {
+        target.nextSibling.insertBefore(add);
+    }
+}
 //# sourceMappingURL=utils.js.map

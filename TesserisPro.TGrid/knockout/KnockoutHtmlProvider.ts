@@ -2,6 +2,7 @@
 /// <reference path="../IHtmlProvider.ts" />
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
+/// <reference path="../utils.ts" />
 
 module TesserisPro.TGrid {
 
@@ -77,6 +78,12 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            //var detailTr = document.createElement("tr");
+            //var detailTd = document.createElement("td");
+            //detailTr.setAttribute("class","details")
+            //detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            //detailTd.innerHTML = option.detailsTemplateHtml;
+            //detailTr.appendChild(detailTd);
             for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                 var row = document.createElement("tr");
                 
@@ -128,6 +135,12 @@ module TesserisPro.TGrid {
                         }
                     };
                 })(items[itemIndex]);
+
+                //var d = document.getElementsByClassName("selected");
+                //if (d.length != 0) {
+                //    insertAfter(d[0], detailTr);
+                //    //ko.applyBindings(items[itemIndex], detailTr);
+                //}
             }
 
             //Hide table on mobile devices

@@ -10,6 +10,7 @@ var TesserisPro;
     /// <reference path="../IHtmlProvider.ts" />
     /// <reference path="../BaseHtmlProvider.ts" />
     /// <reference path="../ItemViewModel.ts" />
+    /// <reference path="../utils.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -135,6 +136,11 @@ var TesserisPro;
                             }
                         };
                     })(items[itemIndex]);
+                    //var d = document.getElementsByClassName("selected");
+                    //if (d.length != 0) {
+                    //    insertAfter(d[0], detailTr);
+                    //    //ko.applyBindings(items[itemIndex], detailTr);
+                    //}
                 }
 
                 //Hide table on mobile devices

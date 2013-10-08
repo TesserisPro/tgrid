@@ -92,6 +92,9 @@
 
                 var mobileTemplate = optionsElement.find("mobile");
                 this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
+
+                var detailsTemplate = optionsElement.find("details");
+                this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
             };
             return Options;
         })();

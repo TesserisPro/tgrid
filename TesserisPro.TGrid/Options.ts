@@ -30,6 +30,7 @@ module TesserisPro.TGrid {
         public columns: Array<ColumnInfo> = [];
 
         public mobileTemplateHtml: string;
+        public detailsTemplateHtml: string;
 
         public framework: Framework;
         public target: JQuery;
@@ -95,6 +96,9 @@ module TesserisPro.TGrid {
 
             var mobileTemplate = optionsElement.find("mobile");
             this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
+
+            var detailsTemplate = optionsElement.find("details");
+            this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
         }
     }
 }
