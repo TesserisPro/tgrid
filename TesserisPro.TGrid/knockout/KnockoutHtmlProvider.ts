@@ -99,19 +99,32 @@ module TesserisPro.TGrid {
                 ko.applyBindings(items[itemIndex], row);
                 (function (item) {
                     row.onclick = function (e) {
-                        selected(item, e.ctrlKey);
-
-                        if (!e.ctrlKey) {
+                        if (option.editMode!= EditMode.None) {
+                            selected(item, e.ctrlKey);
+                        }
+                        if (option.editMode == EditMode.Multi) {
+                            if (!e.ctrlKey) {
+                                for (var i = 0; i < body.children.length; i++) {
+                                    body.children.item(i).removeAttribute("class");
+                                }
+                            }
+                            if (option.isSelected(item.item)) {
+                                (<HTMLElement>this).setAttribute("class", "selected");
+                            }
+                            else {
+                                (<HTMLElement>this).removeAttribute("class");
+                            }
+                        }
+                        if (option.editMode == EditMode.Single) {
                             for (var i = 0; i < body.children.length; i++) {
                                 body.children.item(i).removeAttribute("class");
                             }
-                        }
-
-                        if (option.isSelected(item.item)) {
-                            (<HTMLElement>this).setAttribute("class", "selected");
-                        }
-                        else {
-                            (<HTMLElement>this).removeAttribute("class");
+                            if (option.isSelected(item.item)) {
+                                (<HTMLElement>this).setAttribute("class", "selected");
+                            }
+                            else {
+                                (<HTMLElement>this).removeAttribute("class");
+                            }
                         }
                     };
                 })(items[itemIndex]);
@@ -144,19 +157,33 @@ module TesserisPro.TGrid {
 
                 (function (item) {
                     row.onclick = function (e) {
-                        selected(item, e.ctrlKey);
+                        if (option.editMode != EditMode.None) {
+                            selected(item, e.ctrlKey);
+                        }
+                        if (option.editMode == EditMode.Multi) {
+                            if (!e.ctrlKey) {
+                                for (var i = 0; i < container.children.length; i++) {
+                                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                                }
+                            }
 
-                        if (!e.ctrlKey) {
+                            if (option.isSelected(item.item)) {
+                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row selected");
+                            }
+                            else {
+                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
+                            }
+                        }
+                        if (option.editMode == EditMode.Single) {
                             for (var i = 0; i < container.children.length; i++) {
                                 container.children.item(i).setAttribute("class", "tgrid-mobile-row");
                             }
-                        }
-
-                        if (option.isSelected(item.item)) {
-                            (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row selected");
-                        }
-                        else {
-                            (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
+                            if (option.isSelected(item.item)) {
+                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row selected");
+                            }
+                            else {
+                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
+                            }
                         }
                     };
                 })(items[itemIndex]);

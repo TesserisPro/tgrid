@@ -108,18 +108,30 @@ var TesserisPro;
                     ko.applyBindings(items[itemIndex], row);
                     (function (item) {
                         row.onclick = function (e) {
-                            selected(item, e.ctrlKey);
-
-                            if (!e.ctrlKey) {
+                            if (option.editMode != TGrid.EditMode.None) {
+                                selected(item, e.ctrlKey);
+                            }
+                            if (option.editMode == TGrid.EditMode.Multi) {
+                                if (!e.ctrlKey) {
+                                    for (var i = 0; i < body.children.length; i++) {
+                                        body.children.item(i).removeAttribute("class");
+                                    }
+                                }
+                                if (option.isSelected(item.item)) {
+                                    (this).setAttribute("class", "selected");
+                                } else {
+                                    (this).removeAttribute("class");
+                                }
+                            }
+                            if (option.editMode == TGrid.EditMode.Single) {
                                 for (var i = 0; i < body.children.length; i++) {
                                     body.children.item(i).removeAttribute("class");
                                 }
-                            }
-
-                            if (option.isSelected(item.item)) {
-                                (this).setAttribute("class", "selected");
-                            } else {
-                                (this).removeAttribute("class");
+                                if (option.isSelected(item.item)) {
+                                    (this).setAttribute("class", "selected");
+                                } else {
+                                    (this).removeAttribute("class");
+                                }
                             }
                         };
                     })(items[itemIndex]);
@@ -151,18 +163,31 @@ var TesserisPro;
 
                     (function (item) {
                         row.onclick = function (e) {
-                            selected(item, e.ctrlKey);
+                            if (option.editMode != TGrid.EditMode.None) {
+                                selected(item, e.ctrlKey);
+                            }
+                            if (option.editMode == TGrid.EditMode.Multi) {
+                                if (!e.ctrlKey) {
+                                    for (var i = 0; i < container.children.length; i++) {
+                                        container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                                    }
+                                }
 
-                            if (!e.ctrlKey) {
+                                if (option.isSelected(item.item)) {
+                                    (this).setAttribute("class", "tgrid-mobile-row selected");
+                                } else {
+                                    (this).setAttribute("class", "tgrid-mobile-row");
+                                }
+                            }
+                            if (option.editMode == TGrid.EditMode.Single) {
                                 for (var i = 0; i < container.children.length; i++) {
                                     container.children.item(i).setAttribute("class", "tgrid-mobile-row");
                                 }
-                            }
-
-                            if (option.isSelected(item.item)) {
-                                (this).setAttribute("class", "tgrid-mobile-row selected");
-                            } else {
-                                (this).setAttribute("class", "tgrid-mobile-row");
+                                if (option.isSelected(item.item)) {
+                                    (this).setAttribute("class", "tgrid-mobile-row selected");
+                                } else {
+                                    (this).setAttribute("class", "tgrid-mobile-row");
+                                }
                             }
                         };
                     })(items[itemIndex]);

@@ -127,19 +127,27 @@ module TesserisPro.TGrid {
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
-            if (multi) {
-                for (var i = 0; i < this.options.selection.length; i++) {
-                    if (item.item == this.options.selection[i]) {
-                        this.options.selection.splice(i, 1);
-                        return false;
+            if (this.options.editMode == EditMode.Multi) {
+                if (multi) {
+                    for (var i = 0; i < this.options.selection.length; i++) {
+                        if (item.item == this.options.selection[i]) {
+                            this.options.selection.splice(i, 1);
+                            this.refreshTableBody();
+                            return false;
+                        }
                     }
-                }
 
-                this.options.selection.push(item.item);
-            }
-            else {
+                    this.options.selection.push(item.item);
+                }
+                else {
+                    this.options.selection = [item.item];
+                }
+            } else if (this.options.editMode == EditMode.Single) {
                 this.options.selection = [item.item];
+            } else {
+                this.options.selection = null;
             }
+            this.refreshTableBody();
             return true;
         }
         

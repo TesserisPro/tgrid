@@ -8,6 +8,12 @@
             Framework[Framework["Angular"] = 1] = "Angular";
         })(TGrid.Framework || (TGrid.Framework = {}));
         var Framework = TGrid.Framework;
+        (function (EditMode) {
+            EditMode[EditMode["None"] = 0] = "None";
+            EditMode[EditMode["Single"] = 1] = "Single";
+            EditMode[EditMode["Multi"] = 2] = "Multi";
+        })(TGrid.EditMode || (TGrid.EditMode = {}));
+        var EditMode = TGrid.EditMode;
 
         var ColumnInfo = (function () {
             function ColumnInfo() {
@@ -52,6 +58,12 @@
                 this.pageSize = parseInt(pageSizeAtt);
                 if (isNaN(this.pageSize)) {
                     this.pageSize = 5;
+                }
+
+                var editModeAtt = this.target.attr("data-g-edit-mode");
+                this.editMode = parseInt(editModeAtt);
+                if (isNaN(this.editMode)) {
+                    this.editMode = 2;
                 }
 
                 var text = this.target.find("script")[0].innerHTML;
