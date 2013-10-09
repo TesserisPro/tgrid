@@ -8,12 +8,12 @@
             Framework[Framework["Angular"] = 1] = "Angular";
         })(TGrid.Framework || (TGrid.Framework = {}));
         var Framework = TGrid.Framework;
-        (function (EditMode) {
-            EditMode[EditMode["None"] = 0] = "None";
-            EditMode[EditMode["Single"] = 1] = "Single";
-            EditMode[EditMode["Multi"] = 2] = "Multi";
-        })(TGrid.EditMode || (TGrid.EditMode = {}));
-        var EditMode = TGrid.EditMode;
+        (function (SelectMode) {
+            SelectMode[SelectMode["None"] = 0] = "None";
+            SelectMode[SelectMode["Single"] = 1] = "Single";
+            SelectMode[SelectMode["Multi"] = 2] = "Multi";
+        })(TGrid.SelectMode || (TGrid.SelectMode = {}));
+        var SelectMode = TGrid.SelectMode;
 
         var ColumnInfo = (function () {
             function ColumnInfo() {
@@ -60,10 +60,10 @@
                     this.pageSize = 5;
                 }
 
-                var editModeAtt = this.target.attr("data-g-edit-mode");
-                this.editMode = parseInt(editModeAtt);
-                if (isNaN(this.editMode)) {
-                    this.editMode = 2;
+                var editModeAtt = this.target.attr("data-g-select-mode");
+                this.selectMode = parseInt(editModeAtt);
+                if (isNaN(this.selectMode)) {
+                    this.selectMode = 1;
                 }
 
                 var text = this.target.find("script")[0].innerHTML;

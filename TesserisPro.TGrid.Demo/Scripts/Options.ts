@@ -4,7 +4,7 @@
 module TesserisPro.TGrid {
 
 	export enum Framework { Knockout, Angular }
-    export enum EditMode { None, Single, Multi }//0,1,2
+    export enum SelectMode { None, Single, Multi }//0,1,2
 
     export class ColumnInfo {
         public header: Template;
@@ -38,7 +38,7 @@ module TesserisPro.TGrid {
         public pageSlide: number = 1;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
-        public editMode: EditMode;
+        public selectMode: SelectMode;
 
         public selection: Array<any> = [];
 
@@ -64,10 +64,10 @@ module TesserisPro.TGrid {
                 this.pageSize = 5;
             }
 
-            var editModeAtt = this.target.attr("data-g-edit-mode");
-            this.editMode = parseInt(editModeAtt);
-            if (isNaN(this.editMode)) {
-                this.editMode = 2;
+            var editModeAtt = this.target.attr("data-g-select-mode");
+            this.selectMode = parseInt(editModeAtt);
+            if (isNaN(this.selectMode)) {
+                this.selectMode = 1;
             }
 
 			var text = this.target.find("script")[0].innerHTML;

@@ -58,7 +58,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider}" data-g-page-size="4" data-g-edit-mode="1">
+<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider}" data-g-page-size="4" data-g-select-mode="2">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -88,7 +88,7 @@
         <details>
             <div>
                 <span>Row details: </span>
-                <span style="color: red;" data-bind="text: item.detail"></span>
+                <span style="color: blue;" data-bind="text: item.detail"></span>
             </div>
         </details>
     </script>

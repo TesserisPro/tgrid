@@ -78,17 +78,21 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            //var detailTr = document.createElement("tr");
-            //var detailTd = document.createElement("td");
-            //detailTr.setAttribute("class","details")
-            //detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-            //detailTd.innerHTML = option.detailsTemplateHtml;
-            //detailTr.appendChild(detailTd);
+            var detailTr = document.createElement("tr");
+            var detailTd = document.createElement("td");
+            detailTr.setAttribute("class","details")
+            detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            detailTd.innerHTML = option.detailsTemplateHtml;
+            detailTr.appendChild(detailTd);
+            var selectedRow: any;
+            var selectedItem: any;
+
             for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                 var row = document.createElement("tr");
                 
                 if(option.isSelected(items[itemIndex].item)) {
                     row.setAttribute("class", "selected");
+                    selectedItem = items[itemIndex];
                 }
 
                 for (var i = 0; i < option.columns.length; i++) {
@@ -106,10 +110,10 @@ module TesserisPro.TGrid {
                 ko.applyBindings(items[itemIndex], row);
                 (function (item) {
                     row.onclick = function (e) {
-                        if (option.editMode!= EditMode.None) {
+                        if (option.selectMode != SelectMode.None) {
                             selected(item, e.ctrlKey);
                         }
-                        if (option.editMode == EditMode.Multi) {
+                        if (option.selectMode == SelectMode.Multi) {
                             if (!e.ctrlKey) {
                                 for (var i = 0; i < body.children.length; i++) {
                                     body.children.item(i).removeAttribute("class");
@@ -122,7 +126,7 @@ module TesserisPro.TGrid {
                                 (<HTMLElement>this).removeAttribute("class");
                             }
                         }
-                        if (option.editMode == EditMode.Single) {
+                        if (option.selectMode == SelectMode.Single) {
                             for (var i = 0; i < body.children.length; i++) {
                                 body.children.item(i).removeAttribute("class");
                             }
@@ -135,12 +139,13 @@ module TesserisPro.TGrid {
                         }
                     };
                 })(items[itemIndex]);
+                selectedRow = body.getElementsByClassName("selected");
 
-                //var d = document.getElementsByClassName("selected");
-                //if (d.length != 0) {
-                //    insertAfter(d[0], detailTr);
-                //    //ko.applyBindings(items[itemIndex], detailTr);
-                //}
+            }
+
+            if (selectedRow.length == 1) {
+                insertAfter(selectedRow[0], detailTr);
+                ko.applyBindings(selectedItem, detailTr);
             }
 
             //Hide table on mobile devices
@@ -157,6 +162,12 @@ module TesserisPro.TGrid {
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            var detailDiv = document.createElement("div");
+            detailDiv.innerHTML = option.detailsTemplateHtml;
+            detailDiv.setAttribute("class", "details tgrid-mobile-row")
+            var selectedRow: any;
+            var selectedItem: any;
+
             for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                 var row = document.createElement("div");
                 row.setAttribute("class", "tgrid-mobile-row");
@@ -166,14 +177,15 @@ module TesserisPro.TGrid {
 
                 if (option.isSelected(items[itemIndex].item)) {
                     row.setAttribute("class", "tgrid-mobile-row selected");
+                    selectedItem = items[itemIndex];
                 }
 
                 (function (item) {
                     row.onclick = function (e) {
-                        if (option.editMode != EditMode.None) {
+                        if (option.selectMode != SelectMode.None) {
                             selected(item, e.ctrlKey);
                         }
-                        if (option.editMode == EditMode.Multi) {
+                        if (option.selectMode == SelectMode.Multi) {
                             if (!e.ctrlKey) {
                                 for (var i = 0; i < container.children.length; i++) {
                                     container.children.item(i).setAttribute("class", "tgrid-mobile-row");
@@ -187,7 +199,7 @@ module TesserisPro.TGrid {
                                 (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
                             }
                         }
-                        if (option.editMode == EditMode.Single) {
+                        if (option.selectMode == SelectMode.Single) {
                             for (var i = 0; i < container.children.length; i++) {
                                 container.children.item(i).setAttribute("class", "tgrid-mobile-row");
                             }
@@ -200,6 +212,12 @@ module TesserisPro.TGrid {
                         }
                     };
                 })(items[itemIndex]);
+                selectedRow = container.getElementsByClassName("selected");
+            }
+
+            if (selectedRow.length == 1) {
+                insertAfter(selectedRow[0], detailDiv);
+                ko.applyBindings(selectedItem, detailDiv);
             }
 
             //Hide table on mobile devices

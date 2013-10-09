@@ -33,11 +33,13 @@ function isFunction(target) {
     return target && getType.toString.call(target) === '[object Function]';
 }
 
-function insertAfter(target, add) {
-    if (target.nextSibling == null) {
-        target.parentElement.appendChild(add);
+function insertAfter(refElem, elem) {
+    var parent = refElem.parentNode;
+    var next = refElem.nextSibling;
+    if (next) {
+        return parent.insertBefore(elem, next);
     } else {
-        target.nextSibling.insertBefore(add);
+        return parent.appendChild(elem);
     }
 }
 //# sourceMappingURL=utils.js.map

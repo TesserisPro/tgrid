@@ -127,7 +127,7 @@ module TesserisPro.TGrid {
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
-            if (this.options.editMode == EditMode.Multi) {
+            if (this.options.selectMode == SelectMode.Multi) {
                 if (multi) {
                     for (var i = 0; i < this.options.selection.length; i++) {
                         if (item.item == this.options.selection[i]) {
@@ -142,7 +142,7 @@ module TesserisPro.TGrid {
                 else {
                     this.options.selection = [item.item];
                 }
-            } else if (this.options.editMode == EditMode.Single) {
+            } else if (this.options.selectMode == SelectMode.Single) {
                 this.options.selection = [item.item];
             } else {
                 this.options.selection = null;

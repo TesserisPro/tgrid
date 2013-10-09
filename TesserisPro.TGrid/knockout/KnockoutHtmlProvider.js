@@ -87,11 +87,21 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
+                var detailTr = document.createElement("tr");
+                var detailTd = document.createElement("td");
+                detailTr.setAttribute("class", "details");
+                detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+                detailTd.innerHTML = option.detailsTemplateHtml;
+                detailTr.appendChild(detailTd);
+                var selectedRow;
+                var selectedItem;
+
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
 
                     if (option.isSelected(items[itemIndex].item)) {
                         row.setAttribute("class", "selected");
+                        selectedItem = items[itemIndex];
                     }
 
                     for (var i = 0; i < option.columns.length; i++) {
@@ -109,10 +119,10 @@ var TesserisPro;
                     ko.applyBindings(items[itemIndex], row);
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.editMode != TGrid.EditMode.None) {
+                            if (option.selectMode != TGrid.SelectMode.None) {
                                 selected(item, e.ctrlKey);
                             }
-                            if (option.editMode == TGrid.EditMode.Multi) {
+                            if (option.selectMode == TGrid.SelectMode.Multi) {
                                 if (!e.ctrlKey) {
                                     for (var i = 0; i < body.children.length; i++) {
                                         body.children.item(i).removeAttribute("class");
@@ -124,7 +134,7 @@ var TesserisPro;
                                     (this).removeAttribute("class");
                                 }
                             }
-                            if (option.editMode == TGrid.EditMode.Single) {
+                            if (option.selectMode == TGrid.SelectMode.Single) {
                                 for (var i = 0; i < body.children.length; i++) {
                                     body.children.item(i).removeAttribute("class");
                                 }
@@ -136,11 +146,12 @@ var TesserisPro;
                             }
                         };
                     })(items[itemIndex]);
-                    //var d = document.getElementsByClassName("selected");
-                    //if (d.length != 0) {
-                    //    insertAfter(d[0], detailTr);
-                    //    //ko.applyBindings(items[itemIndex], detailTr);
-                    //}
+                    selectedRow = body.getElementsByClassName("selected");
+                }
+
+                if (selectedRow.length == 1) {
+                    insertAfter(selectedRow[0], detailTr);
+                    ko.applyBindings(selectedItem, detailTr);
                 }
 
                 //Hide table on mobile devices
@@ -156,6 +167,12 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
+                var detailDiv = document.createElement("div");
+                detailDiv.innerHTML = option.detailsTemplateHtml;
+                detailDiv.setAttribute("class", "details tgrid-mobile-row");
+                var selectedRow;
+                var selectedItem;
+
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("div");
                     row.setAttribute("class", "tgrid-mobile-row");
@@ -165,14 +182,15 @@ var TesserisPro;
 
                     if (option.isSelected(items[itemIndex].item)) {
                         row.setAttribute("class", "tgrid-mobile-row selected");
+                        selectedItem = items[itemIndex];
                     }
 
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.editMode != TGrid.EditMode.None) {
+                            if (option.selectMode != TGrid.SelectMode.None) {
                                 selected(item, e.ctrlKey);
                             }
-                            if (option.editMode == TGrid.EditMode.Multi) {
+                            if (option.selectMode == TGrid.SelectMode.Multi) {
                                 if (!e.ctrlKey) {
                                     for (var i = 0; i < container.children.length; i++) {
                                         container.children.item(i).setAttribute("class", "tgrid-mobile-row");
@@ -185,7 +203,7 @@ var TesserisPro;
                                     (this).setAttribute("class", "tgrid-mobile-row");
                                 }
                             }
-                            if (option.editMode == TGrid.EditMode.Single) {
+                            if (option.selectMode == TGrid.SelectMode.Single) {
                                 for (var i = 0; i < container.children.length; i++) {
                                     container.children.item(i).setAttribute("class", "tgrid-mobile-row");
                                 }
@@ -197,6 +215,12 @@ var TesserisPro;
                             }
                         };
                     })(items[itemIndex]);
+                    selectedRow = container.getElementsByClassName("selected");
+                }
+
+                if (selectedRow.length == 1) {
+                    insertAfter(selectedRow[0], detailDiv);
+                    ko.applyBindings(selectedItem, detailDiv);
                 }
 
                 //Hide table on mobile devices
