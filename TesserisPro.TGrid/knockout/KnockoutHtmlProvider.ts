@@ -143,7 +143,7 @@ module TesserisPro.TGrid {
 
             }
 
-            if (selectedRow.length == 1) {
+            if (option.selection.length == 1) {
                 insertAfter(selectedRow[0], detailTr);
                 ko.applyBindings(selectedItem, detailTr);
             }
@@ -215,7 +215,7 @@ module TesserisPro.TGrid {
                 selectedRow = container.getElementsByClassName("selected");
             }
 
-            if (selectedRow.length == 1) {
+            if (option.selection.length == 1) {
                 insertAfter(selectedRow[0], detailDiv);
                 ko.applyBindings(selectedItem, detailDiv);
             }

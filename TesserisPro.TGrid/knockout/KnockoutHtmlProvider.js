@@ -149,7 +149,7 @@ var TesserisPro;
                     selectedRow = body.getElementsByClassName("selected");
                 }
 
-                if (selectedRow.length == 1) {
+                if (option.selection.length == 1) {
                     insertAfter(selectedRow[0], detailTr);
                     ko.applyBindings(selectedItem, detailTr);
                 }
@@ -218,7 +218,7 @@ var TesserisPro;
                     selectedRow = container.getElementsByClassName("selected");
                 }
 
-                if (selectedRow.length == 1) {
+                if (option.selection.length == 1) {
                     insertAfter(selectedRow[0], detailDiv);
                     ko.applyBindings(selectedItem, detailDiv);
                 }
