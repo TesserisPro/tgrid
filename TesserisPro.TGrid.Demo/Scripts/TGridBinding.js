@@ -8,6 +8,8 @@ var TGridBindingHandler = (function () {
     }
     TGridBindingHandler.prototype.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
+        options.groupByDescriptor = valueAccessor().groupBy;
+
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     };
 

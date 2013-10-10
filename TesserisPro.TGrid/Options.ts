@@ -13,6 +13,7 @@ module TesserisPro.TGrid {
         public width: string;
         public device: string;
         public sortMemberPath: string;
+        public groupMemberPath: string;
     }
 
     export class ShowDetail {
@@ -51,6 +52,7 @@ module TesserisPro.TGrid {
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
         public selectMode: SelectMode;
+        public groupByDescriptor: string;
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
@@ -104,6 +106,7 @@ module TesserisPro.TGrid {
                 column.cellDetail = cellDetail.innerHTML;
 
                 column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
+                column.groupMemberPath = columns[i].attributes['data-g-group-member'].nodeValue;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 

@@ -59,9 +59,9 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider}" data-g-page-size="4" data-g-select-mode="1">
+<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, groupBy: 'name'}" data-g-page-size="4" data-g-edit-mode="2" data-g-select-mode="1">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -76,8 +76,7 @@
                 </div>
             </celldetail>
         </column>
-
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key">
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key" data-g-group-member="key">
             <header>Key</header>
             <cell>
                 <span data-bind="text: item.key"></span>
@@ -127,11 +126,20 @@
                 { name: "a4", key: "a1", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
         ];
 
+        var grouped = false;
+
+        var groups = new Array();
+
         function SimpleItemsProvider() {
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, callback) {
-            callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            if (grouped) {
+                callback(groups.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            }
+            else {
+                callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            }
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (callback) {
@@ -150,6 +158,61 @@
                 }
             })
         };
+
+        function compareItems(item1, item2, columns) {
+            for (var i = 0; i < columns.length; i++) {
+                if (item1[columns[i]] != item2[columns[i]]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        SimpleItemsProvider.prototype.isGrouped() = function () {
+            return grouped;
+        }
+
+        SimpleItemsProvider.prototype.group = function (columns) {
+            groups = new Array();
+
+            var currentGroup = {
+                values: new Array(),
+                items: new Array()
+            };
+
+            for (var i = 0; i < columns.length; i++)
+            {
+                currentGroup.values.push(items[columns[i]]);
+            }
+            currentGroup.items.push(items[0]);
+
+            groups.push(currentGroup);
+
+            var groupFound;
+            for (var i = 1; i < items.length; i++) {
+                groupFound = false;
+                for (var j = 0; j < groups.length; j++) {
+                    if (compareItems(groups[j].items[0], items[i], columns)) {
+                        groups[j].items.push(item[i]);
+                        groupFound = true;
+                        break;
+                    }
+                }
+
+                if (!groupFound) {
+                    for (var j = 0; j < columns.length; j++) {
+                        currentGroup.values.push(items[columns[j]]);
+                    }
+                    currentGroup.items.push(items[i]);
+
+                    groups.push(currentGroup);
+                }
+            }
+
+            grouped = true;
+        };
+
         return SimpleItemsProvider;
     })();
 

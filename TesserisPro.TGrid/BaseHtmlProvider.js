@@ -15,7 +15,7 @@ var TesserisPro;
             BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, isSortable) {
             };
 
-            BaseHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
+            BaseHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
             };
 
             BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount) {
@@ -58,6 +58,9 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
+            };
+
+            BaseHtmlProvider.prototype.updateGroupedTableBodyElement = function (option, container, items, selected) {
             };
             return BaseHtmlProvider;
         })();
