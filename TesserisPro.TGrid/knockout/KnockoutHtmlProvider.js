@@ -90,6 +90,8 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
                 if (!option.showDetailFor.isApply) {
                     option.showDetailFor.column = -1;
+                }
+
                 for (var i = 0; i < items.length; i++) {
                     this.appendGroupElement(option, container, items[i], 0, selected);
                 }
@@ -180,7 +182,7 @@ var TesserisPro;
                     groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
                     groupColumnElement.appendChild(shiftingElement);
                     var groupDescription = document.createElement("span");
-                    groupDescription.innerText = "Group";
+                    groupDescription.innerHTML = "Group";
                     groupColumnElement.appendChild(groupDescription);
                     groupElement.appendChild(groupColumnElement);
                     container.appendChild(groupElement);

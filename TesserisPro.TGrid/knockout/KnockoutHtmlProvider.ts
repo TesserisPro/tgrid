@@ -177,7 +177,7 @@ module TesserisPro.TGrid {
                 groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
                 groupColumnElement.appendChild(shiftingElement);
                 var groupDescription = document.createElement("span");
-                groupDescription.innerText = "Group";
+                groupDescription.innerHTML = "Group";
                 groupColumnElement.appendChild(groupDescription);
                 groupElement.appendChild(groupColumnElement);
                 container.appendChild(groupElement);
