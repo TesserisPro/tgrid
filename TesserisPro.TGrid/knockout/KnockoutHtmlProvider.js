@@ -11,6 +11,7 @@ var TesserisPro;
     /// <reference path="../BaseHtmlProvider.ts" />
     /// <reference path="../ItemViewModel.ts" />
     /// <reference path="../utils.ts" />
+    /// <reference path="../IGroup.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -86,84 +87,15 @@ var TesserisPro;
                 }
             };
 
-            KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
+            KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
                 if (!option.showDetailFor.isApply) {
                     option.showDetailFor.column = -1;
-                }
-                var detailTr = document.createElement("tr");
-                var detailTd = document.createElement("td");
-                detailTr.setAttribute("class", "details");
-                detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-                detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
-                detailTr.appendChild(detailTd);
-                var selectedRow;
-
-                var itemWithDetails;
-
-                for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
-                    var row = document.createElement("tr");
-
-                    if (option.isSelected(items[itemIndex].item)) {
-                        row.setAttribute("class", "selected");
-                    }
-
-                    if (option.showDetailFor.item == items[itemIndex].item) {
-                        itemWithDetails = items[itemIndex];
-                    }
-
-                    for (var i = 0; i < option.columns.length; i++) {
-                        var cell = document.createElement("td");
-                        cell.setAttribute("width", option.columns[i].width);
-                        option.columns[i].cell.applyTemplate(cell);
-                        row.appendChild(cell);
-                    }
-
-                    var placeholderColumn = document.createElement("td");
-                    placeholderColumn.setAttribute("class", "tgrid-placeholder");
-                    row.appendChild(placeholderColumn);
-
-                    body.appendChild(row);
-                    ko.applyBindings(items[itemIndex], row);
-                    (function (item) {
-                        row.onclick = function (e) {
-                            if (option.selectMode != TGrid.SelectMode.None) {
-                                selected(item, e.ctrlKey);
-                            }
-                            if (option.selectMode == TGrid.SelectMode.Multi) {
-                                if (!e.ctrlKey) {
-                                    for (var i = 0; i < body.children.length; i++) {
-                                        body.children.item(i).removeAttribute("class");
-                                    }
-                                }
-                                if (option.isSelected(item.item)) {
-                                    (this).setAttribute("class", "selected");
-                                } else {
-                                    (this).removeAttribute("class");
-                                }
-                            }
-                            if (option.selectMode == TGrid.SelectMode.Single) {
-                                for (var i = 0; i < body.children.length; i++) {
-                                    body.children.item(i).removeAttribute("class");
-                                }
-                                if (option.isSelected(item.item)) {
-                                    (this).setAttribute("class", "selected");
-                                } else {
-                                    (this).removeAttribute("class");
-                                }
-                            }
-                        };
-                    })(items[itemIndex]);
-
-                    selectedRow = body.getElementsByClassName("selected");
-                }
-
-                if (itemWithDetails != null) {
-                    insertAfter(selectedRow[0], detailTr);
-                    ko.applyBindings(itemWithDetails, detailTr);
+                for (var i = 0; i < items.length; i++) {
+                    this.appendGroupElement(option, container, items[i], 0, selected);
                 }
 
                 //Hide table on mobile devices
-                var bodyClass = body.getAttribute("class");
+                var bodyClass = container.getAttribute("class");
                 if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
                     bodyClass = "desktop";
                 } else {
@@ -171,7 +103,114 @@ var TesserisPro;
                         bodyClass += " desktop";
                     }
                 }
-                body.setAttribute("class", bodyClass);
+                container.setAttribute("class", bodyClass);
+            };
+
+            KnockoutHtmlProvider.prototype.buildDetailsRow = function (option) {
+                var detailTr = document.createElement("tr");
+                var detailTd = document.createElement("td");
+
+                detailTr.setAttribute("class", "details");
+                detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+                detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+                detailTr.appendChild(detailTd);
+
+                return detailTr;
+            };
+
+            KnockoutHtmlProvider.prototype.buildRowElement = function (option, item, container, selected) {
+                var row = document.createElement("tr");
+
+                if (option.isSelected(item.item)) {
+                    row.setAttribute("class", "selected");
+                }
+
+                for (var i = 0; i < option.columns.length; i++) {
+                    var cell = document.createElement("td");
+                    cell.setAttribute("width", option.columns[i].width);
+                    option.columns[i].cell.applyTemplate(cell);
+                    row.appendChild(cell);
+                }
+
+                var placeholderColumn = document.createElement("td");
+                placeholderColumn.setAttribute("class", "tgrid-placeholder");
+                row.appendChild(placeholderColumn);
+
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (option.selectMode != TGrid.SelectMode.None) {
+                            selected(item, e.ctrlKey);
+                        }
+                        if (option.selectMode == TGrid.SelectMode.Multi) {
+                            if (!e.ctrlKey) {
+                                for (var i = 0; i < container.children.length; i++) {
+                                    container.children.item(i).removeAttribute("class");
+                                }
+                            }
+                            if (option.isSelected(item.item)) {
+                                (this).setAttribute("class", "selected");
+                            } else {
+                                (this).removeAttribute("class");
+                            }
+                        }
+                        if (option.selectMode == TGrid.SelectMode.Single) {
+                            for (var i = 0; i < container.children.length; i++) {
+                                container.children.item(i).removeAttribute("class");
+                            }
+                            if (option.isSelected(item.item)) {
+                                (this).setAttribute("class", "selected");
+                            } else {
+                                (this).removeAttribute("class");
+                            }
+                        }
+                    };
+                })(item);
+
+                return row;
+            };
+
+            KnockoutHtmlProvider.prototype.appendGroupElement = function (option, container, item, groupLevel, selected) {
+                var maxGroupLevel = 1;
+
+                if (groupLevel != maxGroupLevel) {
+                    var groupElement = document.createElement("tr");
+                    var groupColumnElement = document.createElement("td");
+                    var shiftingElement = document.createElement("div");
+                    shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
+                    groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
+                    groupColumnElement.appendChild(shiftingElement);
+                    var groupDescription = document.createElement("span");
+                    groupDescription.innerText = "Group";
+                    groupColumnElement.appendChild(groupDescription);
+                    groupElement.appendChild(groupColumnElement);
+                    container.appendChild(groupElement);
+
+                    for (var i = 0; i < item.children.length; i++) {
+                        this.appendGroupElement(option, container, item.children[i], groupLevel + 1, selected);
+                    }
+                }
+
+                if (groupLevel == maxGroupLevel || item.children == null) {
+                    var itemWithDetails;
+                    var rowWithDetail;
+
+                    var row = this.buildRowElement(option, item, container, selected);
+
+                    container.appendChild(row);
+                    ko.applyBindings(item, row);
+
+                    if (option.showDetailFor.item == item.item) {
+                        itemWithDetails = item;
+                        rowWithDetail = row;
+                    }
+
+                    var details = this.buildDetailsRow(option);
+
+                    if (itemWithDetails != null) {
+                        insertAfter(rowWithDetail, details);
+                        ko.applyBindings(itemWithDetails, details);
+                    }
+                }
             };
 
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {

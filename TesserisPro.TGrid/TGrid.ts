@@ -125,9 +125,9 @@ module TesserisPro.TGrid {
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
-                itemModels.push(new ItemViewModel(null, items[i], this));
+                itemModels.push(new ItemViewModel(null, items[i], this, this.options.groupByDescriptor != null && this.options.groupByDescriptor != ""));
             }
-
+                        
             setTimeout(() => {
                 this.tableBody.innerHTML = "";
                 this.htmlProvider.updateTableBodyElement(

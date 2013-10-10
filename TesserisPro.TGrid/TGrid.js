@@ -77,6 +77,10 @@ var TesserisPro;
                 return (this.itemProvider).group != undefined ? true : false;
             };
 
+            Grid.prototype.isCellDetails = function () {
+                return (this.itemProvider).openCellDetails != undefined ? true : false;
+            };
+
             Grid.prototype.selectPage = function (page) {
                 this.options.currentPage = page;
                 this.refereshTableHeader();
@@ -109,7 +113,7 @@ var TesserisPro;
                 var itemModels = [];
 
                 for (var i = 0; i < items.length; i++) {
-                    itemModels.push(new TGrid.ItemViewModel(null, items[i], this));
+                    itemModels.push(new TGrid.ItemViewModel(null, items[i], this, this.options.groupByDescriptor != null && this.options.groupByDescriptor != ""));
                 }
 
                 setTimeout(function () {
@@ -128,7 +132,7 @@ var TesserisPro;
             };
 
             Grid.prototype.selectItem = function (item, multi) {
-                if (this.options.editMode == TGrid.EditMode.Multi) {
+                if (this.options.selectMode == TGrid.SelectMode.Multi) {
                     if (multi) {
                         for (var i = 0; i < this.options.selection.length; i++) {
                             if (item.item == this.options.selection[i]) {
@@ -142,11 +146,16 @@ var TesserisPro;
                     } else {
                         this.options.selection = [item.item];
                     }
-                } else if (this.options.editMode == TGrid.EditMode.Single) {
+                } else if (this.options.selectMode == TGrid.SelectMode.Single) {
                     this.options.selection = [item.item];
                 } else {
                     this.options.selection = null;
                 }
+
+                if (this.options.selection.length == 1) {
+                    this.options.showDetailFor.item = this.options.selection[0];
+                }
+
                 this.refreshTableBody();
                 return true;
             };

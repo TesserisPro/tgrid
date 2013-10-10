@@ -115,9 +115,9 @@
     var SimpleItemsProvider = (function () {
         var items = [
                 { name: "a1", key: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b1", key: "c3", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "c3", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "c1", key: "b3", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a2", key: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "b2", key: "c2", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "c2", key: "b2", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "a3", key: "a2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
@@ -169,7 +169,7 @@
             return true;
         }
 
-        SimpleItemsProvider.prototype.isGrouped() = function () {
+        SimpleItemsProvider.prototype.isGrouped = function () {
             return grouped;
         }
 
@@ -183,7 +183,7 @@
 
             for (var i = 0; i < columns.length; i++)
             {
-                currentGroup.values.push(items[columns[i]]);
+                currentGroup.values.push(items[0][columns[i]]);
             }
             currentGroup.items.push(items[0]);
 
@@ -194,15 +194,20 @@
                 groupFound = false;
                 for (var j = 0; j < groups.length; j++) {
                     if (compareItems(groups[j].items[0], items[i], columns)) {
-                        groups[j].items.push(item[i]);
+                        groups[j].items.push(items[i]);
                         groupFound = true;
                         break;
                     }
                 }
 
                 if (!groupFound) {
+                    currentGroup = {
+                        values: new Array(),
+                        items: new Array()
+                    };
+
                     for (var j = 0; j < columns.length; j++) {
-                        currentGroup.values.push(items[columns[j]]);
+                        currentGroup.values.push(items[i][columns[j]]);
                     }
                     currentGroup.items.push(items[i]);
 

@@ -3,6 +3,7 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../utils.ts" />
+/// <reference path="../IGroup.ts" />
 
 module TesserisPro.TGrid {
 
@@ -81,81 +82,11 @@ module TesserisPro.TGrid {
             if (!option.showDetailFor.isApply) {
                 option.showDetailFor.column = -1;
             }
-            var detailTr = document.createElement("tr");
-            var detailTd = document.createElement("td");
-            detailTr.setAttribute("class","details")
-            detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-            detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
-            detailTr.appendChild(detailTd);
-            var selectedRow: any;
-
-            var itemWithDetails: any;
-
-            for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
-                var row = document.createElement("tr");
-                
-                if(option.isSelected(items[itemIndex].item)) {
-                    row.setAttribute("class", "selected");
-                }
-
-                if (option.showDetailFor.item == items[itemIndex].item) {
-                    itemWithDetails = items[itemIndex];
-                }
-
-                for (var i = 0; i < option.columns.length; i++) {
-                    var cell = document.createElement("td");
-                    cell.setAttribute("width", option.columns[i].width);
-                    option.columns[i].cell.applyTemplate(cell);
-                    row.appendChild(cell);
-                }
-
-                var placeholderColumn = document.createElement("td");
-                placeholderColumn.setAttribute("class", "tgrid-placeholder");
-                row.appendChild(placeholderColumn);
-
-                container.appendChild(row);
-                ko.applyBindings(items[itemIndex], row);
-                (function (item) {
-                    row.onclick = function (e) {
-                        if (option.selectMode != SelectMode.None) {
-                            selected(item, e.ctrlKey);
-                        }
-                        if (option.selectMode == SelectMode.Multi) {
-                            if (!e.ctrlKey) {
-                                for (var i = 0; i < container.children.length; i++) {
-                                    container.children.item(i).removeAttribute("class");
-                                }
-                            }
-                            if (option.isSelected(item.item)) {
-                                (<HTMLElement>this).setAttribute("class", "selected");
-                            }
-                            else {
-                                (<HTMLElement>this).removeAttribute("class");
-                            }
-                        }
-                        if (option.selectMode == SelectMode.Single) {
-                            for (var i = 0; i < container.children.length; i++) {
-                                container.children.item(i).removeAttribute("class");
-                            }
-                            if (option.isSelected(item.item)) {
-                                (<HTMLElement>this).setAttribute("class", "selected");
-                            }
-                            else {
-                                (<HTMLElement>this).removeAttribute("class");
-                            }
-                        }
-                    };
-                })(items[itemIndex]);
-
-                selectedRow = body.getElementsByClassName("selected");
+            
+            for (var i = 0; i < items.length; i++) {
+                this.appendGroupElement(option, container, items[i], 0, selected);
             }
-
-            // Insert row details after selected item
-            if (itemWithDetails != null) {
-                insertAfter(selectedRow[0], detailTr);
-                ko.applyBindings(itemWithDetails, detailTr);
-            }
-
+            
             //Hide table on mobile devices
             var bodyClass = container.getAttribute("class");
             if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
@@ -169,21 +100,116 @@ module TesserisPro.TGrid {
             container.setAttribute("class", bodyClass);
         }
 
-        private appendGroupElements(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number): void {
+        private buildDetailsRow(option: Options): HTMLElement {
+            var detailTr = document.createElement("tr");
+            var detailTd = document.createElement("td");
+
+            detailTr.setAttribute("class", "details")
+            detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+            detailTr.appendChild(detailTd);
+
+            return detailTr;
+        }
+
+        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+            var row = document.createElement("tr");
+
+            if (option.isSelected(item.item)) {
+                row.setAttribute("class", "selected");
+            }
+                   
+            for (var i = 0; i < option.columns.length; i++) {
+                var cell = document.createElement("td");
+                cell.setAttribute("width", option.columns[i].width);
+                option.columns[i].cell.applyTemplate(cell);
+                row.appendChild(cell);
+            }
+
+            var placeholderColumn = document.createElement("td");
+            placeholderColumn.setAttribute("class", "tgrid-placeholder");
+            row.appendChild(placeholderColumn);
+                        
+            (function (item) {
+                row.onclick = function (e) {
+                    if (option.selectMode != SelectMode.None) {
+                        selected(item, e.ctrlKey);
+                    }
+                    if (option.selectMode == SelectMode.Multi) {
+                        if (!e.ctrlKey) {
+                            for (var i = 0; i < container.children.length; i++) {
+                                container.children.item(i).removeAttribute("class");
+                            }
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                    if (option.selectMode == SelectMode.Single) {
+                        for (var i = 0; i < container.children.length; i++) {
+                            container.children.item(i).removeAttribute("class");
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                };
+            })(item);
+
+            return row;
+        }
+
+
+        private appendGroupElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var maxGroupLevel = 1;
             
-            var groupElement = document.createElement("tr");
-            var groupColumnElement = document.createElement("td");
-            var shiftingElement = document.createElement("div");
-            shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
-            groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
-            groupColumnElement.appendChild(shiftingElement);
-            var groupDescription = document.createElement("span");
-            groupDescription.innerText = "Group";
-            groupColumnElement.appendChild(groupDescription);
-            groupElement.appendChild(groupColumnElement);
-            container.appendChild(groupElement);
+            if (groupLevel != maxGroupLevel) {
+                var groupElement = document.createElement("tr");
+                var groupColumnElement = document.createElement("td");
+                var shiftingElement = document.createElement("div");
+                shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
+                groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
+                groupColumnElement.appendChild(shiftingElement);
+                var groupDescription = document.createElement("span");
+                groupDescription.innerText = "Group";
+                groupColumnElement.appendChild(groupDescription);
+                groupElement.appendChild(groupColumnElement);
+                container.appendChild(groupElement);
+            
+            
+                for (var i = 0; i < item.children.length; i++) {
+                    this.appendGroupElement(option, container, item.children[i], groupLevel + 1, selected);
+                }
+            }
 
+            if (groupLevel == maxGroupLevel || item.children == null) {
+                var itemWithDetails: any;
+                var rowWithDetail: HTMLElement;
+
+                var row = this.buildRowElement(option, item, container, selected);
+
+                container.appendChild(row);
+                ko.applyBindings(item, row);
+
+                if (option.showDetailFor.item == item.item) {
+                    itemWithDetails = item;
+                    rowWithDetail = row;
+                }
+
+                var details = this.buildDetailsRow(option);
+
+                // Insert row details after selected item
+                if (itemWithDetails != null) {
+                    insertAfter(rowWithDetail, details);
+                    ko.applyBindings(itemWithDetails, details);
+                }
+            }
             
         }
 

@@ -20,6 +20,7 @@
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />
+    <TypeScriptCompile Include="IGroup.ts" />
     <TypeScriptCompile Include="IGroupableItemProvider.ts" />
     <TypeScriptCompile Include="ISortableItemProvider.ts" />
     <TypeScriptCompile Include="ItemViewModel.ts" />
