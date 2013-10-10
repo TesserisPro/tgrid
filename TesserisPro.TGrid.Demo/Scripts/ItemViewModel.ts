@@ -10,6 +10,10 @@ module TesserisPro.TGrid {
             this.item = item;
             this.grid = grid;
         }
+
+        public getCellDetailFor(columnIndex:any): void {
+            this.grid.options.showDetailFor.column = columnIndex;
+        }
     }
 
 }

@@ -22,6 +22,15 @@
         })();
         TGrid.ColumnInfo = ColumnInfo;
 
+        var ShowDetail = (function () {
+            function ShowDetail() {
+                this.column = -1;
+                this.item = null;
+            }
+            return ShowDetail;
+        })();
+        TGrid.ShowDetail = ShowDetail;
+
         var Template = (function () {
             function Template(prototype) {
                 this.content = "";
@@ -71,9 +80,10 @@
 
                 var headers = optionsElement.find("header");
                 var cells = optionsElement.find("cell");
+                var cellDetails = optionsElement.find("celldetail");
                 var columns = optionsElement.find("column");
 
-                for (var i = 0; i < headers.length; i++) {
+                for (var i = 0; i < columns.length; i++) {
                     var column = new ColumnInfo();
 
                     var header = new Template(headers[i]);
@@ -81,6 +91,9 @@
 
                     var cell = new Template(cells[i]);
                     column.cell = cell;
+
+                    var cellDetail = cellDetails[i];
+                    column.cellDetail = cellDetail.innerHTML;
 
                     column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
                     column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
@@ -95,6 +108,8 @@
 
                 var detailsTemplate = optionsElement.find("details");
                 this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
+
+                this.showDetailFor = new ShowDetail();
             };
             return Options;
         })();

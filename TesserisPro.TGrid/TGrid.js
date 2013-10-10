@@ -60,6 +60,10 @@ var TesserisPro;
                 return (this.itemProvider).sort != undefined ? true : false;
             };
 
+            Grid.prototype.isCellDetails = function () {
+                return (this.itemProvider).openCellDetails != undefined ? true : false;
+            };
+
             Grid.prototype.selectPage = function (page) {
                 this.options.currentPage = page;
                 this.refereshTableHeader();
@@ -130,6 +134,11 @@ var TesserisPro;
                 } else {
                     this.options.selection = null;
                 }
+
+                if (this.options.selection.length == 1) {
+                    this.options.showDetailFor.item = this.options.selection[0];
+                }
+
                 this.refreshTableBody();
                 return true;
             };

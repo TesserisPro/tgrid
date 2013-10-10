@@ -7,6 +7,9 @@ var TesserisPro;
                 this.item = item;
                 this.grid = grid;
             }
+            ItemViewModel.prototype.getCellDetailFor = function (columnIndex) {
+                this.grid.options.showDetailFor.column = columnIndex;
+            };
             return ItemViewModel;
         })();
         TGrid.ItemViewModel = ItemViewModel;

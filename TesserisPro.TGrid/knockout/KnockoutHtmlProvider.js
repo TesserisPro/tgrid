@@ -91,17 +91,21 @@ var TesserisPro;
                 var detailTd = document.createElement("td");
                 detailTr.setAttribute("class", "details");
                 detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-                detailTd.innerHTML = option.detailsTemplateHtml;
+                detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
                 detailTr.appendChild(detailTd);
                 var selectedRow;
-                var selectedItem;
+
+                var itemWithDetails;
 
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("tr");
 
                     if (option.isSelected(items[itemIndex].item)) {
                         row.setAttribute("class", "selected");
-                        selectedItem = items[itemIndex];
+                    }
+
+                    if (option.showDetailFor.item == items[itemIndex].item) {
+                        itemWithDetails = items[itemIndex];
                     }
 
                     for (var i = 0; i < option.columns.length; i++) {
@@ -146,12 +150,13 @@ var TesserisPro;
                             }
                         };
                     })(items[itemIndex]);
+
                     selectedRow = body.getElementsByClassName("selected");
                 }
 
-                if (option.selection.length == 1) {
+                if (itemWithDetails != null) {
                     insertAfter(selectedRow[0], detailTr);
-                    ko.applyBindings(selectedItem, detailTr);
+                    ko.applyBindings(itemWithDetails, detailTr);
                 }
 
                 //Hide table on mobile devices
@@ -168,10 +173,11 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
                 var detailDiv = document.createElement("div");
-                detailDiv.innerHTML = option.detailsTemplateHtml;
+                detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
                 detailDiv.setAttribute("class", "details tgrid-mobile-row");
                 var selectedRow;
-                var selectedItem;
+
+                var itemWithDetails;
 
                 for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     var row = document.createElement("div");
@@ -182,7 +188,10 @@ var TesserisPro;
 
                     if (option.isSelected(items[itemIndex].item)) {
                         row.setAttribute("class", "tgrid-mobile-row selected");
-                        selectedItem = items[itemIndex];
+                    }
+
+                    if (option.showDetailFor.item == items[itemIndex].item) {
+                        itemWithDetails = items[itemIndex];
                     }
 
                     (function (item) {
@@ -215,12 +224,13 @@ var TesserisPro;
                             }
                         };
                     })(items[itemIndex]);
+
                     selectedRow = container.getElementsByClassName("selected");
                 }
 
-                if (option.selection.length == 1) {
+                if (itemWithDetails != null) {
                     insertAfter(selectedRow[0], detailDiv);
-                    ko.applyBindings(selectedItem, detailDiv);
+                    ko.applyBindings(itemWithDetails, detailDiv);
                 }
 
                 //Hide table on mobile devices

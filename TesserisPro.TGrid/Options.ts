@@ -9,9 +9,19 @@ module TesserisPro.TGrid {
     export class ColumnInfo {
         public header: Template;
         public cell: Template;
+        public cellDetail: string;
         public width: string;
         public device: string;
         public sortMemberPath: string;
+    }
+
+    export class ShowDetail {
+        public item: any;
+        public column: number;
+        constructor() {
+            this.column = -1;
+            this.item = null;
+        }
     }
 
 	export class Template {
@@ -40,6 +50,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public selectMode: SelectMode;
 
+        public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
         constructor(element: HTMLElement, framework: Framework) {
@@ -74,10 +85,11 @@ module TesserisPro.TGrid {
 			var optionsElement = $("<div>" + text + "</div");
 
             var headers = optionsElement.find("header");
-			var cells = optionsElement.find("cell");
+            var cells = optionsElement.find("cell");
+            var cellDetails = optionsElement.find("celldetail");
             var columns = optionsElement.find("column");
 
-            for (var i = 0; i < headers.length; i++) {
+            for (var i = 0; i < columns.length; i++) {
                 var column = new ColumnInfo();
 
                 var header = new Template(headers[i]);
@@ -85,6 +97,9 @@ module TesserisPro.TGrid {
 
                 var cell = new Template(cells[i]);
                 column.cell = cell;
+
+                var cellDetail = cellDetails[i];
+                column.cellDetail = cellDetail.innerHTML;
 
                 column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
@@ -99,6 +114,8 @@ module TesserisPro.TGrid {
 
             var detailsTemplate = optionsElement.find("details");
             this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
+
+            this.showDetailFor = new ShowDetail();
         }
     }
 }

@@ -73,6 +73,10 @@ module TesserisPro.TGrid {
             return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
         }
 
+        public isCellDetails(): boolean {
+            return (<any>this.itemProvider).openCellDetails != undefined ? true : false;
+        }
+
         public selectPage(page: number): void {
             this.options.currentPage = page;
             this.refereshTableHeader();
@@ -147,6 +151,11 @@ module TesserisPro.TGrid {
             } else {
                 this.options.selection = null;
             }
+
+            if (this.options.selection.length == 1) {
+                this.options.showDetailFor.item = this.options.selection[0];
+            }
+
             this.refreshTableBody();
             return true;
         }
