@@ -18,9 +18,11 @@ module TesserisPro.TGrid {
     export class ShowDetail {
         public item: any;
         public column: number;
+        public isApply: boolean;
         constructor() {
             this.column = -1;
             this.item = null;
+            this.isApply = false;
         }
     }
 

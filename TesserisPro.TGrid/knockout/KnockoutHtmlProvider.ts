@@ -78,6 +78,9 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            if (!option.showDetailFor.isApply) {
+                option.showDetailFor.column = -1;
+            }
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
             detailTr.setAttribute("class","details")
@@ -167,6 +170,9 @@ module TesserisPro.TGrid {
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            if (!option.showDetailFor.isApply) {
+                option.showDetailFor.column = -1;
+            }
             var detailDiv = document.createElement("div");
             detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
             detailDiv.setAttribute("class", "details tgrid-mobile-row")
@@ -242,6 +248,7 @@ module TesserisPro.TGrid {
                 }
             }
             container.setAttribute("class", bodyClass);
+            option.showDetailFor.isApply = false;
         }
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {

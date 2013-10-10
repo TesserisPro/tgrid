@@ -95,9 +95,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;" data-bind="text: item.name"></span>
+                <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
                 <br />
                 <span>Key: </span>
                 <span data-bind="text: item.key"></span>
+                <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
             </div>
         </mobile>
 

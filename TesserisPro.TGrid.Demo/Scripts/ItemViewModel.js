@@ -9,6 +9,7 @@ var TesserisPro;
             }
             ItemViewModel.prototype.getCellDetailFor = function (columnIndex) {
                 this.grid.options.showDetailFor.column = columnIndex;
+                this.grid.options.showDetailFor.isApply = true;
             };
             return ItemViewModel;
         })();

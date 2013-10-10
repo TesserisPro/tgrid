@@ -87,6 +87,9 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, body, items, selected) {
+                if (!option.showDetailFor.isApply) {
+                    option.showDetailFor.column = -1;
+                }
                 var detailTr = document.createElement("tr");
                 var detailTd = document.createElement("td");
                 detailTr.setAttribute("class", "details");
@@ -172,6 +175,9 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
+                if (!option.showDetailFor.isApply) {
+                    option.showDetailFor.column = -1;
+                }
                 var detailDiv = document.createElement("div");
                 detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
                 detailDiv.setAttribute("class", "details tgrid-mobile-row");
@@ -243,6 +249,7 @@ var TesserisPro;
                     }
                 }
                 container.setAttribute("class", bodyClass);
+                option.showDetailFor.isApply = false;
             };
 
             KnockoutHtmlProvider.prototype.updateMobileHeadElement = function (option, mobileHeader, isSortable) {

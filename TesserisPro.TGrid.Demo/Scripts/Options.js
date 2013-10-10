@@ -26,6 +26,7 @@
             function ShowDetail() {
                 this.column = -1;
                 this.item = null;
+                this.isApply = false;
             }
             return ShowDetail;
         })();
