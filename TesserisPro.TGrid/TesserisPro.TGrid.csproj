@@ -30,7 +30,7 @@
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
-    <Content Include="knockout\TGridBinding.ts" />
+    <TypeScriptCompile Include="knockout\TGridBinding.ts" />
     <Content Include="Options.js">
       <DependentUpon>Options.ts</DependentUpon>
     </Content>
