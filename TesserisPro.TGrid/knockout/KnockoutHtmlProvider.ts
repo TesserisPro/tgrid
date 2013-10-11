@@ -165,6 +165,56 @@ module TesserisPro.TGrid {
             return row;
         }
 
+        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+            var row = document.createElement("div");
+            row.setAttribute("class", "tgrid-mobile-row");
+
+            if (option.isSelected(item.item)) {
+                row.setAttribute("class", "selected tgrid-mobile-row");
+            }
+
+            row.innerHTML = option.mobileTemplateHtml;
+
+            var placeholderColumn = document.createElement("td");
+            placeholderColumn.setAttribute("class", "tgrid-placeholder");
+            row.appendChild(placeholderColumn);
+
+            (function (item) {
+                row.onclick = function (e) {
+                    if (option.selectMode != SelectMode.None) {
+                        selected(item, e.ctrlKey);
+                    }
+                    if (option.selectMode == SelectMode.Multi) {
+                        if (!e.ctrlKey) {
+                            for (var i = 0; i < container.children.length; i++) {
+                                container.children.item(i).removeAttribute("class");
+                            }
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                    if (option.selectMode == SelectMode.Single) {
+                        for (var i = 0; i < container.children.length; i++) {
+                            container.children.item(i).removeAttribute("class");
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                };
+            })(item);
+
+            return row;
+        }
+
+
 
         private appendGroupElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var maxGroupLevel = 1;
@@ -213,72 +263,59 @@ module TesserisPro.TGrid {
             
         }
 
+        private appendMobileGroupElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            var maxGroupLevel = 1;
+
+            if (groupLevel != maxGroupLevel) {
+                var groupElement = document.createElement("div");
+                var shiftingElement = document.createElement("div");
+                shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
+                groupElement.setAttribute("colspan", (option.columns.length + 1).toString());
+                groupElement.setAttribute("class", "tgrid-mobile-group");
+                groupElement.appendChild(shiftingElement);
+                var groupDescription = document.createElement("span");
+                groupDescription.innerHTML = "Group";
+                groupElement.appendChild(groupDescription);
+                container.appendChild(groupElement);
+
+
+                for (var i = 0; i < item.children.length; i++) {
+                    this.appendMobileGroupElement(option, container, item.children[i], groupLevel + 1, selected);
+                }
+            }
+
+            if (groupLevel == maxGroupLevel || item.children == null) {
+                var itemWithDetails: any;
+                var rowWithDetail: HTMLElement;
+
+                var row = this.buildMobileRowElement(option, item, container, selected);
+
+                container.appendChild(row);
+                ko.applyBindings(item, row);
+
+                if (option.showDetailFor.item == item.item) {
+                    itemWithDetails = item;
+                    rowWithDetail = row;
+                }
+
+                var details = this.buildDetailsRow(option);
+
+                // Insert row details after selected item
+                if (itemWithDetails != null) {
+                    insertAfter(rowWithDetail, details);
+                    ko.applyBindings(itemWithDetails, details);
+                }
+            }
+
+        }
+
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             if (!option.showDetailFor.isApply) {
                 option.showDetailFor.column = -1;
             }
-            var detailDiv = document.createElement("div");
-            detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
-            detailDiv.setAttribute("class", "details tgrid-mobile-row")
-            var selectedRow: any;
 
-            var itemWithDetails: any;
-
-            for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
-                var row = document.createElement("div");
-                row.setAttribute("class", "tgrid-mobile-row");
-                row.innerHTML = option.mobileTemplateHtml;
-                container.appendChild(row);
-                ko.applyBindings(items[itemIndex], row);
-
-                if (option.isSelected(items[itemIndex].item)) {
-                    row.setAttribute("class", "tgrid-mobile-row selected");
-                }
-
-                if (option.showDetailFor.item == items[itemIndex].item) {
-                    itemWithDetails = items[itemIndex];
-                }
-
-                (function (item) {
-                    row.onclick = function (e) {
-                        if (option.selectMode != SelectMode.None) {
-                            selected(item, e.ctrlKey);
-                        }
-                        if (option.selectMode == SelectMode.Multi) {
-                            if (!e.ctrlKey) {
-                                for (var i = 0; i < container.children.length; i++) {
-                                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
-                                }
-                            }
-
-                            if (option.isSelected(item.item)) {
-                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row selected");
-                            }
-                            else {
-                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
-                            }
-                        }
-                        if (option.selectMode == SelectMode.Single) {
-                            for (var i = 0; i < container.children.length; i++) {
-                                container.children.item(i).setAttribute("class", "tgrid-mobile-row");
-                            }
-                            if (option.isSelected(item.item)) {
-                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row selected");
-                            }
-                            else {
-                                (<HTMLElement>this).setAttribute("class", "tgrid-mobile-row");
-                            }
-                        }
-                    };
-                })(items[itemIndex]);
-
-                selectedRow = container.getElementsByClassName("selected");
-            }
-
-            // Insert row details after selected item
-            if (itemWithDetails != null) {
-                insertAfter(selectedRow[0], detailDiv);
-                ko.applyBindings(itemWithDetails, detailDiv);
+            for (var i = 0; i < items.length; i++) {
+                this.appendMobileGroupElement(option, container, items[i], 0, selected);
             }
 
             //Hide table on mobile devices
