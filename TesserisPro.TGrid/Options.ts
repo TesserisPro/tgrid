@@ -73,18 +73,6 @@ module TesserisPro.TGrid {
         }
 
         private initialize(): void {
-            var pageSizeAtt = this.target.attr("data-g-page-size");
-            this.pageSize = parseInt(pageSizeAtt);
-            if (isNaN(this.pageSize)) {
-                this.pageSize = 5;
-            }
-
-            var editModeAtt = this.target.attr("data-g-select-mode");
-            this.selectMode = parseInt(editModeAtt);
-            if (isNaN(this.selectMode)) {
-                this.selectMode = 1;
-            }
-
 			var text = this.target.find("script")[0].innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
