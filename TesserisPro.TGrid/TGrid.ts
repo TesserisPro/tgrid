@@ -57,7 +57,9 @@ module TesserisPro.TGrid {
 
             this.refereshTableHeader();
             this.refreshTableBody();
-            this.refreshTableFooter();
+            if (this.options.pageSize != 0) {
+                this.refreshTableFooter();
+            }
         }
 
         public sortBy(name: string): void {
@@ -121,7 +123,7 @@ module TesserisPro.TGrid {
             return this.options.pageSize;
         }
 
-        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number, total: number): void {
+        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
@@ -193,7 +195,13 @@ module TesserisPro.TGrid {
         }
 
         private refreshTableBody() {
-            this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count, total) => this.updateItems(items, first, count, total));
+            if (this.options.pageSize == 0) {
+                this.itemProvider.getTotalItemsCount(totalitemsCount =>
+                    this.itemProvider.getItems(this.getFirstItemNumber(), totalitemsCount, (items, first, count) => this.updateItems(items, first, count)));
+                
+            } else {
+                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+            }
         }
 
         private refreshTableFooter() {

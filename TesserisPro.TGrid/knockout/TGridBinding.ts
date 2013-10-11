@@ -18,7 +18,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         var pageSizeAtt = valueAccessor().pageSize;
         options.pageSize = parseInt(pageSizeAtt);
         if (isNaN(options.pageSize)) {
-            options.pageSize = 5;
+            options.pageSize = 0;
         }
 
         var editModeAtt = valueAccessor().selectMode;
