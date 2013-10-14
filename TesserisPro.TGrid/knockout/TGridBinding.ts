@@ -13,7 +13,6 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void
     {
         var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
-        options.groupByDescriptor = valueAccessor().groupBy;
 
         var pageSizeAtt = valueAccessor().pageSize;
         options.pageSize = parseInt(pageSizeAtt);

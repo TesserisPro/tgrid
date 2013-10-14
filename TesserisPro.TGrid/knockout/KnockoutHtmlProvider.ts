@@ -84,7 +84,7 @@ module TesserisPro.TGrid {
             }
             
             for (var i = 0; i < items.length; i++) {
-                this.appendGroupElement(option, container, items[i], 0, selected);
+                this.appendTableElement(option, container, items[i], 0, selected);
             }
             
             //Hide table on mobile devices
@@ -225,29 +225,29 @@ module TesserisPro.TGrid {
 
 
 
-        private appendGroupElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            var maxGroupLevel = 1;
+        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            //var maxGroupLevel = 1;
             
-            if (groupLevel != maxGroupLevel) {
-                var groupElement = document.createElement("tr");
-                var groupColumnElement = document.createElement("td");
-                var shiftingElement = document.createElement("div");
-                shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
-                groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
-                groupColumnElement.appendChild(shiftingElement);
-                var groupDescription = document.createElement("span");
-                groupDescription.innerHTML = "Group";
-                groupColumnElement.appendChild(groupDescription);
-                groupElement.appendChild(groupColumnElement);
-                container.appendChild(groupElement);
+            //if (groupLevel != maxGroupLevel) {
+            //    var groupElement = document.createElement("tr");
+            //    var groupColumnElement = document.createElement("td");
+            //    var shiftingElement = document.createElement("div");
+            //    shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
+            //    groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
+            //    groupColumnElement.appendChild(shiftingElement);
+            //    var groupDescription = document.createElement("span");
+            //    groupDescription.innerHTML = "Group";
+            //    groupColumnElement.appendChild(groupDescription);
+            //    groupElement.appendChild(groupColumnElement);
+            //    container.appendChild(groupElement);
             
             
-                for (var i = 0; i < item.children.length; i++) {
-                    this.appendGroupElement(option, container, item.children[i], groupLevel + 1, selected);
-                }
-            }
+            //    for (var i = 0; i < item.children.length; i++) {
+            //        this.appendGroupElement(option, container, item.children[i], groupLevel + 1, selected);
+            //    }
+            //}
 
-            if (groupLevel == maxGroupLevel || item.children == null) {
+            //if (groupLevel == maxGroupLevel || item.children == null) {
                 var itemWithDetails: any;
                 var rowWithDetail: HTMLElement;
 
@@ -268,32 +268,31 @@ module TesserisPro.TGrid {
                     insertAfter(rowWithDetail, details);
                     ko.applyBindings(itemWithDetails, details);
                 }
-            }
-            
+            //}
         }
 
-        private appendMobileGroupElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            var maxGroupLevel = 1;
+        private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            //var maxGroupLevel = 1;
 
-            if (groupLevel != maxGroupLevel) {
-                var groupElement = document.createElement("div");
-                var shiftingElement = document.createElement("div");
-                shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
-                groupElement.setAttribute("colspan", (option.columns.length + 1).toString());
-                groupElement.setAttribute("class", "tgrid-mobile-group");
-                groupElement.appendChild(shiftingElement);
-                var groupDescription = document.createElement("span");
-                groupDescription.innerHTML = "Group";
-                groupElement.appendChild(groupDescription);
-                container.appendChild(groupElement);
+            //if (groupLevel != maxGroupLevel) {
+            //    var groupElement = document.createElement("div");
+            //    var shiftingElement = document.createElement("div");
+            //    shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
+            //    groupElement.setAttribute("colspan", (option.columns.length + 1).toString());
+            //    groupElement.setAttribute("class", "tgrid-mobile-group");
+            //    groupElement.appendChild(shiftingElement);
+            //    var groupDescription = document.createElement("span");
+            //    groupDescription.innerHTML = "Group";
+            //    groupElement.appendChild(groupDescription);
+            //    container.appendChild(groupElement);
 
 
-                for (var i = 0; i < item.children.length; i++) {
-                    this.appendMobileGroupElement(option, container, item.children[i], groupLevel + 1, selected);
-                }
-            }
+            //    for (var i = 0; i < item.children.length; i++) {
+            //        this.appendMobileGroupElement(option, container, item.children[i], groupLevel + 1, selected);
+            //    }
+            //}
 
-            if (groupLevel == maxGroupLevel || item.children == null) {
+            //if (groupLevel == maxGroupLevel || item.children == null) {
                 var itemWithDetails: any;
                 var rowWithDetail: HTMLElement;
 
@@ -314,8 +313,7 @@ module TesserisPro.TGrid {
                     insertAfter(rowWithDetail, details);
                     ko.applyBindings(itemWithDetails, details);
                 }
-            }
-
+            //}
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
@@ -324,7 +322,7 @@ module TesserisPro.TGrid {
             }
 
             for (var i = 0; i < items.length; i++) {
-                this.appendMobileGroupElement(option, container, items[i], 0, selected);
+                this.appendMobileElement(option, container, items[i], 0, selected);
             }
 
             //Hide table on mobile devices

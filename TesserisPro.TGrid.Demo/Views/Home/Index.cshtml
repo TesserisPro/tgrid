@@ -58,9 +58,9 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, groupBy: 'name', pageSize: '4', selectMode:'1'}">
+<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, pageSize: '4', selectMode:'1'}">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -75,7 +75,7 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key" data-g-group-member="key">
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key">
             <header>Key</header>
             <cell>
                 <span data-bind="text: item.key"></span>
@@ -167,55 +167,6 @@
 
             return true;
         }
-
-        SimpleItemsProvider.prototype.isGrouped = function () {
-            return grouped;
-        }
-
-        SimpleItemsProvider.prototype.group = function (columns) {
-            groups = new Array();
-
-            var currentGroup = {
-                values: new Array(),
-                items: new Array()
-            };
-
-            for (var i = 0; i < columns.length; i++)
-            {
-                currentGroup.values.push(items[0][columns[i]]);
-            }
-            currentGroup.items.push(items[0]);
-
-            groups.push(currentGroup);
-
-            var groupFound;
-            for (var i = 1; i < items.length; i++) {
-                groupFound = false;
-                for (var j = 0; j < groups.length; j++) {
-                    if (compareItems(groups[j].items[0], items[i], columns)) {
-                        groups[j].items.push(items[i]);
-                        groupFound = true;
-                        break;
-                    }
-                }
-
-                if (!groupFound) {
-                    currentGroup = {
-                        values: new Array(),
-                        items: new Array()
-                    };
-
-                    for (var j = 0; j < columns.length; j++) {
-                        currentGroup.values.push(items[i][columns[j]]);
-                    }
-                    currentGroup.items.push(items[i]);
-
-                    groups.push(currentGroup);
-                }
-            }
-
-            grouped = true;
-        };
 
         return SimpleItemsProvider;
     })();

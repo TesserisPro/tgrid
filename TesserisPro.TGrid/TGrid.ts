@@ -51,10 +51,6 @@ module TesserisPro.TGrid {
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.targetElement.appendChild(this.tableFooter);
 
-            if (options.groupByDescriptor.length > 0) {
-                this.groupBy(options.groupByDescriptor[0]);
-            }
-
             this.refereshTableHeader();
             this.refreshTableBody();
             if (this.options.pageSize != 0) {
@@ -80,13 +76,13 @@ module TesserisPro.TGrid {
             return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
         }
 
-        public groupBy(name: string): void {
-            if (this.isGroupable()) {
-                (<IGroupableItemProvider><any>this.itemProvider).group([this.options.groupByDescriptor]);
-                this.refereshTableHeader();
-                this.refreshTableBody();
-            }
-        }
+        //public groupBy(name: string): void {
+        //    if (this.isGroupable()) {
+        //        (<IGroupableItemProvider><any>this.itemProvider).group([this.options.groupByDescriptor]);
+        //        this.refereshTableHeader();
+        //        this.refreshTableBody();
+        //    }
+        //}
 
         public isGroupable(): boolean {
             return (<IGroupableItemProvider><any>this.itemProvider).group != undefined ? true : false;
@@ -127,7 +123,7 @@ module TesserisPro.TGrid {
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
-                itemModels.push(new ItemViewModel(null, items[i], this, this.options.groupByDescriptor != null && this.options.groupByDescriptor != ""));
+                itemModels.push(new ItemViewModel(null, items[i], this));
             }
                         
             setTimeout(() => {
