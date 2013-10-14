@@ -82,3 +82,7 @@ _Chutzpah*.*
 /TesserisPro.TGrid.Demo/Scripts/utils.js
 /TesserisPro.TGrid.Demo/Scripts/utils.ts
 /TesserisPro.TGrid.Demo/Styles/grid.css
+TesserisPro.TGrid.Demo/Scripts/FilterDescriptor.js
+TesserisPro.TGrid.Demo/Scripts/FilterDescriptor.ts
+TesserisPro.TGrid.Demo/Scripts/IFilterableItemProvider.js
+TesserisPro.TGrid.Demo/Scripts/IFilterableItemProvider.ts
