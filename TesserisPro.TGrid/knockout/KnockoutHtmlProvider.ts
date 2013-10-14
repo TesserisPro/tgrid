@@ -112,6 +112,15 @@ module TesserisPro.TGrid {
             return detailTr;
         }
 
+        private buildMobileDetailsRow(option: Options): HTMLElement {
+            var detailDiv = document.createElement("div");
+
+            detailDiv.setAttribute("class", "tgrid-mobile-details ")
+            detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+
+            return detailDiv;
+        }
+
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
 
@@ -298,7 +307,7 @@ module TesserisPro.TGrid {
                     rowWithDetail = row;
                 }
 
-                var details = this.buildDetailsRow(option);
+                var details = this.buildMobileDetailsRow(option);
 
                 // Insert row details after selected item
                 if (itemWithDetails != null) {

@@ -41,7 +41,7 @@
     background-color: rgba(152,190,222,1);
 }
 
-.tgrid-mobile-row {
+.tgrid-mobile-row, .tgrid-mobile-details  {
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
     border-bottom: 1px solid rgb(122,188,255);
