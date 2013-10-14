@@ -16,7 +16,7 @@ module TesserisPro.TGrid {
 
         public getCellDetailFor(columnIndex:any): void {
             this.grid.options.showDetailFor.column = columnIndex;
-            this.grid.options.showDetailFor.isApply = true;
+            this.grid.options.showDetailFor.isDetailColumn = true;
         }
     }
 

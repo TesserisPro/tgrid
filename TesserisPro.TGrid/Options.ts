@@ -1,10 +1,12 @@
 ﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="SortDescriptor.ts" />
+/// <reference path="FilterDescriptor.ts" />
 
 module TesserisPro.TGrid {
 
 	export enum Framework { Knockout, Angular }
     export enum SelectMode { None, Single, Multi }//0,1,2
+    export enum FilerCondition { None, Equel, NotEquel }
 
     export class ColumnInfo {
         public header: Template;
@@ -19,11 +21,11 @@ module TesserisPro.TGrid {
     export class ShowDetail {
         public item: any;
         public column: number;
-        public isApply: boolean;
+        public isDetailColumn: boolean;
         constructor() {
             this.column = -1;
             this.item = null;
-            this.isApply = false;
+            this.isDetailColumn = false;
         }
     }
 
@@ -53,6 +55,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public selectMode: SelectMode;
         public groupByDescriptor: string;
+        public filterDescriptors: Array<FilterDescriptor> = [];
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
@@ -60,6 +63,9 @@ module TesserisPro.TGrid {
         constructor(element: HTMLElement, framework: Framework) {
 			this.target = $(element);
             this.framework = framework;
+            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
+            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
+            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "c1", 1));
             this.initialize();
         }
 

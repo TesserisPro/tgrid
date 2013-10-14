@@ -79,7 +79,7 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            if (!option.showDetailFor.isApply) {
+            if (!option.showDetailFor.isDetailColumn) {
                 option.showDetailFor.column = -1;
             }
             
@@ -226,98 +226,54 @@ module TesserisPro.TGrid {
 
 
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            //var maxGroupLevel = 1;
-            
-            //if (groupLevel != maxGroupLevel) {
-            //    var groupElement = document.createElement("tr");
-            //    var groupColumnElement = document.createElement("td");
-            //    var shiftingElement = document.createElement("div");
-            //    shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
-            //    groupColumnElement.setAttribute("colspan", (option.columns.length + 1).toString());
-            //    groupColumnElement.appendChild(shiftingElement);
-            //    var groupDescription = document.createElement("span");
-            //    groupDescription.innerHTML = "Group";
-            //    groupColumnElement.appendChild(groupDescription);
-            //    groupElement.appendChild(groupColumnElement);
-            //    container.appendChild(groupElement);
-            
-            
-            //    for (var i = 0; i < item.children.length; i++) {
-            //        this.appendGroupElement(option, container, item.children[i], groupLevel + 1, selected);
-            //    }
-            //}
+            var itemWithDetails: any;
+            var rowWithDetail: HTMLElement;
 
-            //if (groupLevel == maxGroupLevel || item.children == null) {
-                var itemWithDetails: any;
-                var rowWithDetail: HTMLElement;
+            var row = this.buildRowElement(option, item, container, selected);
 
-                var row = this.buildRowElement(option, item, container, selected);
+            container.appendChild(row);
+            ko.applyBindings(item, row);
 
-                container.appendChild(row);
-                ko.applyBindings(item, row);
+            if (option.showDetailFor.item == item.item) {
+                itemWithDetails = item;
+                rowWithDetail = row;
+            }
 
-                if (option.showDetailFor.item == item.item) {
-                    itemWithDetails = item;
-                    rowWithDetail = row;
-                }
+            var details = this.buildDetailsRow(option);
 
-                var details = this.buildDetailsRow(option);
-
-                // Insert row details after selected item
-                if (itemWithDetails != null) {
-                    insertAfter(rowWithDetail, details);
-                    ko.applyBindings(itemWithDetails, details);
-                }
-            //}
+            // Insert row details after selected item
+            if (itemWithDetails != null) {
+                insertAfter(rowWithDetail, details);
+                ko.applyBindings(itemWithDetails, details);
+            }
         }
 
         private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            //var maxGroupLevel = 1;
 
-            //if (groupLevel != maxGroupLevel) {
-            //    var groupElement = document.createElement("div");
-            //    var shiftingElement = document.createElement("div");
-            //    shiftingElement.setAttribute("style", "display: inline-block; width:" + (groupLevel * 10).toString + "px;");
-            //    groupElement.setAttribute("colspan", (option.columns.length + 1).toString());
-            //    groupElement.setAttribute("class", "tgrid-mobile-group");
-            //    groupElement.appendChild(shiftingElement);
-            //    var groupDescription = document.createElement("span");
-            //    groupDescription.innerHTML = "Group";
-            //    groupElement.appendChild(groupDescription);
-            //    container.appendChild(groupElement);
+            var itemWithDetails: any;
+            var rowWithDetail: HTMLElement;
 
+            var row = this.buildMobileRowElement(option, item, container, selected);
 
-            //    for (var i = 0; i < item.children.length; i++) {
-            //        this.appendMobileGroupElement(option, container, item.children[i], groupLevel + 1, selected);
-            //    }
-            //}
+            container.appendChild(row);
+            ko.applyBindings(item, row);
 
-            //if (groupLevel == maxGroupLevel || item.children == null) {
-                var itemWithDetails: any;
-                var rowWithDetail: HTMLElement;
+            if (option.showDetailFor.item == item.item) {
+                itemWithDetails = item;
+                rowWithDetail = row;
+            }
 
-                var row = this.buildMobileRowElement(option, item, container, selected);
+            var details = this.buildMobileDetailsRow(option);
 
-                container.appendChild(row);
-                ko.applyBindings(item, row);
-
-                if (option.showDetailFor.item == item.item) {
-                    itemWithDetails = item;
-                    rowWithDetail = row;
-                }
-
-                var details = this.buildMobileDetailsRow(option);
-
-                // Insert row details after selected item
-                if (itemWithDetails != null) {
-                    insertAfter(rowWithDetail, details);
-                    ko.applyBindings(itemWithDetails, details);
-                }
-            //}
+            // Insert row details after selected item
+            if (itemWithDetails != null) {
+                insertAfter(rowWithDetail, details);
+                ko.applyBindings(itemWithDetails, details);
+            }
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            if (!option.showDetailFor.isApply) {
+            if (!option.showDetailFor.isDetailColumn) {
                 option.showDetailFor.column = -1;
             }
 
@@ -336,7 +292,7 @@ module TesserisPro.TGrid {
                 }
             }
             container.setAttribute("class", bodyClass);
-            option.showDetailFor.isApply = false;
+            option.showDetailFor.isDetailColumn = false;
         }
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {

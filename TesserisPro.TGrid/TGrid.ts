@@ -3,6 +3,7 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="IItemProvider.ts" />
 /// <reference path="ISortableItemProvider.ts" />
+/// <reference path="IFilterableItemProvider.ts" />
 /// <reference path="IGroupableItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
@@ -19,6 +20,7 @@ module TesserisPro.TGrid {
         private mobileHeader: HTMLElement;
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
+        private filterProvider: IFilterableItemProvider;
         private options: Options;
         private totalItemsCount: number;
                 
@@ -76,13 +78,10 @@ module TesserisPro.TGrid {
             return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
         }
 
-        //public groupBy(name: string): void {
-        //    if (this.isGroupable()) {
-        //        (<IGroupableItemProvider><any>this.itemProvider).group([this.options.groupByDescriptor]);
-        //        this.refereshTableHeader();
-        //        this.refreshTableBody();
-        //    }
-        //}
+        public isFilterable(): boolean {
+            return ((<IFilterableItemProvider><any>this.itemProvider).getFiltered != undefined) &&
+                   ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
+        }
 
         public isGroupable(): boolean {
             return (<IGroupableItemProvider><any>this.itemProvider).group != undefined ? true : false;
@@ -191,21 +190,37 @@ module TesserisPro.TGrid {
         }
 
         private refreshTableBody() {
-            if (this.options.pageSize == 0) {
-                this.itemProvider.getTotalItemsCount(totalitemsCount =>
-                    this.itemProvider.getItems(this.getFirstItemNumber(), totalitemsCount, (items, first, count) => this.updateItems(items, first, count)));
-                
+            if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
+                if (this.options.pageSize == 0) {
+                    this.itemProvider.getTotalItemsCount( totalitemsCount =>
+                        this.itemProvider.getItems(this.getFirstItemNumber(), totalitemsCount, (items, first, count) => this.updateItems(items, first, count)));
+                } else {
+                    this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+                }
             } else {
-                this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+                if (this.options.pageSize == 0) {
+                    (<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount(this.options.filterDescriptors, totalitemsCount =>
+                        (<IFilterableItemProvider><any>this.itemProvider).getFiltered(this.getFirstItemNumber(), totalitemsCount, this.options.filterDescriptors, (items, first, count) => this.updateItems(items, first, count)));
+                } else {
+                    (<IFilterableItemProvider><any>this.itemProvider).getFiltered(this.getFirstItemNumber(), this.getPageSize(), this.options.filterDescriptors, (items, first, count) => this.updateItems(items, first, count));
+                }
             }
         }
 
         private refreshTableFooter() {
-            this.itemProvider.getTotalItemsCount((total: number) => {
-                this.tableFooter.innerHTML = "";
-                this.totalItemsCount = total;
-                this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
-            });
+            if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
+                this.itemProvider.getTotalItemsCount((total: number) => {
+                    this.tableFooter.innerHTML = "";
+                    this.totalItemsCount = total;
+                    this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
+                });
+            } else {
+                (<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount(this.options.filterDescriptors,(total: number) => {
+                    this.tableFooter.innerHTML = "";
+                    this.totalItemsCount = total;
+                    this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
+                });
+            }
         }
     }
 }

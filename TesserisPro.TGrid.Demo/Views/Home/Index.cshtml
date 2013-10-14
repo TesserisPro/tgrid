@@ -15,6 +15,7 @@
 <script src="~/Scripts/TGrid.js" type="text/javascript"></script>
 <script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
 <script src="~/Scripts/SortDescriptor.js" type="text/javascript"></script>
+<script src="~/Scripts/FilterDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/ItemViewModel.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
 <script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
@@ -125,25 +126,54 @@
                 { name: "a4", key: "a1", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
         ];
 
-        var grouped = false;
-
-        var groups = new Array();
-
         function SimpleItemsProvider() {
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, callback) {
-            if (grouped) {
-                callback(groups.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-            }
-            else {
-                callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-            }
+            callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (callback) {
             callback(items.length);
         };
+
+        SimpleItemsProvider.prototype.getFilteredTotalItemsCount = function (filterDescriptors, callback) {
+            callback(filtering(filterDescriptors).length);
+        };
+
+        SimpleItemsProvider.prototype.getFiltered = function (firstItem, itemsNumber, filterDescriptors, callback) {
+            var filterdItems = filtering(filterDescriptors)
+            callback(filterdItems.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+        };
+
+        function filtering(filterDescriptors) {
+            var filterdItems = [];
+            for (var j = 0; j < items.length; j++) {
+                for (var i = 0; i < filterDescriptors.length; i++) {
+                    switch (filterDescriptors[i].column) {
+                        case "name":
+                            if (isFiltering(items[j].name, filterDescriptors[i].value, filterDescriptors[i].condition))
+                                filterdItems.push(items[j]);
+                            break;
+                        case "key":
+                            if (isFiltering(items[j].key, filterDescriptors[i].value, filterDescriptors[i].condition))
+                                filterdItems.push(items[j]);
+                            break;
+                    }
+                }
+            }
+            return filterdItems;
+        }
+
+        function isFiltering(item, value, condition) {
+            switch (condition){
+                case 1://equal
+                    return (item == value);
+                case 2://not equal
+                    return (item != value);
+            }
+            return false;
+        }
 
         SimpleItemsProvider.prototype.sort = function (sortDescriptor) {
             items.sort(function (a, b) {
