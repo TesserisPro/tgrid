@@ -4,7 +4,6 @@
 /// <reference path="IItemProvider.ts" />
 /// <reference path="ISortableItemProvider.ts" />
 /// <reference path="IFilterableItemProvider.ts" />
-/// <reference path="IGroupableItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
 
@@ -23,7 +22,8 @@ module TesserisPro.TGrid {
         private filterProvider: IFilterableItemProvider;
         private options: Options;
         private totalItemsCount: number;
-                
+        private groupNames: string = "";
+        
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
             this.targetElement = element;
@@ -53,24 +53,42 @@ module TesserisPro.TGrid {
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.targetElement.appendChild(this.tableFooter);
 
-            this.refereshTableHeader();
-            this.refreshTableBody();
-            if (this.options.pageSize != 0) {
-                this.refreshTableFooter();
+            if (this.options.groupBy == "") {
+                this.refreshHeader();
+                this.refreshBody();
+                if (this.options.pageSize != 0) {
+                    this.refreshFooter();
+                }
+            } else {
+                this.sortBy(this.options.groupBy);
             }
         }
 
         public sortBy(name: string): void {
             if (this.isSortable()) {
-                if (name == this.options.sortDescriptor.column) {
-                    this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                if (this.options.groupBy == "" || this.options.groupBy == name) {
+                    if (name == this.options.sortDescriptor.column) {
+                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                    } else {
+                        this.options.sortDescriptor.column = name;
+                        this.options.sortDescriptor.asc = false;
+                    }
+                    this.options.groupBySortDescriptor.asc = this.options.sortDescriptor.asc;
+                    this.options.groupBySortDescriptor.column = this.options.sortDescriptor.column;
+                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
+                    this.refreshHeader();
+                    this.refreshBody();
                 } else {
-                    this.options.sortDescriptor.column = name;
-                    this.options.sortDescriptor.asc = false;
+                    if (name == this.options.sortDescriptor.column) {
+                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                    } else {
+                        this.options.sortDescriptor.column = name;
+                        this.options.sortDescriptor.asc = false;
+                    }
+                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor, this.options.groupBySortDescriptor);
+                    this.refreshHeader();
+                    this.refreshBody();
                 }
-                (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
-                this.refereshTableHeader();
-                this.refreshTableBody();
             }
         }
 
@@ -83,19 +101,15 @@ module TesserisPro.TGrid {
                    ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
         }
 
-        public isGroupable(): boolean {
-            return (<IGroupableItemProvider><any>this.itemProvider).group != undefined ? true : false;
-        }
-
         public isCellDetails(): boolean {
             return (<any>this.itemProvider).openCellDetails != undefined ? true : false;
         }
 
         public selectPage(page: number): void {
             this.options.currentPage = page;
-            this.refereshTableHeader();
-            this.refreshTableBody();
-            this.refreshTableFooter();
+            this.refreshHeader();
+            this.refreshBody();
+            this.refreshFooter();
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -122,7 +136,12 @@ module TesserisPro.TGrid {
             var itemModels: Array<ItemViewModel> = [];
 
             for (var i = 0; i < items.length; i++) {
-                itemModels.push(new ItemViewModel(null, items[i], this));
+                if (this.options.groupBy != "" && this.groupNames.indexOf(items[i][this.options.groupBy]) == -1) {
+                    this.groupNames = this.groupNames + items[i][this.options.groupBy] + " ";
+                    itemModels.push(new ItemViewModel(null, items[i][this.options.groupBy], this, true));
+                }
+
+                itemModels.push(new ItemViewModel(null, items[i], this, false));
             }
                         
             setTimeout(() => {
@@ -142,6 +161,7 @@ module TesserisPro.TGrid {
                     itemModels,
                     (x,m) => this.selectItem(x, m))
             }, 1);
+            this.groupNames="";
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
@@ -150,7 +170,7 @@ module TesserisPro.TGrid {
                     for (var i = 0; i < this.options.selection.length; i++) {
                         if (item.item == this.options.selection[i]) {
                             this.options.selection.splice(i, 1);
-                            this.refreshTableBody();
+                            this.refreshBody();
                             return false;
                         }
                     }
@@ -170,7 +190,7 @@ module TesserisPro.TGrid {
                 this.options.showDetailFor.item = this.options.selection[0];
             }
 
-            this.refreshTableBody();
+            this.refreshBody();
             return true;
         }
         
@@ -184,12 +204,12 @@ module TesserisPro.TGrid {
             }
         }
 
-        private refereshTableHeader() {
+        private refreshHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.isSortable());
         }
 
-        private refreshTableBody() {
+        private refreshBody() {
             if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
                 if (this.options.pageSize == 0) {
                     this.itemProvider.getTotalItemsCount( totalitemsCount =>
@@ -207,7 +227,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        private refreshTableFooter() {
+        private refreshFooter() {
             if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
                 this.itemProvider.getTotalItemsCount((total: number) => {
                     this.tableFooter.innerHTML = "";

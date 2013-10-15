@@ -1,17 +1,16 @@
-/// <reference path="IGroup.ts" />
-
 module TesserisPro.TGrid {
 
     export class ItemViewModel {
         public model: any;
         public item: any;
         public grid: any;
-        public children: Array<ItemViewModel>;
+        public isGroupHeader: boolean;
 
-        constructor(model: any, item: any, grid: any) {
+        constructor(model: any, item: any, grid: any, isGroupHeader:boolean) {
             this.model = model;
             this.item = item;
             this.grid = grid;
+            this.isGroupHeader = isGroupHeader;
         }
 
         public getCellDetailFor(columnIndex:any): void {

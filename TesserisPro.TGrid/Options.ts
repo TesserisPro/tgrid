@@ -53,8 +53,9 @@ module TesserisPro.TGrid {
         public pageSlide: number = 1;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
+        public groupBySortDescriptor: SortDescriptor;
         public selectMode: SelectMode;
-        public groupByDescriptor: string;
+        public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
 
         public showDetailFor: ShowDetail;
@@ -63,9 +64,9 @@ module TesserisPro.TGrid {
         constructor(element: HTMLElement, framework: Framework) {
 			this.target = $(element);
             this.framework = framework;
-            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
-            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
-            this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "c1", 1));
+            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
+            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
+            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "c1", 1));
             this.initialize();
         }
 
@@ -105,7 +106,8 @@ module TesserisPro.TGrid {
 
                 this.columns.push(column);
             }
-            this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, false);
+            this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
+            this.groupBySortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
 
             var mobileTemplate = optionsElement.find("mobile");
             this.mobileTemplateHtml = mobileTemplate[0].innerHTML;

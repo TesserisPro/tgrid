@@ -3,7 +3,6 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../utils.ts" />
-/// <reference path="../IGroup.ts" />
 
 module TesserisPro.TGrid {
 
@@ -121,6 +120,27 @@ module TesserisPro.TGrid {
             return detailDiv;
         }
 
+        private buildGroupHeaderRow(option: Options, innerText: string): HTMLElement {
+            var headerTr = document.createElement("tr");
+            var headerTd = document.createElement("td");
+
+            headerTr.setAttribute("class", "tgrid-table-group-header")
+            headerTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            headerTd.innerHTML = innerText;
+            headerTr.appendChild(headerTd);
+
+            return headerTr;
+        }
+
+        private buildGroupMobileHeaderRow(option: Options, innerText: string): HTMLElement {
+            var headerDiv = document.createElement("div");
+
+            headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
+            headerDiv.innerHTML = innerText;
+
+            return headerDiv;
+        }
+
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
 
@@ -229,22 +249,27 @@ module TesserisPro.TGrid {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
 
-            var row = this.buildRowElement(option, item, container, selected);
+            if (item.isGroupHeader) {
+                var groupHeader = this.buildGroupHeaderRow(option, item.item); 
+                container.appendChild(groupHeader);
+            } else {
+                var row = this.buildRowElement(option, item, container, selected);
 
-            container.appendChild(row);
-            ko.applyBindings(item, row);
+                container.appendChild(row);
+                ko.applyBindings(item, row);
 
-            if (option.showDetailFor.item == item.item) {
-                itemWithDetails = item;
-                rowWithDetail = row;
-            }
+                if (option.showDetailFor.item == item.item) {
+                    itemWithDetails = item;
+                    rowWithDetail = row;
+                }
 
-            var details = this.buildDetailsRow(option);
+                var details = this.buildDetailsRow(option);
 
-            // Insert row details after selected item
-            if (itemWithDetails != null) {
-                insertAfter(rowWithDetail, details);
-                ko.applyBindings(itemWithDetails, details);
+                // Insert row details after selected item
+                if (itemWithDetails != null) {
+                    insertAfter(rowWithDetail, details);
+                    ko.applyBindings(itemWithDetails, details);
+                }
             }
         }
 
@@ -252,23 +277,27 @@ module TesserisPro.TGrid {
 
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
+            if (item.isGroupHeader) {
+                var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
+                container.appendChild(mobileGroupHeader);
+            } else {
+                var row = this.buildMobileRowElement(option, item, container, selected);
 
-            var row = this.buildMobileRowElement(option, item, container, selected);
+                container.appendChild(row);
+                ko.applyBindings(item, row);
 
-            container.appendChild(row);
-            ko.applyBindings(item, row);
+                if (option.showDetailFor.item == item.item) {
+                    itemWithDetails = item;
+                    rowWithDetail = row;
+                }
 
-            if (option.showDetailFor.item == item.item) {
-                itemWithDetails = item;
-                rowWithDetail = row;
-            }
+                var details = this.buildMobileDetailsRow(option);
 
-            var details = this.buildMobileDetailsRow(option);
-
-            // Insert row details after selected item
-            if (itemWithDetails != null) {
-                insertAfter(rowWithDetail, details);
-                ko.applyBindings(itemWithDetails, details);
+                // Insert row details after selected item
+                if (itemWithDetails != null) {
+                    insertAfter(rowWithDetail, details);
+                    ko.applyBindings(itemWithDetails, details);
+                }
             }
         }
 

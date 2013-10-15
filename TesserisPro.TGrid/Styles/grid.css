@@ -30,18 +30,22 @@
     border-right: 1px solid rgb(122,188,255);
 }
 
-.tgrid-table tbody tr td {
+.tgrid-table tbody tr td, .tgrid-table-group-header {
     padding: 2px;
     border-bottom: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
     background-color: white;
 }
 
+.tgrid-table-group-header td, .tgrid-mobile-group-header {
+    padding-left: 30px !important;
+}
+
 .tgrid-table tbody tr.selected td {
     background-color: rgba(152,190,222,1);
 }
 
-.tgrid-mobile-row, .tgrid-mobile-details  {
+.tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header  {
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
     border-bottom: 1px solid rgb(122,188,255);

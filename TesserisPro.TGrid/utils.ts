@@ -28,14 +28,19 @@ function isFunction(target: any): boolean {
     return target && getType.toString.call(target) === '[object Function]';
 }
 
-function insertAfter(refElem:any, elem: any):void {
+function insertAfter(refElem:any, addingElem: any):void {
     var parent = refElem.parentNode;
     var next = refElem.nextSibling;
     if (next) {
-        return parent.insertBefore(elem, next);
+        return parent.insertBefore(addingElem, next);
     } else {
-        return parent.appendChild(elem);
+        return parent.appendChild(addingElem);
     }
+}
+
+function insertBefore(refElem: any, addingElem: any): void {
+    var parent = refElem.parentNode;
+    return parent.insertBefore(addingElem, refElem);
 }
 
 //#endregion

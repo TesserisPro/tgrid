@@ -59,7 +59,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, pageSize: '4', selectMode:'1'}">
+<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, pageSize: '0', selectMode:'1', groupBy:'name'}">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -119,7 +119,7 @@
                 { name: "c1", key: "b3", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "a1", key: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "b2", key: "c2", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c2", key: "b2", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "a3", key: "a2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "b3", key: "c1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
                 { name: "c3", key: "b1", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
@@ -175,18 +175,37 @@
             return false;
         }
 
-        SimpleItemsProvider.prototype.sort = function (sortDescriptor) {
+        SimpleItemsProvider.prototype.sort = function (sortDescriptor, groupSortDescriptor) {
             items.sort(function (a, b) {
-                var ascOrder = sortDescriptor.asc ? -1 : 1;
-                var descOrder = sortDescriptor.asc ? 1 : -1;
-                if (sortDescriptor.column == "key") {
-                    return a.key > b.key ? ascOrder : descOrder;
-                }
-                if (sortDescriptor.column == "name") {
-                    return a.name > b.name ? ascOrder : descOrder;
+                if (groupSortDescriptor == undefined) {
+                    var sortAsc = sortDescriptor.asc ? -1 : 1;
+                    var sortDesc = sortAsc * -1;
+
+                    return a[sortDescriptor.column] > b[sortDescriptor.column] ? sortAsc : sortDesc;
+                } else {
+                    var sortAsc = sortDescriptor.asc ? -1 : 1;
+                    var sortDesc = sortAsc * -1;
+                    var groupAsc = groupSortDescriptor.asc ? -1 : 1;
+                    var groupDesc = groupAsc * -1;
+
+                    if (a[groupSortDescriptor.column] > b[groupSortDescriptor.column])
+                        return groupAsc;
+                    if (b[groupSortDescriptor.column] > a[groupSortDescriptor.column])
+                        return groupDesc;
+
+                    // obj1.RemindingTimestamp == obj2.RemindingTimestamp
+                    return a[sortDescriptor.column] > b[sortDescriptor.column] ? sortAsc : sortDesc;
                 }
             })
         };
+
+        function sortingOrder(sortDescriptorAsc) {
+            return sortDescriptorAsc ? -1 : 1;
+        }
+
+        function sortingOrderDesc(sortDescriptorAsc) {
+            return sortDescriptorAsc ? 1 : -1;
+        }
 
         function compareItems(item1, item2, columns) {
             for (var i = 0; i < columns.length; i++) {

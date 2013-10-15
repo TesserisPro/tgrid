@@ -5,14 +5,14 @@
 
 
 class TGridBindingHandler implements KnockoutBindingHandler  {
-    constructor()
-    {
+    constructor() {
         this.options = null;
     }
     
-    public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void
-    {
+    public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
         var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
+
+        options.groupBy = valueAccessor().groupBy != undefined ? valueAccessor().groupBy : "" ;
 
         var pageSizeAtt = valueAccessor().pageSize;
         options.pageSize = parseInt(pageSizeAtt);
@@ -29,8 +29,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     }
 
-    public update(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void
-    {
+    public update(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
 
     }
 
