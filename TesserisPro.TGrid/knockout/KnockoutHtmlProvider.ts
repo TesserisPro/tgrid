@@ -120,11 +120,11 @@ module TesserisPro.TGrid {
             return detailDiv;
         }
 
-        private buildGroupHeaderRow(option: Options, innerText: string): HTMLElement {
+        private buildGroupHeaderRow(option: Options, innerText: string, lvl: number): HTMLElement {
             var headerTr = document.createElement("tr");
             var headerTd = document.createElement("td");
 
-            headerTr.setAttribute("class", "tgrid-table-group-header")
+            headerTr.setAttribute("class", "tgrid-table-group-header" + lvl)
             headerTd.setAttribute("colspan", (option.columns.length + 1).toString());
             headerTd.innerHTML = innerText;
             headerTr.appendChild(headerTd);
@@ -250,7 +250,7 @@ module TesserisPro.TGrid {
             var rowWithDetail: HTMLElement;
 
             if (item.isGroupHeader) {
-                var groupHeader = this.buildGroupHeaderRow(option, item.item); 
+                var groupHeader = this.buildGroupHeaderRow(option, item.item, item.groupLevel); 
                 container.appendChild(groupHeader);
             } else {
                 var row = this.buildRowElement(option, item, container, selected);

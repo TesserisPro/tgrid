@@ -53,7 +53,7 @@ module TesserisPro.TGrid {
         public pageSlide: number = 1;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
-        public groupBySortDescriptor: SortDescriptor;
+        public groupBySortDescriptor: Array<SortDescriptor>;
         public selectMode: SelectMode;
         public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
@@ -107,7 +107,10 @@ module TesserisPro.TGrid {
                 this.columns.push(column);
             }
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
-            this.groupBySortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
+            this.groupBySortDescriptor = [new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true),
+                new TesserisPro.TGrid.SortDescriptor(this.columns[1].sortMemberPath, true)];
+
+            //this.groupBy = this.columns[0].sortMemberPath + " " + this.columns[1].sortMemberPath;
 
             var mobileTemplate = optionsElement.find("mobile");
             this.mobileTemplateHtml = mobileTemplate[0].innerHTML;

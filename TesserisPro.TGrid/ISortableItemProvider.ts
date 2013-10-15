@@ -1,6 +1,6 @@
 module TesserisPro.TGrid {
 
     export interface ISortableItemProvider {
-        sort(sortDescriptor: SortDescriptor, groupSortDescriptor?: SortDescriptor): void;
+        sort(sortDescriptor: Array<SortDescriptor>): void;
     }
 }

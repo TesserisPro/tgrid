@@ -37,8 +37,12 @@
     background-color: white;
 }
 
-.tgrid-table-group-header td, .tgrid-mobile-group-header {
+.tgrid-table-group-header1 td, .tgrid-mobile-group-header1 {
     padding-left: 30px !important;
+}
+
+.tgrid-table-group-header2 td, .tgrid-mobile-group-header2 {
+    padding-left: 60px !important;
 }
 
 .tgrid-table tbody tr.selected td {

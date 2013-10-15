@@ -59,7 +59,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: {provider: itemsProvider, pageSize: '0', selectMode:'1', groupBy:'name'}">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '0', selectMode: '1', groupBy: 'name key' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -89,6 +89,20 @@
                 </div>
             </celldetail>
         </column>
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="key2">
+            <header>
+                <span>key2</span>
+            </header>
+            <cell>
+                <span style="color: red;" data-bind="text: item.key2"></span>
+            </cell>
+            <celldetail>
+                <div>
+                    <span>Cell details key2: </span>
+                    <span style="color: brown;" data-bind="text: item.detail_name"></span>
+                </div>
+            </celldetail>
+        </column>
 
         <mobile>
             <div>
@@ -99,6 +113,9 @@
                 <span>Key: </span>
                 <span data-bind="text: item.key"></span>
                 <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
+                <br />
+                <span>Key2: </span>
+                <span data-bind="text: item.key2"></span>
             </div>
         </mobile>
 
@@ -114,16 +131,16 @@
 <script type="text/javascript">
     var SimpleItemsProvider = (function () {
         var items = [
-                { name: "a1", key: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a1", key: "c3", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b3", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a1", key: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b2", key: "c2", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a3", key: "a2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
+                { name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "a3", key2: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b2", key: "c2", key2: "a1", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
         ];
 
         function SimpleItemsProvider() {
@@ -142,8 +159,7 @@
         };
 
         SimpleItemsProvider.prototype.getFiltered = function (firstItem, itemsNumber, filterDescriptors, callback) {
-            var filterdItems = filtering(filterDescriptors)
-            callback(filterdItems.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
         };
 
         function filtering(filterDescriptors) {
@@ -175,36 +191,30 @@
             return false;
         }
 
-        SimpleItemsProvider.prototype.sort = function (sortDescriptor, groupSortDescriptor) {
+        SimpleItemsProvider.prototype.sort = function (sortDescriptor) {
             items.sort(function (a, b) {
-                if (groupSortDescriptor == undefined) {
-                    var sortAsc = sortDescriptor.asc ? -1 : 1;
-                    var sortDesc = sortAsc * -1;
-
-                    return a[sortDescriptor.column] > b[sortDescriptor.column] ? sortAsc : sortDesc;
-                } else {
-                    var sortAsc = sortDescriptor.asc ? -1 : 1;
-                    var sortDesc = sortAsc * -1;
-                    var groupAsc = groupSortDescriptor.asc ? -1 : 1;
-                    var groupDesc = groupAsc * -1;
-
-                    if (a[groupSortDescriptor.column] > b[groupSortDescriptor.column])
-                        return groupAsc;
-                    if (b[groupSortDescriptor.column] > a[groupSortDescriptor.column])
-                        return groupDesc;
-
-                    // obj1.RemindingTimestamp == obj2.RemindingTimestamp
-                    return a[sortDescriptor.column] > b[sortDescriptor.column] ? sortAsc : sortDesc;
-                }
+                return sortingRecursive(a, b, sortDescriptor, 0);
             })
         };
 
-        function sortingOrder(sortDescriptorAsc) {
-            return sortDescriptorAsc ? -1 : 1;
+        function sortingRecursive(a, b, sortDescriptor, i) {
+            if (i != sortDescriptor.length - 1) {
+                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                    return sortingOrder(sortDescriptor[i]);
+                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                    return sortingOrderDesc(sortDescriptor[i]);
+                return sortingRecursive(a, b, sortDescriptor, i + 1)
+            } else {
+                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+            }
         }
 
-        function sortingOrderDesc(sortDescriptorAsc) {
-            return sortDescriptorAsc ? 1 : -1;
+        function sortingOrder(sortDescriptor) {
+            return sortDescriptor.asc ? -1 : 1;
+        }
+
+        function sortingOrderDesc(sortDescriptor) {
+            return sortDescriptor.asc ? 1 : -1;
         }
 
         function compareItems(item1, item2, columns) {

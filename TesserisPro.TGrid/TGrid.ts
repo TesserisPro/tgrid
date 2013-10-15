@@ -22,7 +22,6 @@ module TesserisPro.TGrid {
         private filterProvider: IFilterableItemProvider;
         private options: Options;
         private totalItemsCount: number;
-        private groupNames: string = "";
         
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -60,22 +59,27 @@ module TesserisPro.TGrid {
                     this.refreshFooter();
                 }
             } else {
-                this.sortBy(this.options.groupBy);
+                this.sortBy(this.options.groupBySortDescriptor[0].column);
             }
         }
 
         public sortBy(name: string): void {
             if (this.isSortable()) {
-                if (this.options.groupBy == "" || this.options.groupBy == name) {
+                if (this.options.groupBy == "" || this.options.groupBy.indexOf(name) != -1) {
+                    var i;
+                    for (i = 0; i < this.options.groupBySortDescriptor.length; i++) {
+                        if (this.options.groupBySortDescriptor[i].column == name) break;
+                    }
+
                     if (name == this.options.sortDescriptor.column) {
                         this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
                     } else {
                         this.options.sortDescriptor.column = name;
                         this.options.sortDescriptor.asc = false;
                     }
-                    this.options.groupBySortDescriptor.asc = this.options.sortDescriptor.asc;
-                    this.options.groupBySortDescriptor.column = this.options.sortDescriptor.column;
-                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor);
+                    this.options.groupBySortDescriptor[i].asc = this.options.sortDescriptor.asc;
+                    this.options.groupBySortDescriptor[i].column = this.options.sortDescriptor.column;
+                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.groupBySortDescriptor);
                     this.refreshHeader();
                     this.refreshBody();
                 } else {
@@ -85,7 +89,7 @@ module TesserisPro.TGrid {
                         this.options.sortDescriptor.column = name;
                         this.options.sortDescriptor.asc = false;
                     }
-                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.sortDescriptor, this.options.groupBySortDescriptor);
+                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.groupBySortDescriptor.concat(this.options.sortDescriptor));
                     this.refreshHeader();
                     this.refreshBody();
                 }
@@ -134,11 +138,23 @@ module TesserisPro.TGrid {
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
             var itemModels: Array<ItemViewModel> = [];
+            var groupNames: Array<string> = [];
+
+            for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
 
             for (var i = 0; i < items.length; i++) {
-                if (this.options.groupBy != "" && this.groupNames.indexOf(items[i][this.options.groupBy]) == -1) {
-                    this.groupNames = this.groupNames + items[i][this.options.groupBy] + " ";
-                    itemModels.push(new ItemViewModel(null, items[i][this.options.groupBy], this, true));
+                //if (this.options.groupBy != "" && groupNames.indexOf(items[i][this.options.groupBySortDescriptor[j].column]) == -1) {
+                //    groupNames[0] = items[i][this.options.groupBySortDescriptor[0].column];
+                //    itemModels.push(new ItemViewModel(null, items[i][this.options.groupBySortDescriptor[0].column], this, true));
+                //}
+                //itemModels.push(new ItemViewModel(null, items[i], this, false));
+                for (var j = 0; j<this.options.groupBySortDescriptor.length; j++) {
+                    if (this.options.groupBy != "" && groupNames.indexOf(items[i][this.options.groupBySortDescriptor[j].column]) == -1) {
+
+                        groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
+
+                        itemModels.push(new ItemViewModel(null, items[i][this.options.groupBySortDescriptor[j].column], this, true, j + 1));
+                    }
                 }
 
                 itemModels.push(new ItemViewModel(null, items[i], this, false));
@@ -161,7 +177,6 @@ module TesserisPro.TGrid {
                     itemModels,
                     (x,m) => this.selectItem(x, m))
             }, 1);
-            this.groupNames="";
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
