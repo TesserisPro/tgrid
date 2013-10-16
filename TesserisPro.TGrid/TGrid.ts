@@ -143,16 +143,9 @@ module TesserisPro.TGrid {
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
 
             for (var i = 0; i < items.length; i++) {
-                //if (this.options.groupBy != "" && groupNames.indexOf(items[i][this.options.groupBySortDescriptor[j].column]) == -1) {
-                //    groupNames[0] = items[i][this.options.groupBySortDescriptor[0].column];
-                //    itemModels.push(new ItemViewModel(null, items[i][this.options.groupBySortDescriptor[0].column], this, true));
-                //}
-                //itemModels.push(new ItemViewModel(null, items[i], this, false));
                 for (var j = 0; j<this.options.groupBySortDescriptor.length; j++) {
-                    if (this.options.groupBy != "" && groupNames.indexOf(items[i][this.options.groupBySortDescriptor[j].column]) == -1) {
-
+                    if (groupNames[j] != items[i][this.options.groupBySortDescriptor[j].column]) {
                         groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
-
                         itemModels.push(new ItemViewModel(null, items[i][this.options.groupBySortDescriptor[j].column], this, true, j + 1));
                     }
                 }
