@@ -61,6 +61,9 @@ module TesserisPro.TGrid {
                 }
             } else {
                 this.sortBy(this.options.groupBySortDescriptor[0].column);
+                if (this.options.pageSize != 0) {
+                    this.refreshFooter();
+                }
             }
         }
 

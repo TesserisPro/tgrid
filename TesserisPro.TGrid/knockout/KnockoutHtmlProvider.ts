@@ -45,13 +45,20 @@ module TesserisPro.TGrid {
                 if (isSortable) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
-                    for (var i = 0; i < element.length && i < option.columns.length; i++) {
-                        element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
+
+                    for (var i = option.groupBySortDescriptor.length; i < element.length && i - option.groupBySortDescriptor.length < option.columns.length; i++) {
+                        element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i - option.groupBySortDescriptor.length);
                     }
                 }
             } else {
                 // Create table header
                 var head = document.createElement("tr");
+
+                for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                    var cell = document.createElement("th");
+                    cell.setAttribute("style", "width: " + option.groupIndentSize + "px !important;");
+                    head.appendChild(cell);
+                }
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -103,6 +110,12 @@ module TesserisPro.TGrid {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
+            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                var cell = document.createElement("td");
+                cell.setAttribute("class", "tgrid-table-indent-cell");
+                detailTr.appendChild(cell);
+            }
+
             detailTr.setAttribute("class", "details")
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
@@ -124,8 +137,16 @@ module TesserisPro.TGrid {
             var headerTr = document.createElement("tr");
             var headerTd = document.createElement("td");
 
-            headerTd.setAttribute("style", "padding-left: " + (30 * (groupHeaderDescriptor.level)) + "px !important;");
-            headerTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            //headerTd.setAttribute("style", "padding-left: " + (30 * (groupHeaderDescriptor.level)) + "px !important;");
+
+            for (var i = 0; i < groupHeaderDescriptor.level; i++) {
+                var cell = document.createElement("td");
+                cell.setAttribute("class", "tgrid-table-indent-cell");
+                headerTr.appendChild(cell);
+            }
+            var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
+            headerTd.setAttribute("colspan", colspan.toString());
+            headerTd.setAttribute("class", "tgrid-table-group-header");
             headerTd.innerHTML = option.groupHeaderTemplate;
             headerTr.appendChild(headerTd);
 
@@ -147,6 +168,12 @@ module TesserisPro.TGrid {
 
             if (option.isSelected(item.item)) {
                 row.setAttribute("class", "selected");
+            }
+
+            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                var cell = document.createElement("td");
+                cell.setAttribute("class", "tgrid-table-indent-cell");
+                row.appendChild(cell);
             }
 
             for (var i = 0; i < option.columns.length; i++) {
