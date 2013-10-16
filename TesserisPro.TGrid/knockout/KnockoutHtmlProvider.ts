@@ -157,7 +157,7 @@ module TesserisPro.TGrid {
             var headerDiv = document.createElement("div");
 
             headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
-            headerDiv.setAttribute("style", "padding-left: " + (30 * (groupHeaderDescriptor.level)) + "px !important;");
+            headerDiv.setAttribute("style", "padding-left: " + (option.groupIndentSize * groupHeaderDescriptor.level) + "px !important;");
             headerDiv.innerHTML = option.groupHeaderTemplate;
 
             return headerDiv;
@@ -225,6 +225,7 @@ module TesserisPro.TGrid {
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("div");
             row.setAttribute("class", "tgrid-mobile-row");
+            row.setAttribute("style", "padding-left: " + option.groupIndentSize * (option.groupBySortDescriptor.length) + "px !important;");
 
             if (option.isSelected(item.item)) {
                 row.setAttribute("class", "selected tgrid-mobile-row");
