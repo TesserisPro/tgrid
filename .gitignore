@@ -86,3 +86,5 @@ TesserisPro.TGrid.Demo/Scripts/FilterDescriptor.js
 TesserisPro.TGrid.Demo/Scripts/FilterDescriptor.ts
 TesserisPro.TGrid.Demo/Scripts/IFilterableItemProvider.js
 TesserisPro.TGrid.Demo/Scripts/IFilterableItemProvider.ts
+TesserisPro.TGrid.Demo/Scripts/GroupHeaderDescriptor.js
+TesserisPro.TGrid.Demo/Scripts/GroupHeaderDescriptor.ts
