@@ -120,23 +120,24 @@ module TesserisPro.TGrid {
             return detailDiv;
         }
 
-        private buildGroupHeaderRow(option: Options, innerText: string, lvl: number): HTMLElement {
+        private buildGroupHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
             var headerTr = document.createElement("tr");
             var headerTd = document.createElement("td");
 
-            headerTr.setAttribute("class", "tgrid-table-group-header" + lvl)
+            headerTd.setAttribute("style", "padding-left: " + (30 * (groupHeaderDescriptor.level)) + "px !important;");
             headerTd.setAttribute("colspan", (option.columns.length + 1).toString());
-            headerTd.innerHTML = innerText;
+            headerTd.innerHTML = option.groupHeaderTemplate;
             headerTr.appendChild(headerTd);
 
             return headerTr;
         }
 
-        private buildGroupMobileHeaderRow(option: Options, innerText: string): HTMLElement {
+        private buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
             var headerDiv = document.createElement("div");
 
             headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
-            headerDiv.innerHTML = innerText;
+            headerDiv.setAttribute("style", "padding-left: " + (30 * (groupHeaderDescriptor.level)) + "px !important;");
+            headerDiv.innerHTML = option.groupHeaderTemplate;
 
             return headerDiv;
         }
@@ -147,7 +148,7 @@ module TesserisPro.TGrid {
             if (option.isSelected(item.item)) {
                 row.setAttribute("class", "selected");
             }
-                   
+
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("width", option.columns[i].width);
@@ -250,8 +251,9 @@ module TesserisPro.TGrid {
             var rowWithDetail: HTMLElement;
 
             if (item.isGroupHeader) {
-                var groupHeader = this.buildGroupHeaderRow(option, item.item, item.groupLevel); 
+                var groupHeader = this.buildGroupHeaderRow(option, item.item); 
                 container.appendChild(groupHeader);
+                ko.applyBindings(item, groupHeader);
             } else {
                 var row = this.buildRowElement(option, item, container, selected);
 
@@ -280,6 +282,7 @@ module TesserisPro.TGrid {
             if (item.isGroupHeader) {
                 var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
                 container.appendChild(mobileGroupHeader);
+                ko.applyBindings(item, mobileGroupHeader);
             } else {
                 var row = this.buildMobileRowElement(option, item, container, selected);
 

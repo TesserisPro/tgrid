@@ -6,6 +6,7 @@
 /// <reference path="IFilterableItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
+/// <reference path="GroupHeaderDescriptor.ts" />
 
 module TesserisPro.TGrid {
 
@@ -146,7 +147,10 @@ module TesserisPro.TGrid {
                 for (var j = 0; j<this.options.groupBySortDescriptor.length; j++) {
                     if (groupNames[j] != items[i][this.options.groupBySortDescriptor[j].column]) {
                         groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
-                        itemModels.push(new ItemViewModel(null, items[i][this.options.groupBySortDescriptor[j].column], this, true, j + 1));
+                        itemModels.push(new ItemViewModel(null,
+                            new GroupHeaderDescriptor(items[i][this.options.groupBySortDescriptor[j].column], j),
+                            this,
+                            true));
                     }
                 }
 

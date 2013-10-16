@@ -16,9 +16,8 @@
 <script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
 <script src="~/Scripts/SortDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/FilterDescriptor.js" type="text/javascript"></script>
-<script src="~/Scripts/ItemViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/GroupHeaderDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
-<script src="~/Scripts/TGridBinding.js" type="text/javascript"></script>
 
 <h1>TGrid Demo</h1>
 
@@ -104,6 +103,12 @@
             </celldetail>
         </column>
 
+        <groupheader>
+            <div>
+                <span style="color: green;" data-bind="text: item.value"></span>
+            </div>
+        </groupheader>
+
         <mobile>
             <div>
                 <span>Name: </span>
@@ -111,7 +116,7 @@
                 <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
                 <br />
                 <span>Key: </span>
-                <span data-bind="text: item.key"></span>
+                <span style="color: red;" data-bind="text: item.key"></span>
                 <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
                 <br />
                 <span>Key2: </span>

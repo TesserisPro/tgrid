@@ -5,14 +5,12 @@ module TesserisPro.TGrid {
         public item: any;
         public grid: any;
         public isGroupHeader: boolean;
-        public groupLevel: number;
 
-        constructor(model: any, item: any, grid: any, isGroupHeader:boolean, groupLevel?: number) {
+        constructor(model: any, item: any, grid: any, isGroupHeader:boolean) {
             this.model = model;
             this.item = item;
             this.grid = grid;
             this.isGroupHeader = isGroupHeader;
-            this.groupLevel = groupLevel != undefined ? groupLevel : 0;
         }
 
         public getCellDetailFor(columnIndex:any): void {

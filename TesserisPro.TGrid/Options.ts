@@ -46,6 +46,7 @@ module TesserisPro.TGrid {
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
+        public groupHeaderTemplate: string;
 
         public framework: Framework;
         public target: JQuery;
@@ -114,6 +115,9 @@ module TesserisPro.TGrid {
 
             var mobileTemplate = optionsElement.find("mobile");
             this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
+
+            var groupHeaderTemplate = optionsElement.find("groupheader");
+            this.groupHeaderTemplate = groupHeaderTemplate[0].innerHTML;
 
             var detailsTemplate = optionsElement.find("details");
             this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
