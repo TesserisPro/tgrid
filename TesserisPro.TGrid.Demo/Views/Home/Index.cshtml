@@ -58,7 +58,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '0', selectMode: '1', groupBy: 'name key' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '0', selectMode: '1', groupBy: ['name','key'] }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>

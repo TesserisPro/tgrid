@@ -54,15 +54,33 @@ module TesserisPro.TGrid {
         public pageSlide: number = 1;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
-        public groupBySortDescriptor: Array<SortDescriptor>;
+        public groupBySortDescriptor: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
-        public groupBy: string;
+        //public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
-        constructor(element: HTMLElement, framework: Framework) {
+        constructor(element: HTMLElement, valueAccessor: any, framework: Framework) {
+
+            var groupBy = valueAccessor.groupBy;
+            for (var i = 0; i < groupBy.length; i++) {
+                this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
+            }
+
+            var pageSizeAtt = valueAccessor.pageSize;
+            this.pageSize = parseInt(pageSizeAtt);
+            if (isNaN(this.pageSize)) {
+                this.pageSize = 0;
+            }
+
+            var editModeAtt = valueAccessor.selectMode;
+            this.selectionMode = parseInt(editModeAtt);
+            if (isNaN(this.selectionMode)) {
+                this.selectionMode = 1;
+            }
+
 			this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
@@ -108,10 +126,6 @@ module TesserisPro.TGrid {
                 this.columns.push(column);
             }
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
-            this.groupBySortDescriptor = [new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true),
-                new TesserisPro.TGrid.SortDescriptor(this.columns[1].sortMemberPath, true)];
-
-            //this.groupBy = this.columns[0].sortMemberPath + " " + this.columns[1].sortMemberPath;
 
             var mobileTemplate = optionsElement.find("mobile");
             this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
