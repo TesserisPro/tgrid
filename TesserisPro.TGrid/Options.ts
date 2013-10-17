@@ -5,8 +5,8 @@
 module TesserisPro.TGrid {
 
 	export enum Framework { Knockout, Angular }
-    export enum SelectMode { None, Single, Multi }//0,1,2
-    export enum FilerCondition { None, Equel, NotEquel }
+    export enum SelectionMode { None, Single, Multi }//0,1,2
+    export enum FilterCondition { None, Equals, NotEquals }
 
     export class ColumnInfo {
         public header: Template;
@@ -49,14 +49,14 @@ module TesserisPro.TGrid {
         public groupHeaderTemplate: string;
 
         public framework: Framework;
-        public target: JQuery;
+        public target: HTMLElement;
         public pageSize: number;
         public pageSlide: number = 1;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor>;
         public groupIndentSize: number;
-        public selectMode: SelectMode;
+        public selectionMode: SelectionMode;
         public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
 
@@ -64,7 +64,7 @@ module TesserisPro.TGrid {
         public selection: Array<any> = [];
 
         constructor(element: HTMLElement, framework: Framework) {
-			this.target = $(element);
+			this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
@@ -82,7 +82,7 @@ module TesserisPro.TGrid {
         }
 
         private initialize(): void {
-			var text = this.target.find("script")[0].innerHTML;
+			var text = $(this.target).find("script")[0].innerHTML;
 			var optionsElement = $("<div>" + text + "</div");
 
             var headers = optionsElement.find("header");

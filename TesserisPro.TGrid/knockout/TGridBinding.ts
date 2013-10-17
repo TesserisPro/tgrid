@@ -22,9 +22,9 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         }
 
         var editModeAtt = valueAccessor().selectMode;
-        options.selectMode = parseInt(editModeAtt);
-        if (isNaN(options.selectMode)) {
-            options.selectMode = 1;
+        options.selectionMode = parseInt(editModeAtt);
+        if (isNaN(options.selectionMode)) {
+            options.selectionMode = 1;
         }
 
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);

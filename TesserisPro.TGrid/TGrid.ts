@@ -67,6 +67,18 @@ module TesserisPro.TGrid {
             }
         }
 
+        public static getGridObject(element: HTMLElement): Grid {
+            if (element.grid == undefined || element.grid == null) {
+                if (element.parentElement == document.body) {
+                    return null;
+                }
+
+                return Grid.getGridObject(element.parentElement);
+            }
+
+            return element.grid;
+        }
+
         public sortBy(name: string): void {
             if (this.isSortable()) {
                 if (this.options.groupBy == "" || this.options.groupBy.indexOf(name) != -1) {
@@ -100,6 +112,43 @@ module TesserisPro.TGrid {
             }
         }
 
+        public selectPage(page: number): void {
+            this.options.currentPage = page;
+            this.refreshHeader();
+            this.refreshBody();
+            this.refreshFooter();
+        }
+                
+        public selectItem(item: ItemViewModel, multi: boolean): boolean {
+            if (this.options.selectionMode == SelectionMode.Multi) {
+                if (multi) {
+                    for (var i = 0; i < this.options.selection.length; i++) {
+                        if (item.item == this.options.selection[i]) {
+                            this.options.selection.splice(i, 1);
+                            this.refreshBody();
+                            return false;
+                        }
+                    }
+
+                    this.options.selection.push(item.item);
+                }
+                else {
+                    this.options.selection = [item.item];
+                }
+            } else if (this.options.selectionMode == SelectionMode.Single) {
+                this.options.selection = [item.item];
+            } else {
+                this.options.selection = null;
+            }
+
+            if (this.options.selection.length == 1) {
+                this.options.showDetailFor.item = this.options.selection[0];
+            }
+
+            this.refreshBody();
+            return true;
+        }
+        
         public isSortable(): boolean {
             return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
         }
@@ -107,37 +156,6 @@ module TesserisPro.TGrid {
         public isFilterable(): boolean {
             return ((<IFilterableItemProvider><any>this.itemProvider).getFiltered != undefined) &&
                    ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
-        }
-
-        public isCellDetails(): boolean {
-            return (<any>this.itemProvider).openCellDetails != undefined ? true : false;
-        }
-
-        public selectPage(page: number): void {
-            this.options.currentPage = page;
-            this.refreshHeader();
-            this.refreshBody();
-            this.refreshFooter();
-        }
-
-        public static getGridObject(element: HTMLElement): Grid {
-            if (element.grid == undefined || element.grid == null) {
-                if (element.parentElement == document.body) {
-                    return null;
-                }
-
-                return Grid.getGridObject(element.parentElement);
-            }
-
-            return element.grid;
-        }
-
-        private getFirstItemNumber(): number {
-            return this.options.pageSize * this.options.currentPage;
-        }
-
-        private getPageSize(): number {
-            return this.options.pageSize;
         }
 
         private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
@@ -179,36 +197,6 @@ module TesserisPro.TGrid {
             }, 1);
         }
 
-        public selectItem(item: ItemViewModel, multi: boolean): boolean {
-            if (this.options.selectMode == SelectMode.Multi) {
-                if (multi) {
-                    for (var i = 0; i < this.options.selection.length; i++) {
-                        if (item.item == this.options.selection[i]) {
-                            this.options.selection.splice(i, 1);
-                            this.refreshBody();
-                            return false;
-                        }
-                    }
-
-                    this.options.selection.push(item.item);
-                }
-                else {
-                    this.options.selection = [item.item];
-                }
-            } else if (this.options.selectMode == SelectMode.Single) {
-                this.options.selection = [item.item];
-            } else {
-                this.options.selection = null;
-            }
-
-            if (this.options.selection.length == 1) {
-                this.options.showDetailFor.item = this.options.selection[0];
-            }
-
-            this.refreshBody();
-            return true;
-        }
-        
         private getHtmlProvider(options: Options): IHtmlProvider {
             if (options.framework == Framework.Knockout) {
                 return new KnockoutHtmlProvider();
@@ -217,6 +205,14 @@ module TesserisPro.TGrid {
             if (options.framework == Framework.Angular) {
                 return new AngularHtmlProvider();
             }
+        }
+
+        private getFirstItemNumber(): number {
+            return this.options.pageSize * this.options.currentPage;
+        }
+
+        private getPageSize(): number {
+            return this.options.pageSize;
         }
 
         private refreshHeader() {
