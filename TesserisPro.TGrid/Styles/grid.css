@@ -1,5 +1,4 @@
 ﻿.tgrid-table {
-    border: 1px solid rgb(122,188,255);
     border-collapse: collapse;
     width: 100%;
 
@@ -11,6 +10,8 @@
     border-right: 1px solid rgb(122,188,255);
     cursor: pointer;
     margin: 1px;
+
+    padding: 2px;
 
     background: rgb(222,239,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
@@ -38,13 +39,17 @@
 }
 
 .tgrid-table-group-header {
-    border-bottom: 0px solid !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    background-color: rgb(234, 244, 254) !important;
 }
 
 .tgrid-table-indent-cell {
     border-top: 0px solid rgb(122,188,255) !important;
     border-left: 0px solid rgb(122,188,255)!important;
     border-right: 1px solid rgb(122,188,255)!important;
+    background-color: rgb(234, 244, 254) !important;
+    width: 20px;
 }
 
 .tgrid-table tbody tr.selected td {
@@ -60,6 +65,18 @@
 .tgrid-mobile-container .selected {
     background-color: rgba(152,190,222,1);
 }
+
+.tgrid-tablebodycontainer{
+    border: 1px solid rgb(122,188,255);
+    overflow: auto;
+    height: 120px;
+}
+
+
+.tgrid-tableheadercontainer{
+    border: 1px solid rgb(122,188,255);
+ }
+
 
 .tgrid-footer {
     border-left: 1px solid rgb(122,188,255);

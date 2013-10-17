@@ -12,8 +12,9 @@ module TesserisPro.TGrid {
 
     export class Grid {
         private targetElement: HTMLElement;
-        private table: HTMLElement;
+        private headerContainer: HTMLElement;
         private tableBody: HTMLElement;
+        private tableBodyContainer: HTMLElement;
         private tableFooter: HTMLElement;
         private tableHeader: HTMLElement;
         private mobileContainer: HTMLElement;
@@ -31,24 +32,42 @@ module TesserisPro.TGrid {
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
 
-            this.table = this.htmlProvider.getTableElement(this.options);
+            this.headerContainer = document.createElement("div");
+            this.headerContainer.className = "tgrid-tableheadercontainer";
+            var headerTable = document.createElement("table");
+            headerTable.className = "tgrid-table";
+            this.headerContainer.appendChild(headerTable);
 
+            // Header
             this.mobileHeader = document.createElement("div");
             this.mobileHeader.setAttribute("class", "tgrid-mobile-header mobile");
             this.targetElement.appendChild(this.mobileHeader);
-
+                        
             this.tableHeader = document.createElement("thead");
             this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
-            this.table.appendChild(this.tableHeader);
+            headerTable.appendChild(this.tableHeader);
+            this.targetElement.appendChild(this.headerContainer);
+
+
+            // Body
+            this.tableBodyContainer = document.createElement("div");
+            this.tableBodyContainer.className = "tgrid-tablebodycontainer";
+
+            var bodyTable = document.createElement("table");
+            bodyTable.className = "tgrid-table";
+
+            this.tableBodyContainer.appendChild(bodyTable);
 
             this.tableBody = document.createElement("tbody");
-            this.table.appendChild(this.tableBody);
-            this.targetElement.appendChild(this.table);
+            bodyTable.appendChild(this.tableBody);
+            this.targetElement.appendChild(this.tableBodyContainer);
+                        
 
             this.mobileContainer = document.createElement("div");
             this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
             this.targetElement.appendChild(this.mobileContainer);
 
+            // Footer
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.targetElement.appendChild(this.tableFooter);

@@ -55,7 +55,6 @@ module TesserisPro.TGrid {
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor>;
-        public groupIndentSize: number;
         public selectionMode: SelectionMode;
         public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
