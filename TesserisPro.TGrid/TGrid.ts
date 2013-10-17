@@ -24,7 +24,11 @@ module TesserisPro.TGrid {
         private filterProvider: IFilterableItemProvider;
         private options: Options;
         private totalItemsCount: number;
-        
+        private nextPage: Array<any>;
+        private visibleItems: Array<any>;
+        private nextPageIsLoading: boolean;
+        private lastLoadedItem: number;
+
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
             this.targetElement = element;
@@ -52,6 +56,7 @@ module TesserisPro.TGrid {
             // Body
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer";
+            this.tableBodyContainer.onscroll = () => this.scrollTable();
 
             var bodyTable = document.createElement("table");
             bodyTable.className = "tgrid-table";
@@ -97,6 +102,29 @@ module TesserisPro.TGrid {
 
             return element.grid;
         }
+
+        public scrollTable(): void {
+            if (!this.nextPageIsLoading && this.tableBodyContainer.scrollTop > this.tableBodyContainer.scrollHeight / 2) {
+                this.nextPageIsLoading = true;
+                this.itemProvider.getItems(
+                    this.lastLoadedItem + 1,
+                    10,
+                    (items, first, count, total) => {
+                        this.nextPage = items;
+                        this.lastLoadedItem = this.lastLoadedItem + count;
+                    });
+            }
+
+            if (this.tableBodyContainer.scrollTop + this.tableBodyContainer.clientHeight >= this.tableBodyContainer.scrollHeight) {
+                this.visibleItems.splice(0, 10);
+                this.visibleItems = this.visibleItems.concat(this.nextPage);
+                this.updateItems(this.visibleItems, 10, 10);
+                this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollHeight / 2 - 75;
+                this.nextPageIsLoading = false;
+            }
+        }
+
+        
 
         public sortBy(name: string): void {
             if (this.isSortable()) {
@@ -177,14 +205,14 @@ module TesserisPro.TGrid {
                    ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
         }
 
-        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
+        private buildViewModels(items: Array<any>): Array<ItemViewModel> {
             var itemModels: Array<ItemViewModel> = [];
             var groupNames: Array<string> = [];
 
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
 
             for (var i = 0; i < items.length; i++) {
-                for (var j = 0; j<this.options.groupBySortDescriptor.length; j++) {
+                for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
                     if (groupNames[j] != items[i][this.options.groupBySortDescriptor[j].column]) {
                         groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
                         itemModels.push(new ItemViewModel(null,
@@ -196,7 +224,15 @@ module TesserisPro.TGrid {
 
                 itemModels.push(new ItemViewModel(null, items[i], this, false));
             }
-                        
+            
+            return itemModels;
+        }
+
+        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
+            var itemModels: Array<ItemViewModel> = [];
+
+            itemModels = this.buildViewModels(items);
+                  
             setTimeout(() => {
                 this.tableBody.innerHTML = "";
                 this.htmlProvider.updateTableBodyElement(
@@ -243,7 +279,14 @@ module TesserisPro.TGrid {
             if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
                 if (this.options.pageSize == 0) {
                     this.itemProvider.getTotalItemsCount( totalitemsCount =>
-                        this.itemProvider.getItems(this.getFirstItemNumber(), totalitemsCount, (items, first, count) => this.updateItems(items, first, count)));
+                        this.itemProvider.getItems(
+                            this.getFirstItemNumber(),
+                            20, // todo - replace
+                            (items, first, count) => {
+                                this.visibleItems = items;
+                                this.lastLoadedItem = count - 1;
+                                this.updateItems(this.visibleItems, first, count)
+                            }));
                 } else {
                     this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
                 }

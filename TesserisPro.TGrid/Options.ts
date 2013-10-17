@@ -108,8 +108,7 @@ module TesserisPro.TGrid {
                 this.columns.push(column);
             }
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
-            this.groupBySortDescriptor = [new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true),
-                new TesserisPro.TGrid.SortDescriptor(this.columns[1].sortMemberPath, true)];
+            this.groupBySortDescriptor = [new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true)]
 
             //this.groupBy = this.columns[0].sortMemberPath + " " + this.columns[1].sortMemberPath;
 
