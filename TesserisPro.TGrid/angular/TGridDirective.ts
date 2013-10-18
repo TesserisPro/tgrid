@@ -1,22 +1,28 @@
-/// <reference path="../Scripts/Typings/AngularJs/angular.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 
-export class TGrid {
-    public static $inject: Array<string> = [];
-    constructor() {
-        var directive: ng.IDirective = {};
-        //directive.priority = 0;
-        //directive.restrict = "A";
-        //directive.scope = {};
-        //directive.transclude = true;
-        //directive.template = "<div>Your content</div>";
-        //directive.replace = true;
-        //directive.controller = function ($scope, $element) {
-        //    this.flip = function () {
-        //        //Some func
-        //    }
-        //}
-        //directive.replace = true;
-
+module TGrid.Angular {
+    export class Directive {
+        constructor() {
+            var directive: ng.IDirective = {};
+            directive.restrict = 'E';
+            directive.compile = function (element, attrs) {
+                var strTemplate = element[0].innerHTML + "<div>append text</div>"
+            element.replaceWith(strTemplate);
+            }
         return directive;
+        }
     }
-} 
+}
+//components.directive('tGrid', function () {
+//    var directiveObj = {
+//        compile: function (element, attrs) {
+//            var strTemplate = element[0].innerHTML + "<div>append text</div>"
+//            element.replaceWith(strTemplate);
+//        },
+//        scope: {
+//            provider: '@'
+//        },
+//        restrict: 'E'
+//    };
+//    return directiveObj;
+//});
