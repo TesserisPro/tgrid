@@ -132,6 +132,35 @@ module TesserisPro.TGrid {
             return this.options.batchSize;
         }
 
+        private getEffectiveSorting(): Array<SortDescriptor> {
+            if (this.options.groupBy == "" || this.options.groupBy.indexOf(name) != -1) {
+                var i;
+                for (i = 0; i < this.options.groupBySortDescriptor.length; i++) {
+                    if (this.options.groupBySortDescriptor[i].column == name) break;
+                }
+
+                if (name == this.options.sortDescriptor.column) {
+                    this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                } else {
+                    this.options.sortDescriptor.column = name;
+                    this.options.sortDescriptor.asc = false;
+                }
+                this.options.groupBySortDescriptor[i].asc = this.options.sortDescriptor.asc;
+                this.options.groupBySortDescriptor[i].column = this.options.sortDescriptor.column;
+
+                return this.options.groupBySortDescriptor;
+            } else {
+                if (name == this.options.sortDescriptor.column) {
+                    this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                } else {
+                    this.options.sortDescriptor.column = name;
+                    this.options.sortDescriptor.asc = false;
+                }
+                (<ISortableItemProvider><any>this.itemProvider).sort(this.options.groupBySortDescriptor.concat(this.options.sortDescriptor));
+                this.refreshHeader();
+                this.refreshBody();
+            }
+        }
 
         public scrollTable(): void {
 
@@ -252,15 +281,6 @@ module TesserisPro.TGrid {
             return true;
         }
         
-        public isSortable(): boolean {
-            return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
-        }
-
-        public isFilterable(): boolean {
-            return ((<IFilterableItemProvider><any>this.itemProvider).getFiltered != undefined) &&
-                   ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
-        }
-
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {
             var itemModels: Array<ItemViewModel> = [];
             var groupNames: Array<string> = [];
