@@ -18,13 +18,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="BaseHtmlProvider.ts" />
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
-    <TypeScriptCompile Include="IFilterableItemProvider.ts" />
     <TypeScriptCompile Include="FilterDescriptor.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />
-    <TypeScriptCompile Include="ISortableItemProvider.ts" />
     <TypeScriptCompile Include="ItemViewModel.ts" />
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />

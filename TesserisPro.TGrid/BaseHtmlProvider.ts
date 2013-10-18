@@ -11,6 +11,11 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+            return 0;
+        }
+
+
         public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
 
         }
