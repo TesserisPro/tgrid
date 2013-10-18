@@ -40,7 +40,7 @@ module TesserisPro.TGrid {
             this.htmlProvider = this.getHtmlProvider(this.options);
 
             this.headerContainer = document.createElement("div");
-            this.headerContainer.className = "tgrid-tableheadercontainer";
+            this.headerContainer.className = "tgrid-tableheadercontainer desktop";
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
@@ -55,10 +55,9 @@ module TesserisPro.TGrid {
             headerTable.appendChild(this.tableHeader);
             this.targetElement.appendChild(this.headerContainer);
 
-
             // Body
             this.tableBodyContainer = document.createElement("div");
-            this.tableBodyContainer.className = "tgrid-tablebodycontainer";
+            this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
             this.tableBodyContainer.onscroll = () => this.scrollTable();
 
             var bodyTable = document.createElement("table");
@@ -69,7 +68,6 @@ module TesserisPro.TGrid {
             this.tableBody = document.createElement("tbody");
             bodyTable.appendChild(this.tableBody);
             this.targetElement.appendChild(this.tableBodyContainer);
-                        
 
             this.mobileContainer = document.createElement("div");
             this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
@@ -80,7 +78,7 @@ module TesserisPro.TGrid {
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.targetElement.appendChild(this.tableFooter);
 
-            if (this.options.groupBy == "") {
+            if (this.options.groupBySortDescriptor.length > 0) {
                 this.refreshHeader();
                 this.refreshBody();
                 if (this.options.pageSize != 0) {
@@ -213,7 +211,7 @@ module TesserisPro.TGrid {
 
         public sortBy(name: string): void {
             if (this.isSortable()) {
-                if (this.options.groupBy == "" || this.options.groupBy.indexOf(name) != -1) {
+                if (this.options.groupBySortDescriptor.length > 0) {
                     var i;
                     for (i = 0; i < this.options.groupBySortDescriptor.length; i++) {
                         if (this.options.groupBySortDescriptor[i].column == name) break;

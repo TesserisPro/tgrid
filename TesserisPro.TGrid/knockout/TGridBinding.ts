@@ -2,7 +2,7 @@
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Scripts/typings/extenders.d.ts" />
 /// <reference path="../TGrid.ts" />
-
+/// <reference path="../SortDescriptor.ts" />
 
 class TGridBindingHandler implements KnockoutBindingHandler  {
     constructor() {
@@ -10,22 +10,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     }
     
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
-        var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
-
-        options.groupBy = valueAccessor().groupBy != undefined ? valueAccessor().groupBy : "";
-        
-
-        var pageSizeAtt = valueAccessor().pageSize;
-        options.pageSize = parseInt(pageSizeAtt);
-        if (isNaN(options.pageSize)) {
-            options.pageSize = 0;
-        }
-
-        var editModeAtt = valueAccessor().selectMode;
-        options.selectionMode = parseInt(editModeAtt);
-        if (isNaN(options.selectionMode)) {
-            options.selectionMode = 1;
-        }
+        var options = new TesserisPro.TGrid.Options(element, valueAccessor(), TesserisPro.TGrid.Framework.Knockout);
 
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     }
