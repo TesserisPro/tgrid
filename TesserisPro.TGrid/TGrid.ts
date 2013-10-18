@@ -23,11 +23,14 @@ module TesserisPro.TGrid {
         private itemProvider: IItemProvider;
         private filterProvider: IFilterableItemProvider;
         private options: Options;
+
+        private firstVisibleItemIndex: number;
         private totalItemsCount: number;
-        private nextPage: Array<any>;
+        private preloadedPage: Array<any>;
         private visibleItems: Array<any>;
-        private nextPageIsLoading: boolean;
-        private lastLoadedItem: number;
+        private visibleViewModels: Array<ItemViewModel>;
+        private isPreloading: boolean;
+        
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -103,24 +106,77 @@ module TesserisPro.TGrid {
             return element.grid;
         }
 
+        private getPreviousPageFirsItemIndex(): number {
+            var result = this.firstVisibleItemIndex - this.options.batchSize;
+            if (result < 0) {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        private getPreviousPageSize(): number {
+            var perviousPageFirstItemsNumber = this.firstVisibleItemIndex - this.options.batchSize;
+            if (perviousPageFirstItemsNumber < 0) {
+                return this.options.batchSize + perviousPageFirstItemsNumber;
+            }
+
+            return this.options.batchSize;
+        }
+
+        private getNextPageFirstItemIndex(): number {
+            return this.firstVisibleItemIndex + this.visibleItems.length;
+        }
+
+        private getNextPageSize(): number {
+            return this.options.batchSize;
+        }
+
+
         public scrollTable(): void {
-            if (!this.nextPageIsLoading && this.tableBodyContainer.scrollTop > this.tableBodyContainer.scrollHeight / 2) {
-                this.nextPageIsLoading = true;
-                this.itemProvider.getItems(
-                    this.lastLoadedItem + 1,
-                    10,
-                    (items, first, count, total) => {
-                        this.nextPage = items;
-                        this.lastLoadedItem = this.lastLoadedItem + count;
-                    });
+
+
+            if (!this.isPreloading){
+
+                if (this.tableBodyContainer.scrollTop > this.tableBodyContainer.scrollHeight / 4 * 3) {
+                    this.isPreloading = true;
+                    this.itemProvider.getItems(
+                        this.getNextPageFirstItemIndex(),
+                        this.getNextPageSize(),
+                        (items, first, count, total) => this.preloadedPage = items);
+                }
+
+                if (this.tableBody.scrollTop < this.tableBodyContainer.scrollHeight / 4) {
+                    this.isPreloading = true;
+                    var nextPageFirstItem = 
+
+                    this.itemProvider.getItems(
+                        this.getPreviousPageFirsItemIndex(),
+                        this.getPreviousPageSize(),
+                        (items, first, count, total) => this.preloadedPage = items);
+                }
             }
 
             if (this.tableBodyContainer.scrollTop + this.tableBodyContainer.clientHeight >= this.tableBodyContainer.scrollHeight) {
-                this.visibleItems.splice(0, 10);
-                this.visibleItems = this.visibleItems.concat(this.nextPage);
-                this.updateItems(this.visibleItems, 10, 10);
-                this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollHeight / 2 - 75;
-                this.nextPageIsLoading = false;
+                this.visibleItems.splice(0, this.options.batchSize);
+                var firstNewItem = this.preloadedPage[0];
+                this.visibleItems = this.visibleItems.concat(this.preloadedPage);
+                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+
+                this.updateVisibleItems();
+                               
+                var skipItems = new Array<ItemViewModel>();
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    skipItems.push(this.visibleViewModels[i]);
+                    if (this.visibleViewModels[i].item == firstNewItem) {
+                        break;
+                    }
+                }
+                
+                var skipSize = this.htmlProvider.getElemntsSize(this.tableBodyContainer, skipItems);
+               
+                this.tableBodyContainer.scrollTop = skipSize - this.tableBodyContainer.clientHeight;
+                this.isPreloading = false;
             }
         }
 
@@ -228,17 +284,13 @@ module TesserisPro.TGrid {
             return itemModels;
         }
 
-        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
-            var itemModels: Array<ItemViewModel> = [];
-
-            itemModels = this.buildViewModels(items);
-                  
+        private updateVisibleItems(): void {
             setTimeout(() => {
                 this.tableBody.innerHTML = "";
                 this.htmlProvider.updateTableBodyElement(
                     this.options,
                     this.tableBody,
-                    itemModels,
+                    this.visibleViewModels,
                     (x,m) => this.selectItem(x, m))
                 }, 1);
             
@@ -247,7 +299,7 @@ module TesserisPro.TGrid {
                 this.htmlProvider.updateMobileItemsList(
                     this.options,
                     this.mobileContainer,
-                    itemModels,
+                    this.visibleViewModels,
                     (x,m) => this.selectItem(x, m))
             }, 1);
         }
@@ -278,17 +330,24 @@ module TesserisPro.TGrid {
         private refreshBody() {
             if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
                 if (this.options.pageSize == 0) {
-                    this.itemProvider.getTotalItemsCount( totalitemsCount =>
+                    this.itemProvider.getTotalItemsCount(totalitemsCount =>
                         this.itemProvider.getItems(
                             this.getFirstItemNumber(),
                             20, // todo - replace
                             (items, first, count) => {
                                 this.visibleItems = items;
-                                this.lastLoadedItem = count - 1;
-                                this.updateItems(this.visibleItems, first, count)
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                                this.updateVisibleItems();
                             }));
                 } else {
-                    this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
+                    this.itemProvider.getItems(
+                        this.getFirstItemNumber(),
+                        this.getPageSize(),
+                        (items, first, count) => {
+                            this.visibleItems = items;
+                            this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                            this.updateVisibleItems();
+                        });
                 }
             } else {
                 if (this.options.pageSize == 0) {

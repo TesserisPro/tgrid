@@ -16,6 +16,21 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+            var size = 0;
+            var children = container.children;
+            for (var i = 0; i < children.length; i++) {
+                var child = children.item(i);
+                var viewModel = <ItemViewModel>ko.contextFor(child);
+
+                if (viewModel != null && items.indexOf(viewModel) < 0) {
+                    size += child.clientHeight;
+                }
+            }
+
+            return size;
+        }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 // update table header
