@@ -64,11 +64,11 @@ module TesserisPro.TGrid {
 
         constructor(element: HTMLElement, valueAccessor: any, framework: Framework) {
 
-            var groupBy = valueAccessor.groupBy;
-            for (var i = 0; i < groupBy.length; i++) {
-                this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
+            if (valueAccessor.groupBy != undefined) {
+                for (var i = 0; i < valueAccessor.groupBy.length; i++) {
+                    this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
+                }
             }
-
             var pageSizeAtt = valueAccessor.pageSize;
             this.pageSize = parseInt(pageSizeAtt);
             if (isNaN(this.pageSize)) {

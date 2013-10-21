@@ -77,7 +77,7 @@ module TesserisPro.TGrid {
                     this.refreshFooter();
                 }
             } else {
-                this.sortBy(this.options.groupBySortDescriptor[0].column);
+                this.sortBy(this.options.sortDescriptor.column);
                 if (this.options.pageSize != 0) {
                     this.refreshFooter();
                 }
