@@ -307,7 +307,7 @@
             </header>
             <cell>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="function () { item.getCellDetailFor(0); }" >[]</a>
+                <a href ng-click="function () { item.getCellDetailFor(0); }" >[]</a> @*data-bind="click: function () { getCellDetailFor(0); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -332,6 +332,7 @@
 
         <groupheader>
             <div>
+                <span style="color: green;">{{item.value}}</span>
             </div>
         </groupheader>
 
@@ -412,6 +413,9 @@
         ];
 
         function SimpleItemsProviderAngular() {
+            for (var i = 0; i < items.length; i++) {
+                items[i].key2 = i;
+            }
         }
 
         SimpleItemsProviderAngular.prototype.isSortable = function () {
@@ -421,7 +425,6 @@
         SimpleItemsProviderAngular.prototype.isFilterable = function () {
             return true;
         }
-
 
         SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
             sort(sortDescriptors);
@@ -460,7 +463,6 @@
             return sortDescriptor.asc ? 1 : -1;
         }
 
-
         function filtering(filterDescriptors) {
             if (filterDescriptors == null || filterDescriptors.length == 0) {
                 return items;
@@ -487,39 +489,12 @@
             return false;
         }
 
-        SimpleItemsProviderAngular.prototype.sort = function (sortDescriptor) {
-            items.sort(function (a, b) {
-                return sortingRecursive(a, b, sortDescriptor, 0);
-            })
-        };
-
-        function sortingRecursive(a, b, sortDescriptor, i) {
-            if (i != sortDescriptor.length - 1) {
-                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
-                    return sortingOrder(sortDescriptor[i]);
-                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
-                    return sortingOrderDesc(sortDescriptor[i]);
-                return sortingRecursive(a, b, sortDescriptor, i + 1)
-            } else {
-                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
-            }
-        }
-
-        function sortingOrder(sortDescriptor) {
-            return sortDescriptor.asc ? -1 : 1;
-        }
-
-        function sortingOrderDesc(sortDescriptor) {
-            return sortDescriptor.asc ? 1 : -1;
-        }
-
         return SimpleItemsProviderAngular;
     })();
 
 
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {
-            $scope.vari = "sdsd";
             $scope.dataProvider = new SimpleItemsProviderAngular();
         })
 

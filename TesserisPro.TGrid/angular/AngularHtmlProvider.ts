@@ -220,6 +220,7 @@ module TesserisPro.TGrid {
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
             headerTd.innerHTML = option.groupHeaderTemplate;
+            headerTd.innerHTML = headerTd.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
             headerTr.appendChild(headerTd);
 
             return headerTr;
