@@ -43,6 +43,7 @@ module TesserisPro.TGrid {
 		   
     export class Options {
         public columns: Array<ColumnInfo> = [];
+        public isEnableVirtualScroll: boolean = false;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
@@ -82,6 +83,8 @@ module TesserisPro.TGrid {
             if (isNaN(this.selectionMode)) {
                 this.selectionMode = 1;
             }
+
+            this.isEnableVirtualScroll = (valueAccessor.enableVirtualScroll != undefined) ? valueAccessor.enableVirtualScroll : false;
 
 			this.target = element;
             this.framework = framework;

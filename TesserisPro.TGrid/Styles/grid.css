@@ -70,14 +70,12 @@
     border: 1px solid rgb(122,188,255);
     overflow-y: scroll;
     overflow-x: auto;
-    height: 120px;
+    height: 420px;
 }
-
 
 .tgrid-tableheadercontainer {
     border: 1px solid rgb(122,188,255);
 }
-
 
 .tgrid-footer {
     border-left: 1px solid rgb(122,188,255);
@@ -170,7 +168,6 @@
 .tgrid-scroll div {
     display: inline-block;
 }
-
 
 /* Mobile */
 @media (max-width: 480px) {

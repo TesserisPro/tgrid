@@ -65,7 +65,11 @@ module TesserisPro.TGrid {
             // Body
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
-            this.tableBodyContainer.onscroll = () => this.scrollTable();
+
+            if (!options.isEnableVirtualScroll) {
+                this.itemProvider.getTotalItemsCount(options.filterDescriptors, (total) => { this.options.firstLoadSize = total; });
+                this.tableBodyContainer.onscroll = () => this.scrollTable();
+            }
 
             var bodyTable = document.createElement("table");
             bodyTable.className = "tgrid-table";
@@ -89,14 +93,16 @@ module TesserisPro.TGrid {
             this.buisyIndicator.className = "tgrid-buisy-indicator";
             this.rootElement.appendChild(this.buisyIndicator);
 
-            this.scrollBar = document.createElement("div");
-            this.scrollBar.className = "tgrid-scroll";
-            var scrollContent = document.createElement("div");
-            scrollContent.style.height = "1000px";
-            this.scrollBar.appendChild(scrollContent);
-            this.rootElement.appendChild(this.scrollBar);
+            if (!options.isEnableVirtualScroll) {
+                this.scrollBar = document.createElement("div");
+                this.scrollBar.className = "tgrid-scroll";
+                var scrollContent = document.createElement("div");
+                scrollContent.style.height = "1000px";
+                this.scrollBar.appendChild(scrollContent);
+                this.rootElement.appendChild(this.scrollBar);
 
-            this.scrollBar.onmouseup = () => this.onManualScroll();
+                this.scrollBar.onmouseup = () => this.onManualScroll();
+            }
 
             this.targetElement.appendChild(this.rootElement);
 
@@ -104,7 +110,7 @@ module TesserisPro.TGrid {
 
             if (this.options.groupBySortDescriptor.length > 0) {
                 this.refreshHeader();
-                this.refreshBody(true);
+                this.refreshBody(options.isEnableVirtualScroll);
                 if (this.options.pageSize != 0) {
                     this.refreshFooter();
                 }
@@ -272,7 +278,6 @@ module TesserisPro.TGrid {
                 });
         }
 
-
         private showPreviousPage(): void {
             if (this.previousPage == null) {
                 this.showBuisyIndicator();
@@ -366,7 +371,6 @@ module TesserisPro.TGrid {
                     1);
             }
         }
-
 
         public sortBy(name: string): void {
             if (name == this.options.sortDescriptor.column) {
@@ -548,6 +552,5 @@ module TesserisPro.TGrid {
         private hideBuisyIndicator() {
             this.buisyIndicator.setAttribute("style", "display: none;");
         }
-
     }
 }
