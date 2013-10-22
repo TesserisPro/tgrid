@@ -86,24 +86,20 @@ module TesserisPro.TGrid {
             if (item.isGroupHeader) {
                 var groupHeader = this.buildGroupHeaderRow(option, item.item);
                 container.appendChild(groupHeader);
-                //ko.applyBindings(item, groupHeader);
             } else {
                 var row = this.buildRowElement(option, item, container, selected);
-
                 container.appendChild(row);
-                //ko.applyBindings(item, row);
-
+                
                 if (option.showDetailFor.item == item.item) {
                     itemWithDetails = item;
                     rowWithDetail = row;
                 }
 
-                var details = this.buildDetailsRow(option);
+                var details = this.buildDetailsRow(option,item);
 
                 // Insert row details after selected item
                 if (itemWithDetails != null) {
                     insertAfter(rowWithDetail, details);
-                    //ko.applyBindings(itemWithDetails, details);
                 }
             }
         }
@@ -120,8 +116,8 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("width", option.columns[i].width);
-                cell.setAttribute("ng-bind", "item." + option.columns[i].sortMemberPath);
                 option.columns[i].cell.applyTemplate(cell);
+                cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
                 row.appendChild(cell);
             }
 
@@ -164,7 +160,7 @@ module TesserisPro.TGrid {
             return row;
         }
 
-        private buildDetailsRow(option: Options): HTMLElement {
+        private buildDetailsRow(option: Options, item: ItemViewModel): HTMLElement {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
@@ -173,6 +169,10 @@ module TesserisPro.TGrid {
             detailTr.setAttribute("class", "details")
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+            var begin = detailTd.innerHTML.indexOf("{{item.");
+            var end = detailTd.innerHTML.indexOf("}}");
+            var str = detailTd.innerHTML.substring(begin + 7, end);
+            detailTd.innerHTML = detailTd.innerHTML.replace("{{item." + str + "}}", item.item[str]);
             detailTr.appendChild(detailTd);
 
             return detailTr;
@@ -226,62 +226,6 @@ module TesserisPro.TGrid {
                 target.appendChild(cell);
             }
         }
-
-
-
-//        public getTableElement(option: Options): HTMLElement {
-//            var controllerName: string = "Ctrl";
-//            var table = document.createElement("table");
-//            table.setAttribute("ng-controller", controllerName);
-//            table.className = "tgrid-table";
-//            return table;
-//        }
-
-//        public upadteTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
-//            var head = document.createElement("tr");
-//            for (var i = 0; i < option.columns.length; i++) {
-//                var headerCell = document.createElement("th");
-//                headerCell.setAttribute("width", option.columns[i].width);
-//                option.columns[i].header.applyTemplate(headerCell);
-
-//                // Get column 
-//                /*var columnName = option.columnDataField[i].GetBinding();
-//                if (columnName != null && columnName != "") {
-//                    columnName = columnName.split(':')[1].trim();
-//                }
-//               // Method changing sorting
-//               headerCell.setAttribute("ng-click",
-//                    "sortColumn = \"" + columnName + "\";" +
-//                    "sortOrder=!sortOrder;");
-
-//                // Arrows
-//                var up = document.createElement("div");
-//                up.classList.add("arrow-up");
-//                up.setAttribute("ng-show", "!sortOrder&&sortColumn==\"" + columnName + "\"");
-//                headerCell.appendChild(up);
-//                var down = document.createElement("div");
-//                down.classList.add("arrow-down");
-//                down.setAttribute("ng-show", "sortOrder&&sortColumn==\"" + columnName + "\"");
-//                headerCell.appendChild(down);
-//*/
-//                head.appendChild(headerCell);
-//            }
-//            head.appendChild(headerCell);
-
-//            header.appendChild(head);
-//        }
-
-//        public updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel) => boolean): void {
-//            var row = document.createElement("tr");
-//            //row.setAttribute("ng-repeat", "item in items|orderBy:sortColumn:sortOrder| startFrom:currentPage*pageSize | limitTo:pageSize");
-//            //for (var i = 0; i < option.columns.length; i++) {
-//            //    var cell = document.createElement("td");
-//            //    cell.setAttribute("width", option.columns[i].width);
-//            //    option.columns[i].cell.applyTemplate(cell);
-//            //    row.appendChild(cell);
-//            //}
-//            body.appendChild(row);
-//        }
     }
 
 }

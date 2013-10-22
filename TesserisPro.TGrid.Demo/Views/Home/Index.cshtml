@@ -306,7 +306,8 @@
                 <span style="color: red;">Name</span>
             </header>
             <cell>
-                <span style="color: red;">{{name}}</span>
+                <span style="color: red;">{{item.name}}</span>
+                <a href ng-click="function () { item.getCellDetailFor(0); }" >[]</a>
             </cell>
             <celldetail>
                 <div>
@@ -318,7 +319,8 @@
         <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key">
             <header>Key</header>
             <cell>
-                <span style="color: red;">{{key}}</span>
+                <span style="color: red;">{{item.key}}</span>
+                <a href ng-click="function () { item.getCellDetailFor(1); }" >[]</a> @*data-bind="click: function () { getCellDetailFor(1); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -340,6 +342,8 @@
 
         <details>
             <div>
+                <span>Row details: </span>
+                <span style="color: blue;">{{item.detail}}</span>
             </div>
         </details>
     </script>
@@ -350,19 +354,16 @@
 
     var SimpleItemsProviderAngular = (function () {
         var items = [
-            { "name": "a1", "key": "c2" },
-            { "name": "b1", "key": "b2" },
-            { "name": "c3", "key": "d2" },
-            { "name": "d1", "key": "c2" },
-            { "name": "e1", "key": "b2" },
-            { "name": "f3", "key": "d2" },
-            { "name": "g1", "key": "c2" },
-            { "name": "j1", "key": "b2" },
-            { "name": "k3", "key": "d2" },
-            { "name": "l1", "key": "c2" },
-            { "name": "m1", "key": "b2" },
-            { "name": "n3", "key": "d2" },
-            { "name": "o4", "key": "a2" }
+                { "name": "a1", "key": "a4", "key2": "a4", "detail": "details item a1 a4", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "a1", "key": "a3", "key2": "b4", "detail": "details item b1 c3", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "c1", "key": "b3", "key2": "a2", "detail": "details item c1 b3", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "a1", "key": "a3", "key2": "a3", "detail": "details item a2 a3", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "b2", "key": "c2", "key2": "a1", "detail": "details item b2 c2", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "c1", "key": "b2", "key2": "b4", "detail": "details item c2 b2", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "a4", "key": "a2", "key2": "b2", "detail": "details item a3 a2", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "b3", "key": "c1", "key2": "b1", "detail": "details item b3 c1", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "c3", "key": "b1", "key2": "c4", "detail": "details item c3 b1", "detail_name": "details item Name", "detail_key": "details item Key" },
+                { "name": "a4", "key": "a1", "key2": "c2", "detail": "details item a4 a1", "detail_name": "details item Name", "detail_key": "details item Key" }
         ];
 
         function SimpleItemsProviderAngular() {
