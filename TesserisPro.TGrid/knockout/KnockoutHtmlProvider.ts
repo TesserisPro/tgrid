@@ -32,6 +32,23 @@ module TesserisPro.TGrid {
             return size;
         }
 
+        public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
+            var size = 0;
+            var children = container.children;
+            for (var i = 0; i < children.length; i++) {
+                var child = children.item(i);
+                var viewModel = <ItemViewModel>(ko.contextFor(child).$root);
+                if (viewModel != null && items.indexOf(viewModel) > 0) {
+                    size += child.clientHeight;
+                }
+                if (size > scrollTop) {
+                    return viewModel;
+                }
+            }
+
+            return null;
+        }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 // update table header

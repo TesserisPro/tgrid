@@ -210,7 +210,7 @@
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
             sort(sortDescriptors);
-            callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            setTimeout(function () { callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber); }, 200);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {

@@ -15,6 +15,9 @@ module TesserisPro.TGrid {
             return 0;
         }
 
+        public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
+            return null;
+        }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
 

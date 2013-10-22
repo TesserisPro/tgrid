@@ -1,28 +1,28 @@
-﻿.tgrid-table {
+﻿.tgrid-root {
+    position: relative;
+}
+
+.tgrid-table {
     border-collapse: collapse;
     width: 100%;
-
     background: rgb(222,239,255);
 }
 
-.tgrid-table thead tr th, .tgrid-mobile-header {
-    border-left: 1px solid rgb(122,188,255);
-    border-right: 1px solid rgb(122,188,255);
-    cursor: pointer;
-    margin: 1px;
-
-    padding: 2px;
-
-    background: rgb(222,239,255); /* Old browsers */
-    background: -moz-linear-gradient(top,  rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
-
-}
+    .tgrid-table thead tr th, .tgrid-mobile-header {
+        border-left: 1px solid rgb(122,188,255);
+        border-right: 1px solid rgb(122,188,255);
+        cursor: pointer;
+        margin: 1px;
+        padding: 2px;
+        background: rgb(222,239,255); /* Old browsers */
+        background: -moz-linear-gradient(top, rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
+        background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+    }
 
 .tgrid-mobile-header {
     margin: 0px;
@@ -46,8 +46,8 @@
 
 .tgrid-table-indent-cell {
     border-top: 0px solid rgb(122,188,255) !important;
-    border-left: 0px solid rgb(122,188,255)!important;
-    border-right: 1px solid rgb(122,188,255)!important;
+    border-left: 0px solid rgb(122,188,255) !important;
+    border-right: 1px solid rgb(122,188,255) !important;
     background-color: rgb(234, 244, 254) !important;
     width: 20px;
 }
@@ -56,7 +56,7 @@
     background-color: rgba(152,190,222,1);
 }
 
-.tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header  {
+.tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
     border-bottom: 1px solid rgb(122,188,255);
@@ -66,16 +66,17 @@
     background-color: rgba(152,190,222,1);
 }
 
-.tgrid-tablebodycontainer{
+.tgrid-tablebodycontainer {
     border: 1px solid rgb(122,188,255);
-    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: auto;
     height: 120px;
 }
 
 
-.tgrid-tableheadercontainer{
+.tgrid-tableheadercontainer {
     border: 1px solid rgb(122,188,255);
- }
+}
 
 
 .tgrid-footer {
@@ -93,7 +94,6 @@
 }
 
 .tgrid-group-row {
-
 }
 
 .tgrid-mobile-group {
@@ -124,16 +124,15 @@
 }
 
 .tgrid-mobile-container {
-
 }
 
 .tgrid-inline-block {
-    display:inline-block;
+    display: inline-block;
 }
 
 /*Arrows*/
 .tgrid-arrow-down {
-    display:inline-block;
+    display: inline-block;
     width: 16px;
     height: 16px;
     background: url(../images/arrow_up.png) no-repeat;
@@ -141,23 +140,48 @@
 }
 
 .tgrid-arrow-up {
-    display:inline-block;
+    display: inline-block;
     width: 16px;
     height: 16px;
     background: url(../images/arrow_down.png) no-repeat;
     margin-left: 5px;
 }
 
+.tgrid-buisy-indicator {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(122, 188, 255, 0.44);
+}
+
+.tgrid-scroll {
+    display: inline-block;
+    position: absolute;
+    right: 1px;
+    top: 30px;
+    bottom: 36px;
+    width:32px;
+    overflow: scroll;
+}
+
+.tgrid-scroll div {
+    display: inline-block;
+}
+
+
 /* Mobile */
-@media  (max-width: 480px) {
-    .desktop{
+@media (max-width: 480px) {
+    .desktop {
         display: none;
     }
 }
 
 /* Desktop */
-@media  (min-width: 481px) {
-    .mobile{
+@media (min-width: 481px) {
+    .mobile {
         display: none;
     }
 }
