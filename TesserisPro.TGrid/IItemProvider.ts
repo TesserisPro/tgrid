@@ -1,7 +1,18 @@
 module TesserisPro.TGrid {
 
     export interface IItemProvider {
-        getItems(firstItem: number, itemsNumber: number, callback: (items: Array<any>, firstItem: number, itemsNumber: number, totalItemsNumber: number) => void): void;
-        getTotalItemsCount(callback: (total: number) => void): void;
+
+        isSortable(): boolean;
+
+        isFilterable(): boolean;
+
+        getItems(
+            skip: number,
+            take: number,
+            sort: Array<SortDescriptor>,
+            filter: Array<FilterDescriptor>,
+            callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void): void;
+        
+        getTotalItemsCount(filter: Array<FilterDescriptor>, callback: (total: number) => void): void;
     }
 }

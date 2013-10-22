@@ -52,6 +52,8 @@ module TesserisPro.TGrid {
         public target: HTMLElement;
         public pageSize: number;
         public pageSlide: number = 1;
+        public batchSize: number = 10;
+        public firstLoadSize: number = 20;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor> = [];

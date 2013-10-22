@@ -2,8 +2,6 @@
 /// <reference path="Options.ts" />
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="IItemProvider.ts" />
-/// <reference path="ISortableItemProvider.ts" />
-/// <reference path="IFilterableItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
 /// <reference path="GroupHeaderDescriptor.ts" />
@@ -12,6 +10,7 @@ module TesserisPro.TGrid {
 
     export class Grid {
         private targetElement: HTMLElement;
+        private rootElement: HTMLElement;
         private headerContainer: HTMLElement;
         private tableBody: HTMLElement;
         private tableBodyContainer: HTMLElement;
@@ -19,18 +18,33 @@ module TesserisPro.TGrid {
         private tableHeader: HTMLElement;
         private mobileContainer: HTMLElement;
         private mobileHeader: HTMLElement;
+        private buisyIndicator: HTMLElement;
+        private scrollBar: HTMLElement;
+
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
-        private filterProvider: IFilterableItemProvider;
         private options: Options;
+
+        private firstVisibleItemIndex: number;
         private totalItemsCount: number;
-        
+        private previousPage: Array<any>;
+        private nextPage: Array<any>;
+        private visibleItems: Array<any>;
+        private visibleViewModels: Array<ItemViewModel>;
+        private isPreloadingNext: boolean = false;
+        private isPreloadingPrevious: boolean = false;
+
+        private enablePreload: boolean = true;
+
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
             this.targetElement = element;
             this.options = options;
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
+
+            this.rootElement = document.createElement("div");
+            this.rootElement.className = "tgrid-root";
 
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
@@ -41,16 +55,17 @@ module TesserisPro.TGrid {
             // Header
             this.mobileHeader = document.createElement("div");
             this.mobileHeader.setAttribute("class", "tgrid-mobile-header mobile");
-            this.targetElement.appendChild(this.mobileHeader);
-                        
+            this.rootElement.appendChild(this.mobileHeader);
+
             this.tableHeader = document.createElement("thead");
             this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
             headerTable.appendChild(this.tableHeader);
-            this.targetElement.appendChild(this.headerContainer);
+            this.rootElement.appendChild(this.headerContainer);
 
             // Body
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
+            this.tableBodyContainer.onscroll = () => this.scrollTable();
 
             var bodyTable = document.createElement("table");
             bodyTable.className = "tgrid-table";
@@ -59,20 +74,37 @@ module TesserisPro.TGrid {
 
             this.tableBody = document.createElement("tbody");
             bodyTable.appendChild(this.tableBody);
-            this.targetElement.appendChild(this.tableBodyContainer);
+            this.rootElement.appendChild(this.tableBodyContainer);
 
             this.mobileContainer = document.createElement("div");
             this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
-            this.targetElement.appendChild(this.mobileContainer);
+            this.rootElement.appendChild(this.mobileContainer);
 
             // Footer
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
-            this.targetElement.appendChild(this.tableFooter);
+            this.rootElement.appendChild(this.tableFooter);
+
+            this.buisyIndicator = document.createElement("div");
+            this.buisyIndicator.className = "tgrid-buisy-indicator";
+            this.rootElement.appendChild(this.buisyIndicator);
+
+            this.scrollBar = document.createElement("div");
+            this.scrollBar.className = "tgrid-scroll";
+            var scrollContent = document.createElement("div");
+            scrollContent.style.height = "1000px";
+            this.scrollBar.appendChild(scrollContent);
+            this.rootElement.appendChild(this.scrollBar);
+
+            this.scrollBar.onmouseup = () => this.onManualScroll();
+
+            this.targetElement.appendChild(this.rootElement);
+
+            this.tableBodyContainer.scrollTop = 0;
 
             if (this.options.groupBySortDescriptor.length > 0) {
                 this.refreshHeader();
-                this.refreshBody();
+                this.refreshBody(true);
                 if (this.options.pageSize != 0) {
                     this.refreshFooter();
                 }
@@ -96,37 +128,256 @@ module TesserisPro.TGrid {
             return element.grid;
         }
 
-        public sortBy(name: string): void {
-            if (this.isSortable()) {
-                if (this.options.groupBySortDescriptor.length > 0) {
-                    var i;
-                    for (i = 0; i < this.options.groupBySortDescriptor.length; i++) {
-                        if (this.options.groupBySortDescriptor[i].column == name) break;
-                    }
+        private getPreviousPageFirsItemIndex(): number {
+            var result = this.firstVisibleItemIndex - this.options.batchSize;
+            if (result < 0) {
+                result = 0;
+            }
 
-                    if (name == this.options.sortDescriptor.column) {
-                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
-                    } else {
-                        this.options.sortDescriptor.column = name;
-                        this.options.sortDescriptor.asc = false;
+            return result;
+        }
+
+        private getPreviousPageSize(): number {
+            var realBatchSize = this.options.batchSize + (this.options.firstLoadSize - this.visibleItems.length);
+
+            var perviousPageFirstItemsNumber = this.firstVisibleItemIndex - realBatchSize;
+            if (perviousPageFirstItemsNumber < 0) {
+                return realBatchSize + perviousPageFirstItemsNumber;
+            }
+
+            return realBatchSize;
+        }
+
+        private getNextPageFirstItemIndex(): number {
+            return this.firstVisibleItemIndex + this.visibleItems.length;
+        }
+
+        private getNextPageSize(): number {
+            return this.options.batchSize;
+        }
+
+        private getEffectiveSorting(): Array<SortDescriptor> {
+            var result: Array<SortDescriptor> = new Array<SortDescriptor>();
+            result.push(this.options.sortDescriptor);
+
+            for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
+                var found = false;
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].column == this.options.groupBySortDescriptor[j].column) {
+                        found = true;
+                        break;
                     }
-                    this.options.groupBySortDescriptor[i].asc = this.options.sortDescriptor.asc;
-                    this.options.groupBySortDescriptor[i].column = this.options.sortDescriptor.column;
-                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.groupBySortDescriptor);
-                    this.refreshHeader();
-                    this.refreshBody();
-                } else {
-                    if (name == this.options.sortDescriptor.column) {
-                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
-                    } else {
-                        this.options.sortDescriptor.column = name;
-                        this.options.sortDescriptor.asc = false;
-                    }
-                    (<ISortableItemProvider><any>this.itemProvider).sort(this.options.groupBySortDescriptor.concat(this.options.sortDescriptor));
-                    this.refreshHeader();
-                    this.refreshBody();
+                }
+
+                if (!found) {
+                    result.push(this.options.groupBySortDescriptor[j]);
                 }
             }
+
+            return result;
+        }
+
+        private getEffectiveFiltering(): Array<FilterDescriptor> {
+            return this.options.filterDescriptors;
+        }
+
+        public scrollTable(): void {
+            if (!this.isPreloadingNext && this.enablePreload) {
+                if (this.tableBodyContainer.scrollTop > ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4 * 3) && this.nextPage == null) {
+                    this.preloadNextPage();
+                }
+            }
+            if (!this.isPreloadingPrevious && this.enablePreload) {
+                if (this.tableBodyContainer.scrollTop < ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4) && this.previousPage == null) {
+                    this.preloadPreviousPage();
+                }
+            }
+
+            if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
+                if (this.tableBodyContainer.scrollTop + this.tableBodyContainer.clientHeight >= this.tableBodyContainer.scrollHeight) {
+                    this.showNextPage();
+                }
+            }
+
+            if (this.firstVisibleItemIndex > 0) {
+                if (this.tableBodyContainer.scrollTop == 0) {
+                    this.showPreviousPage();
+                }
+            }
+            this.updateGlobalScroll();
+        }
+
+        private updateGlobalScroll() {
+            var firstItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+            var visibleItemNumber = this.firstVisibleItemIndex;
+            for (var i = 0; i < this.visibleItems.length; i++) {
+                if (firstItem.item == this.visibleItems[i]) {
+                    visibleItemNumber = this.firstVisibleItemIndex + i;
+                    break;
+                }
+            }
+
+            var scrollPosition = (1000 / this.totalItemsCount) * visibleItemNumber;
+
+            this.scrollBar.scrollTop = scrollPosition;
+        }
+
+        private onManualScroll() {
+            var itemSize = (1000 / this.totalItemsCount);
+            var itemNumber = this.scrollBar.scrollTop / itemSize;
+            this.showBuisyIndicator();
+            this.previousPage = null;
+            this.nextPage = null;
+            this.itemProvider.getItems(
+                itemNumber,
+                this.options.firstLoadSize,
+                this.getEffectiveSorting(),
+                this.getEffectiveFiltering(),
+                (items, first, count) => {
+                    this.tableBodyContainer.scrollTop = 1;
+                    this.firstVisibleItemIndex = first;
+                    this.visibleItems = items;
+                    this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                    this.updateVisibleItems();
+                    this.hideBuisyIndicator();
+                });
+        }
+
+        private preloadPreviousPage() {
+            var size = this.getPreviousPageSize()
+            if (size > 0) {
+                this.isPreloadingPrevious = true;
+                this.itemProvider.getItems(
+                    this.getPreviousPageFirsItemIndex(),
+                    size,
+                    this.getEffectiveSorting(),
+                    this.getEffectiveFiltering(),
+                    (items, first, count) => {
+                        this.previousPage = items;
+                        this.isPreloadingPrevious = false;
+                    });
+            }
+        }
+
+        private preloadNextPage() {
+            this.isPreloadingNext = true;
+            this.itemProvider.getItems(
+                this.getNextPageFirstItemIndex(),
+                this.getNextPageSize(),
+                this.getEffectiveSorting(),
+                this.getEffectiveFiltering(),
+                (items, first, count) => {
+                    this.nextPage = items;
+                    this.isPreloadingNext = false;
+                });
+        }
+
+
+        private showPreviousPage(): void {
+            if (this.previousPage == null) {
+                this.showBuisyIndicator();
+                if (!this.isPreloadingPrevious) {
+                    this.preloadNextPage();
+                }
+                setTimeout(
+                    () => {
+                        this.showPreviousPage();
+                    },
+                    100);
+            }
+            else if (this.previousPage != null && this.previousPage.length > 0) {
+                this.hideBuisyIndicator();
+                this.enablePreload = false;
+
+                this.visibleItems.splice(this.visibleItems.length - this.options.batchSize, this.options.batchSize);
+                this.firstVisibleItemIndex -= this.options.batchSize;
+
+                if (this.firstVisibleItemIndex < 0) {
+                    this.firstVisibleItemIndex = 0;
+                }
+
+                var firstNewItem = this.previousPage[this.previousPage.length - 1];
+                this.visibleItems = this.previousPage.concat(this.visibleItems);
+                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+
+                this.updateVisibleItems();
+
+                setTimeout(() => {
+                    var skipItems = new Array<ItemViewModel>();
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
+                        skipItems.push(this.visibleViewModels[i]);
+                        if (this.visibleViewModels[i].item == firstNewItem) {
+                            break;
+                        }
+                    }
+
+                    var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+
+                    this.tableBodyContainer.scrollTop = skipSize;
+                    this.previousPage = null;
+                    this.nextPage = null;
+                    this.enablePreload = true;
+
+                },
+                    1);
+            }
+        }
+
+        private showNextPage(): void {
+            if (this.nextPage == null) {
+                this.showBuisyIndicator();
+                if (!this.isPreloadingNext) {
+                    this.preloadNextPage();
+                }
+                setTimeout(
+                    () => {
+                        this.showNextPage();
+                    },
+                    100);
+            }
+            else if (this.nextPage != null && this.nextPage.length > 0) {
+                this.hideBuisyIndicator();
+                this.enablePreload = false;
+                this.visibleItems.splice(0, this.options.batchSize);
+                this.firstVisibleItemIndex += this.options.batchSize;
+
+                var firstNewItem = this.nextPage[0];
+                this.visibleItems = this.visibleItems.concat(this.nextPage);
+                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+
+                this.updateVisibleItems();
+
+                setTimeout(() => {
+                    var skipItems = new Array<ItemViewModel>();
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
+                        skipItems.push(this.visibleViewModels[i]);
+                        if (this.visibleViewModels[i].item == firstNewItem) {
+                            break;
+                        }
+                    }
+
+                    var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+
+                    this.tableBodyContainer.scrollTop = skipSize - this.tableBodyContainer.clientHeight;
+                    this.nextPage = null;
+                    this.previousPage = null;
+                    this.enablePreload = true;
+                },
+                    1);
+            }
+        }
+
+
+        public sortBy(name: string): void {
+            if (name == this.options.sortDescriptor.column) {
+                this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+            } else {
+                this.options.sortDescriptor.column = name;
+                this.options.sortDescriptor.asc = false;
+            }
+
+            this.refreshHeader();
+            this.refreshBody();
         }
 
         public selectPage(page: number): void {
@@ -135,7 +386,7 @@ module TesserisPro.TGrid {
             this.refreshBody();
             this.refreshFooter();
         }
-                
+
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
             if (this.options.selectionMode == SelectionMode.Multi) {
                 if (multi) {
@@ -165,24 +416,15 @@ module TesserisPro.TGrid {
             this.refreshBody();
             return true;
         }
-        
-        public isSortable(): boolean {
-            return (<ISortableItemProvider><any>this.itemProvider).sort != undefined ? true : false;
-        }
 
-        public isFilterable(): boolean {
-            return ((<IFilterableItemProvider><any>this.itemProvider).getFiltered != undefined) &&
-                   ((<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount != undefined) ? true : false;
-        }
-
-        private updateItems(items: Array<any>, firstItem: number, itemsNumber: number): void {
+        private buildViewModels(items: Array<any>): Array<ItemViewModel> {
             var itemModels: Array<ItemViewModel> = [];
             var groupNames: Array<string> = [];
 
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
 
             for (var i = 0; i < items.length; i++) {
-                for (var j = 0; j<this.options.groupBySortDescriptor.length; j++) {
+                for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
                     if (groupNames[j] != items[i][this.options.groupBySortDescriptor[j].column]) {
                         groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
                         itemModels.push(new ItemViewModel(null,
@@ -194,23 +436,27 @@ module TesserisPro.TGrid {
 
                 itemModels.push(new ItemViewModel(null, items[i], this, false));
             }
-                        
+
+            return itemModels;
+        }
+
+        private updateVisibleItems(): void {
             setTimeout(() => {
                 this.tableBody.innerHTML = "";
                 this.htmlProvider.updateTableBodyElement(
                     this.options,
                     this.tableBody,
-                    itemModels,
-                    (x,m) => this.selectItem(x, m))
+                    this.visibleViewModels,
+                    (x, m) => this.selectItem(x, m))
                 }, 1);
-            
+
             setTimeout(() => {
                 this.mobileContainer.innerHTML = "";
                 this.htmlProvider.updateMobileItemsList(
                     this.options,
                     this.mobileContainer,
-                    itemModels,
-                    (x,m) => this.selectItem(x, m))
+                    this.visibleViewModels,
+                    (x, m) => this.selectItem(x, m))
             }, 1);
         }
 
@@ -233,42 +479,75 @@ module TesserisPro.TGrid {
         }
 
         private refreshHeader() {
-            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.isSortable());
-            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.isSortable());
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.itemProvider.isSortable());
+            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }
 
-        private refreshBody() {
-            if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
-                if (this.options.pageSize == 0) {
-                    this.itemProvider.getTotalItemsCount( totalitemsCount =>
-                        this.itemProvider.getItems(this.getFirstItemNumber(), totalitemsCount, (items, first, count) => this.updateItems(items, first, count)));
-                } else {
-                    this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(), (items, first, count) => this.updateItems(items, first, count));
-                }
+        private refreshBody(withBuisy: boolean = false) {
+            if (withBuisy) {
+                this.showBuisyIndicator();
+            }
+
+            if (this.options.pageSize == 0) {
+                this.itemProvider.getTotalItemsCount(
+                    this.getEffectiveFiltering(),
+                    totalitemsCount => {
+                        this.totalItemsCount = totalitemsCount;
+                        this.itemProvider.getItems(
+                            this.getFirstItemNumber(),
+                            this.options.firstLoadSize,
+                            this.getEffectiveSorting(),
+                            this.getEffectiveFiltering(),
+                            (items, first, count) => {
+                                this.firstVisibleItemIndex = first;
+                                this.visibleItems = items;
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                                this.updateVisibleItems();
+                                if (withBuisy) {
+                                    this.hideBuisyIndicator();
+                                }
+                            })
+                    });
             } else {
-                if (this.options.pageSize == 0) {
-                    (<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount(this.options.filterDescriptors, totalitemsCount =>
-                        (<IFilterableItemProvider><any>this.itemProvider).getFiltered(this.getFirstItemNumber(), totalitemsCount, this.options.filterDescriptors, (items, first, count) => this.updateItems(items, first, count)));
-                } else {
-                    (<IFilterableItemProvider><any>this.itemProvider).getFiltered(this.getFirstItemNumber(), this.getPageSize(), this.options.filterDescriptors, (items, first, count) => this.updateItems(items, first, count));
-                }
+                this.itemProvider.getTotalItemsCount(
+                    this.getEffectiveFiltering(),
+                    totalitemsCount => {
+                        this.itemProvider.getItems(
+                            this.getFirstItemNumber(),
+                            this.getPageSize(),
+                            this.getEffectiveSorting(),
+                            this.getEffectiveFiltering(),
+                            (items, first, count) => {
+                                this.firstVisibleItemIndex = first;
+                                this.visibleItems = items;
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                                this.updateVisibleItems();
+                                if (withBuisy) {
+                                    this.hideBuisyIndicator();
+                                }
+                            })
+                        }
+                    );
             }
         }
 
         private refreshFooter() {
-            if (!this.isFilterable() || this.options.filterDescriptors.length == 0) {
-                this.itemProvider.getTotalItemsCount((total: number) => {
+            this.itemProvider.getTotalItemsCount(
+                this.getEffectiveFiltering(),
+                totalitemsCount => {
                     this.tableFooter.innerHTML = "";
-                    this.totalItemsCount = total;
+                    this.totalItemsCount = totalitemsCount;
                     this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
                 });
-            } else {
-                (<IFilterableItemProvider><any>this.itemProvider).getFilteredTotalItemsCount(this.options.filterDescriptors,(total: number) => {
-                    this.tableFooter.innerHTML = "";
-                    this.totalItemsCount = total;
-                    this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount);
-                });
-            }
         }
+
+        private showBuisyIndicator() {
+            this.buisyIndicator.removeAttribute("style");
+        }
+
+        private hideBuisyIndicator() {
+            this.buisyIndicator.setAttribute("style", "display: none;");
+        }
+
     }
 }
