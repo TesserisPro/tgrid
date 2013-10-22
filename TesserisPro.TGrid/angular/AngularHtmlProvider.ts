@@ -10,6 +10,38 @@ module TesserisPro.TGrid {
 
         // Table Methods
 
+        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+            var size = 0;
+            var children = container.children;
+            for (var i = 0; i < children.length; i++) {
+                var child = children.item(i);
+                var viewModel = <ItemViewModel>(items[i]);//ko.contextFor(child).$root);
+
+                if (viewModel != null && items.indexOf(viewModel) > 0) {
+                    size += child.clientHeight;
+                }
+            }
+
+            return size;
+        }
+
+        public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
+            var size = 0;
+            var children = container.children;
+            for (var i = 0; i < children.length; i++) {
+                var child = children.item(i);
+                var viewModel = <ItemViewModel>(items[i]);//(ko.contextFor(child).$root);
+                if (viewModel != null && items.indexOf(viewModel) > 0) {
+                    size += child.clientHeight;
+                }
+                if (size > scrollTop) {
+                    return viewModel;
+                }
+            }
+
+            return null;
+        }
+
         public getTableElement(option: Options): HTMLElement {
             var table = document.createElement("table");
             table.className = "tgrid-table";

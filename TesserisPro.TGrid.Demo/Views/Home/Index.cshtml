@@ -299,7 +299,7 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid" ng-controller="ctrl"> 
-<t-grid id="test-angular" provider="dataProvider" pageSize="0"  selectMode="1">
+<t-grid id="test-angular" provider="dataProvider" pageSize="0"  selectMode="1" groupBy='name' >
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -354,28 +354,138 @@
 
     var SimpleItemsProviderAngular = (function () {
         var items = [
-                { "name": "a1", "key": "a4", "key2": "a4", "detail": "details item a1 a4", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "a1", "key": "a3", "key2": "b4", "detail": "details item b1 c3", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "c1", "key": "b3", "key2": "a2", "detail": "details item c1 b3", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "a1", "key": "a3", "key2": "a3", "detail": "details item a2 a3", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "b2", "key": "c2", "key2": "a1", "detail": "details item b2 c2", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "c1", "key": "b2", "key2": "b4", "detail": "details item c2 b2", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "a4", "key": "a2", "key2": "b2", "detail": "details item a3 a2", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "b3", "key": "c1", "key2": "b1", "detail": "details item b3 c1", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "c3", "key": "b1", "key2": "c4", "detail": "details item c3 b1", "detail_name": "details item Name", "detail_key": "details item Key" },
-                { "name": "a4", "key": "a1", "key2": "c2", "detail": "details item a4 a1", "detail_name": "details item Name", "detail_key": "details item Key" }
+                { name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a1", key: "a3", key2: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b2", key: "c2", key2: "a1", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
         ];
 
         function SimpleItemsProviderAngular() {
         }
 
-        SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, callback) {
-            callback(items.slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+        SimpleItemsProviderAngular.prototype.isSortable = function () {
+            return true;
+        }
+
+        SimpleItemsProviderAngular.prototype.isFilterable = function () {
+            return true;
+        }
+
+
+        SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
+            sort(sortDescriptors);
+            setTimeout(function () { callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber); }, 200);
+        };
+        
+        SimpleItemsProviderAngular.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+            callback(filtering(filterDescriptors).length);
         };
 
-        SimpleItemsProviderAngular.prototype.getTotalItemsCount = function (callback) {
-            callback(items.length);
+        function sort(sortDescriptor) {
+            if (sortDescriptor != null && sortDescriptor.length > 0) {
+                items.sort(function (a, b) {
+                    return sortingRecursive(a, b, sortDescriptor, 0);
+                });
+            }
         };
+
+        function sortingRecursive(a, b, sortDescriptor, i) {
+            if (i != sortDescriptor.length - 1) {
+                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                    return sortingOrder(sortDescriptor[i]);
+                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                    return sortingOrderDesc(sortDescriptor[i]);
+                return sortingRecursive(a, b, sortDescriptor, i + 1)
+            } else {
+                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+            }
+        }
+
+        function sortingOrder(sortDescriptor) {
+            return sortDescriptor.asc ? -1 : 1;
+        }
+
+        function sortingOrderDesc(sortDescriptor) {
+            return sortDescriptor.asc ? 1 : -1;
+        }
+
+
+        function filtering(filterDescriptors) {
+            if (filterDescriptors == null || filterDescriptors.length == 0) {
+                return items;
+            }
+
+            var filterdItems = [];
+            for (var j = 0; j < items.length; j++) {
+                for (var i = 0; i < filterDescriptors.length; i++) {
+                    if (isFiltering(items[j][filterDescriptors[i].column], filterDescriptors[i].value, filterDescriptors[i].condition)) {
+                        filterdItems.push(items[j]);
+                    }
+                }
+            }
+            return filterdItems;
+        }
+
+        function isFiltering(item, value, condition) {
+            switch (condition) {
+                case 1://equal
+                    return (item == value);
+                case 2://not equal
+                    return (item != value);
+            }
+            return false;
+        }
 
         SimpleItemsProviderAngular.prototype.sort = function (sortDescriptor) {
             items.sort(function (a, b) {
