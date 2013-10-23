@@ -165,11 +165,14 @@ module TesserisPro.TGrid {
 
         private getEffectiveSorting(): Array<SortDescriptor> {
             var result: Array<SortDescriptor> = new Array<SortDescriptor>();
-            result.push(this.options.sortDescriptor);
+            var foundSortDescriptor = false;
 
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
                 var found = false;
                 for (var i = 0; i < result.length; i++) {
+                    if (this.options.sortDescriptor.column == this.options.groupBySortDescriptor[j].column) {
+                        foundSortDescriptor = true;
+                    }
                     if (result[i].column == this.options.groupBySortDescriptor[j].column) {
                         found = true;
                         break;
@@ -177,8 +180,14 @@ module TesserisPro.TGrid {
                 }
 
                 if (!found) {
+                    if (this.options.groupBySortDescriptor[j].column == this.options.sortDescriptor.column) {
+                        this.options.groupBySortDescriptor[j].asc = this.options.sortDescriptor.asc;
+                    }
                     result.push(this.options.groupBySortDescriptor[j]);
                 }
+            }
+            if (!foundSortDescriptor) {
+                result.push(this.options.sortDescriptor);
             }
 
             return result;
