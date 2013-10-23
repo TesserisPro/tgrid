@@ -112,12 +112,12 @@ module TesserisPro.TGrid {
             if (this.options.groupBySortDescriptor.length > 0) {
                 this.refreshHeader();
                 this.refreshBody(options.isEnableVirtualScroll);
-                if (this.options.pageSize != 0) {
+                if (this.options.isEnablePaging) {
                     this.refreshFooter();
                 }
             } else {
                 this.sortBy(this.options.sortDescriptor.column);
-                if (this.options.pageSize != 0) {
+                if (this.options.isEnablePaging) {
                     this.refreshFooter();
                 }
             }
@@ -493,7 +493,7 @@ module TesserisPro.TGrid {
                 this.showBuisyIndicator();
             }
 
-            if (this.options.pageSize == 0) {
+            if (!this.options.isEnablePaging) {
                 this.itemProvider.getTotalItemsCount(
                     this.getEffectiveFiltering(),
                     totalitemsCount => {

@@ -8,6 +8,7 @@ module TGrid.Angular {
         selectMode: TesserisPro.TGrid.SelectionMode;
         groupBy: Array<string>;
         enableVirtualScroll: boolean;
+        enablePaging: boolean;
     }
 
     export class Directive {
@@ -22,6 +23,7 @@ module TGrid.Angular {
                 valueAccessor.selectMode = attrs["selectmode"];
                 valueAccessor.groupBy = (attrs["groupby"] != undefined) ? attrs["groupby"].split(' ') : undefined;
                 valueAccessor.enableVirtualScroll = attrs["enablevirtualscroll"];
+                valueAccessor.enablePaging = attrs["enablepaging"];
 
                 var options = new TesserisPro.TGrid.Options(element[0], valueAccessor, TesserisPro.TGrid.Framework.Angular);
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, valueAccessor.provider);

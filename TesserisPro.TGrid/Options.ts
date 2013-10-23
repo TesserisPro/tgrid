@@ -44,6 +44,7 @@ module TesserisPro.TGrid {
     export class Options {
         public columns: Array<ColumnInfo> = [];
         public isEnableVirtualScroll: boolean = false;  
+        public isEnablePaging: boolean = false;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
@@ -72,10 +73,17 @@ module TesserisPro.TGrid {
                     this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
                 }
             }
+
+            if (valueAccessor.enablePaging == undefined) {
+                this.isEnablePaging = false;
+            } else {
+                this.isEnablePaging = valueAccessor.enablePaging == "true" ? true : false;
+            }
+
             var pageSizeAtt = valueAccessor.pageSize;
             this.pageSize = parseInt(pageSizeAtt);
-            if (isNaN(this.pageSize)) {
-                this.pageSize = 0;
+            if (this.isEnablePaging) {
+                this.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
             }
 
             var editModeAtt = valueAccessor.selectMode;
@@ -85,13 +93,12 @@ module TesserisPro.TGrid {
             }
 
             if (valueAccessor.enableVirtualScroll == undefined) {
-                this.isEnableVirtualScroll =  false; // enableVirtualScroll = any нужно перевести в bool
+                this.isEnableVirtualScroll =  false;
             } else {
                 this.isEnableVirtualScroll = valueAccessor.enableVirtualScroll == "true" ? true : false;
             }
 
-
-			this.target = element;
+            this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
