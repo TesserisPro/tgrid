@@ -445,6 +445,10 @@ module TesserisPro.TGrid {
                             new GroupHeaderDescriptor(items[i][this.options.groupBySortDescriptor[j].column], j),
                             this,
                             true));
+                        // clear name of group of deeper level
+                        for (var k = j + 1; k < this.options.groupBySortDescriptor.length; k++) {
+                            groupNames[k] = "";
+                        }
                     }
                 }
 
