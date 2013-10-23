@@ -209,8 +209,14 @@
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
+            var oldItems = new Array();
+            oldItems = oldItems.concat(items);
             sort(sortDescriptors);
-            setTimeout(function () { callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber); }, 200);
+            setTimeout(function () {
+                callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                items = new Array();
+                items = items.concat(oldItems);
+            }, 200);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
@@ -245,7 +251,7 @@
 
         function sort(sortDescriptor) {
             if(sortDescriptor != null && sortDescriptor.length > 0){
-                items.sort(function (a, b) {
+                    items.sort(function (a, b) {
                     return sortingRecursive(a, b, sortDescriptor, 0);
                 });
             }

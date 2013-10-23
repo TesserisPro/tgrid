@@ -192,15 +192,7 @@ module TesserisPro.TGrid {
                 result.push(this.options.sortDescriptor);
             }
 
-            // add default sorting for all other column
-            for (var i = 0; i < this.options.columns.length; i++) {
-                for (var j = 0; j < result.length; j++) {
-                    if (this.options.columns[i].sortMemberPath != result[j].column) {
-                        result.push(new SortDescriptor(this.options.columns[i].sortMemberPath,false));
-                    }
-                }
-            }
-
+           
             return result;
         }
 
