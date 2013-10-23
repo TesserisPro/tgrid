@@ -21,7 +21,7 @@ module TGrid.Angular {
                 valueAccessor.pageSize = attrs["pagesize"];
                 valueAccessor.selectMode = attrs["selectmode"];
                 valueAccessor.groupBy = (attrs["groupby"] != undefined) ? attrs["groupby"].split(' ') : undefined;
-                valueAccessor.enableVirtualScroll = attrs["enableVirtualScroll"];
+                valueAccessor.enableVirtualScroll = attrs["enablevirtualscroll"];
 
                 var options = new TesserisPro.TGrid.Options(element[0], valueAccessor, TesserisPro.TGrid.Framework.Angular);
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, valueAccessor.provider);

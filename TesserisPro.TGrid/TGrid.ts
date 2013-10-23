@@ -66,9 +66,10 @@ module TesserisPro.TGrid {
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
 
-            if (!options.isEnableVirtualScroll) {
-                this.itemProvider.getTotalItemsCount(options.filterDescriptors, (total) => { this.options.firstLoadSize = total; });
+            if (options.isEnableVirtualScroll) {
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
+            } else {
+                this.itemProvider.getTotalItemsCount(options.filterDescriptors, (total) => { this.options.firstLoadSize = total; });
             }
 
             var bodyTable = document.createElement("table");
@@ -89,11 +90,11 @@ module TesserisPro.TGrid {
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.rootElement.appendChild(this.tableFooter);
 
-            this.buisyIndicator = document.createElement("div");
-            this.buisyIndicator.className = "tgrid-buisy-indicator";
-            this.rootElement.appendChild(this.buisyIndicator);
+            if (options.isEnableVirtualScroll) {
+                this.buisyIndicator = document.createElement("div");
+                this.buisyIndicator.className = "tgrid-buisy-indicator";
+                this.rootElement.appendChild(this.buisyIndicator);
 
-            if (!options.isEnableVirtualScroll) {
                 this.scrollBar = document.createElement("div");
                 this.scrollBar.className = "tgrid-scroll";
                 var scrollContent = document.createElement("div");
