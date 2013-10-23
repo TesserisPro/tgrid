@@ -59,7 +59,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', groupBy: ['name'], enableVirtualScroll:'false', enablePaging:'true'}">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['name'], enableVirtualScroll:'false', enablePaging:'false'}">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -298,7 +298,7 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid" ng-controller="ctrl"> 
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="0" groupBy="name" enableVirtualScroll="false" enablePaging="true">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
