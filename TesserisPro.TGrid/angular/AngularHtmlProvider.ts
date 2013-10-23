@@ -259,6 +259,207 @@ module TesserisPro.TGrid {
                 target.appendChild(cell);
             }
         }
-    }
 
+        // Mobile Methods
+
+        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {
+            if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
+                // Update mobile sort arrow
+                this.removeArrows(mobileHeader);
+                var arrowUpdate = document.getElementsByClassName("tgrid-inline-block");
+                if (option.sortDescriptor.asc) {
+                    var up = document.createElement("div");
+                    up.classList.add("tgrid-arrow-up");
+                    arrowUpdate[0].appendChild(up);
+                } else {
+                    var down = document.createElement("div");
+                    down.classList.add("tgrid-arrow-down");
+                    arrowUpdate[0].appendChild(down);
+                }
+
+                // Update mobile sort column
+                var selectUpdate = document.getElementsByTagName("select");
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                        selectUpdate[0].selectedIndex = i;
+                    }
+                }
+            } else {
+                // Create mobile header
+                // Hide table on mobile devices
+                var headerClass = mobileHeader.getAttribute("class");
+                if (headerClass == null || headerClass == undefined || headerClass == '') {
+                    headerClass = "mobile";
+                }
+                else {
+                    headerClass += " mobile";
+                }
+                mobileHeader.setAttribute("class", headerClass);
+
+                if (isSortable) {
+                    var div = document.createElement("div");
+                    var arrow = document.createElement("div");
+                    var select = document.createElement("select");
+
+                    select.onchange = (e) => {
+                        Grid.getGridObject(<HTMLElement>e.target).sortBy(select.options[select.selectedIndex].value);
+                    };
+
+                    for (var i = 0; i < option.columns.length; i++) {
+                        var selectOption = document.createElement("option");
+                        selectOption.value = option.columns[i].sortMemberPath;
+                        selectOption.text = option.columns[i].sortMemberPath;
+                        select.appendChild(selectOption);
+                        if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                            arrow = <HTMLDivElement>this.addArrows(arrow, option, i);
+                        }
+                    }
+
+                    arrow.classList.add("tgrid-inline-block");
+                    div.innerHTML += "Sorting by ";
+                    div.appendChild(select);
+                    div.appendChild(arrow);
+
+                    arrow.onclick = (e) => {
+                        Grid.getGridObject(<HTMLElement>e.target).sortBy(select.options[select.selectedIndex].value);
+                    };
+
+                    mobileHeader.appendChild(div);
+                } else {
+                    mobileHeader.innerHTML = "<div></div>";
+                }
+            }
+        }
+
+        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            if (!option.showDetailFor.isDetailColumn) {
+                option.showDetailFor.column = -1;
+            }
+
+            for (var i = 0; i < items.length; i++) {
+                this.appendMobileElement(option, container, items[i], 0, selected);
+            }
+
+            //Hide table on mobile devices
+            var bodyClass = container.getAttribute("class");
+            if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                bodyClass = "mobile";
+            }
+            else {
+                if (bodyClass.indexOf("mobile") == -1) {
+                    bodyClass += " mobile";
+                }
+            }
+            container.setAttribute("class", bodyClass);
+            option.showDetailFor.isDetailColumn = false;
+        }
+
+        private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+
+            var itemWithDetails: any;
+            var rowWithDetail: HTMLElement;
+            if (item.isGroupHeader) {
+                var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
+                container.appendChild(mobileGroupHeader);
+            } else {
+                var row = this.buildMobileRowElement(option, item, container, selected);
+
+                container.appendChild(row);
+
+                if (option.showDetailFor.item == item.item) {
+                    itemWithDetails = item;
+                    rowWithDetail = row;
+                }
+
+                var details = this.buildMobileDetailsRow(option, item.item);
+
+                // Insert row details after selected item
+                if (itemWithDetails != null) {
+                    insertAfter(rowWithDetail, details);
+                }
+            }
+        }
+
+        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+            var row = document.createElement("div");
+            row.setAttribute("class", "tgrid-mobile-row");
+            row.setAttribute("style", "padding-left: " + 20 * (option.groupBySortDescriptor.length) + "px !important;");
+
+
+            if (option.isSelected(item.item)) {
+                row.setAttribute("class", "selected tgrid-mobile-row");
+            }
+
+            row.innerHTML = option.mobileTemplateHtml;
+
+            for (var i = 0; i < option.columns.length; i++) {
+                row.innerHTML = row.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
+            }
+
+            var placeholderColumn = document.createElement("td");
+            placeholderColumn.setAttribute("class", "tgrid-placeholder");
+            row.appendChild(placeholderColumn);
+
+            (function (item) {
+                row.onclick = function (e) {
+                    if (option.selectionMode != SelectionMode.None) {
+                        selected(item, e.ctrlKey);
+                    }
+                    if (option.selectionMode == SelectionMode.Multi) {
+                        if (!e.ctrlKey) {
+                            for (var i = 0; i < container.children.length; i++) {
+                                container.children.item(i).removeAttribute("class");
+                            }
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                    if (option.selectionMode == SelectionMode.Single) {
+                        for (var i = 0; i < container.children.length; i++) {
+                            container.children.item(i).removeAttribute("class");
+                        }
+                        if (option.isSelected(item.item)) {
+                            (<HTMLElement>this).setAttribute("class", "selected");
+                        }
+                        else {
+                            (<HTMLElement>this).removeAttribute("class");
+                        }
+                    }
+                };
+            })(item);
+
+            return row;
+        }
+
+        private buildMobileDetailsRow(option: Options, item: ItemViewModel): HTMLElement {
+            var detailDiv = document.createElement("div");
+
+            detailDiv.setAttribute("class", "tgrid-mobile-details ")
+            detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+
+            var begin = detailDiv.innerHTML.indexOf("{{item.");
+            var end = detailDiv.innerHTML.indexOf("}}");
+            var str = detailDiv.innerHTML.substring(begin + 7, end);
+            detailDiv.innerHTML = detailDiv.innerHTML.replace("{{item." + str + "}}", item[str]);
+
+            return detailDiv;
+        }
+
+        private buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
+            var headerDiv = document.createElement("div");
+
+            headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
+            headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
+
+            headerDiv.innerHTML = option.groupHeaderTemplate;
+            headerDiv.innerHTML = headerDiv.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
+
+            return headerDiv;
+        }
+
+    }
 }
