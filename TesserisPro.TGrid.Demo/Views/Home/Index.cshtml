@@ -205,6 +205,7 @@
         function SimpleItemsProvider() {
             for (var i = 0; i < items.length; i++) {
                 items[i].key2 = i;
+                items[i].detail = items[i].detail + " " + i;
             }
         }
 
@@ -427,6 +428,7 @@
         function SimpleItemsProviderAngular() {
             for (var i = 0; i < items.length; i++) {
                 items[i].key = i;
+                items[i].detail = items[i].detail +" "+i;
             }
         }
 

@@ -75,6 +75,13 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
         }
-    }
 
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+
+        }
+
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+
+        }
+    }
 }

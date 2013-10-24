@@ -63,6 +63,9 @@ module TesserisPro.TGrid {
         //public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
 
+        public ctrlKey: boolean;
+        public selectedRow: HTMLElement;
+
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
