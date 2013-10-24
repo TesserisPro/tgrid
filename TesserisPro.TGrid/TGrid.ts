@@ -430,7 +430,8 @@ module TesserisPro.TGrid {
                 this.options.showDetailFor.item = this.options.selection[0];
             }
 
-            this.refreshBody();
+            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.options.showDetailFor.item);
+            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.options.showDetailFor.item);
             return true;
         }
 
