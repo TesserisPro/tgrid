@@ -408,10 +408,6 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addMobileDetailRow(option: Options, container: HTMLElement) {
-
-        }
-
         private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
             var itemWithDetails: any;
@@ -429,14 +425,16 @@ module TesserisPro.TGrid {
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("div");
             row.setAttribute("class", "tgrid-mobile-row");
-            row.setAttribute("style", "padding-left: " + 20 * (option.groupBySortDescriptor.length) + "px !important;");
-
 
             if (option.isSelected(item.item)) {
                 row.setAttribute("class", "selected tgrid-mobile-row");
             }
 
-            row.innerHTML = option.mobileTemplateHtml;
+            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
+            }
+
+            row.innerHTML += "<div class='tgrid-mobile-div'>" + option.mobileTemplateHtml + "</div>";
 
             for (var i = 0; i < option.columns.length; i++) {
                 row.innerHTML = row.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
