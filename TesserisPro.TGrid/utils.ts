@@ -43,4 +43,19 @@ function insertBefore(refElem: any, addingElem: any): void {
     return parent.insertBefore(addingElem, refElem);
 }
 
+function getMemberValue(target: any, path: string): any {
+    if (path == null || path.length == 0) {
+        return target;
+    }
+
+    var pathNames = path.split('.');
+    var value = target;
+    while (pathNames.length > 0) {
+        value = value[pathNames[0]];
+        pathNames.splice(0, 1);
+    }
+
+    return value;
+}
+
 //#endregion

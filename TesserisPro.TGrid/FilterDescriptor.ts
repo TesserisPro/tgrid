@@ -1,10 +1,10 @@
 module TesserisPro.TGrid {
     export class FilterDescriptor {
-        column: string;
+        path: string;
         value: string;
         condition: FilterCondition;
-        constructor(column, values, condition) {
-            this.column = column;
+        constructor(path, values, condition) {
+            this.path = path;
             this.value = values;
             this.condition = condition;
         }

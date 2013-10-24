@@ -1,10 +1,10 @@
 module TesserisPro.TGrid {
     export class SortDescriptor {
-        constructor(column: string, asc: boolean) {
-            this.column = column;
+        constructor(path: string, asc: boolean) {
+            this.path = path;
             this.asc = asc;
         }
-        public column: string;
+        public path: string;
         public asc: boolean;
     }
 }

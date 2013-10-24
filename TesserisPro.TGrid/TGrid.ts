@@ -5,6 +5,7 @@
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
 /// <reference path="angular/AngularHtmlProvider.ts" />
 /// <reference path="GroupHeaderDescriptor.ts" />
+/// <reference path="utils.ts" />
 
 module TesserisPro.TGrid {
 
@@ -116,7 +117,7 @@ module TesserisPro.TGrid {
                     this.refreshFooter();
                 }
             } else {
-                this.sortBy(this.options.sortDescriptor.column);
+                this.sortBy(this.options.sortDescriptor.path);
                 if (this.options.isEnablePaging) {
                     this.refreshFooter();
                 }
@@ -171,17 +172,17 @@ module TesserisPro.TGrid {
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
                 var found = false;
                 for (var i = 0; i < result.length; i++) {
-                    if (this.options.sortDescriptor.column == this.options.groupBySortDescriptor[j].column) {
+                    if (this.options.sortDescriptor.path == this.options.groupBySortDescriptor[j].path) {
                         foundSortDescriptor = true;
                     }
-                    if (result[i].column == this.options.groupBySortDescriptor[j].column) {
+                    if (result[i].path == this.options.groupBySortDescriptor[j].path) {
                         found = true;
                         break;
                     }
                 }
 
                 if (!found) {
-                    if (this.options.groupBySortDescriptor[j].column == this.options.sortDescriptor.column) {
+                    if (this.options.groupBySortDescriptor[j].path == this.options.sortDescriptor.path) {
                         this.options.groupBySortDescriptor[j].asc = this.options.sortDescriptor.asc;
                     }
                     result.push(this.options.groupBySortDescriptor[j]);
@@ -386,10 +387,10 @@ module TesserisPro.TGrid {
         }
 
         public sortBy(name: string): void {
-            if (name == this.options.sortDescriptor.column) {
+            if (name == this.options.sortDescriptor.path) {
                 this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
             } else {
-                this.options.sortDescriptor.column = name;
+                this.options.sortDescriptor.path = name;
                 this.options.sortDescriptor.asc = false;
             }
 
@@ -437,16 +438,17 @@ module TesserisPro.TGrid {
 
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {
             var itemModels: Array<ItemViewModel> = [];
-            var groupNames: Array<string> = [];
+            var groupNames: Array<any> = [];
 
             for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
 
             for (var i = 0; i < items.length; i++) {
                 for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
-                    if (groupNames[j] != items[i][this.options.groupBySortDescriptor[j].column]) {
-                        groupNames[j] = items[i][this.options.groupBySortDescriptor[j].column];
+                    var columnValue = getMemberValue(items[i], this.options.groupBySortDescriptor[j].path);
+                    if (groupNames[j] != columnValue) {
+                        groupNames[j] = columnValue;
                         itemModels.push(new ItemViewModel(null,
-                            new GroupHeaderDescriptor(items[i][this.options.groupBySortDescriptor[j].column], j),
+                            new GroupHeaderDescriptor(columnValue, j),
                             this,
                             true));
                         // clear name of group of deeper level

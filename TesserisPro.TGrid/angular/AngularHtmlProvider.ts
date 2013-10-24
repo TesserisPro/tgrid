@@ -239,12 +239,12 @@ module TesserisPro.TGrid {
         }
 
         private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
+            if (option.sortDescriptor.path == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
                 var up = document.createElement("div");
                 up.classList.add("tgrid-arrow-up");
                 htmlNode.appendChild(up);
             }
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
+            if (option.sortDescriptor.path == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
                 var down = document.createElement("div");
                 down.classList.add("tgrid-arrow-down");
                 htmlNode.appendChild(down);
@@ -292,7 +292,7 @@ module TesserisPro.TGrid {
                 // Update mobile sort column
                 var selectUpdate = document.getElementsByTagName("select");
                 for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
                         selectUpdate[0].selectedIndex = i;
                     }
                 }
@@ -322,7 +322,7 @@ module TesserisPro.TGrid {
                         selectOption.value = option.columns[i].sortMemberPath;
                         selectOption.text = option.columns[i].sortMemberPath;
                         select.appendChild(selectOption);
-                        if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                        if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
                             arrow = <HTMLDivElement>this.addArrows(arrow, option, i);
                         }
                     }
