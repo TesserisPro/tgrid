@@ -392,12 +392,18 @@ module TesserisPro.TGrid {
         }
 
         public deleteGroupBy(name: string, asc: boolean): void {
-            var indexForDelete = this.options.groupBySortDescriptor.indexOf(new SortDescriptor(name, asc));
-            if (indexForDelete != -1) {
-                this.options.groupBySortDescriptor.splice(indexForDelete);
-               // this.refreshHeader();
-                this.refreshBody();
-            }
+
+           //$.each(this.options.groupBySortDescriptor, function (i) {
+            //    if (this.options.groupBySortDescriptor[i].column === name) {
+            //        this.options.groupBySortDescriptor.splice(i, 1);  
+            //        this.refreshHeader();
+            //    this.refreshBody();                  
+            //        return false;
+            //    }
+            //});
+            this.refreshHeader();
+            this.refreshBody();   
+            //}
         }
 
         public sortBy(name: string): void {

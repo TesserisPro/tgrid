@@ -287,6 +287,7 @@ module TesserisPro.TGrid {
             }
         }
 
+        //function for adding groupBy functionality at the top of the grid
         private addGroupByHandlers(option: Options, groupByContainer: HTMLElement) {            
             for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
                 var conditionGroupBy = document.createElement("div");
@@ -298,15 +299,22 @@ module TesserisPro.TGrid {
                 deleteConditionGroupByHandler.setAttribute("value", "x");
                 deleteConditionGroupByHandler.setAttribute("id", option.groupBySortDescriptor[i].column.toString());
 
+                //adding function to delete GroupBy condition by clicking on close button
                 deleteConditionGroupByHandler.onclick = (e) => {
-                    var name = (<HTMLInputElement>e.target).getAttribute("id");
-                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(name, true);
-                }
-                //deleteConditionGroupByHandler.appendChild(document.createTextNode("x"));
+                    var name = (<HTMLInputElement>e.target).getAttribute("id");                   
+                    $.each(option.groupBySortDescriptor, function (i) {
+                        if (option.groupBySortDescriptor[i].column === name) {
+                            option.groupBySortDescriptor.splice(i, 1);
+                            Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(name, true);
+                            return false;
+                        }
+                    });
+                }                
                 conditionGroupBy.appendChild(deleteConditionGroupByHandler);
                 groupByContainer.appendChild(conditionGroupBy);
             }            
         }
+        //delete all containers of groupBy conditions from the top of the grid
         private deleteAllGroupByHandlers(header: HTMLElement){
             var oldContainersGroupBy = header.getElementsByClassName("conditionGroupBy");
             for (var i = 0; i < oldContainersGroupBy.length; i) {
