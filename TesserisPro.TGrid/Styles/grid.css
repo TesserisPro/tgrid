@@ -182,3 +182,16 @@
         display: none;
     }
 }
+.conditionGroupBy {
+    display:inline-block;
+    border: solid 1px #808080;
+    min-height: 15px;
+    min-width: 25px;
+}
+.deleteConditionGroupBy {
+    float:right;
+    vertical-align:top;
+}
+.groupByContainer {
+    display:block;
+}

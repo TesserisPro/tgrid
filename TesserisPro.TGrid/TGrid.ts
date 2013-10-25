@@ -385,6 +385,21 @@ module TesserisPro.TGrid {
             }
         }
 
+        public addGroupBy(name: string, asc: boolean): void {
+            this.options.groupBySortDescriptor.push(new SortDescriptor(name, asc));
+           this.refreshHeader();
+            this.refreshBody();
+        }
+
+        public deleteGroupBy(name: string, asc: boolean): void {
+            var indexForDelete = this.options.groupBySortDescriptor.indexOf(new SortDescriptor(name, asc));
+            if (indexForDelete != -1) {
+                this.options.groupBySortDescriptor.splice(indexForDelete);
+               // this.refreshHeader();
+                this.refreshBody();
+            }
+        }
+
         public sortBy(name: string): void {
             if (name == this.options.sortDescriptor.column) {
                 this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
