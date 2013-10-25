@@ -59,7 +59,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['details.b'], enableVirtualScroll:'false', enablePaging:'false'}">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['details.b'], enableVirtualScroll: 'false', enablePaging: 'false' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
@@ -67,6 +67,7 @@
             </header>
             <cell>
                 <span style="color: red;" data-bind="text: item.name"></span>
+                <span style="color: red;" data-bind="text: item.details.b"></span>
                 <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
             </cell>
             <celldetail>
@@ -260,13 +261,13 @@
 
         function sortingRecursive(a, b, sortDescriptor, i) {
             if (i != sortDescriptor.length - 1) {
-                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                if (getMemberValue(a,sortDescriptor[i].path) > getMemberValue(b,sortDescriptor[i].path))
                     return sortingOrder(sortDescriptor[i]);
-                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                if (getMemberValue(b,sortDescriptor[i].path) > getMemberValue(a,sortDescriptor[i].path))
                     return sortingOrderDesc(sortDescriptor[i]);
                 return sortingRecursive(a, b, sortDescriptor, i + 1)
             } else {
-                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                return getMemberValue(a,sortDescriptor[i].path) > getMemberValue(b,sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
             }
         }
 
@@ -305,7 +306,7 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid" ng-controller="ctrl"> 
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name key" enableVirtualScroll="false" enablePaging="false">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBys="name key" enableVirtualScroll="false" enablePaging="false">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -459,13 +460,13 @@
 
         function sortingRecursive(a, b, sortDescriptor, i) {
             if (i != sortDescriptor.length - 1) {
-                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
                     return sortingOrder(sortDescriptor[i]);
-                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
                     return sortingOrderDesc(sortDescriptor[i]);
                 return sortingRecursive(a, b, sortDescriptor, i + 1)
             } else {
-                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
             }
         }
 
