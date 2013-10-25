@@ -35,6 +35,8 @@ module TesserisPro.TGrid {
         private isPreloadingNext: boolean = false;
         private isPreloadingPrevious: boolean = false;
 
+        private collapsedFilterGroup: Array<FilterDescriptor> = [];
+
         private enablePreload: boolean = true;
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
@@ -198,7 +200,16 @@ module TesserisPro.TGrid {
         }
 
         private getEffectiveFiltering(): Array<FilterDescriptor> {
-            return this.options.filterDescriptors;
+            var allFilter: Array<FilterDescriptor> = [];
+            if (this.options.filterDescriptors != null || this.options.filterDescriptors.length > 0) {
+                allFilter = allFilter.concat(this.options.filterDescriptors);
+            }
+
+            if (this.collapsedFilterGroup != null || this.collapsedFilterGroup.length > 0) {
+                allFilter = allFilter.concat(this.collapsedFilterGroup);
+            }
+
+            return allFilter;
         }
 
         public scrollTable(): void {
@@ -461,6 +472,21 @@ module TesserisPro.TGrid {
                 itemModels.push(new ItemViewModel(null, items[i], this, false));
             }
 
+            //var previousGroupName: string = "";
+            //for (var i = 0; itemModels.length; i++) {
+            //    //insert collapsed  group header
+            //    if (itemModels[i].isGroupHeader) {
+
+            //    }
+            //}
+
+            //for (var i = 0; i < this.collapsedFilterGroup.length; i++) {
+            //    itemModels.push(new ItemViewModel(null,
+            //        new GroupHeaderDescriptor(this.collapsedFilterGroup[i].value, 0, true),
+            //        this,
+            //        true));
+            //}
+
             return itemModels;
         }
 
@@ -572,5 +598,20 @@ module TesserisPro.TGrid {
         private hideBuisyIndicator() {
             this.buisyIndicator.setAttribute("style", "display: none;");
         }
+
+        public setFilters(value: string, level: number) {
+            this.collapsedFilterGroup.push(new FilterDescriptor(this.options.groupBySortDescriptor[level].path, value, FilterCondition.Equals));
+            this.refreshBody();
+        }
+
+        public removeFilters(value: string, level: number) {
+            for (var j = 0; j < this.collapsedFilterGroup.length; j++) {
+                if (this.options.groupBySortDescriptor[level].path == this.collapsedFilterGroup[j].path && this.collapsedFilterGroup[j].value == value) {
+                    this.collapsedFilterGroup.splice(j, 1);
+                }
+            }
+            this.refreshBody();
+       }
+
     }
 }

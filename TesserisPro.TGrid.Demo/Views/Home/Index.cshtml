@@ -59,7 +59,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['details.b'], enableVirtualScroll: 'false', enablePaging: 'false' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['name'], enableVirtualScroll: 'false', enablePaging: 'false' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
@@ -67,7 +67,6 @@
             </header>
             <cell>
                 <span style="color: red;" data-bind="text: item.name"></span>
-                <span style="color: red;" data-bind="text: item.details.b"></span>
                 <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
             </cell>
             <celldetail>
@@ -232,10 +231,15 @@
             
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
+                isFiltered = true;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].column], filterDescriptors[i].value, filterDescriptors[i].condition)){
-                        filterdItems.push(items[j]);
+                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
+                        isFiltered = false;
+                        break;
                     }
+                }
+                if (isFiltered) {
+                    filterdItems.push(items[j]);
                 }
             }
             return filterdItems;
@@ -306,7 +310,7 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid" ng-controller="ctrl"> 
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBys="name key" enableVirtualScroll="false" enablePaging="false">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
@@ -485,10 +489,15 @@
 
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
+                isFiltered = true;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].column], filterDescriptors[i].value, filterDescriptors[i].condition)) {
-                        filterdItems.push(items[j]);
+                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
+                        isFiltered = false;
+                        break;
                     }
+                }
+                if (isFiltered) {
+                    filterdItems.push(items[j]);
                 }
             }
             return filterdItems;

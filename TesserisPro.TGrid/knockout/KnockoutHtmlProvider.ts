@@ -225,7 +225,17 @@ module TesserisPro.TGrid {
             var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
-            headerTd.innerHTML = option.groupHeaderTemplate;
+            //if (!groupHeaderDescriptor.collapse) {
+            //    headerTd.onclick = (e) => {
+            //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
+            //    }
+            //} else {
+            //    headerTd.onclick = (e) => {
+            //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
+            //    }
+            //}
+            headerTd.innerHTML = option.groupHeaderTemplate;//(!groupHeaderDescriptor.collapse ? "close" : "open") +
+
             headerTr.appendChild(headerTd);
 
             return headerTr;
