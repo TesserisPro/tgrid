@@ -187,11 +187,37 @@
     border: solid 1px #808080;
     min-height: 15px;
     min-width: 25px;
+    float:left;
 }
-.deleteConditionGroupBy {
+.delete-condition-group-by {
     float:right;
     vertical-align:top;
 }
-.groupByContainer {
+.group-by-container {    
     display:block;
+    width: auto;
+    height: 30px;    
+}
+
+.list-button-container {
+    display: inline-block;
+}
+
+.button-group-by {
+    display: inline-block;
+}
+
+.group-by-ul {
+    position:absolute;
+    display: none;
+    list-style-type: none;
+    background: #fff;
+    margin: 0; 
+    padding: 8px 20px;
+      
+}
+
+.group-by-ul>li {
+    display:block;
+    margin: 0;
 }

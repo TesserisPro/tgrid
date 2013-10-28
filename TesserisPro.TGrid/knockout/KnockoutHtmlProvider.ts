@@ -55,38 +55,47 @@ module TesserisPro.TGrid {
                 if (isSortable) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
-                    var groupByContainer = <NodeList>header.getElementsByClassName("groupByContainer");
 
                     for (var i = option.groupBySortDescriptor.length; i < element.length && i - option.groupBySortDescriptor.length < option.columns.length; i++) {
                         element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i - option.groupBySortDescriptor.length);
                     }
-
-                    this.deleteAllGroupByHandlers(header);
-                    this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
+                                       
                 }
+
+                var groupByContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("group-by-container");
+                this.deleteAllGroupByElements(<HTMLElement>groupByContainer[0]);
+                this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
+
+                var listButtonContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("list-button-container");
+                (<HTMLElement>listButtonContainer[0]).appendChild(this.updateGroupByList(<HTMLUListElement>(<HTMLElement>listButtonContainer[0]).children[1], option));
+
             } else {
                 //method adding groupBy element
                 var groupByRow = document.createElement("div");
-                groupByRow.setAttribute("class", "groupByContainer");
-                                 
-                var select = document.createElement("select");
+                groupByRow.setAttribute("class", "group-by-container");
 
-                for (var i = 0; i < option.columns.length; i++) {
-                    var optionGroupBy = document.createElement("option");
-                    optionGroupBy.setAttribute("value", option.columns[i].groupMemberPath);
-                    optionGroupBy.appendChild(document.createTextNode(option.columns[i].groupMemberPath.toString()));
-                    
-                    select.appendChild(optionGroupBy);
-                } 
-
-                //adding function for grouping
-                
-                select.onchange = (e) => Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<HTMLSelectElement>e.target).value, true);                     
-                groupByRow.appendChild(select);
-
-                header.appendChild(groupByRow);
                 this.addGroupByHandlers(option, groupByRow);
-                //adding grouping field
+
+                var listButtonContainerElement = document.createElement("div");
+                listButtonContainerElement.setAttribute("class", "list-button-container");
+
+                var listGroupByElement = document.createElement("ul");
+                listGroupByElement.setAttribute("class", "group-by-ul");
+                                
+                var groupByButtonElement = document.createElement("input");
+                groupByButtonElement.setAttribute("type", "button");
+                groupByButtonElement.setAttribute("class", "button-group-by");
+                groupByButtonElement.setAttribute("value", "+");  
+
+                groupByButtonElement.onclick = (e) => {
+                    Grid.getGridObject(<HTMLElement>e.target).showElement((<HTMLElement>e.target).nextElementSibling);
+                }
+                
+                listButtonContainerElement.appendChild(groupByButtonElement);
+                listButtonContainerElement.appendChild(this.createListGroupByAvailable(listGroupByElement, option)); 
+                
+                groupByRow.appendChild(listButtonContainerElement);  
+                header.parentElement.parentElement.parentElement.insertBefore(groupByRow, header.parentElement.parentElement.parentElement.firstChild); 
 
                 // Create table header
                 var head = document.createElement("tr");                
@@ -290,38 +299,71 @@ module TesserisPro.TGrid {
         //function for adding groupBy functionality at the top of the grid
         private addGroupByHandlers(option: Options, groupByContainer: HTMLElement) {            
             for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
-                var conditionGroupBy = document.createElement("div");
-                conditionGroupBy.setAttribute("class", "conditionGroupBy");
-                conditionGroupBy.appendChild(document.createTextNode(option.groupBySortDescriptor[i].column.toString()));
-                var deleteConditionGroupByHandler = document.createElement("input");
-                deleteConditionGroupByHandler.setAttribute("type", "button");
-                deleteConditionGroupByHandler.setAttribute("class", "deleteConditionGroupBy");
-                deleteConditionGroupByHandler.setAttribute("value", "x");
-                deleteConditionGroupByHandler.setAttribute("id", option.groupBySortDescriptor[i].column.toString());
+                var groupByHeaderElement = document.createElement("div");
+                groupByHeaderElement.setAttribute("class", "conditionGroupBy");
+                groupByHeaderElement["data-group-by"] = option.groupBySortDescriptor[i];
+                groupByHeaderElement.appendChild(document.createTextNode(option.groupBySortDescriptor[i].column.toString()));
+                
+                //create deleteGroupByElement
+                var deleteGroupByElement = document.createElement("input");
+                deleteGroupByElement.setAttribute("type", "button");
+                deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
+                deleteGroupByElement.setAttribute("value", "x");
+                deleteGroupByElement["data-delete-groupby"] = option.groupBySortDescriptor[i];
 
                 //adding function to delete GroupBy condition by clicking on close button
-                deleteConditionGroupByHandler.onclick = (e) => {
-                    var name = (<HTMLInputElement>e.target).getAttribute("id");                   
-                    $.each(option.groupBySortDescriptor, function (i) {
-                        if (option.groupBySortDescriptor[i].column === name) {
-                            option.groupBySortDescriptor.splice(i, 1);
-                            Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(name, true);
-                            return false;
-                        }
-                    });
-                }                
-                conditionGroupBy.appendChild(deleteConditionGroupByHandler);
-                groupByContainer.appendChild(conditionGroupBy);
+                deleteGroupByElement.onclick = (e) => {
+                    var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
+                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.column, groupByElement.asc);
+                }
+                                
+                groupByHeaderElement.appendChild(deleteGroupByElement);
+                groupByContainer.appendChild(groupByHeaderElement);
             }            
         }
-        //delete all containers of groupBy conditions from the top of the grid
-        private deleteAllGroupByHandlers(header: HTMLElement){
-            var oldContainersGroupBy = header.getElementsByClassName("conditionGroupBy");
-            for (var i = 0; i < oldContainersGroupBy.length; i) {
-                header.childNodes[0].removeChild(oldContainersGroupBy[i]);
+        //delete all elements of groupBy from the top of the grid
+        private deleteAllGroupByElements(groupByContainerElement: HTMLElement) {
+            for (var i = 0; i < groupByContainerElement.children.length; i++) {
+                if (groupByContainerElement.children[i]["data-group-by"] != undefined){
+                    groupByContainerElement.removeChild(groupByContainerElement.children[i]);
+                    i--; 
+                }
             }
         }
+        // creates list groupBys to choose from
+        private createListGroupByAvailable(listGroupByElement: HTMLUListElement, option: Options) {
+            for (var i = 0; i < option.columns.length; i++) {
+                var hasNotGroupBy = true;
+                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                    if (option.groupBySortDescriptor[j].column == option.columns[i].groupMemberPath) {
+                        hasNotGroupBy = false;
+                        continue;                       
+                    }
+                }
+                if (hasNotGroupBy) {
+                    var listItemGroupByElement = document.createElement("li");
+                    listItemGroupByElement["data-group-by-condition"] = option.columns[i].groupMemberPath;
+                    listItemGroupByElement.appendChild(document.createTextNode(option.columns[i].groupMemberPath.toString()));
+                    listItemGroupByElement.onclick = (e) => {
+                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>e.target["data-group-by-condition"]), true);
+                        //Grid.getGridObject(<HTMLElement>e.target).hideElement((<HTMLElement>e.target).parentElement);
+                    }
 
+                    listGroupByElement.appendChild(listItemGroupByElement);
+                }
+            }
+                        
+            return listGroupByElement;
+        }
+
+        private updateGroupByList(list: HTMLUListElement, option: Options){          
+            while (list.firstChild)
+                list.removeChild(list.firstChild);
+            list = this.createListGroupByAvailable(list, option);
+            Grid.getGridObject(list).hideElement(list);
+
+            return list;    
+        }
         // Mobile Methods
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {

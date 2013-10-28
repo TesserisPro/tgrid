@@ -387,23 +387,32 @@ module TesserisPro.TGrid {
 
         public addGroupBy(name: string, asc: boolean): void {
             this.options.groupBySortDescriptor.push(new SortDescriptor(name, asc));
-           this.refreshHeader();
+            this.refreshHeader();
             this.refreshBody();
         }
 
         public deleteGroupBy(name: string, asc: boolean): void {
 
-           //$.each(this.options.groupBySortDescriptor, function (i) {
-            //    if (this.options.groupBySortDescriptor[i].column === name) {
-            //        this.options.groupBySortDescriptor.splice(i, 1);  
-            //        this.refreshHeader();
-            //    this.refreshBody();                  
-            //        return false;
-            //    }
-            //});
+            for (var i = 0; i < this.options.groupBySortDescriptor.length; i++) {
+                if (this.options.groupBySortDescriptor[i].column == name) {
+                    this.options.groupBySortDescriptor.splice(i, 1);
+                }
+            }
+
             this.refreshHeader();
-            this.refreshBody();   
-            //}
+            this.refreshBody(); 
+        }
+
+        public showElement(element: Element) {
+            if (element.getAttribute("style") != "display:block;") {
+                element.setAttribute("style", "display:block;");
+            } else {
+                element.removeAttribute("style");
+            }
+        }
+
+        public hideElement(element: Element) {
+            element.removeAttribute("style");
         }
 
         public sortBy(name: string): void {
