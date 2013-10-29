@@ -49,7 +49,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
+       public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 // update table header
                 if (isSortable) {
@@ -67,7 +67,7 @@ module TesserisPro.TGrid {
                 this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
 
                 var listButtonContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("list-button-container");
-                (<HTMLElement>listButtonContainer[0]).appendChild(this.updateGroupByList(<HTMLUListElement>(<HTMLElement>listButtonContainer[0]).children[1], option));
+                (<HTMLElement>listButtonContainer[0]).appendChild(this.updateGroupByList(<HTMLUListElement>(<HTMLElement>listButtonContainer[0]).children[1], option));               
 
             } else {
                 //method adding groupBy element
@@ -82,10 +82,8 @@ module TesserisPro.TGrid {
                 var listGroupByElement = document.createElement("ul");
                 listGroupByElement.setAttribute("class", "group-by-ul");
                                 
-                var groupByButtonElement = document.createElement("input");
-                groupByButtonElement.setAttribute("type", "button");
+                var groupByButtonElement = document.createElement("a");
                 groupByButtonElement.setAttribute("class", "button-group-by");
-                groupByButtonElement.setAttribute("value", "+");  
 
                 groupByButtonElement.onclick = (e) => {
                     Grid.getGridObject(<HTMLElement>e.target).showElement((<HTMLElement>e.target).nextElementSibling);
@@ -300,9 +298,15 @@ module TesserisPro.TGrid {
         private addGroupByHandlers(option: Options, groupByContainer: HTMLElement) {            
             for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
                 var groupByHeaderElement = document.createElement("div");
-                groupByHeaderElement.setAttribute("class", "conditionGroupBy");
-                groupByHeaderElement["data-group-by"] = option.groupBySortDescriptor[i];
-                groupByHeaderElement.appendChild(document.createTextNode(option.groupBySortDescriptor[i].column.toString()));
+
+                for (var j = 0; j < option.columns.length; j++) {
+                    if (option.columns[j].groupMemberPath == option.groupBySortDescriptor[i].column) {
+                        option.columns[j].header.applyTemplate(groupByHeaderElement);
+                    }
+                }
+                
+                groupByHeaderElement.setAttribute("class", "condition-group-by");
+                groupByHeaderElement["data-group-by"] = option.groupBySortDescriptor[i];               
                 
                 //create deleteGroupByElement
                 var deleteGroupByElement = document.createElement("input");
@@ -319,6 +323,7 @@ module TesserisPro.TGrid {
                                 
                 groupByHeaderElement.appendChild(deleteGroupByElement);
                 groupByContainer.appendChild(groupByHeaderElement);
+                ko.applyBindings(ko.contextFor(option.target), groupByHeaderElement);
             }            
         }
         //delete all elements of groupBy from the top of the grid
@@ -333,7 +338,7 @@ module TesserisPro.TGrid {
         // creates list groupBys to choose from
         private createListGroupByAvailable(listGroupByElement: HTMLUListElement, option: Options) {
             for (var i = 0; i < option.columns.length; i++) {
-                var hasNotGroupBy = true;
+                var hasNotGroupBy = true;               
                 for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
                     if (option.groupBySortDescriptor[j].column == option.columns[i].groupMemberPath) {
                         hasNotGroupBy = false;
@@ -342,14 +347,19 @@ module TesserisPro.TGrid {
                 }
                 if (hasNotGroupBy) {
                     var listItemGroupByElement = document.createElement("li");
-                    listItemGroupByElement["data-group-by-condition"] = option.columns[i].groupMemberPath;
-                    listItemGroupByElement.appendChild(document.createTextNode(option.columns[i].groupMemberPath.toString()));
                     listItemGroupByElement.onclick = (e) => {
-                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>e.target["data-group-by-condition"]), true);
-                        //Grid.getGridObject(<HTMLElement>e.target).hideElement((<HTMLElement>e.target).parentElement);
+                        var el = <Node>e.target;
+                        while (el && el.nodeName !== 'LI') {
+                            el = el.parentNode
+                            } 
+                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);                                          
                     }
+                    option.columns[i].header.applyTemplate(listItemGroupByElement);
+                    listItemGroupByElement["data-group-by-condition"] = option.columns[i].groupMemberPath; 
 
                     listGroupByElement.appendChild(listItemGroupByElement);
+                    var viewModel = ko.contextFor(option.target);
+                    ko.applyBindings(viewModel, listItemGroupByElement);
                 }
             }
                         
@@ -364,6 +374,7 @@ module TesserisPro.TGrid {
 
             return list;    
         }
+
         // Mobile Methods
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {

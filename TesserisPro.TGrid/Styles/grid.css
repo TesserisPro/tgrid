@@ -2,13 +2,13 @@
     position: relative;
 }
 
-.tgrid-table {
+.tgrid-table, .group-by-container {
     border-collapse: collapse;
     width: 100%;
     background: rgb(222,239,255);
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header {
+    .tgrid-table thead tr th, .tgrid-mobile-header, .condition-group-by {
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
@@ -182,21 +182,19 @@
         display: none;
     }
 }
-.conditionGroupBy {
-    display:inline-block;
-    border: solid 1px #808080;
+.condition-group-by {
     min-height: 15px;
     min-width: 25px;
     float:left;
+    border: 1px solid rgb(122,188,255);
+    
 }
-.delete-condition-group-by {
-    float:right;
-    vertical-align:top;
+.delete-condition-group-by {   
 }
 .group-by-container {    
     display:block;
     width: auto;
-    height: 30px;    
+    height: 33px;    
 }
 
 .list-button-container {
@@ -205,6 +203,11 @@
 
 .button-group-by {
     display: inline-block;
+    height: 30px;
+    width: 30px;
+    background: url(../images/buttonBlue.jpg) no-repeat;
+    background-size:contain;
+    margin-top: 2px;
 }
 
 .group-by-ul {
@@ -213,11 +216,20 @@
     list-style-type: none;
     background: #fff;
     margin: 0; 
-    padding: 8px 20px;
+   padding: 5px 0;
+   float: left;
       
 }
 
 .group-by-ul>li {
     display:block;
     margin: 0;
+    padding: 3px 20px;
+    clear: both;
+    color: #222;
+}
+.group-by-ul > li:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #428bca;
 }
