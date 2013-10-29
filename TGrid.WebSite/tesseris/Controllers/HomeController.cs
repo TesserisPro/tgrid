@@ -16,5 +16,10 @@ namespace tesseris.Controllers
             return View();
         }
 
+        public ActionResult Grid()
+        {
+            return View();
+        }
+
     }
 }

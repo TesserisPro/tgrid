@@ -33,7 +33,7 @@ body .db {
     display: block;
 }
 body .pb120 {
-    padding-bottom: 220px;
+    padding-bottom: 120px;
 }
 body .pt20 {
     padding-top: 20px;
@@ -55,6 +55,7 @@ h2, .h2 {
 h3, .h3 {
     font: 400 22px/1.2 DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
 }
+
 .page-web span, .page-mobile span, .page-dataviz span, .page-web div, .page-mobile div, .page-dataviz div, .page-web section, .page-mobile section, .page-dataviz section {
     -webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
@@ -124,10 +125,11 @@ img, fieldset {
 
 #tgrid-log img{
     height: 35px;
+    margin-top:5px;
 }
 
 #wrapper {
-    padding: 35px 0 28px 0;
+    padding: 45px 0 28px 0;
     width: 100%;
     /*background: url("/Content/images/Gears-main.png") no-repeat fixed -60px 450px;*/
     position: absolute;
@@ -189,6 +191,7 @@ header .centered-content {
     left: 0;
     width: 107px;
     height: 35px;
+    margin-left: 5px;
     /*position: absolute;*/
 }
 .tgrid-nav {
@@ -197,7 +200,7 @@ header .centered-content {
     top: 10px;
     max-width: 75%;
     font-size: 0;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .tgrid-nav a, .tgrid-nav .nav-submenu {
     display: inline-block;
@@ -348,6 +351,7 @@ h1, .header-content h2 {
 p, address {
     margin: 0 0 1.6em 0;
     font-style: normal;
+    color:black;
 }
 .header-content img {
     float: left;
@@ -396,7 +400,8 @@ p, address {
 }
 #content {
     width: 940px;
-    padding: 50px 0 40px 0;
+    /*padding: 50px 0 40px 0;*/
+    padding:1px 0 0 0;
     margin: 0 auto;
     clear: both;
     position: relative;
@@ -488,9 +493,9 @@ footer .centered-content {
 }
 #left{
     width:10px;
-    height:1281px;
+    /*height:1281px;*/
     position:absolute;
-    left: 471.5px;   
+    /*left: 471.5px;*/   
     background: -webkit-gradient(linear, left top, right top, from(rgb(185, 183, 183)), to(whitesmoke));
     background: -webkit-linear-gradient(right, rgb(185, 183, 183), whitesmoke);
     background: -moz-linear-gradient(right, rgb(185, 183, 183), whitesmoke);
@@ -522,13 +527,51 @@ footer .centered-content {
 }
 #right{
     width:10px;
-    height:1281px;
+    /*height:1281px;*/
     position:absolute;
-    right: 471.5px;   
+    /*right: 471.5px;*/   
     background-color: rgba(0, 0, 0, 0.06)
     background: -webkit-gradient(linear, left top, right top, from(whitesmoke), to(rgb(185, 183, 183)));
     background: -webkit-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
     background: -moz-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
     background: -ms-linear-gradient(right, whitesmoke,rgb(185, 183, 183));
     background: -o-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
+}
+#list{
+    display: none;
+    width:260px;
+    height:auto;
+    background:white;
+    margin-bottom: 40px;
+}
+
+#list ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+}
+
+#list ul a {
+    display: inline-block;
+    padding: 3px 4px 3px 4px;
+    color: #4e4e4e;
+    line-height: 1.5;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
+     
+}
+#list ul a:hover, #list ul a:focus{
+    color:red;
+}
+#frame{
+    visibility: hidden;
+    height:0;
+    width: 590px;   
+    margin-left: 20px;
+}
+#list ul li a.active{
+    background: red;
+    color: white;
 }

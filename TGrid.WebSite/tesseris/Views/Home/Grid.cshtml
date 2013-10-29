@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Grid</h2>
+<style>
+   .header-content {
+        display: none;
+    }
+    #GeneralBox_Content_C012_Col00 {
+        display: none;
+    }
+    #list {
+        display: inline-block;
+    }
+    #list ul {
+        height: 100%;
+    }
+    #frame {
+        visibility: visible;
+        height: 560px;
+    }
+    .sf_colsOut.sf_1col_1_100 {
+        margin-top: 40px;
+    }
+</style>
+<script type="text/javascript">
+    $('#list').height($('#content').height());
+</script>
