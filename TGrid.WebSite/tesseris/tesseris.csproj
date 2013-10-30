@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\grid.css" />
     <Content Include="Content\images\Gear-04.png" />
     <Content Include="Content\images\Gears-main.png" />
     <Content Include="Content\images\gears.png" />
@@ -142,6 +143,22 @@
     <Content Include="Content\images\logo_small_for_doc.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\iframe\BaseHtmlProvider.js" />
+    <Content Include="Scripts\iframe\FilterDescriptor.js" />
+    <Content Include="Scripts\iframe\GroupHeaderDescriptor.js" />
+    <Content Include="Scripts\iframe\IHtmlProvider.js" />
+    <Content Include="Scripts\iframe\IItemProvider.js" />
+    <Content Include="Scripts\iframe\ItemViewModel.js" />
+    <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\iframe\jquery-2.0.3.js" />
+    <Content Include="Scripts\iframe\knockout-2.3.0.js" />
+    <Content Include="Scripts\iframe\KnockoutHtmlProvider.js" />
+    <Content Include="Scripts\iframe\Options.js" />
+    <Content Include="Scripts\iframe\SortDescriptor.js" />
+    <Content Include="Scripts\iframe\TGrid.js" />
+    <Content Include="Scripts\iframe\TGridBinding.js" />
+    <Content Include="Scripts\iframe\TGridDirective.js" />
+    <Content Include="Scripts\iframe\utils.js" />
     <Content Include="Scripts\init.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -154,6 +171,8 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Home\SimpleGridWithoutPaging.cshtml" />
+    <Content Include="Views\Home\SimpleGridWithoutPagingMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

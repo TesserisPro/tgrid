@@ -21,5 +21,14 @@ namespace tesseris.Controllers
             return View();
         }
 
+        public ActionResult SimpleGridWithoutPaging()
+        {
+            return View();
+        }
+
+        public ActionResult SimpleGridWithoutPagingMobile()
+        {
+            return View();
+        }
     }
 }

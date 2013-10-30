@@ -565,7 +565,7 @@ footer .centered-content {
 #list ul a:hover, #list ul a:focus{
     color:red;
 }
-#frame{
+#main-frame{
     visibility: hidden;
     height:0;
     width: 590px;   

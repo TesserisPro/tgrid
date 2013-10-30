@@ -17,7 +17,7 @@
     #list ul {
         height: 100%;
     }
-    #frame {
+    #main-frame {
         visibility: visible;
         height: 560px;
     }
@@ -27,4 +27,12 @@
 </style>
 <script type="text/javascript">
     $('#list').height($('#content').height());
+    function Navigate(a) {
+        if ($(a).attr('id') == "SimpleGridWithoutPaging") {
+            $('#main-frame').attr('src', "/Home/SimpleGridWithoutPaging");
+        }
+        if ($(a).attr('id') == "SimpleGridWithoutPagingMobile") {
+            $('#main-frame').attr('src', "/Home/SimpleGridWithoutPagingMobile");
+        }
+    }
 </script>
