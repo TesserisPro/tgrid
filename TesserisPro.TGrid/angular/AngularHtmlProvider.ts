@@ -86,7 +86,7 @@ module TesserisPro.TGrid {
                 groupByButtonElement.setAttribute("class", "button-group-by");
 
                 groupByButtonElement.onclick = (e) => {
-                    Grid.getGridObject(<HTMLElement>e.target).showElement((<HTMLElement>e.target).nextElementSibling);
+                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
                 }
 
                 listButtonContainerElement.appendChild(groupByButtonElement);

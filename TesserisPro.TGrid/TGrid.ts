@@ -403,12 +403,20 @@ module TesserisPro.TGrid {
             this.refreshBody(); 
         }
 
-        public showElement(element: Element) {
+        public showHideListOnClick(element: Element) {
             if (element.getAttribute("style") != "display:block;") {
                 element.setAttribute("style", "display:block;");
             } else {
                 element.removeAttribute("style");
             }
+        }
+
+        public showDivElement(element: Element) {
+            element.setAttribute("style", "display:block;");
+        }
+
+        public showTableCellElement(element: Element) {
+            element.setAttribute("style", "display:table-cell;");
         }
 
         public hideElement(element: Element) {
@@ -529,7 +537,7 @@ module TesserisPro.TGrid {
             return this.options.pageSize;
         }
 
-        private refreshHeader() {
+        private refreshHeader() {            
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.itemProvider.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }

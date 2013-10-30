@@ -50,22 +50,27 @@ module TesserisPro.TGrid {
         }
 
        public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean) {
-            if (header.innerHTML != null && header.innerHTML != "") {
+           if (header.innerHTML != null && header.innerHTML != "") {
+               //add intends for groupBy
+               this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));               
+
                 // update table header
                 if (isSortable) {
                     this.removeArrows(header);
-                    var element = header.getElementsByTagName("th");
-
-                    for (var i = option.groupBySortDescriptor.length; i < element.length && i - option.groupBySortDescriptor.length < option.columns.length; i++) {
-                        element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i - option.groupBySortDescriptor.length);
-                    }
-                                       
-                }
-
-                var groupByContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("group-by-container");
-                this.deleteAllGroupByElements(<HTMLElement>groupByContainer[0]);
-                this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
-
+                    var element = header.getElementsByTagName("th");                    
+                    
+                    for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
+                        if (option.sortDescriptor.column == option.columns[j].sortMemberPath) {
+                            element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
+                        }
+                    }                                     
+                }          
+              
+               var groupByContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("group-by-container");
+               this.deleteAllGroupByElements(<HTMLElement>groupByContainer[0]);
+               this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
+               //this.showGroupByElements(option, <HTMLElement>groupByContainer[0], Grid.getGridObject(header));
+               
                 var listButtonContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("list-button-container");
                 (<HTMLElement>listButtonContainer[0]).appendChild(this.updateGroupByList(<HTMLUListElement>(<HTMLElement>listButtonContainer[0]).children[1], option));               
 
@@ -75,30 +80,30 @@ module TesserisPro.TGrid {
                 groupByRow.setAttribute("class", "group-by-container");
 
                 this.addGroupByHandlers(option, groupByRow);
+               // this.showGroupByElements(option, groupByRow, Grid.getGridObject(header))
 
                 var listButtonContainerElement = document.createElement("div");
                 listButtonContainerElement.setAttribute("class", "list-button-container");
-
                 var listGroupByElement = document.createElement("ul");
-                listGroupByElement.setAttribute("class", "group-by-ul");
-                                
+                listGroupByElement.setAttribute("class", "group-by-ul");                                
                 var groupByButtonElement = document.createElement("a");
                 groupByButtonElement.setAttribute("class", "button-group-by");
 
                 groupByButtonElement.onclick = (e) => {
-                    Grid.getGridObject(<HTMLElement>e.target).showElement((<HTMLElement>e.target).nextElementSibling);
+                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
                 }
                 
                 listButtonContainerElement.appendChild(groupByButtonElement);
-                listButtonContainerElement.appendChild(this.createListGroupByAvailable(listGroupByElement, option)); 
-                
-                groupByRow.appendChild(listButtonContainerElement);  
+                listButtonContainerElement.appendChild(this.createListGroupByAvailable(listGroupByElement, option));                
+                groupByRow.appendChild(listButtonContainerElement);
+
                 header.parentElement.parentElement.parentElement.insertBefore(groupByRow, header.parentElement.parentElement.parentElement.firstChild); 
 
                 // Create table header
                 var head = document.createElement("tr");                
                                 
-                this.appendIndent(head, option.groupBySortDescriptor.length, true);
+                this.appendIndent(head, option.columns.length, true);
+                this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -112,7 +117,9 @@ module TesserisPro.TGrid {
 
                     // Arrows
                     if (isSortable) {
-                        headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
+                        if (option.sortDescriptor.column == option.columns[i].sortMemberPath) {
+                            headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
+                        }
                     } 
 
                     head.appendChild(headerCell);
@@ -261,12 +268,12 @@ module TesserisPro.TGrid {
         }
 
         private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
+            if (option.sortDescriptor.asc) {
                 var up = document.createElement("div");
                 up.classList.add("tgrid-arrow-up");
                 htmlNode.appendChild(up);
             }
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
+            if (!option.sortDescriptor.asc) {
                 var down = document.createElement("div");
                 down.classList.add("tgrid-arrow-down");
                 htmlNode.appendChild(down);
@@ -290,11 +297,27 @@ module TesserisPro.TGrid {
             for (var i = 0; i < level; i++) {
                 var cell = document.createElement(tag);
                 cell.className = "tgrid-table-indent-cell";
-                target.appendChild(cell);
+                target.appendChild(cell);                
             }
         }
 
-        //function for adding groupBy functionality at the top of the grid
+        private showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
+            var visibleIntentsNumber = level;
+            var cells = target.getElementsByClassName("tgrid-table-indent-cell");
+
+            for (var i = 0; i < cells.length; i++) {
+                grid.hideElement(<Element>cells[i]);
+            }
+            //check that number of existing intent-cells is not more than number of needed intent-cells
+            if (cells.length < level) {
+                visibleIntentsNumber = cells.length;
+            }
+
+            for (var i = 0; i < visibleIntentsNumber; i++) {                
+                grid.showTableCellElement(<Element>cells[i]);                
+            }
+        }
+
         private addGroupByHandlers(option: Options, groupByContainer: HTMLElement) {            
             for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
                 var groupByHeaderElement = document.createElement("div");
@@ -323,9 +346,10 @@ module TesserisPro.TGrid {
                                 
                 groupByHeaderElement.appendChild(deleteGroupByElement);
                 groupByContainer.appendChild(groupByHeaderElement);
-                ko.applyBindings(ko.contextFor(option.target), groupByHeaderElement);
+                ko.applyBindings(ko.dataFor(option.target), groupByHeaderElement);
             }            
         }
+
         //delete all elements of groupBy from the top of the grid
         private deleteAllGroupByElements(groupByContainerElement: HTMLElement) {
             for (var i = 0; i < groupByContainerElement.children.length; i++) {
@@ -335,6 +359,7 @@ module TesserisPro.TGrid {
                 }
             }
         }
+
         // creates list groupBys to choose from
         private createListGroupByAvailable(listGroupByElement: HTMLUListElement, option: Options) {
             for (var i = 0; i < option.columns.length; i++) {
@@ -358,8 +383,9 @@ module TesserisPro.TGrid {
                     listItemGroupByElement["data-group-by-condition"] = option.columns[i].groupMemberPath; 
 
                     listGroupByElement.appendChild(listItemGroupByElement);
-                    var viewModel = ko.contextFor(option.target);
-                    ko.applyBindings(viewModel, listItemGroupByElement);
+                    //var viewModel = ko.dataFor(option.target);
+
+                   // ko.applyBindings(viewModel, listItemGroupByElement);
                 }
             }
                         
@@ -561,7 +587,7 @@ module TesserisPro.TGrid {
         private buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
             var headerDiv = document.createElement("div");
 
-            headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
+            headerDiv.setAttribute("class", "tgrid-mobile-group-header ");
             headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
 
             headerDiv.innerHTML = option.groupHeaderTemplate;

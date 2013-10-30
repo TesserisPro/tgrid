@@ -186,8 +186,7 @@
     min-height: 15px;
     min-width: 25px;
     float:left;
-    border: 1px solid rgb(122,188,255);
-    
+    border: 1px solid rgb(122,188,255);    
 }
 .delete-condition-group-by {   
 }
@@ -232,4 +231,8 @@
     color: #ffffff;
     text-decoration: none;
     background-color: #428bca;
+}
+
+thead>tr> .tgrid-table-indent-cell {
+    display:none;
 }
