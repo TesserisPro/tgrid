@@ -110,6 +110,21 @@
             </div>
         </groupheader>
 
+        <tablefooter>
+                <totalCount>
+                    <span data-bind="text: footer.totalCount"> </span>
+                </totalCount>          
+                <selectedItem> 
+                    <span data-bind="text: footer.selectedItem"> </span>
+                </selectedItem>           
+                <currentPage> 
+                    <span data-bind="text: footer.currentPage"></span>
+                </currentPage>            
+                <totalPages> 
+                    <span data-bind="text: footer.totalPages"></span>
+                </totalPages>            
+        </tablefooter>
+
         <mobile>
             <div>
                 <span>Name: </span>
@@ -192,7 +207,7 @@
                 { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
                 { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
                 { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } }
-        ];
+        ];        
 
         SimpleItemsProvider.prototype.isSortable = function () {
             return true;
@@ -296,10 +311,18 @@
         return SimpleItemsProvider;
     })();
 
+    var Footer = function(totalCount, selectedItem, currentPage, totalPages){
+        this.totalCount = totalCount;
+        this.selectedItem = selectedItem;
+        this.currentPage = currentPage;
+        this.totalPages = totalPage;
+    }
+
     function vm() {
         var self = this;
         self.nameColumnTitle = "Name";
         self.itemsProvider = new SimpleItemsProvider();
+        self.footer = new Footer(self.itemsProvider.getTotalItemsCount, 0, 1, 1);
     };
 
     $(function () {
@@ -345,6 +368,21 @@
                 <span style="color: green;">{{item.value}}</span>
             </div>
         </groupheader>
+
+        <tablefooter>
+                <totalCount>
+                    <span>{{footer.totalCount}} </span>
+                </totalCount>          
+                <selectedItem> 
+                    <span > {{footer.selectedItem}}</span>
+                </selectedItem>           
+                <currentPage> 
+                    <span>{{footer.currentPage}}</span>
+                </currentPage>            
+                <totalPages> 
+                    <span>{{footer.totalPages}}</span>
+                </totalPages>            
+        </tablefooter>
 
         <mobile>
             <div>
@@ -515,10 +553,17 @@
         return SimpleItemsProviderAngular;
     })();
 
+    var FooterAngular = function (totalCount, selectedItem, currentPage, totalPages) {
+        this.totalCount = totalCount;
+        this.selectedItem = selectedItem;
+        this.currentPage = currentPage;
+        this.totalPages = totalPage;
+    }
 
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();
+            $scope.footer = new FooterAngular($scope.dataProvider().getTotalItemsCount(), 0, 1, 1);
         })
 
         .directive('tGrid', TGrid.Angular.Directive);

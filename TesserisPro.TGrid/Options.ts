@@ -39,7 +39,21 @@ module TesserisPro.TGrid {
         public applyTemplate(element: HTMLElement) {
             element.innerHTML = this.content != null ? this.content : "";
         }
-	}
+    }
+
+    export class TableFooter {
+        public totalCount: number = 0;
+        public selectedItem: ItemViewModel = new ItemViewModel(null, null, null, false);
+        public currentPage: number = 1;
+        public totalPages: number = 1;
+    }
+
+    export class TableFooterInfo {
+        public totalCountTemplate: Template;
+        public selectedItemTemplate: Template;
+        public currentPageTemplate: Template;
+        public totalPagesTemplate: Template;        
+    }
 		   
     export class Options {
         public columns: Array<ColumnInfo> = [];
@@ -62,6 +76,8 @@ module TesserisPro.TGrid {
         public selectionMode: SelectionMode;
         //public groupBy: string;
         public filterDescriptors: Array<FilterDescriptor> = [];
+        public tableFooter: TableFooter;
+        public tableFooterInfo: TableFooterInfo;
 
         public ctrlKey: boolean;
         public selectedRow: HTMLElement;
@@ -158,6 +174,13 @@ module TesserisPro.TGrid {
             this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
 
             this.showDetailFor = new ShowDetail();
+
+            var tableFooter = optionsElement.find("tablefooter");            
+            this.tableFooterInfo = new TableFooterInfo();
+            this.tableFooterInfo.totalCountTemplate = new Template(optionsElement.find("totalPages")[0]);
+            this.tableFooterInfo.selectedItemTemplate = new Template(optionsElement.find("selectedItem")[0]);
+            this.tableFooterInfo.currentPageTemplate = new Template(optionsElement.find("selectedItem")[0]);
+            this.tableFooterInfo.totalPagesTemplate = new Template(optionsElement.find("selectedItem")[0]);                
         }
     }
 }
