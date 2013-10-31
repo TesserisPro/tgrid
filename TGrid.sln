@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGrid.Tests", "TGrid.Tests\TGrid.Tests.csproj", "{1F8C2073-8EA8-4DD7-8A9B-611BBBF057E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid", "TesserisPro.TGrid\TesserisPro.TGrid.csproj", "{F9339722-A757-47E2-897B-70AB9D202365}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Demo", "TesserisPro.TGrid.Demo\TesserisPro.TGrid.Demo.csproj", "{E7ECF736-2221-469C-B45F-D6E4205CB8B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Server", "TesserisPro.TGrid.Server\TesserisPro.TGrid.Server.csproj", "{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Server.Tests", "TesserisPro.TGrid.Server.Tests\TesserisPro.TGrid.Server.Tests.csproj", "{0C908936-0A91-4827-A032-3AD3E6263507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +31,14 @@ Global
 		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C908936-0A91-4827-A032-3AD3E6263507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C908936-0A91-4827-A032-3AD3E6263507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C908936-0A91-4827-A032-3AD3E6263507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C908936-0A91-4827-A032-3AD3E6263507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

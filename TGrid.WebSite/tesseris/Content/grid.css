@@ -1,0 +1,191 @@
+﻿.tgrid-root {
+    position: relative;
+}
+
+.tgrid-table {
+    border-collapse: collapse;
+    width: 100%;
+    background: rgb(222,239,255);
+}
+
+    .tgrid-table thead tr th, .tgrid-mobile-header {
+        border-left: 1px solid rgb(122,188,255);
+        border-right: 1px solid rgb(122,188,255);
+        cursor: pointer;
+        margin: 1px;
+        padding: 2px;
+        background: rgb(222,239,255); /* Old browsers */
+        background: -moz-linear-gradient(top, rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
+        background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+    }
+
+.tgrid-mobile-header {
+    margin: 0px;
+    border-top: 1px solid rgb(122,188,255);
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+}
+
+.tgrid-table tbody tr td, .tgrid-table-group-header {
+    padding: 2px;
+    border-top: 1px solid rgb(122,188,255);
+    border-left: 1px solid rgb(122,188,255);
+    background-color: white;
+}
+
+.tgrid-table-group-header {
+    border-bottom: none !important;
+    border-left: none !important;
+    background-color: rgb(234, 244, 254) !important;
+}
+
+.tgrid-table-indent-cell {
+    border-top: 0px solid rgb(122,188,255) !important;
+    border-left: 0px solid rgb(122,188,255) !important;
+    border-right: 1px solid rgb(122,188,255) !important;
+    background-color: rgb(234, 244, 254) !important;
+}
+
+.tgrid-mobile-indent-div, .tgrid-table-indent-cell{
+    width: 20px;
+}
+
+.tgrid-table tbody tr.selected td {
+    background-color: rgba(152,190,222,1);
+}
+
+.tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
+.tgrid-mobile-container .selected {
+    background-color: rgba(152,190,222,1);
+}
+
+.tgrid-tablebodycontainer {
+    border: 1px solid rgb(122,188,255);
+    overflow-y: scroll;
+    overflow-x: auto;
+    height: 420px;
+}
+
+.tgrid-tableheadercontainer {
+    border: 1px solid rgb(122,188,255);
+}
+
+.tgrid-footer {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+    padding: 2px;
+    background-color: #f5f8fb;
+    height: 29px;
+}
+
+.tgird-pagination {
+    margin: 0px;
+    text-align: center;
+}
+
+.tgrid-group-row {
+}
+
+.tgrid-mobile-group {
+    border-left: 1px solid rgb(122,188,255);
+    border-right: 1px solid rgb(122,188,255);
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
+.tgird-page-current,
+.tgird-page-number {
+    margin-left: 1px;
+    margin-right: 1px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid gray;
+    background: rgb(222, 232, 255);
+    display: inline-block;
+}
+
+.tgird-page-number {
+    color: blue;
+    cursor: pointer;
+}
+
+.tgird-page-current {
+    color: gray;
+    cursor: default;
+}
+
+.tgrid-mobile-container {
+}
+
+.tgrid-inline-block {
+    display: inline-block;
+}
+
+/*Arrows*/
+.tgrid-arrow-down {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(images/arrow_up.png) no-repeat;
+    margin-left: 5px;
+}
+
+.tgrid-arrow-up {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(images/arrow_down.png) no-repeat;
+    margin-left: 5px;
+}
+
+.tgrid-buisy-indicator {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(122, 188, 255, 0.44);
+}
+
+.tgrid-scroll {
+    display: inline-block;
+    position: absolute;
+    right: 1px;
+    top: 30px;
+    bottom: 36px;
+    width:32px;
+    overflow: scroll;
+}
+
+.tgrid-scroll div {
+    display: inline-block;
+}
+
+.tgrid-mobile-indent-div, .tgrid-mobile-div{
+    display:inline-table;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .desktop {
+        display: none;
+    }
+}
+
+/* Desktop */
+@media (min-width: 481px) {
+    .mobile {
+        display: none;
+    }
+}

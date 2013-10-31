@@ -125,6 +125,52 @@ module TesserisPro.TGrid {
             container.setAttribute("class", bodyClass);
         }
 
+        public addDetailRow(option: Options, container: HTMLElement) {
+
+        }
+
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel) {
+            var detailRow = container.getElementsByClassName("details");
+            if (detailRow.length > 0) {
+                detailRow[0].parentNode.removeChild(detailRow[0]);
+            }
+
+            if (option.selectionMode == SelectionMode.Multi) {
+                if (!option.ctrlKey) {
+                    for (var i = 0; i < container.children.length; i++) {
+                        container.children.item(i).removeAttribute("class");
+                    }
+                }
+                if (option.isSelected(item)) {
+                    option.selectedRow.setAttribute("class", "selected");
+                }
+                else {
+                    option.selectedRow.removeAttribute("class");
+                }
+            }
+            if (option.selectionMode == SelectionMode.Single) {
+                for (var i = 0; i < container.children.length; i++) {
+                    container.children.item(i).removeAttribute("class");
+                }
+                if (option.isSelected(item)) {
+                    option.selectedRow.setAttribute("class", "selected");
+                }
+                else {
+                    option.selectedRow.removeAttribute("class");
+                }
+            }
+
+            var selectedElement = container.getElementsByClassName("selected");
+            var details = this.buildDetailsRow(option);
+            details.setAttribute("class", "details");
+
+            // Insert row details after selected item
+            if (selectedElement != null && selectedElement.length == 1) {
+                insertAfter(selectedElement[0], details);
+                ko.applyBindings(option.showDetailFor, details);
+            }
+        }
+
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
@@ -135,18 +181,6 @@ module TesserisPro.TGrid {
             } else {
                 var row = this.buildRowElement(option, item, container, selected);
                 container.appendChild(row);
-                
-                if (option.showDetailFor.item == item.item) {
-                    itemWithDetails = item;
-                    rowWithDetail = row;
-                }
-
-                var details = this.buildDetailsRow(option,item);
-
-                // Insert row details after selected item
-                if (itemWithDetails != null) {
-                    insertAfter(rowWithDetail, details);
-                }
             }
         }
 
@@ -174,31 +208,9 @@ module TesserisPro.TGrid {
             (function (item) {
                 row.onclick = function (e) {
                     if (option.selectionMode != SelectionMode.None) {
+                        option.ctrlKey = e.ctrlKey;
+                        option.selectedRow = <HTMLElement>this;
                         selected(item, e.ctrlKey);
-                    }
-                    if (option.selectionMode == SelectionMode.Multi) {
-                        if (!e.ctrlKey) {
-                            for (var i = 0; i < container.children.length; i++) {
-                                container.children.item(i).removeAttribute("class");
-                            }
-                        }
-                        if (option.isSelected(item.item)) {
-                            (<HTMLElement>this).setAttribute("class", "selected");
-                        }
-                        else {
-                            (<HTMLElement>this).removeAttribute("class");
-                        }
-                    }
-                    if (option.selectionMode == SelectionMode.Single) {
-                        for (var i = 0; i < container.children.length; i++) {
-                            container.children.item(i).removeAttribute("class");
-                        }
-                        if (option.isSelected(item.item)) {
-                            (<HTMLElement>this).setAttribute("class", "selected");
-                        }
-                        else {
-                            (<HTMLElement>this).removeAttribute("class");
-                        }
                     }
                 };
             })(item);
@@ -206,7 +218,7 @@ module TesserisPro.TGrid {
             return row;
         }
 
-        private buildDetailsRow(option: Options, item: ItemViewModel): HTMLElement {
+        private buildDetailsRow(option: Options): HTMLElement {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
@@ -218,7 +230,7 @@ module TesserisPro.TGrid {
             var begin = detailTd.innerHTML.indexOf("{{item.");
             var end = detailTd.innerHTML.indexOf("}}");
             var str = detailTd.innerHTML.substring(begin + 7, end);
-            detailTd.innerHTML = detailTd.innerHTML.replace("{{item." + str + "}}", item.item[str]);
+            detailTd.innerHTML = detailTd.innerHTML.replace("{{item." + str + "}}", option.showDetailFor.item[str]);
             detailTr.appendChild(detailTd);
 
             return detailTr;
@@ -294,7 +306,7 @@ module TesserisPro.TGrid {
                 // Update mobile sort column
                 var selectUpdate = document.getElementsByTagName("select");
                 for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
                         selectUpdate[0].selectedIndex = i;
                     }
                 }
@@ -324,7 +336,7 @@ module TesserisPro.TGrid {
                         selectOption.value = option.columns[i].sortMemberPath;
                         selectOption.text = option.columns[i].sortMemberPath;
                         select.appendChild(selectOption);
-                        if (option.columns[i].sortMemberPath == option.sortDescriptor.column) {
+                        if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
                             arrow = <HTMLDivElement>this.addArrows(arrow, option, i);
                         }
                     }
@@ -368,6 +380,48 @@ module TesserisPro.TGrid {
             option.showDetailFor.isDetailColumn = false;
         }
 
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+            var detailRow = container.getElementsByClassName("details");
+            if (detailRow.length > 0) {
+                detailRow[0].parentNode.removeChild(detailRow[0]);
+            }
+
+            if (option.selectionMode == SelectionMode.Multi) {
+                if (!option.ctrlKey) {
+                    for (var i = 0; i < container.children.length; i++) {
+                        container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                    }
+                }
+                if (option.isSelected(item.item)) {
+                    option.selectedRow.setAttribute("class", option.selectedRow.getAttribute("class") + " selected");
+                }
+                else {
+                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                }
+            }
+            if (option.selectionMode == SelectionMode.Single) {
+                for (var i = 0; i < container.children.length; i++) {
+                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                }
+                if (option.isSelected(item)) {
+                    option.selectedRow.setAttribute("class", option.selectedRow.getAttribute("class") + " selected");
+                }
+                else {
+                    container.children.item(i).setAttribute("class", "tgrid-mobile-row");
+                }
+            }
+
+            var selectedElement = container.getElementsByClassName("selected");
+            var details = this.buildMobileDetailsRow(option);
+            details.setAttribute("class", "details");
+
+            // Insert row details after selected item
+            if (selectedElement != null && selectedElement.length == 1) {
+                insertAfter(selectedElement[0], details);
+                ko.applyBindings(option.showDetailFor, details);
+            }
+        }
+
         private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
             var itemWithDetails: any;
@@ -379,32 +433,22 @@ module TesserisPro.TGrid {
                 var row = this.buildMobileRowElement(option, item, container, selected);
 
                 container.appendChild(row);
-
-                if (option.showDetailFor.item == item.item) {
-                    itemWithDetails = item;
-                    rowWithDetail = row;
-                }
-
-                var details = this.buildMobileDetailsRow(option, item.item);
-
-                // Insert row details after selected item
-                if (itemWithDetails != null) {
-                    insertAfter(rowWithDetail, details);
-                }
             }
         }
 
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("div");
             row.setAttribute("class", "tgrid-mobile-row");
-            row.setAttribute("style", "padding-left: " + 20 * (option.groupBySortDescriptor.length) + "px !important;");
-
 
             if (option.isSelected(item.item)) {
                 row.setAttribute("class", "selected tgrid-mobile-row");
             }
 
-            row.innerHTML = option.mobileTemplateHtml;
+            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
+            }
+
+            row.innerHTML += "<div class='tgrid-mobile-div'>" + option.mobileTemplateHtml + "</div>";
 
             for (var i = 0; i < option.columns.length; i++) {
                 row.innerHTML = row.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
@@ -449,7 +493,7 @@ module TesserisPro.TGrid {
             return row;
         }
 
-        private buildMobileDetailsRow(option: Options, item: ItemViewModel): HTMLElement {
+        private buildMobileDetailsRow(option: Options): HTMLElement {
             var detailDiv = document.createElement("div");
 
             detailDiv.setAttribute("class", "tgrid-mobile-details ")
@@ -458,7 +502,7 @@ module TesserisPro.TGrid {
             var begin = detailDiv.innerHTML.indexOf("{{item.");
             var end = detailDiv.innerHTML.indexOf("}}");
             var str = detailDiv.innerHTML.substring(begin + 7, end);
-            detailDiv.innerHTML = detailDiv.innerHTML.replace("{{item." + str + "}}", item[str]);
+            detailDiv.innerHTML = detailDiv.innerHTML.replace("{{item." + str + "}}", option.showDetailFor.item[str]);
 
             return detailDiv;
         }
@@ -474,6 +518,5 @@ module TesserisPro.TGrid {
 
             return headerDiv;
         }
-
     }
 }

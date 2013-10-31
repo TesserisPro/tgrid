@@ -75,6 +75,7 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
         }
+        
 
         public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {           
             this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
@@ -135,7 +136,9 @@ module TesserisPro.TGrid {
                 var deleteGroupByElement = document.createElement("input");
                 deleteGroupByElement.setAttribute("type", "button");
                 deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                deleteGroupByElement.setAttribute("value", "x");
+                deleteGroupByElement.setAttribute("value", "x"); public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+        }
+
                 deleteGroupByElement["data-delete-groupby"] = new SortDescriptor(option.columns[i].groupMemberPath, true);
 
                 //adding function to delete GroupBy condition by clicking on close button
@@ -209,6 +212,12 @@ module TesserisPro.TGrid {
             }
             return listGroupByElement;
         }      
-    }
+         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+        }
 
+
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+
+        }
+    }
 }

@@ -49,6 +49,9 @@
     border-left: 0px solid rgb(122,188,255) !important;
     border-right: 1px solid rgb(122,188,255) !important;
     background-color: rgb(234, 244, 254) !important;
+}
+
+.tgrid-mobile-indent-div, .tgrid-table-indent-cell{
     width: 20px;
 }
 
@@ -167,6 +170,10 @@
 
 .tgrid-scroll div {
     display: inline-block;
+}
+
+.tgrid-mobile-indent-div, .tgrid-mobile-div{
+    display:inline-table;
 }
 
 /* Mobile */

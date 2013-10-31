@@ -59,9 +59,9 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['name'], enableVirtualScroll:'false', enablePaging:'false'}">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['name'], enableVirtualScroll: 'false', enablePaging: 'false' }">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member ="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -137,61 +137,61 @@
 <script type="text/javascript">
     var SimpleItemsProvider = (function () {
         var items = [
-                { name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a1", key: "a3", key2: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b2", key: "c2", key2: "a1", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key" },
-                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key" }
+                { name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a1", key: "a3", key2: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "b2", key: "c2", key2: "a1", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
+                { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } }
         ];
 
         SimpleItemsProvider.prototype.isSortable = function () {
@@ -205,6 +205,7 @@
         function SimpleItemsProvider() {
             for (var i = 0; i < items.length; i++) {
                 items[i].key2 = i;
+                items[i].detail = items[i].detail + " " + i;
             }
         }
 
@@ -230,10 +231,15 @@
             
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
+                isFiltered = true;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].column], filterDescriptors[i].value, filterDescriptors[i].condition)){
-                        filterdItems.push(items[j]);
+                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
+                        isFiltered = false;
+                        break;
                     }
+                }
+                if (isFiltered) {
+                    filterdItems.push(items[j]);
                 }
             }
             return filterdItems;
@@ -259,13 +265,13 @@
 
         function sortingRecursive(a, b, sortDescriptor, i) {
             if (i != sortDescriptor.length - 1) {
-                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                if (getMemberValue(a,sortDescriptor[i].path) > getMemberValue(b,sortDescriptor[i].path))
                     return sortingOrder(sortDescriptor[i]);
-                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                if (getMemberValue(b,sortDescriptor[i].path) > getMemberValue(a,sortDescriptor[i].path))
                     return sortingOrderDesc(sortDescriptor[i]);
                 return sortingRecursive(a, b, sortDescriptor, i + 1)
             } else {
-                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                return getMemberValue(a,sortDescriptor[i].path) > getMemberValue(b,sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
             }
         }
 
@@ -426,6 +432,7 @@
         function SimpleItemsProviderAngular() {
             for (var i = 0; i < items.length; i++) {
                 items[i].key = i;
+                items[i].detail = items[i].detail +" "+i;
             }
         }
 
@@ -456,13 +463,13 @@
 
         function sortingRecursive(a, b, sortDescriptor, i) {
             if (i != sortDescriptor.length - 1) {
-                if (a[sortDescriptor[i].column] > b[sortDescriptor[i].column])
+                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
                     return sortingOrder(sortDescriptor[i]);
-                if (b[sortDescriptor[i].column] > a[sortDescriptor[i].column])
+                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
                     return sortingOrderDesc(sortDescriptor[i]);
                 return sortingRecursive(a, b, sortDescriptor, i + 1)
             } else {
-                return a[sortDescriptor[i].column] > b[sortDescriptor[i].column] ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
             }
         }
 
@@ -481,10 +488,15 @@
 
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
+                isFiltered = true;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].column], filterDescriptors[i].value, filterDescriptors[i].condition)) {
-                        filterdItems.push(items[j]);
+                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
+                        isFiltered = false;
+                        break;
                     }
+                }
+                if (isFiltered) {
+                    filterdItems.push(items[j]);
                 }
             }
             return filterdItems;
