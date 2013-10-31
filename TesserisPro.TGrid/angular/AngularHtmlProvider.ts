@@ -48,57 +48,34 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, isSortable: boolean)
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, isSortable: boolean)
         {
             if (header.innerHTML != null && header.innerHTML != "") {
+                //add intends for groupBy
+                this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));
                 // update table header
                 if (isSortable) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
 
-                    for (var i = option.groupBySortDescriptor.length; i < element.length && i - option.groupBySortDescriptor.length < option.columns.length; i++) {
-                        element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i - option.groupBySortDescriptor.length);
-                    }
+                    for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
+                        if (option.sortDescriptor.column == option.columns[j].sortMemberPath) {
+                            element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
+                        }
+                    }        
                 }
 
-                var groupByContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("group-by-container");
-                this.deleteAllGroupByElements(<HTMLElement>groupByContainer[0]);
-                this.addGroupByHandlers(option, <HTMLElement>groupByContainer[0]);
-
-                var listButtonContainer = <NodeList>header.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("list-button-container");
-                (<HTMLElement>listButtonContainer[0]).appendChild(this.updateGroupByList(<HTMLUListElement>(<HTMLElement>listButtonContainer[0]).children[1], option));
-
+                this.updateGroupByElements(option, header, groupByContainer);               
 
             } else {
                 //method adding groupBy element
-                var groupByRow = document.createElement("div");
-                groupByRow.setAttribute("class", "group-by-container");
-
-                this.addGroupByHandlers(option, groupByRow);
-
-                var listButtonContainerElement = document.createElement("div");
-                listButtonContainerElement.setAttribute("class", "list-button-container");
-
-                var listGroupByElement = document.createElement("ul");
-                listGroupByElement.setAttribute("class", "group-by-ul");
-
-                var groupByButtonElement = document.createElement("a");
-                groupByButtonElement.setAttribute("class", "button-group-by");
-
-                groupByButtonElement.onclick = (e) => {
-                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
-                }
-
-                listButtonContainerElement.appendChild(groupByButtonElement);
-                listButtonContainerElement.appendChild(this.createListGroupByAvailable(listGroupByElement, option));
-
-                groupByRow.appendChild(listButtonContainerElement);
-                header.parentElement.parentElement.parentElement.insertBefore(groupByRow, header.parentElement.parentElement.parentElement.firstChild); 
+                this.addGroupBy(option, header, groupByContainer);
 
                 // Create table header
                 var head = document.createElement("tr");
 
-                this.appendIndent(head, option.groupBySortDescriptor.length, true);
+                this.appendIndent(head, option.columns.length, true);
+                this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -112,7 +89,9 @@ module TesserisPro.TGrid {
 
                     // Arrows
                     if (isSortable) {
-                        headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
+                        if (option.sortDescriptor.column == option.columns[i].sortMemberPath) {
+                            headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
+                        }
                     }
                     head.appendChild(headerCell);
                 }
@@ -262,12 +241,12 @@ module TesserisPro.TGrid {
         }
 
         private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
+            if (option.sortDescriptor.asc) {
                 var up = document.createElement("div");
                 up.classList.add("tgrid-arrow-up");
                 htmlNode.appendChild(up);
             }
-            if (option.sortDescriptor.column == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
+            if (!option.sortDescriptor.asc) {
                 var down = document.createElement("div");
                 down.classList.add("tgrid-arrow-down");
                 htmlNode.appendChild(down);
@@ -293,87 +272,6 @@ module TesserisPro.TGrid {
                 cell.className = "tgrid-table-indent-cell";
                 target.appendChild(cell);
             }
-        }
-
-        //function for adding groupBy functionality at the top of the grid
-        private addGroupByHandlers(option: Options, groupByContainer: HTMLElement) {
-            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
-                var groupByHeaderElement = document.createElement("div");
-
-                for (var j = 0; j < option.columns.length; j++) {
-                    if (option.columns[j].groupMemberPath == option.groupBySortDescriptor[i].column) {
-                        option.columns[j].header.applyTemplate(groupByHeaderElement);
-                    }
-                }
-
-                groupByHeaderElement.setAttribute("class", "condition-group-by");
-                groupByHeaderElement["data-group-by"] = option.groupBySortDescriptor[i];
-
-                //create deleteGroupByElement
-                var deleteGroupByElement = document.createElement("input");
-                deleteGroupByElement.setAttribute("type", "button");
-                deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                deleteGroupByElement.setAttribute("value", "x");
-                deleteGroupByElement["data-delete-groupby"] = option.groupBySortDescriptor[i];
-
-                //adding function to delete GroupBy condition by clicking on close button
-                deleteGroupByElement.onclick = (e) => {
-                    var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
-                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.column, groupByElement.asc);
-                }
-
-                groupByHeaderElement.appendChild(deleteGroupByElement);
-                groupByContainer.appendChild(groupByHeaderElement);
-                //ko.applyBindings(ko.contextFor(option.target), groupByHeaderElement);
-            }
-        }
-        //delete all elements of groupBy from the top of the grid
-        private deleteAllGroupByElements(groupByContainerElement: HTMLElement) {
-            for (var i = 0; i < groupByContainerElement.children.length; i++) {
-                if (groupByContainerElement.children[i]["data-group-by"] != undefined) {
-                    groupByContainerElement.removeChild(groupByContainerElement.children[i]);
-                    i--;
-                }
-            }
-        }
-        // creates list groupBys to choose from
-        private createListGroupByAvailable(listGroupByElement: HTMLUListElement, option: Options) {
-            for (var i = 0; i < option.columns.length; i++) {
-                var hasNotGroupBy = true;
-                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                    if (option.groupBySortDescriptor[j].column == option.columns[i].groupMemberPath) {
-                        hasNotGroupBy = false;
-                        continue;
-                    }
-                }
-                if (hasNotGroupBy) {
-                    var listItemGroupByElement = document.createElement("li");
-                    listItemGroupByElement.onclick = (e) => {
-                        var el = <Node>e.target;
-                        while (el && el.nodeName !== 'LI') {
-                            el = el.parentNode
-                            }
-                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
-                    }
-                    option.columns[i].header.applyTemplate(listItemGroupByElement);
-                    listItemGroupByElement["data-group-by-condition"] = option.columns[i].groupMemberPath;
-
-                    listGroupByElement.appendChild(listItemGroupByElement);
-                   // var viewModel = ko.contextFor(option.target);
-                    //ko.applyBindings(viewModel, listItemGroupByElement);
-                }
-            }
-
-            return listGroupByElement;
-        }
-
-        private updateGroupByList(list: HTMLUListElement, option: Options) {
-            while (list.firstChild)
-                list.removeChild(list.firstChild);
-            list = this.createListGroupByAvailable(list, option);
-            Grid.getGridObject(list).hideElement(list);
-
-            return list;
         }
 
         // Mobile Methods

@@ -182,14 +182,18 @@
         display: none;
     }
 }
+
 .condition-group-by {
     min-height: 15px;
     min-width: 25px;
     float:left;
-    border: 1px solid rgb(122,188,255);    
+    border: 1px solid rgb(122,188,255);
+    display:none;    
 }
+
 .delete-condition-group-by {   
 }
+
 .group-by-container {    
     display:block;
     width: auto;
@@ -221,12 +225,13 @@
 }
 
 .group-by-ul>li {
-    display:block;
+    display:none;
     margin: 0;
     padding: 3px 20px;
     clear: both;
     color: #222;
 }
+
 .group-by-ul > li:hover {
     color: #ffffff;
     text-decoration: none;

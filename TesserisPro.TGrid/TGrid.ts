@@ -20,6 +20,7 @@ module TesserisPro.TGrid {
         private mobileHeader: HTMLElement;
         private buisyIndicator: HTMLElement;
         private scrollBar: HTMLElement;
+        private groupByElement: HTMLElement;
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
@@ -45,6 +46,10 @@ module TesserisPro.TGrid {
 
             this.rootElement = document.createElement("div");
             this.rootElement.className = "tgrid-root";
+
+            this.groupByElement = document.createElement("div");
+            this.groupByElement.setAttribute("class", "group-by-container");
+            this.rootElement.appendChild(this.groupByElement);
 
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
@@ -121,6 +126,7 @@ module TesserisPro.TGrid {
                     this.refreshFooter();
                 }
             }
+
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -538,7 +544,7 @@ module TesserisPro.TGrid {
         }
 
         private refreshHeader() {            
-            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.itemProvider.isSortable());
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.itemProvider.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }
 
