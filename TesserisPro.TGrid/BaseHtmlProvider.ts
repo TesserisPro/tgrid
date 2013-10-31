@@ -75,9 +75,8 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
         }
-        
 
-        public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {           
+        public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
             this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
 
             var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
@@ -136,15 +135,13 @@ module TesserisPro.TGrid {
                 var deleteGroupByElement = document.createElement("input");
                 deleteGroupByElement.setAttribute("type", "button");
                 deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                deleteGroupByElement.setAttribute("value", "x"); public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
-        }
-
+                deleteGroupByElement.setAttribute("value", "x"); 
                 deleteGroupByElement["data-delete-groupby"] = new SortDescriptor(option.columns[i].groupMemberPath, true);
 
                 //adding function to delete GroupBy condition by clicking on close button
                 deleteGroupByElement.onclick = (e) => {
                     var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
-                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.column, groupByElement.asc);
+                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
                 }
 
                 groupByHeaderElement.appendChild(deleteGroupByElement);
@@ -161,7 +158,7 @@ module TesserisPro.TGrid {
 
             for (var i = option.groupBySortDescriptor.length - 1; i > -1; i--) {
                 for (var j = 0; j < groupByElements.length; j++) {
-                    if (groupByElements[j]["data-group-by"] == option.groupBySortDescriptor[i].column) {
+                    if (groupByElements[j]["data-group-by"] == option.groupBySortDescriptor[i].path) {
                         grid.showDivElement(<Element>groupByElements[j]);
                         groupByContainer.insertBefore(groupByElements[j], groupByContainer.firstChild);
                         continue;
@@ -201,7 +198,7 @@ module TesserisPro.TGrid {
                 }
                 var hasNotGroupBy = true;
                 for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                    if (option.groupBySortDescriptor[j].column == listGroupByItems[i]["data-group-by-condition"]) {
+                    if (option.groupBySortDescriptor[j].path == listGroupByItems[i]["data-group-by-condition"]) {
                         hasNotGroupBy = false;
                         continue;
                     }
@@ -211,8 +208,10 @@ module TesserisPro.TGrid {
                 }
             }
             return listGroupByElement;
-        }      
-         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+        } 
+             
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+
         }
 
 

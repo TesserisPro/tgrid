@@ -412,7 +412,7 @@ module TesserisPro.TGrid {
         public deleteGroupBy(name: string, asc: boolean): void {
 
             for (var i = 0; i < this.options.groupBySortDescriptor.length; i++) {
-                if (this.options.groupBySortDescriptor[i].column == name) {
+                if (this.options.groupBySortDescriptor[i].path == name) {
                     this.options.groupBySortDescriptor.splice(i, 1);
                 }
             }

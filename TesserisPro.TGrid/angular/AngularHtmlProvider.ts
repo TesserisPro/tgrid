@@ -59,7 +59,7 @@ module TesserisPro.TGrid {
                     var element = header.getElementsByTagName("th");
 
                     for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
-                        if (option.sortDescriptor.column == option.columns[j].sortMemberPath) {
+                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
                             element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
                         }
                     }        
@@ -89,7 +89,7 @@ module TesserisPro.TGrid {
 
                     // Arrows
                     if (isSortable) {
-                        if (option.sortDescriptor.column == option.columns[i].sortMemberPath) {
+                        if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                             headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
                         }
                     }
