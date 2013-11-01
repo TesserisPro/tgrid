@@ -40,6 +40,12 @@ module TGrid.Angular {
                     options.isEnableVirtualScroll = attrs["enablevirtualscroll"] == "true" ? true : false;
                 }
 
+                if (attrs["enablecollapsing"] == undefined) {
+                    options.isEnableCollapsing = false;
+                } else {
+                    options.isEnableCollapsing = attrs["enablecollapsing"] == "true" ? true : false;
+                }
+
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
             }
 

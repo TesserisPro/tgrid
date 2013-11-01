@@ -44,9 +44,9 @@ module TesserisPro.TGrid {
 		   
     export class Options {
         public columns: Array<ColumnInfo> = [];
-        public isEnableVirtualScroll: boolean = false;  
-        public isEnablePaging: boolean = false;
-        public isEnableCollapsing: boolean = true;
+        public isEnableVirtualScroll: boolean;  
+        public isEnablePaging: boolean;
+        public isEnableCollapsing: boolean;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;

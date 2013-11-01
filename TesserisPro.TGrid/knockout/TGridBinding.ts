@@ -42,6 +42,11 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
         }
 
+        if (valueAccessor().enableCollapsing == undefined) {
+            options.isEnableCollapsing = false;
+        } else {
+            options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+        }
 
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     }
