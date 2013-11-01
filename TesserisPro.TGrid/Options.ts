@@ -71,7 +71,7 @@ module TesserisPro.TGrid {
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
-        constructor(element: HTMLElement/*, valueAccessor: any*/, framework: Framework) {
+        constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
@@ -98,6 +98,10 @@ module TesserisPro.TGrid {
             var cellDetails = optionsElement.find("celldetail");
             var columns = optionsElement.find("column");
 
+            if (!(headers.length == columns.length && cells.length == columns.length && cellDetails.length == columns.length)) {
+                throw " Columns not fully described ";
+            }
+
             for (var i = 0; i < columns.length; i++) {
                 var column = new ColumnInfo();
 
@@ -120,13 +124,13 @@ module TesserisPro.TGrid {
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
 
             var mobileTemplate = optionsElement.find("mobile");
-            this.mobileTemplateHtml = mobileTemplate[0].innerHTML;
+            this.mobileTemplateHtml = mobileTemplate.length == 1 ? mobileTemplate[0].innerHTML : "Default mobileTemplate";
 
             var groupHeaderTemplate = optionsElement.find("groupheader");
-            this.groupHeaderTemplate = groupHeaderTemplate[0].innerHTML;
+            this.groupHeaderTemplate = groupHeaderTemplate.length == 1 ? groupHeaderTemplate[0].innerHTML : "Default groupHeaderTemplate";
 
             var detailsTemplate = optionsElement.find("details");
-            this.detailsTemplateHtml = detailsTemplate[0].innerHTML;
+            this.detailsTemplateHtml = detailsTemplate.length == 1 ? detailsTemplate[0].innerHTML : "Default detailsTemplate";
 
             this.showDetailFor = new ShowDetail();
         }
