@@ -209,43 +209,94 @@
             }
         }
 
-        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
+        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
             var oldItems = new Array();
             oldItems = oldItems.concat(items);
             sort(sortDescriptors);
             setTimeout(function () {
-                callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
                 items = new Array();
                 items = items.concat(oldItems);
             }, 200);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-            callback(filtering(filterDescriptors).length);
+            callback(onFiltering(filterDescriptors).length);
         };
 
-        function filtering(filterDescriptors) {
-            if (filterDescriptors == null || filterDescriptors.length == 0) {
+        function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
+            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
             }
-            
+            var isCollapsedItem = [];
+            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                isCollapsedItem.push(false);
+            }
+
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
-                isFiltered = true;
+                // filtering common filters
+                var isFiltered = 0;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
-                        isFiltered = false;
-                        break;
+                    if (filter(items[j], filterDescriptors[i])) {
+                        isFiltered++;
                     }
                 }
-                if (isFiltered) {
+
+                // filtering collapsed filter
+                var isCollapsedFiltered = false;
+                var numberfilter = -1;
+                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                    if (filter(items[j], collapsedFilterDescriptors[i])) {
+                        isCollapsedFiltered = true;
+                        numberfilter = i;
+                        i = collapsedFilterDescriptors.length;
+                    }
+                }
+
+                if (isFiltered == 0 && !isCollapsedFiltered) {
                     filterdItems.push(items[j]);
+                } else {
+                    if (isFiltered == 0) {
+                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                            var fakeItem = {};
+                            fakeItem["isFakeItem"] = true;
+                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                            }
+                            filterdItems.push(fakeItem);
+                            isCollapsedItem[numberfilter] = true;
+                        }
+                    }
                 }
             }
+
             return filterdItems;
         }
 
+        function filter(item, filterDescriptors) {
+            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                if (filterDescriptors.children.length == 0) {
+                    return true;
+                } else {
+                    var result = 0
+                    for (var i = 0; i < filterDescriptors.children.length; i++) {
+                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                            result++;
+                        }
+                    }
+                    if (result == filterDescriptors.children.length) {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+
         function isFiltering(item, value, condition) {
+            // on true push to filtered items
             switch (condition){
                 case 1://equal
                     return (item == value);
@@ -444,13 +495,13 @@
             return true;
         }
 
-        SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
+        SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
             sort(sortDescriptors);
-            setTimeout(function () { callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber); }, 200);
+            setTimeout(function () { callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber); }, 200);
         };
         
         SimpleItemsProviderAngular.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-            callback(filtering(filterDescriptors).length);
+            callback(onFiltering(filterDescriptors).length);
         };
 
         function sort(sortDescriptor) {
@@ -481,25 +532,75 @@
             return sortDescriptor.asc ? 1 : -1;
         }
 
-        function filtering(filterDescriptors) {
-            if (filterDescriptors == null || filterDescriptors.length == 0) {
+        function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
+            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
+            }
+            var isCollapsedItem = [];
+            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                isCollapsedItem.push(false);
             }
 
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
-                isFiltered = true;
+                // filtering common filters
+                var isFiltered = 0;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
-                        isFiltered = false;
-                        break;
+                    if (filter(items[j], filterDescriptors[i])) {
+                        isFiltered++;
                     }
                 }
-                if (isFiltered) {
+
+                // filtering collapsed filter
+                var isCollapsedFiltered = false;
+                var numberfilter = -1;
+                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                    if (filter(items[j], collapsedFilterDescriptors[i])) {
+                        isCollapsedFiltered = true;
+                        numberfilter = i;
+                        i = collapsedFilterDescriptors.length;
+                    }
+                }
+
+                if (isFiltered == 0 && !isCollapsedFiltered) {
                     filterdItems.push(items[j]);
+                } else {
+                    if (isFiltered == 0) {
+                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                            var fakeItem = {};
+                            fakeItem["isFakeItem"] = true;
+                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                            }
+                            filterdItems.push(fakeItem);
+                            isCollapsedItem[numberfilter] = true;
+                        }
+                    }
                 }
             }
+
             return filterdItems;
+        }
+
+        function filter(item, filterDescriptors) {
+            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                if (filterDescriptors.children.length == 0) {
+                    return true;
+                } else {
+                    var result = 0
+                    for (var i = 0; i < filterDescriptors.children.length; i++) {
+                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                            result++;
+                        }
+                    }
+                    if (result == filterDescriptors.children.length) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         function isFiltering(item, value, condition) {

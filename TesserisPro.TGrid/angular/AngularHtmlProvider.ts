@@ -247,6 +247,18 @@ module TesserisPro.TGrid {
             headerTd.setAttribute("class", "tgrid-table-group-header");
             headerTd.innerHTML = option.groupHeaderTemplate;
             headerTd.innerHTML = headerTd.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
+            if (option.isEnableCollapsing) {
+                if (!groupHeaderDescriptor.collapse) {
+                    headerTd.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                } else {
+                    headerTd.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                }
+            }
+
             headerTr.appendChild(headerTd);
 
             return headerTr;
@@ -512,6 +524,18 @@ module TesserisPro.TGrid {
 
             headerDiv.setAttribute("class", "tgrid-mobile-group-header ")
             headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
+
+            if (option.isEnableCollapsing) {
+                if (!groupHeaderDescriptor.collapse) {
+                    headerDiv.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                } else {
+                    headerDiv.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                }
+            }
 
             headerDiv.innerHTML = option.groupHeaderTemplate;
             headerDiv.innerHTML = headerDiv.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
