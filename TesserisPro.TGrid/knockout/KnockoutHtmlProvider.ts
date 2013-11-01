@@ -258,15 +258,18 @@ module TesserisPro.TGrid {
             var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
-            //if (!groupHeaderDescriptor.collapse) {
-            //    headerTd.onclick = (e) => {
-            //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
-            //    }
-            //} else {
-            //    headerTd.onclick = (e) => {
-            //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
-            //    }
-            //}
+            if (option.isEnableCollapsing) {
+                if (!groupHeaderDescriptor.collapse) {
+                    headerTd.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                } else {
+                    headerTd.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                }
+            }
+
             headerTd.innerHTML = option.groupHeaderTemplate;//(!groupHeaderDescriptor.collapse ? "close" : "open") +
 
             headerTr.appendChild(headerTd);
@@ -506,6 +509,18 @@ module TesserisPro.TGrid {
 
             headerDiv.setAttribute("class", "tgrid-mobile-group-header ");
             headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
+
+            if (option.isEnableCollapsing) {
+                if (!groupHeaderDescriptor.collapse) {
+                    headerDiv.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                } else {
+                    headerDiv.onclick = (e) => {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                    }
+                }
+            }
 
             headerDiv.innerHTML = option.groupHeaderTemplate;
 

@@ -570,6 +570,7 @@ footer .centered-content {
     height:0;
     width: 590px;   
     margin-left: 20px;
+    border: none;
 }
 #list ul li a.active{
     background: red;

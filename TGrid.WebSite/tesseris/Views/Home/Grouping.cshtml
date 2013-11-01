@@ -26,10 +26,19 @@
     <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>
+    <style>
+        .tgrid-table tbody tr td, .tgrid-table-group-header {
+            border-top: 1px solid #BEBEBE !important;
+            border-left: 1px solid #BEBEBE !important;
+        }
+        .tgrid-tableheadercontainer {
+            border-bottom: none;
+        }
+    </style>
 </head>
-<body>    
+<body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', /*groupBy: ['name'],*/ enableVirtualScroll: 'false', enablePaging: 'false' }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', groupBy: ['name'], enableVirtualScroll: 'false', enablePaging: 'false' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
@@ -76,23 +85,23 @@
 
         <groupheader>
             <div>
-                <span style="color: green;" data-bind="text: item.value"></span>
+                <span style="color: brown;" data-bind="text: item.value"></span>
             </div>
         </groupheader>
 
         <mobile>
-           @* <div>
+            <div>
                 <span>Name: </span>
-                <span style="color: red;" data-bind="text: item.name"></span>
+                <span data-bind="text: item.name"></span>
                 <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
                 <br />
                 <span>Key: </span>
-                <span style="color: red;" data-bind="text: item.key"></span>
+                <span data-bind="text: item.key"></span>
                 <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
                 <br />
                 <span>Key2: </span>
                 <span data-bind="text: item.key2"></span>
-            </div>*@
+            </div>
         </mobile>
 
         <details>
@@ -122,7 +131,7 @@
                 { name: "Georgann", key: "Smartt", key2: "b2", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
                 { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
 
-      
+
                 //{ name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
                 //{ name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
                 //{ name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },

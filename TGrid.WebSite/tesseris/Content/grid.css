@@ -8,20 +8,20 @@
     background: rgb(222,239,255);
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header {
-        border-left: 1px solid rgb(122,188,255);
-        border-right: 1px solid rgb(122,188,255);
+    .tgrid-table thead tr th, .tgrid-mobile-header {       
+        border-right: 1px solid #BEBEBE;
         cursor: pointer;
         margin: 1px;
         padding: 2px;
-        background: rgb(222,239,255); /* Old browsers */
-        background: -moz-linear-gradient(top, rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
-        background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+        background: #EEE9E9; /* Old browsers */
+        background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+        color:grey;
     }
 
 .tgrid-mobile-header {
@@ -32,23 +32,29 @@
 }
 
 .tgrid-table tbody tr td, .tgrid-table-group-header {
-    padding: 2px;
+    /*padding: 2px;
     border-top: 1px solid rgb(122,188,255);
-    border-left: 1px solid rgb(122,188,255);
-    background-color: white;
+    border-left: 1px solid rgb(122,188,255);*/
+    background-color: whitesmoke;
+    overflow: hidden;
+    line-height: 1.6em;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    border-color: #BEBEBE;
+    color: grey;
+    border-left: 1px solid #BEBEBE;
+    border-top: 1px solid #BEBEBE;
+    padding: 2px;
 }
 
 .tgrid-table-group-header {
     border-bottom: none !important;
     border-left: none !important;
-    background-color: rgb(234, 244, 254) !important;
+    background-color: rgb(233, 234, 235) !important;
 }
 
-.tgrid-table-indent-cell {
-    border-top: 0px solid rgb(122,188,255) !important;
-    border-left: 0px solid rgb(122,188,255) !important;
-    border-right: 1px solid rgb(122,188,255) !important;
-    background-color: rgb(234, 244, 254) !important;
+.tgrid-table-indent-cell {   
+    background-color: rgb(233, 234, 235)  !important;
 }
 
 .tgrid-mobile-indent-div, .tgrid-table-indent-cell{
@@ -56,7 +62,7 @@
 }
 
 .tgrid-table tbody tr.selected td {
-    background-color: rgba(152,190,222,1);
+    background-color: #dbdbde;
 }
 
 .tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
@@ -70,27 +76,38 @@
 }
 
 .tgrid-tablebodycontainer {
-    border: 1px solid rgb(122,188,255);
+    /*border: 1px solid rgb(122,188,255);*/
     overflow-y: scroll;
     overflow-x: auto;
-    height: 420px;
+    height: auto;
+    max-height:420px;
+    border-right: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;
 }
 
 .tgrid-tableheadercontainer {
-    border: 1px solid rgb(122,188,255);
+    border: 1px solid #BEBEBE;
+    border-right: none;
+    border-bottom: none;
 }
 
 .tgrid-footer {
-    border-left: 1px solid rgb(122,188,255);
+    /*border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
     border-bottom: 1px solid rgb(122,188,255);
     padding: 2px;
     background-color: #f5f8fb;
-    height: 29px;
+    height: 29px;*/
+    /*background: whitesmoke;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #BEBEBE;
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;*/
 }
 
 .tgird-pagination {
-    margin: 0px;
+    padding-top: 3px;
     text-align: center;
 }
 
@@ -107,20 +124,22 @@
 .tgird-page-number {
     margin-left: 1px;
     margin-right: 1px;
-    width: 22px;
-    height: 22px;
-    border: 1px solid gray;
-    background: rgb(222, 232, 255);
+    width: 17px;
+    height: 18px;
+    border: 1px solid #BEBEBE;
+    /*background: rgb(222, 232, 255);*/
+    /*background:whitesmoke;*/
     display: inline-block;
 }
 
 .tgird-page-number {
-    color: blue;
+    /*color: blue;*/
+    color: black;
     cursor: pointer;
 }
 
 .tgird-page-current {
-    color: gray;
+    color: #A39A9A;
     cursor: default;
 }
 
@@ -188,4 +207,17 @@
     .mobile {
         display: none;
     }
+}
+
+.details:hover, .details:focus{
+    opacity: 0.9;
+}
+td a {
+    text-decoration:none;
+}
+#main{
+    width: 567px;
+    height: auto;
+    padding: 40px 7px 40px 7px;
+    background:lightgray;
 }

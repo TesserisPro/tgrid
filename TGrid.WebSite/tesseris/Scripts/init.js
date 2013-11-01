@@ -15,4 +15,5 @@
         $(this).addClass('active');
     });
   
+    $("#SimpleGridWithoutPaging").trigger('click');
 })
