@@ -7,6 +7,7 @@ module TesserisPro.TGrid {
 	export enum Framework { Knockout, Angular }
     export enum SelectionMode { None, Single, Multi }//0,1,2
     export enum FilterCondition { None, Equals, NotEquals }
+    export enum FilterOperation { And, Or };
 
     export class ColumnInfo {
         public header: Template;
@@ -45,6 +46,7 @@ module TesserisPro.TGrid {
         public columns: Array<ColumnInfo> = [];
         public isEnableVirtualScroll: boolean = false;  
         public isEnablePaging: boolean = false;
+        public isEnableCollapsing: boolean = true;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
@@ -60,7 +62,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
-        //public groupBy: string;
+        
         public filterDescriptors: Array<FilterDescriptor> = [];
 
         public ctrlKey: boolean;
@@ -140,6 +142,7 @@ module TesserisPro.TGrid {
                 column.cellDetail = cellDetail.innerHTML;
 
                 column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
+                column.groupMemberPath = columns[i].attributes['data-g-group-member'].nodeValue;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 

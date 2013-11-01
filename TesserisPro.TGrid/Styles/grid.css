@@ -2,13 +2,13 @@
     position: relative;
 }
 
-.tgrid-table {
+.tgrid-table, .group-by-container {
     border-collapse: collapse;
     width: 100%;
     background: rgb(222,239,255);
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header {
+    .tgrid-table thead tr th, .tgrid-mobile-header, .condition-group-by {
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
@@ -188,4 +188,63 @@
     .mobile {
         display: none;
     }
+}
+
+.condition-group-by {
+    min-height: 15px;
+    min-width: 25px;
+    float:left;
+    border: 1px solid rgb(122,188,255);
+    display:none;    
+}
+
+.delete-condition-group-by {   
+}
+
+.group-by-container {    
+    display:block;
+    width: auto;
+    height: 33px;    
+}
+
+.list-button-container {
+    display: inline-block;
+}
+
+.button-group-by {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    background: url(../images/buttonBlue.jpg) no-repeat;
+    background-size:contain;
+    margin-top: 2px;
+}
+
+.group-by-ul {
+    position:absolute;
+    display: none;
+    list-style-type: none;
+    background: #fff;
+    margin: 0; 
+   padding: 5px 0;
+   float: left;
+      
+}
+
+.group-by-ul>li {
+    display:none;
+    margin: 0;
+    padding: 3px 20px;
+    clear: both;
+    color: #222;
+}
+
+.group-by-ul > li:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #428bca;
+}
+
+thead>tr> .tgrid-table-indent-cell {
+    display:none;
 }

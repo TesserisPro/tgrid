@@ -26,6 +26,7 @@
     <TypeScriptCompile Include="ItemViewModel.ts" />
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />
+    <Content Include="Images\buttonBlue.jpg" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
@@ -122,6 +123,7 @@ copy /Y "$(ProjectDir)*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 
 copy /Y "$(ProjectDir)knockout\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)knockout\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+copy /Y "$(ProjectDir)knockout\*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)angular\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)angular\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)angular\*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
