@@ -71,38 +71,7 @@ module TesserisPro.TGrid {
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
-        constructor(element: HTMLElement, valueAccessor: any, framework: Framework) {
-
-            if (valueAccessor.groupBy != undefined) {
-                for (var i = 0; i < valueAccessor.groupBy.length; i++) {
-                    this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
-                }
-            }
-
-            if (valueAccessor.enablePaging == undefined) {
-                this.isEnablePaging = false;
-            } else {
-                this.isEnablePaging = valueAccessor.enablePaging == "true" ? true : false;
-            }
-
-            var pageSizeAtt = valueAccessor.pageSize;
-            this.pageSize = parseInt(pageSizeAtt);
-            if (this.isEnablePaging) {
-                this.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
-            }
-
-            var editModeAtt = valueAccessor.selectMode;
-            this.selectionMode = parseInt(editModeAtt);
-            if (isNaN(this.selectionMode)) {
-                this.selectionMode = 1;
-            }
-
-            if (valueAccessor.enableVirtualScroll == undefined) {
-                this.isEnableVirtualScroll =  false;
-            } else {
-                this.isEnableVirtualScroll = valueAccessor.enableVirtualScroll == "true" ? true : false;
-            }
-
+        constructor(element: HTMLElement/*, valueAccessor: any*/, framework: Framework) {
             this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
