@@ -20,6 +20,7 @@
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
     <TypeScriptCompile Include="FilterDescriptor.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
+    <TypeScriptCompile Include="FooterViewModel.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />

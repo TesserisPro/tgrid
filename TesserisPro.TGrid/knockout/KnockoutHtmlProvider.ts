@@ -3,6 +3,8 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../utils.ts" />
+/// <reference path="../FooterViewModel.ts" />
+
 
 module TesserisPro.TGrid {
 
@@ -164,6 +166,23 @@ module TesserisPro.TGrid {
             if (selectedElement != null && selectedElement.length == 1) {
                 insertAfter(selectedElement[0], details);
                 ko.applyBindings(option.showDetailFor, details);
+            }
+        }
+
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
+            
+            //if there isn't footer template in grid
+            if (footerModel == null) {
+                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+            } else {
+                option.tableFooterTemplate.applyTemplate(footer);
+                var selectedItems = document.getElementsByClassName("selected");
+                if (selectedItems.length == 1) {
+                    footerModel.selectedItem = selectedItems[0];
+                } else {
+                    footerModel.selectedItem = selectedItems.length + " elements are selected";
+                }
+                ko.applyBindings(footerModel, footer);              
             }
         }
 

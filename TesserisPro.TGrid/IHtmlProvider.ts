@@ -1,5 +1,7 @@
 /// <reference path="Options.ts" />
 /// <reference path="ItemViewModel.ts" />
+/// <reference path="FooterViewModel.ts"/>
+
 
 module TesserisPro.TGrid {
     export interface IHtmlProvider {
@@ -8,7 +10,7 @@ module TesserisPro.TGrid {
         getTableElement(option: Options): HTMLElement;
         updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, isSortable: boolean);
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
-        updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void;
+        updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void;
         updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
         updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
         updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;

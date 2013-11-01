@@ -19,6 +19,7 @@
 <script src="~/Scripts/FilterDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/GroupHeaderDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
+<script src="~/Scripts/FooterViewModel.js" type="text/javascript"></script>
 
 <h1>TGrid Demo</h1>
 
@@ -110,20 +111,12 @@
             </div>
         </groupheader>
 
-        <tablefooter>
-                <totalCount>
-                    <span data-bind="text: footer.totalCount"> </span>
-                </totalCount>          
-                <selectedItem> 
-                    <span data-bind="text: footer.selectedItem"> </span>
-                </selectedItem>           
-                <currentPage> 
-                    <span data-bind="text: footer.currentPage"></span>
-                </currentPage>            
-                <totalPages> 
-                    <span data-bind="text: footer.totalPages"></span>
-                </totalPages>            
-        </tablefooter>
+        <footer>
+            TotalCount: <span data-bind="text: totalCount"> </span>.
+            SelectedItem: <span data-bind="text: selectedItem">  </span>.
+            CurrentPage: <span data-bind="text: currentPage"></span>.
+            TotalPages: <span data-bind="text: totalPages"></span>.
+        </footer>
 
         <mobile>
             <div>
@@ -311,18 +304,10 @@
         return SimpleItemsProvider;
     })();
 
-    var Footer = function(totalCount, selectedItem, currentPage, totalPages){
-        this.totalCount = totalCount;
-        this.selectedItem = selectedItem;
-        this.currentPage = currentPage;
-        this.totalPages = totalPage;
-    }
-
     function vm() {
         var self = this;
         self.nameColumnTitle = "Name";
         self.itemsProvider = new SimpleItemsProvider();
-        self.footer = new Footer(self.itemsProvider.getTotalItemsCount, 0, 1, 1);
     };
 
     $(function () {
@@ -369,20 +354,12 @@
             </div>
         </groupheader>
 
-        <tablefooter>
-                <totalCount>
-                    <span>{{footer.totalCount}} </span>
-                </totalCount>          
-                <selectedItem> 
-                    <span > {{footer.selectedItem}}</span>
-                </selectedItem>           
-                <currentPage> 
-                    <span>{{footer.currentPage}}</span>
-                </currentPage>            
-                <totalPages> 
-                    <span>{{footer.totalPages}}</span>
-                </totalPages>            
-        </tablefooter>
+        <footer>
+            TotalCount: <span>1 </span>.
+            SelectedItem: <span > 1</span>. 
+            CurrentPage: <span>1</span>. 
+            TotalPages: <span>1</span>.
+        </footer>
 
         <mobile>
             <div>
@@ -553,17 +530,9 @@
         return SimpleItemsProviderAngular;
     })();
 
-    var FooterAngular = function (totalCount, selectedItem, currentPage, totalPages) {
-        this.totalCount = totalCount;
-        this.selectedItem = selectedItem;
-        this.currentPage = currentPage;
-        this.totalPages = totalPage;
-    }
-
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();
-            $scope.footer = new FooterAngular($scope.dataProvider().getTotalItemsCount(), 0, 1, 1);
         })
 
         .directive('tGrid', TGrid.Angular.Directive);

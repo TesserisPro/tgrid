@@ -167,10 +167,19 @@ module TesserisPro.TGrid {
             // Insert row details after selected item
             if (selectedElement != null && selectedElement.length == 1) {
                 insertAfter(selectedElement[0], details);
-                ko.applyBindings(option.showDetailFor, details);
+                //ko.applyBindings(option.showDetailFor, details);
             }
         }
 
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
+            //if there isn't footer template in grid
+            if (footerModel == null) {
+                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+            } else {
+                option.tableFooterTemplate.applyTemplate(footer);               
+            }
+        }
+        //private methods
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
@@ -418,7 +427,7 @@ module TesserisPro.TGrid {
             // Insert row details after selected item
             if (selectedElement != null && selectedElement.length == 1) {
                 insertAfter(selectedElement[0], details);
-                ko.applyBindings(option.showDetailFor, details);
+                //ko.applyBindings(option.showDetailFor, details);
             }
         }
 
