@@ -19,6 +19,7 @@
 <script src="~/Scripts/FilterDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/GroupHeaderDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
+<script src="~/Scripts/FooterViewModel.js" type="text/javascript"></script>
 
 <h1>TGrid Demo</h1>
 
@@ -110,6 +111,13 @@
             </div>
         </groupheader>
 
+        <footer>
+            TotalCount: <span data-bind="text: totalCount"> </span>.
+            SelectedItem: <span data-bind="text: selectedItem">  </span>.
+            CurrentPage: <span data-bind="text: currentPage"></span>.
+            TotalPages: <span data-bind="text: totalPages"></span>.
+        </footer>
+
         <mobile>
             <div>
                 <span>Name: </span>
@@ -192,7 +200,7 @@
                 { name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
                 { name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
                 { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } }
-        ];
+        ];        
 
         SimpleItemsProvider.prototype.isSortable = function () {
             return true;
@@ -396,6 +404,13 @@
                 <span style="color: green;">{{item.value}}</span>
             </div>
         </groupheader>
+
+        <footer>
+            TotalCount: <span>1 </span>.
+            SelectedItem: <span > 1</span>. 
+            CurrentPage: <span>1</span>. 
+            TotalPages: <span>1</span>.
+        </footer>
 
         <mobile>
             <div>
@@ -615,7 +630,6 @@
 
         return SimpleItemsProviderAngular;
     })();
-
 
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {

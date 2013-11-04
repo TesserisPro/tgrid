@@ -1,5 +1,7 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="ItemViewModel.ts" />
+/// <reference path="FooterViewModel.ts"/>
+
 
 module TesserisPro.TGrid {
 
@@ -27,7 +29,10 @@ module TesserisPro.TGrid {
 
         }
 
-        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel) {
+        }
+
+        public updateTableFooterElementDefault(option: Options, footer: HTMLElement, totalItemsCount: number): void {
             var firstVisiblePage = option.currentPage - option.pageSlide;
 
             if (firstVisiblePage < 0) {
@@ -53,7 +58,7 @@ module TesserisPro.TGrid {
                     pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
                 }
                 else {
-                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage("+ i +")' >" + (i + 1) + "</span>";
+                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
                 }
             }
 
