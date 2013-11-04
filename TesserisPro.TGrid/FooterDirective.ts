@@ -1,5 +1,5 @@
-/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
-/// <reference path="../Options.ts"/>
+/// <reference path="scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="Options.ts"/>
 module TesserisPro.TGrid {
 
     // Class

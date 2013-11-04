@@ -60,9 +60,9 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: ['name'], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'false' }">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -111,12 +111,12 @@
             </div>
         </groupheader>
 
-        <footer>
+      @*  <footer>
             TotalCount: <span data-bind="text: totalCount"> </span>.
             SelectedItem: <span data-bind="text: selectedItem">  </span>.
             CurrentPage: <span data-bind="text: currentPage"></span>.
             TotalPages: <span data-bind="text: totalPages"></span>.
-        </footer>
+        </footer>*@
 
         <mobile>
             <div>
@@ -369,7 +369,7 @@
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
     <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member ="name">
             <header>
@@ -407,7 +407,7 @@
         </groupheader>
 
         <footer>
-            TotalCount: <span>{{totalCount}} </span>.
+            TotalCount: <span>1 </span>.
             SelectedItem: <span > 1</span>. 
             CurrentPage: <span>1</span>. 
             TotalPages: <span>1</span>.

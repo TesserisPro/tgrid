@@ -65,12 +65,12 @@ module TesserisPro.TGrid {
                             element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
                         }
                     }                                     
-                }          
+                }
+
                this.updateGroupByElements(option, header, groupByContainer);
-                           
 
            } else {
-               this.addGroupBy(option, header, groupByContainer);                
+               this.addGroupBy(option, header, groupByContainer);
 
                 // Create table header
                 var head = document.createElement("tr");                
@@ -170,20 +170,20 @@ module TesserisPro.TGrid {
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
-            
-            //if there isn't footer template in grid
-            if (footerModel == null) {
-                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
-            } else {
-                option.tableFooterTemplate.applyTemplate(footer);
-                var selectedItems = document.getElementsByClassName("selected");
-                if (selectedItems.length == 1) {
-                    footerModel.selectedItem = selectedItems[0];
-                } else {
-                    footerModel.selectedItem = selectedItems.length + " elements are selected";
+                //if there isn't footer template in grid
+                if (footerModel == null && option.isEnablePaging) {
+                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                } else if (option.tableFooterTemplate != null) {
+
+                    option.tableFooterTemplate.applyTemplate(footer);
+                    var selectedItems = document.getElementsByClassName("selected");
+                    if (selectedItems.length == 1) {
+                        footerModel.selectedItem = selectedItems[0];
+                    } else {
+                        footerModel.selectedItem = selectedItems.length + " elements are selected";
+                    }
+                    ko.applyBindings(footerModel, footer);
                 }
-                ko.applyBindings(footerModel, footer);              
-            }
         }
 
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {

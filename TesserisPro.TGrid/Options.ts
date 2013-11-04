@@ -47,6 +47,7 @@ module TesserisPro.TGrid {
         public isEnableVirtualScroll: boolean;  
         public isEnablePaging: boolean;
         public isEnableCollapsing: boolean;
+        public isEnableGrouping: boolean;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
@@ -115,8 +116,8 @@ module TesserisPro.TGrid {
                 var cellDetail = cellDetails[i];
                 column.cellDetail = cellDetail.innerHTML;
 
-                column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
-                column.groupMemberPath = columns[i].attributes['data-g-group-member'].nodeValue;
+                column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : null;
+                column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : null;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 
@@ -137,7 +138,7 @@ module TesserisPro.TGrid {
 
             var footer = optionsElement.find("footer"); 
 
-            if (footer != undefined) {
+            if (footer.length != 0) {
                 this.tableFooterTemplate = new Template(footer[0]);
             } else {
                 this.tableFooterTemplate = null;

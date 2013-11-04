@@ -65,7 +65,7 @@ module TesserisPro.TGrid {
             if (lastVisiblePage < (pageCount - 1)) {
                 pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
             }
-
+            footer.innerHTML = "";
             footer.appendChild(pagerElement);
         }
         
@@ -82,33 +82,42 @@ module TesserisPro.TGrid {
         }
 
         public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
-            this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
+            if (option.isEnableGrouping) {
+                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
 
-            var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
-            (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header))); 
+                var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
+                (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header)));
+            } else {
+                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+            }      
         }
 
-        public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {  
-            this.addGroupByElements(option, groupByContainer);
-            this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header))
+        public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
+            if (option.isEnableGrouping) {
+                Grid.getGridObject(groupByContainer).showDivElement(groupByContainer);
+                this.addGroupByElements(option, groupByContainer);
+                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header))
 
             var listButtonContainerElement = document.createElement("div");
-            listButtonContainerElement.setAttribute("class", "list-button-container");
-            var listGroupByElement = document.createElement("ul");
-            listGroupByElement.setAttribute("class", "group-by-ul");
-            var groupByButtonElement = document.createElement("a");
-            groupByButtonElement.setAttribute("class", "button-group-by");
+                listButtonContainerElement.setAttribute("class", "list-button-container");
+                var listGroupByElement = document.createElement("ul");
+                listGroupByElement.setAttribute("class", "group-by-ul");
+                var groupByButtonElement = document.createElement("a");
+                groupByButtonElement.setAttribute("class", "button-group-by");
 
-            groupByButtonElement.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
-            }
+                groupByButtonElement.onclick = (e) => {
+                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
+                }
             listButtonContainerElement.appendChild(groupByButtonElement);
 
-            var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
-            this.showListGroupByItems(option, listGroupByToChooseFrom, Grid.getGridObject(header));
+                var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
+                this.showListGroupByItems(option, listGroupByToChooseFrom, Grid.getGridObject(header));
 
-            listButtonContainerElement.appendChild(listGroupByElement);
-            groupByContainer.appendChild(listButtonContainerElement);            
+                listButtonContainerElement.appendChild(listGroupByElement);
+                groupByContainer.appendChild(listButtonContainerElement);
+            } else {
+                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+            }
         }
 
         public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
@@ -130,27 +139,29 @@ module TesserisPro.TGrid {
 
         private addGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.columns.length; i++) {
-                var groupByHeaderElement = document.createElement("div");
-                option.columns[i].header.applyTemplate(groupByHeaderElement);
+                if (option.columns[i].groupMemberPath != null) {
+                    var groupByHeaderElement = document.createElement("div");
+                    option.columns[i].header.applyTemplate(groupByHeaderElement);
 
-                groupByHeaderElement.setAttribute("class", "condition-group-by");
-                groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
+                    groupByHeaderElement.setAttribute("class", "condition-group-by");
+                    groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
 
-                //create deleteGroupByElement
-                var deleteGroupByElement = document.createElement("input");
-                deleteGroupByElement.setAttribute("type", "button");
-                deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                deleteGroupByElement.setAttribute("value", "x"); 
-                deleteGroupByElement["data-delete-groupby"] = new SortDescriptor(option.columns[i].groupMemberPath, true);
+                    //create deleteGroupByElement
+                    var deleteGroupByElement = document.createElement("input");
+                    deleteGroupByElement.setAttribute("type", "button");
+                    deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
+                    deleteGroupByElement.setAttribute("value", "x");
+                    deleteGroupByElement["data-delete-groupby"] = new SortDescriptor(option.columns[i].groupMemberPath, true);
 
-                //adding function to delete GroupBy condition by clicking on close button
-                deleteGroupByElement.onclick = (e) => {
-                    var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
-                    Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
+                    //adding function to delete GroupBy condition by clicking on close button
+                    deleteGroupByElement.onclick = (e) => {
+                        var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
+                        Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
+                    }
+
+                    groupByHeaderElement.appendChild(deleteGroupByElement);
+                    groupByContainer.appendChild(groupByHeaderElement);
                 }
-
-                groupByHeaderElement.appendChild(deleteGroupByElement);
-                groupByContainer.appendChild(groupByHeaderElement);
             }
         }
 
@@ -174,21 +185,23 @@ module TesserisPro.TGrid {
 
         private addListGroupByItems( option: Options, listGroupByElement: HTMLUListElement) {
             for (var i = 0; i < option.columns.length; i++) {
-                var listItemGroupByItems = document.createElement("li");
+                if (option.columns[i].groupMemberPath != null) {
+                    var listItemGroupByItems = document.createElement("li");
 
-                listItemGroupByItems.onclick = (e) => {
-                    //get top ancestor, because event fires on the last nested element
-                    var el = <Node>e.target;
-                    while (el && el.nodeName !== 'LI') {
-                        el = el.parentNode
+                    listItemGroupByItems.onclick = (e) => {
+                        //get top ancestor, because event fires on the last nested element
+                        var el = <Node>e.target;
+                        while (el && el.nodeName !== 'LI') {
+                            el = el.parentNode
                             }
-                    Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
-                    Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
-                }
+                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
+                        Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
+                    }
 
                 option.columns[i].header.applyTemplate(listItemGroupByItems);
-                listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
-                listGroupByElement.appendChild(listItemGroupByItems);
+                    listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
+                    listGroupByElement.appendChild(listItemGroupByItems);
+                }
             }
 
             return listGroupByElement;

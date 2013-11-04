@@ -46,6 +46,12 @@ module TGrid.Angular {
                     options.isEnableCollapsing = attrs["enablecollapsing"] == "true" ? true : false;
                 }
 
+                if (attrs["enablegrouping"] == undefined) {
+                    options.isEnableGrouping = false;
+                } else {
+                    options.isEnableGrouping = attrs["enablegrouping"] == "true" ? true : false;
+                }
+
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
             }
 
