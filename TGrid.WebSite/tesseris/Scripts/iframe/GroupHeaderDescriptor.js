@@ -2,11 +2,11 @@ var TesserisPro;
 (function (TesserisPro) {
     (function (TGrid) {
         var GroupHeaderDescriptor = (function () {
-            function GroupHeaderDescriptor(value, level, collapse) {
-                if (typeof collapse === "undefined") { collapse = false; }
+            function GroupHeaderDescriptor(value, level, collapse, filterDescriptor) {
                 this.collapse = collapse;
                 this.value = value;
                 this.level = level;
+                this.filterDescriptor = filterDescriptor;
             }
             return GroupHeaderDescriptor;
         })();

@@ -3,10 +3,12 @@ module TesserisPro.TGrid {
         value: string;
         level: number;
         collapse: boolean;
-        constructor(value: string, level: number, collapse: boolean = false) {
+        filterDescriptor: FilterDescriptor;
+        constructor(value: string, level: number, collapse: boolean, filterDescriptor: FilterDescriptor) {
             this.collapse = collapse;
             this.value = value;
             this.level = level;
+            this.filterDescriptor = filterDescriptor;
         }
     }
 }
