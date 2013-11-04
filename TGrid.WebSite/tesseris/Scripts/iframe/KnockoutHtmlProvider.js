@@ -56,21 +56,30 @@ var TesserisPro;
                 return null;
             };
 
-            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, isSortable) {
+            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, isSortable) {
                 if (header.innerHTML != null && header.innerHTML != "") {
+                    //add intends for groupBy
+                    this.showNeededIntends(header, option.groupBySortDescriptor.length, TGrid.Grid.getGridObject(header));
+
                     if (isSortable) {
                         this.removeArrows(header);
                         var element = header.getElementsByTagName("th");
 
-                        for (var i = option.groupBySortDescriptor.length; i < element.length && i - option.groupBySortDescriptor.length < option.columns.length; i++) {
-                            element[i] = this.addArrows(element[i], option, i - option.groupBySortDescriptor.length);
+                        for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
+                            if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
+                                element[i] = this.addArrows(element[i], option, i);
+                            }
                         }
                     }
+                    this.updateGroupByElements(option, header, groupByContainer);
                 } else {
+                    this.addGroupBy(option, header, groupByContainer);
+
                     // Create table header
                     var head = document.createElement("tr");
 
-                    this.appendIndent(head, option.groupBySortDescriptor.length, true);
+                    this.appendIndent(head, option.columns.length, true);
+                    this.showNeededIntends(head, option.groupBySortDescriptor.length, TGrid.Grid.getGridObject(header));
 
                     for (var i = 0; i < option.columns.length; i++) {
                         var headerCell = document.createElement("th");
@@ -85,8 +94,11 @@ var TesserisPro;
                         })(i);
 
                         if (isSortable) {
-                            headerCell = this.addArrows(headerCell, option, i);
+                            if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
+                                headerCell = this.addArrows(headerCell, option, i);
+                            }
                         }
+
                         head.appendChild(headerCell);
                     }
                     var placeholderColumn = document.createElement("th");
@@ -229,16 +241,18 @@ var TesserisPro;
                 var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
                 headerTd.setAttribute("colspan", colspan.toString());
                 headerTd.setAttribute("class", "tgrid-table-group-header");
+                if (option.isEnableCollapsing) {
+                    if (!groupHeaderDescriptor.collapse) {
+                        headerTd.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    } else {
+                        headerTd.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    }
+                }
 
-                //if (!groupHeaderDescriptor.collapse) {
-                //    headerTd.onclick = (e) => {
-                //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
-                //    }
-                //} else {
-                //    headerTd.onclick = (e) => {
-                //        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeFilters(groupHeaderDescriptor.value, groupHeaderDescriptor.level);
-                //    }
-                //}
                 headerTd.innerHTML = option.groupHeaderTemplate;
 
                 headerTr.appendChild(headerTd);
@@ -247,12 +261,12 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.addArrows = function (htmlNode, option, columnNumber) {
-                if (option.sortDescriptor.path == option.columns[columnNumber].sortMemberPath && option.sortDescriptor.asc) {
+                if (option.sortDescriptor.asc) {
                     var up = document.createElement("div");
                     up.classList.add("tgrid-arrow-up");
                     htmlNode.appendChild(up);
                 }
-                if (option.sortDescriptor.path == option.columns[columnNumber].sortMemberPath && !option.sortDescriptor.asc) {
+                if (!option.sortDescriptor.asc) {
                     var down = document.createElement("div");
                     down.classList.add("tgrid-arrow-down");
                     htmlNode.appendChild(down);
@@ -471,6 +485,18 @@ var TesserisPro;
 
                 headerDiv.setAttribute("class", "tgrid-mobile-group-header ");
                 headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
+
+                if (option.isEnableCollapsing) {
+                    if (!groupHeaderDescriptor.collapse) {
+                        headerDiv.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).setFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    } else {
+                        headerDiv.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).removeFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    }
+                }
 
                 headerDiv.innerHTML = option.groupHeaderTemplate;
 

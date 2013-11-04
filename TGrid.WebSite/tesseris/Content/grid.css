@@ -42,7 +42,7 @@
     text-overflow: ellipsis;
     border-color: #BEBEBE;
     color: grey;
-    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
     border-top: 1px solid #BEBEBE;
     padding: 2px;
 }
@@ -76,13 +76,13 @@
 }
 
 .tgrid-tablebodycontainer {
-    /*border: 1px solid rgb(122,188,255);*/
     overflow-y: scroll;
     overflow-x: auto;
     height: auto;
     max-height:420px;
     border-right: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
+    border-left:1px solid #BEBEBE;
 }
 
 .tgrid-tableheadercontainer {
@@ -220,4 +220,105 @@ td a {
     height: auto;
     padding: 40px 7px 40px 7px;
     background:lightgray;
+}
+
+
+
+.condition-group-by {
+    min-height: 15px;
+    min-width: 25px;
+    float:left;
+    padding-left: 2px;
+    border: 1px solid #BEBEBE;
+    display:none;    
+    margin-right:2px;
+    background: whitesmoke;
+    color: gray;
+}
+
+.delete-condition-group-by {   
+    padding-top: 0;
+    background: #EEE9E9;
+    background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
+    background: -webkit-linear-gradient(top, #EEE9E9 0%,#C0BEBE 100%);
+    background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
+    background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 );
+    /*border: none;*/
+    border-radius: 3px;
+    color: rgb(87, 86, 86);
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border: 1px solid #BEBEBE;
+    margin-left: 5px;
+}
+
+.group-by-container {    
+    display:block;
+    width: auto;
+    height: 33px;    
+}
+
+.condition-group-by span{
+    /*color:rgb(100, 98, 98);*/
+}
+
+.list-button-container {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    background: #EEE9E9;
+    background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
+    background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
+    background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
+    background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 );   
+    border: 1px solid #BEBEBE;
+    border-radius: 5px;
+}
+
+.button-group-by {
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    background: url(images/glyphicons-halflings.png);
+    background-position: -407px -99px;
+    margin-top: 8px;
+    margin-left: 5px;
+    opacity: 0.6;
+}
+
+.group-by-ul {
+    position:absolute;
+    display: none;
+    list-style-type: none;
+    background: #fff;
+    margin: 0; 
+    padding: 5px 0;
+    float: left;
+    border: 1px solid #BEBEBE;
+    border-radius: 5px;
+    background-color: whitesmoke;    
+}
+
+.group-by-ul>li {
+    display:none;
+    margin: 0;
+    padding: 3px 20px;
+    clear: both;
+    color:gray;
+}
+
+.group-by-ul > li:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color:#D5D7D8;
+}
+
+thead>tr> .tgrid-table-indent-cell {
+    display:none;
 }

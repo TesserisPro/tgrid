@@ -7,6 +7,7 @@ module TesserisPro.TGrid {
 	export enum Framework { Knockout, Angular }
     export enum SelectionMode { None, Single, Multi }//0,1,2
     export enum FilterCondition { None, Equals, NotEquals }
+    export enum FilterOperation { And, Or };
 
     export class ColumnInfo {
         public header: Template;
@@ -43,8 +44,9 @@ module TesserisPro.TGrid {
 		   
     export class Options {
         public columns: Array<ColumnInfo> = [];
-        public isEnableVirtualScroll: boolean = false;  
-        public isEnablePaging: boolean = false;
+        public isEnableVirtualScroll: boolean;  
+        public isEnablePaging: boolean;
+        public isEnableCollapsing: boolean;
 
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
@@ -60,7 +62,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
-        //public groupBy: string;
+        
         public filterDescriptors: Array<FilterDescriptor> = [];
 
         public ctrlKey: boolean;
@@ -69,38 +71,7 @@ module TesserisPro.TGrid {
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
-        constructor(element: HTMLElement, valueAccessor: any, framework: Framework) {
-
-            if (valueAccessor.groupBy != undefined) {
-                for (var i = 0; i < valueAccessor.groupBy.length; i++) {
-                    this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
-                }
-            }
-
-            if (valueAccessor.enablePaging == undefined) {
-                this.isEnablePaging = false;
-            } else {
-                this.isEnablePaging = valueAccessor.enablePaging == "true" ? true : false;
-            }
-
-            var pageSizeAtt = valueAccessor.pageSize;
-            this.pageSize = parseInt(pageSizeAtt);
-            if (this.isEnablePaging) {
-                this.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
-            }
-
-            var editModeAtt = valueAccessor.selectMode;
-            this.selectionMode = parseInt(editModeAtt);
-            if (isNaN(this.selectionMode)) {
-                this.selectionMode = 1;
-            }
-
-            if (valueAccessor.enableVirtualScroll == undefined) {
-                this.isEnableVirtualScroll =  false;
-            } else {
-                this.isEnableVirtualScroll = valueAccessor.enableVirtualScroll == "true" ? true : false;
-            }
-
+        constructor(element: HTMLElement/*, valueAccessor: any*/, framework: Framework) {
             this.target = element;
             this.framework = framework;
             //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
@@ -140,6 +111,7 @@ module TesserisPro.TGrid {
                 column.cellDetail = cellDetail.innerHTML;
 
                 column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
+                column.groupMemberPath = columns[i].attributes['data-g-group-member'].nodeValue;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 

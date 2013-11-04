@@ -21,6 +21,12 @@
             FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
+        (function (FilterOperation) {
+            FilterOperation[FilterOperation["And"] = 0] = "And";
+            FilterOperation[FilterOperation["Or"] = 1] = "Or";
+        })(TGrid.FilterOperation || (TGrid.FilterOperation = {}));
+        var FilterOperation = TGrid.FilterOperation;
+        ;
 
         var ColumnInfo = (function () {
             function ColumnInfo() {
@@ -52,48 +58,15 @@
         TGrid.Template = Template;
 
         var Options = (function () {
-            function Options(element, valueAccessor, framework) {
+            function Options(element/*, valueAccessor: any*/ , framework) {
                 this.columns = [];
-                this.isEnableVirtualScroll = false;
-                this.isEnablePaging = false;
                 this.pageSlide = 1;
                 this.batchSize = 10;
                 this.firstLoadSize = 20;
                 this.currentPage = 0;
                 this.groupBySortDescriptor = [];
-                //public groupBy: string;
                 this.filterDescriptors = [];
                 this.selection = [];
-                if (valueAccessor.groupBy != undefined) {
-                    for (var i = 0; i < valueAccessor.groupBy.length; i++) {
-                        this.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor.groupBy[i], true));
-                    }
-                }
-
-                if (valueAccessor.enablePaging == undefined) {
-                    this.isEnablePaging = false;
-                } else {
-                    this.isEnablePaging = valueAccessor.enablePaging == "true" ? true : false;
-                }
-
-                var pageSizeAtt = valueAccessor.pageSize;
-                this.pageSize = parseInt(pageSizeAtt);
-                if (this.isEnablePaging) {
-                    this.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
-                }
-
-                var editModeAtt = valueAccessor.selectMode;
-                this.selectionMode = parseInt(editModeAtt);
-                if (isNaN(this.selectionMode)) {
-                    this.selectionMode = 1;
-                }
-
-                if (valueAccessor.enableVirtualScroll == undefined) {
-                    this.isEnableVirtualScroll = false;
-                } else {
-                    this.isEnableVirtualScroll = valueAccessor.enableVirtualScroll == "true" ? true : false;
-                }
-
                 this.target = element;
                 this.framework = framework;
 
@@ -133,6 +106,7 @@
                     column.cellDetail = cellDetail.innerHTML;
 
                     column.sortMemberPath = columns[i].attributes['data-g-sort-member'].nodeValue;
+                    column.groupMemberPath = columns[i].attributes['data-g-group-member'].nodeValue;
                     column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                     column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 

@@ -21,6 +21,7 @@ module TesserisPro.TGrid {
         private mobileHeader: HTMLElement;
         private buisyIndicator: HTMLElement;
         private scrollBar: HTMLElement;
+        private groupByElement: HTMLElement;
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
@@ -35,7 +36,7 @@ module TesserisPro.TGrid {
         private isPreloadingNext: boolean = false;
         private isPreloadingPrevious: boolean = false;
 
-        private collapsedFilterGroup: Array<FilterDescriptor> = [];
+        private collapsedFilterGroup: FilterDescriptor[][];
 
         private enablePreload: boolean = true;
 
@@ -43,11 +44,21 @@ module TesserisPro.TGrid {
             element.grid = this;
             this.targetElement = element;
             this.options = options;
+
+            this.collapsedFilterGroup = new Array<FilterDescriptor[]>();
+            for (var i = 0; i < this.options.columns.length; i++) {
+                this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
+            }
+
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
 
             this.rootElement = document.createElement("div");
             this.rootElement.className = "tgrid-root";
+
+            this.groupByElement = document.createElement("div");
+            this.groupByElement.setAttribute("class", "group-by-container");
+            this.rootElement.appendChild(this.groupByElement);
 
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
@@ -124,6 +135,7 @@ module TesserisPro.TGrid {
                     this.refreshFooter();
                 }
             }
+
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -201,12 +213,21 @@ module TesserisPro.TGrid {
 
         private getEffectiveFiltering(): Array<FilterDescriptor> {
             var allFilter: Array<FilterDescriptor> = [];
+
             if (this.options.filterDescriptors != null || this.options.filterDescriptors.length > 0) {
                 allFilter = allFilter.concat(this.options.filterDescriptors);
             }
 
-            if (this.collapsedFilterGroup != null || this.collapsedFilterGroup.length > 0) {
-                allFilter = allFilter.concat(this.collapsedFilterGroup);
+            return allFilter;
+        }
+
+        private getCollapsedGroupFilter(): Array<FilterDescriptor> {
+            var allFilter: Array<FilterDescriptor> = [];
+
+            for (var i = 0; i < this.collapsedFilterGroup.length; i++) {
+                if (this.collapsedFilterGroup[i] != null || this.collapsedFilterGroup[i].length > 0) {
+                    allFilter = allFilter.concat(this.collapsedFilterGroup[i]);
+                }
             }
 
             return allFilter;
@@ -264,6 +285,7 @@ module TesserisPro.TGrid {
                 this.options.firstLoadSize,
                 this.getEffectiveSorting(),
                 this.getEffectiveFiltering(),
+                this.getCollapsedGroupFilter(),
                 (items, first, count) => {
                     this.tableBodyContainer.scrollTop = 1;
                     this.firstVisibleItemIndex = first;
@@ -283,6 +305,7 @@ module TesserisPro.TGrid {
                     size,
                     this.getEffectiveSorting(),
                     this.getEffectiveFiltering(),
+                    this.getCollapsedGroupFilter(),
                     (items, first, count) => {
                         this.previousPage = items;
                         this.isPreloadingPrevious = false;
@@ -297,6 +320,7 @@ module TesserisPro.TGrid {
                 this.getNextPageSize(),
                 this.getEffectiveSorting(),
                 this.getEffectiveFiltering(),
+                this.getCollapsedGroupFilter(),
                 (items, first, count) => {
                     this.nextPage = items;
                     this.isPreloadingNext = false;
@@ -397,6 +421,44 @@ module TesserisPro.TGrid {
             }
         }
 
+        public addGroupBy(name: string, asc: boolean): void {
+            this.options.groupBySortDescriptor.push(new SortDescriptor(name, asc));
+            this.refreshHeader();
+            this.refreshBody();
+        }
+
+        public deleteGroupBy(name: string, asc: boolean): void {
+
+            for (var i = 0; i < this.options.groupBySortDescriptor.length; i++) {
+                if (this.options.groupBySortDescriptor[i].path == name) {
+                    this.options.groupBySortDescriptor.splice(i, 1);
+                }
+            }
+
+            this.refreshHeader();
+            this.refreshBody(); 
+        }
+
+        public showHideListOnClick(element: Element) {
+            if (element.getAttribute("style") != "display:block;") {
+                element.setAttribute("style", "display:block;");
+            } else {
+                element.removeAttribute("style");
+            }
+        }
+
+        public showDivElement(element: Element) {
+            element.setAttribute("style", "display:block;");
+        }
+
+        public showTableCellElement(element: Element) {
+            element.setAttribute("style", "display:table-cell;");
+        }
+
+        public hideElement(element: Element) {
+            element.removeAttribute("style");
+        }
+
         public sortBy(name: string): void {
             if (name == this.options.sortDescriptor.path) {
                 this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
@@ -449,45 +511,79 @@ module TesserisPro.TGrid {
 
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {
             var itemModels: Array<ItemViewModel> = [];
-            var groupNames: Array<any> = [];
+            var currentGroupNames: Array<string> = new Array<string>();
+            var isGroupHeader: Array<boolean> = new Array<boolean>();
 
-            for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) { groupNames.push(""); }
+            //items = this.addFakeItems(items);
+
+            for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
+                currentGroupNames.push("");
+                isGroupHeader.push(false);
+            }
 
             for (var i = 0; i < items.length; i++) {
                 for (var j = 0; j < this.options.groupBySortDescriptor.length; j++) {
                     var columnValue = getMemberValue(items[i], this.options.groupBySortDescriptor[j].path);
-                    if (groupNames[j] != columnValue) {
-                        groupNames[j] = columnValue;
+                    var isFakeItem = (getMemberValue(items[i], "isFakeItem") == true) ? true : false; // if prop .isFakeItem undefined -> group collapsed
+                    if (currentGroupNames[j] != columnValue) {
+                        currentGroupNames[j] = columnValue;
+                        var filterDescriptor = new FilterDescriptor(this.options.groupBySortDescriptor[0].path, currentGroupNames[0],FilterCondition.Equals);
+                        for (var k = 1; k <= j; k++) {
+                            filterDescriptor.children.push(new FilterDescriptor(this.options.groupBySortDescriptor[k].path, currentGroupNames[k], FilterCondition.Equals));
+                        }
+                        var collapsed = isFakeItem && this.isFilterInCollapsed(filterDescriptor);
                         itemModels.push(new ItemViewModel(null,
-                            new GroupHeaderDescriptor(columnValue, j),
+                            new GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor),
                             this,
                             true));
                         // clear name of group of deeper level
                         for (var k = j + 1; k < this.options.groupBySortDescriptor.length; k++) {
-                            groupNames[k] = "";
+                            currentGroupNames[k] = "";
+                        }
+                        if (collapsed) {
+                            j = this.options.groupBySortDescriptor.length;
                         }
                     }
                 }
+                if (items[i].isFakeItem == undefined) {
+                    itemModels.push(new ItemViewModel(null, items[i], this, false));
+                }
+            }
+            return itemModels;
+        }
 
-                itemModels.push(new ItemViewModel(null, items[i], this, false));
+        private isFiltersEquals(filter: FilterDescriptor, deeperFilter: FilterDescriptor) : boolean {
+            // filter have less children then deeper filter
+            if (filter.path == deeperFilter.path && filter.value == deeperFilter.value && filter.children.length <= deeperFilter.children.length) {
+                var count = 0;
+                for (var i = 0; i < filter.children.length; i++)
+                {
+                    if (filter.children[i].path == deeperFilter.children[i].path && filter.children[i].value == deeperFilter.children[i].value) {
+                        count++;
+                    }
+                }
+                if (count == filter.children.length) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private isFilterInCollapsed(filterDescriptor: FilterDescriptor): boolean {
+            for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
+                if (this.isFiltersEquals(filterDescriptor, this.collapsedFilterGroup[filterDescriptor.children.length][i])) {
+                    return true;
+                }
             }
 
-            //var previousGroupName: string = "";
-            //for (var i = 0; itemModels.length; i++) {
-            //    //insert collapsed  group header
-            //    if (itemModels[i].isGroupHeader) {
+            return false;
+        }
 
-            //    }
-            //}
-
-            //for (var i = 0; i < this.collapsedFilterGroup.length; i++) {
-            //    itemModels.push(new ItemViewModel(null,
-            //        new GroupHeaderDescriptor(this.collapsedFilterGroup[i].value, 0, true),
-            //        this,
-            //        true));
-            //}
-
-            return itemModels;
+        private filterDescriptorToArray(filterDescriptor: FilterDescriptor): Array<FilterDescriptor>{
+            var arr = new Array<FilterDescriptor>();
+            arr = arr.concat(filterDescriptor.children);
+            arr.push(new FilterDescriptor(filterDescriptor.path, filterDescriptor.value, filterDescriptor.condition));
+            return arr;
         }
 
         private updateVisibleItems(): void {
@@ -528,8 +624,8 @@ module TesserisPro.TGrid {
             return this.options.pageSize;
         }
 
-        private refreshHeader() {
-            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.itemProvider.isSortable());
+        private refreshHeader() {            
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.itemProvider.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }
 
@@ -548,6 +644,7 @@ module TesserisPro.TGrid {
                             this.options.firstLoadSize,
                             this.getEffectiveSorting(),
                             this.getEffectiveFiltering(),
+                            this.getCollapsedGroupFilter(),
                             (items, first, count) => {
                                 this.firstVisibleItemIndex = first;
                                 this.visibleItems = items;
@@ -567,6 +664,7 @@ module TesserisPro.TGrid {
                             this.getPageSize(),
                             this.getEffectiveSorting(),
                             this.getEffectiveFiltering(),
+                            this.getCollapsedGroupFilter(),
                             (items, first, count) => {
                                 this.firstVisibleItemIndex = first;
                                 this.visibleItems = items;
@@ -599,15 +697,15 @@ module TesserisPro.TGrid {
             this.buisyIndicator.setAttribute("style", "display: none;");
         }
 
-        public setFilters(value: string, level: number) {
-            this.collapsedFilterGroup.push(new FilterDescriptor(this.options.groupBySortDescriptor[level].path, value, FilterCondition.Equals));
+        public setFilters(filterDescriptor: FilterDescriptor) {
+            this.collapsedFilterGroup[filterDescriptor.children.length].push(filterDescriptor);
             this.refreshBody();
         }
 
-        public removeFilters(value: string, level: number) {
-            for (var j = 0; j < this.collapsedFilterGroup.length; j++) {
-                if (this.options.groupBySortDescriptor[level].path == this.collapsedFilterGroup[j].path && this.collapsedFilterGroup[j].value == value) {
-                    this.collapsedFilterGroup.splice(j, 1);
+        public removeFilters(filterDescriptor: FilterDescriptor) {
+            for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
+                if (this.isFiltersEquals(this.collapsedFilterGroup[filterDescriptor.children.length][i], filterDescriptor)) {
+                    this.collapsedFilterGroup[filterDescriptor.children.length].splice(i, 1);
                 }
             }
             this.refreshBody();
