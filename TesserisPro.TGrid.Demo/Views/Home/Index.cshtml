@@ -367,7 +367,8 @@
 </script>
 
 <h2>Angular</h2>
-<div ng-app="TGrid" ng-controller="ctrl"> 
+<div ng-app="TGrid"> 
+    <div ng-controller="ctrl">
 <t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member ="name">
@@ -406,7 +407,7 @@
         </groupheader>
 
         <footer>
-            TotalCount: <span>1 </span>.
+            TotalCount: <span>{{totalCount}} </span>.
             SelectedItem: <span > 1</span>. 
             CurrentPage: <span>1</span>. 
             TotalPages: <span>1</span>.
@@ -432,6 +433,7 @@
         </details>
     </script>
 </t-grid>
+    </div>
 </div>
 
 <script type="text/javascript">
