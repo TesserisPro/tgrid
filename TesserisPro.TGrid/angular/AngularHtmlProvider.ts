@@ -3,6 +3,7 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="../FooterDirective.ts" />
 
 module TesserisPro.TGrid {
 
@@ -64,8 +65,7 @@ module TesserisPro.TGrid {
                         }
                     }        
                 }
-
-                this.updateGroupByElements(option, header, groupByContainer);               
+                this.updateGroupByElements(option, header, groupByContainer);
 
             } else {
                 //method adding groupBy element
@@ -173,11 +173,17 @@ module TesserisPro.TGrid {
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
             //if there isn't footer template in grid
-            if (footerModel == null) {
+            if (footerModel == null && option.isEnablePaging) {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
-            } else {
-                option.tableFooterTemplate.applyTemplate(footer);               
+            } else if (option.tableFooterTemplate != null) {
+                option.tableFooterTemplate.applyTemplate(footer);
+                //var footerDirective = new FooterDirective(footer);
+                //angular.module('TGrid', [])
+                //    .directive("footer", <any> footerDirective); 
+
             }
+           
+
         }
         //private methods
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {

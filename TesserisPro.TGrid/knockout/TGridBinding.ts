@@ -48,6 +48,12 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
         }
 
+        if (valueAccessor().enableGrouping == undefined) {
+            options.isEnableGrouping = false;
+        } else {
+            options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
+        }
+
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     }
 
@@ -55,7 +61,8 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
 
     }
 
-    public options: any;  
+    public options: any;
+    
 }
 
 
