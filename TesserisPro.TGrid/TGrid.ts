@@ -23,6 +23,7 @@ module TesserisPro.TGrid {
         private buisyIndicator: HTMLElement;
         private scrollBar: HTMLElement;
         private groupByElement: HTMLElement;
+        private filterPopUp: HTMLElement;
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
@@ -67,6 +68,10 @@ module TesserisPro.TGrid {
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
+
+            this.filterPopUp = document.createElement("div");
+            this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
+            this.rootElement.appendChild(this.filterPopUp);
 
             // Header
             this.mobileHeader = document.createElement("div");
@@ -461,6 +466,30 @@ module TesserisPro.TGrid {
             element.removeAttribute("style");
         }
 
+        public showFilterBox(element: Element, path: string, left: number) {
+            element.setAttribute("style", "display:block;left:" + left + "px;top:62px");
+            this.options.filterPath = path;
+        }
+
+        public addFilter(path: string, value: string, condition: FilterCondition, element: HTMLElement) {
+            this.clearFilter(path, element, false);
+            this.options.filterDescriptors.push(new FilterDescriptor(path, value, condition));
+            this.refreshBody();
+            this.hideElement(element);
+        }
+
+        public clearFilter(path: string, element: HTMLElement, refresh: boolean = true) {
+            for (var i = 0; i < this.options.filterDescriptors.length; i++) {
+                if (this.options.filterDescriptors[i].path == path) {
+                    this.options.filterDescriptors.splice(i, 1);
+                }
+            }
+            if (refresh) {
+                this.refreshBody();
+            }
+            this.hideElement(element);
+        }
+
         public sortBy(name: string): void {
             if (name == this.options.sortDescriptor.path) {
                 this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
@@ -530,9 +559,9 @@ module TesserisPro.TGrid {
                     var isFakeItem = (getMemberValue(items[i], "isFakeItem") == true) ? true : false; // if prop .isFakeItem undefined -> group collapsed
                     if (currentGroupNames[j] != columnValue) {
                         currentGroupNames[j] = columnValue;
-                        var filterDescriptor = new FilterDescriptor(this.options.groupBySortDescriptor[0].path, currentGroupNames[0],FilterCondition.Equals);
+                        var filterDescriptor = new FilterDescriptor(this.options.groupBySortDescriptor[0].path, currentGroupNames[0], FilterCondition.NotEquals);
                         for (var k = 1; k <= j; k++) {
-                            filterDescriptor.children.push(new FilterDescriptor(this.options.groupBySortDescriptor[k].path, currentGroupNames[k], FilterCondition.Equals));
+                            filterDescriptor.children.push(new FilterDescriptor(this.options.groupBySortDescriptor[k].path, currentGroupNames[k], FilterCondition.NotEquals));
                         }
                         var collapsed = isFakeItem && this.isFilterInCollapsed(filterDescriptor);
                         itemModels.push(new ItemViewModel(null,
@@ -637,7 +666,7 @@ module TesserisPro.TGrid {
         }
 
         private refreshHeader() {            
-            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.itemProvider.isSortable());
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }
 

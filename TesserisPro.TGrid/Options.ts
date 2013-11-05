@@ -49,6 +49,8 @@ module TesserisPro.TGrid {
         public isEnableCollapsing: boolean;
         public isEnableGrouping: boolean;
 
+        public filterPath: string;
+
         public mobileTemplateHtml: string;
         public detailsTemplateHtml: string;
         public groupHeaderTemplate: string;
@@ -63,7 +65,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
-        
+
         public filterDescriptors: Array<FilterDescriptor> = [];
         public tableFooterTemplate: Template;
 

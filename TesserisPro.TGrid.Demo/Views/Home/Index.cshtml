@@ -236,6 +236,11 @@
             if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
             }
+
+            if (collapsedFilterDescriptors == undefined) {
+                collapsedFilterDescriptors = [];
+            }
+
             var isCollapsedItem = [];
             for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
                 isCollapsedItem.push(false);
@@ -262,6 +267,7 @@
                     }
                 }
 
+                //add fake item for creating collapsing group
                 if (isFiltered == 0 && !isCollapsedFiltered) {
                     filterdItems.push(items[j]);
                 } else {
@@ -284,13 +290,13 @@
         }
 
         function filter(item, filterDescriptors) {
-            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+            if (!isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
                 if (filterDescriptors.children.length == 0) {
                     return true;
                 } else {
                     var result = 0
                     for (var i = 0; i < filterDescriptors.children.length; i++) {
-                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                        if (!isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
                             result++;
                         }
                     }
@@ -304,7 +310,7 @@
         }
 
         function isFiltering(item, value, condition) {
-            // on true push to filtered items
+            // on false push to filtered items
             switch (condition){
                 case 1://equal
                     return (item == value);
@@ -553,6 +559,11 @@
             if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
             }
+
+            if (collapsedFilterDescriptors == undefined) {
+                collapsedFilterDescriptors = [];
+            }
+
             var isCollapsedItem = [];
             for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
                 isCollapsedItem.push(false);
@@ -579,6 +590,7 @@
                     }
                 }
 
+                //add fake item for creating collapsing group
                 if (isFiltered == 0 && !isCollapsedFiltered) {
                     filterdItems.push(items[j]);
                 } else {
@@ -601,13 +613,13 @@
         }
 
         function filter(item, filterDescriptors) {
-            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+            if (!isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
                 if (filterDescriptors.children.length == 0) {
                     return true;
                 } else {
                     var result = 0
                     for (var i = 0; i < filterDescriptors.children.length; i++) {
-                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                        if (!isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
                             result++;
                         }
                     }
@@ -621,6 +633,7 @@
         }
 
         function isFiltering(item, value, condition) {
+            // on false push to filtered items
             switch (condition) {
                 case 1://equal
                     return (item == value);

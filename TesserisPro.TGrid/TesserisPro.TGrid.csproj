@@ -29,6 +29,7 @@
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />
     <Content Include="Images\buttonBlue.jpg" />
+    <Content Include="Images\filter.png" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
