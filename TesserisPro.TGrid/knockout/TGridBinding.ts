@@ -54,6 +54,12 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
         }
 
+        if (valueAccessor().enableFiltering == undefined) {
+            options.isEnableFiltering = false;
+        } else {
+            options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+        }
+
         var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
     }
 

@@ -48,6 +48,7 @@ module TesserisPro.TGrid {
         public isEnablePaging: boolean;
         public isEnableCollapsing: boolean;
         public isEnableGrouping: boolean;
+        public isEnableFiltering: boolean;
 
         public filterPath: string;
 

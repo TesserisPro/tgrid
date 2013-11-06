@@ -68,10 +68,13 @@ module TesserisPro.TGrid {
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
-
-            this.filterPopUp = document.createElement("div");
-            this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
-            this.rootElement.appendChild(this.filterPopUp);
+            
+            // filter popup
+            if (this.options.isEnableFiltering) {
+                this.filterPopUp = document.createElement("div");
+                this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
+                this.rootElement.appendChild(this.filterPopUp);
+            }
 
             // Header
             this.mobileHeader = document.createElement("div");

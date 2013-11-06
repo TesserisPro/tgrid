@@ -71,7 +71,9 @@ module TesserisPro.TGrid {
 
            } else {
                 this.addGroupBy(option, header, groupByContainer);
-                this.addFiltringPopUp(option, filterPopupContainer);
+               if (option.isEnableFiltering) {
+                   this.addFiltringPopUp(option, filterPopupContainer);
+               }
 
                 // Create table header
                 var head = document.createElement("tr");
@@ -85,25 +87,27 @@ module TesserisPro.TGrid {
                     option.columns[i].header.applyTemplate(headerCell);
 
                     //filer
-                    var filter = document.createElement("div");
-                    filter.setAttribute("class", "tgrid-filter-button");
-                    (function (i) {
-                        filter.onclick = (e) => {
-                            var left = (<HTMLElement>e.target).offsetLeft;
-                            for (var j = 0; j < i; j++) {
-                                left += parseInt(option.columns[j].width);
-                            }
-                            var el = header.getElementsByClassName("tgrid-table-indent-cell");
-                            if (el.length > 0) {
-                                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                                    left += 20;
+                    if (option.isEnableFiltering) {
+                        var filter = document.createElement("div");
+                        filter.setAttribute("class", "tgrid-filter-button");
+                        (function (i) {
+                            filter.onclick = (e) => {
+                                var left = (<HTMLElement>e.target).offsetLeft;
+                                for (var j = 0; j < i; j++) {
+                                    left += parseInt(option.columns[j].width);
                                 }
-                            }
-                            Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
-                            e.cancelBubble = true;
-                        };
-                    })(i);
-                    headerCell.appendChild(filter);
+                                var el = header.getElementsByClassName("tgrid-table-indent-cell");
+                                if (el.length > 0) {
+                                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                                        left += 20;
+                                    }
+                                }
+                                Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
+                                e.cancelBubble = true;
+                            };
+                        })(i);
+                        headerCell.appendChild(filter);
+                    }
 
                     // Method changing sorting
                     (function (i) {
