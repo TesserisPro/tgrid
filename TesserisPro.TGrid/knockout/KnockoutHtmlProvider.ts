@@ -249,7 +249,9 @@ module TesserisPro.TGrid {
                 if (option.columns[i].cell != null) {
                     option.columns[i].cell.applyTemplate(cell);
                 } else {
-                    cell = this.createDefaultCell(cell);
+                    if (option.columns[i].member != null) {
+                        cell = this.createDefaultCell(cell, option.columns[i].member);
+                    }
                 }
                 row.appendChild(cell);
             }
@@ -577,9 +579,10 @@ module TesserisPro.TGrid {
             return headerDiv;
         }
 
-        private createDefaultCell(cell: HTMLTableCellElement) : HTMLTableCellElement {           
+        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string) : HTMLTableCellElement {           
             var spanForCell = document.createElement("span");
-            spanForCell.setAttribute("data-bind", "text: item.name");
+            var textBinding = "text: item.".concat(defaultCellBindingName)
+            spanForCell.setAttribute("data-bind", textBinding);
             cell.appendChild(spanForCell);
 
             return cell;

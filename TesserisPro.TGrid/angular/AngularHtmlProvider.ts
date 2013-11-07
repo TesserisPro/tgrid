@@ -191,7 +191,6 @@ module TesserisPro.TGrid {
 
             var selectedElement = container.getElementsByClassName("selected");
             // Insert row details after selected item
-            //if (selectedElement != null && selectedElement.length == 1) {
             if (this.hasDetails(selectedElement, option)) {
                 var details = this.buildDetailsRow(option);
                 details.setAttribute("class", "details");
@@ -241,7 +240,9 @@ module TesserisPro.TGrid {
                 if (option.columns[i].cell != null) {
                     option.columns[i].cell.applyTemplate(cell);
                 } else {
-                    cell = this.createDefaultCell(cell);
+                    if (option.columns[i].member != null) {
+                        cell = this.createDefaultCell(cell, option.columns[i].member);
+                    }
                 }
                 cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
                 row.appendChild(cell);
@@ -610,9 +611,10 @@ module TesserisPro.TGrid {
             return headerDiv;
         }
 
-        private createDefaultCell(cell: HTMLTableCellElement): HTMLTableCellElement {
+        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string): HTMLTableCellElement {
             var spanForCell = document.createElement("span");
-            spanForCell.innerHTML = "{{item.name}}";           
+            var textBinding = "{{item.".concat(defaultCellBindingName).concat("}}");
+            spanForCell.innerHTML = textBinding;           
             cell.appendChild(spanForCell);
 
             return cell;
