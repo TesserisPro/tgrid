@@ -2,13 +2,20 @@
     position: relative;
 }
 
-.tgrid-table, .group-by-container {
+.tgrid-table{
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
+.tgrid-table, 
+.group-by-container {
     border-collapse: collapse;
     width: 100%;
     background: rgb(222,239,255);
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header, .condition-group-by {
+    .tgrid-table thead tr th, 
+    .tgrid-mobile-header, 
+    .condition-group-by {
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
@@ -31,7 +38,8 @@
     border-right: 1px solid rgb(122,188,255);
 }
 
-.tgrid-table tbody tr td, .tgrid-table-group-header {
+.tgrid-table tbody tr td, 
+.tgrid-table-group-header {
     padding: 2px;
     border-top: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
@@ -248,3 +256,29 @@
 thead>tr> .tgrid-table-indent-cell {
     display:none;
 }
+
+.tgrid-filter-popup {
+    position: absolute;
+    background: white;
+    display: none;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
+}
+
+.tgrid-display-none{
+    display: none;
+}
+
+.tgrid-filter-button{
+    background: url(../images/filter.png) no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+
+.tgrid-applied-filter-button{
+    background: url(../images/applied_filter.png) no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+

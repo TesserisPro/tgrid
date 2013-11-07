@@ -21,7 +21,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, isSortable: boolean){
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean){
 
         }
 
@@ -154,6 +154,61 @@ module TesserisPro.TGrid {
             } else {
                 Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
             }
+        }
+
+        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
+            var filterCondition = document.createElement("select");
+
+            // append filter conditions
+            var selectOption = document.createElement("option");
+            selectOption.value = FilterCondition.None.toString();
+            selectOption.text = "none";
+            filterCondition.appendChild(selectOption);
+
+            var selectOption = document.createElement("option");
+            selectOption.value = FilterCondition.Equals.toString();
+            selectOption.text = "=";
+            filterCondition.appendChild(selectOption);
+
+            var selectOption = document.createElement("option");
+            selectOption.value = FilterCondition.NotEquals.toString();
+            selectOption.text = "<>";
+            filterCondition.appendChild(selectOption);
+            // end append filter conditions
+            filterPopupContainer.appendChild(filterCondition);
+            filterCondition.selectedIndex = 1;
+
+            filterPopupContainer.innerHTML += "<br>";
+
+            var filterText = document.createElement("input");
+            filterText.setAttribute("value", "c3");
+            filterPopupContainer.appendChild(filterText);
+
+            filterPopupContainer.innerHTML += "<br>";
+            
+            var applyButton = document.createElement("button");
+            applyButton.innerText = "apply";
+            applyButton.onclick = (e) => {
+                Grid.getGridObject(<HTMLElement>e.target).addFilter(option.filterPath,
+                    filterPopupContainer.getElementsByTagName("input")[0].value,
+                    <FilterCondition>filterPopupContainer.getElementsByTagName("select")[0].selectedIndex,
+                    filterPopupContainer);
+            };
+            filterPopupContainer.appendChild(applyButton);
+
+            var clearButton = document.createElement("button");
+            clearButton.innerText = "clear";
+            clearButton.onclick = (e) => {
+                Grid.getGridObject(<HTMLElement>e.target).clearFilter(option.filterPath, filterPopupContainer);
+            };
+            filterPopupContainer.appendChild(clearButton);
+
+            var exitButton = document.createElement("button");
+            exitButton.innerText = "exit";
+            exitButton.onclick = (e) => {
+                Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>filterPopupContainer);
+            };
+            filterPopupContainer.appendChild(exitButton);
         }
 
         private addGroupByElements(option: Options, groupByContainer: HTMLElement) {

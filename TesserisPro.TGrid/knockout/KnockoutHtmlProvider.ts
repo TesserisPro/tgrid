@@ -50,7 +50,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, isSortable: boolean) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
            if (header.innerHTML != null && header.innerHTML != "") {
                //add intends for groupBy
                this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));               
@@ -64,17 +64,20 @@ module TesserisPro.TGrid {
                         if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
                             element[i] = <HTMLTableHeaderCellElement>this.addArrows(element[i], option, i);
                         }
-                    }                                     
+                    }
                 }
 
                this.updateGroupByElements(option, header, groupByContainer);
 
            } else {
-               this.addGroupBy(option, header, groupByContainer);
+                this.addGroupBy(option, header, groupByContainer);
+               if (option.isEnableFiltering) {
+                   this.addFiltringPopUp(option, filterPopupContainer);
+               }
 
                 // Create table header
-                var head = document.createElement("tr");                
-                                
+                var head = document.createElement("tr");
+                
                 this.appendIndent(head, option.columns.length, true);
                 this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
 
@@ -89,6 +92,29 @@ module TesserisPro.TGrid {
                         headerCell = this.createDefaultHeader(headerCell, headerText);
                     }
 
+                    //filer
+                    if (option.isEnableFiltering) {
+                        var filter = document.createElement("div");
+                        filter.setAttribute("class", "tgrid-filter-button");
+                        (function (i) {
+                            filter.onclick = (e) => {
+                                var left = (<HTMLElement>e.target).offsetLeft;
+                                for (var j = 0; j < i; j++) {
+                                    left += parseInt(option.columns[j].width);
+                                }
+                                var el = header.getElementsByClassName("tgrid-table-indent-cell");
+                                if (el.length > 0) {
+                                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                                        left += 20;
+                                    }
+                                }
+                                Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
+                                e.cancelBubble = true;
+                            };
+                        })(i);
+                        headerCell.appendChild(filter);
+                    }
+
                     // Method changing sorting
                     (function (i) {
                         headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
@@ -99,7 +125,7 @@ module TesserisPro.TGrid {
                         if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                             headerCell = <HTMLTableHeaderCellElement>this.addArrows(headerCell, option, i);
                         }
-                    } 
+                    }
 
                     head.appendChild(headerCell);
                 }
@@ -292,18 +318,18 @@ module TesserisPro.TGrid {
             return headerTr;
         }
 
-        private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
+        private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number): Node {
             if (option.sortDescriptor.asc) {
                 var up = document.createElement("div");
                 up.classList.add("tgrid-arrow-up");
-                htmlNode.appendChild(up);
+                sortArrowContainer.appendChild(up);
             }
             if (!option.sortDescriptor.asc) {
                 var down = document.createElement("div");
                 down.classList.add("tgrid-arrow-down");
-                htmlNode.appendChild(down);
+                sortArrowContainer.appendChild(down);
             }
-            return htmlNode;
+            return sortArrowContainer;
         }
 
         private removeArrows(htmlNode: HTMLElement): void {

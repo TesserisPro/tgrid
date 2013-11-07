@@ -10,7 +10,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     }
     
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
-        var options = new TesserisPro.TGrid.Options(element/*, valueAccessor()*/, TesserisPro.TGrid.Framework.Knockout);
+        var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
 
         if (valueAccessor().groupBy != undefined) {
             for (var i = 0; i < valueAccessor().groupBy.length; i++) {

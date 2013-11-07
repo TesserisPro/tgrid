@@ -1,5 +1,4 @@
-﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="SortDescriptor.ts" />
+﻿/// <reference path="SortDescriptor.ts" />
 /// <reference path="FilterDescriptor.ts" />
 
 module TesserisPro.TGrid {
@@ -49,6 +48,9 @@ module TesserisPro.TGrid {
         public isEnablePaging: boolean;
         public isEnableCollapsing: boolean;
         public isEnableGrouping: boolean;
+        public isEnableFiltering: boolean;
+
+        public filterPath: string;
 
         public mobileTemplateHtml: Template;
         public detailsTemplateHtml: Template;
@@ -64,7 +66,7 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptor: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
-        
+
         public filterDescriptors: Array<FilterDescriptor> = [];
         public tableFooterTemplate: Template;
 
@@ -77,9 +79,6 @@ module TesserisPro.TGrid {
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "c1", 1));
             this.initialize();
         }
 

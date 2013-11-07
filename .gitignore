@@ -90,3 +90,7 @@ TesserisPro.TGrid.Demo/Scripts/GroupHeaderDescriptor.js
 TesserisPro.TGrid.Demo/Scripts/GroupHeaderDescriptor.ts
 TesserisPro.TGrid.Demo/Scripts/TGridDirective.js
 TesserisPro.TGrid.Demo/Scripts/TGridDirective.ts
+TesserisPro.TGrid.Demo/Scripts/footerDirective.js
+TesserisPro.TGrid.Demo/Scripts/FooterDirective.ts
+TesserisPro.TGrid.Demo/Scripts/FooterViewModel.js
+TesserisPro.TGrid.Demo/Scripts/FooterViewModel.ts
