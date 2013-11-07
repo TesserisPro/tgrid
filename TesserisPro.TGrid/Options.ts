@@ -1,5 +1,4 @@
-﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="SortDescriptor.ts" />
+﻿/// <reference path="SortDescriptor.ts" />
 /// <reference path="FilterDescriptor.ts" />
 
 module TesserisPro.TGrid {
@@ -79,9 +78,6 @@ module TesserisPro.TGrid {
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("name", "a1", 1));
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "b1", 1));
-            //this.filterDescriptors.push(new TesserisPro.TGrid.FilterDescriptor("key", "c1", 1));
             this.initialize();
         }
 

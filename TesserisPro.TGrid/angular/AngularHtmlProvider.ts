@@ -3,7 +3,6 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
-/// <reference path="../FooterDirective.ts" />
 
 module TesserisPro.TGrid {
 
@@ -202,13 +201,7 @@ module TesserisPro.TGrid {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 option.tableFooterTemplate.applyTemplate(footer);
-                //var footerDirective = new FooterDirective(footer);
-                //angular.module('TGrid', [])
-                //    .directive("footer", <any> footerDirective); 
-
             }
-           
-
         }
         //private methods
         private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {

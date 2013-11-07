@@ -12,6 +12,14 @@
     <link href="@Url.Content("~/Content/Site.css")" rel='stylesheet' />
 </head>
 <body>
+
+    <script type="text/javascript">
+        window.onerror = function (msg, url, line) {
+            alert("Error: " + msg + "\n\nFile: " + url + "\n\nLine: " + line);
+            return false;
+        };
+    </script>
+
     <div>
         @RenderBody()
         <div id="tgrid-navi">

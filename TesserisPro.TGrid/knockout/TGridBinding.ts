@@ -37,25 +37,25 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         }
 
         if (valueAccessor().enableVirtualScroll == undefined) {
-            options.isEnableVirtualScroll = false;
+            options.isEnableVirtualScroll = true;
         } else {
             options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
         }
 
         if (valueAccessor().enableCollapsing == undefined) {
-            options.isEnableCollapsing = false;
+            options.isEnableCollapsing = true;
         } else {
             options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
         }
 
         if (valueAccessor().enableGrouping == undefined) {
-            options.isEnableGrouping = false;
+            options.isEnableGrouping = true;
         } else {
             options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
         }
 
         if (valueAccessor().enableFiltering == undefined) {
-            options.isEnableFiltering = false;
+            options.isEnableFiltering = true;
         } else {
             options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
         }
