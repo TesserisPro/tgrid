@@ -12,11 +12,12 @@ module TesserisPro.TGrid {
     export class ColumnInfo {
         public header: Template;
         public cell: Template;
-        public cellDetail: string;
+        public cellDetail: Template;
         public width: string;
         public device: string;
         public sortMemberPath: string;
         public groupMemberPath: string;
+        public member: string;
     }
 
     export class ShowDetail {
@@ -49,9 +50,9 @@ module TesserisPro.TGrid {
         public isEnableCollapsing: boolean;
         public isEnableGrouping: boolean;
 
-        public mobileTemplateHtml: string;
-        public detailsTemplateHtml: string;
-        public groupHeaderTemplate: string;
+        public mobileTemplateHtml: Template;
+        public detailsTemplateHtml: Template;
+        public groupHeaderTemplate: Template;
 
         public framework: Framework;
         public target: HTMLElement;
@@ -93,56 +94,49 @@ module TesserisPro.TGrid {
 
         private initialize(): void {
 			var text = $(this.target).find("script")[0].innerHTML;
-			var optionsElement = $("<div>" + text + "</div");
-
-            var headers = optionsElement.find("header");
-            var cells = optionsElement.find("cell");
-            var cellDetails = optionsElement.find("celldetail");
+            var optionsElement = $("<div>" + text + "</div");
             var columns = optionsElement.find("column");
 
-            if (!(headers.length == columns.length && cells.length == columns.length && cellDetails.length == columns.length)) {
-                throw " Columns not fully described ";
-            }
-
             for (var i = 0; i < columns.length; i++) {
+                var columnElement = $(columns[i]);
+                var header = columnElement.find("header");
+                var cell = columnElement.find("cell");
+
                 var column = new ColumnInfo();
+                column.member = columns[i].attributes['data-g-member'] != undefined ? columns[i].attributes['data-g-member'].nodeValue : null;
 
-                var header = new Template(headers[i]);
-                column.header = header;
+                column.header = header.length > 0 ? new Template(header[0]) : null;  
+                column.cell = header.length > 0 ? new Template(cell[0]) : null;
 
-                var cell = new Template(cells[i]);
-                column.cell = cell;
+                var cellDetail = columnElement.find("celldetail");
+                column.cellDetail = cellDetail.length == 1 ? new Template(cellDetail[0]) : null;
 
-                var cellDetail = cellDetails[i];
-                column.cellDetail = cellDetail.innerHTML;
-
-                column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : null;
-                column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : null;
+                column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;
+                column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
 
                 this.columns.push(column);
             }
+
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
 
             var mobileTemplate = optionsElement.find("mobile");
-            this.mobileTemplateHtml = mobileTemplate.length == 1 ? mobileTemplate[0].innerHTML : "Default mobileTemplate";
+            this.mobileTemplateHtml = mobileTemplate.length == 1 ? new Template(mobileTemplate[0]) : null;
 
             var groupHeaderTemplate = optionsElement.find("groupheader");
-            this.groupHeaderTemplate = groupHeaderTemplate.length == 1 ? groupHeaderTemplate[0].innerHTML : "Default groupHeaderTemplate";
+
+            this.groupHeaderTemplate = groupHeaderTemplate.length == 1 ? new Template(groupHeaderTemplate[0]) :null;
 
             var detailsTemplate = optionsElement.find("details");
-            this.detailsTemplateHtml = detailsTemplate.length == 1 ? detailsTemplate[0].innerHTML : "Default detailsTemplate";
+            this.detailsTemplateHtml = detailsTemplate.length == 1 ? new Template(detailsTemplate[0]) : null;
 
             this.showDetailFor = new ShowDetail();
 
-            var footer = optionsElement.find("footer"); 
-
-            if (footer.length != 0) {
-                this.tableFooterTemplate = new Template(footer[0]);
-            } else {
-                this.tableFooterTemplate = null;
-            }
+            var footer = optionsElement.find("footer");
+            this.tableFooterTemplate = footer.length == 1 ? new Template(footer[0]) : null;
+            
         }
+      
     }
 }

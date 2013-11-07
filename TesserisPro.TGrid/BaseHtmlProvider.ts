@@ -80,16 +80,52 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
         }
+        public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
+            var visibleIntentsNumber = level;
+            var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
-        public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
-            if (option.isEnableGrouping) {
-                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
+            for (var i = 0; i < cells.length; i++) {
+                grid.hideElement(<Element>cells[i]);
+            }
+            //check that number of existing intent-cells is not more than number of needed intent-cells
+            if (cells.length < level) {
+                visibleIntentsNumber = cells.length;
+            }
 
-                var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
-                (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header)));
-            } else {
-                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
-            }      
+            for (var i = 0; i < visibleIntentsNumber; i++) {
+                grid.showTableCellElement(<Element>cells[i]);
+            }
+        }
+
+        public hasDetails(selectedElement: NodeList, option: Options) {
+            if (selectedElement != null && selectedElement.length == 1) {
+                if (option.showDetailFor.column == -1) {
+                    if (option.detailsTemplateHtml != null) {
+                        return true;
+                    }
+                } else if (option.columns[option.showDetailFor.column].cellDetail != null) {
+                    return true;
+                }
+            }
+            return false;
+        }
+             
+        
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+           
+        }
+
+
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+
+        }
+
+        public createDefaultHeader(headerCell: any, headerName: string) {
+            var defaultHeader = document.createElement("span");
+            var defaultName = document.createTextNode(headerName);
+            defaultHeader.appendChild(defaultName);
+            headerCell.appendChild(defaultHeader);
+            return headerCell;
         }
 
         public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
@@ -120,28 +156,16 @@ module TesserisPro.TGrid {
             }
         }
 
-        public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
-            var visibleIntentsNumber = level;
-            var cells = target.getElementsByClassName("tgrid-table-indent-cell");
-
-            for (var i = 0; i < cells.length; i++) {
-                grid.hideElement(<Element>cells[i]);
-            }
-            //check that number of existing intent-cells is not more than number of needed intent-cells
-            if (cells.length < level) {
-                visibleIntentsNumber = cells.length;
-            }
-
-            for (var i = 0; i < visibleIntentsNumber; i++) {
-                grid.showTableCellElement(<Element>cells[i]);
-            }
-        }
-
         private addGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].groupMemberPath != null) {
                     var groupByHeaderElement = document.createElement("div");
-                    option.columns[i].header.applyTemplate(groupByHeaderElement);
+                    if (option.columns[i].header != null) {
+                        option.columns[i].header.applyTemplate(groupByHeaderElement);
+                    } else {
+                        var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                        groupByHeaderElement = this.createDefaultHeader(groupByHeaderElement, headerText);
+                    }
 
                     groupByHeaderElement.setAttribute("class", "condition-group-by");
                     groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
@@ -165,6 +189,43 @@ module TesserisPro.TGrid {
             }
         }
 
+        public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
+            if (option.isEnableGrouping) {
+                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
+
+                var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
+                (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header)));
+            } else {
+                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+            }
+        }
+
+        public createDefaultMobileTemplate(rowTemplate: any, option: Options) {
+            for (var i = 0; i < option.columns.length; i++) {
+                if (option.columns[i].device.indexOf("mobile") != -1) {
+                    var mobileColumnContainer = document.createElement("div");
+                    var mobileColumnName = document.createElement("span");
+
+                    if (option.columns[i].member != null) {
+                        mobileColumnName.innerHTML = option.columns[i].member;
+                    } else if (option.columns[i].sortMemberPath != null) {
+                        mobileColumnName.innerHTML = option.columns[i].sortMemberPath;
+                    } else if (option.columns[i].groupMemberPath != null) {
+                        mobileColumnName.innerHTML = option.columns[i].groupMemberPath;
+                    } else {
+                        mobileColumnName.innerHTML = "";
+                    }
+
+                    var columnData = document.createElement("span");
+                    columnData.innerHTML = ": ";
+                    mobileColumnContainer.appendChild(mobileColumnName);
+                    mobileColumnContainer.appendChild(columnData);
+                    rowTemplate.appendChild(mobileColumnContainer);
+                }
+            }
+            return rowTemplate;
+        }
+        
         private showGroupByElements(option: Options, groupByContainer: HTMLElement, grid: TGrid.Grid) {
             var groupByElements = groupByContainer.getElementsByClassName("condition-group-by");
 
@@ -183,7 +244,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        private addListGroupByItems( option: Options, listGroupByElement: HTMLUListElement) {
+        private addListGroupByItems(option: Options, listGroupByElement: HTMLUListElement) {
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].groupMemberPath != null) {
                     var listItemGroupByItems = document.createElement("li");
@@ -197,8 +258,12 @@ module TesserisPro.TGrid {
                         Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
                         Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
                     }
-
-                option.columns[i].header.applyTemplate(listItemGroupByItems);
+                    if (option.columns[i].header != null) {
+                        option.columns[i].header.applyTemplate(listItemGroupByItems);
+                    } else {
+                        var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                        listItemGroupByItems = this.createDefaultHeader(listItemGroupByItems, headerText);
+                    }
                     listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
                     listGroupByElement.appendChild(listItemGroupByItems);
                 }
@@ -226,15 +291,8 @@ module TesserisPro.TGrid {
                 }
             }
             return listGroupByElement;
-        } 
-             
-        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
-
         }
 
-
-        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
-
-        }
+        
     }
 }
