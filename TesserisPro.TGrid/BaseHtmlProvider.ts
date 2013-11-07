@@ -1,6 +1,6 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="ItemViewModel.ts" />
-/// <reference path="FooterViewModel.ts"/>
+/// <reference path="IFooterViewModel.ts"/>
 
 
 module TesserisPro.TGrid {
@@ -20,7 +20,8 @@ module TesserisPro.TGrid {
         public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
             return null;
         }
-
+        public getFooterViewModel() {
+        }
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean){
 
         }
@@ -29,7 +30,7 @@ module TesserisPro.TGrid {
 
         }
 
-        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel) {
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel) {
         }
 
         public updateTableFooterElementDefault(option: Options, footer: HTMLElement, totalItemsCount: number): void {

@@ -94,3 +94,7 @@ TesserisPro.TGrid.Demo/Scripts/footerDirective.js
 TesserisPro.TGrid.Demo/Scripts/FooterDirective.ts
 TesserisPro.TGrid.Demo/Scripts/FooterViewModel.js
 TesserisPro.TGrid.Demo/Scripts/FooterViewModel.ts
+TesserisPro.TGrid.Demo/Scripts/IFooterViewModel.js
+TesserisPro.TGrid.Demo/Scripts/IFooterViewModel.ts
+TesserisPro.TGrid.Demo/Scripts/KnockoutFooterViewModel.js
+TesserisPro.TGrid.Demo/Scripts/KnockoutFooterViewModel.ts

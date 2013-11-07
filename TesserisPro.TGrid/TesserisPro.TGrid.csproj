@@ -20,7 +20,7 @@
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
     <TypeScriptCompile Include="FilterDescriptor.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
-    <TypeScriptCompile Include="FooterViewModel.ts" />
+    <TypeScriptCompile Include="IFooterViewModel.ts" />
     <TypeScriptCompile Include="FilterPopupViewModel.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <Content Include="IHtmlProvider.ts" />
@@ -30,6 +30,7 @@
     <Content Include="Images\arrow_up.png" />
     <Content Include="Images\buttonBlue.jpg" />
     <Content Include="Images\filter.png" />
+    <TypeScriptCompile Include="knockout\KnockoutFooterViewModel.ts" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>

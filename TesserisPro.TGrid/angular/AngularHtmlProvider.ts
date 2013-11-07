@@ -48,6 +48,9 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        public getFooterViewModel() {
+        }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
@@ -196,7 +199,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
             if (footerModel == null && option.isEnablePaging) {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);

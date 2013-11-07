@@ -3,7 +3,8 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../utils.ts" />
-/// <reference path="../FooterViewModel.ts" />
+/// <reference path="../IFooterViewModel.ts" />
+/// <reference path="KnockoutFooterViewModel.ts" />
 
 
 module TesserisPro.TGrid {
@@ -49,7 +50,10 @@ module TesserisPro.TGrid {
 
             return null;
         }
-
+        public getFooterViewModel() {
+            var knockoutFooterViewModel = new KnockoutFooterViewModel(55,10, 0, 0);
+            return knockoutFooterViewModel;
+        }
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
            if (header.innerHTML != null && header.innerHTML != "") {
                //add intends for groupBy
@@ -199,19 +203,27 @@ module TesserisPro.TGrid {
             }
         }
 
-        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: FooterViewModel): void {
+        public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
                 //if there isn't footer template in grid
                 if (footerModel == null && option.isEnablePaging) {
                     this.updateTableFooterElementDefault(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
                     option.tableFooterTemplate.applyTemplate(footer);
-                    var selectedItems = document.getElementsByClassName("selected");
-                    if (selectedItems.length == 1) {
-                        footerModel.selectedItem = selectedItems[0];
-                    } else {
-                        footerModel.selectedItem = selectedItems.length + " elements are selected";
-                    }
+                    //var selectedItems = document.getElementsByClassName("selected");
+                    //if (selectedItems.length == 1) {
+                    //    footerModel.selectedItem = selectedItems[0];
+                    //} else {
+                    //    footerModel.selectedItem = selectedItems.length + " elements are selected";
+                    //}
+
+                    //ko.applyBindings(footerModel, footer);
+                    //if (ko.dataFor(footer) instanceof FooterViewModel) {
+                    //    var FooterModel = ko.dataFor(footer);
+                    //    <FooterViewModel>FooterModel.SetTotalCount(12);
+                    //} else {
+                    ko.dataFor(footer);
                     ko.applyBindings(footerModel, footer);
+                    //}
                 }
         }
 
