@@ -91,13 +91,14 @@ module TesserisPro.TGrid {
         }
 
         private initialize(): void {
-			var text = $(this.target).find("script")[0].innerHTML;
-			var optionsElement = $("<div>" + text + "</div");
-
-            var headers = optionsElement.find("header");
-            var cells = optionsElement.find("cell");
-            var cellDetails = optionsElement.find("celldetail");
-            var columns = optionsElement.find("column");
+			var text = this.target.getElementsByTagName("script")[0].innerHTML;
+            var optionsElement = document.createElement("div");
+            optionsElement.innerHTML = text;
+                       
+            var headers = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("header");
+            var cells = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("cell");
+            var cellDetails = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("celldetail");
+            var columns = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("column");
 
             if (!(headers.length == columns.length && cells.length == columns.length && cellDetails.length == columns.length)) {
                 throw " Columns not fully described ";
@@ -124,18 +125,19 @@ module TesserisPro.TGrid {
             }
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
 
-            var mobileTemplate = optionsElement.find("mobile");
+            var mobileTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("mobile");
+
             this.mobileTemplateHtml = mobileTemplate.length == 1 ? mobileTemplate[0].innerHTML : "Default mobileTemplate";
 
-            var groupHeaderTemplate = optionsElement.find("groupheader");
+            var groupHeaderTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("groupheader");
             this.groupHeaderTemplate = groupHeaderTemplate.length == 1 ? groupHeaderTemplate[0].innerHTML : "Default groupHeaderTemplate";
 
-            var detailsTemplate = optionsElement.find("details");
+            var detailsTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("details");
             this.detailsTemplateHtml = detailsTemplate.length == 1 ? detailsTemplate[0].innerHTML : "Default detailsTemplate";
 
             this.showDetailFor = new ShowDetail();
 
-            var footer = optionsElement.find("footer"); 
+            var footer = optionsElement.getElementsByTagName("footer"); 
 
             if (footer.length != 0) {
                 this.tableFooterTemplate = new Template(footer[0]);
