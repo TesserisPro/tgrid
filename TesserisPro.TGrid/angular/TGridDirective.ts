@@ -52,6 +52,12 @@ module TGrid.Angular {
                     options.isEnableGrouping = attrs["enablegrouping"] == "true" ? true : false;
                 }
 
+                if (attrs["enablefiltering"] == undefined) {
+                    options.isEnableFiltering = false;
+                } else {
+                    options.isEnableFiltering = attrs["enablefiltering"] == "true" ? true : false;
+                }
+
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
             }
 

@@ -71,7 +71,9 @@ module TesserisPro.TGrid {
 
            } else {
                 this.addGroupBy(option, header, groupByContainer);
-                this.addFiltringPopUp(option, filterPopupContainer);
+               if (option.isEnableFiltering) {
+                   this.addFiltringPopUp(option, filterPopupContainer);
+               }
 
                 // Create table header
                 var head = document.createElement("tr");
@@ -82,28 +84,36 @@ module TesserisPro.TGrid {
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
                     headerCell.setAttribute("width", option.columns[i].width);
-                    option.columns[i].header.applyTemplate(headerCell);
+
+                    if (option.columns[i].header != null) {
+                        option.columns[i].header.applyTemplate(headerCell);
+                    } else {
+                        var headerText = option.columns[i].member != null ? option.columns[i].member : "";
+                        headerCell = this.createDefaultHeader(headerCell, headerText);
+                    }
 
                     //filer
-                    var filter = document.createElement("div");
-                    filter.setAttribute("class", "tgrid-filter-button");
-                    (function (i) {
-                        filter.onclick = (e) => {
-                            var left = (<HTMLElement>e.target).offsetLeft;
-                            for (var j = 0; j < i; j++) {
-                                left += parseInt(option.columns[j].width);
-                            }
-                            var el = header.getElementsByClassName("tgrid-table-indent-cell");
-                            if (el.length > 0) {
-                                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                                    left += 20;
+                    if (option.isEnableFiltering) {
+                        var filter = document.createElement("div");
+                        filter.setAttribute("class", "tgrid-filter-button");
+                        (function (i) {
+                            filter.onclick = (e) => {
+                                var left = (<HTMLElement>e.target).offsetLeft;
+                                for (var j = 0; j < i; j++) {
+                                    left += parseInt(option.columns[j].width);
                                 }
-                            }
-                            Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
-                            e.cancelBubble = true;
-                        };
-                    })(i);
-                    headerCell.appendChild(filter);
+                                var el = header.getElementsByClassName("tgrid-table-indent-cell");
+                                if (el.length > 0) {
+                                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                                        left += 20;
+                                    }
+                                }
+                                Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
+                                e.cancelBubble = true;
+                            };
+                        })(i);
+                        headerCell.appendChild(filter);
+                    }
 
                     // Method changing sorting
                     (function (i) {
@@ -181,11 +191,12 @@ module TesserisPro.TGrid {
             }
 
             var selectedElement = container.getElementsByClassName("selected");
-            var details = this.buildDetailsRow(option);
-            details.setAttribute("class", "details");
 
             // Insert row details after selected item
-            if (selectedElement != null && selectedElement.length == 1) {
+           // if (selectedElement != null && selectedElement.length == 1) {
+            if (this.hasDetails(selectedElement, option)){
+                var details = this.buildDetailsRow(option);
+                details.setAttribute("class", "details");
                 insertAfter(selectedElement[0], details);
                 ko.applyBindings(option.showDetailFor, details);
             }
@@ -196,7 +207,6 @@ module TesserisPro.TGrid {
                 if (footerModel == null && option.isEnablePaging) {
                     this.updateTableFooterElementDefault(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
-
                     option.tableFooterTemplate.applyTemplate(footer);
                     var selectedItems = document.getElementsByClassName("selected");
                     if (selectedItems.length == 1) {
@@ -236,7 +246,13 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("width", option.columns[i].width);
-                option.columns[i].cell.applyTemplate(cell);
+                if (option.columns[i].cell != null) {
+                    option.columns[i].cell.applyTemplate(cell);
+                } else {
+                    if (option.columns[i].member != null) {
+                        cell = this.createDefaultCell(cell, option.columns[i].member);
+                    }
+                }
                 row.appendChild(cell);
             }
 
@@ -265,13 +281,14 @@ module TesserisPro.TGrid {
 
             detailTr.setAttribute("class", "details")
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-            detailTd.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+            option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailTd) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailTd);
             detailTr.appendChild(detailTd);
 
             return detailTr;
         }
 
         private buildGroupHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
+
             var headerTr = document.createElement("tr");
             var headerTd = document.createElement("td");
 
@@ -291,26 +308,30 @@ module TesserisPro.TGrid {
                     }
                 }
             }
-
-            headerTd.innerHTML = option.groupHeaderTemplate;
+            if (option.groupHeaderTemplate != null) {
+                option.groupHeaderTemplate.applyTemplate(headerTd);//(!groupHeaderDescriptor.collapse ? "close" : "open") +
+            } else {
+                headerTd = this.createDefaultGroupHeader(headerTd);
+            }
+                     
 
             headerTr.appendChild(headerTd);
 
             return headerTr;
         }
 
-        private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
+        private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number): Node {
             if (option.sortDescriptor.asc) {
                 var up = document.createElement("div");
                 up.classList.add("tgrid-arrow-up");
-                htmlNode.appendChild(up);
+                sortArrowContainer.appendChild(up);
             }
             if (!option.sortDescriptor.asc) {
                 var down = document.createElement("div");
                 down.classList.add("tgrid-arrow-down");
-                htmlNode.appendChild(down);
+                sortArrowContainer.appendChild(down);
             }
-            return htmlNode;
+            return sortArrowContainer;
         }
 
         private removeArrows(htmlNode: HTMLElement): void {
@@ -332,7 +353,7 @@ module TesserisPro.TGrid {
                 target.appendChild(cell);
             }
         }
-
+       
         // Mobile Methods
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {
@@ -459,11 +480,12 @@ module TesserisPro.TGrid {
             }
 
             var selectedElement = container.getElementsByClassName("selected");
-            var details = this.buildMobileDetailsRow(option);
-            details.setAttribute("class", "details");
 
             // Insert row details after selected item
-            if (selectedElement != null && selectedElement.length == 1) {
+            //if (selectedElement != null && selectedElement.length == 1) {
+             if(this.hasDetails(selectedElement, option)){
+                var details = this.buildMobileDetailsRow(option);
+                details.setAttribute("class", "details");
                 insertAfter(selectedElement[0], details);
                 ko.applyBindings(option.showDetailFor, details);
             }
@@ -473,7 +495,7 @@ module TesserisPro.TGrid {
 
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
-            if (item.isGroupHeader) {
+            if (item.isGroupHeader && option.groupHeaderTemplate != null) {
                 var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
                 container.appendChild(mobileGroupHeader);
                 ko.applyBindings(item, mobileGroupHeader);
@@ -497,7 +519,14 @@ module TesserisPro.TGrid {
                 row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
             }
 
-            row.innerHTML += "<div class='tgrid-mobile-div'>" + option.mobileTemplateHtml + "</div>";
+            var rowTemplate = document.createElement("div");
+            rowTemplate.setAttribute("class", 'tgrid-mobile-div');
+            if (option.mobileTemplateHtml != null) {
+                option.mobileTemplateHtml.applyTemplate(rowTemplate);
+            } else {
+                rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
+            } 
+            row.appendChild(rowTemplate);
 
             var placeholderColumn = document.createElement("td");
             placeholderColumn.setAttribute("class", "tgrid-placeholder");
@@ -520,8 +549,8 @@ module TesserisPro.TGrid {
         private buildMobileDetailsRow(option: Options): HTMLElement {
             var detailDiv = document.createElement("div");
 
-            detailDiv.setAttribute("class", "tgrid-mobile-details ")
-            detailDiv.innerHTML = option.showDetailFor.column == -1 ? option.detailsTemplateHtml : option.columns[option.showDetailFor.column].cellDetail;
+            detailDiv.setAttribute("class", "tgrid-mobile-details ");
+            option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailDiv) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailDiv); 
 
             return detailDiv;
         }
@@ -543,13 +572,30 @@ module TesserisPro.TGrid {
                     }
                 }
             }
-
-            headerDiv.innerHTML = option.groupHeaderTemplate;
+            if (option.groupHeaderTemplate != null) {
+                option.groupHeaderTemplate.applyTemplate(headerDiv);
+            }
 
             return headerDiv;
         }
 
+        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string) : HTMLTableCellElement {           
+            var spanForCell = document.createElement("span");
+            var textBinding = "text: item.".concat(defaultCellBindingName)
+            spanForCell.setAttribute("data-bind", textBinding);
+            cell.appendChild(spanForCell);
 
-
+            return cell;
+        }
+        private createDefaultGroupHeader(tableRowElement: any) {
+            var groupHeaderContainer = document.createElement("div");
+            var groupHeaderName = document.createElement("span");
+            groupHeaderName.setAttribute("data-bind", "text: item.value");
+            groupHeaderName.setAttribute("style", "color: green;");
+            groupHeaderContainer.appendChild(groupHeaderName);
+            tableRowElement.appendChild(groupHeaderContainer);
+            return tableRowElement;
+        }
+        
     }
 }

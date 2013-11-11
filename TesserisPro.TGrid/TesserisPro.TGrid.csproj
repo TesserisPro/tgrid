@@ -21,7 +21,6 @@
     <TypeScriptCompile Include="FilterDescriptor.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
     <TypeScriptCompile Include="FooterViewModel.ts" />
-    <TypeScriptCompile Include="FooterDirective.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />
@@ -35,12 +34,14 @@
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="knockout\TGridBinding.ts" />
+    <None Include="tgrid.ajaxmin">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Options.js">
       <DependentUpon>Options.ts</DependentUpon>
     </Content>
     <Content Include="Options.ts" />
     <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <Content Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -71,11 +72,6 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -119,8 +115,11 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
+  <Import Project="$(SolutionDir)tools\ajaxmin.tasks" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(ProjectDir)*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+    <PostBuildEvent>copy /Y "$(ProjectDir)bin\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+
+copy /Y "$(ProjectDir)*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 

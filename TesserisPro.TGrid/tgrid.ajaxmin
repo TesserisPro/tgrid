@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+  
+  <output path="bin/tgrid-min.js">
+    <input path="BaseHtmlProvider.js"/>
+    <input path="FilterDescriptor.js"/>
+    <input path="FooterViewModel.js"/>
+    <input path="GroupHeaderDescriptor.js"/>
+    <input path="IHtmlProvider.js"/>
+    <input path="IItemProvider.js"/>
+    <input path="ItemViewModel.js"/>
+    <input path="Options.js"/>
+    <input path="SortDescriptor.js"/>
+    <input path="TGrid.js"/>
+    <input path="utils.js"/>
+  </output>
+
+  <output path="bin/tgrid-angular-min.js">
+    <input path="angular/AngularHtmlProvider.js"/>
+    <input path="angular/TGridDirective.js"/>
+  </output>
+
+  <output path="bin/tgrid-knockout-min.js">
+    <input path="knockout/KnockoutHtmlProvider.js"/>
+    <input path="knockout/TGridBinding.js"/>
+  </output>
+  
+</root>

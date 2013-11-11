@@ -2,13 +2,20 @@
     position: relative;
 }
 
-.tgrid-table, .group-by-container {
+.tgrid-table{
+    border-bottom: 1px solid rgb(122,188,255);
+}
+
+.tgrid-table, 
+.group-by-container {
     border-collapse: collapse;
     width: 100%;
     background: rgb(222,239,255);
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header, .condition-group-by {
+    .tgrid-table thead tr th, 
+    .tgrid-mobile-header, 
+    .condition-group-by {
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
@@ -31,7 +38,8 @@
     border-right: 1px solid rgb(122,188,255);
 }
 
-.tgrid-table tbody tr td, .tgrid-table-group-header {
+.tgrid-table tbody tr td, 
+.tgrid-table-group-header {
     padding: 2px;
     border-top: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
