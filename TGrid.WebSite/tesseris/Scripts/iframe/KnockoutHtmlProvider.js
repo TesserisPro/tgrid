@@ -11,6 +11,7 @@ var TesserisPro;
     /// <reference path="../BaseHtmlProvider.ts" />
     /// <reference path="../ItemViewModel.ts" />
     /// <reference path="../utils.ts" />
+    /// <reference path="../FooterViewModel.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -56,7 +57,7 @@ var TesserisPro;
                 return null;
             };
 
-            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, isSortable) {
+            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, isSortable) {
                 if (header.innerHTML != null && header.innerHTML != "") {
                     //add intends for groupBy
                     this.showNeededIntends(header, option.groupBySortDescriptor.length, TGrid.Grid.getGridObject(header));
@@ -71,9 +72,11 @@ var TesserisPro;
                             }
                         }
                     }
+
                     this.updateGroupByElements(option, header, groupByContainer);
                 } else {
                     this.addGroupBy(option, header, groupByContainer);
+                    this.addFiltringPopUp(option, filterPopupContainer);
 
                     // Create table header
                     var head = document.createElement("tr");
@@ -85,6 +88,27 @@ var TesserisPro;
                         var headerCell = document.createElement("th");
                         headerCell.setAttribute("width", option.columns[i].width);
                         option.columns[i].header.applyTemplate(headerCell);
+
+                        //filer
+                        var filter = document.createElement("div");
+                        filter.setAttribute("class", "tgrid-filter-button");
+                        (function (i) {
+                            filter.onclick = function (e) {
+                                var left = (e.target).offsetLeft;
+                                for (var j = 0; j < i; j++) {
+                                    left += parseInt(option.columns[j].width);
+                                }
+                                var el = header.getElementsByClassName("tgrid-table-indent-cell");
+                                if (el.length > 0) {
+                                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                                        left += 20;
+                                    }
+                                }
+                                TGrid.Grid.getGridObject(e.target).showFilterBox((filterPopupContainer), option.columns[i].sortMemberPath, left);
+                                e.cancelBubble = true;
+                            };
+                        })(i);
+                        headerCell.appendChild(filter);
 
                         // Method changing sorting
                         (function (i) {
@@ -166,6 +190,21 @@ var TesserisPro;
                 if (selectedElement != null && selectedElement.length == 1) {
                     insertAfter(selectedElement[0], details);
                     ko.applyBindings(option.showDetailFor, details);
+                }
+            };
+
+            KnockoutHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
+                if (footerModel == null && option.isEnablePaging) {
+                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                } else if (option.tableFooterTemplate != null) {
+                    option.tableFooterTemplate.applyTemplate(footer);
+                    var selectedItems = document.getElementsByClassName("selected");
+                    if (selectedItems.length == 1) {
+                        footerModel.selectedItem = selectedItems[0];
+                    } else {
+                        footerModel.selectedItem = selectedItems.length + " elements are selected";
+                    }
+                    ko.applyBindings(footerModel, footer);
                 }
             };
 

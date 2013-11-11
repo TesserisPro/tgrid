@@ -87,7 +87,6 @@ img, fieldset {
     right: 0;
     left: 0;
     width: 100%;
-    color: #fff;
     font-size: 10px;
     line-height: 16px;
     background-color: #8B7D7B;
@@ -135,7 +134,7 @@ img, fieldset {
     position: absolute;
     top: 0;
     left: 0;
-    background: url(/Content/images/gears5.png), whitesmoke;
+    background: url(/TGrid.Demo/Content/images/gears5.png), whitesmoke;
     /*background: url(/Content/images/gears5.png),-webkit-gradient(radial, center center, 0, center center, 460, from(white), to(#EEE9E9));
     background: url(/Content/images/gears5.png),-webkit-radial-gradient(circle, white, #EEE9E9);
     background: url(/Content/images/gears5.png) no-repeat left,-moz-radial-gradient(circle, white, #EEE9E9);
@@ -538,11 +537,12 @@ footer .centered-content {
     background: -o-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
 }
 #list{
-    display: none;
+    display: inline-block;
     width:260px;
     height:auto;
     background:white;
     margin-bottom: 40px;
+    position:absolute;
 }
 
 #list ul{
@@ -550,6 +550,7 @@ footer .centered-content {
     padding: 0;
     list-style: none;
     text-align: right;
+    height: 100%;
 }
 
 #list ul a {
@@ -566,8 +567,8 @@ footer .centered-content {
     color:red;
 }
 #main-frame{
-    visibility: hidden;
-    height:0;
+    visibility: visible;
+    height: 560px;
     width: 590px;   
     margin-left: 20px;
     border: none;
@@ -575,4 +576,87 @@ footer .centered-content {
 #list ul li a.active{
     background: red;
     color: white;
+}
+
+#ace-code{
+    width:200px; 
+    height:200px;  
+    height: 560px;
+    width: 590px;
+    margin-left: 20px;
+    border: 1px solid #cacaca; 
+    border-top:none;
+    margin-bottom: 20px; 
+    margin-top: 20px;
+}
+
+#ace-code header {
+    font-size: 12px;
+    border-top: 1px solid #cacaca;
+    border-bottom: 1px solid #cacaca;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #f1f1f1));
+    background: -webkit-linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    background: -moz-linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    background: -o-linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    background: -ms-linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    background: linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    height: 26px;
+    -webkit-box-shadow: inset 0 -1px 0 #f9f9f9;
+    box-shadow: inset 0 -1px 0 #f9f9f9;    
+}
+
+#ace-code .header-draggable {
+    position: static;
+    width: 100%;
+    height: 14px;
+    font-size: inherit;
+    cursor: ns-resize;
+}
+
+#ace-code .editor-menu {
+    margin: 6px 0 0 0;
+}
+
+#ace-code .editor-menu > li {
+    float: left;
+    margin: 0;
+    margin-right: 7px;
+    list-style-type:none;
+}
+
+#ace-code .editor-menu > li a.active {
+    color: #fff;
+    text-shadow: 0 1px 0 #535353;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #313131), color-stop(1, #747474));
+    background: -webkit-linear-gradient(top, #313131 0%, #747474 100%);
+    background: -moz-linear-gradient(top, #313131 0%, #747474 100%);
+    background: -o-linear-gradient(top, #313131 0%, #747474 100%);
+    background: -ms-linear-gradient(top, #313131 0%, #747474 100%);
+    background: linear-gradient(top, #313131 0%, #747474 100%);
+    -webkit-box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 #fff;
+    border-radius: 4px;
+}
+
+#ace-code .editor-menu > li a{
+    color: gray;
+    text-shadow:none;
+}
+
+#ace-code header ul{
+    padding-left: 11px;
+}
+
+.editor-container div{
+    max-width: 590px;
+    max-height: 530px;
+}
+
+.syntaxhighlighter .toolbar{
+    display:none;
+}
+
+.syntaxhighlighter table{
+    max-width: 590px !important;
+    max-height: 530px !important;
 }

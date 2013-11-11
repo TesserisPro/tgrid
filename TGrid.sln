@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid", "TesserisPro.TGrid\TesserisPro.TGrid.csproj", "{F9339722-A757-47E2-897B-70AB9D202365}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Demo", "TesserisPro.TGrid.Demo\TesserisPro.TGrid.Demo.csproj", "{E7ECF736-2221-469C-B45F-D6E4205CB8B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F9339722-A757-47E2-897B-70AB9D202365} = {F9339722-A757-47E2-897B-70AB9D202365}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Server", "TesserisPro.TGrid.Server\TesserisPro.TGrid.Server.csproj", "{4CF2255A-2D4A-4922-8D2C-A9B6BC086417}"
 EndProject

@@ -1,0 +1,60 @@
+﻿
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shCore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushXml.js")"></script>
+
+
+<link type="text/css" rel="stylesheet"  href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
+<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', /*groupBy: ['name'],*/ enableVirtualScroll: 'false', enablePaging: 'false', enableGrouping: 'false' }">
+    <script type="text/html">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
+            <header>
+                <span data-bind="text: nameColumnTitle"></span>
+            </header>
+            <cell>
+                <span data-bind="text: item.name"></span>
+            </cell>
+            <celldetail>
+
+            </celldetail>
+        </column>
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key" data-g-group-member="key">
+            <header>Last Name</header>
+            <cell>
+                <span data-bind="text: item.key"></span>
+            </cell>
+            <celldetail>
+            </celldetail>
+        </column>
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="key2" data-g-group-member="key2">
+            <header>
+                <span>Age</span>
+            </header>
+            <cell>
+                <span data-bind="text: item.key2"></span>
+            </cell>
+            <celldetail>
+            </celldetail>
+        </column>
+
+        <groupheader>
+            <div>
+                <span style="color: brown;" data-bind="text: item.value"></span>
+            </div>
+        </groupheader>
+
+        <mobile>
+        </mobile>
+
+         <details>
+        </details>
+    </script>
+</div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

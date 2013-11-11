@@ -2,6 +2,7 @@ var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="IHtmlProvider.ts" />
     /// <reference path="ItemViewModel.ts" />
+    /// <reference path="FooterViewModel.ts"/>
     (function (TGrid) {
         var BaseHtmlProvider = (function () {
             function BaseHtmlProvider() {
@@ -20,13 +21,16 @@ var TesserisPro;
                 return null;
             };
 
-            BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, isSortable) {
+            BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, isSortable) {
             };
 
             BaseHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
             };
 
-            BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount) {
+            BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
+            };
+
+            BaseHtmlProvider.prototype.updateTableFooterElementDefault = function (option, footer, totalItemsCount) {
                 var firstVisiblePage = option.currentPage - option.pageSlide;
 
                 if (firstVisiblePage < 0) {
@@ -58,7 +62,7 @@ var TesserisPro;
                 if (lastVisiblePage < (pageCount - 1)) {
                     pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
                 }
-
+                footer.innerHTML = "";
                 footer.appendChild(pagerElement);
             };
 
@@ -72,33 +76,42 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.updateGroupByElements = function (option, header, groupByContainer) {
-                this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
+                if (option.isEnableGrouping) {
+                    this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
 
-                var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
-                (listButtonContainer[0]).appendChild(this.showListGroupByItems(option, ((listButtonContainer[0]).children[1]), TGrid.Grid.getGridObject(header)));
+                    var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
+                    (listButtonContainer[0]).appendChild(this.showListGroupByItems(option, ((listButtonContainer[0]).children[1]), TGrid.Grid.getGridObject(header)));
+                } else {
+                    TGrid.Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+                }
             };
 
             BaseHtmlProvider.prototype.addGroupBy = function (option, header, groupByContainer) {
-                this.addGroupByElements(option, groupByContainer);
-                this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
+                if (option.isEnableGrouping) {
+                    TGrid.Grid.getGridObject(groupByContainer).showDivElement(groupByContainer);
+                    this.addGroupByElements(option, groupByContainer);
+                    this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
 
-                var listButtonContainerElement = document.createElement("div");
-                listButtonContainerElement.setAttribute("class", "list-button-container");
-                var listGroupByElement = document.createElement("ul");
-                listGroupByElement.setAttribute("class", "group-by-ul");
-                var groupByButtonElement = document.createElement("a");
-                groupByButtonElement.setAttribute("class", "button-group-by");
+                    var listButtonContainerElement = document.createElement("div");
+                    listButtonContainerElement.setAttribute("class", "list-button-container");
+                    var listGroupByElement = document.createElement("ul");
+                    listGroupByElement.setAttribute("class", "group-by-ul");
+                    var groupByButtonElement = document.createElement("a");
+                    groupByButtonElement.setAttribute("class", "button-group-by");
 
-                groupByButtonElement.onclick = function (e) {
-                    TGrid.Grid.getGridObject(e.target).showHideListOnClick((e.target).nextElementSibling);
-                };
-                listButtonContainerElement.appendChild(groupByButtonElement);
+                    groupByButtonElement.onclick = function (e) {
+                        TGrid.Grid.getGridObject(e.target).showHideListOnClick((e.target).nextElementSibling);
+                    };
+                    listButtonContainerElement.appendChild(groupByButtonElement);
 
-                var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
-                this.showListGroupByItems(option, listGroupByToChooseFrom, TGrid.Grid.getGridObject(header));
+                    var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
+                    this.showListGroupByItems(option, listGroupByToChooseFrom, TGrid.Grid.getGridObject(header));
 
-                listButtonContainerElement.appendChild(listGroupByElement);
-                groupByContainer.appendChild(listButtonContainerElement);
+                    listButtonContainerElement.appendChild(listGroupByElement);
+                    groupByContainer.appendChild(listButtonContainerElement);
+                } else {
+                    TGrid.Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+                }
             };
 
             BaseHtmlProvider.prototype.showNeededIntends = function (target, level, grid) {
@@ -118,29 +131,84 @@ var TesserisPro;
                 }
             };
 
+            BaseHtmlProvider.prototype.addFiltringPopUp = function (option, filterPopupContainer) {
+                var filterCondition = document.createElement("select");
+
+                // append filter conditions
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.None.toString();
+                selectOption.text = "none";
+                filterCondition.appendChild(selectOption);
+
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.Equals.toString();
+                selectOption.text = "=";
+                filterCondition.appendChild(selectOption);
+
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
+                selectOption.text = "<>";
+                filterCondition.appendChild(selectOption);
+
+                // end append filter conditions
+                filterPopupContainer.appendChild(filterCondition);
+                filterCondition.selectedIndex = 1;
+
+                filterPopupContainer.innerHTML += "<br>";
+
+                var filterText = document.createElement("input");
+                filterText.setAttribute("value", "c3");
+                filterPopupContainer.appendChild(filterText);
+
+                filterPopupContainer.innerHTML += "<br>";
+
+                var applyButton = document.createElement("button");
+                applyButton.innerText = "apply";
+                applyButton.onclick = function (e) {
+                    TGrid.Grid.getGridObject(e.target).addFilter(option.filterPath, filterPopupContainer.getElementsByTagName("input")[0].value, filterPopupContainer.getElementsByTagName("select")[0].selectedIndex, filterPopupContainer);
+                };
+                filterPopupContainer.appendChild(applyButton);
+
+                var clearButton = document.createElement("button");
+                clearButton.innerText = "clear";
+                clearButton.onclick = function (e) {
+                    TGrid.Grid.getGridObject(e.target).clearFilter(option.filterPath, filterPopupContainer);
+                };
+                filterPopupContainer.appendChild(clearButton);
+
+                var exitButton = document.createElement("button");
+                exitButton.innerText = "exit";
+                exitButton.onclick = function (e) {
+                    TGrid.Grid.getGridObject(e.target).hideElement(filterPopupContainer);
+                };
+                filterPopupContainer.appendChild(exitButton);
+            };
+
             BaseHtmlProvider.prototype.addGroupByElements = function (option, groupByContainer) {
                 for (var i = 0; i < option.columns.length; i++) {
-                    var groupByHeaderElement = document.createElement("div");
-                    option.columns[i].header.applyTemplate(groupByHeaderElement);
+                    if (option.columns[i].groupMemberPath != null) {
+                        var groupByHeaderElement = document.createElement("div");
+                        option.columns[i].header.applyTemplate(groupByHeaderElement);
 
-                    groupByHeaderElement.setAttribute("class", "condition-group-by");
-                    groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
+                        groupByHeaderElement.setAttribute("class", "condition-group-by");
+                        groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
 
-                    //create deleteGroupByElement
-                    var deleteGroupByElement = document.createElement("input");
-                    deleteGroupByElement.setAttribute("type", "button");
-                    deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                    deleteGroupByElement.setAttribute("value", "x");
-                    deleteGroupByElement["data-delete-groupby"] = new TGrid.SortDescriptor(option.columns[i].groupMemberPath, true);
+                        //create deleteGroupByElement
+                        var deleteGroupByElement = document.createElement("input");
+                        deleteGroupByElement.setAttribute("type", "button");
+                        deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
+                        deleteGroupByElement.setAttribute("value", "x");
+                        deleteGroupByElement["data-delete-groupby"] = new TGrid.SortDescriptor(option.columns[i].groupMemberPath, true);
 
-                    //adding function to delete GroupBy condition by clicking on close button
-                    deleteGroupByElement.onclick = function (e) {
-                        var groupByElement = e.target["data-delete-groupby"];
-                        TGrid.Grid.getGridObject(e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
-                    };
+                        //adding function to delete GroupBy condition by clicking on close button
+                        deleteGroupByElement.onclick = function (e) {
+                            var groupByElement = e.target["data-delete-groupby"];
+                            TGrid.Grid.getGridObject(e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
+                        };
 
-                    groupByHeaderElement.appendChild(deleteGroupByElement);
-                    groupByContainer.appendChild(groupByHeaderElement);
+                        groupByHeaderElement.appendChild(deleteGroupByElement);
+                        groupByContainer.appendChild(groupByHeaderElement);
+                    }
                 }
             };
 
@@ -164,21 +232,23 @@ var TesserisPro;
 
             BaseHtmlProvider.prototype.addListGroupByItems = function (option, listGroupByElement) {
                 for (var i = 0; i < option.columns.length; i++) {
-                    var listItemGroupByItems = document.createElement("li");
+                    if (option.columns[i].groupMemberPath != null) {
+                        var listItemGroupByItems = document.createElement("li");
 
-                    listItemGroupByItems.onclick = function (e) {
-                        //get top ancestor, because event fires on the last nested element
-                        var el = e.target;
-                        while (el && el.nodeName !== 'LI') {
-                            el = el.parentNode;
-                        }
-                        TGrid.Grid.getGridObject(e.target).addGroupBy((el["data-group-by-condition"]), true);
-                        TGrid.Grid.getGridObject(e.target).hideElement(el.parentNode);
-                    };
+                        listItemGroupByItems.onclick = function (e) {
+                            //get top ancestor, because event fires on the last nested element
+                            var el = e.target;
+                            while (el && el.nodeName !== 'LI') {
+                                el = el.parentNode;
+                            }
+                            TGrid.Grid.getGridObject(e.target).addGroupBy((el["data-group-by-condition"]), true);
+                            TGrid.Grid.getGridObject(e.target).hideElement(el.parentNode);
+                        };
 
-                    option.columns[i].header.applyTemplate(listItemGroupByItems);
-                    listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
-                    listGroupByElement.appendChild(listItemGroupByItems);
+                        option.columns[i].header.applyTemplate(listItemGroupByItems);
+                        listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
+                        listGroupByElement.appendChild(listItemGroupByItems);
+                    }
                 }
 
                 return listGroupByElement;

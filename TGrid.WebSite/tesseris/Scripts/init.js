@@ -9,11 +9,6 @@
     
     //$('#top').width($('#wrapper').width());
     //$('#bottom').width($('#wrapper').width());    
-
-    $('#list ul li a').click(function () {
-        $('#list ul li a').removeClass('active');
-        $(this).addClass('active');
-    });
-  
-    $("#SimpleGridWithoutPaging").trigger('click');
+      
+    
 })

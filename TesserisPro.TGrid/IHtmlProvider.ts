@@ -1,7 +1,5 @@
 /// <reference path="Options.ts" />
 /// <reference path="ItemViewModel.ts" />
-/// <reference path="FooterViewModel.ts"/>
-
 
 module TesserisPro.TGrid {
     export interface IHtmlProvider {
@@ -15,5 +13,6 @@ module TesserisPro.TGrid {
         updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
         updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
         updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
+        addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel): void;
     }
 }

@@ -3,6 +3,7 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="IItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
+/// <reference path="FilterPopupViewModel.ts"/>
 /// <reference path="angular/AngularHtmlProvider.ts" />
 /// <reference path="GroupHeaderDescriptor.ts" />
 /// <reference path="utils.ts" />
@@ -27,7 +28,7 @@ module TesserisPro.TGrid {
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
-        private options: Options;
+        public options: Options;
 
         private firstVisibleItemIndex: number;
         private totalItemsCount: number;
@@ -38,6 +39,7 @@ module TesserisPro.TGrid {
         private isPreloadingNext: boolean = false;
         private isPreloadingPrevious: boolean = false;
         private footerViewModel: FooterViewModel;
+        private filterPopupViewModel: FilterPopupViewModel;
 
         private collapsedFilterGroup: FilterDescriptor[][];
 
@@ -673,9 +675,22 @@ module TesserisPro.TGrid {
             return this.footerViewModel;
         }
 
-        private refreshHeader() {            
+        private getFilterPopupViewModel(container: HTMLElement): FilterPopupViewModel {
+            this.filterPopupViewModel = new FilterPopupViewModel(container);
+            return this.filterPopupViewModel;
+        }
+
+        private refreshHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable());
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
+            if (this.filterPopupViewModel == null) {
+                (function (grid) {
+                    setTimeout(function () {
+                        grid.htmlProvider.addFiltringPopUp(grid.options, grid.filterPopUp, grid.getFilterPopupViewModel(grid.filterPopUp))
+                    }, 1)
+                }) (this);
+            }
+        
         }
 
         private refreshBody(withBuisy: boolean = false) {
@@ -704,6 +719,7 @@ module TesserisPro.TGrid {
                                 }
                                 //updateFooter
                                 if (this.options.tableFooterTemplate != null) {
+                                    
                                     this.footerViewModel = this.getFooter(this.totalItemsCount, this.options.selection[0]);
                                 } else {
                                     this.footerViewModel = null;
@@ -768,12 +784,12 @@ module TesserisPro.TGrid {
             this.buisyIndicator.setAttribute("style", "display: none;");
         }
 
-        public setFilters(filterDescriptor: FilterDescriptor) {
+        public setCollapsedFilters(filterDescriptor: FilterDescriptor) {
             this.collapsedFilterGroup[filterDescriptor.children.length].push(filterDescriptor);
             this.refreshBody();
         }
 
-        public removeFilters(filterDescriptor: FilterDescriptor) {
+        public removeCollapsedFilters(filterDescriptor: FilterDescriptor) {
             for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
                 if (this.isFiltersEquals(this.collapsedFilterGroup[filterDescriptor.children.length][i], filterDescriptor)) {
                     this.collapsedFilterGroup[filterDescriptor.children.length].splice(i, 1);
@@ -782,5 +798,18 @@ module TesserisPro.TGrid {
             this.refreshBody();
        }
 
+        public setFilters(filterDescriptor: FilterDescriptor) {
+            this.options.filterDescriptors.push(filterDescriptor);
+            this.refreshBody();
+        }
+
+        public removeFilters(filterDescriptor: FilterDescriptor) {
+            for (var i = 0; i < this.options.filterDescriptors.length; i++) {
+                if (this.isFiltersEquals(this.options.filterDescriptors[i], filterDescriptor)) {
+                    this.options.filterDescriptors.splice(i, 1);
+                }
+            }
+            this.refreshBody();
+        }
     }
 }
