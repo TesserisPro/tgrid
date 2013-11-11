@@ -18,7 +18,9 @@ module TesserisPro.TGrid {
         private headerContainer: HTMLElement;
         private tableBody: HTMLElement;
         private tableBodyContainer: HTMLElement;
+
         private tableFooter: HTMLElement;
+
         private tableHeader: HTMLElement;
         private mobileContainer: HTMLElement;
         private mobileHeader: HTMLElement;
@@ -39,7 +41,9 @@ module TesserisPro.TGrid {
         private visibleViewModels: Array<ItemViewModel>;
         private isPreloadingNext: boolean = false;
         private isPreloadingPrevious: boolean = false;
+
         private footerViewModel: IFooterViewModel;
+
         private filterPopupViewModel: FilterPopupViewModel;
 
         private collapsedFilterGroup: FilterDescriptor[][];
@@ -59,7 +63,7 @@ module TesserisPro.TGrid {
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
 
-            this.footerViewModel = this.getFooterViewModel();
+            this.footerViewModel = this.htmlProvider.getFooterViewModel();
 
             this.rootElement = document.createElement("div");
             this.rootElement.className = "tgrid-root";
@@ -118,7 +122,9 @@ module TesserisPro.TGrid {
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.rootElement.appendChild(this.tableFooter);
+            this.refreshFooter();
 
+                        
             if (options.isEnableVirtualScroll) {
                 this.buisyIndicator = document.createElement("div");
                 this.buisyIndicator.className = "tgrid-buisy-indicator";
@@ -141,12 +147,9 @@ module TesserisPro.TGrid {
             if (this.options.groupBySortDescriptor.length > 0) {
                 this.refreshHeader();
                 this.refreshBody(options.isEnableVirtualScroll);
-                    this.refreshFooter();
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
-                this.refreshFooter();
             }
-
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -242,10 +245,6 @@ module TesserisPro.TGrid {
             }
 
             return allFilter;
-        }
-
-        private getFooterViewModel() {
-            return this.htmlProvider.getFooterViewModel();
         }
 
         public scrollTable(): void {
@@ -481,7 +480,6 @@ module TesserisPro.TGrid {
             this.clearFilter(path, element, false);
             this.options.filterDescriptors.push(new FilterDescriptor(path, value, condition));
             this.refreshBody();
-            this.footerViewModel.setTotalCount(this.totalItemsCount);
             this.hideElement(element);
         }
 
@@ -493,7 +491,6 @@ module TesserisPro.TGrid {
             }
             if (refresh) {
                 this.refreshBody();
-                this.footerViewModel.setTotalCount(this.totalItemsCount);
             }
             this.hideElement(element);
         }
@@ -514,8 +511,6 @@ module TesserisPro.TGrid {
             this.options.currentPage = page;
             this.refreshHeader();
             this.refreshBody();
-            this.footerViewModel.setCurrentPage(this.options.currentPage + 1);
-            this.htmlProvider.updateTableFooterElementDefault(this.options, this.tableFooter, this.totalItemsCount);
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
@@ -530,17 +525,15 @@ module TesserisPro.TGrid {
                     }
 
                     this.options.selection.push(item.item);
-                    this.footerViewModel.setSelectedItem(this.options.selection.length);                  
+      
                 }
                 else {
                     this.options.selection = [item.item];                   
                 }
             } else if (this.options.selectionMode == SelectionMode.Single) {
                 this.options.selection = [item.item];
-                this.footerViewModel.setSelectedItem(this.options.selection[0]); 
             } else {
                 this.options.selection = null;
-                this.footerViewModel.setSelectedItem(0);
             }
 
             if (this.options.selection.length == 1) {
@@ -550,6 +543,7 @@ module TesserisPro.TGrid {
             this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.options.showDetailFor.item);
             this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.options.showDetailFor.item);
             this.options.showDetailFor = new ShowDetail();
+            this.updateFooterViewModel();
             return true;
         }
 
@@ -710,6 +704,7 @@ module TesserisPro.TGrid {
                                 this.visibleItems = items;
                                 this.visibleViewModels = this.buildViewModels(this.visibleItems );
                                 this.updateVisibleItems();
+                                this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
                                 }
@@ -730,6 +725,7 @@ module TesserisPro.TGrid {
                                 this.visibleItems = items;
                                 this.visibleViewModels = this.buildViewModels(this.visibleItems);
                                 this.updateVisibleItems();
+                                this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
                                 }
@@ -740,16 +736,17 @@ module TesserisPro.TGrid {
         }
 
         private refreshFooter() {
-            this.itemProvider.getTotalItemsCount(
-                this.getEffectiveFiltering(),
-                totalitemsCount => {
-                    this.tableFooter.innerHTML = "";
-                    this.totalItemsCount = totalitemsCount;
-                    if (this.options.tableFooterTemplate == null) {
-                        this.footerViewModel = null;
-                    }
-                    this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount, this.footerViewModel);
-                });
+            this.tableFooter.innerHTML = "";
+            this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount, this.footerViewModel);
+        }
+
+        private updateFooterViewModel() {
+            if (this.footerViewModel != null) {
+                this.footerViewModel.setCurrentPage(this.options.currentPage);
+                this.footerViewModel.setSelectedItem(this.options.selection[0]);
+                this.footerViewModel.setTotalCount(this.totalItemsCount);
+                this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
+            }
         }
 
         private showBuisyIndicator() {
@@ -763,7 +760,6 @@ module TesserisPro.TGrid {
         public setCollapsedFilters(filterDescriptor: FilterDescriptor) {
             this.collapsedFilterGroup[filterDescriptor.children.length].push(filterDescriptor);
             this.refreshBody();
-            this.footerViewModel.setTotalCount(this.totalItemsCount);
         }
 
         public removeCollapsedFilters(filterDescriptor: FilterDescriptor) {
@@ -773,7 +769,6 @@ module TesserisPro.TGrid {
                 }
             }
             this.refreshBody();
-            this.footerViewModel.setTotalCount(this.totalItemsCount);
        }
 
         public setFilters(filterDescriptor: FilterDescriptor) {

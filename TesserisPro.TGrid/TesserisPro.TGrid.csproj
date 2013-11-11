@@ -133,16 +133,10 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(ProjectDir)bin\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 
-copy /Y "$(ProjectDir)*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 
-copy /Y "$(ProjectDir)knockout\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)knockout\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)knockout\*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)angular\*.ts" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)angular\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)angular\*.map" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)Styles\*.css" "$(SolutionDir)TesserisPro.TGrid.Demo\Styles\"
 </PostBuildEvent>
   </PropertyGroup>

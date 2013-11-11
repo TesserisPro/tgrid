@@ -50,12 +50,14 @@ module TesserisPro.TGrid {
 
             return null;
         }
+
         public getFooterViewModel() {
             var knockoutFooterViewModel = new KnockoutFooterViewModel(0,0, 0, 0);
             return knockoutFooterViewModel;
         }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
-           if (header.innerHTML != null && header.innerHTML != "") {
+            if (header.innerHTML != null && header.innerHTML != "") {
                //add intends for groupBy
                this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));               
 
@@ -78,7 +80,6 @@ module TesserisPro.TGrid {
 
                 // Create table header
                 var head = document.createElement("tr");
-                
                 this.appendIndent(head, option.columns.length, true);
                 this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
 
@@ -135,7 +136,8 @@ module TesserisPro.TGrid {
                 head.appendChild(placeholderColumn);
 
                 header.appendChild(head);
-            }
+                ko.applyBindings(option.parentViewModel, head);
+           }
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
@@ -209,18 +211,9 @@ module TesserisPro.TGrid {
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
                 option.tableFooterTemplate.applyTemplate(footerContainer);
-                setTimeout(
-                    () => {
-                        footer.appendChild(footerContainer);
-                    },
-                    1);
-                footerModel.setTotalCount(totalItemsCount);
-                if (option.isEnablePaging) {
-                    footerModel.setCurrentPage(1);
-                    footerModel.setTotalPages(Math.ceil(totalItemsCount / option.pageSize));
-                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
-                }
                 ko.applyBindings(footerModel, footerContainer);
+
+                footer.appendChild(footerContainer);
             }
         }
 

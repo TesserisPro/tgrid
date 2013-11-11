@@ -77,6 +77,8 @@ module TesserisPro.TGrid {
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
 
+        public parentViewModel: any;
+
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;
