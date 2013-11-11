@@ -11,11 +11,11 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>tesseris</RootNamespace>
-    <AssemblyName>tesseris</AssemblyName>
+    <RootNamespace>TGrid.Demo</RootNamespace>
+    <AssemblyName>TGrid.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -134,6 +134,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\HighlighterStyles\shCore.css" />
+    <Content Include="Content\HighlighterStyles\shCoreDefault.css" />
+    <Content Include="Content\HighlighterStyles\shCoreDjango.css" />
+    <Content Include="Content\HighlighterStyles\shCoreEclipse.css" />
+    <Content Include="Content\HighlighterStyles\shCoreEmacs.css" />
+    <Content Include="Content\HighlighterStyles\shCoreFadeToGrey.css" />
+    <Content Include="Content\HighlighterStyles\shCoreMDUltra.css" />
+    <Content Include="Content\HighlighterStyles\shCoreMidnight.css" />
+    <Content Include="Content\HighlighterStyles\shCoreRDark.css" />
+    <Content Include="Content\HighlighterStyles\shThemeDefault.css" />
+    <Content Include="Content\HighlighterStyles\shThemeDjango.css" />
+    <Content Include="Content\HighlighterStyles\shThemeEclipse.css" />
+    <Content Include="Content\HighlighterStyles\shThemeEmacs.css" />
+    <Content Include="Content\HighlighterStyles\shThemeFadeToGrey.css" />
+    <Content Include="Content\HighlighterStyles\shThemeMDUltra.css" />
+    <Content Include="Content\HighlighterStyles\shThemeMidnight.css" />
+    <Content Include="Content\HighlighterStyles\shThemeRDark.css" />
     <Content Include="Content\images\Gear-04.png" />
     <Content Include="Content\images\Gears-main.png" />
     <Content Include="Content\images\gears.png" />
@@ -143,47 +160,38 @@
     <Content Include="Content\images\logo_small_for_doc.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\iframe\AngularHtmlProvider.ts" />
+    <Content Include="Scripts\Highlighter\shAutoloader.js" />
+    <Content Include="Scripts\Highlighter\shBrushCss.js" />
+    <Content Include="Scripts\Highlighter\shBrushJScript.js" />
+    <Content Include="Scripts\Highlighter\shBrushXml.js" />
+    <Content Include="Scripts\Highlighter\shCore.js" />
     <Content Include="Scripts\iframe\BaseHtmlProvider.js" />
-    <Content Include="Scripts\iframe\BaseHtmlProvider.ts" />
     <Content Include="Scripts\iframe\FilterDescriptor.js" />
-    <Content Include="Scripts\iframe\FilterDescriptor.ts" />
+    <Content Include="Scripts\iframe\FooterDirective.js" />
+    <Content Include="Scripts\iframe\FooterViewModel.js" />
     <Content Include="Scripts\iframe\GroupHeaderDescriptor.js" />
-    <Content Include="Scripts\iframe\GroupHeaderDescriptor.ts" />
     <Content Include="Scripts\iframe\IHtmlProvider.js" />
-    <Content Include="Scripts\iframe\IHtmlProvider.ts" />
     <Content Include="Scripts\iframe\IItemProvider.js" />
-    <Content Include="Scripts\iframe\IItemProvider.ts" />
     <Content Include="Scripts\iframe\ItemViewModel.js" />
-    <Content Include="Scripts\iframe\AngularHtmlProvider.js.map" />
-    <Content Include="Scripts\iframe\BaseHtmlProvider.js.map" />
-    <Content Include="Scripts\iframe\FilterDescriptor.js.map" />
-    <Content Include="Scripts\iframe\GroupHeaderDescriptor.js.map" />
-    <Content Include="Scripts\iframe\IHtmlProvider.js.map" />
-    <Content Include="Scripts\iframe\IItemProvider.js.map" />
-    <Content Include="Scripts\iframe\ItemViewModel.js.map" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
-    <Content Include="Scripts\iframe\ItemViewModel.ts" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\knockout-2.3.0.js" />
     <Content Include="Scripts\iframe\KnockoutHtmlProvider.js" />
-    <Content Include="Scripts\iframe\KnockoutHtmlProvider.ts" />
     <Content Include="Scripts\iframe\Options.js" />
-    <Content Include="Scripts\iframe\Options.ts" />
     <Content Include="Scripts\iframe\SortDescriptor.js" />
-    <Content Include="Scripts\iframe\SortDescriptor.ts" />
     <Content Include="Scripts\iframe\TGrid.js" />
-    <Content Include="Scripts\iframe\TGrid.ts" />
     <Content Include="Scripts\iframe\TGridBinding.js" />
-    <Content Include="Scripts\iframe\TGridBinding.ts" />
     <Content Include="Scripts\iframe\TGridDirective.js" />
-    <Content Include="Scripts\iframe\TGridDirective.ts" />
     <Content Include="Scripts\iframe\utils.js" />
-    <Content Include="Scripts\iframe\utils.ts" />
     <Content Include="Scripts\init.js" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.2.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="ViewModels\DemoViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -212,13 +220,10 @@
     <Content Include="Views\Home\HeaderTemplate.cshtml" />
     <Content Include="Views\Home\PagingMobile.cshtml" />
     <Content Include="Views\Home\GroupingWithVirtualization.cshtml" />
-    <Content Include="Scripts\iframe\KnockoutHtmlProvider.js.map" />
-    <Content Include="Scripts\iframe\Options.js.map" />
-    <Content Include="Scripts\iframe\SortDescriptor.js.map" />
-    <Content Include="Scripts\iframe\TGrid.js.map" />
-    <Content Include="Scripts\iframe\TGridBinding.js.map" />
-    <Content Include="Scripts\iframe\TGridDirective.js.map" />
-    <Content Include="Scripts\iframe\utils.js.map" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Views\Home\SimpleGridWithoutPagingHtml.cshtml" />
+    <Content Include="Views\Home\StyleCss.cshtml" />
+    <Content Include="Views\Home\ScriptJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -237,7 +242,7 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Home\Grid.cshtml" />
+    <Content Include="Views\Home\Demo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -255,9 +260,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>55247</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50977/</IISUrl>
+          <IISUrl>http://localhost/TGrid.Demo</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

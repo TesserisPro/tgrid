@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace tesseris.Controllers
+namespace TGrid.Demo.Controllers
 {
     public class HomeController : Controller
     {
@@ -16,109 +16,20 @@ namespace tesseris.Controllers
             return View();
         }
 
-        public ActionResult Grid()
+        public ActionResult Demo(string demo)
         {
-            return View();
+            if (String.IsNullOrEmpty(demo))
+            {
+                return View();
+            }
+
+            return View(demo);
+        }
+        [HttpPost]
+        public ActionResult Code()
+        {
+            return PartialView("SimpleGridWithoutPagingHtml");
         }
 
-        public ActionResult SimpleGridWithoutPaging()
-        {
-            return View();
-        }
-
-        public ActionResult SimpleGridWithoutPagingMobile()
-        {
-            return View();
-        }
-
-        public ActionResult CellTemplate()
-        {
-            return View();
-        }
-
-        public ActionResult CellTemplateMobile()
-        {
-            return View();
-        }
-
-        public ActionResult HeaderTemplate()
-        {
-            return View();
-        }
-
-        public ActionResult HeaderTemplateMobile()
-        {
-            return View();
-        }
-
-        public ActionResult DetailsTemplate()
-        {
-            return View();
-        }
-
-        public ActionResult DetailsTemplateMobile()
-        {
-            return View();
-        }
-
-        public ActionResult CustomActionsToOpenDetails()
-        {
-            return View();
-        }
-
-        public ActionResult Paging()
-        {
-            return View();
-        }
-
-        public ActionResult PagingMobile()
-        {
-            return View();
-        }
-
-        public ActionResult LazyLoading()
-        {
-            return View();
-        }
-
-        public ActionResult lazyLoadingMobile()
-        {
-            return View();
-        }
-
-        public ActionResult CustomItemsProvider()
-        {
-            return View();
-        }
-
-        public ActionResult Grouping()
-        {
-            return View();
-        }
-
-        public ActionResult GroupingMobile()
-        {
-            return View();
-        }
-
-        public ActionResult GroupingWithVirtualization()
-        {
-            return View();
-        }
-
-        public ActionResult EditingWithCellTemplate()
-        {
-            return View();
-        }
-
-        public ActionResult RowsWithVirtualization()
-        {
-            return View();
-        }
-
-        public ActionResult RowsWithPaging()
-        {
-            return View();
-        }
     }
 }
