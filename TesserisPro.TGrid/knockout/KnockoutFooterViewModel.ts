@@ -17,8 +17,20 @@ module TesserisPro.TGrid {
             this.totalPages = ko.observable(totalPages);
         }
 
-        public setTotalCount(newTotalCount: number) {
-            this.totalCount(newTotalCount);
+        public setTotalCount(totalCount: number) {
+            this.totalCount(totalCount);
+        }
+
+        public setSelectedItem(selectedItem: any) {
+            this.selectedItem(selectedItem);
+        }
+
+        public setCurrentPage(currentPage: number) {
+            this.currentPage(currentPage);
+        }
+
+        public setTotalPages(totalPages: number) {
+            this.totalPages(totalPages);
         }
     }
 }

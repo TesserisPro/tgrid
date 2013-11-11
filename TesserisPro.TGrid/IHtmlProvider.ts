@@ -16,5 +16,6 @@ module TesserisPro.TGrid {
         updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
         updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
         addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel): void;
+        updateTableFooterElementDefault(option: Options, footer: HTMLElement, totalItemsCount: number): void;
     }
 }

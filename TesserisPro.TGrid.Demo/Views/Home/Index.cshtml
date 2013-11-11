@@ -20,12 +20,11 @@
 <script src="~/Scripts/GroupHeaderDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
 <script src="~/Scripts/KnockoutFooterViewModel.js" type="text/javascript"></script>
-<script src="~/Scripts/FooterViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/AngularFooterDirective.js" type="text/javascript"></script>
 <script src="~/Scripts/FilterPopupViewModel.js" type="text/javascript"></script>
 @*<script src="~/Scripts/tgrid-min.js" type="text/javascript"></script>
 <script src="~/Scripts/tgrid-angular-min.js" type="text/javascript"></script>
 <script src="~/Scripts/tgrid-knockout-min.js" type="text/javascript"></script>*@
-
 
 <script type="text/javascript">
     window.onerror = function (msg, url, line) {
@@ -437,10 +436,12 @@
         </groupheader>
 
         <footer>
-            TotalCount: <span>1</span>.
+            <footer>
+            TotalCount: <span>{{totalCount}}</span>.
             SelectedItem: <span > 1</span>. 
             CurrentPage: <span>1</span>. 
             TotalPages: <span>1</span>.
+                </footer>
         </footer>
 
         <mobile>

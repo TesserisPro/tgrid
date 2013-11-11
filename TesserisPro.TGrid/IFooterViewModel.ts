@@ -1,7 +1,10 @@
 module TesserisPro.TGrid {
 
     export interface IFooterViewModel {
-        setTotalCount(newTotalCount: number);
+        setTotalCount(totalCount: number);
+        setSelectedItem(selectedItem: any);
+        setCurrentPage(currentPage: number);
+        setTotalPages(totalPages: number);
     }
 
 }

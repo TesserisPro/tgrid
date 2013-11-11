@@ -205,6 +205,7 @@ module TesserisPro.TGrid {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 option.tableFooterTemplate.applyTemplate(footer);
+                //this.GetAngularBinding();
                 //var footerDirective = new FooterDirective(footer);
                 //angular.module('TGrid', [])
                 //    .directive("footer", <any> footerDirective); 
@@ -254,7 +255,7 @@ module TesserisPro.TGrid {
                         cell = this.createDefaultCell(cell, option.columns[i].member);
                     }
                 }
-                cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
+               // cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
                 row.appendChild(cell);
             }
 
@@ -630,5 +631,24 @@ module TesserisPro.TGrid {
             return cell;
         }
 
+        public GetAngularBinding() {
+             return angular.module('TGrid', []).
+                directive('footer', function () {
+                    return {
+                        restrict: 'E',
+                        transclude: true,
+                        scope: {},
+                        controller: function ($scope, $element) {
+                            $scope.totalCount = 256;
+                            $scope.$apply();
+                        },
+                        template:
+                        '<span> TotalCount:</span>' +
+                        '<span>{{totalCount}}</span>.',
+
+                        replace: true
+                    };
+                })
+            }
     }
 }

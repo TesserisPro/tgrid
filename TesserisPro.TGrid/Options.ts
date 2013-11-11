@@ -143,7 +143,7 @@ module TesserisPro.TGrid {
             this.showDetailFor = new ShowDetail();
 
             var footer = optionsElement.getElementsByTagName("footer"); 
-            this.tableFooterTemplate = footer.length == 1 ? new Template(footer[0]) : null;
+            this.tableFooterTemplate = footer.length > 0 ? new Template(footer[0]) : null;
             
             if (footer.length != 0) {
                 this.tableFooterTemplate = new Template(footer[0]);

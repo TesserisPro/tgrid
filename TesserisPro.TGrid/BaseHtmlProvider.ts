@@ -66,7 +66,11 @@ module TesserisPro.TGrid {
             if (lastVisiblePage < (pageCount - 1)) {
                 pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
             }
-            footer.innerHTML = "";
+
+            var pages = footer.getElementsByClassName("tgird-pagination");
+            for (var i = 0; i < pages.length; i++) {
+                footer.removeChild(pages[i]);
+            }
             footer.appendChild(pagerElement);
         }
         

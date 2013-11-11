@@ -51,7 +51,7 @@ module TesserisPro.TGrid {
             return null;
         }
         public getFooterViewModel() {
-            var knockoutFooterViewModel = new KnockoutFooterViewModel(55,10, 0, 0);
+            var knockoutFooterViewModel = new KnockoutFooterViewModel(0,0, 0, 0);
             return knockoutFooterViewModel;
         }
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
@@ -194,7 +194,6 @@ module TesserisPro.TGrid {
             var selectedElement = container.getElementsByClassName("selected");
 
             // Insert row details after selected item
-           // if (selectedElement != null && selectedElement.length == 1) {
             if (this.hasDetails(selectedElement, option)){
                 var details = this.buildDetailsRow(option);
                 details.setAttribute("class", "details");
@@ -204,27 +203,25 @@ module TesserisPro.TGrid {
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
-                //if there isn't footer template in grid
-                if (footerModel == null && option.isEnablePaging) {
+            //if there isn't footer template in grid
+            if (option.tableFooterTemplate == null && option.isEnablePaging) {
+                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+            } else if (option.tableFooterTemplate != null) {
+                var footerContainer = document.createElement("div");
+                option.tableFooterTemplate.applyTemplate(footerContainer);
+                setTimeout(
+                    () => {
+                        footer.appendChild(footerContainer);
+                    },
+                    1);
+                footerModel.setTotalCount(totalItemsCount);
+                if (option.isEnablePaging) {
+                    footerModel.setCurrentPage(1);
+                    footerModel.setTotalPages(Math.ceil(totalItemsCount / option.pageSize));
                     this.updateTableFooterElementDefault(option, footer, totalItemsCount);
-                } else if (option.tableFooterTemplate != null) {
-                    option.tableFooterTemplate.applyTemplate(footer);
-                    //var selectedItems = document.getElementsByClassName("selected");
-                    //if (selectedItems.length == 1) {
-                    //    footerModel.selectedItem = selectedItems[0];
-                    //} else {
-                    //    footerModel.selectedItem = selectedItems.length + " elements are selected";
-                    //}
-
-                    //ko.applyBindings(footerModel, footer);
-                    //if (ko.dataFor(footer) instanceof FooterViewModel) {
-                    //    var FooterModel = ko.dataFor(footer);
-                    //    <FooterViewModel>FooterModel.SetTotalCount(12);
-                    //} else {
-                    ko.dataFor(footer);
-                    ko.applyBindings(footerModel, footer);
-                    //}
                 }
+                ko.applyBindings(footerModel, footerContainer);
+            }
         }
 
         public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
@@ -500,7 +497,6 @@ module TesserisPro.TGrid {
             var selectedElement = container.getElementsByClassName("selected");
 
             // Insert row details after selected item
-            //if (selectedElement != null && selectedElement.length == 1) {
              if(this.hasDetails(selectedElement, option)){
                 var details = this.buildMobileDetailsRow(option);
                 details.setAttribute("class", "details");
