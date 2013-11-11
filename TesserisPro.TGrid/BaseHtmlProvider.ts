@@ -80,22 +80,6 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
         }
-        public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
-            var visibleIntentsNumber = level;
-            var cells = target.getElementsByClassName("tgrid-table-indent-cell");
-
-            for (var i = 0; i < cells.length; i++) {
-                grid.hideElement(<Element>cells[i]);
-            }
-            //check that number of existing intent-cells is not more than number of needed intent-cells
-            if (cells.length < level) {
-                visibleIntentsNumber = cells.length;
-            }
-
-            for (var i = 0; i < visibleIntentsNumber; i++) {
-                grid.showTableCellElement(<Element>cells[i]);
-            }
-        }
 
         public hasDetails(selectedElement: NodeList, option: Options) {
             if (selectedElement != null && selectedElement.length == 1) {
@@ -156,9 +140,29 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
-            var filterCondition = document.createElement("select");
+        public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
+            var visibleIntentsNumber = level;
+            var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
+            for (var i = 0; i < cells.length; i++) {
+                grid.hideElement(<Element>cells[i]);
+            }
+            //check that number of existing intent-cells is not more than number of needed intent-cells
+            if (cells.length < level) {
+                visibleIntentsNumber = cells.length;
+            }
+
+            for (var i = 0; i < visibleIntentsNumber; i++) {
+                grid.showTableCellElement(<Element>cells[i]);
+            }
+        }
+
+        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
+
+        }
+
+        public defaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
+            var filterCondition = document.createElement("select");
             // append filter conditions
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.None.toString();
@@ -185,7 +189,7 @@ module TesserisPro.TGrid {
             filterPopupContainer.appendChild(filterText);
 
             filterPopupContainer.innerHTML += "<br>";
-            
+
             var applyButton = document.createElement("button");
             applyButton.innerText = "apply";
             applyButton.onclick = (e) => {
@@ -209,7 +213,7 @@ module TesserisPro.TGrid {
                 Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>filterPopupContainer);
             };
             filterPopupContainer.appendChild(exitButton);
-        }
+        }        
 
         private addGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.columns.length; i++) {
@@ -347,7 +351,5 @@ module TesserisPro.TGrid {
             }
             return listGroupByElement;
         }
-
-        
     }
 }
