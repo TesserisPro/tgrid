@@ -772,17 +772,20 @@ module TesserisPro.TGrid {
        }
 
         public setFilters(filterDescriptor: FilterDescriptor) {
+            this.removeFilters(false);
             this.options.filterDescriptors.push(filterDescriptor);
             this.refreshBody();
         }
 
-        public removeFilters(filterDescriptor: FilterDescriptor) {
+        public removeFilters(isRefresh: boolean = true) {
             for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                if (this.isFiltersEquals(this.options.filterDescriptors[i], filterDescriptor)) {
+                if (this.options.filterDescriptors[i].path == this.options.filterPath) {
                     this.options.filterDescriptors.splice(i, 1);
                 }
             }
-            this.refreshBody();
+            if (isRefresh) {
+                this.refreshBody();
+            }
         }
     }
 }
