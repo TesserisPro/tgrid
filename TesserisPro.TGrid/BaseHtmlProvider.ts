@@ -109,12 +109,11 @@ module TesserisPro.TGrid {
 
         }
 
-        public createDefaultHeader(headerCell: any, headerName: string) {
+        public createDefaultHeader(container: HTMLElement, headerName: string) {
             var defaultHeader = document.createElement("span");
             var defaultName = document.createTextNode(headerName);
             defaultHeader.appendChild(defaultName);
-            headerCell.appendChild(defaultHeader);
-            return headerCell;
+            container.appendChild(defaultHeader);
         }
 
         public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
@@ -228,7 +227,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(groupByHeaderElement);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        groupByHeaderElement = this.createDefaultHeader(groupByHeaderElement, headerText);
+                        this.createDefaultHeader(groupByHeaderElement, headerText);
                     }
 
                     groupByHeaderElement.setAttribute("class", "condition-group-by");
@@ -326,7 +325,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(listItemGroupByItems);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        listItemGroupByItems = this.createDefaultHeader(listItemGroupByItems, headerText);
+                        this.createDefaultHeader(listItemGroupByItems, headerText);
                     }
                     listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
                     listGroupByElement.appendChild(listItemGroupByItems);
