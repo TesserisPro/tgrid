@@ -23,7 +23,8 @@
     <TypeScriptCompile Include="IFooterViewModel.ts" />
     <TypeScriptCompile Include="angular\AngularFooterViewModel.ts" />
     <TypeScriptCompile Include="FilterPopupViewModel.ts" />
-    <Content Include="angular\AngularFooterDirective.js" />
+    <TypeScriptCompile Include="angular\FooterCtrl.ts" />
+    <TypeScriptCompile Include="angular\IFooterModelScope.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />
@@ -131,9 +132,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <Import Project="$(SolutionDir)tools\ajaxmin.tasks" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(ProjectDir)bin\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-
-copy /Y "$(ProjectDir)*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
+    <PostBuildEvent>copy /Y "$(ProjectDir)*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 
 copy /Y "$(ProjectDir)knockout\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
 copy /Y "$(ProjectDir)angular\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"

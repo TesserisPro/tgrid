@@ -5,7 +5,7 @@
   <output path="bin/tgrid-min.js">
     <input path="BaseHtmlProvider.js"/>
     <input path="FilterDescriptor.js"/>
-    <input path="FooterViewModel.js"/>
+    <input path="IFooterViewModel.js"/>
     <input path="GroupHeaderDescriptor.js"/>
     <input path="IHtmlProvider.js"/>
     <input path="IItemProvider.js"/>
@@ -19,11 +19,15 @@
   <output path="bin/tgrid-angular-min.js">
     <input path="angular/AngularHtmlProvider.js"/>
     <input path="angular/TGridDirective.js"/>
+    <input path="angular/AngularFooterViewModel.js"/>
+    <input path="angular/IFooterModelScope.js"/>
+    <input path="angular/FooterCtrl.js"/>
   </output>
 
   <output path="bin/tgrid-knockout-min.js">
     <input path="knockout/KnockoutHtmlProvider.js"/>
     <input path="knockout/TGridBinding.js"/>
+    <input path="knockout/KnockoutFooterViewModel.js"/>
   </output>
   
 </root>

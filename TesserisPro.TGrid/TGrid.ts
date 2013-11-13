@@ -8,6 +8,7 @@
 /// <reference path="GroupHeaderDescriptor.ts" />
 /// <reference path="utils.ts" />
 /// <reference path="IFooterViewModel.ts"/>
+/// <reference path="scripts/typings/angularjs/angular.d.ts"/>
 
 module TesserisPro.TGrid {
 
@@ -141,7 +142,6 @@ module TesserisPro.TGrid {
             }
 
             this.targetElement.appendChild(this.rootElement);
-
             this.tableBodyContainer.scrollTop = 0;
 
             if (this.options.groupBySortDescriptor.length > 0) {
@@ -149,6 +149,11 @@ module TesserisPro.TGrid {
                 this.refreshBody(options.isEnableVirtualScroll);
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
+            }
+            if (this.htmlProvider instanceof AngularHtmlProvider) {
+                var footer = document.getElementById('footerModel');
+                angular.bootstrap(footer, ['TGrid']);
+                this.updateFooterViewModel();
             }
         }
 

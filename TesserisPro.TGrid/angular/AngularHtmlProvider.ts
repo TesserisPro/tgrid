@@ -3,6 +3,8 @@
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="AngularFooterViewModel.ts" />
+/// <reference path="IFooterModelScope.ts" />
 
 module TesserisPro.TGrid {
 
@@ -49,6 +51,8 @@ module TesserisPro.TGrid {
         }
 
         public getFooterViewModel() {
+            var angularFooterViewModel = new AngularFooterViewModel(0,0,0,0);
+            return angularFooterViewModel;
         }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
@@ -139,8 +143,7 @@ module TesserisPro.TGrid {
 
             for (var i = 0; i < items.length; i++) {
                 this.appendTableElement(option, container, items[i], 0, selected);
-            }
-
+            }           
             //Hide table on mobile devices
             var bodyClass = container.getAttribute("class");
             if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
@@ -205,11 +208,6 @@ module TesserisPro.TGrid {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 option.tableFooterTemplate.applyTemplate(footer);
-                //this.GetAngularBinding();
-                //var footerDirective = new FooterDirective(footer);
-                //angular.module('TGrid', [])
-                //    .directive("footer", <any> footerDirective); 
-
             }
         }
         
@@ -255,8 +253,8 @@ module TesserisPro.TGrid {
                         cell = this.createDefaultCell(cell, option.columns[i].member);
                     }
                 }
-               // cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
-                row.appendChild(cell);
+                cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
+                row.appendChild(cell);               
             }
 
             var placeholderColumn = document.createElement("td");
@@ -631,24 +629,35 @@ module TesserisPro.TGrid {
             return cell;
         }
 
-        public GetAngularBinding() {
-             return angular.module('TGrid', []).
-                directive('footer', function () {
-                    return {
-                        restrict: 'E',
-                        transclude: true,
-                        scope: {},
-                        controller: function ($scope, $element) {
-                            $scope.totalCount = 256;
-                            $scope.$apply();
-                        },
-                        template:
-                        '<span> TotalCount:</span>' +
-                        '<span>{{totalCount}}</span>.',
+    //    public FooterCtrl($scope: any) {
+    //    var $scope = $scope;
+    //    $scope.totalCount = 123;
+    //}
+        //public FooterCtrl($scope) {
+        //    var self = this;
+        //    self.$scope = $scope;
+        //}
+        //public GetAngularBinding() {
+        //    return angular.module('TGrid', []).
+        //        //controller('FooterCtrl', ['$scope', function ($scope) {
+        //        //    $scope.totalCount = 123;
+        //        //}]);
+        //        directive('footer', function () {
+        //            return {
+        //                restrict: 'E',
+        //                transclude: true,
+        //                scope: true,
+        //                controller: function ($scope, $element) {
+        //                    $scope.totalCount = 256;
+        //                    $scope.$apply();
+        //                },
+        //                template:
+        //                '<span> TotalCount:</span>' +
+        //                '<span>{{totalCount}}</span>.',
 
-                        replace: true
-                    };
-                })
-            }
+        //                replace: true
+        //            };
+        //        })
+        //    }
     }
 }
