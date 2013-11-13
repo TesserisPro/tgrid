@@ -65,6 +65,15 @@
     left:0;
 }
 
+.tgrid-header-column-resize{
+    right: -4px;
+    width: 4px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    cursor: col-resize;
+}
+
 .tgrid-table tbody tr td, 
 .tgrid-table-group-header {
     border-top: 1px solid rgb(122,188,255);

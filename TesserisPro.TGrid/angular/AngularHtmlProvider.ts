@@ -51,7 +51,7 @@ module TesserisPro.TGrid {
         public getFooterViewModel() {
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
                 this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));

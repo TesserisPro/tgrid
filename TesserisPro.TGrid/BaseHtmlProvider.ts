@@ -22,7 +22,7 @@ module TesserisPro.TGrid {
         }
         public getFooterViewModel() {
         }
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean){
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void){
 
         }
 
@@ -84,6 +84,32 @@ module TesserisPro.TGrid {
 
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
                 
+        }
+
+        updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
+            var headers = header.getElementsByTagName("th");
+            var columns = body.getElementsByTagName("tr").item(0).getElementsByTagName("td");
+
+            var columnNumber = 0;
+
+            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                columnNumber++;
+            }
+
+            for (var i = 0; i < headers.length - 1; i++) {
+                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    columnNumber++;
+                }
+
+                if (columnNumber >= option.columns.length) {
+                    columnNumber = option.columns.length - 1;
+                    break;
+                }
+
+                (<HTMLElement>headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
+                (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
+                columnNumber++;
+            }
         }
 
         public hasDetails(selectedElement: NodeList, option: Options) {
