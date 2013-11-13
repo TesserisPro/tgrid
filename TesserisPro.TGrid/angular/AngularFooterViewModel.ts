@@ -18,54 +18,19 @@ module TesserisPro.TGrid {
         }
 
         public setTotalCount(totalCount: number) { 
-            var elementFooter = document.getElementById('footerModel');
-            if (elementFooter != null) {
-                var footerScope = <IFooterModelScope>angular.element(elementFooter).scope();
-                if (footerScope.footerModel != undefined) {
-                    footerScope.footerModel.totalCount = 20;
-                    footerScope.$apply();
-                }
-            }           
-            //this.setScopeElementValue(totalCount, 0);
+            this.setScopeElementValue(totalCount, 0);
         }
 
-        public setSelectedItem(selectedItem: any) {
-            var elementFooter = document.getElementById('footerModel');
-            if (elementFooter != null) {
-                var footerScope = <IFooterModelScope>angular.element(elementFooter).scope();
-                if (footerScope.footerModel != undefined) {
-                    footerScope.$apply(function () {
-                        footerScope.footerModel.selectedItem = selectedItem;
-                    });
-                }
-            }          
-            //this.setScopeElementValue(selectedItem, 1);
+        public setSelectedItem(selectedItem: any) {             
+            this.setScopeElementValue(selectedItem, 1);
         }
 
         public setCurrentPage(currentPage: number) {
-            var elementFooter = document.getElementById('footerModel');
-            if (elementFooter != null) {
-                var footerScope = <IFooterModelScope>angular.element(elementFooter).scope();
-                if (footerScope.footerModel != undefined) {
-                    footerScope.$apply(function () {
-                        footerScope.footerModel.currentPage = currentPage;
-                    });
-                }
-            }                     
-            //this.setScopeElementValue(currentPage, 2);
+            this.setScopeElementValue(currentPage, 2);
         }
 
         public setTotalPages(totalPages: number) {
-            var elementFooter = document.getElementById('footerModel');
-            if (elementFooter != null) {
-                var footerScope = <IFooterModelScope>angular.element(elementFooter).scope();
-                if (footerScope.footerModel != undefined) {
-                    footerScope.$apply(function () {
-                        footerScope.footerModel.totalPages = totalPages;
-                    });
-                }
-            }          
-           // this.setScopeElementValue(totalPages, 3);
+           this.setScopeElementValue(totalPages, 3);
         }
 
         private setScopeElementValue(value: any, forSwitch: number) {
