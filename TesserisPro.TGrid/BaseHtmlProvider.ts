@@ -93,7 +93,7 @@ module TesserisPro.TGrid {
             var firstDataRow: HTMLElement;
 
             for (var i = 0; i < tableRows.length; i++) {
-                if (!tableRows.item(i).classList.contains("tgrid-table-group-header")) {
+                if (tableRows.item(i).classList.contains("table-body-row")) {
                     firstDataRow = tableRows.item(i);
                     break;
                 }
