@@ -440,12 +440,12 @@
         </groupheader>
 
         <footer>
-            <footer>
-            TotalCount: <span>{{totalCount}}</span>.
-            SelectedItem: <span > 1</span>. 
-            CurrentPage: <span>1</span>. 
-            TotalPages: <span>1</span>.
-                </footer>
+            <div ng-controller="FooterCtrl" id="footerModel">
+                TotalCount: <span>{{footerModel.totalCount}}</span>.
+                SelectedItem: <span >{{footerModel.selectedItem}}</span>. 
+                CurrentPage: <span>{{footerModel.currentPage}}</span>. 
+                TotalPages: <span>{{footerModel.totalPages}}</span>.
+            </div>
         </footer>
 
         <mobile>
@@ -690,7 +690,7 @@
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();
-        })
+        }).controller('FooterCtrl', TGrid.Angular.FooterCtrl)
 
         .directive('tGrid', TGrid.Angular.Directive);
 

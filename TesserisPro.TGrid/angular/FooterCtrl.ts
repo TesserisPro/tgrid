@@ -14,17 +14,8 @@ module TGrid.Angular {
 
         constructor(
             private $scope: TesserisPro.TGrid.IFooterModelScope) {
-                this.footerModel = $scope.footerModel = new TesserisPro.TGrid.AngularFooterViewModel(1,1,1,1);
-                this.footerModel.totalCount = $scope.footerModel.totalCount = 0;
-                this.footerModel.selectedItem = $scope.footerModel.selectedItem = 0;
-                this.footerModel.currentPage =  $scope.footerModel.currentPage = 1;
-                this.footerModel.totalPages =  $scope.footerModel.totalPages = 1;
+                this.footerModel = $scope.footerModel = new TesserisPro.TGrid.AngularFooterViewModel(1,1,1,1);               
         }
-
-        public setTotalCount(totalCount:number) {
-            this.$scope.footerModel.totalCount = totalCount;
-        }
-
 
     }
 
