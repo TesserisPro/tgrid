@@ -170,6 +170,9 @@ module TesserisPro.TGrid {
         }
 
         public columnsResized(c: ColumnInfo) {
+            if (parseInt(c.width) < 5) {
+                c.width = "5";
+            }
             this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
         }
 
