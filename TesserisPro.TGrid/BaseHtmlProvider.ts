@@ -88,15 +88,25 @@ module TesserisPro.TGrid {
 
         updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
             var headers = header.getElementsByTagName("th");
-            var columns = body.getElementsByTagName("tr").item(0).getElementsByTagName("td");
+
+            var tableRows = body.getElementsByTagName("tr");
+            var firstDataRow: HTMLElement;
+
+            for (var i = 0; i < tableRows.length; i++) {
+                if (!tableRows.item(i).classList.contains("tgrid-table-group-header")) {
+                    firstDataRow = tableRows.item(i);
+                    break;
+                }
+            }
+            
+            var columns = firstDataRow.getElementsByTagName("td");
 
             var columnNumber = 0;
-
             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                 columnNumber++;
             }
-
             for (var i = 0; i < headers.length - 1; i++) {
+                
                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                     columnNumber++;
                 }
@@ -107,6 +117,28 @@ module TesserisPro.TGrid {
                 }
 
                 (<HTMLElement>headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
+                columnNumber++;
+            }
+
+            var columnNumber = 0;
+            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                columnNumber++;
+            }
+            for (var i = 0; i < columns.length - 1; i++) {
+
+                if ((<HTMLElement>columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
+                    continue;
+                }
+
+                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    columnNumber++;
+                }
+
+                if (columnNumber >= option.columns.length) {
+                    columnNumber = option.columns.length - 1;
+                    break;
+                }
+
                 (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
                 columnNumber++;
             }

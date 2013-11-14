@@ -352,6 +352,7 @@ module TesserisPro.TGrid {
             var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
+            headerTr.setAttribute("class", "tgrid-table-group-header");
             if (option.isEnableCollapsing) {
                 if (!groupHeaderDescriptor.collapse) {
                     headerTd.onclick = (e) => {

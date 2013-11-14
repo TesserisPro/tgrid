@@ -138,6 +138,38 @@ module TesserisPro.TGrid {
                         headerButtons.appendChild(filter);
                     }
                     
+
+                    var columnResize = document.createElement("div");
+                    columnResize.className = "tgrid-header-column-resize";
+
+                    columnResize.onclick = e => e.stopImmediatePropagation();
+
+                    (function (i, headerCell, columnResize) {
+                        var documentMouseMove = null;
+                        var position = 0;
+                        columnResize.onmousedown = e => {
+                            e.stopImmediatePropagation();
+                            console.log("test");
+                            position = e.screenX;
+                            documentMouseMove = document.onmousemove;
+                            document.onmousemove = m => {
+                                if (position != 0) {
+                                    option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                    position = m.screenX;
+                                    columnsResized(option.columns[i]);
+                                }
+                            };
+                        };
+
+                        document.onmouseup = e => {
+                            document.onmousemove = documentMouseMove;
+                            position = 0;
+                        }
+                    })(i, headerCell, columnResize);
+
+
+                    headerButtons.appendChild(columnResize);
+                    
                     head.appendChild(headerCell);
                 }
                 var placeholderColumn = document.createElement("th");
@@ -257,7 +289,6 @@ module TesserisPro.TGrid {
 
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
-                cell.setAttribute("width", option.columns[i].width);
                 if (option.columns[i].cell != null) {
                     option.columns[i].cell.applyTemplate(cell);
                 } else {
@@ -314,6 +345,7 @@ module TesserisPro.TGrid {
             var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
+            headerTr.setAttribute("class", "tgrid-table-group-header");
             if (option.groupHeaderTemplate != null) {
                 option.groupHeaderTemplate.applyTemplate(headerTd);
             } else {
