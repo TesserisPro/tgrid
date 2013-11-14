@@ -11,13 +11,41 @@
 
 <script src="@Url.Content("~/ViewModels/DemoViewModel.js")" type="text/javascript"></script>
 
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shCore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushXml.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushCss.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushJScript.js")"></script>
+
+
+<link type="text/css" rel="stylesheet"  href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
+
 <script type="text/javascript">
-    $(function () { ko.applyBindings(new DemoViewModel()) });    
+    $(function () {
+        $.getJSON('Ui', function (data) {
+            //ko.mapping.toJS(data, {}, ko.applyBindings(new DemoViewModel(data)));
+            ko.applyBindings(new DemoViewModel(data));
+        });
+    });
+    
 </script>
+
+<div id="UI">   
+    <a class="active">Knockout</a>
+    <a>Angular</a>
+</div>
+
 <div id="list">
+    <a class="device">Desktop</a>
     <ul data-bind="foreach: demos">
         <li>
             <a data-bind="text: title, click: $root.openDemo, css: { active: url == $root.currentDemo() }"></a>
+        </li>
+    </ul>
+    <a class="device">Mobile</a>
+    <ul data-bind="foreach: demosmob">
+        <li>
+            <a data-bind="text: title, click: $root.openDemoMob, css: { active: url == $root.currentDemo() }"></a>
         </li>
     </ul>
 </div>
@@ -32,27 +60,8 @@
                 </ul>           
         </header>      
         <div class="editor-container">
-            <div id="html">
+            <div data-bind="html: currentCode">
             </div>
-            <div id="css">
-            </div>
-            <div id="js">
-            </div>
-@*            <div class="content-editor">                
-                <div id="editor-html">
-                    @{Html.RenderPartial("SimpleGridWithoutPagingHtml"); }
-                </div>
-            </div>
-            <div class="style-editor">
-                <div id="editor-css">
-                    @{Html.RenderPartial("StyleCss"); }
-                </div>
-            </div>
-            <div class="script-editor">
-                <div id="editor-js" >
-                    @{Html.RenderPartial("ScriptJs"); }
-                </div>
-            </div>*@
         </div> 
     </div>
 </div>
