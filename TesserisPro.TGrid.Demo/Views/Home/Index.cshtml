@@ -76,7 +76,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'false', enableFiltering: 'true' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="true">
             <header>
@@ -401,8 +401,8 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
-    <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
+<div ng-controller="ctrl">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="false" enableFiltering="true" >
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="false">
             <header>
@@ -440,11 +440,11 @@
         </groupheader>
 
         <footer>
-            <div ng-controller="FooterCtrl" id="footerModel">
-                TotalCount: <span>{{footerModel.totalCount}}</span>.
-                SelectedItem: <span >{{footerModel.selectedItem}}</span>. 
-                CurrentPage: <span>{{footerModel.currentPage}}</span>. 
-                TotalPages: <span>{{footerModel.totalPages}}</span>.
+            <div>
+                TotalCount: <span>{{totalCount}}</span>.
+                SelectedItem: <span >{{selectedItem}}</span>. 
+                CurrentPage: <span>{{currentPage}}</span>. 
+                TotalPages: <span>{{totalPages}}</span>.
             </div>
         </footer>
 
@@ -688,10 +688,7 @@
     })();
 
     var TGrid = angular.module('TGrid', [])
-        .controller("ctrl", function ctrl($scope) {
-            $scope.dataProvider = new SimpleItemsProviderAngular();
-        }).controller('FooterCtrl', TGrid.Angular.FooterCtrl)
-
+        .controller("ctrl", function ctrl($scope) { $scope.dataProvider = new SimpleItemsProviderAngular(); })
         .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {

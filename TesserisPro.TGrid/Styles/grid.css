@@ -28,13 +28,26 @@
         background: -ms-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
         background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+        
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
+
 
 .tgrid-mobile-header {
     margin: 0px;
     border-top: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
+    
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .tgrid-header-cell-container{
@@ -80,6 +93,11 @@
     border-left: 1px solid rgb(122,188,255);
     background-color: white;
 }
+
+.tgrid-table tbody tr:nth-child(odd) td{
+    background-color: rgb(250, 252, 255);
+}
+
 
 .tgrid-table-group-header {
     border-bottom: none !important;
@@ -329,3 +347,6 @@ thead>tr> .tgrid-table-indent-cell {
     right: 2px;
 }
 
+th.tgrid-placeholder {
+    min-width: 17px;
+}

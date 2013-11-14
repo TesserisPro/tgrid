@@ -150,11 +150,6 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
-            if (this.htmlProvider instanceof AngularHtmlProvider) {
-                var footer = document.getElementById('footerModel');
-                angular.bootstrap(footer, ['TGrid']);
-                this.updateFooterViewModel();
-            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -170,6 +165,9 @@ module TesserisPro.TGrid {
         }
 
         public columnsResized(c: ColumnInfo) {
+            if (parseInt(c.width) < 5) {
+                c.width = "5";
+            }
             this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
         }
 

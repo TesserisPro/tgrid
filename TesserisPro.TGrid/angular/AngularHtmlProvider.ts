@@ -4,7 +4,6 @@
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 /// <reference path="AngularFooterViewModel.ts" />
-/// <reference path="IFooterModelScope.ts" />
 
 module TesserisPro.TGrid {
 
@@ -50,8 +49,18 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        static moduleFooterCounter = 0;
+
         public getFooterViewModel() {
-            var angularFooterViewModel = new AngularFooterViewModel(0, 0, 0, 0);
+            var angularFooterViewModel = new AngularFooterViewModel();
+            angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
+            angular
+                .module(angularFooterViewModel.angularModuleName, [])
+                .controller(
+                       'tgrid-footer-controller',
+                        function toGridFooterController($scope) {
+                            angularFooterViewModel.setScope($scope);
+                        });
             return angularFooterViewModel;
         }
 
@@ -138,6 +147,39 @@ module TesserisPro.TGrid {
                         headerButtons.appendChild(filter);
                     }
 
+                    
+
+                    var columnResize = document.createElement("div");
+                    columnResize.className = "tgrid-header-column-resize";
+
+                    columnResize.onclick = e => e.stopImmediatePropagation();
+
+                    (function (i, headerCell, columnResize) {
+                        var documentMouseMove = null;
+                        var position = 0;
+                        columnResize.onmousedown = e => {
+                            e.stopImmediatePropagation();
+                            console.log("test");
+                            position = e.screenX;
+                            documentMouseMove = document.onmousemove;
+                            document.onmousemove = m => {
+                                if (position != 0) {
+                                    option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                    position = m.screenX;
+                                    columnsResized(option.columns[i]);
+                                }
+                            };
+                        };
+
+                        document.onmouseup = e => {
+                            document.onmousemove = documentMouseMove;
+                            position = 0;
+                        }
+                    })(i, headerCell, columnResize);
+
+
+                    headerButtons.appendChild(columnResize);
+                    
                     head.appendChild(headerCell);
                 }
                 var placeholderColumn = document.createElement("th");
@@ -219,7 +261,14 @@ module TesserisPro.TGrid {
             if (footerModel == null && option.isEnablePaging) {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
-                option.tableFooterTemplate.applyTemplate(footer);
+                var footerContainer = document.createElement("div");
+                footerContainer.className = "tgrid-footer-container";
+                footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
+                option.tableFooterTemplate.applyTemplate(footerContainer);
+                footer.innerHTML = "";
+                footer.appendChild(footerContainer);
+
+                angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
             }
         }
 
@@ -257,7 +306,6 @@ module TesserisPro.TGrid {
 
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
-                cell.setAttribute("width", option.columns[i].width);
                 if (option.columns[i].cell != null) {
                     option.columns[i].cell.applyTemplate(cell);
                 } else {
@@ -314,6 +362,7 @@ module TesserisPro.TGrid {
             var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.setAttribute("class", "tgrid-table-group-header");
+            headerTr.setAttribute("class", "tgrid-table-group-header");
             if (option.groupHeaderTemplate != null) {
                 option.groupHeaderTemplate.applyTemplate(headerTd);
             } else {
