@@ -51,7 +51,7 @@ module TesserisPro.TGrid {
         }
 
         public getFooterViewModel() {
-            var angularFooterViewModel = new AngularFooterViewModel(0,0,0,0);
+            var angularFooterViewModel = new AngularFooterViewModel(0, 0, 0, 0);
             return angularFooterViewModel;
         }
 
@@ -137,7 +137,7 @@ module TesserisPro.TGrid {
                         })(i);
                         headerButtons.appendChild(filter);
                     }
-                    
+
                     head.appendChild(headerCell);
                 }
                 var placeholderColumn = document.createElement("th");
@@ -155,7 +155,7 @@ module TesserisPro.TGrid {
 
             for (var i = 0; i < items.length; i++) {
                 this.appendTableElement(option, container, items[i], 0, selected);
-            }           
+            }
             //Hide table on mobile devices
             var bodyClass = container.getAttribute("class");
             if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
@@ -222,7 +222,7 @@ module TesserisPro.TGrid {
                 option.tableFooterTemplate.applyTemplate(footer);
             }
         }
-        
+
         public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
             if (option.filterPopup == null) {
                 this.defaultFiltringPopUp(option, filterPopupContainer);
@@ -266,7 +266,7 @@ module TesserisPro.TGrid {
                     }
                 }
                 cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
-                row.appendChild(cell);               
+                row.appendChild(cell);
             }
 
             var placeholderColumn = document.createElement("td");
@@ -635,41 +635,11 @@ module TesserisPro.TGrid {
         private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string): HTMLTableCellElement {
             var spanForCell = document.createElement("span");
             var textBinding = "{{item.".concat(defaultCellBindingName).concat("}}");
-            spanForCell.innerHTML = textBinding;           
+            spanForCell.innerHTML = textBinding;
             cell.appendChild(spanForCell);
 
             return cell;
         }
-
-    //    public FooterCtrl($scope: any) {
-    //    var $scope = $scope;
-    //    $scope.totalCount = 123;
-    //}
-        //public FooterCtrl($scope) {
-        //    var self = this;
-        //    self.$scope = $scope;
-        //}
-        //public GetAngularBinding() {
-        //    return angular.module('TGrid', []).
-        //        //controller('FooterCtrl', ['$scope', function ($scope) {
-        //        //    $scope.totalCount = 123;
-        //        //}]);
-        //        directive('footer', function () {
-        //            return {
-        //                restrict: 'E',
-        //                transclude: true,
-        //                scope: true,
-        //                controller: function ($scope, $element) {
-        //                    $scope.totalCount = 256;
-        //                    $scope.$apply();
-        //                },
-        //                template:
-        //                '<span> TotalCount:</span>' +
-        //                '<span>{{totalCount}}</span>.',
-
-        //                replace: true
-        //            };
-        //        })
-        //    }
+    
     }
 }

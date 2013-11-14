@@ -275,6 +275,7 @@
     margin: 0; 
    padding: 5px 0;
    float: left;
+   z-index:1;
       
 }
 

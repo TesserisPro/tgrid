@@ -140,37 +140,38 @@ module TesserisPro.TGrid {
                         headerButtons.appendChild(filter);
                     }
 
-                    var columnResize = document.createElement("div");
-                    columnResize.className = "tgrid-header-column-resize";
+                    if (option.columns[i].resizable) {
+                        var columnResize = document.createElement("div");
+                        columnResize.className = "tgrid-header-column-resize";
 
-                    columnResize.onclick = e => e.stopImmediatePropagation();
+                        columnResize.onclick = e => e.stopImmediatePropagation();
 
-                    (function (i, headerCell, columnResize) {
-                        var documentMouseMove = null;
-                        var position = 0;
-                        columnResize.onmousedown = e => {
-                            e.stopImmediatePropagation();
-                            console.log("test");
-                            position = e.screenX;
-                            documentMouseMove = document.onmousemove;
-                            document.onmousemove = m => {
-                                if (position != 0) {
-                                    option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
-                                    position = m.screenX;
-                                    columnsResized(option.columns[i]);
-                                }
+                        (function (i, headerCell, columnResize) {
+                            var documentMouseMove = null;
+                            var position = 0;
+                            columnResize.onmousedown = e => {
+                                e.stopImmediatePropagation();
+                                console.log("test");
+                                position = e.screenX;
+                                documentMouseMove = document.onmousemove;
+                                document.onmousemove = m => {
+                                    if (position != 0) {
+                                        option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                        position = m.screenX;
+                                        columnsResized(option.columns[i]);
+                                    }
+                                };
                             };
-                        };
 
-                        document.onmouseup = e => {
-                            document.onmousemove = documentMouseMove;
-                            position = 0;
-                        }
+                            document.onmouseup = e => {
+                                document.onmousemove = documentMouseMove;
+                                position = 0;
+                            }
                     })(i, headerCell, columnResize);
 
-                    
-                    headerButtons.appendChild(columnResize);
 
+                        headerButtons.appendChild(columnResize);
+                    }
                    
                     head.appendChild(headerCell);
                 }
@@ -641,6 +642,7 @@ module TesserisPro.TGrid {
 
             return cell;
         }
+
         private createDefaultGroupHeader(tableRowElement: any) {
             var groupHeaderContainer = document.createElement("div");
             var groupHeaderName = document.createElement("span");
