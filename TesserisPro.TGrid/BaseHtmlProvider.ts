@@ -22,7 +22,7 @@ module TesserisPro.TGrid {
         }
         public getFooterViewModel() {
         }
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean){
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void){
 
         }
 
@@ -86,6 +86,32 @@ module TesserisPro.TGrid {
                 
         }
 
+        updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
+            var headers = header.getElementsByTagName("th");
+            var columns = body.getElementsByTagName("tr").item(0).getElementsByTagName("td");
+
+            var columnNumber = 0;
+
+            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                columnNumber++;
+            }
+
+            for (var i = 0; i < headers.length - 1; i++) {
+                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    columnNumber++;
+                }
+
+                if (columnNumber >= option.columns.length) {
+                    columnNumber = option.columns.length - 1;
+                    break;
+                }
+
+                (<HTMLElement>headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
+                (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
+                columnNumber++;
+            }
+        }
+
         public hasDetails(selectedElement: NodeList, option: Options) {
             if (selectedElement != null && selectedElement.length == 1) {
                 if (option.showDetailFor.column == -1) {
@@ -109,12 +135,11 @@ module TesserisPro.TGrid {
 
         }
 
-        public createDefaultHeader(headerCell: any, headerName: string) {
+        public createDefaultHeader(container: HTMLElement, headerName: string) {
             var defaultHeader = document.createElement("span");
             var defaultName = document.createTextNode(headerName);
             defaultHeader.appendChild(defaultName);
-            headerCell.appendChild(defaultHeader);
-            return headerCell;
+            container.appendChild(defaultHeader);
         }
 
         public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
@@ -228,7 +253,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(groupByHeaderElement);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        groupByHeaderElement = this.createDefaultHeader(groupByHeaderElement, headerText);
+                        this.createDefaultHeader(groupByHeaderElement, headerText);
                     }
 
                     groupByHeaderElement.setAttribute("class", "condition-group-by");
@@ -326,7 +351,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(listItemGroupByItems);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        listItemGroupByItems = this.createDefaultHeader(listItemGroupByItems, headerText);
+                        this.createDefaultHeader(listItemGroupByItems, headerText);
                     }
                     listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
                     listGroupByElement.appendChild(listItemGroupByItems);
