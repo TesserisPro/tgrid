@@ -150,11 +150,6 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
-            if (this.htmlProvider instanceof AngularHtmlProvider) {
-                var footer = document.getElementById('footerModel');
-                angular.bootstrap(footer, ['TGrid']);
-                this.updateFooterViewModel();
-            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {

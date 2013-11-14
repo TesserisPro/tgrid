@@ -4,7 +4,6 @@
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 /// <reference path="AngularFooterViewModel.ts" />
-/// <reference path="IFooterModelScope.ts" />
 
 module TesserisPro.TGrid {
 
@@ -50,8 +49,18 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        static moduleFooterCounter = 0;
+
         public getFooterViewModel() {
-            var angularFooterViewModel = new AngularFooterViewModel(0,0,0,0);
+            var angularFooterViewModel = new AngularFooterViewModel();
+            angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
+            angular
+                .module(angularFooterViewModel.angularModuleName, [])
+                .controller(
+                       'tgrid-footer-controller',
+                        function toGridFooterController($scope) {
+                            angularFooterViewModel.setScope($scope);
+                        });
             return angularFooterViewModel;
         }
 
@@ -251,7 +260,14 @@ module TesserisPro.TGrid {
             if (footerModel == null && option.isEnablePaging) {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
-                option.tableFooterTemplate.applyTemplate(footer);
+                var footerContainer = document.createElement("div");
+                footerContainer.className = "tgrid-footer-container";
+                footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
+                option.tableFooterTemplate.applyTemplate(footerContainer);
+                footer.innerHTML = "";
+                footer.appendChild(footerContainer);
+
+                angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
             }
         }
         
