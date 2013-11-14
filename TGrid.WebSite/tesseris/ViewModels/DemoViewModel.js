@@ -1,47 +1,37 @@
-﻿var DemoViewModel = function () {
-    var self = this;
+﻿var DemoViewModel = (function (data) {
 
-    self.currentDemo = ko.observable("SimpleGridWithoutPaging");
+    var self = this;
+    var isDesktop = true;
+
+    self.demos = ko.observableArray(data.desktop);
+    self.currentDemoItem = ko.observable(self.demos()[0]);
+    self.currentDemo = ko.observable(self.demos()[0].url);
+
+    self.demosmob = ko.observableArray(data.mobile);
+    self.currentDemoMobItem = ko.observable(self.demosmob()[0]);
 
     self.currentDemoUrl = ko.computed(function () { return window.location.href + "?demo=" + self.currentDemo(); });
 
-    self.demos = ko.observableArray([
-        { title: "Simple grid without paging", url: "SimpleGridWithoutPaging" },
-        { title: "Simple grid without paging mobile", url: "SimpleGridWithoutPagingMobile" },
-        { title: "Cell template", url: "CellTemplate" },
-        { title: "Cell template mobile", url: "CellTemplateMobile" },
-        { title: "Header template", url: "HeaderTemplate" },
-        { title: "Header template mobile", url: "HeaderTemplateMobile" },
-        { title: "Details template", url: "DetailsTemplate" },
-        { title: "Details template mobile", url: "DetailsTemplateMobile" },
-        { title: "Custom actions to open details", url: "CustomActionsToOpenDetails" },
-        { title: "Paging", url: "Paging" },
-        { title: "Paging mobile", url: "PagingMobile" },
-        { title: "Virtualization/lazy loading", url: "LazyLoading" },
-        { title: "Virtualization/lazy loading mobile", url: "lazyLoadingMobile" },
-        { title: "Custom items provider", url: "CustomItemsProvider" },
-        { title: "Grouping", url: "Grouping" },
-        { title: "Grouping mobile", url: "GroupingMobile" },
-        { title: "Grouping with virtualization", url: "GroupingWithVirtualization" },
-        { title: "Editing with cell template", url: "EditingWithCellTemplate" },
-        { title: "Performance - 100000 rows with virtualization", url: "RowsWithVirtualization" },
-        { title: "Performance - 100000 rows with paging", url: "RowsWithPaging" }
-    ]);
+    self.currentDemoMobUrl = ko.computed(function () { return window.location.href + "?demo=" + self.currentDemo(); });
 
     self.openDemo = function (demoItem) {
         self.currentDemo(demoItem.url);
-        $.ajax({
-            type: "post",
-            url: 'Code',
-            success: function (response) {
-                $("#html").append(response);
-            }
-        })
+        self.currentDemoItem(demoItem);
+        self.currentCodeName(self.codes()[0].name);
+        isDesktop = true;
+        UpdateCodePreview();
     }
 
-    self.currentCodeName = ko.observable("HTML");
+    self.openDemoMob = function (demoItem) {
+        self.currentDemo(demoItem.url);
+        self.currentDemoMobItem(demoItem);
+        self.currentDemoItem(demoItem);
+        self.currentCodeName(self.codes()[0].name);
+        isDesktop = false;
+        UpdateCodePreview();
+    }
 
-    //self.currentCode
+    self.currentCode = ko.observable("");
 
     self.codes = ko.observableArray([
         { name: "HTML" },
@@ -49,23 +39,38 @@
         { name: "JS" }
     ]);
 
+    self.currentCodeName = ko.observable(self.codes()[0].name);
+
     self.showCode = function (codeName) {
         self.currentCodeName(codeName.name);
-        if (codeName.name == "HTML") {
-            //$.ajax({
-            //    type: "post",
-            //    url: 'Code',
-            //    success: function (response) {
-            //        $("#html").append(response);
-            //    }
-            //})
-        }
-        if (codeName.name == "CSS") {
-            $("#css").css({ "background": "green", "width":"200px", "height":"200px" })
-        }
-        if (codeName.name == "JS") {
-            $("#js").css({ "background": "yellow", "width": "200px", "height": "200px" })
-        }
+
+        UpdateCodePreview();
     }
 
-}
+    function UpdateCodePreview() {
+        if (self.currentCodeName() == "HTML") {
+            if (isDesktop) {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().htmlUrl), function (r) { self.currentCode(r) })
+            } else {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().htmlUrl), function (r) { self.currentCode(r) })
+            }
+        }
+        if (self.currentCodeName() == "CSS") {
+            if (isDesktop) {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().cssUrl), function (r) { self.currentCode(r) })
+            } else {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().cssUrl), function (r) { self.currentCode(r) })
+            }
+        }
+        if (self.currentCodeName() == "JS") {
+            if (isDesktop) {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().jsUrl), function (r) { self.currentCode(r) })
+            } else {
+                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().jsUrl), function (r) { self.currentCode(r) })
+            }
+        }
+    }
+    UpdateCodePreview();
+});
+
+
