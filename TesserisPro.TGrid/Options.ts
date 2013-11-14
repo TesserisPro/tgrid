@@ -55,6 +55,7 @@ module TesserisPro.TGrid {
         public mobileTemplateHtml: Template;
         public detailsTemplateHtml: Template;
         public groupHeaderTemplate: Template;
+        public filterPopup: Template;
 
         public framework: Framework;
         public target: HTMLElement;
@@ -75,6 +76,8 @@ module TesserisPro.TGrid {
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
+
+        public parentViewModel: any;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
@@ -125,8 +128,11 @@ module TesserisPro.TGrid {
 
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
 
-            var mobileTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("mobile");
+            var filterPopup = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("filterpopup");
+            this.filterPopup = filterPopup.length == 1 ? new Template(filterPopup[0]) : null;
 
+            var mobileTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("mobile");
+            
             this.mobileTemplateHtml = mobileTemplate.length == 1 ? new Template(mobileTemplate[0]) : null;
 
             var groupHeaderTemplate = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("groupheader");
@@ -139,8 +145,13 @@ module TesserisPro.TGrid {
             this.showDetailFor = new ShowDetail();
 
             var footer = optionsElement.getElementsByTagName("footer"); 
-            this.tableFooterTemplate = footer.length == 1 ? new Template(footer[0]) : null;
+            this.tableFooterTemplate = footer.length > 0 ? new Template(footer[0]) : null;
             
+            if (footer.length != 0) {
+                this.tableFooterTemplate = new Template(footer[0]);
+            } else {
+                this.tableFooterTemplate = null;
+            }
         }
       
     }

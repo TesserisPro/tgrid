@@ -7,7 +7,7 @@
 <script src="~/Scripts/jquery-2.0.3.js"></script>
 <script src="~/Scripts/knockout-2.3.0.js"></script>
 
-@*<script src="~/Scripts/BaseHtmlProvider.js" type="text/javascript"></script>
+<script src="~/Scripts/BaseHtmlProvider.js" type="text/javascript"></script>
 <script src="~/Scripts/KnockoutHtmlProvider.js" type="text/javascript"></script>
 <script src="~/Scripts/AngularHtmlProvider.js" type="text/javascript"></script>
 <script src="~/Scripts/options.js" type="text/javascript"></script>
@@ -19,19 +19,23 @@
 <script src="~/Scripts/FilterDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/GroupHeaderDescriptor.js" type="text/javascript"></script>
 <script src="~/Scripts/utils.js" type="text/javascript"></script>
-<script src="~/Scripts/FooterViewModel.js" type="text/javascript"></script>*@
+<script src="~/Scripts/FilterPopupViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/KnockoutFooterViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/AngularFooterViewModel.js" type="text/javascript"></script>
+<script src="~/Scripts/IFooterModelScope.js" type="text/javascript"></script>
+<script src="~/Scripts/FooterCtrl.js" type="text/javascript"></script>
 
-<script src="~/Scripts/tgrid-min.js" type="text/javascript"></script>
+
+@*<script src="~/Scripts/tgrid-min.js" type="text/javascript"></script>
 <script src="~/Scripts/tgrid-angular-min.js" type="text/javascript"></script>
-<script src="~/Scripts/tgrid-knockout-min.js" type="text/javascript"></script>
+<script src="~/Scripts/tgrid-knockout-min.js" type="text/javascript"></script>*@
 
-
-<script type="text/javascript">
+@*<script type="text/javascript">
     window.onerror = function (msg, url, line) {
         alert("Error: " + msg + "\n\nUrl: " + url + "\n\nLine: " + line);
-        return false;
+        return true;
     };
-</script>
+</script>*@
 
 <h1>TGrid Demo</h1>
 
@@ -72,7 +76,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'true', enableGrouping: 'true', enableFiltering: 'true' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'false', enableFiltering: 'true' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name">
             <header>
@@ -129,6 +133,18 @@
             CurrentPage: <span data-bind="text: currentPage"></span>.
             TotalPages: <span data-bind="text: totalPages"></span>.
         </footer>
+
+        <filterpopup>
+            <select>
+                <option value="0">none</option>
+                <option value="1">=</option>
+                <option value="2">&lt;&gt;</option>
+            </select><br>
+            <input  style="width:150px" value=""><br>
+            <button style="width:50px" data-bind="click: function () { onApply(); }">apply</button>
+            <button style="width:50px" data-bind="click: function () { onClear(); }">clear</button>
+            <button style="width:50px" data-bind="click: function () { onClose(); }">close</button>
+        </filterpopup>
 
         <mobile>
             <div>
@@ -385,8 +401,8 @@
 
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
-    <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="false" >
+<div ng-controller="ctrl">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="false" enableFiltering="true" >
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name">
             <header>
@@ -424,10 +440,12 @@
         </groupheader>
 
         <footer>
-            TotalCount: <span>1</span>.
-            SelectedItem: <span > 1</span>. 
-            CurrentPage: <span>1</span>. 
-            TotalPages: <span>1</span>.
+            <div>
+                TotalCount: <span>{{totalCount}}</span>.
+                SelectedItem: <span >{{selectedItem}}</span>. 
+                CurrentPage: <span>{{currentPage}}</span>. 
+                TotalPages: <span>{{totalPages}}</span>.
+            </div>
         </footer>
 
         <mobile>
@@ -441,6 +459,18 @@
                 <a href>[]</a>
             </div>       
         </mobile>
+
+        <filterpopup>
+            <select>
+                <option value="0">none</option>
+                <option value="1">=</option>
+                <option value="2">&lt;&gt;</option>
+            </select><br>
+            <input  style="width:150px" value=""><br>
+            <button style="width:50px" ng-click="onApply()">apply</button>
+            <button style="width:50px" ng-click="onClear()">clear</button>
+            <button style="width:50px" ng-click="onClose()">close</button>
+        </filterpopup>
 
         <details>
             <div>
@@ -658,10 +688,7 @@
     })();
 
     var TGrid = angular.module('TGrid', [])
-        .controller("ctrl", function ctrl($scope) {
-            $scope.dataProvider = new SimpleItemsProviderAngular();
-        })
-
+        .controller("ctrl", function ctrl($scope) { $scope.dataProvider = new SimpleItemsProviderAngular(); })
         .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {

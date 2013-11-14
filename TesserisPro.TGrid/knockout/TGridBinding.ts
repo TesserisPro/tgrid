@@ -11,6 +11,8 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
         var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
 
+        options.parentViewModel = viewModel;
+
         if (valueAccessor().groupBy != undefined) {
             for (var i = 0; i < valueAccessor().groupBy.length; i++) {
                 options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(valueAccessor().groupBy[i], true));
@@ -59,7 +61,8 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
         }
 
-        var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+        // Create grid after all other bindings are ready
+        setTimeout(function () { var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider); }, 1);
     }
 
     public update(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {

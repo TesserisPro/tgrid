@@ -3,7 +3,7 @@
 }
 
 .tgrid-table{
-    border-bottom: 1px solid rgb(122,188,255);
+    //border-bottom: 1px solid rgb(122,188,255);
 }
 
 .tgrid-table, 
@@ -19,8 +19,7 @@
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
-        margin: 1px;
-        padding: 2px;
+        margin: 0px;
         background: rgb(222,239,255); /* Old browsers */
         background: -moz-linear-gradient(top, rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
@@ -29,22 +28,76 @@
         background: -ms-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
         background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+        
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
+
 
 .tgrid-mobile-header {
     margin: 0px;
     border-top: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
     border-right: 1px solid rgb(122,188,255);
+    
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.tgrid-header-cell-container{
+    margin: 0px;
+    display:inline-block;
+    width: 100%;
+    height: 22px;
+    position: relative;
+}
+
+.tgrid-header-cell-content {
+    margin: 0px;
+    display:inline-block;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+}
+
+.tgrid-header-cell-buttons {
+    margin: 0px;
+    display:inline-block;
+    position: absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    left:0;
+}
+
+.tgrid-header-column-resize{
+    right: -4px;
+    width: 4px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    cursor: col-resize;
 }
 
 .tgrid-table tbody tr td, 
 .tgrid-table-group-header {
-    padding: 2px;
     border-top: 1px solid rgb(122,188,255);
     border-left: 1px solid rgb(122,188,255);
     background-color: white;
 }
+
+.tgrid-table tbody tr:nth-child(odd) td{
+    background-color: rgb(250, 252, 255);
+}
+
 
 .tgrid-table-group-header {
     border-bottom: none !important;
@@ -78,14 +131,14 @@
 }
 
 .tgrid-tablebodycontainer {
-    border: 1px solid rgb(122,188,255);
+    //border: 1px solid rgb(122,188,255);
     overflow-y: scroll;
     overflow-x: auto;
     height: 420px;
 }
 
 .tgrid-tableheadercontainer {
-    border: 1px solid rgb(122,188,255);
+    border-top: 1px solid rgb(122,188,255);
 }
 
 .tgrid-footer {
@@ -94,7 +147,7 @@
     border-bottom: 1px solid rgb(122,188,255);
     padding: 2px;
     background-color: #f5f8fb;
-    height: 29px;
+    height: auto;
 }
 
 .tgird-pagination {
@@ -144,16 +197,20 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(../images/arrow_up.png) no-repeat;
-    margin-left: 5px;
+    background: url(../images/arrow_down.png) no-repeat;
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
 }
 
 .tgrid-arrow-up {
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(../images/arrow_down.png) no-repeat;
-    margin-left: 5px;
+    background: url(../images/arrow_up.png) no-repeat;
+    position: absolute;
+    top: 0px;
+    right: 20px;
 }
 
 .tgrid-buisy-indicator {
@@ -271,8 +328,12 @@ thead>tr> .tgrid-table-indent-cell {
 .tgrid-filter-button{
     background: url(../images/filter.png) no-repeat;
     display: inline-block;
+    text-align: right;    
     height: 16px;
     width: 16px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
 }
 
 .tgrid-applied-filter-button{
@@ -280,5 +341,11 @@ thead>tr> .tgrid-table-indent-cell {
     display: inline-block;
     height: 16px;
     width: 16px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
 }
 
+th.tgrid-placeholder {
+    min-width: 17px;
+}
