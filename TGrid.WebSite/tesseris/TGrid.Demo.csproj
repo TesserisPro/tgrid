@@ -155,10 +155,16 @@
     <Content Include="Content\images\Gear-04.png" />
     <Content Include="Content\images\Gears-main.png" />
     <Content Include="Content\images\gears.png" />
+    <Content Include="Content\images\gears5.png" />
+    <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo_small.png" />
     <Content Include="Content\images\logo_small_1.png" />
     <Content Include="Content\images\logo_small_for_doc.jpg" />
+    <Content Include="Content\images\tesseris.png" />
+    <Content Include="Content\images\tgridSNS.png" />
+    <Content Include="Content\images\web-1.jpg" />
+    <Content Include="Content\images\web-2.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Highlighter\shAutoloader.js" />
