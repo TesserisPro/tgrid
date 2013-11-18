@@ -502,7 +502,7 @@ module TesserisPro.TGrid {
                     bodyClass += " mobile";
                 }
             }
-            container.classList.add(bodyClass);
+            container.setAttribute("class", bodyClass);
             option.showDetailFor.isDetailColumn = false;
         }
 

@@ -4,6 +4,7 @@
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 /// <reference path="AngularFooterViewModel.ts" />
+/// <reference path="AngularItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 
@@ -51,6 +52,10 @@ module TesserisPro.TGrid {
 
         static moduleFooterCounter = 0;
 
+        static controllerItemCounter = 0;
+
+        static angularModuleName = 'tgrid-row-module';
+
         public getFooterViewModel() {
             var angularFooterViewModel = new AngularFooterViewModel();
             angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
@@ -63,7 +68,7 @@ module TesserisPro.TGrid {
                         });
             return angularFooterViewModel;
         }
-
+         
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
@@ -196,8 +201,11 @@ module TesserisPro.TGrid {
                 option.showDetailFor.column = -1;
             }
 
+            var angularModule = angular.module(AngularHtmlProvider.angularModuleName, []);
+
             for (var i = 0; i < items.length; i++) {
-                this.appendTableElement(option, container, items[i], 0, selected);
+                
+                this.appendTableElement(option, container, items[i], 0, selected, AngularHtmlProvider.angularModuleName, angularModule);
             }
             //Hide table on mobile devices
             var bodyClass = container.getAttribute("class");
@@ -209,7 +217,7 @@ module TesserisPro.TGrid {
                     bodyClass += " desktop";
                 }
             }
-            container.classList.add(bodyClass);
+            container.setAttribute('class', bodyClass);
         }
 
         public addDetailRow(option: Options, container: HTMLElement) {
@@ -250,7 +258,7 @@ module TesserisPro.TGrid {
             var selectedElement = container.getElementsByClassName("selected");
             // Insert row details after selected item
             if (this.hasDetails(selectedElement, option)) {
-                var details = this.buildDetailsRow(option);
+                var details = this.buildDetailsRow(option, item);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
                 //ko.applyBindings(option.showDetailFor, details);
@@ -283,7 +291,7 @@ module TesserisPro.TGrid {
         }
 
         //private methods
-        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean, angularModuleName: string, angularModule: any): void {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
 
@@ -291,18 +299,28 @@ module TesserisPro.TGrid {
                 var groupHeader = this.buildGroupHeaderRow(option, item.item);
                 container.appendChild(groupHeader);
             } else {
-                var row = this.buildRowElement(option, item, container, selected);
+                var row = this.buildRowElement(option, item, container, selected, angularModuleName, angularModule);
                 container.appendChild(row);
             }
         }
 
-        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, angularModuleName: string, angularModule: any): HTMLElement {
             var row = document.createElement("tr");
             row.classList.add("table-body-row");
 
             if (option.isSelected(item.item)) {
                 row.classList.add("selected");
             }
+
+            var angularItemViewModel = new AngularItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
+            angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
+            angularModule.controller(
+                angularItemViewModel.angularControllerName,
+                function toGridFooterController($scope) {
+                    angularItemViewModel.setScope($scope);
+                });
+
+            row.setAttribute("ng-controller", angularItemViewModel.angularControllerName);
 
             this.appendIndent(row, option.groupBySortDescriptor.length, false);
 
@@ -315,9 +333,10 @@ module TesserisPro.TGrid {
                         cell = this.createDefaultCell(cell, option.columns[i].member);
                     }
                 }
-                cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
-                row.appendChild(cell);
+                //cell.innerHTML = cell.innerHTML.replace("{{item." + option.columns[i].sortMemberPath + "}}", item.item[option.columns[i].sortMemberPath]);
+                row.appendChild(cell);                
             }
+            angular.bootstrap(row, [angularModuleName]);
 
             var placeholderColumn = document.createElement("td");
             placeholderColumn.classList.add("tgrid-placeholder");
@@ -336,7 +355,7 @@ module TesserisPro.TGrid {
             return row;
         }
 
-        private buildDetailsRow(option: Options): HTMLElement {
+        private buildDetailsRow(option: Options, item: ItemViewModel): HTMLElement {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
@@ -345,15 +364,25 @@ module TesserisPro.TGrid {
             detailTr.classList.add("details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailTd) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailTd);
-            var begin = detailTd.innerHTML.indexOf("{{item.");
-            var end = detailTd.innerHTML.indexOf("}}");
-            var str = detailTd.innerHTML.substring(begin + 7, end);
-            detailTd.innerHTML = detailTd.innerHTML.replace("{{item." + str + "}}", option.showDetailFor.item[str]);
+            
+
+            var angularItemViewModel = new AngularItemViewModel(null, item, null, null);
+            angularItemViewModel.angularControllerName = 'tgrid-detail-controller' + AngularHtmlProvider.controllerItemCounter++;
+            angular.module(AngularHtmlProvider.angularModuleName, [])
+                .controller(
+                angularItemViewModel.angularControllerName,
+                function toGridFooterController($scope) {
+                    angularItemViewModel.setScope($scope);
+                });
+
+            detailTd.setAttribute("ng-controller", angularItemViewModel.angularControllerName); 
             detailTr.appendChild(detailTd);
+            angular.bootstrap(detailTd, [AngularHtmlProvider.angularModuleName]);
 
             return detailTr;
 
         }
+
 
         private buildGroupHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
             var headerTr = document.createElement("tr");
@@ -512,7 +541,7 @@ module TesserisPro.TGrid {
                     bodyClass += " mobile";
                 }
             }
-            container.classList.add(bodyClass);
+            container.setAttribute("class", bodyClass);
             option.showDetailFor.isDetailColumn = false;
         }
 

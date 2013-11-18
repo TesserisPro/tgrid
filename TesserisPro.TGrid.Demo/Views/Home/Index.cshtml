@@ -22,20 +22,19 @@
 <script src="~/Scripts/FilterPopupViewModel.js" type="text/javascript"></script>
 <script src="~/Scripts/KnockoutFooterViewModel.js" type="text/javascript"></script>
 <script src="~/Scripts/AngularFooterViewModel.js" type="text/javascript"></script>
-<script src="~/Scripts/IFooterModelScope.js" type="text/javascript"></script>
-<script src="~/Scripts/FooterCtrl.js" type="text/javascript"></script>
+<script src="~/Scripts/AngularItemViewModel.js" type="text/javascript"></script>
 
 
 @*<script src="~/Scripts/tgrid-min.js" type="text/javascript"></script>
 <script src="~/Scripts/tgrid-angular-min.js" type="text/javascript"></script>
 <script src="~/Scripts/tgrid-knockout-min.js" type="text/javascript"></script>*@
 
-@*<script type="text/javascript">
+<script type="text/javascript">
     window.onerror = function (msg, url, line) {
         alert("Error: " + msg + "\n\nUrl: " + url + "\n\nLine: " + line);
         return true;
     };
-</script>*@
+</script>
 
 <h1>TGrid Demo</h1>
 
@@ -403,19 +402,19 @@
 <div ng-app="TGrid"> 
 <div ng-controller="ctrl">
 <t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
-    <script type="text/html">
+     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="true">
             <header>
                 <span style="color: red;">Name</span>
             </header>
             <cell>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="function () { item.getCellDetailFor(0); }" >[]</a> @*data-bind="click: function () { getCellDetailFor(0); }"*@
+                <a href ng-click="getCellDetailsFor(0)">[]</a> @*data-bind="click: function () { getCellDetailFor(0); }"*@
             </cell>
             <celldetail>
                 <div>
                     <span>Cell details: </span>
-                    <span style="color: brown;">name</span>
+                    <span style="color: brown;">{{item.name}}</span>
                 </div>
             </celldetail>
         </column>
@@ -423,12 +422,12 @@
             <header>Key</header>
             <cell>
                 <span style="color: red;">{{item.key}}</span>
-                <a href ng-click="function () { item.getCellDetailFor(1); }" >[]</a> @*data-bind="click: function () { getCellDetailFor(1); }"*@
+                <a href ng-click="getCellDetailsFor(1)" >[]</a> @*data-bind="click: function () { getCellDetailFor(1); }"*@
             </cell>
             <celldetail>
                 <div>
                     <span>Cell details: </span>
-                    <span style="color: brown;">key</span>
+                    <span style="color: brown;">{{item.key}}</span>
                 </div>
             </celldetail>
         </column>
@@ -688,7 +687,10 @@
     })();
 
     var TGrid = angular.module('TGrid', [])
-        .controller("ctrl", function ctrl($scope) { $scope.dataProvider = new SimpleItemsProviderAngular(); })
+        .controller("ctrl", function ctrl($scope) {
+            $scope.dataProvider = new SimpleItemsProviderAngular();
+            $scope.items = ['item1', 'item2', 'item3'];
+        })
         .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {
