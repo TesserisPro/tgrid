@@ -414,7 +414,7 @@
             <celldetail>
                 <div>
                     <span>Cell details: </span>
-                    <span style="color: brown;">{{item.name}}</span>
+                    <span style="color: brown;">{{item.detail_name}}</span>
                 </div>
             </celldetail>
         </column>
@@ -427,7 +427,7 @@
             <celldetail>
                 <div>
                     <span>Cell details: </span>
-                    <span style="color: brown;">{{item.key}}</span>
+                    <span style="color: brown;">{{item.detail_key}}</span>
                 </div>
             </celldetail>
         </column>
@@ -451,11 +451,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;">{{item.name}}</span>
-                <a href>[]</a>
+                <a href ng-click="getCellDetailsFor(0);">[]</a>
                 <br />
                 <span>Key: </span>
                 <span style="color: red;">{{item.key}}</span>
-                <a href>[]</a>
+                <a href ng-click="getCellDetailsFor(1);">[]</a>
             </div>       
         </mobile>
 
@@ -689,7 +689,6 @@
     var TGrid = angular.module('TGrid', [])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();
-            $scope.items = ['item1', 'item2', 'item3'];
         })
         .directive('tGrid', TGrid.Angular.Directive);
 

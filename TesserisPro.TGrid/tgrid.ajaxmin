@@ -20,8 +20,6 @@
     <input path="angular/AngularHtmlProvider.js"/>
     <input path="angular/TGridDirective.js"/>
     <input path="angular/AngularFooterViewModel.js"/>
-    <input path="angular/IFooterModelScope.js"/>
-    <input path="angular/FooterCtrl.js"/>
   </output>
 
   <output path="bin/tgrid-knockout-min.js">

@@ -11,10 +11,7 @@ module TesserisPro.TGrid {
             this.$scope.item = this.item;
             this.$scope.grid = this.grid;
             this.$scope.isGroupHeader = this.isGroupHeader;
-            this.$scope.getCellDetailsFor = function (columnIndex) {
-                this.grid.options.showDetailFor.column = columnIndex;
-                this.grid.options.showDetailFor.isDetailColumn = true;
-            };
+            this.$scope.getCellDetailsFor = (columnIndex) => this.getCellDetailFor(columnIndex); 
         }
     }
 }

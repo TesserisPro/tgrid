@@ -418,7 +418,7 @@ module TesserisPro.TGrid {
             if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
                 // Update mobile sort arrow
                 this.removeArrows(mobileHeader);
-                var arrowUpdate = document.getElementsByClassName("tgrid-inline-block");
+                var arrowUpdate = mobileHeader.getElementsByClassName("arrows");
                 if (option.sortDescriptor.asc) {
                     var up = document.createElement("div");
                     up.classList.add("tgrid-arrow-up");
@@ -449,8 +449,9 @@ module TesserisPro.TGrid {
                 mobileHeader.setAttribute("class", headerClass);
 
                 if (isSortable) {
-                    var div = document.createElement("div");
-                    var arrow = document.createElement("div");
+                    var mobileSortingContainer = document.createElement("div");
+                    var mobileHeaderButtons = document.createElement("div");
+                    var arrows = document.createElement("span");
                     var select = document.createElement("select");
 
                     select.onchange = (e) => {
@@ -463,20 +464,23 @@ module TesserisPro.TGrid {
                         selectOption.text = option.columns[i].sortMemberPath;
                         select.appendChild(selectOption);
                         if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                            arrow = <HTMLDivElement>this.addArrows(arrow, option, i);
+                            arrows = <HTMLDivElement>this.addArrows(arrows, option, i);
                         }
                     }
 
-                    arrow.classList.add("tgrid-inline-block");
-                    div.innerHTML += "Sorting by ";
-                    div.appendChild(select);
-                    div.appendChild(arrow);
+                    mobileHeaderButtons.classList.add("tgrid-header-cell-buttons");
+                    arrows.classList.add("arrows");
+                    mobileHeaderButtons.appendChild(arrows);
+                    mobileSortingContainer.classList.add("tgrid-inline-block");
+                    mobileSortingContainer.innerHTML += "Sorting by ";
+                    mobileSortingContainer.appendChild(select);
+                    mobileSortingContainer.appendChild(mobileHeaderButtons);
 
-                    arrow.onclick = (e) => {
+                    arrows.onclick = (e) => {
                         Grid.getGridObject(<HTMLElement>e.target).sortBy(select.options[select.selectedIndex].value);
                     };
 
-                    mobileHeader.appendChild(div);
+                    mobileHeader.appendChild(mobileSortingContainer);
                 } else {
                     mobileHeader.innerHTML = "<div></div>";
                 }

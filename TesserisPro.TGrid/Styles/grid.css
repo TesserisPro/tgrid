@@ -71,11 +71,13 @@
 .tgrid-header-cell-buttons {
     margin: 0px;
     display:inline-block;
-    position: absolute;
+   /* position: absolute;*/
     right:0;
     top:0;
     bottom:0;
     left:0;
+    width: 55px;
+    float: right;
 }
 
 .tgrid-header-column-resize{
@@ -131,7 +133,7 @@
 }
 
 .tgrid-tablebodycontainer {
-    //border: 1px solid rgb(122,188,255);
+    /*border: 1px solid rgb(122,188,255);*/
     overflow-y: scroll;
     overflow-x: auto;
     height: 420px;
@@ -198,7 +200,7 @@
     width: 16px;
     height: 16px;
     background: url(../images/arrow_down.png) no-repeat;
-    position: absolute;
+    /*position: absolute;*/
     bottom: 0px;
     right: 20px;
 }
@@ -208,7 +210,7 @@
     width: 16px;
     height: 16px;
     background: url(../images/arrow_up.png) no-repeat;
-    position: absolute;
+    /*position: absolute;*/
     top: 0px;
     right: 20px;
 }
