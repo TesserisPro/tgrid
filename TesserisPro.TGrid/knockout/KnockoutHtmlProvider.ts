@@ -260,7 +260,9 @@ module TesserisPro.TGrid {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
-                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                if (option.isEnablePaging) {
+                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                }
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 ko.applyBindings(footerModel, footerContainer);
 
@@ -629,30 +631,6 @@ module TesserisPro.TGrid {
             return detailDiv;
         }
 
-        private buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
-            var headerDiv = document.createElement("div");
-
-            headerDiv.classList.add("tgrid-mobile-group-header");
-            headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
-
-            if (option.isEnableCollapsing) {
-                if (!groupHeaderDescriptor.collapse) {
-                    headerDiv.onclick = (e) => {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
-                    }
-                } else {
-                    headerDiv.onclick = (e) => {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
-                    }
-                }
-            }
-            if (option.groupHeaderTemplate != null) {
-                option.groupHeaderTemplate.applyTemplate(headerDiv);
-            }
-
-            return headerDiv;
-        }
-
         private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string) : HTMLTableCellElement {           
             var spanForCell = document.createElement("span");
             var textBinding = "text: item.".concat(defaultCellBindingName)
@@ -662,7 +640,7 @@ module TesserisPro.TGrid {
             return cell;
         }
 
-        private createDefaultGroupHeader(tableRowElement: any) {
+        public createDefaultGroupHeader(tableRowElement: any) {
             var groupHeaderContainer = document.createElement("div");
             var groupHeaderName = document.createElement("span");
             groupHeaderName.setAttribute("data-bind", "text: item.value");
@@ -676,36 +654,5 @@ module TesserisPro.TGrid {
             var viewModel = ko.contextFor(option.target);
             ko.applyBindings(viewModel, elementForBinding);
         }
-        //public addListGroupByItems(option: Options, listGroupByElement: HTMLUListElement) {
-        //    for (var i = 0; i < option.columns.length; i++) {
-        //        if (option.columns[i].groupMemberPath != null) {
-        //            var listItemGroupByItems = document.createElement("li");
-
-        //            listItemGroupByItems.onclick = (e) => {
-        //                //get top ancestor, because event fires on the last nested element
-        //                var el = <Node>e.target;
-        //                while (el && el.nodeName !== 'LI') {
-        //                    el = el.parentNode
-        //                    }
-        //                Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
-        //                Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
-        //            }
-        //            if (option.columns[i].header != null) {
-        //                option.columns[i].header.applyTemplate(listItemGroupByItems);
-        //            } else {
-        //                var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-        //                this.createDefaultHeader(listItemGroupByItems, headerText);
-        //            }
-        //            listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
-        //            var viewModel = ko.contextFor(option.target);
-        //            ko.applyBindings(viewModel, listItemGroupByItems);
-
-        //            listGroupByElement.appendChild(listItemGroupByItems);
-        //        }
-        //    }
-
-        //    return listGroupByElement;
-        //}
-        
     }
 }

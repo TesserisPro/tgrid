@@ -114,7 +114,7 @@
     background-color: rgb(234, 244, 254) !important;
 }
 
-.tgrid-mobile-indent-div, .tgrid-table-indent-cell{
+.tgrid-mobile-indent-div, .tgrid-table-indent-cell, .tgrid-mobile-group-indent-div{
     width: 20px;
 }
 
@@ -235,7 +235,7 @@
     overflow: scroll;
 }
 
-.tgrid-scroll div {
+.tgrid-scroll div, .tgrid-mobile-group-header-container, .tgrid-mobile-group-indent-div {
     display: inline-block;
 }
 

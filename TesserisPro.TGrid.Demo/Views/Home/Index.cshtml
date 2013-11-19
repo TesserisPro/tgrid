@@ -402,7 +402,7 @@
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
 <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name, key" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
      <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="true">
             <header>
@@ -435,7 +435,7 @@
 
         <groupheader>
             <div>
-                <span style="color: green;">{{item.value}}</span>
+                <span style="color: green;">{{item}}</span>
             </div>
         </groupheader>
 

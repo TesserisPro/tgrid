@@ -55,6 +55,7 @@ module TesserisPro.TGrid {
         static controllerItemCounter = 0;
 
         static angularModuleName = 'tgrid-row-module';
+        static angularGroupModuleName = 'tgrid-group-module';
 
         public getFooterViewModel() {
             var angularFooterViewModel = new AngularFooterViewModel();
@@ -288,7 +289,9 @@ module TesserisPro.TGrid {
                 footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 footer.innerHTML = "";
-                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                if (option.isEnablePaging) {
+                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                }
                 footer.appendChild(footerContainer);
 
                 angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
@@ -336,7 +339,7 @@ module TesserisPro.TGrid {
             angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
             angularModule.controller(
                 angularItemViewModel.angularControllerName,
-                function toGridFooterController($scope) {
+                function toGridRowController($scope) {
                     angularItemViewModel.setScope($scope);
                 });
 
@@ -418,7 +421,7 @@ module TesserisPro.TGrid {
             } else {
                 headerTd = this.createDefaultGroupHeader(headerTd);
             }
-            headerTd.innerHTML = headerTd.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
+            
             if (option.isEnableCollapsing) {
                 if (!groupHeaderDescriptor.collapse) {
                     headerTd.onclick = (e) => {
@@ -431,7 +434,18 @@ module TesserisPro.TGrid {
                 }
             }
 
+            var angularGroupViewModel = new AngularItemViewModel(null, groupHeaderDescriptor.value, null, null);
+            angularGroupViewModel.angularControllerName = 'tgrid-groupHeader-controller' + AngularHtmlProvider.controllerItemCounter++;
+            angular.module(AngularHtmlProvider.angularGroupModuleName, [])
+                .controller(
+                angularGroupViewModel.angularControllerName,
+                function toGridGroupHeaderController($scope) {
+                    angularGroupViewModel.setScope($scope);
+                });
+
+            headerTd.setAttribute("ng-controller", angularGroupViewModel.angularControllerName);
             headerTr.appendChild(headerTd);
+            angular.bootstrap(headerTd, [AngularHtmlProvider.angularGroupModuleName]);
 
             return headerTr;
         }
@@ -606,7 +620,6 @@ module TesserisPro.TGrid {
                 var details = this.buildMobileDetailsRow(option, item);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
-                //ko.applyBindings(option.showDetailFor, details);
             }
         }
 
@@ -648,7 +661,7 @@ module TesserisPro.TGrid {
             row.appendChild(rowTemplate);
 
             var angularItemViewModel = new AngularItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
-            angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
+            angularItemViewModel.angularControllerName = 'tgrid-mobile-row-controller' + AngularHtmlProvider.controllerItemCounter++;
             angular.module(AngularHtmlProvider.angularModuleName)
                 .controller(
                 angularItemViewModel.angularControllerName,
@@ -677,10 +690,10 @@ module TesserisPro.TGrid {
             return row;
         }
 
-        private createDefaultGroupHeader(tableRowElement: any) {
+        public createDefaultGroupHeader(tableRowElement: any) {
             var groupHeaderContainer = document.createElement("div");
             var groupHeaderName = document.createElement("span");
-            groupHeaderName.innerHTML = "{{item.value}}";
+            groupHeaderName.innerHTML = "{{item}}";
             groupHeaderName.setAttribute("style", "color: green;");
             groupHeaderContainer.appendChild(groupHeaderName);
             tableRowElement.appendChild(groupHeaderContainer);
@@ -710,29 +723,19 @@ module TesserisPro.TGrid {
             return detailDiv;
         }
 
-        private buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
-            var headerDiv = document.createElement("div");
+        public bindMobileGroupHeader(headerContainer: HTMLElement, item: any, headerDiv: HTMLElement){
+           var angularGroupViewModel = new AngularItemViewModel(null, item, null, null);
+            angularGroupViewModel.angularControllerName = 'tgrid-groupHeader-controller' + AngularHtmlProvider.controllerItemCounter++;
+            angular.module(AngularHtmlProvider.angularGroupModuleName, [])
+                .controller(
+                angularGroupViewModel.angularControllerName,
+                function toGridGroupHeaderController($scope) {
+                    angularGroupViewModel.setScope($scope);
+                });
 
-            headerDiv.classList.add("tgrid-mobile-group-header")
-            headerDiv.setAttribute("style", "padding-left: " + (20 * groupHeaderDescriptor.level) + "px !important;");
-
-            if (option.isEnableCollapsing) {
-                if (!groupHeaderDescriptor.collapse) {
-                    headerDiv.onclick = (e) => {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
-                    }
-                } else {
-                    headerDiv.onclick = (e) => {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
-                    }
-                }
-            }
-            if (option.groupHeaderTemplate != null) {
-                option.groupHeaderTemplate.applyTemplate(headerDiv);
-            }
-            headerDiv.innerHTML = headerDiv.innerHTML.replace("{{item.value}}", groupHeaderDescriptor.value);
-
-            return headerDiv;
+            headerDiv.setAttribute("ng-controller", angularGroupViewModel.angularControllerName);           
+            headerContainer.appendChild(headerDiv);
+            angular.bootstrap(headerDiv, [AngularHtmlProvider.angularGroupModuleName]);
         }
 
         private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string): HTMLTableCellElement {

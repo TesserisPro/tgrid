@@ -744,10 +744,15 @@ module TesserisPro.TGrid {
 
         private updateFooterViewModel() {
             if (this.footerViewModel != null) {
-                this.footerViewModel.setCurrentPage(this.options.currentPage);
+                this.footerViewModel.setCurrentPage(this.options.currentPage +1);
                 this.footerViewModel.setSelectedItem(this.options.selection[0]);
                 this.footerViewModel.setTotalCount(this.totalItemsCount);
-                this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
+                if (this.options.isEnablePaging) {
+                    this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
+                } else {
+                    this.footerViewModel.setTotalPages(1);
+                }
+
             }
         }
 
