@@ -684,6 +684,10 @@ module TesserisPro.TGrid {
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
         }
 
+        public updateBody() {
+            this.refreshBody();
+        }
+
         private refreshBody(withBuisy: boolean = false) {
             if (withBuisy) {
                 this.showBuisyIndicator();

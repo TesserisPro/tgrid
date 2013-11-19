@@ -1,5 +1,4 @@
 /// <reference path="../Scripts/typings/knockout/knockout.d.ts" />
-/// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Scripts/typings/extenders.d.ts" />
 /// <reference path="../TGrid.ts" />
 /// <reference path="../SortDescriptor.ts" />
@@ -9,6 +8,8 @@ var TGridBindingHandler = (function () {
     }
     TGridBindingHandler.prototype.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
+
+        options.parentViewModel = viewModel;
 
         if (valueAccessor().groupBy != undefined) {
             for (var i = 0; i < valueAccessor().groupBy.length; i++) {
@@ -35,24 +36,33 @@ var TGridBindingHandler = (function () {
         }
 
         if (valueAccessor().enableVirtualScroll == undefined) {
-            options.isEnableVirtualScroll = false;
+            options.isEnableVirtualScroll = true;
         } else {
             options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
         }
 
         if (valueAccessor().enableCollapsing == undefined) {
-            options.isEnableCollapsing = false;
+            options.isEnableCollapsing = true;
         } else {
             options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
         }
 
         if (valueAccessor().enableGrouping == undefined) {
-            options.isEnableGrouping = false;
+            options.isEnableGrouping = true;
         } else {
             options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
         }
 
-        var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+        if (valueAccessor().enableFiltering == undefined) {
+            options.isEnableFiltering = true;
+        } else {
+            options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+        }
+
+        // Create grid after all other bindings are ready
+        setTimeout(function () {
+            var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+        }, 1);
     };
 
     TGridBindingHandler.prototype.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

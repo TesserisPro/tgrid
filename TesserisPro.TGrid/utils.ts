@@ -28,6 +28,11 @@ function isFunction(target: any): boolean {
     return target && getType.toString.call(target) === '[object Function]';
 }
 
+function isObservable(target: any): boolean {
+    var getType = {};
+    return target && getType.toString.call(target) === '[object Function]';
+}
+
 function insertAfter(refElem:any, addingElem: any):void {
     var parent = refElem.parentNode;
     var next = refElem.nextSibling;
