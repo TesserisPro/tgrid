@@ -48,6 +48,8 @@
   <ItemGroup>
     <Content Include="Content\qunit.css" />
     <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\knockout.debug.js" />
+    <Content Include="Scripts\knockout.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\typings\qunit\qunit.d.ts" />
     <Content Include="Scripts\_references.ts" />
