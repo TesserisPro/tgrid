@@ -523,6 +523,7 @@ module TesserisPro.TGrid {
             this.options.currentPage = page;
             this.refreshHeader();
             this.refreshBody();
+            this.refreshFooter();
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
@@ -714,6 +715,7 @@ module TesserisPro.TGrid {
                 this.itemProvider.getTotalItemsCount(
                     this.getEffectiveFiltering(),
                     totalitemsCount => {
+                        this.totalItemsCount = totalitemsCount;
                         this.itemProvider.getItems(
                             this.getFirstItemNumber(),
                             this.getPageSize(),

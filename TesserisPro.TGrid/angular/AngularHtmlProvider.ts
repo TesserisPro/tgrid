@@ -280,7 +280,7 @@ module TesserisPro.TGrid {
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
-            if (footerModel == null && option.isEnablePaging) {
+            if (option.tableFooterTemplate == null && option.isEnablePaging) {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
@@ -288,6 +288,7 @@ module TesserisPro.TGrid {
                 footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 footer.innerHTML = "";
+                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
                 footer.appendChild(footerContainer);
 
                 angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);

@@ -260,6 +260,7 @@ module TesserisPro.TGrid {
                 this.updateTableFooterElementDefault(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
+                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 ko.applyBindings(footerModel, footerContainer);
 
