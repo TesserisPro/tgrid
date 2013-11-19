@@ -671,6 +671,41 @@ module TesserisPro.TGrid {
             tableRowElement.appendChild(groupHeaderContainer);
             return tableRowElement;
         }
+
+        public bindData(option: Options, elementForBinding: HTMLElement) {
+            var viewModel = ko.contextFor(option.target);
+            ko.applyBindings(viewModel, elementForBinding);
+        }
+        //public addListGroupByItems(option: Options, listGroupByElement: HTMLUListElement) {
+        //    for (var i = 0; i < option.columns.length; i++) {
+        //        if (option.columns[i].groupMemberPath != null) {
+        //            var listItemGroupByItems = document.createElement("li");
+
+        //            listItemGroupByItems.onclick = (e) => {
+        //                //get top ancestor, because event fires on the last nested element
+        //                var el = <Node>e.target;
+        //                while (el && el.nodeName !== 'LI') {
+        //                    el = el.parentNode
+        //                    }
+        //                Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
+        //                Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
+        //            }
+        //            if (option.columns[i].header != null) {
+        //                option.columns[i].header.applyTemplate(listItemGroupByItems);
+        //            } else {
+        //                var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+        //                this.createDefaultHeader(listItemGroupByItems, headerText);
+        //            }
+        //            listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
+        //            var viewModel = ko.contextFor(option.target);
+        //            ko.applyBindings(viewModel, listItemGroupByItems);
+
+        //            listGroupByElement.appendChild(listItemGroupByItems);
+        //        }
+        //    }
+
+        //    return listGroupByElement;
+        //}
         
     }
 }

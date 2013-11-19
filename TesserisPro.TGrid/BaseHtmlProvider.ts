@@ -306,6 +306,7 @@ module TesserisPro.TGrid {
                     }
 
                     groupByHeaderElement.appendChild(deleteGroupByElement);
+                    this.bindData(option, groupByHeaderElement);
                     groupByContainer.appendChild(groupByHeaderElement);
                 }
             }
@@ -387,11 +388,16 @@ module TesserisPro.TGrid {
                         this.createDefaultHeader(listItemGroupByItems, headerText);
                     }
                     listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
+                    
                     listGroupByElement.appendChild(listItemGroupByItems);
                 }
             }
-
+            this.bindData(option, listGroupByElement);
             return listGroupByElement;
+        }
+
+        public bindData(option: Options, elementForBinding: HTMLElement ) {
+
         }
 
         private showListGroupByItems(option: Options, listGroupByElement: HTMLUListElement, grid: TGrid.Grid) {
