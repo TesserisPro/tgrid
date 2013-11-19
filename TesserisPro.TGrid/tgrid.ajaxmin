@@ -6,6 +6,7 @@
     <input path="BaseHtmlProvider.js"/>
     <input path="FilterDescriptor.js"/>
     <input path="IFooterViewModel.js"/>
+    <input path="IFilterPopupViewModel.js"/>
     <input path="GroupHeaderDescriptor.js"/>
     <input path="IHtmlProvider.js"/>
     <input path="IItemProvider.js"/>
@@ -20,12 +21,14 @@
     <input path="angular/AngularHtmlProvider.js"/>
     <input path="angular/TGridDirective.js"/>
     <input path="angular/AngularFooterViewModel.js"/>
+    <input path="angular/AngularFilterPopupViewModel.js"/>
   </output>
 
   <output path="bin/tgrid-knockout-min.js">
     <input path="knockout/KnockoutHtmlProvider.js"/>
     <input path="knockout/TGridBinding.js"/>
     <input path="knockout/KnockoutFooterViewModel.js"/>
+    <input path="knockout/KnockoutFilterPopupViewModel.js"/>
   </output>
   
 </root>

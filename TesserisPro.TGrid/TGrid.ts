@@ -3,7 +3,8 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="IItemProvider.ts" />
 /// <reference path="knockout/KnockoutHtmlProvider.ts" />
-/// <reference path="FilterPopupViewModel.ts"/>
+/// <reference path="knockout/KnockoutFilterPopupViewModel.ts"/>
+/// <reference path="angular/AngularFilterPopupViewModel.ts"/>
 /// <reference path="angular/AngularHtmlProvider.ts" />
 /// <reference path="GroupHeaderDescriptor.ts" />
 /// <reference path="utils.ts" />
@@ -28,7 +29,7 @@ module TesserisPro.TGrid {
         private buisyIndicator: HTMLElement;
         private scrollBar: HTMLElement;
         private groupByElement: HTMLElement;
-        private filterPopUp: HTMLElement;
+        public  filterPopUp: HTMLElement;
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
@@ -45,7 +46,7 @@ module TesserisPro.TGrid {
 
         private footerViewModel: IFooterViewModel;
 
-        private filterPopupViewModel: FilterPopupViewModel;
+        private filterPopupViewModel: IFilterPopupViewModel;
 
         private collapsedFilterGroup: FilterDescriptor[][];
 
@@ -84,6 +85,8 @@ module TesserisPro.TGrid {
                 this.filterPopUp = document.createElement("div");
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.rootElement.appendChild(this.filterPopUp);
+                this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
+                this.htmlProvider.addFiltringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
 
             // Header
@@ -479,7 +482,9 @@ module TesserisPro.TGrid {
         }
 
         public showFilterBox(element: Element, path: string, left: number) {
-            element.setAttribute("style", "display:block;left:" + left + "px;top:62px");
+            var top = (this.options.isEnableGrouping ? 58 : 26);
+
+            element.setAttribute("style", "display:block;left:" + left + "px;top:" + top +"px");
             this.options.filterPath = path;
         }
 
@@ -673,22 +678,9 @@ module TesserisPro.TGrid {
             return this.options.pageSize;
         }
 
-        private getFilterPopupViewModel(container: HTMLElement): FilterPopupViewModel {
-            this.filterPopupViewModel = new FilterPopupViewModel(container);
-            return this.filterPopupViewModel;
-        }
-
         private refreshHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable(), c => this.columnsResized(c));
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
-            if (this.filterPopupViewModel == null) {
-                (function (grid) {
-                    setTimeout(function () {
-                        grid.htmlProvider.addFiltringPopUp(grid.options, grid.filterPopUp, grid.getFilterPopupViewModel(grid.filterPopUp))
-                    }, 1)
-                }) (this);
-            }
-        
         }
 
         private refreshBody(withBuisy: boolean = false) {

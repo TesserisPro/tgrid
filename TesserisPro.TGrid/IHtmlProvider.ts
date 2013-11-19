@@ -7,6 +7,7 @@ module TesserisPro.TGrid {
         getElemntsSize(container: HTMLElement, items: Array<any>): number;
         getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel;
         getFooterViewModel();
+        getFilterPopupViewModel(container: HTMLElement);
         getTableElement(option: Options): HTMLElement;
         updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void);
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
@@ -15,7 +16,7 @@ module TesserisPro.TGrid {
         updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
         updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
         updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
-        addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel): void;
+        addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupModel: IFilterPopupViewModel): void;
         updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void;
     }
 }

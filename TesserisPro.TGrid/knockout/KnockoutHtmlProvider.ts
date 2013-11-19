@@ -4,6 +4,7 @@
 /// <reference path="../ItemViewModel.ts" />
 /// <reference path="../utils.ts" />
 /// <reference path="../IFooterViewModel.ts" />
+/// <reference path="KnockoutFilterPopupViewModel.ts" />
 /// <reference path="KnockoutFooterViewModel.ts" />
 
 
@@ -54,6 +55,11 @@ module TesserisPro.TGrid {
         public getFooterViewModel() {
             var knockoutFooterViewModel = new KnockoutFooterViewModel(0,0, 0, 0);
             return knockoutFooterViewModel;
+        }
+
+        public getFilterPopupViewModel(container: HTMLElement) {
+            var filterPopupViewModel = new KnockoutFilterPopupViewModel(container);
+            return filterPopupViewModel;
         }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
@@ -117,7 +123,7 @@ module TesserisPro.TGrid {
                         }
                     }
 
-                    //filer
+                    // Filter
                     if (option.isEnableFiltering) {
                         var filter = document.createElement("div");
                         filter.classList.add("tgrid-filter-button");
@@ -258,15 +264,21 @@ module TesserisPro.TGrid {
                 ko.applyBindings(footerModel, footerContainer);
 
                 footer.appendChild(footerContainer);
+
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
+        public addFiltringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
-                this.defaultFiltringPopUp(option, filterPopupContainer);
+                this.defaultFiltringPopUp(option, filterPopup);
             } else {
-                option.filterPopup.applyTemplate(filterPopupContainer);
-                ko.applyBindings(filterPopupViewModel, filterPopupContainer);
+                var filterContainer = document.createElement("div");
+                filterContainer.className = "tgrid-filter-popup-container";
+                option.filterPopup.applyTemplate(filterContainer);
+                filterPopup.innerHTML = "";
+                filterPopup.appendChild(filterContainer);
+
+                ko.applyBindings(filterPopupModel, filterPopup);
             }
         }
 

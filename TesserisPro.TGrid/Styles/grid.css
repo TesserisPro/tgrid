@@ -319,9 +319,12 @@ thead>tr> .tgrid-table-indent-cell {
 
 .tgrid-filter-popup {
     position: absolute;
+    top: 16px;
     background: white;
     display: none;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
+    border: 1px solid rgb(122,188,255);
+    padding: 3px;
 }
 
 .tgrid-display-none{

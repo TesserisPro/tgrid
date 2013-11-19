@@ -1,7 +1,7 @@
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="ItemViewModel.ts" />
 /// <reference path="IFooterViewModel.ts"/>
-
+/// <reference path="IFilterPopupViewModel.ts" />
 
 module TesserisPro.TGrid {
 
@@ -20,9 +20,14 @@ module TesserisPro.TGrid {
         public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
             return null;
         }
+
         public getFooterViewModel() {
         }
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void){
+
+        public getFilterPopupViewModel(container: HTMLElement) {
+        }
+
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
 
         }
 
@@ -86,7 +91,7 @@ module TesserisPro.TGrid {
                 
         }
 
-        updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
+        public updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
             var headers = header.getElementsByTagName("th");
 
             var tableRows = body.getElementsByTagName("tr");
@@ -156,12 +161,10 @@ module TesserisPro.TGrid {
             }
             return false;
         }
-             
         
         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
            
         }
-
 
         public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
 
@@ -219,7 +222,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
+        public addFiltringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
 
         }
 
@@ -233,18 +236,16 @@ module TesserisPro.TGrid {
 
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.Equals.toString();
-            selectOption.text = "=";
+            selectOption.text = "Equals";
             filterCondition.appendChild(selectOption);
 
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.NotEquals.toString();
-            selectOption.text = "<>";
+            selectOption.text = "Not equals";
             filterCondition.appendChild(selectOption);
             // end append filter conditions
             filterPopupContainer.appendChild(filterCondition);
             filterCondition.selectedIndex = 1;
-
-            filterPopupContainer.innerHTML += "<br>";
 
             var filterText = document.createElement("input");
             filterText.setAttribute("value", "c3");
@@ -253,7 +254,7 @@ module TesserisPro.TGrid {
             filterPopupContainer.innerHTML += "<br>";
 
             var applyButton = document.createElement("button");
-            applyButton.innerText = "apply";
+            applyButton.innerText = "Apply";
             applyButton.onclick = (e) => {
                 Grid.getGridObject(<HTMLElement>e.target).addFilter(option.filterPath,
                     filterPopupContainer.getElementsByTagName("input")[0].value,
@@ -263,14 +264,14 @@ module TesserisPro.TGrid {
             filterPopupContainer.appendChild(applyButton);
 
             var clearButton = document.createElement("button");
-            clearButton.innerText = "clear";
+            clearButton.innerText = "Clear";
             clearButton.onclick = (e) => {
                 Grid.getGridObject(<HTMLElement>e.target).clearFilter(option.filterPath, filterPopupContainer);
             };
             filterPopupContainer.appendChild(clearButton);
 
             var exitButton = document.createElement("button");
-            exitButton.innerText = "exit";
+            exitButton.innerText = "Close";
             exitButton.onclick = (e) => {
                 Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>filterPopupContainer);
             };

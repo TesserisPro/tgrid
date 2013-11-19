@@ -69,6 +69,19 @@ module TesserisPro.TGrid {
             return angularFooterViewModel;
         }
          
+        public getFilterPopupViewModel(container: HTMLElement) {
+            var angularFilterPopupViewModel = new AngularFilterPopupViewModel(container);
+            angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
+            angular
+                .module(angularFilterPopupViewModel.angularModuleName, [])
+                .controller(
+                'tgrid-filter-popup-controller',
+                function toGridFilterPopupController($scope) {
+                    angularFilterPopupViewModel.setScope($scope);
+                });
+            return angularFilterPopupViewModel;
+        }
+
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
@@ -281,12 +294,18 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupViewModel: FilterPopupViewModel) {
+        public addFiltringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
-                this.defaultFiltringPopUp(option, filterPopupContainer);
+                this.defaultFiltringPopUp(option, filterPopup);
             } else {
+                var filterPopupContainer = document.createElement("div");
+                filterPopupContainer.className = "tgrid-filter-popup-container";
+                filterPopupContainer.setAttribute("ng-controller", "tgrid-filter-popup-controller"); 
                 option.filterPopup.applyTemplate(filterPopupContainer);
-                //ko.applyBindings(filterPopupViewModel, filterPopupContainer);
+                filterPopup.innerHTML = "";
+                filterPopup.appendChild(filterPopupContainer);
+
+                angular.bootstrap(filterPopupContainer, [(<AngularFilterPopupViewModel>filterPopupModel).angularModuleName]);
             }
         }
 
@@ -586,6 +605,7 @@ module TesserisPro.TGrid {
                 var details = this.buildMobileDetailsRow(option, item);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
+                //ko.applyBindings(option.showDetailFor, details);
             }
         }
 

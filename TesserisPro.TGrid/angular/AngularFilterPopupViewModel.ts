@@ -1,10 +1,21 @@
 module TesserisPro.TGrid {
 
-    export class FilterPopupViewModel {
+    export class AngularFilterPopupViewModel implements IFilterPopupViewModel {
+        private $scope: any;
+
         container: HTMLElement;
         path: string;
         value: string;
         condition: FilterCondition;
+
+        public angularModuleName: string;
+
+        public setScope(scope: any) {
+            this.$scope = scope;
+            this.$scope.onApply = () => this.onApply();
+            this.$scope.onClear = () => this.onClear();
+            this.$scope.onClose = () => this.onClose();
+        }
 
         constructor(container: HTMLElement) {
             this.container = container;
