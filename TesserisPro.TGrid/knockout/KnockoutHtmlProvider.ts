@@ -62,7 +62,7 @@ module TesserisPro.TGrid {
             return filterPopupViewModel;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
             if (header.innerHTML != null && header.innerHTML != "") {
                //add intends for groupBy
                this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));               
@@ -124,27 +124,7 @@ module TesserisPro.TGrid {
                     }
 
                     // Filter
-                    if (option.isEnableFiltering) {
-                        var filter = document.createElement("div");
-                        filter.classList.add("tgrid-filter-button");
-                        (function (i) {
-                            filter.onclick = (e) => {
-                                var left = (<HTMLElement>e.target).offsetLeft;
-                                for (var j = 0; j < i; j++) {
-                                    left += parseInt(option.columns[j].width);
-                                }
-                                var el = header.getElementsByClassName("tgrid-table-indent-cell");
-                                if (el.length > 0) {
-                                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                                        left += 20;
-                                    }
-                                }
-                                Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].sortMemberPath, left);
-                                e.cancelBubble = true;
-                            };
-                        })(i);
-                        headerButtons.appendChild(filter);
-                    }
+                    this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);                    
 
                     if (option.columns[i].resizable) {
                         var columnResize = document.createElement("div");
@@ -271,7 +251,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
+        public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
                 this.defaultFiltringPopUp(option, filterPopup);
             } else {
@@ -428,79 +408,6 @@ module TesserisPro.TGrid {
         }
        
         // Mobile Methods
-
-        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, isSortable: boolean): void {
-            if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
-                // Update mobile sort arrow
-                this.removeArrows(mobileHeader);
-                var arrowUpdate = mobileHeader.getElementsByClassName("arrows");
-                if (option.sortDescriptor.asc) {
-                    var up = document.createElement("div");
-                    up.classList.add("tgrid-arrow-up");
-                    arrowUpdate[0].appendChild(up);
-                } else {
-                    var down = document.createElement("div");
-                    down.classList.add("tgrid-arrow-down");
-                    arrowUpdate[0].appendChild(down);
-                }
-
-                // Update mobile sort column
-                var selectUpdate = document.getElementsByTagName("select");
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                        selectUpdate[0].selectedIndex = i;
-                    }
-                }
-            } else {
-                // Create mobile header
-                // Hide table on mobile devices
-                var headerClass = mobileHeader.getAttribute("class");
-                if (headerClass == null || headerClass == undefined || headerClass == '') {
-                    headerClass = "mobile";
-                }
-                else {
-                    headerClass += " mobile";
-                }
-                mobileHeader.setAttribute("class", headerClass);
-
-                if (isSortable) {
-                    var mobileSortingContainer = document.createElement("div");
-                    var mobileHeaderButtons = document.createElement("div");
-                    var arrows = document.createElement("span");
-                    var select = document.createElement("select");
-
-                    select.onchange = (e) => {
-                        Grid.getGridObject(<HTMLElement>e.target).sortBy(select.options[select.selectedIndex].value);
-                    };
-
-                    for (var i = 0; i < option.columns.length; i++) {
-                        var selectOption = document.createElement("option");
-                        selectOption.value = option.columns[i].sortMemberPath;
-                        selectOption.text = option.columns[i].sortMemberPath;
-                        select.appendChild(selectOption);
-                        if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                            arrows = <HTMLDivElement>this.addArrows(arrows, option, i);
-                        }
-                    }
-
-                    mobileHeaderButtons.classList.add("tgrid-header-cell-buttons");
-                    arrows.classList.add("arrows");
-                    mobileHeaderButtons.appendChild(arrows);
-                    mobileSortingContainer.classList.add("tgrid-inline-block");
-                    mobileSortingContainer.innerHTML += "Sorting by ";
-                    mobileSortingContainer.appendChild(select);
-                    mobileSortingContainer.appendChild(mobileHeaderButtons);
-
-                    arrows.onclick = (e) => {
-                        Grid.getGridObject(<HTMLElement>e.target).sortBy(select.options[select.selectedIndex].value);
-                    };
-
-                    mobileHeader.appendChild(mobileSortingContainer);
-                } else {
-                    mobileHeader.innerHTML = "<div></div>";
-                }
-            }
-        }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             if (!option.showDetailFor.isDetailColumn) {

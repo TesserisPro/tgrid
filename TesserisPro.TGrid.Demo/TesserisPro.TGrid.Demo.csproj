@@ -124,6 +124,9 @@
     <Content Include="Images\arrow_up.png" />
     <Content Include="Images\buttonBlue.jpg" />
     <Content Include="Images\filter.png" />
+    <Content Include="Images\group.jpg" />
+    <Content Include="Images\groupActive.jpg" />
+    <Content Include="Images\no-sort.png" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />

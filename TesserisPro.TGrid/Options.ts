@@ -18,6 +18,7 @@ module TesserisPro.TGrid {
         public groupMemberPath: string;
         public member: string;
         public resizable: boolean;
+        public filterMemberPath: string;
     }
 
     export class ShowDetail {
@@ -124,6 +125,7 @@ module TesserisPro.TGrid {
                 column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                 column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
                 column.resizable = columns[i].attributes['data-g-resizable'] != undefined ? (columns[i].attributes['data-g-resizable'].nodeValue == 'false'? false : true) : true;
+                column.filterMemberPath = columns[i].attributes['data-g-filter-member'] != undefined ? columns[i].attributes['data-g-filter-member'].nodeValue : null;
 
                 this.columns.push(column);
             }

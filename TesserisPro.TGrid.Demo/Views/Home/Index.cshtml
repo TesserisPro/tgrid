@@ -78,7 +78,7 @@
 
 <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true' }">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="true">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-filter-member="name" data-g-resizable ="true">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -93,7 +93,7 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key" data-g-sort-member="key" data-g-group-member ="key" >
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key" data-g-sort-member="key"  data-g-group-member ="key" data-g-filter-member="key" >
             <header>Key</header>
             <cell>
                 <span data-bind="text: item.key"></span>
@@ -106,7 +106,7 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="key2" data-g-sort-member="key2" data-g-group-member ="key2" data-g-resizable ="false">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="key2" data-g-sort-member="key2" data-g-group-member ="key2" data-g-filter-member="key2">
             <header>
                 <span>key2</span>
             </header>
@@ -135,8 +135,7 @@
         </footer>
 
         <filterpopup>
-            <select>
-                <option value="0">none</option>
+            <select data-bind="click: function(){}">
                 <option value="1">Equals</option>
                 <option value="2">Not Equals</option>
             </select>
@@ -339,9 +338,9 @@
         function isFiltering(item, value, condition) {
             // on false push to filtered items
             switch (condition){
-                case 1://equal
+                case 0://equal
                     return (item == value);
-                case 2://not equal
+                case 1://not equal
                     return (item != value);
             }
             return false;
@@ -404,7 +403,7 @@
 <div ng-controller="ctrl">
 <t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name, key" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
      <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-resizable ="true">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
             <header>
                 <span style="color: red;">Name</span>
             </header>
@@ -419,7 +418,7 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key" data-g-sort-member="key" data-g-group-member ="key" data-g-resizable="true">
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key" data-g-sort-member="key" data-g-group-member ="key" data-g-filter-member="key">
             <header>Key</header>
             <cell>
                 <span style="color: red;">{{item.key}}</span>
@@ -462,7 +461,6 @@
 
         <filterpopup>
             <select>
-                <option value="0">none</option>
                 <option value="1">Equals</option>
                 <option value="2">Not Equals</option>
             </select>

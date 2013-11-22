@@ -35,6 +35,9 @@
     <Content Include="Images\filter.png" />
     <TypeScriptCompile Include="knockout\KnockoutFooterViewModel.ts" />
     <TypeScriptCompile Include="knockout\KnockoutFilterPopupViewModel.ts" />
+    <Content Include="Images\group.jpg" />
+    <Content Include="Images\groupActive.jpg" />
+    <Content Include="Images\no-sort.png" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>

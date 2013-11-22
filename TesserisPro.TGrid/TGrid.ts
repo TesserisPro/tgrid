@@ -29,7 +29,8 @@ module TesserisPro.TGrid {
         private buisyIndicator: HTMLElement;
         private scrollBar: HTMLElement;
         private groupByElement: HTMLElement;
-        public  filterPopUp: HTMLElement;
+        public filterPopUp: HTMLElement;
+        private mobileConditionContainer: HTMLElement;
 
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
@@ -74,6 +75,11 @@ module TesserisPro.TGrid {
             this.groupByElement.setAttribute("class", "group-by-container");
             this.rootElement.appendChild(this.groupByElement);
 
+            this.mobileConditionContainer = document.createElement("div");
+            this.mobileConditionContainer.classList.add("mobile-condition-container");
+            this.mobileConditionContainer.classList.add("mobile");
+            this.rootElement.appendChild(this.mobileConditionContainer);
+
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
             var headerTable = document.createElement("table");
@@ -86,7 +92,7 @@ module TesserisPro.TGrid {
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.rootElement.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
-                this.htmlProvider.addFiltringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
+                this.htmlProvider.addFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
 
             // Header
@@ -481,6 +487,11 @@ module TesserisPro.TGrid {
             element.removeAttribute("style");
         }
 
+        public hideFilter(element: Element) {
+            element.removeAttribute("style");
+            document.onclick = null;
+        }
+
         public showFilterBox(element: Element, path: string, left: number) {
             var top = (this.options.isEnableGrouping ? 58 : 26);
 
@@ -519,6 +530,16 @@ module TesserisPro.TGrid {
             this.refreshBody();
         }
 
+        public mobileSortBy(name: string, asc: boolean) {
+            if (asc != null) {
+                this.options.sortDescriptor.path = name;
+                this.options.sortDescriptor.asc = asc;
+            } else {
+                this.options.sortDescriptor = new SortDescriptor(this.options.columns[0].sortMemberPath, true);
+            }
+            this.refreshHeader();
+            this.refreshBody();
+        }
         public selectPage(page: number): void {
             this.options.currentPage = page;
             this.refreshHeader();
@@ -681,7 +702,7 @@ module TesserisPro.TGrid {
 
         private refreshHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable(), c => this.columnsResized(c));
-            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
+            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp, this.itemProvider.isSortable(), this.groupByElement, this.mobileConditionContainer);
         }
 
         public updateBody() {
@@ -785,6 +806,8 @@ module TesserisPro.TGrid {
         public setFilters(filterDescriptor: FilterDescriptor) {
             this.removeFilters(false);
             this.options.filterDescriptors.push(filterDescriptor);
+            this.htmlProvider.updateMobileConditionList(this.options, this.mobileHeader);
+            this.htmlProvider.updateMobileConditionShowList(this.options, this.mobileConditionContainer, this.itemProvider.isSortable());
             this.refreshBody();
         }
 
@@ -795,6 +818,8 @@ module TesserisPro.TGrid {
                 }
             }
             if (isRefresh) {
+                this.htmlProvider.updateMobileConditionList(this.options, this.mobileHeader);
+                this.htmlProvider.updateMobileConditionShowList(this.options, this.mobileConditionContainer, this.itemProvider.isSortable());
                 this.refreshBody();
             }
         }

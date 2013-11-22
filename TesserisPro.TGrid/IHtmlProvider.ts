@@ -13,10 +13,12 @@ module TesserisPro.TGrid {
         updateTableBodyElement(option: Options, body: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
         updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void;
         updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
-        updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean);
+        updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, groupByContainer: HTMLElement, mobileConditionContainer: HTMLElement): void;
         updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
         updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
-        addFiltringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupModel: IFilterPopupViewModel): void;
+        addFilteringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupModel: IFilterPopupViewModel): void;
         updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void;
+        updateMobileConditionList(option: Options, mobileHeader: HTMLElement): void;
+        updateMobileConditionShowList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean);
     }
 }

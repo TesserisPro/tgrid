@@ -79,14 +79,6 @@ module TesserisPro.TGrid {
             footer.appendChild(pagerElement);
         }
 
-        public updateMobileHeadElement(option: Options, header: HTMLElement, isSortable: boolean): void {
-
-        }
-
-        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-
-        }
-
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
         }
@@ -103,9 +95,6 @@ module TesserisPro.TGrid {
                     break;
                 }
             }
-
-            var columns = firstDataRow.getElementsByTagName("td");
-
             var columnNumber = 0;
             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                 columnNumber++;
@@ -129,23 +118,27 @@ module TesserisPro.TGrid {
             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                 columnNumber++;
             }
-            for (var i = 0; i < columns.length - 1; i++) {
 
-                if ((<HTMLElement>columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
-                    continue;
-                }
+            if (firstDataRow != undefined) {
+                var columns = firstDataRow.getElementsByTagName("td");
+                for (var i = 0; i < columns.length - 1; i++) {
 
-                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    if ((<HTMLElement>columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
+                        continue;
+                    }
+
+                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                        columnNumber++;
+                    }
+
+                    if (columnNumber >= option.columns.length) {
+                        columnNumber = option.columns.length - 1;
+                        break;
+                    }
+
+                    (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
                     columnNumber++;
                 }
-
-                if (columnNumber >= option.columns.length) {
-                    columnNumber = option.columns.length - 1;
-                    break;
-                }
-
-                (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
-                columnNumber++;
             }
         }
 
@@ -179,7 +172,7 @@ module TesserisPro.TGrid {
 
         public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
             if (option.isEnableGrouping) {
-                Grid.getGridObject(groupByContainer).showDivElement(groupByContainer);
+                groupByContainer.classList.add('show');
                 this.addGroupByElements(option, groupByContainer);
                 this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header))
 
@@ -190,8 +183,15 @@ module TesserisPro.TGrid {
                 var groupByButtonElement = document.createElement("a");
                 groupByButtonElement.setAttribute("class", "button-group-by");
 
+                var self = this;
                 groupByButtonElement.onclick = (e) => {
-                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
+                    if (listGroupByElement.classList.contains('show')) {
+                        listGroupByElement.classList.remove('show');
+                    } else {
+                        listGroupByElement.classList.add('show');
+                    }
+                    self.hideElementOnClickAnywhereElse(listGroupByElement, 'list-button-container');
+                    //Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
                 }
             listButtonContainerElement.appendChild(groupByButtonElement);
 
@@ -222,17 +222,18 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFiltringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
+        public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
 
         }
 
         public defaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
             var filterCondition = document.createElement("select");
             // append filter conditions
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.None.toString();
-            selectOption.text = "none";
-            filterCondition.appendChild(selectOption);
+
+            //var selectOption = document.createElement("option");
+            //selectOption.value = FilterCondition.None.toString();
+            //selectOption.text = "none";
+            //filterCondition.appendChild(selectOption);
 
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.Equals.toString();
@@ -379,6 +380,7 @@ module TesserisPro.TGrid {
                             el = el.parentNode
                             }
                         Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
+                        (<HTMLElement>el.parentNode).classList.remove('show');
                         Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
                     }
                     if (option.columns[i].header != null) {
@@ -454,10 +456,370 @@ module TesserisPro.TGrid {
             //headerContainer.appendChild(headerDiv);
             return headerContainer;
         }
+
         public bindMobileGroupHeader(headerContainer: HTMLElement, item: any, headerDiv: HTMLElement) {
             headerContainer.appendChild(headerDiv);       
         }
+
         public createDefaultGroupHeader(tableRowElement: any) {
+        }
+
+        public addFilterButton(option: Options, header: HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, i: number) {
+            if (option.isEnableFiltering) {
+                var filter = document.createElement("div");
+                filter.classList.add("tgrid-filter-button");
+                var self = this;
+                (function (i) {
+                    filter.onclick = (e) => {
+                        var left = (<HTMLElement>e.target).offsetLeft;
+                        for (var j = 0; j < i; j++) {
+                            left += parseInt(option.columns[j].width);
+                        }
+                        var el = header.getElementsByClassName("tgrid-table-indent-cell");
+                        if (el.length > 0) {
+                            for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                                left += 20;
+                            }
+                        }
+                        //hide filter on click anywhere else
+                        self.hideElementOnClickAnywhereElse(filterPopupContainer, 'tgrid-filter-popup');                        
+                        if (filterPopupContainer.hasAttribute('style')) {
+                            filterPopupContainer.removeAttribute('style');
+                        } else {
+                            Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, left);
+                        }
+                        e.cancelBubble = true;
+                    };
+                })(i);
+
+                headerButtons.appendChild(filter);
+            }
+        }
+
+        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, groupByContainer: HTMLElement, mobileConditionContainer: HTMLElement): void {
+            if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
+                this.updateMobileConditionList(option, mobileHeader);
+                this.updateMobileConditionShowList(option, mobileConditionContainer, isSortable);
+            } else {
+                // Create mobile header
+                // Hide table on mobile devices
+                mobileHeader.classList.add('mobile');
+                groupByContainer.classList.add('desktop');
+                this.createMobileConditionButton(option, mobileHeader, filterPopupContainer, isSortable);
+            }
+        }
+
+        public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+
+        }
+
+        public updateMobileConditionList(option: Options, mobileConditionContainer: HTMLElement) {
+            for (var i = 0; i < option.columns.length; i++) {
+
+                if (option.isEnableFiltering) {
+                    var filterConditions = mobileConditionContainer.getElementsByClassName('mobile-filter-condition');
+                    if (this.checkIsFiltered(option, i)) {
+                        if (!(<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
+                            (<HTMLElement>filterConditions[i]).classList.add('filtered');
+                        }
+                    } else {
+                        if ((<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
+                            (<HTMLElement>filterConditions[i]).classList.remove('filtered');
+                        }
+                    }
+                }
+            }
+        }
+
+        public updateMobileConditionShowList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean) {
+            var mobileConditionsShow = mobileConditionContainer.getElementsByClassName("mobile-condition-show-div");
+            if (<HTMLElement>mobileConditionsShow[0] != undefined && (<HTMLElement>mobileConditionsShow[0]).parentElement != undefined) {
+                (<HTMLElement>mobileConditionsShow[0]).parentElement.innerHTML = "";
+            }
+            var listColumnsElement = document.createElement("div");
+            listColumnsElement.classList.add("mobile-condition-show-div");
+            this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
+            mobileConditionContainer.appendChild(listColumnsElement);
+        }
+
+        public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
+            if (option.isEnableGrouping || option.isEnableFiltering || isSortable) {             
+                var listButtonContainerElement = document.createElement("div");
+                listButtonContainerElement.classList.add("mobile-list-button-container");
+                var listColumnsElement = document.createElement("ul");
+                listColumnsElement.classList.add("mobile-condition-ul");
+                var columnsButtonElement = document.createElement("a");
+                columnsButtonElement.classList.add("mobile-condition-button");
+
+                var self = this;
+                columnsButtonElement.onclick = (e) => {
+                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
+                    self.hideElementOnClickAnywhereElse(listColumnsElement, 'mobile-list-button-container');
+                }
+                listButtonContainerElement.appendChild(columnsButtonElement);
+
+                this.addMobileConditionListItems(option, listColumnsElement, filterPopupContainer, isSortable);
+
+                listButtonContainerElement.appendChild(listColumnsElement);
+                mobileHeader.appendChild(listButtonContainerElement);
+            } 
+        }
+
+        private addMobileConditionListItems(option: Options, listMobileConditionElement: HTMLUListElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
+
+            for (var i = 0; i < option.columns.length; i++) {                
+                var listColumnItem = document.createElement("li");
+                var listColumnName = document.createElement('span');
+                listColumnItem.onclick = (e) => {
+                    //get top ancestor, because event fires on the last nested element
+                    var el = <Node>e.target;
+                    while (el && el.nodeName !== 'LI') {
+                        el = el.parentNode
+                        }
+                    Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
+                    e.stopPropagation();
+                }
+                if (option.columns[i].header != null) {
+                    option.columns[i].header.applyTemplate(listColumnName);
+                } else {
+                    var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                    this.createDefaultHeader(listColumnName, headerText);
+                }
+                listColumnItem.appendChild(listColumnName);
+
+                if (option.columns[i].groupMemberPath != null) {
+                    listColumnItem.appendChild(this.createMobileGroupByItem(option, i, false));
+                }
+                if (option.columns[i].sortMemberPath != null) {
+                    listColumnItem.appendChild(this.createMobileSortItem(option, i, false));
+                }
+
+                if (option.columns[i].filterMemberPath != null) {
+                    listColumnItem.appendChild(this.createMobileFilterItem(option, i, filterPopupContainer, false));
+                }
+                listMobileConditionElement.appendChild(listColumnItem);
+            }
+            this.bindData(option, listMobileConditionElement);
+            return listMobileConditionElement;
+        }
+
+        private addMobileConditionShowListItems(option: Options, listColumnsElement: HTMLElement, mobileConditionContainer: HTMLElement, isSortable: boolean) {
+            var groupColumns = [];
+            for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].groupMemberPath == option.groupBySortDescriptor[j].path) {
+                        var listColumnItem = document.createElement("span");
+                        listColumnsElement.appendChild(this.getMobileConditionListItem(option, listColumnItem, null, true, i));
+                        groupColumns.push(option.columns[i]);
+                        i = option.columns.length;                       
+                    }
+                }
+            }
+            for (var i = 0; i < option.columns.length; i++) {
+                var isGrouped = false;
+                for (var j = 0; j < groupColumns.length; j++) {
+                    if (option.columns[i] == groupColumns[j]) {
+                        isGrouped = true;
+                        j = groupColumns.length;
+                    }
+                }
+                if (!isGrouped) {
+                    var listColumnItem = document.createElement("span");
+                    var isConditionOnColumn = false;
+                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
+                        isConditionOnColumn = true;
+                        var listColumnName = document.createElement("span");
+                        if (option.columns[i].header != null) {
+                            option.columns[i].header.applyTemplate(listColumnName);
+                        } else {
+                            var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                            this.createDefaultHeader(listColumnName, headerText);
+                        }
+                        listColumnItem.appendChild(listColumnName);
+                       
+                        listColumnItem.appendChild(this.createMobileSortItem(option, i, true));
+                    }
+                    for (var j = 0; j < option.filterDescriptors.length; j++) {
+                        if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
+                            if (!isConditionOnColumn) {
+                                var listColumnName = document.createElement("span");
+                                if (option.columns[i].header != null) {
+                                    option.columns[i].header.applyTemplate(listColumnName);
+                                } else {
+                                    var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                                    this.createDefaultHeader(listColumnName, headerText);
+                                }
+                                listColumnItem.appendChild(listColumnName);
+                            }
+                            isConditionOnColumn = true;
+                            listColumnItem.appendChild(this.createMobileFilterItem(option, i, null, true));
+                        }
+                    }
+                    if (isConditionOnColumn) listColumnsElement.appendChild(listColumnItem);
+                }
+            }
+            
+            this.bindData(option,listColumnsElement);
+            return listColumnsElement;
+        }
+
+        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number) {
+            
+            var listColumnName = document.createElement('span');
+
+            if (option.columns[i].header != null) {
+                option.columns[i].header.applyTemplate(listColumnName);
+            } else {
+                var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                this.createDefaultHeader(listColumnName, headerText);
+            }
+            listColumnItem.appendChild(listColumnName);
+            listColumnItem.appendChild(this.createMobileGroupByItem(option, i, forShow));
+
+            if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
+                listColumnItem.appendChild(this.createMobileSortItem(option, i, forShow));
+            }
+            for (var j = 0; j < option.filterDescriptors.length; j++) {
+                if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
+                    listColumnItem.appendChild(this.createMobileFilterItem(option, i, filterPopupContainer, forShow));
+                }
+            }
+            return listColumnItem;
+        }
+
+        private createMobileGroupByItem(option: Options, i: number, forShow: boolean): HTMLElement {
+            var listItemGroupBy = document.createElement('span');
+            listItemGroupBy.classList.add('mobile-group-by-condition');
+            listItemGroupBy["data-group-by-condition"] = option.columns[i].groupMemberPath;
+            if (!forShow) {
+                listItemGroupBy.onclick = (e) => {
+                    var isNotGroupedBy = true;
+                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                        if (option.groupBySortDescriptor[j].path == e.target["data-group-by-condition"]) {
+                            isNotGroupedBy = false;
+                            j = option.groupBySortDescriptor.length;
+                        }
+                    }
+                    if (isNotGroupedBy) {
+                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>e.target["data-group-by-condition"]), true);
+                        (<HTMLElement>e.target).classList.add('active');
+                    } else {
+                        Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy((<string>e.target["data-group-by-condition"]), true);
+                        (<HTMLElement>e.target).classList.remove('active');
+                    }
+
+                }
+                }
+            return listItemGroupBy;
+        }
+
+        private createMobileSortItem(option: Options, i: number, forShow: boolean): HTMLElement {
+            var listItemSort = document.createElement('span');
+            listItemSort.classList.add('mobile-sort-condition');
+            if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
+                if (option.sortDescriptor.asc) {
+                    listItemSort.classList.add('asc');
+                } else {
+                    listItemSort.classList.add('desc');
+                }
+            }
+            listItemSort["data-sort-condition"] = option.columns[i].sortMemberPath;
+            if(!forShow){
+                listItemSort.onclick = (e) => {
+                    var columnIsNotSorted = true;
+                    if (option.sortDescriptor.path == e.target["data-sort-condition"]) {
+                        columnIsNotSorted = false;
+                    }
+
+                    if (columnIsNotSorted) {
+                        var mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('asc');
+                        for (var k = 0; k < mobileConditionListItems.length; k++) {
+                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('acs');
+                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('desc');
+                        }
+                        mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('desc');
+                        for (var k = 0; k < mobileConditionListItems.length; k++) {
+                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('desc');
+                        }
+
+                        Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), true);
+                        (<HTMLElement>e.target).classList.add('asc');
+                    } else {
+                        if (option.sortDescriptor.asc) {
+                            Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), false);
+                            (<HTMLElement>e.target).classList.remove('asc');
+                            (<HTMLElement>e.target).classList.add('desc');
+                        } else {
+                            Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), null);
+                            (<HTMLElement>e.target).classList.remove('desc');
+                        }
+                    }
+                }
+            }
+            return listItemSort;
+        }
+
+        private createMobileFilterItem(option: Options, i: number, filterPopupContainer: HTMLElement, forShow: boolean): HTMLElement {
+            var listItemFilter = document.createElement('span');
+            listItemFilter.classList.add('mobile-filter-condition');
+            listItemFilter["data-filter-condition"] = option.columns[i].filterMemberPath;
+            var isFiltered = this.checkIsFiltered(option, i);
+            if (isFiltered) {
+                listItemFilter.classList.add('filtered');
+            }
+            if (!forShow) {
+                (function (i) {
+                    listItemFilter.onclick = (e) => {
+                        var filterItem = <HTMLElement>e.target;
+                        //hide filter on click anywhere else
+                        document.onclick = (e) => {
+                            var isFilterElement = false;
+                            var el = <HTMLElement>e.target;
+                            while (!(el.tagName == 'BODY' || isFilterElement)) {
+                                el = el.parentElement;
+                                if (el.classList.contains('tgrid-filter-popup')) {
+                                    isFilterElement = true;
+                                }
+                            }
+                            if (!isFilterElement) {
+                                Grid.getGridObject(filterItem).hideFilter(<Element>(filterPopupContainer));
+                            }
+                        }
+                    Grid.getGridObject(filterItem).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, 0);
+                    };
+                })(i);
+            }
+            return listItemFilter;
+        }
+
+        private checkIsFiltered(option: Options, i: number): boolean {
+            var isFiltered = false;
+            for (var j = 0; j < option.filterDescriptors.length; j++) {
+                if (option.filterDescriptors[j].path == option.columns[i].sortMemberPath) {
+                    isFiltered = true;
+                    j = option.filterDescriptors.length;
+                }
+            }
+            return isFiltered;
+        }
+
+        private hideElementOnClickAnywhereElse(elementToHide: HTMLElement, elementToClickClass: string) {
+            document.onclick = (e) => {
+                var isFilterElement = false;
+                var el = <HTMLElement>e.target;
+                while (!(el.tagName == 'BODY' || isFilterElement)) {
+                    el = el.parentElement;
+                    if (el.classList.contains(elementToClickClass)) {
+                        isFilterElement = true;
+                    }
+                }
+                if (!isFilterElement) {
+                    elementToHide.classList.remove('show');
+                    elementToHide.removeAttribute('style');
+                    document.onclick = null;
+                   // Grid.getGridObject(<HTMLElement>e.target).hideFilter(<Element>(elementToHide));
+                }
+            }
         }
     }
 }
