@@ -33,6 +33,11 @@ function isFunction(target) {
     return target && getType.toString.call(target) === '[object Function]';
 }
 
+function isObservable(target) {
+    var getType = {};
+    return target && getType.toString.call(target) === '[object Function]';
+}
+
 function insertAfter(refElem, addingElem) {
     var parent = refElem.parentNode;
     var next = refElem.nextSibling;

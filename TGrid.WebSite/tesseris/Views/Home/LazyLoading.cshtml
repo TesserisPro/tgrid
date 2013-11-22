@@ -16,6 +16,8 @@
 
     <script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/KnockoutHtmlProvider.js" type="text/javascript"></script>
+    <script src="~/Scripts/iframe/KnockoutFooterViewModel.js" type="text/javascript"></script>
+    <script src="~/Scripts/iframe/KnockoutFilterPopupViewModel.js" type="text/javascript"></script>
     @*<script src="~/Scripts/AngularHtmlProvider.js" type="text/javascript"></script>*@
     <script src="~/Scripts/iframe/options.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/ItemViewModel.js" type="text/javascript"></script>
@@ -29,7 +31,7 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', /*groupBy: ['name'],*/ enableVirtualScroll: 'true', enablePaging: 'false' }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', groupBy: [], enableVirtualScroll: 'true', enablePaging: 'false' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
             <header>
@@ -121,63 +123,6 @@
                 { name: "Theron", key: "Thrush", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
                 { name: "Georgann", key: "Smartt", key2: "b2", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
                 { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
-
-
-                //{ name: "a1", key: "a4", key2: "a4", detail: "details item a1 a4", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a1", key: "a3", key2: "b4", detail: "details item b1 c3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c1", key: "b3", key2: "a2", detail: "details item c1 b3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a1", key: "a3", key2: "a3", detail: "details item a2 a3", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "b2", key: "c2", key2: "a1", detail: "details item b2 c2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 3 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 1 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c1", key: "b2", key2: "b4", detail: "details item c2 b2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "a4", key: "a2", key2: "b2", detail: "details item a3 a2", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "b3", key: "c1", key2: "b1", detail: "details item b3 c1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "c3", key: "b1", key2: "c4", detail: "details item c3 b1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } },
-                //{ name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } }
         ];
 
         SimpleItemsProvider.prototype.isSortable = function () {
@@ -195,43 +140,94 @@
             }
         }
 
-        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, callback) {
+        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
             var oldItems = new Array();
             oldItems = oldItems.concat(items);
             sort(sortDescriptors);
             setTimeout(function () {
-                callback(filtering(filterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
                 items = new Array();
                 items = items.concat(oldItems);
             }, 200);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-            callback(filtering(filterDescriptors).length);
+            callback(onFiltering(filterDescriptors).length);
         };
 
-        function filtering(filterDescriptors) {
-            if (filterDescriptors == null || filterDescriptors.length == 0) {
+        function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
+            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
+            }
+            var isCollapsedItem = [];
+            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                isCollapsedItem.push(false);
             }
 
             var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
-                isFiltered = true;
+                // filtering common filters
+                var isFiltered = 0;
                 for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (isFiltering(items[j][filterDescriptors[i].path], filterDescriptors[i].value, filterDescriptors[i].condition)) {
-                        isFiltered = false;
-                        break;
+                    if (filter(items[j], filterDescriptors[i])) {
+                        isFiltered++;
                     }
                 }
-                if (isFiltered) {
+
+                // filtering collapsed filter
+                var isCollapsedFiltered = false;
+                var numberfilter = -1;
+                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                    if (filter(items[j], collapsedFilterDescriptors[i])) {
+                        isCollapsedFiltered = true;
+                        numberfilter = i;
+                        i = collapsedFilterDescriptors.length;
+                    }
+                }
+
+                if (isFiltered == 0 && !isCollapsedFiltered) {
                     filterdItems.push(items[j]);
+                } else {
+                    if (isFiltered == 0) {
+                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                            var fakeItem = {};
+                            fakeItem["isFakeItem"] = true;
+                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                            }
+                            filterdItems.push(fakeItem);
+                            isCollapsedItem[numberfilter] = true;
+                        }
+                    }
                 }
             }
+
             return filterdItems;
         }
 
+        function filter(item, filterDescriptors) {
+            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                if (filterDescriptors.children.length == 0) {
+                    return true;
+                } else {
+                    var result = 0
+                    for (var i = 0; i < filterDescriptors.children.length; i++) {
+                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                            result++;
+                        }
+                    }
+                    if (result == filterDescriptors.children.length) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         function isFiltering(item, value, condition) {
+            // on true push to filtered items
             switch (condition) {
                 case 1://equal
                     return (item == value);
