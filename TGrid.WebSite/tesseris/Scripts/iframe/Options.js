@@ -107,6 +107,7 @@
                     column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;
                     column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                     column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
+                    column.resizable = columns[i].attributes['data-g-resizable'] != undefined ? (columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true) : true;
 
                     this.columns.push(column);
                 }

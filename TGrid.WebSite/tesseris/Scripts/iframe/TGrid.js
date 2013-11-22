@@ -5,7 +5,8 @@ var TesserisPro;
     /// <reference path="IHtmlProvider.ts" />
     /// <reference path="IItemProvider.ts" />
     /// <reference path="knockout/KnockoutHtmlProvider.ts" />
-    /// <reference path="FilterPopupViewModel.ts"/>
+    /// <reference path="knockout/KnockoutFilterPopupViewModel.ts"/>
+    /// <reference path="angular/AngularFilterPopupViewModel.ts"/>
     /// <reference path="angular/AngularHtmlProvider.ts" />
     /// <reference path="GroupHeaderDescriptor.ts" />
     /// <reference path="utils.ts" />
@@ -49,6 +50,8 @@ var TesserisPro;
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                     this.rootElement.appendChild(this.filterPopUp);
+                    this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
+                    this.htmlProvider.addFiltringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 }
 
                 // Header
@@ -424,7 +427,9 @@ var TesserisPro;
             };
 
             Grid.prototype.showFilterBox = function (element, path, left) {
-                element.setAttribute("style", "display:block;left:" + left + "px;top:62px");
+                var top = (this.options.isEnableGrouping ? 58 : 26);
+
+                element.setAttribute("style", "display:block;left:" + left + "px;top:" + top + "px");
                 this.options.filterPath = path;
             };
 
@@ -464,6 +469,7 @@ var TesserisPro;
                 this.options.currentPage = page;
                 this.refreshHeader();
                 this.refreshBody();
+                this.refreshFooter();
             };
 
             Grid.prototype.selectItem = function (item, multi) {
@@ -606,24 +612,16 @@ var TesserisPro;
                 return this.options.pageSize;
             };
 
-            Grid.prototype.getFilterPopupViewModel = function (container) {
-                this.filterPopupViewModel = new TGrid.FilterPopupViewModel(container);
-                return this.filterPopupViewModel;
-            };
-
             Grid.prototype.refreshHeader = function () {
                 var _this = this;
                 this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable(), function (c) {
                     return _this.columnsResized(c);
                 });
                 this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.itemProvider.isSortable());
-                if (this.filterPopupViewModel == null) {
-                    (function (grid) {
-                        setTimeout(function () {
-                            grid.htmlProvider.addFiltringPopUp(grid.options, grid.filterPopUp, grid.getFilterPopupViewModel(grid.filterPopUp));
-                        }, 1);
-                    })(this);
-                }
+            };
+
+            Grid.prototype.updateBody = function () {
+                this.refreshBody();
             };
 
             Grid.prototype.refreshBody = function (withBuisy) {
@@ -649,6 +647,7 @@ var TesserisPro;
                     });
                 } else {
                     this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), function (totalitemsCount) {
+                        _this.totalItemsCount = totalitemsCount;
                         _this.itemProvider.getItems(_this.getFirstItemNumber(), _this.getPageSize(), _this.getEffectiveSorting(), _this.getEffectiveFiltering(), _this.getCollapsedGroupFilter(), function (items, first, count) {
                             _this.firstVisibleItemIndex = first;
                             _this.visibleItems = items;
@@ -670,10 +669,14 @@ var TesserisPro;
 
             Grid.prototype.updateFooterViewModel = function () {
                 if (this.footerViewModel != null) {
-                    this.footerViewModel.setCurrentPage(this.options.currentPage);
+                    this.footerViewModel.setCurrentPage(this.options.currentPage + 1);
                     this.footerViewModel.setSelectedItem(this.options.selection[0]);
                     this.footerViewModel.setTotalCount(this.totalItemsCount);
-                    this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
+                    if (this.options.isEnablePaging) {
+                        this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
+                    } else {
+                        this.footerViewModel.setTotalPages(1);
+                    }
                 }
             };
 

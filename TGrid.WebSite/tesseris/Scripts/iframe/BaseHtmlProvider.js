@@ -3,6 +3,7 @@ var TesserisPro;
     /// <reference path="IHtmlProvider.ts" />
     /// <reference path="ItemViewModel.ts" />
     /// <reference path="IFooterViewModel.ts"/>
+    /// <reference path="IFilterPopupViewModel.ts" />
     (function (TGrid) {
         var BaseHtmlProvider = (function () {
             function BaseHtmlProvider() {
@@ -20,8 +21,13 @@ var TesserisPro;
             BaseHtmlProvider.prototype.getFirstVisibleItem = function (container, items, scrollTop) {
                 return null;
             };
+
             BaseHtmlProvider.prototype.getFooterViewModel = function () {
             };
+
+            BaseHtmlProvider.prototype.getFilterPopupViewModel = function (container) {
+            };
+
             BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, isSortable, columnsResized) {
             };
 
@@ -87,7 +93,7 @@ var TesserisPro;
                 var firstDataRow;
 
                 for (var i = 0; i < tableRows.length; i++) {
-                    if (!tableRows.item(i).classList.contains("tgrid-table-group-header")) {
+                    if (tableRows.item(i).classList.contains("table-body-row")) {
                         firstDataRow = tableRows.item(i);
                         break;
                     }
@@ -207,7 +213,7 @@ var TesserisPro;
                 }
             };
 
-            BaseHtmlProvider.prototype.addFiltringPopUp = function (option, filterPopupContainer, filterPopupViewModel) {
+            BaseHtmlProvider.prototype.addFiltringPopUp = function (option, filterPopup, filterPopupModel) {
             };
 
             BaseHtmlProvider.prototype.defaultFiltringPopUp = function (option, filterPopupContainer) {
@@ -221,19 +227,17 @@ var TesserisPro;
 
                 var selectOption = document.createElement("option");
                 selectOption.value = TGrid.FilterCondition.Equals.toString();
-                selectOption.text = "=";
+                selectOption.text = "Equals";
                 filterCondition.appendChild(selectOption);
 
                 var selectOption = document.createElement("option");
                 selectOption.value = TGrid.FilterCondition.NotEquals.toString();
-                selectOption.text = "<>";
+                selectOption.text = "Not equals";
                 filterCondition.appendChild(selectOption);
 
                 // end append filter conditions
                 filterPopupContainer.appendChild(filterCondition);
                 filterCondition.selectedIndex = 1;
-
-                filterPopupContainer.innerHTML += "<br>";
 
                 var filterText = document.createElement("input");
                 filterText.setAttribute("value", "c3");
@@ -242,21 +246,21 @@ var TesserisPro;
                 filterPopupContainer.innerHTML += "<br>";
 
                 var applyButton = document.createElement("button");
-                applyButton.innerText = "apply";
+                applyButton.innerText = "Apply";
                 applyButton.onclick = function (e) {
                     TGrid.Grid.getGridObject(e.target).addFilter(option.filterPath, filterPopupContainer.getElementsByTagName("input")[0].value, filterPopupContainer.getElementsByTagName("select")[0].selectedIndex, filterPopupContainer);
                 };
                 filterPopupContainer.appendChild(applyButton);
 
                 var clearButton = document.createElement("button");
-                clearButton.innerText = "clear";
+                clearButton.innerText = "Clear";
                 clearButton.onclick = function (e) {
                     TGrid.Grid.getGridObject(e.target).clearFilter(option.filterPath, filterPopupContainer);
                 };
                 filterPopupContainer.appendChild(clearButton);
 
                 var exitButton = document.createElement("button");
-                exitButton.innerText = "exit";
+                exitButton.innerText = "Close";
                 exitButton.onclick = function (e) {
                     TGrid.Grid.getGridObject(e.target).hideElement(filterPopupContainer);
                 };
@@ -291,6 +295,7 @@ var TesserisPro;
                         };
 
                         groupByHeaderElement.appendChild(deleteGroupByElement);
+                        this.bindData(option, groupByHeaderElement);
                         groupByContainer.appendChild(groupByHeaderElement);
                     }
                 }
@@ -372,11 +377,15 @@ var TesserisPro;
                             this.createDefaultHeader(listItemGroupByItems, headerText);
                         }
                         listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
+
                         listGroupByElement.appendChild(listItemGroupByItems);
                     }
                 }
-
+                this.bindData(option, listGroupByElement);
                 return listGroupByElement;
+            };
+
+            BaseHtmlProvider.prototype.bindData = function (option, elementForBinding) {
             };
 
             BaseHtmlProvider.prototype.showListGroupByItems = function (option, listGroupByElement, grid) {
@@ -398,6 +407,45 @@ var TesserisPro;
                     }
                 }
                 return listGroupByElement;
+            };
+
+            BaseHtmlProvider.prototype.buildGroupMobileHeaderRow = function (option, groupHeaderDescriptor) {
+                var headerContainer = document.createElement("div");
+                var headerDiv = document.createElement("div");
+
+                headerContainer.classList.add("tgrid-mobile-group-header");
+                for (var i = 0; i < groupHeaderDescriptor.level; i++) {
+                    headerContainer.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>";
+                }
+
+                if (option.isEnableCollapsing) {
+                    if (!groupHeaderDescriptor.collapse) {
+                        headerContainer.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    } else {
+                        headerContainer.onclick = function (e) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
+                        };
+                    }
+                }
+
+                if (option.groupHeaderTemplate != null) {
+                    option.groupHeaderTemplate.applyTemplate(headerDiv);
+                } else {
+                    this.createDefaultGroupHeader(headerDiv);
+                }
+
+                headerDiv.classList.add('tgrid-mobile-group-header-container');
+                this.bindMobileGroupHeader(headerContainer, groupHeaderDescriptor.value, headerDiv);
+
+                //headerContainer.appendChild(headerDiv);
+                return headerContainer;
+            };
+            BaseHtmlProvider.prototype.bindMobileGroupHeader = function (headerContainer, item, headerDiv) {
+                headerContainer.appendChild(headerDiv);
+            };
+            BaseHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
             };
             return BaseHtmlProvider;
         })();
