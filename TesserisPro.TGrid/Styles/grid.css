@@ -410,14 +410,14 @@ mobile-condition-show-div {
     display:block;
 }
 /* Mobile */
-@media (max-width: 1300px) {
+@media (max-width: 480px) {
     .desktop {
         display: none;
     }
 }
 
 /* Desktop */
-@media (min-width: 1301px) {
+@media (min-width: 481px) {
     .mobile {
         display: none;
     }
