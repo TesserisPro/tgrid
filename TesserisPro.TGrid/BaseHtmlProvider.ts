@@ -452,8 +452,7 @@ module TesserisPro.TGrid {
 
             headerDiv.classList.add('tgrid-mobile-group-header-container');
             this.bindMobileGroupHeader(headerContainer, groupHeaderDescriptor.value, headerDiv);
-
-            //headerContainer.appendChild(headerDiv);
+           
             return headerContainer;
         }
 
@@ -496,35 +495,69 @@ module TesserisPro.TGrid {
             }
         }
 
-        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, groupByContainer: HTMLElement, mobileConditionContainer: HTMLElement): void {
+        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean): void {
             if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
-                this.updateMobileConditionList(option, mobileHeader);
-                this.updateMobileConditionShowList(option, mobileConditionContainer, isSortable);
+                this.updateMobileConditionList(option, mobileHeader, isSortable);
             } else {
                 // Create mobile header
-                // Hide table on mobile devices
-                mobileHeader.classList.add('mobile');
-                groupByContainer.classList.add('desktop');
                 this.createMobileConditionButton(option, mobileHeader, filterPopupContainer, isSortable);
             }
+            this.updateMobileConditionShowList(option, mobileHeader, isSortable);
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
         }
 
-        public updateMobileConditionList(option: Options, mobileConditionContainer: HTMLElement) {
+        public updateMobileConditionList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean) {
             for (var i = 0; i < option.columns.length; i++) {
-
                 if (option.isEnableFiltering) {
                     var filterConditions = mobileConditionContainer.getElementsByClassName('mobile-filter-condition');
-                    if (this.checkIsFiltered(option, i)) {
+                    if (this.checkIsInArray(option.filterDescriptors, option.columns[i].filterMemberPath)) {
                         if (!(<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
                             (<HTMLElement>filterConditions[i]).classList.add('filtered');
                         }
                     } else {
                         if ((<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
                             (<HTMLElement>filterConditions[i]).classList.remove('filtered');
+                        }
+                    }
+                }
+                if (option.isEnableGrouping) {
+                    var groupByConditions = mobileConditionContainer.getElementsByClassName('mobile-group-by-condition');
+                    if (this.checkIsInArray(option.groupBySortDescriptor, option.columns[i].groupMemberPath)) {
+                        if (!(<HTMLElement>groupByConditions[i]).classList.contains('active')) {
+                            (<HTMLElement>groupByConditions[i]).classList.add('active');
+                        }
+                    } else {
+                        if ((<HTMLElement>groupByConditions[i]).classList.contains('active')) {
+                            (<HTMLElement>groupByConditions[i]).classList.remove('active');
+                        }
+                    }
+
+                }
+                if (isSortable) {
+                    var sortConditions = mobileConditionContainer.getElementsByClassName('mobile-sort-condition');
+                    if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
+                        for (var j = 0; j < sortConditions.length; j++) {
+                            (<HTMLElement>sortConditions[j]).classList.remove('asc');
+                            (<HTMLElement>sortConditions[j]).classList.remove('desc');
+                        }
+                        if (option.sortDescriptor.asc == true) {
+                            if (!(<HTMLElement>sortConditions[i]).classList.contains('asc')) {
+                                (<HTMLElement>sortConditions[i]).classList.add('asc');
+                            }
+                        } else {
+                            if (!(<HTMLElement>sortConditions[i]).classList.contains('desc')) {
+                                (<HTMLElement>sortConditions[i]).classList.add('desc');
+                            }
+                        }
+                    } else {
+                        if ((<HTMLElement>filterConditions[i]).classList.contains('asc')) {
+                            (<HTMLElement>filterConditions[i]).classList.remove('asc');
+                        }
+                        if ((<HTMLElement>filterConditions[i]).classList.contains('desc')) {
+                            (<HTMLElement>filterConditions[i]).classList.remove('desc');
                         }
                     }
                 }
@@ -536,10 +569,13 @@ module TesserisPro.TGrid {
             if (<HTMLElement>mobileConditionsShow[0] != undefined && (<HTMLElement>mobileConditionsShow[0]).parentElement != undefined) {
                 (<HTMLElement>mobileConditionsShow[0]).parentElement.innerHTML = "";
             }
+            var listContainer = document.createElement('div');
+            listContainer.classList.add('mobile-condition-show-container');
             var listColumnsElement = document.createElement("div");
             listColumnsElement.classList.add("mobile-condition-show-div");
             this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
-            mobileConditionContainer.appendChild(listColumnsElement);
+            listContainer.appendChild(listColumnsElement);
+            mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
         }
 
         public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
@@ -663,7 +699,7 @@ module TesserisPro.TGrid {
             return listColumnsElement;
         }
 
-        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number) {
+        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number):HTMLElement {
             
             var listColumnName = document.createElement('span');
 
@@ -692,6 +728,11 @@ module TesserisPro.TGrid {
             listItemGroupBy.classList.add('mobile-group-by-condition');
             listItemGroupBy["data-group-by-condition"] = option.columns[i].groupMemberPath;
             if (!forShow) {
+                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                    if (option.groupBySortDescriptor[j].path == option.columns[i].groupMemberPath) {
+                        listItemGroupBy.classList.add('active');
+                    }
+                }
                 listItemGroupBy.onclick = (e) => {
                     var isNotGroupedBy = true;
                     for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
@@ -730,12 +771,12 @@ module TesserisPro.TGrid {
                     if (option.sortDescriptor.path == e.target["data-sort-condition"]) {
                         columnIsNotSorted = false;
                     }
+                    var conditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('mobile-sort-condition');
 
                     if (columnIsNotSorted) {
                         var mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('asc');
                         for (var k = 0; k < mobileConditionListItems.length; k++) {
-                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('acs');
-                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('desc');
+                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('asc');
                         }
                         mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('desc');
                         for (var k = 0; k < mobileConditionListItems.length; k++) {
@@ -750,8 +791,12 @@ module TesserisPro.TGrid {
                             (<HTMLElement>e.target).classList.remove('asc');
                             (<HTMLElement>e.target).classList.add('desc');
                         } else {
-                            Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), null);
-                            (<HTMLElement>e.target).classList.remove('desc');
+                            if ((<HTMLElement>e.target).classList.contains('desc')) {
+                                Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), null);
+                                (<HTMLElement>e.target).classList.remove('desc');
+                            } else {
+                                (<HTMLElement>e.target).classList.add('asc');
+                            }
                         }
                     }
                 }
@@ -763,7 +808,7 @@ module TesserisPro.TGrid {
             var listItemFilter = document.createElement('span');
             listItemFilter.classList.add('mobile-filter-condition');
             listItemFilter["data-filter-condition"] = option.columns[i].filterMemberPath;
-            var isFiltered = this.checkIsFiltered(option, i);
+            var isFiltered = this.checkIsInArray(option.filterDescriptors, option.columns[i].sortMemberPath);
             if (isFiltered) {
                 listItemFilter.classList.add('filtered');
             }
@@ -791,16 +836,16 @@ module TesserisPro.TGrid {
             }
             return listItemFilter;
         }
-
-        private checkIsFiltered(option: Options, i: number): boolean {
-            var isFiltered = false;
-            for (var j = 0; j < option.filterDescriptors.length; j++) {
-                if (option.filterDescriptors[j].path == option.columns[i].sortMemberPath) {
-                    isFiltered = true;
-                    j = option.filterDescriptors.length;
+      
+        private checkIsInArray(arrayToCheck: Array<any>, isWanted: any): boolean {
+            var isInArray = false;
+            for (var j = 0; j < arrayToCheck.length; j++) {
+                if (arrayToCheck[j].path == isWanted) {
+                    isInArray = true;
+                    j = arrayToCheck.length;
                 }
             }
-            return isFiltered;
+            return isInArray;
         }
 
         private hideElementOnClickAnywhereElse(elementToHide: HTMLElement, elementToClickClass: string) {
@@ -817,7 +862,6 @@ module TesserisPro.TGrid {
                     elementToHide.classList.remove('show');
                     elementToHide.removeAttribute('style');
                     document.onclick = null;
-                   // Grid.getGridObject(<HTMLElement>e.target).hideFilter(<Element>(elementToHide));
                 }
             }
         }

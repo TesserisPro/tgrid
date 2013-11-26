@@ -130,7 +130,7 @@ module TesserisPro.TGrid {
                 this.columns.push(column);
             }
 
-            this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
+            this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
 
             var filterPopup = <NodeListOf<HTMLElement>>optionsElement.getElementsByTagName("filterpopup");
             this.filterPopup = filterPopup.length == 1 ? new Template(filterPopup[0]) : null;

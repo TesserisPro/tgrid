@@ -11,7 +11,7 @@ module TGrid.Angular {
 
                 if (attrs["groupby"] != undefined) {
                     var groupBy = attrs["groupby"].split(' ');
-                    if (groupBy.lenght > 0 && groupBy[0] != "") {
+                    if (groupBy.length > 0 && groupBy[0] != "") {
                         for (var i = 0; i < groupBy.length; i++) {
                             options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBy[i], true));
                         }

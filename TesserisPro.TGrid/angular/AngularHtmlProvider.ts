@@ -254,7 +254,6 @@ module TesserisPro.TGrid {
                 var details = this.buildDetailsRow(option, item);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
-                //ko.applyBindings(option.showDetailFor, details);
             }
         }
 

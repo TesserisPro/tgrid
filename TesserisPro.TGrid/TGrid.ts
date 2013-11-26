@@ -72,13 +72,8 @@ module TesserisPro.TGrid {
             this.rootElement.className = "tgrid-root";
            
             this.groupByElement = document.createElement("div");
-            this.groupByElement.setAttribute("class", "group-by-container");
+            this.groupByElement.className = "group-by-container desktop";
             this.rootElement.appendChild(this.groupByElement);
-
-            this.mobileConditionContainer = document.createElement("div");
-            this.mobileConditionContainer.classList.add("mobile-condition-container");
-            this.mobileConditionContainer.classList.add("mobile");
-            this.rootElement.appendChild(this.mobileConditionContainer);
 
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
@@ -97,7 +92,7 @@ module TesserisPro.TGrid {
 
             // Header
             this.mobileHeader = document.createElement("div");
-            this.mobileHeader.setAttribute("class", "tgrid-mobile-header mobile");
+            this.mobileHeader.className = "tgrid-mobile-header mobile";
             this.rootElement.appendChild(this.mobileHeader);
 
             this.tableHeader = document.createElement("thead");
@@ -519,15 +514,22 @@ module TesserisPro.TGrid {
         }
 
         public sortBy(name: string): void {
-            if (name == this.options.sortDescriptor.path) {
-                this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
-            } else {
-                this.options.sortDescriptor.path = name;
-                this.options.sortDescriptor.asc = false;
+            if (name != null) {
+                if (name == this.options.sortDescriptor.path) {
+                    if (this.options.sortDescriptor.asc) {
+                        this.options.sortDescriptor.asc = !this.options.sortDescriptor.asc;
+                    } else {
+                        this.options.sortDescriptor.path = null;
+                        this.options.sortDescriptor.asc = null;
+                    }
+                } else {
+                    this.options.sortDescriptor.path = name;
+                    this.options.sortDescriptor.asc = true;
+                }
             }
-
-            this.refreshHeader();
-            this.refreshBody();
+                this.refreshHeader();
+                this.refreshBody();
+            
         }
 
         public mobileSortBy(name: string, asc: boolean) {
@@ -535,7 +537,7 @@ module TesserisPro.TGrid {
                 this.options.sortDescriptor.path = name;
                 this.options.sortDescriptor.asc = asc;
             } else {
-                this.options.sortDescriptor = new SortDescriptor(this.options.columns[0].sortMemberPath, true);
+                this.options.sortDescriptor = new SortDescriptor(null, null);
             }
             this.refreshHeader();
             this.refreshBody();
@@ -702,7 +704,7 @@ module TesserisPro.TGrid {
 
         private refreshHeader() {
             this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable(), c => this.columnsResized(c));
-            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp, this.itemProvider.isSortable(), this.groupByElement, this.mobileConditionContainer);
+            this.refreshMobileHeader();
         }
 
         public updateBody() {
@@ -806,8 +808,7 @@ module TesserisPro.TGrid {
         public setFilters(filterDescriptor: FilterDescriptor) {
             this.removeFilters(false);
             this.options.filterDescriptors.push(filterDescriptor);
-            this.htmlProvider.updateMobileConditionList(this.options, this.mobileHeader);
-            this.htmlProvider.updateMobileConditionShowList(this.options, this.mobileConditionContainer, this.itemProvider.isSortable());
+            this.refreshMobileHeader();
             this.refreshBody();
         }
 
@@ -818,10 +819,13 @@ module TesserisPro.TGrid {
                 }
             }
             if (isRefresh) {
-                this.htmlProvider.updateMobileConditionList(this.options, this.mobileHeader);
-                this.htmlProvider.updateMobileConditionShowList(this.options, this.mobileConditionContainer, this.itemProvider.isSortable());
+                this.refreshMobileHeader();
                 this.refreshBody();
             }
+        }
+
+        private refreshMobileHeader() {
+            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp, this.itemProvider.isSortable());
         }
     }
 }

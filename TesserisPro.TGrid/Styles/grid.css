@@ -378,10 +378,10 @@ th.tgrid-placeholder {
 }
 
 .mobile-sort-condition.asc {
-    background: url(../images/arrow_down.png) no-repeat;  
+    background: url(../images/arrow_up.png) no-repeat;  
 }
 .mobile-sort-condition.desc {
-    background: url(../images/arrow_up.png) no-repeat;  
+    background: url(../images/arrow_down.png) no-repeat;  
 }
 
 .mobile-filter-condition {
@@ -403,12 +403,17 @@ th.tgrid-placeholder {
     display:inline-block;
 }
 
-mobile-condition-show-div {
+.mobile-condition-show-div, .mobile-condition-show-container {
     display: inline-block;
 }
 .show {
     display:block;
 }
+
+.mobile-condition-show-div {
+    margin: 0 3px;
+}
+ 
 /* Mobile */
 @media (max-width: 480px) {
     .desktop {
