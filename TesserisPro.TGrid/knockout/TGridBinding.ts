@@ -35,10 +35,11 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         } else {
             groupBySortDescriptor = valueAccessor().groupBy;
         }
-        for (var i = 0; i < groupBySortDescriptor.length; i++) {
-            options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
+        if (groupBySortDescriptor != undefined) {
+            for (var i = 0; i < groupBySortDescriptor.length; i++) {
+                options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
+            }
         }
-
         if (isObservable(valueAccessor().enablePaging)) {
             if (typeof valueAccessor().enablePaging() == "boolean") {
                 options.isEnablePaging = valueAccessor().enablePaging();
@@ -58,9 +59,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         } else {
             options.pageSize = valueAccessor().pageSize;
         }
-        if (options.isEnablePaging) {
-            options.pageSize = (isNaN(options.pageSize) || options.pageSize < 1) ? 10 : options.pageSize;
-        }
+        options.pageSize = (isNaN(options.pageSize) || options.pageSize < 1 ) ? 10 : options.pageSize;
 
         if (isObservable(valueAccessor().selectMode)) {
             options.selectionMode = valueAccessor().selectMode();

@@ -60,7 +60,7 @@ module TGrid.Angular {
                     options.isEnableFiltering = attrs["enablefiltering"] == "true" ? true : false;
                 }
 
-                var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
+                //var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
             }
 
         return this.directive;
