@@ -341,7 +341,14 @@ module TesserisPro.TGrid {
                     }
 
                     var columnData = document.createElement("span");
-                    columnData.innerHTML = ": ";
+                    if (option.columns[i].member != null) {
+                        var columnBinding = document.createElement('span');
+                        columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
+                        columnData.innerHTML = ": ";
+                        columnData.appendChild(columnBinding);
+                    } else {
+                        columnData.innerHTML = ": ";
+                    }
                     mobileColumnContainer.appendChild(mobileColumnName);
                     mobileColumnContainer.appendChild(columnData);
                     rowTemplate.appendChild(mobileColumnContainer);
@@ -573,13 +580,15 @@ module TesserisPro.TGrid {
             if (<HTMLElement>mobileConditionsShow[0] != undefined && (<HTMLElement>mobileConditionsShow[0]).parentElement != undefined) {
                 (<HTMLElement>mobileConditionsShow[0]).parentElement.innerHTML = "";
             }
-            var listContainer = document.createElement('div');
-            listContainer.classList.add('mobile-condition-show-container');
-            var listColumnsElement = document.createElement("div");
-            listColumnsElement.classList.add("mobile-condition-show-div");
-            this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
-            listContainer.appendChild(listColumnsElement);
-            mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
+            if (option.isEnableFiltering || option.isEnableGrouping || isSortable) {
+                var listContainer = document.createElement('div');
+                listContainer.classList.add('mobile-condition-show-container');
+                var listColumnsElement = document.createElement("div");
+                listColumnsElement.classList.add("mobile-condition-show-div");
+                this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
+                listContainer.appendChild(listColumnsElement);
+                mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
+            }
         }
 
         public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
