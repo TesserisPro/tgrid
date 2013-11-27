@@ -43,7 +43,7 @@ namespace TGrid.Demo.Controllers
             listOfDemosDesktop.Add(new UIModel { title = "Details template", url = "DetailsTemplate", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });            
             listOfDemosDesktop.Add(new UIModel { title = "Custom actions to open details", url = "CustomActionsToOpenDetails", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Paging", url = "Paging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Virtualization/lazy loading", url = "lazyLoadingMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" }); 
+            listOfDemosDesktop.Add(new UIModel { title = "Virtualization/lazy loading", url = "lazyLoading", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" }); 
             listOfDemosDesktop.Add(new UIModel { title = "Custom items provider", url = "CustomItemsProvider", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Grouping", url = "Grouping", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
