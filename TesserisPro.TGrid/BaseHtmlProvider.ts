@@ -341,7 +341,14 @@ module TesserisPro.TGrid {
                     }
 
                     var columnData = document.createElement("span");
-                    columnData.innerHTML = ": ";
+                    if (option.columns[i].member != null) {
+                        var columnBinding = document.createElement('span');
+                        columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
+                        columnData.innerHTML = ": ";
+                        columnData.appendChild(columnBinding);
+                    } else {
+                        columnData.innerHTML = ": ";
+                    }
                     mobileColumnContainer.appendChild(mobileColumnName);
                     mobileColumnContainer.appendChild(columnData);
                     rowTemplate.appendChild(mobileColumnContainer);
@@ -510,9 +517,13 @@ module TesserisPro.TGrid {
         }
 
         public updateMobileConditionList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean) {
+            var filterConditions = mobileConditionContainer.getElementsByClassName('mobile-filter-condition');
+            var groupByConditions = mobileConditionContainer.getElementsByClassName('mobile-group-by-condition');
+            var sortConditions = mobileConditionContainer.getElementsByClassName('mobile-sort-condition');
+
             for (var i = 0; i < option.columns.length; i++) {
-                if (option.isEnableFiltering) {
-                    var filterConditions = mobileConditionContainer.getElementsByClassName('mobile-filter-condition');
+                if (option.isEnableFiltering && filterConditions[i]!= undefined) {
+                   
                     if (this.checkIsInArray(option.filterDescriptors, option.columns[i].filterMemberPath)) {
                         if (!(<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
                             (<HTMLElement>filterConditions[i]).classList.add('filtered');
@@ -523,8 +534,8 @@ module TesserisPro.TGrid {
                         }
                     }
                 }
-                if (option.isEnableGrouping) {
-                    var groupByConditions = mobileConditionContainer.getElementsByClassName('mobile-group-by-condition');
+                if (option.isEnableGrouping && groupByConditions[i] != undefined) {
+                    
                     if (this.checkIsInArray(option.groupBySortDescriptor, option.columns[i].groupMemberPath)) {
                         if (!(<HTMLElement>groupByConditions[i]).classList.contains('active')) {
                             (<HTMLElement>groupByConditions[i]).classList.add('active');
@@ -536,8 +547,8 @@ module TesserisPro.TGrid {
                     }
 
                 }
-                if (isSortable) {
-                    var sortConditions = mobileConditionContainer.getElementsByClassName('mobile-sort-condition');
+                if (isSortable && sortConditions[i] != undefined) {
+                    
                     if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                         for (var j = 0; j < sortConditions.length; j++) {
                             (<HTMLElement>sortConditions[j]).classList.remove('asc');
@@ -553,11 +564,11 @@ module TesserisPro.TGrid {
                             }
                         }
                     } else {
-                        if ((<HTMLElement>filterConditions[i]).classList.contains('asc')) {
-                            (<HTMLElement>filterConditions[i]).classList.remove('asc');
+                        if ((<HTMLElement>sortConditions[i]).classList.contains('asc')) {
+                            (<HTMLElement>sortConditions[i]).classList.remove('asc');
                         }
-                        if ((<HTMLElement>filterConditions[i]).classList.contains('desc')) {
-                            (<HTMLElement>filterConditions[i]).classList.remove('desc');
+                        if ((<HTMLElement>sortConditions[i]).classList.contains('desc')) {
+                            (<HTMLElement>sortConditions[i]).classList.remove('desc');
                         }
                     }
                 }
@@ -569,13 +580,15 @@ module TesserisPro.TGrid {
             if (<HTMLElement>mobileConditionsShow[0] != undefined && (<HTMLElement>mobileConditionsShow[0]).parentElement != undefined) {
                 (<HTMLElement>mobileConditionsShow[0]).parentElement.innerHTML = "";
             }
-            var listContainer = document.createElement('div');
-            listContainer.classList.add('mobile-condition-show-container');
-            var listColumnsElement = document.createElement("div");
-            listColumnsElement.classList.add("mobile-condition-show-div");
-            this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
-            listContainer.appendChild(listColumnsElement);
-            mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
+            if (option.isEnableFiltering || option.isEnableGrouping || isSortable) {
+                var listContainer = document.createElement('div');
+                listContainer.classList.add('mobile-condition-show-container');
+                var listColumnsElement = document.createElement("div");
+                listColumnsElement.classList.add("mobile-condition-show-div");
+                this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
+                listContainer.appendChild(listColumnsElement);
+                mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
+            }
         }
 
         public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
