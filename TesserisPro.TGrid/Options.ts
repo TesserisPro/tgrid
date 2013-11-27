@@ -115,7 +115,7 @@ module TesserisPro.TGrid {
                 column.member = columns[i].attributes['data-g-member'] != undefined ? columns[i].attributes['data-g-member'].nodeValue : null;
 
                 column.header = header.length > 0 ? new Template(header[0]) : null;  
-                column.cell = header.length > 0 ? new Template(cell[0]) : null;
+                column.cell = cell.length > 0 ? new Template(cell[0]) : null;
 
                 var cellDetail = columnElement.find("celldetail");
                 column.cellDetail = cellDetail.length == 1 ? new Template(cellDetail[0]) : null;
