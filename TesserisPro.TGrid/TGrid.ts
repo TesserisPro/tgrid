@@ -286,17 +286,19 @@ module TesserisPro.TGrid {
 
         private updateGlobalScroll() {
             var firstItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
-            var visibleItemNumber = this.firstVisibleItemIndex;
-            for (var i = 0; i < this.visibleItems.length; i++) {
-                if (firstItem.item == this.visibleItems[i]) {
-                    visibleItemNumber = this.firstVisibleItemIndex + i;
-                    break;
+            if (firstItem != null) {
+                var visibleItemNumber = this.firstVisibleItemIndex;
+                for (var i = 0; i < this.visibleItems.length; i++) {
+                    if (firstItem.item == this.visibleItems[i]) {
+                        visibleItemNumber = this.firstVisibleItemIndex + i;
+                        break;
+                    }
                 }
+
+                var scrollPosition = (1000 / this.totalItemsCount) * visibleItemNumber;
+
+                this.scrollBar.scrollTop = scrollPosition;
             }
-
-            var scrollPosition = (1000 / this.totalItemsCount) * visibleItemNumber;
-
-            this.scrollBar.scrollTop = scrollPosition;
         }
 
         private onManualScroll() {
