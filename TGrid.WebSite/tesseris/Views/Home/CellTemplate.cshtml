@@ -172,7 +172,7 @@
                 }
 
                 function sort(sortDescriptor) {
-                    if (sortDescriptor != null && sortDescriptor.length > 0) {
+                    if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
                         items.sort(function (a, b) {
                             return sortingRecursive(a, b, sortDescriptor, 0);
                         });

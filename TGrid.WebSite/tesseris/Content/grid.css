@@ -5,10 +5,10 @@
 .tgrid-table {
     border-collapse: collapse;
     width: 100%;
-    background: rgb(222,239,255);
+    /*background: rgb(222,239,255);*/
 }
 
-    .tgrid-table thead tr th, .tgrid-mobile-header {       
+    .tgrid-table thead tr th {       
         border-right: 1px solid #BEBEBE;
         cursor: pointer;
         margin: 1px;
@@ -26,9 +26,14 @@
 
 .tgrid-mobile-header {
     margin: 0px;
-    border-top: 1px solid rgb(122,188,255);
-    border-left: 1px solid rgb(122,188,255);
-    border-right: 1px solid rgb(122,188,255);
+    border-top: 1px solid #BEBEBE;
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .tgrid-table tbody tr td, .tgrid-table-group-header {
@@ -66,9 +71,10 @@
 }
 
 .tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
-    border-left: 1px solid rgb(122,188,255);
-    border-right: 1px solid rgb(122,188,255);
-    border-bottom: 1px solid rgb(122,188,255);
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;
+    background-color: whitesmoke;
 }
 
 .tgrid-mobile-container .selected {
@@ -143,7 +149,9 @@
     cursor: default;
 }
 
-.tgrid-mobile-container {
+.tgrid-mobile-container.mobile {
+    overflow:auto;
+    max-height:488px;
 }
 
 .tgrid-inline-block {
@@ -193,20 +201,7 @@
 
 .tgrid-mobile-indent-div, .tgrid-mobile-div{
     display:inline-table;
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    .desktop {
-        display: none;
-    }
-}
-
-/* Desktop */
-@media (min-width: 481px) {
-    .mobile {
-        display: none;
-    }
+    color: grey;
 }
 
 .details:hover, .details:focus{
@@ -265,7 +260,7 @@ td a {
     /*color:rgb(100, 98, 98);*/
 }
 
-.list-button-container {
+.list-button-container, .mobile-list-button-container {
     display: inline-block;
     height: 25px;
     width: 25px;
@@ -281,7 +276,7 @@ td a {
     border-radius: 5px;
 }
 
-.button-group-by {
+.button-group-by, .mobile-condition-button {
     display: inline-block;
     height: 14px;
     width: 14px;
@@ -292,7 +287,7 @@ td a {
     opacity: 0.6;
 }
 
-.group-by-ul {
+.group-by-ul, .mobile-condition-ul {
     position:absolute;
     display: none;
     list-style-type: none;
@@ -305,7 +300,7 @@ td a {
     background-color: whitesmoke;    
 }
 
-.group-by-ul>li {
+.group-by-ul>li, .mobile-condition-ul>li {
     display:none;
     margin: 0;
     padding: 3px 20px;
@@ -313,7 +308,7 @@ td a {
     color:gray;
 }
 
-.group-by-ul > li:hover {
+.group-by-ul > li:hover, .mobile-condition-ul>li:hover {
     color: #ffffff;
     text-decoration: none;
     background-color:#D5D7D8;
@@ -431,4 +426,19 @@ th.tgrid-placeholder {
 
 .mobile-condition-show-div {
     margin: 0 3px;
+}
+
+
+/* Mobile */
+@media (max-width: 480px) {
+    .desktop {
+        display: none;
+    }
+}
+
+/* Desktop */
+@media (min-width: 481px) {
+    .mobile {
+        display: none;
+    }
 }
