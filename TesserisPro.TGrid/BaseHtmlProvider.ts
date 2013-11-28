@@ -229,12 +229,6 @@ module TesserisPro.TGrid {
         public defaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
             var filterCondition = document.createElement("select");
             // append filter conditions
-
-            //var selectOption = document.createElement("option");
-            //selectOption.value = FilterCondition.None.toString();
-            //selectOption.text = "none";
-            //filterCondition.appendChild(selectOption);
-
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.Equals.toString();
             selectOption.text = "Equals";
@@ -675,7 +669,7 @@ module TesserisPro.TGrid {
                 if (!isGrouped) {
                     var listColumnItem = document.createElement("span");
                     var isConditionOnColumn = false;
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
+                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path && option.columns[i].sortMemberPath != null) {
                         isConditionOnColumn = true;
                         var listColumnName = document.createElement("span");
                         if (option.columns[i].header != null) {

@@ -182,6 +182,7 @@
     <Content Include="Scripts\iframe\IHtmlProvider.js" />
     <Content Include="Scripts\iframe\IItemProvider.js" />
     <Content Include="Scripts\iframe\ItemViewModel.js" />
+    <Content Include="Views\Home\CellTemplateHtml.cshtml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\knockout-2.3.0.js" />
@@ -235,6 +236,10 @@
     <Content Include="Views\Home\StyleCss.cshtml" />
     <Content Include="Views\Home\ScriptJs.cshtml" />
     <Content Include="Views\Home\SimpleGridWithoutPagingMobileHtml.cshtml" />
+    <Content Include="Views\Home\DetailsTemplateHtml.cshtml" />
+    <Content Include="Views\Home\GroupingHtml.cshtml" />
+    <Content Include="Views\Home\HeaderTemplateHtml.cshtml" />
+    <Content Include="Views\Home\PagingHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
