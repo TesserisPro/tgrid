@@ -26,8 +26,10 @@
             //ko.mapping.toJS(data, {}, ko.applyBindings(new DemoViewModel(data)));
             ko.applyBindings(new DemoViewModel(data));
         });
+        $("#main-frame").contents().find('body').css({ "overflow": "hidden" });
+        
     });
-    
+    $("#main-frame").contents().children().css({ "overflow": "hidden" });
 </script>
 
 <div id="UI">   

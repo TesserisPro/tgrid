@@ -30,20 +30,7 @@
                 <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2">   
                     
                 </column>
-                @*<mobile>
-                    <div>
-                        <span>Name: </span>
-                        <span data-bind="text: item.name"></span>
-                        <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
-                        <br />
-                        <span>Key: </span>
-                        <span data-bind="text: item.key"></span>
-                        <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
-                        <br />
-                        <span>Key2: </span>
-                        <span data-bind="text: item.key2"></span>
-                    </div>
-                </mobile>*@
+
             </script>
         </div>
         <script type="text/javascript">
@@ -179,7 +166,7 @@
                 }
 
                 function sort(sortDescriptor) {
-                    if (sortDescriptor != null && sortDescriptor.length > 0) {
+                    if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
                         items.sort(function (a, b) {
                             return sortingRecursive(a, b, sortDescriptor, 0);
                         });
