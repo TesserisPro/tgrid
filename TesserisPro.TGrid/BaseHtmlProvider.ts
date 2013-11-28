@@ -648,13 +648,15 @@ module TesserisPro.TGrid {
 
         private addMobileConditionShowListItems(option: Options, listColumnsElement: HTMLElement, mobileConditionContainer: HTMLElement, isSortable: boolean) {
             var groupColumns = [];
-            for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].groupMemberPath == option.groupBySortDescriptor[j].path) {
-                        var listColumnItem = document.createElement("span");
-                        listColumnsElement.appendChild(this.getMobileConditionListItem(option, listColumnItem, null, true, i));
-                        groupColumns.push(option.columns[i]);
-                        i = option.columns.length;                       
+            if (option.isEnableGrouping) {
+                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
+                    for (var i = 0; i < option.columns.length; i++) {
+                        if (option.columns[i].groupMemberPath == option.groupBySortDescriptor[j].path) {
+                            var listColumnItem = document.createElement("span");
+                            listColumnsElement.appendChild(this.getMobileConditionListItem(option, listColumnItem, null, true, i));
+                            groupColumns.push(option.columns[i]);
+                            i = option.columns.length;
+                        }
                     }
                 }
             }
@@ -669,33 +671,37 @@ module TesserisPro.TGrid {
                 if (!isGrouped) {
                     var listColumnItem = document.createElement("span");
                     var isConditionOnColumn = false;
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path && option.columns[i].sortMemberPath != null) {
-                        isConditionOnColumn = true;
-                        var listColumnName = document.createElement("span");
-                        if (option.columns[i].header != null) {
-                            option.columns[i].header.applyTemplate(listColumnName);
-                        } else {
-                            var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                            this.createDefaultHeader(listColumnName, headerText);
-                        }
-                        listColumnItem.appendChild(listColumnName);
-                       
-                        listColumnItem.appendChild(this.createMobileSortItem(option, i, true));
-                    }
-                    for (var j = 0; j < option.filterDescriptors.length; j++) {
-                        if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
-                            if (!isConditionOnColumn) {
-                                var listColumnName = document.createElement("span");
-                                if (option.columns[i].header != null) {
-                                    option.columns[i].header.applyTemplate(listColumnName);
-                                } else {
-                                    var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                                    this.createDefaultHeader(listColumnName, headerText);
-                                }
-                                listColumnItem.appendChild(listColumnName);
-                            }
+                    if (isSortable) {
+                        if (option.columns[i].sortMemberPath == option.sortDescriptor.path && option.columns[i].sortMemberPath != null) {
                             isConditionOnColumn = true;
-                            listColumnItem.appendChild(this.createMobileFilterItem(option, i, null, true));
+                            var listColumnName = document.createElement("span");
+                            if (option.columns[i].header != null) {
+                                option.columns[i].header.applyTemplate(listColumnName);
+                            } else {
+                                var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                                this.createDefaultHeader(listColumnName, headerText);
+                            }
+                            listColumnItem.appendChild(listColumnName);
+
+                            listColumnItem.appendChild(this.createMobileSortItem(option, i, true));
+                        }
+                    }
+                    if (option.isEnableFiltering) {
+                        for (var j = 0; j < option.filterDescriptors.length; j++) {
+                            if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
+                                if (!isConditionOnColumn) {
+                                    var listColumnName = document.createElement("span");
+                                    if (option.columns[i].header != null) {
+                                        option.columns[i].header.applyTemplate(listColumnName);
+                                    } else {
+                                        var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
+                                        this.createDefaultHeader(listColumnName, headerText);
+                                    }
+                                    listColumnItem.appendChild(listColumnName);
+                                }
+                                isConditionOnColumn = true;
+                                listColumnItem.appendChild(this.createMobileFilterItem(option, i, null, true));
+                            }
                         }
                     }
                     if (isConditionOnColumn) listColumnsElement.appendChild(listColumnItem);
@@ -719,11 +725,11 @@ module TesserisPro.TGrid {
             listColumnItem.appendChild(listColumnName);
             listColumnItem.appendChild(this.createMobileGroupByItem(option, i, forShow));
 
-            if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
+            if (option.columns[i].sortMemberPath == option.sortDescriptor.path && option.columns[i].sortMemberPath != null) {
                 listColumnItem.appendChild(this.createMobileSortItem(option, i, forShow));
             }
             for (var j = 0; j < option.filterDescriptors.length; j++) {
-                if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
+                if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path && option.columns[i].filterMemberPath != null) {
                     listColumnItem.appendChild(this.createMobileFilterItem(option, i, filterPopupContainer, forShow));
                 }
             }

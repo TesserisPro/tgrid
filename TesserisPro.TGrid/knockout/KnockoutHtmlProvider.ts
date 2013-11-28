@@ -475,16 +475,14 @@ module TesserisPro.TGrid {
         }
 
         private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
-            if (item.isGroupHeader && option.groupHeaderTemplate != null) {
+            if (item.isGroupHeader) {
                 var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
                 container.appendChild(mobileGroupHeader);
                 ko.applyBindings(item, mobileGroupHeader);
             } else {
                 var row = this.buildMobileRowElement(option, item, container, selected);
-
                 container.appendChild(row);
                 ko.applyBindings(item, row);
             }
@@ -504,28 +502,32 @@ module TesserisPro.TGrid {
 
             var rowTemplate = document.createElement("div");
             rowTemplate.classList.add('tgrid-mobile-div');
-            if (option.mobileTemplateHtml != null) {
-                option.mobileTemplateHtml.applyTemplate(rowTemplate);
-            } else {
-                rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
-            } 
-            row.appendChild(rowTemplate);
 
-            var placeholderColumn = document.createElement("td");
-            placeholderColumn.classList.add("tgrid-placeholder");
-            row.appendChild(placeholderColumn);
+            
+                if (option.mobileTemplateHtml != null) {
+                    option.mobileTemplateHtml.applyTemplate(rowTemplate);
+                } else {
+                    rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
+                }
 
-            (function (item) {
-                row.onclick = function (e) {
-                    if (option.selectionMode != SelectionMode.None) {
-                        option.ctrlKey = e.ctrlKey;
-                        option.selectedRow = <HTMLElement>this;
-                        var s = container;
-                        selected(item, e.ctrlKey);
-                    }
-                };
-            })(item);
+                row.appendChild(rowTemplate);
 
+
+                var placeholderColumn = document.createElement("td");
+                placeholderColumn.classList.add("tgrid-placeholder");
+                row.appendChild(placeholderColumn);
+
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (option.selectionMode != SelectionMode.None) {
+                            option.ctrlKey = e.ctrlKey;
+                            option.selectedRow = <HTMLElement>this;
+                            var s = container;
+                            selected(item, e.ctrlKey);
+                        }
+                    };
+                })(item);
+            
             return row;
         }
 
