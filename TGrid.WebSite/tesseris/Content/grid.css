@@ -322,3 +322,6 @@ td a {
 thead>tr> .tgrid-table-indent-cell {
     display:none;
 }
+.show {
+    display:block;
+}

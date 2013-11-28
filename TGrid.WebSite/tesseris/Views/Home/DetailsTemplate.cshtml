@@ -19,12 +19,10 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false' }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
-            <header>
-                <span data-bind="text: nameColumnTitle"></span>
-            </header>
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
+            
             <cell>
                 <span data-bind="text: item.name"></span>
                 <a href data-bind="click: function () { getCellDetailFor(0); }">...</a>
@@ -36,8 +34,8 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key">
-            <header>Last Name</header>
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key">
+            
             <cell>
                 <span data-bind="text: item.key"></span>
                 <a href data-bind="click: function () { getCellDetailFor(1); }">...</a>
@@ -49,10 +47,8 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="key2">
-            <header>
-                <span>Age</span>
-            </header>
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2">
+            
             <cell>
                 <span data-bind="text: item.key2"></span>
             </cell>
@@ -63,28 +59,6 @@
                 </div>
             </celldetail>
         </column>
-
-        <groupheader>
-            <div>
-                <span style="color: green;" data-bind="text: item.value"></span>
-            </div>
-        </groupheader>
-
-        <mobile>
-            <div>
-                <span>Name: </span>
-                <span data-bind="text: item.name"></span>
-                <a href data-bind="click: function () { getCellDetailFor(0); }">...</a>
-                <br />
-                <span>Key: </span>
-                <span data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { getCellDetailFor(1); }">...</a>
-                <br />
-                <span>Key2: </span>
-                <span data-bind="text: item.key2"></span>
-            </div>
-        </mobile>
-
         <details>
             <div>
                 <span>Row details: </span>

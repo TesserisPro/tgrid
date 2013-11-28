@@ -19,26 +19,24 @@
 </head>
 <body>    
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false' }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
-            @*<header>
+            <header>
                 <span data-bind="text: nameColumnTitle"></span>
-            </header>*@
+            </header>
 
         </column>
         <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key">
-            @*<header>Last Name</header>*@
+            <header>Last Name</header>
             
         </column>
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2">
-            @*<header>
+            <header>
                 <span>Age</span>
-            </header>*@
+            </header>
 
         </column>
-
-
     </script>
 </div>
 <script type="text/javascript">
