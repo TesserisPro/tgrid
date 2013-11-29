@@ -39,16 +39,16 @@
 .tgrid-table tbody tr td, .tgrid-table-group-header {
     /*padding: 2px;
     border-top: 1px solid rgb(122,188,255);
-    border-left: 1px solid rgb(122,188,255);*/
-    background-color: whitesmoke;
+    border-left: 1px solid rgb(122,188,255);
+    background-color: whitesmoke;*/
     overflow: hidden;
     line-height: 1.6em;
     vertical-align: middle;
     text-overflow: ellipsis;
-    border-color: #BEBEBE;
+    /*border-color: #BEBEBE;*/
     color: grey;
-    border-right: 1px solid #BEBEBE;
-    border-top: 1px solid #BEBEBE;
+    /*border-right: 1px solid #BEBEBE;
+    border-top: 1px solid #BEBEBE;*/
     padding: 2px;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .tgrid-mobile-container .selected {
-    background-color: rgba(152,190,222,1);
+    background-color: #dbdbde;
 }
 
 .tgrid-tablebodycontainer {
@@ -428,6 +428,14 @@ th.tgrid-placeholder {
     margin: 0 3px;
 }
 
+ tr:nth-child(even) {
+  background-color: whitesmoke;
+}
+
+
+tr:nth-child(odd) {
+  background-color: white;
+}
 
 /* Mobile */
 @media (max-width: 480px) {

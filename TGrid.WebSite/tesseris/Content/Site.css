@@ -672,7 +672,7 @@ footer .centered-content {
 
 .editor-container div{
     max-width: 590px;
-    max-height: 530px;
+    height: 530px;
 }
 
 .syntaxhighlighter .toolbar{
@@ -691,3 +691,4 @@ footer .centered-content {
 #UI{
     text-align:center
 }
+
