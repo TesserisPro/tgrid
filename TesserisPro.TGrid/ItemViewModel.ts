@@ -13,9 +13,10 @@ module TesserisPro.TGrid {
             this.isGroupHeader = isGroupHeader;
         }
 
-        public getCellDetailFor(columnIndex:any): void {
+        public showDetailForCell(columnIndex: any): void {
             this.grid.options.showDetailFor.column = columnIndex;
             this.grid.options.showDetailFor.isDetailColumn = true;
+            this.grid
         }
     }
 

@@ -24,8 +24,7 @@ module TesserisPro.TGrid {
         public onApply() {
             var condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
             var value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-            var path = Grid.getGridObject(this.container).options.filterPath;
-            var filterDescriptor = new FilterDescriptor(path, value, condition);
+            var filterDescriptor = new FilterDescriptor(this.path, value, condition);
             Grid.getGridObject(this.container).setFilters(filterDescriptor);
         }
 
@@ -35,6 +34,10 @@ module TesserisPro.TGrid {
 
         public onClose() {
             Grid.getGridObject(this.container).hideElement(this.container);
+        }
+
+        onOpen(options: Options, column: ColumnInfo) {
+            this.path = column.filterMemberPath;
         }
     }
 }

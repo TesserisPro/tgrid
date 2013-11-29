@@ -1,13 +1,10 @@
 module TesserisPro.TGrid {
 
     export interface IFilterPopupViewModel {
-        //container: HTMLElement;
-        //path: string;
-        //value: string;
-        //condition: FilterCondition;
-
+        onOpen(options: Options, column: ColumnInfo);
         onApply();
         onClear();
         onClose();
+        getColumnInfo(): ColumnInfo;       
     }
 }

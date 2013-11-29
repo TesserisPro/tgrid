@@ -84,7 +84,7 @@
             </header>
             <cell>
                 <span style="color: red;" data-bind="text: item.name"></span>
-                <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(0); }, clickBubble: false">[]</a>
             </cell>
             <celldetail>
                 <div>
@@ -97,7 +97,7 @@
             <header>Key</header>
             <cell>
                 <span data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(1); }">[]</a>
             </cell>
             <celldetail>
                 <div>
@@ -149,11 +149,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;" data-bind="text: item.name"></span>
-                <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(0); }">[]</a>
                 <br />
                 <span>Key: </span>
                 <span style="color: red;" data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(1); }">[]</a>
                 <br />
                 <span>Key2: </span>
                 <span data-bind="text: item.key2"></span>
@@ -409,7 +409,7 @@
             </header>
             <cell>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="getCellDetailsFor(0)">[]</a> @*data-bind="click: function () { getCellDetailFor(0); }"*@
+                <a href ng-click="showDetailForCell(0)">[]</a> @*data-bind="click: function () { showDetailForCell(0); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -422,7 +422,7 @@
             <header>Key</header>
             <cell>
                 <span style="color: red;">{{item.key}}</span>
-                <a href ng-click="getCellDetailsFor(1)" >[]</a> @*data-bind="click: function () { getCellDetailFor(1); }"*@
+                <a href ng-click="showDetailForCell(1)">[]</a> @*data-bind="click: function () { showDetailForCell(1); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -451,11 +451,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="getCellDetailsFor(0);">[]</a>
+                <a href ng-click="showDetailForCell(0);">[]</a>
                 <br />
                 <span>Key: </span>
                 <span style="color: red;">{{item.key}}</span>
-                <a href ng-click="getCellDetailsFor(1);">[]</a>
+                <a href ng-click="showDetailForCell(1);">[]</a>
             </div>       
         </mobile>
 

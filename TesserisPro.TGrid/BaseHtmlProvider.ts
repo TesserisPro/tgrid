@@ -176,7 +176,7 @@ module TesserisPro.TGrid {
                 this.addGroupByElements(option, groupByContainer);
                 this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header))
 
-            var listButtonContainerElement = document.createElement("div");
+                var listButtonContainerElement = document.createElement("div");
                 listButtonContainerElement.setAttribute("class", "list-button-container");
                 var listGroupByElement = document.createElement("ul");
                 listGroupByElement.setAttribute("class", "group-by-ul");
@@ -190,10 +190,11 @@ module TesserisPro.TGrid {
                     } else {
                         listGroupByElement.classList.add('show');
                     }
-                    self.hideElementOnClickAnywhereElse(listGroupByElement, 'list-button-container');
+                    self.doOncCickOutside(listGroupByElement, () => { listGroupByElement.className = ""; });
                     //Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
                 }
-            listButtonContainerElement.appendChild(groupByButtonElement);
+
+                listButtonContainerElement.appendChild(groupByButtonElement);
 
                 var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
                 this.showListGroupByItems(option, listGroupByToChooseFrom, Grid.getGridObject(header));
@@ -201,7 +202,7 @@ module TesserisPro.TGrid {
                 listButtonContainerElement.appendChild(listGroupByElement);
                 groupByContainer.appendChild(listButtonContainerElement);
             } else {
-                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+                groupByContainer.className = "";
             }
         }
 
@@ -210,7 +211,7 @@ module TesserisPro.TGrid {
             var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
             for (var i = 0; i < cells.length; i++) {
-                grid.hideElement(<Element>cells[i]);
+                (<HTMLElement>cells[i]).style.display = "none";
             }
             //check that number of existing intent-cells is not more than number of needed intent-cells
             if (cells.length < level) {
@@ -218,7 +219,7 @@ module TesserisPro.TGrid {
             }
 
             for (var i = 0; i < visibleIntentsNumber; i++) {
-                grid.showTableCellElement(<Element>cells[i]);
+                (<HTMLElement>cells[i]).style.display = "block";
             }
         }
 
@@ -251,24 +252,30 @@ module TesserisPro.TGrid {
             var applyButton = document.createElement("button");
             applyButton.innerText = "Apply";
             applyButton.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).addFilter(option.filterPath,
-                    filterPopupContainer.getElementsByTagName("input")[0].value,
-                    <FilterCondition>filterPopupContainer.getElementsByTagName("select")[0].selectedIndex,
-                    filterPopupContainer);
+                var grid = Grid.getGridObject(<HTMLElement>e.target);
+                var column = grid.filterPopupViewModel.getColumnInfo();
+                grid.setFilter(
+                    column,
+                    new FilterDescriptor(
+                        column.filterMemberPath,
+                        filterPopupContainer.getElementsByTagName("input")[0].value,
+                        <FilterCondition>filterPopupContainer.getElementsByTagName("select")[0].selectedIndex));
             };
             filterPopupContainer.appendChild(applyButton);
 
             var clearButton = document.createElement("button");
             clearButton.innerText = "Clear";
             clearButton.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).clearFilter(option.filterPath, filterPopupContainer);
+                var grid = Grid.getGridObject(<HTMLElement>e.target);
+                var column = grid.filterPopupViewModel.getColumnInfo();
+                grid.clearFilter(column);
             };
             filterPopupContainer.appendChild(clearButton);
 
             var exitButton = document.createElement("button");
             exitButton.innerText = "Close";
             exitButton.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>filterPopupContainer);
+                Grid.getGridObject(<HTMLElement>e.target).hideFilterPoup();
             };
             filterPopupContainer.appendChild(exitButton);
         }
@@ -310,11 +317,8 @@ module TesserisPro.TGrid {
         public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
             if (option.isEnableGrouping) {
                 this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
-
                 var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
                 (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header)));
-            } else {
-                Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
             }
         }
 
@@ -355,13 +359,13 @@ module TesserisPro.TGrid {
             var groupByElements = groupByContainer.getElementsByClassName("condition-group-by");
 
             for (var j = 0; j < groupByElements.length; j++) {
-                grid.hideElement(<Element>groupByElements[j]);
+                (<HTMLElement>groupByElements[j]).style.display = "none";
             }
 
             for (var i = option.groupBySortDescriptor.length - 1; i > -1; i--) {
                 for (var j = 0; j < groupByElements.length; j++) {
                     if (groupByElements[j]["data-group-by"] == option.groupBySortDescriptor[i].path) {
-                        grid.showDivElement(<Element>groupByElements[j]);
+                        (<HTMLElement>groupByElements[j]).style.display = "block";
                         groupByContainer.insertBefore(groupByElements[j], groupByContainer.firstChild);
                         continue;
                     }
@@ -382,7 +386,7 @@ module TesserisPro.TGrid {
                             }
                         Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
                         (<HTMLElement>el.parentNode).classList.remove('show');
-                        Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
+                        (<HTMLElement>el.parentNode).style.display = "none";
                     }
                     if (option.columns[i].header != null) {
                         option.columns[i].header.applyTemplate(listItemGroupByItems);
@@ -408,7 +412,7 @@ module TesserisPro.TGrid {
 
             for (var i = 0; i < listGroupByItems.length; i++) {
                 if (listGroupByItems[i].getAttribute("style") == "display:block;") {
-                    grid.hideElement(<Element>listGroupByItems[i]);
+                    (<HTMLElement>listGroupByItems[i]).style.display = "none";
                 }
                 var hasNotGroupBy = true;
                 for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
@@ -418,7 +422,7 @@ module TesserisPro.TGrid {
                     }
                 }
                 if (hasNotGroupBy) {
-                    grid.showDivElement(<Element>listGroupByItems[i]);
+                    (<HTMLElement>listGroupByItems[i]).style.display = "block";
                 }
             }
             return listGroupByElement;
@@ -453,44 +457,29 @@ module TesserisPro.TGrid {
 
             headerDiv.classList.add('tgrid-mobile-group-header-container');
             this.bindMobileGroupHeader(headerContainer, groupHeaderDescriptor.value, headerDiv);
-           
+
             return headerContainer;
         }
 
         public bindMobileGroupHeader(headerContainer: HTMLElement, item: any, headerDiv: HTMLElement) {
-            headerContainer.appendChild(headerDiv);       
+            headerContainer.appendChild(headerDiv);
         }
 
         public createDefaultGroupHeader(tableRowElement: any) {
         }
 
-        public addFilterButton(option: Options, header: HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, i: number) {
+        public addFilterButton(option: Options, header: HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number) {
             if (option.isEnableFiltering) {
                 var filter = document.createElement("div");
                 filter.classList.add("tgrid-filter-button");
                 var self = this;
-                (function (i) {
+                (function (columnNumber) {
                     filter.onclick = (e) => {
-                        var left = (<HTMLElement>e.target).offsetLeft;
-                        for (var j = 0; j < i; j++) {
-                            left += parseInt(option.columns[j].width);
-                        }
-                        var el = header.getElementsByClassName("tgrid-table-indent-cell");
-                        if (el.length > 0) {
-                            for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                                left += 20;
-                            }
-                        }
-                        //hide filter on click anywhere else
-                        self.hideElementOnClickAnywhereElse(filterPopupContainer, 'tgrid-filter-popup');                        
-                        if (filterPopupContainer.hasAttribute('style')) {
-                            filterPopupContainer.removeAttribute('style');
-                        } else {
-                            Grid.getGridObject(<HTMLElement>e.target).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, left);
-                        }
+                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY);
+                        self.doOncCickOutside(filterPopupContainer, () => Grid.getGridObject(<HTMLElement>e.target).hideFilterPoup());
                         e.cancelBubble = true;
                     };
-                })(i);
+                })(culumnNumber);
 
                 headerButtons.appendChild(filter);
             }
@@ -516,8 +505,8 @@ module TesserisPro.TGrid {
             var sortConditions = mobileConditionContainer.getElementsByClassName('mobile-sort-condition');
 
             for (var i = 0; i < option.columns.length; i++) {
-                if (option.isEnableFiltering && filterConditions[i]!= undefined) {
-                   
+                if (option.isEnableFiltering && filterConditions[i] != undefined) {
+
                     if (this.checkIsInArray(option.filterDescriptors, option.columns[i].filterMemberPath)) {
                         if (!(<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
                             (<HTMLElement>filterConditions[i]).classList.add('filtered');
@@ -529,7 +518,7 @@ module TesserisPro.TGrid {
                     }
                 }
                 if (option.isEnableGrouping && groupByConditions[i] != undefined) {
-                    
+
                     if (this.checkIsInArray(option.groupBySortDescriptor, option.columns[i].groupMemberPath)) {
                         if (!(<HTMLElement>groupByConditions[i]).classList.contains('active')) {
                             (<HTMLElement>groupByConditions[i]).classList.add('active');
@@ -542,7 +531,7 @@ module TesserisPro.TGrid {
 
                 }
                 if (isSortable && sortConditions[i] != undefined) {
-                    
+
                     if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                         for (var j = 0; j < sortConditions.length; j++) {
                             (<HTMLElement>sortConditions[j]).classList.remove('asc');
@@ -586,7 +575,7 @@ module TesserisPro.TGrid {
         }
 
         public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
-            if (option.isEnableGrouping || option.isEnableFiltering || isSortable) {             
+            if (option.isEnableGrouping || option.isEnableFiltering || isSortable) {
                 var listButtonContainerElement = document.createElement("div");
                 listButtonContainerElement.classList.add("mobile-list-button-container");
                 var listColumnsElement = document.createElement("ul");
@@ -596,8 +585,8 @@ module TesserisPro.TGrid {
 
                 var self = this;
                 columnsButtonElement.onclick = (e) => {
-                    Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
-                    self.hideElementOnClickAnywhereElse(listColumnsElement, 'mobile-list-button-container');
+                    //Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
+                    //self.doOncCickOutside(listColumnsElement, 'mobile-list-button-container');
                 }
                 listButtonContainerElement.appendChild(columnsButtonElement);
 
@@ -605,12 +594,12 @@ module TesserisPro.TGrid {
 
                 listButtonContainerElement.appendChild(listColumnsElement);
                 mobileHeader.appendChild(listButtonContainerElement);
-            } 
+            }
         }
 
         private addMobileConditionListItems(option: Options, listMobileConditionElement: HTMLUListElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
 
-            for (var i = 0; i < option.columns.length; i++) {                
+            for (var i = 0; i < option.columns.length; i++) {
                 var listColumnItem = document.createElement("li");
                 var listColumnName = document.createElement('span');
                 listColumnItem.onclick = (e) => {
@@ -619,7 +608,7 @@ module TesserisPro.TGrid {
                     while (el && el.nodeName !== 'LI') {
                         el = el.parentNode
                         }
-                    Grid.getGridObject(<HTMLElement>e.target).hideElement(<Element>el.parentNode);
+                    (<HTMLElement>el.parentNode).style.display = "none";
                     e.stopPropagation();
                 }
                 if (option.columns[i].header != null) {
@@ -654,7 +643,7 @@ module TesserisPro.TGrid {
                         var listColumnItem = document.createElement("span");
                         listColumnsElement.appendChild(this.getMobileConditionListItem(option, listColumnItem, null, true, i));
                         groupColumns.push(option.columns[i]);
-                        i = option.columns.length;                       
+                        i = option.columns.length;
                     }
                 }
             }
@@ -679,7 +668,7 @@ module TesserisPro.TGrid {
                             this.createDefaultHeader(listColumnName, headerText);
                         }
                         listColumnItem.appendChild(listColumnName);
-                       
+
                         listColumnItem.appendChild(this.createMobileSortItem(option, i, true));
                     }
                     for (var j = 0; j < option.filterDescriptors.length; j++) {
@@ -701,13 +690,13 @@ module TesserisPro.TGrid {
                     if (isConditionOnColumn) listColumnsElement.appendChild(listColumnItem);
                 }
             }
-            
-            this.bindData(option,listColumnsElement);
+
+            this.bindData(option, listColumnsElement);
             return listColumnsElement;
         }
 
-        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number):HTMLElement {
-            
+        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number): HTMLElement {
+
             var listColumnName = document.createElement('span');
 
             if (option.columns[i].header != null) {
@@ -772,7 +761,7 @@ module TesserisPro.TGrid {
                 }
             }
             listItemSort["data-sort-condition"] = option.columns[i].sortMemberPath;
-            if(!forShow){
+            if (!forShow) {
                 listItemSort.onclick = (e) => {
                     var columnIsNotSorted = true;
                     if (option.sortDescriptor.path == e.target["data-sort-condition"]) {
@@ -824,7 +813,9 @@ module TesserisPro.TGrid {
                     listItemFilter.onclick = (e) => {
                         var filterItem = <HTMLElement>e.target;
                         //hide filter on click anywhere else
+                        var oldOnclick = document.onclick;
                         document.onclick = (e) => {
+                            document.onclick = oldOnclick;
                             var isFilterElement = false;
                             var el = <HTMLElement>e.target;
                             while (!(el.tagName == 'BODY' || isFilterElement)) {
@@ -834,16 +825,28 @@ module TesserisPro.TGrid {
                                 }
                             }
                             if (!isFilterElement) {
-                                Grid.getGridObject(filterItem).hideFilter(<Element>(filterPopupContainer));
+                                filterPopupContainer.style.display = "none";
                             }
                         }
-                    Grid.getGridObject(filterItem).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, 0);
+
+        //public showFilterBox(element: Element, path: string, left: number) {
+        //    var top = (this.options.isEnableGrouping ? 58 : 26);
+
+        //    element.setAttribute("style", "display:block;left:" + left + "px;top:" + top + "px");
+        //    this.options.filterPath = path;
+        //}
+
+                    //Grid.getGridObject(filterItem).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, 0);
+
+                        filterPopupContainer.style.display = "block";
+                        filterPopupContainer.style.left = "0px";
+                        filterPopupContainer.style.top = (option.isEnableGrouping ? 58 : 26).toString() + "px";
                     };
                 })(i);
             }
             return listItemFilter;
         }
-      
+
         private checkIsInArray(arrayToCheck: Array<any>, isWanted: any): boolean {
             var isInArray = false;
             for (var j = 0; j < arrayToCheck.length; j++) {
@@ -855,21 +858,19 @@ module TesserisPro.TGrid {
             return isInArray;
         }
 
-        private hideElementOnClickAnywhereElse(elementToHide: HTMLElement, elementToClickClass: string) {
+        public doOncCickOutside(target: HTMLElement, action: () => void) {
+            var oldOnClick = document.onclick;
             document.onclick = (e) => {
-                var isFilterElement = false;
-                var el = <HTMLElement>e.target;
-                while (!(el.tagName == 'BODY' || isFilterElement)) {
-                    el = el.parentElement;
-                    if (el.classList.contains(elementToClickClass)) {
-                        isFilterElement = true;
+                var currentElement = <HTMLElement>e.target;
+                while (currentElement.tagName != 'BODY') {
+                    if (currentElement == target) {
+                        return;
                     }
+
+                    currentElement = currentElement.parentElement;
                 }
-                if (!isFilterElement) {
-                    elementToHide.classList.remove('show');
-                    elementToHide.removeAttribute('style');
-                    document.onclick = null;
-                }
+                document.onclick = oldOnClick;
+                action();
             }
         }
     }

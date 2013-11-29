@@ -251,7 +251,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
+        public updateFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
                 this.defaultFiltringPopUp(option, filterPopup);
             } else {
@@ -333,7 +333,14 @@ module TesserisPro.TGrid {
 
             detailTr.classList.add("details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-            option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailTd) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailTd);
+
+            if (option.showDetailFor.column == -1) {
+                option.detailsTemplateHtml.applyTemplate(detailTd)
+            }
+            else {
+                option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailTd);
+            }
+
             detailTr.appendChild(detailTd);
 
             return detailTr;
@@ -429,7 +436,6 @@ module TesserisPro.TGrid {
                 }
             }
             container.setAttribute("class", bodyClass);
-            option.showDetailFor.isDetailColumn = false;
         }
 
         public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {

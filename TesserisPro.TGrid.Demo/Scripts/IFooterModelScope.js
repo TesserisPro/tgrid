@@ -1,0 +1,1 @@
+//# sourceMappingURL=IFooterModelScope.js.map
