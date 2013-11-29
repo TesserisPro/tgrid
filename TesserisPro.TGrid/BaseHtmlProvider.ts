@@ -13,6 +13,10 @@ module TesserisPro.TGrid {
             return table;
         }
 
+        public bindData(option: Options, elementForBinding: HTMLElement) {
+
+        }
+
         public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
             return 0;
         }
@@ -36,47 +40,6 @@ module TesserisPro.TGrid {
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel) {
-        }
-
-        public updateTableFooterElementDefault(option: Options, footer: HTMLElement, totalItemsCount: number): void {
-            var firstVisiblePage = option.currentPage - option.pageSlide;
-
-            if (firstVisiblePage < 0) {
-                firstVisiblePage = 0;
-            }
-
-            var lastVisiblePage = option.currentPage + option.pageSlide;
-            var pageCount = Math.ceil(totalItemsCount / option.pageSize);
-
-            if (lastVisiblePage >= pageCount) {
-                lastVisiblePage = pageCount - 1;
-            }
-
-            var pagerElement = document.createElement("div");
-            pagerElement.setAttribute("class", "tgird-pagination");
-
-            if (firstVisiblePage > 0) {
-                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + (firstVisiblePage - 1).toString() + ")' >...</span>";
-            }
-
-            for (var i = firstVisiblePage; i <= lastVisiblePage; i++) {
-                if (option.currentPage == i) {
-                    pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
-                }
-                else {
-                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
-                }
-            }
-
-            if (lastVisiblePage < (pageCount - 1)) {
-                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
-            }
-
-            var pages = footer.getElementsByClassName("tgird-pagination");
-            for (var i = 0; i < pages.length; i++) {
-                footer.removeChild(pages[i]);
-            }
-            footer.appendChild(pagerElement);
         }
 
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
@@ -142,6 +105,47 @@ module TesserisPro.TGrid {
             }
         }
 
+        public buildDefaultTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {
+            var firstVisiblePage = option.currentPage - option.pageSlide;
+
+            if (firstVisiblePage < 0) {
+                firstVisiblePage = 0;
+            }
+
+            var lastVisiblePage = option.currentPage + option.pageSlide;
+            var pageCount = Math.ceil(totalItemsCount / option.pageSize);
+
+            if (lastVisiblePage >= pageCount) {
+                lastVisiblePage = pageCount - 1;
+            }
+
+            var pagerElement = document.createElement("div");
+            pagerElement.setAttribute("class", "tgird-pagination");
+
+            if (firstVisiblePage > 0) {
+                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + (firstVisiblePage - 1).toString() + ")' >...</span>";
+            }
+
+            for (var i = firstVisiblePage; i <= lastVisiblePage; i++) {
+                if (option.currentPage == i) {
+                    pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
+                }
+                else {
+                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
+                }
+            }
+
+            if (lastVisiblePage < (pageCount - 1)) {
+                pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
+            }
+
+            var pages = footer.getElementsByClassName("tgird-pagination");
+            for (var i = 0; i < pages.length; i++) {
+                footer.removeChild(pages[i]);
+            }
+            footer.appendChild(pagerElement);
+        }
+
         public hasDetails(selectedElement: NodeList, option: Options) {
             if (selectedElement != null && selectedElement.length == 1) {
                 if (option.showDetailFor.column == -1) {
@@ -163,46 +167,36 @@ module TesserisPro.TGrid {
 
         }
 
-        public createDefaultHeader(container: HTMLElement, headerName: string) {
+        public buildDefaultHeader(container: HTMLElement, headerName: string) {
             var defaultHeader = document.createElement("span");
             var defaultName = document.createTextNode(headerName);
             defaultHeader.appendChild(defaultName);
             container.appendChild(defaultHeader);
         }
 
-        public addGroupBy(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
+        public updateGroupByPanel(option: Options, groupByPanel: HTMLElement) {
+            groupByPanel.innerHTML = "";
             if (option.isEnableGrouping) {
-                groupByContainer.classList.add('show');
-                this.addGroupByElements(option, groupByContainer);
-                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header))
 
-                var listButtonContainerElement = document.createElement("div");
-                listButtonContainerElement.setAttribute("class", "list-button-container");
-                var listGroupByElement = document.createElement("ul");
-                listGroupByElement.setAttribute("class", "group-by-ul");
-                var groupByButtonElement = document.createElement("a");
-                groupByButtonElement.setAttribute("class", "button-group-by");
+                this.addActualGroupByElements(option, groupByPanel);
+                               
+                var groupButton = document.createElement("div");
+                groupButton.setAttribute("class", "tgrid-goup-button");
+
+                var groupByMenu = document.createElement("ul");
+                groupByMenu.setAttribute("class", "tgrid-menu");
+                hideElement(groupByMenu);
 
                 var self = this;
-                groupByButtonElement.onclick = (e) => {
-                    if (listGroupByElement.classList.contains('show')) {
-                        listGroupByElement.classList.remove('show');
-                    } else {
-                        listGroupByElement.classList.add('show');
-                    }
-                    self.doOncCickOutside(listGroupByElement, () => { listGroupByElement.className = ""; });
-                    //Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
+                groupButton.onclick = (e) => {
+                    e.cancelBubble = true;
+                    self.updateGoupByMenuContent(option, groupByMenu);
+                    unhideElement(groupByMenu);
+                    self.doOncCickOutside(groupByMenu, () => hideElement(groupByMenu));
                 }
-
-                listButtonContainerElement.appendChild(groupByButtonElement);
-
-                var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
-                this.showListGroupByItems(option, listGroupByToChooseFrom, Grid.getGridObject(header));
-
-                listButtonContainerElement.appendChild(listGroupByElement);
-                groupByContainer.appendChild(listButtonContainerElement);
-            } else {
-                groupByContainer.className = "";
+                
+                groupButton.appendChild(groupByMenu);
+                groupByPanel.appendChild(groupButton);
             }
         }
 
@@ -211,7 +205,7 @@ module TesserisPro.TGrid {
             var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
             for (var i = 0; i < cells.length; i++) {
-                (<HTMLElement>cells[i]).style.display = "none";
+                hideElement(<HTMLElement>cells[i]);
             }
             //check that number of existing intent-cells is not more than number of needed intent-cells
             if (cells.length < level) {
@@ -219,15 +213,15 @@ module TesserisPro.TGrid {
             }
 
             for (var i = 0; i < visibleIntentsNumber; i++) {
-                (<HTMLElement>cells[i]).style.display = "block";
+                unhideElement(<HTMLElement>cells[i]);
             }
         }
 
-        public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
+        public updateFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
 
         }
 
-        public defaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
+        public buildDefaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
             var filterCondition = document.createElement("select");
             // append filter conditions
             var selectOption = document.createElement("option");
@@ -280,45 +274,68 @@ module TesserisPro.TGrid {
             filterPopupContainer.appendChild(exitButton);
         }
 
-        private addGroupByElements(option: Options, groupByContainer: HTMLElement) {
-            for (var i = 0; i < option.columns.length; i++) {
-                if (option.columns[i].groupMemberPath != null) {
-                    var groupByHeaderElement = document.createElement("div");
-                    if (option.columns[i].header != null) {
-                        option.columns[i].header.applyTemplate(groupByHeaderElement);
-                    } else {
-                        var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        this.createDefaultHeader(groupByHeaderElement, headerText);
+        private addActualGroupByElements(option: Options, groupByContainer: HTMLElement) {
+            for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
+                for (var j = 0; j < option.columns.length; j++) {
+                    if (option.columns[j].groupMemberPath == option.groupBySortDescriptors[i].path) {
+                        var column = option.columns[j];
+
+                        var groupByHeaderElement = document.createElement("div");
+                        var columnHeader = this.buildColumnHeader(column);
+
+                        this.bindData(option, columnHeader);
+
+                        groupByHeaderElement.className = "tgrid-group-by-element";
+                        groupByHeaderElement["data-group-by"] = column.groupMemberPath
+                        groupByHeaderElement.appendChild(columnHeader);
+
+                        //create deleteGroupByElement
+                        var buttonsContainer = document.createElement("div");
+                        buttonsContainer.className = "tgrid-header-cell-buttons";
+
+                        var deleteGroupButton = document.createElement("div");
+                        deleteGroupButton.className = "tgrid-delete-button";
+                        deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
+                        deleteGroupButton.onclick = (e) => {
+                            e.cancelBubble = true;
+                            Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor((<SortDescriptor>e.target["data-delete-group-by"]).path);
+                        };
+
+                        buttonsContainer.appendChild(deleteGroupButton);
+
+                        groupByHeaderElement.appendChild(buttonsContainer);
+                        
+                        groupByContainer.appendChild(groupByHeaderElement);
                     }
-
-                    groupByHeaderElement.setAttribute("class", "condition-group-by");
-                    groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
-
-                    //create deleteGroupByElement
-                    var deleteGroupByElement = document.createElement("input");
-                    deleteGroupByElement.setAttribute("type", "button");
-                    deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                    deleteGroupByElement.setAttribute("value", "x");
-                    deleteGroupByElement["data-delete-groupby"] = new SortDescriptor(option.columns[i].groupMemberPath, true);
-
-                    //adding function to delete GroupBy condition by clicking on close button
-                    deleteGroupByElement.onclick = (e) => {
-                        var groupByElement = <SortDescriptor>e.target["data-delete-groupby"];
-                        Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
-                    }
-
-                    groupByHeaderElement.appendChild(deleteGroupByElement);
-                    this.bindData(option, groupByHeaderElement);
-                    groupByContainer.appendChild(groupByHeaderElement);
                 }
             }
         }
 
-        public updateGroupByElements(option: Options, header: HTMLElement, groupByContainer: HTMLElement) {
-            if (option.isEnableGrouping) {
-                this.showGroupByElements(option, groupByContainer, Grid.getGridObject(header));
-                var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
-                (<HTMLElement>listButtonContainer[0]).appendChild(this.showListGroupByItems(option, <HTMLUListElement>((<HTMLElement>listButtonContainer[0]).children[1]), Grid.getGridObject(header)));
+        private updateGoupByMenuContent(option: Options, menu: HTMLUListElement) {
+            menu.innerHTML = "";
+            for (var i = 0; i < option.columns.length; i++) {
+                if (option.columns[i].groupMemberPath != null) {
+                    var alreadyGrouped = false;
+                    for (var j = 0; j < option.groupBySortDescriptors.length; j++) {                        
+                        if (option.groupBySortDescriptors[j].path == option.columns[i].groupMemberPath) {
+                            alreadyGrouped = true;
+                        }
+                    }
+
+                    if (!alreadyGrouped) {
+                        var groupMenuItem = document.createElement("li");
+                        groupMenuItem["data-group-by-path"] = option.columns[i].groupMemberPath;
+                        var columnHeader = this.buildColumnHeader(option.columns[i]);
+                        this.bindData(option, columnHeader);
+                        groupMenuItem.appendChild(columnHeader);
+                        groupMenuItem.onclick = (e) => {
+                            hideElement(menu);
+                            Grid.getGridObject(<HTMLElement>e.target).addGroupDescriptor(<string>e.currentTarget["data-group-by-path"], true);
+                        }
+
+                        menu.appendChild(groupMenuItem);
+                    }
+                }
             }
         }
 
@@ -353,79 +370,6 @@ module TesserisPro.TGrid {
                 }
             }
             return rowTemplate;
-        }
-
-        private showGroupByElements(option: Options, groupByContainer: HTMLElement, grid: TGrid.Grid) {
-            var groupByElements = groupByContainer.getElementsByClassName("condition-group-by");
-
-            for (var j = 0; j < groupByElements.length; j++) {
-                (<HTMLElement>groupByElements[j]).style.display = "none";
-            }
-
-            for (var i = option.groupBySortDescriptor.length - 1; i > -1; i--) {
-                for (var j = 0; j < groupByElements.length; j++) {
-                    if (groupByElements[j]["data-group-by"] == option.groupBySortDescriptor[i].path) {
-                        (<HTMLElement>groupByElements[j]).style.display = "block";
-                        groupByContainer.insertBefore(groupByElements[j], groupByContainer.firstChild);
-                        continue;
-                    }
-                }
-            }
-        }
-
-        private addListGroupByItems(option: Options, listGroupByElement: HTMLUListElement) {
-            for (var i = 0; i < option.columns.length; i++) {
-                if (option.columns[i].groupMemberPath != null) {
-                    var listItemGroupByItems = document.createElement("li");
-
-                    listItemGroupByItems.onclick = (e) => {
-                        //get top ancestor, because event fires on the last nested element
-                        var el = <Node>e.target;
-                        while (el && el.nodeName !== 'LI') {
-                            el = el.parentNode
-                            }
-                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>el["data-group-by-condition"]), true);
-                        (<HTMLElement>el.parentNode).classList.remove('show');
-                        (<HTMLElement>el.parentNode).style.display = "none";
-                    }
-                    if (option.columns[i].header != null) {
-                        option.columns[i].header.applyTemplate(listItemGroupByItems);
-                    } else {
-                        var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                        this.createDefaultHeader(listItemGroupByItems, headerText);
-                    }
-                    listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
-
-                    listGroupByElement.appendChild(listItemGroupByItems);
-                }
-            }
-            this.bindData(option, listGroupByElement);
-            return listGroupByElement;
-        }
-
-        public bindData(option: Options, elementForBinding: HTMLElement) {
-
-        }
-
-        private showListGroupByItems(option: Options, listGroupByElement: HTMLUListElement, grid: TGrid.Grid) {
-            var listGroupByItems = listGroupByElement.getElementsByTagName("li");
-
-            for (var i = 0; i < listGroupByItems.length; i++) {
-                if (listGroupByItems[i].getAttribute("style") == "display:block;") {
-                    (<HTMLElement>listGroupByItems[i]).style.display = "none";
-                }
-                var hasNotGroupBy = true;
-                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                    if (option.groupBySortDescriptor[j].path == listGroupByItems[i]["data-group-by-condition"]) {
-                        hasNotGroupBy = false;
-                        continue;
-                    }
-                }
-                if (hasNotGroupBy) {
-                    (<HTMLElement>listGroupByItems[i]).style.display = "block";
-                }
-            }
-            return listGroupByElement;
         }
 
         public buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
@@ -486,376 +430,168 @@ module TesserisPro.TGrid {
         }
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean): void {
-            if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
-                this.updateMobileConditionList(option, mobileHeader, isSortable);
-            } else {
-                // Create mobile header
-                this.createMobileConditionButton(option, mobileHeader, filterPopupContainer, isSortable);
-            }
-            this.updateMobileConditionShowList(option, mobileHeader, isSortable);
+            mobileHeader.innerHTML = "";
+            this.updateMobileHeaderColumns(option, mobileHeader);
+            this.createMobileButton(option, mobileHeader);
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
         }
 
-        public updateMobileConditionList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean) {
-            var filterConditions = mobileConditionContainer.getElementsByClassName('mobile-filter-condition');
-            var groupByConditions = mobileConditionContainer.getElementsByClassName('mobile-group-by-condition');
-            var sortConditions = mobileConditionContainer.getElementsByClassName('mobile-sort-condition');
+        public updateMobileHeaderColumns(option: Options, mobileHeader: HTMLElement) {
+            var addedColumns = new Array<ColumnInfo>();
+            for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
+                for (var j = 0; j < option.columns.length; j++) {
+                    if (option.columns[j].groupMemberPath == option.groupBySortDescriptors[i].path) {
+                        var column = option.columns[j];
+                        addedColumns.push(column);
 
+                        var groupByHeaderElement = document.createElement("div");
+                        var columnHeader = this.buildColumnHeader(column);
+
+                        this.bindData(option, columnHeader);
+
+                        groupByHeaderElement.className = "tgrid-group-by-element";
+                        groupByHeaderElement["data-group-by"] = column.groupMemberPath
+                        groupByHeaderElement.appendChild(columnHeader);
+
+                        //create deleteGroupByElement
+                        var buttonsContainer = document.createElement("div");
+
+                        var sortIndicator = document.createElement("div");
+                        sortIndicator.className = "tgrid-group-indicator";
+                        buttonsContainer.appendChild(sortIndicator);
+
+                        for (var f = 0; f < option.filterDescriptors.length; f++) {
+                            if (option.filterDescriptors[f].path == column.filterMemberPath) {
+                                var filterIndicator = document.createElement("div");
+                                filterIndicator.className = "tgrid-filter-indicator";
+                                buttonsContainer.appendChild(filterIndicator);
+                                break;
+                            }
+                        }
+
+                        if (option.sortDescriptor.path == column.sortMemberPath) {
+                            var sortIndicator = document.createElement("div");
+                            sortIndicator.className = "tgrid-sort-indicator-" + (option.sortDescriptor.asc) ? "asc" : "desc";
+                            buttonsContainer.appendChild(sortIndicator);
+                        }
+
+                        groupByHeaderElement.appendChild(buttonsContainer);
+                        mobileHeader.appendChild(groupByHeaderElement);
+                    }
+                }
+
+                for (var j = 0; j < option.columns.length; j++) {
+                    var column = option.columns[j];
+                    if (addedColumns.indexOf(column) < 0) {
+
+                        var headerElement = document.createElement("div");
+                        var columnHeader = this.buildColumnHeader(column);
+
+                        this.bindData(option, columnHeader);
+
+                        headerElement.className = "tgrid-group-by-element";
+                        headerElement["data-group-by"] = column.groupMemberPath
+                        headerElement.appendChild(columnHeader);
+
+                        //create deleteGroupByElement
+                        buttonsContainer = document.createElement("div");
+                        buttonsContainer.className = "tgrid-header-cell-buttons";
+           
+                        for (var f = 0; f < option.filterDescriptors.length; f++) {
+                            if (option.filterDescriptors[f].path == column.filterMemberPath) {
+                                var filterIndicator = document.createElement("div");
+                                filterIndicator.className = "tgrid-filter-indicator";
+                                buttonsContainer.appendChild(filterIndicator);
+                                break;
+                            }
+                        }
+
+                        if (option.sortDescriptor.path == column.sortMemberPath) {
+                            var sortIndicator = document.createElement("div");
+                            sortIndicator.className = "tgrid-sort-indicator-" + (option.sortDescriptor.asc) ? "asc" : "desc";
+                            buttonsContainer.appendChild(sortIndicator);
+                        }
+
+                        groupByHeaderElement.appendChild(buttonsContainer);
+                        mobileHeader.appendChild(groupByHeaderElement);
+                    }
+                }
+            }
+        }
+
+        public createMobileButton(option: Options, mobileHeader: HTMLElement) {
+            var button = document.createElement("div");
+            button.className = "tgrid-mobile-button";
+                
+            var self = this;
+            button.onclick = (e) => {
+                var menu = document.createElement("ul");
+                menu.className = "tgrid-menu";
+                this.addMobileMenuItems(option, menu);
+
+                button.innerHTML = "";
+                button.appendChild(menu);                         
+                self.doOncCickOutside(mobileHeader, () => { e.cancelBubble = true; hideElement(menu); });
+            }
+
+            mobileHeader.appendChild(button);
+        }
+
+        private addMobileMenuItems(option: Options, menu: HTMLUListElement) {
             for (var i = 0; i < option.columns.length; i++) {
-                if (option.isEnableFiltering && filterConditions[i] != undefined) {
+                var column = option.columns[i];
 
-                    if (this.checkIsInArray(option.filterDescriptors, option.columns[i].filterMemberPath)) {
-                        if (!(<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
-                            (<HTMLElement>filterConditions[i]).classList.add('filtered');
-                        }
-                    } else {
-                        if ((<HTMLElement>filterConditions[i]).classList.contains('filtered')) {
-                            (<HTMLElement>filterConditions[i]).classList.remove('filtered');
-                        }
-                    }
-                }
-                if (option.isEnableGrouping && groupByConditions[i] != undefined) {
+                var menuItem = document.createElement("li");
 
-                    if (this.checkIsInArray(option.groupBySortDescriptor, option.columns[i].groupMemberPath)) {
-                        if (!(<HTMLElement>groupByConditions[i]).classList.contains('active')) {
-                            (<HTMLElement>groupByConditions[i]).classList.add('active');
-                        }
-                    } else {
-                        if ((<HTMLElement>groupByConditions[i]).classList.contains('active')) {
-                            (<HTMLElement>groupByConditions[i]).classList.remove('active');
-                        }
-                    }
+                var columnHeader = this.buildColumnHeader(column);
+                this.bindData(option, columnHeader);
 
-                }
-                if (isSortable && sortConditions[i] != undefined) {
+                var columnContainer = document.createElement("div");
+                columnContainer.className = "tgrid-header-cell-content";
+                columnContainer.appendChild(columnHeader);
 
-                    if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
-                        for (var j = 0; j < sortConditions.length; j++) {
-                            (<HTMLElement>sortConditions[j]).classList.remove('asc');
-                            (<HTMLElement>sortConditions[j]).classList.remove('desc');
-                        }
-                        if (option.sortDescriptor.asc == true) {
-                            if (!(<HTMLElement>sortConditions[i]).classList.contains('asc')) {
-                                (<HTMLElement>sortConditions[i]).classList.add('asc');
-                            }
-                        } else {
-                            if (!(<HTMLElement>sortConditions[i]).classList.contains('desc')) {
-                                (<HTMLElement>sortConditions[i]).classList.add('desc');
-                            }
-                        }
-                    } else {
-                        if ((<HTMLElement>sortConditions[i]).classList.contains('asc')) {
-                            (<HTMLElement>sortConditions[i]).classList.remove('asc');
-                        }
-                        if ((<HTMLElement>sortConditions[i]).classList.contains('desc')) {
-                            (<HTMLElement>sortConditions[i]).classList.remove('desc');
-                        }
-                    }
-                }
+                var buttonsContainer = document.createElement("div");
+                buttonsContainer.className = "tgrid-header-cell-buttons";
+
+                var sortButton = document.createElement("div");
+                sortButton.className = "tgrid-sort-button";
+                buttonsContainer.appendChild(sortButton);
+                sortButton["data-g-path"] = column.sortMemberPath;
+                sortButton.onclick = e => {
+                    e.cancelBubble = true;
+                    hideElement(menu);
+                    Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
+                };
+
+                var filterButton = document.createElement("div");
+                filterButton.className = "tgrid-filter-button";
+                buttonsContainer.appendChild(filterButton);
+                filterButton["data-g-column"] = column;
+                filterButton.onclick = e => {
+                    e.cancelBubble = true;
+                    hideElement(menu);
+                    Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
+                };
+
+                var groupButton = document.createElement("div");
+                groupButton.className = "tgrid-group-button";
+                buttonsContainer.appendChild(groupButton);
+                groupButton["data-g-path"] = column.groupMemberPath;
+                groupButton.onclick = e => {
+                    e.cancelBubble = true;
+                    hideElement(menu);
+                    Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor(<string>e.target["data-g-path"]);
+                    Grid.getGridObject(<HTMLElement>e.target).addGroupDescriptor(<string>e.target["data-g-path"], true);
+                };
+
+                columnContainer.appendChild(buttonsContainer);
+                menuItem.appendChild(columnContainer);
+                menuItem.appendChild(buttonsContainer);
+                menu.appendChild(menuItem);
             }
-        }
-
-        public updateMobileConditionShowList(option: Options, mobileConditionContainer: HTMLElement, isSortable: boolean) {
-            var mobileConditionsShow = mobileConditionContainer.getElementsByClassName("mobile-condition-show-div");
-            if (<HTMLElement>mobileConditionsShow[0] != undefined && (<HTMLElement>mobileConditionsShow[0]).parentElement != undefined) {
-                (<HTMLElement>mobileConditionsShow[0]).parentElement.innerHTML = "";
-            }
-            if (option.isEnableFiltering || option.isEnableGrouping || isSortable) {
-                var listContainer = document.createElement('div');
-                listContainer.classList.add('mobile-condition-show-container');
-                var listColumnsElement = document.createElement("div");
-                listColumnsElement.classList.add("mobile-condition-show-div");
-                this.addMobileConditionShowListItems(option, listColumnsElement, mobileConditionContainer, isSortable);
-                listContainer.appendChild(listColumnsElement);
-                mobileConditionContainer.insertBefore(listContainer, mobileConditionContainer.firstChild);
-            }
-        }
-
-        public createMobileConditionButton(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
-            if (option.isEnableGrouping || option.isEnableFiltering || isSortable) {
-                var listButtonContainerElement = document.createElement("div");
-                listButtonContainerElement.classList.add("mobile-list-button-container");
-                var listColumnsElement = document.createElement("ul");
-                listColumnsElement.classList.add("mobile-condition-ul");
-                var columnsButtonElement = document.createElement("a");
-                columnsButtonElement.classList.add("mobile-condition-button");
-
-                var self = this;
-                columnsButtonElement.onclick = (e) => {
-                    //Grid.getGridObject(<HTMLElement>e.target).showHideListOnClick((<HTMLElement>e.target).nextElementSibling);
-                    //self.doOncCickOutside(listColumnsElement, 'mobile-list-button-container');
-                }
-                listButtonContainerElement.appendChild(columnsButtonElement);
-
-                this.addMobileConditionListItems(option, listColumnsElement, filterPopupContainer, isSortable);
-
-                listButtonContainerElement.appendChild(listColumnsElement);
-                mobileHeader.appendChild(listButtonContainerElement);
-            }
-        }
-
-        private addMobileConditionListItems(option: Options, listMobileConditionElement: HTMLUListElement, filterPopupContainer: HTMLElement, isSortable: boolean) {
-
-            for (var i = 0; i < option.columns.length; i++) {
-                var listColumnItem = document.createElement("li");
-                var listColumnName = document.createElement('span');
-                listColumnItem.onclick = (e) => {
-                    //get top ancestor, because event fires on the last nested element
-                    var el = <Node>e.target;
-                    while (el && el.nodeName !== 'LI') {
-                        el = el.parentNode
-                        }
-                    (<HTMLElement>el.parentNode).style.display = "none";
-                    e.stopPropagation();
-                }
-                if (option.columns[i].header != null) {
-                    option.columns[i].header.applyTemplate(listColumnName);
-                } else {
-                    var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                    this.createDefaultHeader(listColumnName, headerText);
-                }
-                listColumnItem.appendChild(listColumnName);
-
-                if (option.columns[i].groupMemberPath != null) {
-                    listColumnItem.appendChild(this.createMobileGroupByItem(option, i, false));
-                }
-                if (option.columns[i].sortMemberPath != null) {
-                    listColumnItem.appendChild(this.createMobileSortItem(option, i, false));
-                }
-
-                if (option.columns[i].filterMemberPath != null) {
-                    listColumnItem.appendChild(this.createMobileFilterItem(option, i, filterPopupContainer, false));
-                }
-                listMobileConditionElement.appendChild(listColumnItem);
-            }
-            this.bindData(option, listMobileConditionElement);
-            return listMobileConditionElement;
-        }
-
-        private addMobileConditionShowListItems(option: Options, listColumnsElement: HTMLElement, mobileConditionContainer: HTMLElement, isSortable: boolean) {
-            var groupColumns = [];
-            for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].groupMemberPath == option.groupBySortDescriptor[j].path) {
-                        var listColumnItem = document.createElement("span");
-                        listColumnsElement.appendChild(this.getMobileConditionListItem(option, listColumnItem, null, true, i));
-                        groupColumns.push(option.columns[i]);
-                        i = option.columns.length;
-                    }
-                }
-            }
-            for (var i = 0; i < option.columns.length; i++) {
-                var isGrouped = false;
-                for (var j = 0; j < groupColumns.length; j++) {
-                    if (option.columns[i] == groupColumns[j]) {
-                        isGrouped = true;
-                        j = groupColumns.length;
-                    }
-                }
-                if (!isGrouped) {
-                    var listColumnItem = document.createElement("span");
-                    var isConditionOnColumn = false;
-                    if (option.columns[i].sortMemberPath == option.sortDescriptor.path && option.columns[i].sortMemberPath != null) {
-                        isConditionOnColumn = true;
-                        var listColumnName = document.createElement("span");
-                        if (option.columns[i].header != null) {
-                            option.columns[i].header.applyTemplate(listColumnName);
-                        } else {
-                            var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                            this.createDefaultHeader(listColumnName, headerText);
-                        }
-                        listColumnItem.appendChild(listColumnName);
-
-                        listColumnItem.appendChild(this.createMobileSortItem(option, i, true));
-                    }
-                    for (var j = 0; j < option.filterDescriptors.length; j++) {
-                        if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
-                            if (!isConditionOnColumn) {
-                                var listColumnName = document.createElement("span");
-                                if (option.columns[i].header != null) {
-                                    option.columns[i].header.applyTemplate(listColumnName);
-                                } else {
-                                    var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                                    this.createDefaultHeader(listColumnName, headerText);
-                                }
-                                listColumnItem.appendChild(listColumnName);
-                            }
-                            isConditionOnColumn = true;
-                            listColumnItem.appendChild(this.createMobileFilterItem(option, i, null, true));
-                        }
-                    }
-                    if (isConditionOnColumn) listColumnsElement.appendChild(listColumnItem);
-                }
-            }
-
-            this.bindData(option, listColumnsElement);
-            return listColumnsElement;
-        }
-
-        private getMobileConditionListItem(option: Options, listColumnItem: HTMLElement, filterPopupContainer: HTMLElement, forShow: boolean, i: number): HTMLElement {
-
-            var listColumnName = document.createElement('span');
-
-            if (option.columns[i].header != null) {
-                option.columns[i].header.applyTemplate(listColumnName);
-            } else {
-                var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                this.createDefaultHeader(listColumnName, headerText);
-            }
-            listColumnItem.appendChild(listColumnName);
-            listColumnItem.appendChild(this.createMobileGroupByItem(option, i, forShow));
-
-            if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                listColumnItem.appendChild(this.createMobileSortItem(option, i, forShow));
-            }
-            for (var j = 0; j < option.filterDescriptors.length; j++) {
-                if (option.columns[i].filterMemberPath == option.filterDescriptors[j].path) {
-                    listColumnItem.appendChild(this.createMobileFilterItem(option, i, filterPopupContainer, forShow));
-                }
-            }
-            return listColumnItem;
-        }
-
-        private createMobileGroupByItem(option: Options, i: number, forShow: boolean): HTMLElement {
-            var listItemGroupBy = document.createElement('span');
-            listItemGroupBy.classList.add('mobile-group-by-condition');
-            listItemGroupBy["data-group-by-condition"] = option.columns[i].groupMemberPath;
-            if (!forShow) {
-                for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                    if (option.groupBySortDescriptor[j].path == option.columns[i].groupMemberPath) {
-                        listItemGroupBy.classList.add('active');
-                    }
-                }
-                listItemGroupBy.onclick = (e) => {
-                    var isNotGroupedBy = true;
-                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                        if (option.groupBySortDescriptor[j].path == e.target["data-group-by-condition"]) {
-                            isNotGroupedBy = false;
-                            j = option.groupBySortDescriptor.length;
-                        }
-                    }
-                    if (isNotGroupedBy) {
-                        Grid.getGridObject(<HTMLElement>e.target).addGroupBy((<string>e.target["data-group-by-condition"]), true);
-                        (<HTMLElement>e.target).classList.add('active');
-                    } else {
-                        Grid.getGridObject(<HTMLElement>e.target).deleteGroupBy((<string>e.target["data-group-by-condition"]), true);
-                        (<HTMLElement>e.target).classList.remove('active');
-                    }
-
-                }
-                }
-            return listItemGroupBy;
-        }
-
-        private createMobileSortItem(option: Options, i: number, forShow: boolean): HTMLElement {
-            var listItemSort = document.createElement('span');
-            listItemSort.classList.add('mobile-sort-condition');
-            if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
-                if (option.sortDescriptor.asc) {
-                    listItemSort.classList.add('asc');
-                } else {
-                    listItemSort.classList.add('desc');
-                }
-            }
-            listItemSort["data-sort-condition"] = option.columns[i].sortMemberPath;
-            if (!forShow) {
-                listItemSort.onclick = (e) => {
-                    var columnIsNotSorted = true;
-                    if (option.sortDescriptor.path == e.target["data-sort-condition"]) {
-                        columnIsNotSorted = false;
-                    }
-                    var conditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('mobile-sort-condition');
-
-                    if (columnIsNotSorted) {
-                        var mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('asc');
-                        for (var k = 0; k < mobileConditionListItems.length; k++) {
-                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('asc');
-                        }
-                        mobileConditionListItems = (<HTMLElement>e.target).parentElement.parentElement.getElementsByClassName('desc');
-                        for (var k = 0; k < mobileConditionListItems.length; k++) {
-                            (<HTMLElement>mobileConditionListItems[k]).classList.remove('desc');
-                        }
-
-                        Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), true);
-                        (<HTMLElement>e.target).classList.add('asc');
-                    } else {
-                        if (option.sortDescriptor.asc) {
-                            Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), false);
-                            (<HTMLElement>e.target).classList.remove('asc');
-                            (<HTMLElement>e.target).classList.add('desc');
-                        } else {
-                            if ((<HTMLElement>e.target).classList.contains('desc')) {
-                                Grid.getGridObject(<HTMLElement>e.target).mobileSortBy((<string>e.target["data-sort-condition"]), null);
-                                (<HTMLElement>e.target).classList.remove('desc');
-                            } else {
-                                (<HTMLElement>e.target).classList.add('asc');
-                            }
-                        }
-                    }
-                }
-            }
-            return listItemSort;
-        }
-
-        private createMobileFilterItem(option: Options, i: number, filterPopupContainer: HTMLElement, forShow: boolean): HTMLElement {
-            var listItemFilter = document.createElement('span');
-            listItemFilter.classList.add('mobile-filter-condition');
-            listItemFilter["data-filter-condition"] = option.columns[i].filterMemberPath;
-            var isFiltered = this.checkIsInArray(option.filterDescriptors, option.columns[i].sortMemberPath);
-            if (isFiltered) {
-                listItemFilter.classList.add('filtered');
-            }
-            if (!forShow) {
-                (function (i) {
-                    listItemFilter.onclick = (e) => {
-                        var filterItem = <HTMLElement>e.target;
-                        //hide filter on click anywhere else
-                        var oldOnclick = document.onclick;
-                        document.onclick = (e) => {
-                            document.onclick = oldOnclick;
-                            var isFilterElement = false;
-                            var el = <HTMLElement>e.target;
-                            while (!(el.tagName == 'BODY' || isFilterElement)) {
-                                el = el.parentElement;
-                                if (el.classList.contains('tgrid-filter-popup')) {
-                                    isFilterElement = true;
-                                }
-                            }
-                            if (!isFilterElement) {
-                                filterPopupContainer.style.display = "none";
-                            }
-                        }
-
-        //public showFilterBox(element: Element, path: string, left: number) {
-        //    var top = (this.options.isEnableGrouping ? 58 : 26);
-
-        //    element.setAttribute("style", "display:block;left:" + left + "px;top:" + top + "px");
-        //    this.options.filterPath = path;
-        //}
-
-                    //Grid.getGridObject(filterItem).showFilterBox(<Element>(filterPopupContainer), option.columns[i].filterMemberPath, 0);
-
-                        filterPopupContainer.style.display = "block";
-                        filterPopupContainer.style.left = "0px";
-                        filterPopupContainer.style.top = (option.isEnableGrouping ? 58 : 26).toString() + "px";
-                    };
-                })(i);
-            }
-            return listItemFilter;
-        }
-
-        private checkIsInArray(arrayToCheck: Array<any>, isWanted: any): boolean {
-            var isInArray = false;
-            for (var j = 0; j < arrayToCheck.length; j++) {
-                if (arrayToCheck[j].path == isWanted) {
-                    isInArray = true;
-                    j = arrayToCheck.length;
-                }
-            }
-            return isInArray;
         }
 
         public doOncCickOutside(target: HTMLElement, action: () => void) {
@@ -872,6 +608,19 @@ module TesserisPro.TGrid {
                 document.onclick = oldOnClick;
                 action();
             }
+        }
+
+        private buildColumnHeader(column: ColumnInfo): HTMLElement {
+            var headerElement = document.createElement("div");
+            headerElement.className = "tgrid-header-cell-content";
+            if (column.header != null) {
+                column.header.applyTemplate(headerElement);
+            } else {
+                var headerText = column.member;
+                this.buildDefaultHeader(headerElement, column.member);
+            }
+
+            return headerElement;
         }
     }
 }

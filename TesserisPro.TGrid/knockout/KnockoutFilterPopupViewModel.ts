@@ -25,15 +25,15 @@ module TesserisPro.TGrid {
         }
 
         public onClose() {
-            Grid.getGridObject(this.container).hideElement(this.container);
+            hideElement(this.container);
         }
 
-        onOpen(options: Options, column: ColumnInfo) {
+        public onOpen(options: Options, column: ColumnInfo) {
             this.columnInfo = column;
             this.path = column.filterMemberPath;
         }
 
-        getColumnInfo(): ColumnInfo {
+        public getColumnInfo(): ColumnInfo {
             return this.columnInfo;
         }
     }

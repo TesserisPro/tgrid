@@ -84,9 +84,11 @@ module TesserisPro.TGrid {
         }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+            this.updateGroupByPanel(option, groupByContainer);
+
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
-                this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));
+                this.showNeededIntends(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
                 // update table header
                 if (isSortable) {
                     this.removeArrows(header);
@@ -98,17 +100,14 @@ module TesserisPro.TGrid {
                         }
                     }
                 }
-                this.updateGroupByElements(option, header, groupByContainer);
+                
 
             } else {
-                //method adding groupBy element
-                this.addGroupBy(option, header, groupByContainer);
-
                 // Create table header
                 var head = document.createElement("tr");
 
                 this.appendIndent(head, option.columns.length, true);
-                this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
+                this.showNeededIntends(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -128,7 +127,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(headerContent);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : "";
-                        this.createDefaultHeader(headerContent, headerText);
+                        this.buildDefaultHeader(headerContent, headerText);
                     }
 
                     // Method changing sorting
@@ -260,7 +259,7 @@ module TesserisPro.TGrid {
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
             if (option.tableFooterTemplate == null && option.isEnablePaging) {
-                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
                 footerContainer.className = "tgrid-footer-container";
@@ -268,7 +267,7 @@ module TesserisPro.TGrid {
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 footer.innerHTML = "";
                 if (option.isEnablePaging) {
-                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                    this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 }
                 footer.appendChild(footerContainer);
 
@@ -278,7 +277,7 @@ module TesserisPro.TGrid {
 
         public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
-                this.defaultFiltringPopUp(option, filterPopup);
+                this.buildDefaultFiltringPopUp(option, filterPopup);
             } else {
                 var filterPopupContainer = document.createElement("div");
                 filterPopupContainer.className = "tgrid-filter-popup-container";
@@ -323,7 +322,7 @@ module TesserisPro.TGrid {
 
             row.setAttribute("ng-controller", angularItemViewModel.angularControllerName);
 
-            this.appendIndent(row, option.groupBySortDescriptor.length, false);
+            this.appendIndent(row, option.groupBySortDescriptors.length, false);
 
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
@@ -359,7 +358,7 @@ module TesserisPro.TGrid {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
-            this.appendIndent(detailTr, option.groupBySortDescriptor.length, false);
+            this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
             detailTr.classList.add("details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
@@ -390,7 +389,7 @@ module TesserisPro.TGrid {
 
             this.appendIndent(headerTr, groupHeaderDescriptor.level, false);
 
-            var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
+            var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.classList.add("tgrid-table-group-header");
             headerTr.classList.add("tgrid-table-group-header");
@@ -550,7 +549,7 @@ module TesserisPro.TGrid {
                 row.classList.add("selected");
             }
 
-            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+            for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                 row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
             }
 

@@ -67,7 +67,7 @@ module TesserisPro.TGrid {
         public firstLoadSize: number = 20;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
-        public groupBySortDescriptor: Array<SortDescriptor> = [];
+        public groupBySortDescriptors: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
 
         public filterDescriptors: Array<FilterDescriptor> = [];

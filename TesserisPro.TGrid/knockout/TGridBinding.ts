@@ -37,7 +37,7 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         }
         if (groupBySortDescriptor != undefined) {
             for (var i = 0; i < groupBySortDescriptor.length; i++) {
-                options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
+                options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
             }
         }
         if (isObservable(valueAccessor().enablePaging)) {

@@ -63,4 +63,12 @@ function getMemberValue(target: any, path: string): any {
     return value;
 }
 
+function hideElement(target: HTMLElement): void {
+    target.style.display = "none";
+}
+
+function unhideElement(target: HTMLElement): void {
+    target.style.display = "";
+}
+
 //#endregion

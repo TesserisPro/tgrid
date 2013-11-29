@@ -7,6 +7,7 @@ module TesserisPro.TGrid {
         path: string;
         value: string;
         condition: FilterCondition;
+        columnInfo: ColumnInfo;
 
         public angularModuleName: string;
 
@@ -33,11 +34,16 @@ module TesserisPro.TGrid {
         }
 
         public onClose() {
-            Grid.getGridObject(this.container).hideElement(this.container);
+            hideElement(this.container);
         }
 
-        onOpen(options: Options, column: ColumnInfo) {
+        public onOpen(options: Options, column: ColumnInfo) {
             this.path = column.filterMemberPath;
+            this.columnInfo = column;
+        }
+
+        public getColumnInfo(): ColumnInfo {
+            return this.columnInfo;
         }
     }
 }

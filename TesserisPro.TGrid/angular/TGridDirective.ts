@@ -13,7 +13,7 @@ module TGrid.Angular {
                     var groupBy = attrs["groupby"].split(' ');
                     if (groupBy.length > 0 && groupBy[0] != "") {
                         for (var i = 0; i < groupBy.length; i++) {
-                            options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBy[i], true));
+                            options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBy[i], true));
                         }
                     }
                 }

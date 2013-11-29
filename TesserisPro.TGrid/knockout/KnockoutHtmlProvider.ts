@@ -53,7 +53,7 @@ module TesserisPro.TGrid {
         }
 
         public getFooterViewModel() {
-            var knockoutFooterViewModel = new KnockoutFooterViewModel(0,0, 0, 0);
+            var knockoutFooterViewModel = new KnockoutFooterViewModel(0, 0, 0, 0);
             return knockoutFooterViewModel;
         }
 
@@ -62,16 +62,18 @@ module TesserisPro.TGrid {
             return filterPopupViewModel;
         }
 
-         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+            this.updateGroupByPanel(option, groupByContainer);
+
             if (header.innerHTML != null && header.innerHTML != "") {
-               //add intends for groupBy
-               this.showNeededIntends(header, option.groupBySortDescriptor.length, Grid.getGridObject(header));               
+                //add intends for groupBy
+                this.showNeededIntends(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
                 // update table header
                 if (isSortable) {
                     this.removeArrows(header);
-                    var element = header.getElementsByTagName("th");                    
-                    
+                    var element = header.getElementsByTagName("th");
+
                     for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
                         if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
                             this.addArrows(element[i].getElementsByClassName("tgrid-header-cell-buttons")[0], option, i);
@@ -79,15 +81,12 @@ module TesserisPro.TGrid {
                     }
                 }
 
-               this.updateGroupByElements(option, header, groupByContainer);
-
-           } else {
-                this.addGroupBy(option, header, groupByContainer);
+            } else {
 
                 // Create table header
                 var head = document.createElement("tr");
                 this.appendIndent(head, option.columns.length, true);
-                this.showNeededIntends(head, option.groupBySortDescriptor.length, Grid.getGridObject(header));
+                this.showNeededIntends(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
                 for (var i = 0; i < option.columns.length; i++) {
                     var headerCell = document.createElement("th");
@@ -108,7 +107,7 @@ module TesserisPro.TGrid {
                         option.columns[i].header.applyTemplate(headerContent);
                     } else {
                         var headerText = option.columns[i].member != null ? option.columns[i].member : "";
-                        this.createDefaultHeader(headerContent, headerText);
+                        this.buildDefaultHeader(headerContent, headerText);
                     }
 
                     // Method changing sorting
@@ -124,7 +123,7 @@ module TesserisPro.TGrid {
                     }
 
                     // Filter
-                    this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);                    
+                    this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
 
                     if (option.columns[i].resizable) {
                         var columnResize = document.createElement("div");
@@ -158,7 +157,7 @@ module TesserisPro.TGrid {
 
                         headerButtons.appendChild(columnResize);
                     }
-                   
+
                     head.appendChild(headerCell);
                 }
                 var placeholderColumn = document.createElement("th");
@@ -167,14 +166,14 @@ module TesserisPro.TGrid {
 
                 header.appendChild(head);
                 ko.applyBindings(option.parentViewModel, head);
-           }
+            }
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             if (!option.showDetailFor.isDetailColumn) {
                 option.showDetailFor.column = -1;
             }
-            
+
             for (var i = 0; i < items.length; i++) {
                 this.appendTableElement(option, container, items[i], 0, selected);
             }
@@ -226,7 +225,7 @@ module TesserisPro.TGrid {
             var selectedElement = container.getElementsByClassName("selected");
 
             // Insert row details after selected item
-            if (this.hasDetails(selectedElement, option)){
+            if (this.hasDetails(selectedElement, option)) {
                 var details = this.buildDetailsRow(option);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
@@ -237,11 +236,11 @@ module TesserisPro.TGrid {
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
             if (option.tableFooterTemplate == null && option.isEnablePaging) {
-                this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
                 if (option.isEnablePaging) {
-                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                    this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 }
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 ko.applyBindings(footerModel, footerContainer);
@@ -253,7 +252,7 @@ module TesserisPro.TGrid {
 
         public updateFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
-                this.defaultFiltringPopUp(option, filterPopup);
+                this.buildDefaultFiltringPopUp(option, filterPopup);
             } else {
                 var filterContainer = document.createElement("div");
                 filterContainer.className = "tgrid-filter-popup-container";
@@ -293,7 +292,7 @@ module TesserisPro.TGrid {
                 row.classList.add("selected");
             }
 
-            this.appendIndent(row, option.groupBySortDescriptor.length, false);
+            this.appendIndent(row, option.groupBySortDescriptors.length, false);
 
             for (var i = 0; i < option.columns.length; i++) {
                 var cell = document.createElement("td");
@@ -311,14 +310,14 @@ module TesserisPro.TGrid {
             var placeholderColumn = document.createElement("td");
             placeholderColumn.classList.add("tgrid-placeholder");
             row.appendChild(placeholderColumn);
-                        
+
             (function (item) {
                 row.onclick = function (e) {
                     if (option.selectionMode != SelectionMode.None) {
                         option.ctrlKey = e.ctrlKey;
                         option.selectedRow = <HTMLElement>this;
                         selected(item, e.ctrlKey);
-                    }                   
+                    }
                 };
             })(item);
 
@@ -329,7 +328,7 @@ module TesserisPro.TGrid {
             var detailTr = document.createElement("tr");
             var detailTd = document.createElement("td");
 
-            this.appendIndent(detailTr, option.groupBySortDescriptor.length, false);
+            this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
             detailTr.classList.add("details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
@@ -353,7 +352,7 @@ module TesserisPro.TGrid {
 
             this.appendIndent(headerTr, groupHeaderDescriptor.level, false);
 
-            var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
+            var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.classList.add("tgrid-table-group-header");
             headerTr.classList.add("tgrid-table-group-header");
@@ -373,7 +372,7 @@ module TesserisPro.TGrid {
             } else {
                 headerTd = this.createDefaultGroupHeader(headerTd);
             }
-                     
+
 
             headerTr.appendChild(headerTd);
 
@@ -413,7 +412,7 @@ module TesserisPro.TGrid {
                 target.appendChild(cell);
             }
         }
-       
+
         // Mobile Methods
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
@@ -472,7 +471,7 @@ module TesserisPro.TGrid {
             var selectedElement = container.getElementsByClassName("selected");
 
             // Insert row details after selected item
-             if(this.hasDetails(selectedElement, option)){
+            if (this.hasDetails(selectedElement, option)) {
                 var details = this.buildMobileDetailsRow(option);
                 details.classList.add("details");
                 insertAfter(selectedElement[0], details);
@@ -499,12 +498,12 @@ module TesserisPro.TGrid {
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("div");
             row.classList.add("tgrid-mobile-row");
-            
+
             if (option.isSelected(item.item)) {
                 row.classList.add("selected");
             }
 
-            for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+            for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                 row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
             }
 
@@ -514,7 +513,7 @@ module TesserisPro.TGrid {
                 option.mobileTemplateHtml.applyTemplate(rowTemplate);
             } else {
                 rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
-            } 
+            }
             row.appendChild(rowTemplate);
 
             var placeholderColumn = document.createElement("td");
@@ -539,12 +538,12 @@ module TesserisPro.TGrid {
             var detailDiv = document.createElement("div");
 
             detailDiv.classList.add("tgrid-mobile-details");
-            option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailDiv) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailDiv); 
+            option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailDiv) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailDiv);
 
             return detailDiv;
         }
 
-        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string) : HTMLTableCellElement {           
+        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string): HTMLTableCellElement {
             var spanForCell = document.createElement("span");
             var textBinding = "text: item.".concat(defaultCellBindingName)
             spanForCell.setAttribute("data-bind", textBinding);
