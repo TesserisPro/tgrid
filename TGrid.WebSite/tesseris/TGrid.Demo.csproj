@@ -165,6 +165,24 @@
     <Content Include="Content\images\logo_small_1.png" />
     <Content Include="Content\images\logo_small_for_doc.jpg" />
     <Content Include="Content\images\no-sort.png" />
+    <Content Include="Content\images\picturesForGrid\truck1.png" />
+    <Content Include="Content\images\picturesForGrid\truck10.jpg" />
+    <Content Include="Content\images\picturesForGrid\truck11.jpg" />
+    <Content Include="Content\images\picturesForGrid\truck12.png" />
+    <Content Include="Content\images\picturesForGrid\truck13.png" />
+    <Content Include="Content\images\picturesForGrid\truck14.png" />
+    <Content Include="Content\images\picturesForGrid\truck15.png" />
+    <Content Include="Content\images\picturesForGrid\truck16.png" />
+    <Content Include="Content\images\picturesForGrid\truck17.png" />
+    <Content Include="Content\images\picturesForGrid\truck18.png" />
+    <Content Include="Content\images\picturesForGrid\truck2.png" />
+    <Content Include="Content\images\picturesForGrid\truck3.jpg" />
+    <Content Include="Content\images\picturesForGrid\truck4.png" />
+    <Content Include="Content\images\picturesForGrid\truck5.png" />
+    <Content Include="Content\images\picturesForGrid\truck6.png" />
+    <Content Include="Content\images\picturesForGrid\truck7.png" />
+    <Content Include="Content\images\picturesForGrid\truck8.png" />
+    <Content Include="Content\images\picturesForGrid\truck9.png" />
     <Content Include="Content\images\tesseris.png" />
     <Content Include="Content\images\tgridSNS.png" />
     <Content Include="Content\images\web-1.jpg" />
@@ -244,6 +262,7 @@
     <Content Include="Views\Home\GroupingHtml.cshtml" />
     <Content Include="Views\Home\HeaderTemplateHtml.cshtml" />
     <Content Include="Views\Home\PagingHtml.cshtml" />
+    <Content Include="Views\Home\Performance100000RowsWithPaging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

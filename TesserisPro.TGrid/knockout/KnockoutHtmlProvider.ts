@@ -189,7 +189,7 @@ module TesserisPro.TGrid {
                     bodyClass += " desktop";
                 }
             }
-            container.classList.add(bodyClass);
+            container.setAttribute("class",bodyClass);
         }
 
         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel) {
@@ -275,7 +275,6 @@ module TesserisPro.TGrid {
                 ko.applyBindings(item, groupHeader);
             } else {
                 var row = this.buildRowElement(option, item, container, selected);
-
                 container.appendChild(row);
                 ko.applyBindings(item, row);
             }
