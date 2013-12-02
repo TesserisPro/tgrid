@@ -40,20 +40,18 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: 'true', pageSize: 5 }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: 'true', pageSize: 6 }">
             <script type="text/html">
-                <column data-g-width="150" data-g-views="mobile,desktop"  data-g-member="Name">
+                <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Name">
                 </column>
                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
                 </column>
-                 <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Position">
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Position">
                 </column>
-                 <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Department">
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Department">
                 </column>
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="DateOfBirth">
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="DateOfBirth">
                 </column>
-               
-               
                  <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
                      <cell> <img width="100px" height='60px' style: "" data-bind="attr: {src: item.Picture}" /></cell>
                 </column>
@@ -92,11 +90,7 @@
                     DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
                     Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
                     Position: positions[genarateRandomInt(0, positions.length - 1)],
-                    Department: departments[genarateRandomInt(0, departments.length - 1)],
-                    detail: "details item b3 c1",
-                    detail_name: "details item First Name",
-                    detail_key: "details item Last Name",
-                    details: { a: "test", b: 1 }
+                    Department: departments[genarateRandomInt(0, departments.length - 1)]
                 });
             }
         })(genarateRandomInt, items);
@@ -120,11 +114,9 @@
             var oldItems = new Array();
             oldItems = oldItems.concat(items);
             sort(sortDescriptors);
-            setTimeout(function () {
-                callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-                items = new Array();
-                items = items.concat(oldItems);
-            }, 200);
+            callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            items = new Array();
+            items = items.concat(oldItems);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
