@@ -127,7 +127,7 @@ module TesserisPro.TGrid {
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.rootElement.appendChild(this.tableFooter);
-            this.refreshFooter();
+            
 
                         
             if (options.isEnableVirtualScroll) {
@@ -154,6 +154,7 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
+            this.refreshFooter();
         }
 
         public static getGridObject(element: HTMLElement): Grid {
