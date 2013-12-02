@@ -34,21 +34,30 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background: #EEE9E9;
+    background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
+    background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
+    background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
+    background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 );
+    color: grey;
 }
 
 .tgrid-table tbody tr td, .tgrid-table-group-header {
     /*padding: 2px;
     border-top: 1px solid rgb(122,188,255);
-    border-left: 1px solid rgb(122,188,255);*/
-    background-color: whitesmoke;
+    border-left: 1px solid rgb(122,188,255);
+    background-color: whitesmoke;*/
     overflow: hidden;
     line-height: 1.6em;
     vertical-align: middle;
     text-overflow: ellipsis;
-    border-color: #BEBEBE;
+    /*border-color: #BEBEBE;*/
     color: grey;
-    border-right: 1px solid #BEBEBE;
-    border-top: 1px solid #BEBEBE;
+    /*border-right: 1px solid #BEBEBE;
+    border-top: 1px solid #BEBEBE;*/
     padding: 2px;
 }
 
@@ -71,14 +80,14 @@
 }
 
 .tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
-    border-left: 1px solid #BEBEBE;
+    /*border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
-    border-bottom: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;*/
     background-color: whitesmoke;
 }
 
 .tgrid-mobile-container .selected {
-    background-color: rgba(152,190,222,1);
+    background-color: #dbdbde;
 }
 
 .tgrid-tablebodycontainer {
@@ -152,6 +161,9 @@
 .tgrid-mobile-container.mobile {
     overflow:auto;
     max-height:488px;
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;
 }
 
 .tgrid-inline-block {
@@ -262,8 +274,8 @@ td a {
 
 .list-button-container, .mobile-list-button-container {
     display: inline-block;
-    height: 25px;
-    width: 25px;
+    height: 22px;
+    width: 22px;
     background: #EEE9E9;
     background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
@@ -282,8 +294,8 @@ td a {
     width: 14px;
     background: url(images/glyphicons-halflings.png);
     background-position: -407px -99px;
-    margin-top: 8px;
-    margin-left: 5px;
+    margin-top: 6px;
+    margin-left: 3.5px;
     opacity: 0.6;
 }
 
@@ -428,6 +440,38 @@ th.tgrid-placeholder {
     margin: 0 3px;
 }
 
+ tr:nth-child(even), .tgrid-mobile-row:nth-child(even) {
+  background-color: whitesmoke;
+}
+
+
+tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
+  background-color: white;
+}
+
+.hidden {
+    display:none !important;
+}
+
+.visible{
+    display:block !important;
+    width: 100%;
+}
+
+.activeStyle
+{
+    background:green;
+    color:green;
+}
+
+.tgrid-table tbody tr td span{
+    width:auto;
+    display:block;
+}
+
+.tgrid-table tbody tr td input{
+    display:none;
+}
 
 /* Mobile */
 @media (max-width: 480px) {

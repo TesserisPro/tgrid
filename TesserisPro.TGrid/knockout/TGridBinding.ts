@@ -126,6 +126,13 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             }
         }
 
+        if (isObservable(valueAccessor().pageSlide)) {
+            options.pageSlide = valueAccessor().pageSlide();
+        } else {
+            options.pageSlide = valueAccessor().pageSlide;
+        }
+        options.pageSlide = (isNaN(options.pageSlide) || options.pageSlide < 1) ? 1 : options.pageSlide;
+
         return options;
     }    
 }

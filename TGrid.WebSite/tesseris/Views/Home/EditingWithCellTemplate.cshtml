@@ -19,79 +19,28 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '0', groupBy: [], enableVirtualScroll: 'false', enablePaging: 'false' }">
-    <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="name" data-g-group-member="name">
-            <header>
-                <span data-bind="text: nameColumnTitle"></span>
-            </header>
-            <cell>
-                <span data-bind="text: item.name"></span>
-                @*<a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>*@
-            </cell>
-            <celldetail>
-@*                <div>
-                    <span>Cell details: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_name"></span>
-                </div>*@
-            </celldetail>
-        </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-sort-member="key">
-            <header>Last Name</header>
-            <cell>
-                <span data-bind="text: item.key"></span>
-             @*   <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>*@
-            </cell>
-            <celldetail>
-@*                <div>
-                    <span>Cell details: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_key"></span>
-                </div>*@
-            </celldetail>
-        </column>
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-sort-member="key2">
-            <header>
-                <span>Age</span>
-            </header>
-            <cell>
-                <span data-bind="text: item.key2"></span>
-            </cell>
-            <celldetail>
-@*                <div>
-                    <span>Cell details key2: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_name"></span>
-                </div>*@
-            </celldetail>
-        </column>
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
+            <script  type="text/html">
+                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
+                            <cell>
+                                <span style="color: green;" data-bind="text: item.name, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>                                     
+                                <input style="color: red;" data-bind="value: item.name, css: { visible: model.editingItem() == item} "></input>                    
+                            </cell>
+                        </column>
+                        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key"> 
+                            <cell>
+                                <span data-bind="text: item.key, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item } "></span>
+                                <input class="hidden" data-bind="value: item.key, css: { visible: model.editingItem() == item }"></input>
+                            </cell>
+                        </column>
+                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2">            
+                            <cell>
+                                <span style="color: red;" data-bind="text: item.key2, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>
+                                <input class="hidden" style="color: red;" data-bind="value: item.key2, css: { visible: model.editingItem() == item }"></input>
+                            </cell>
+                        </column>
+            </script>
 
-        <groupheader>
-            <div>
-                <span style="color: green;" data-bind="text: item.value"></span>
-            </div>
-        </groupheader>
-
-        <mobile>
-            <div>
-                <span>Name: </span>
-                <span data-bind="text: item.name"></span>
-                <a href data-bind="click: function () { getCellDetailFor(0); }">[]</a>
-                <br />
-                <span>Key: </span>
-                <span data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { getCellDetailFor(1); }">[]</a>
-                <br />
-                <span>Key2: </span>
-                <span data-bind="text: item.key2"></span>
-            </div>
-        </mobile>
-
-        <details>
-@*            <div>
-                <span>Row details: </span>
-                <span style="color: blue;" data-bind="text: item.detail"></span>
-            </div>*@
-        </details>
-    </script>
 </div>
 <script type="text/javascript">
     var SimpleItemsProvider = (function () {
@@ -114,11 +63,11 @@
         ];
 
         SimpleItemsProvider.prototype.isSortable = function () {
-            return true;
+            return false;
         }
 
         SimpleItemsProvider.prototype.isFilterable = function () {
-            return true;
+            return false;
         }
 
         function SimpleItemsProvider() {
@@ -269,8 +218,13 @@
     function vm() {
         var self = this;
         self.nameColumnTitle = "First Name";
+        self.editingItem = ko.observable(null);
 
-        self.itemsProvider = new SimpleItemsProvider();
+        self.toggleActive = function (item) {
+            self.editingItem(item.item);
+        }        
+        self.itemsProvider = new SimpleItemsProvider();       
+
     };
 
     $(function () {

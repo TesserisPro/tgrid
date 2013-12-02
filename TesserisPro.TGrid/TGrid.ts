@@ -128,7 +128,7 @@ module TesserisPro.TGrid {
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.rootElement.appendChild(this.tableFooter);
-            this.refreshFooter();
+            
 
                         
             if (options.isEnableVirtualScroll) {
@@ -155,6 +155,7 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
+            this.refreshFooter();
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -592,7 +593,7 @@ module TesserisPro.TGrid {
                         }
                         collapsed = this.isFilterInCollapsed(filterDescriptor);
 
-                        itemModels.push(new ItemViewModel(null,
+                        itemModels.push(new ItemViewModel(this.options.parentViewModel,
                             new GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor),
                             this,
                             true));
@@ -608,7 +609,7 @@ module TesserisPro.TGrid {
                     }
                 }
                 if (!collapsed) {
-                    itemModels.push(new ItemViewModel(null, items[i], this, false));
+                    itemModels.push(new ItemViewModel(this.options.parentViewModel, items[i], this, false));
                 }
             }
             return itemModels;

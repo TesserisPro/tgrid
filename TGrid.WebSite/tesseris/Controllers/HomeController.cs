@@ -49,7 +49,7 @@ namespace TGrid.Demo.Controllers
             listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Editing with cell template", url = "EditingWithCellTemplate", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with virtualization", url = "RowsWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with paging", url = "RowsWithPaging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with paging", url = "Performance100000RowsWithPaging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel { title = "Simple grid without paging mobile", url = "SimpleGridWithoutPagingMobile", htmlUrl = "SimpleGridWithoutPagingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });

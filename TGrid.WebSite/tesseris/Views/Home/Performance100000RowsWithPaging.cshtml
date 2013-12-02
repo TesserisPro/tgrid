@@ -16,76 +16,84 @@
     <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
+    <style>
+        .tgrid-footer {
+            background: whitesmoke;
+            height: 50px;
+            border-bottom: 1px solid #BEBEBE;
+            border-left: 1px solid #BEBEBE;
+            border-right: 1px solid #BEBEBE;
+            background: #EEE9E9; /* Old browsers */
+            background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* IE10+ */
+            background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+        }
+        .footer {
+            color: #757575;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
-    <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
-            
-            <cell>
-                <span style="display: inline-block;" data-bind="text: item.name">...</span>
-                <a href data-bind="click: function () { getCellDetailFor(0); }">...</a>
-            </cell>
-            <celldetail>
-                <div>
-                    <span>Cell details: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_name"></span>
-                </div>
-            </celldetail>
-        </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key">
-            
-            <cell>
-                <span style="display: inline-block;" data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { getCellDetailFor(1); }">...</a>
-            </cell>
-            <celldetail>
-                <div>
-                    <span>Cell details: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_key"></span>
-                </div>
-            </celldetail>
-        </column>
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2">
-            
-            <cell>
-                <span data-bind="text: item.key2"></span>
-            </cell>
-            <celldetail>
-                <div>
-                    <span>Cell details key2: </span>
-                    <span style="color: brown;" data-bind="text: item.detail_name"></span>
-                </div>
-            </celldetail>
-        </column>
-        <details>
-            <div>
-                <span>Row details: </span>
-                <span style="color: brown;" data-bind="text: item.detail"></span>
-            </div>
-        </details>
-    </script>
-</div>
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: 'true', pageSize: 6, pageSlide: 5 }">
+            <script type="text/html">
+                <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Name">
+                </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
+                </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Position">
+                </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Department">
+                </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="DateOfBirth">
+                </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
+                     <cell> <img width="100px" height='60px' style: "" data-bind="attr: {src: item.Picture}" /></cell>
+                </column>
+                 <footer>
+                    <div class ="footer">
+                        TotalCount: <span data-bind="text:totalCount"></span>
+                        CurrentPage: <span data-bind="text:currentPage"></span>. 
+                        TotalPages: <span data-bind="text:totalPages"></span>.
+                    </div>
+                </footer>  
+            </script>
+        </div>
 <script type="text/javascript">
     var SimpleItemsProvider = (function () {
-        var items = [
-                { name: "Jong", key: "Figgins", key2: "a3", detail: "details item a1 a4", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sharilyn", key: "Ham", key2: "b4", detail: "details item b1 c3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Matthew", key: "Holz", key2: "a2", detail: "details item c1 b3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Jasmine", key: "Seidel", key2: "a3", detail: "details item a2 a3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Nevada", key: "Ronan", key2: "a1", detail: "details item b2 c2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Christiana ", key: "Gardella", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Cathrine", key: "Swanson", key2: "a1", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Allena", key: "Gardella", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Rufina", key: "Gardella", key2: "b4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sonny", key: "Swanson", key2: "c2", detail: "details item a4 a1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Allena", key: "Arboleda", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Nicole", key: "Newlin", key2: "c4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Theron", key: "Thrush", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Georgann", key: "Smartt", key2: "b2", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
-        ];
+        var items = [];
+         
+        SimpleItemsProvider.prototype.getRandomInt = function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+        (function (genarateRandomInt, items) {
+            var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence'];
+            var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson'];
+            var picturesPaths = ['truck1.png',  'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
+                                'truck8.png', 'truck9.png', 'truck10.jpg', 'truck11.jpg', 'truck12.png', 'truck13.png', 'truck14.png', 'truck15.png',
+                                 'truck16.png', 'truck17.png', 'truck18.png'];
+            var positions = ['Sales Manager', 'Human Resourses Manager', 'Investor Relations Officer', 'Loan Officer', 'Mortgage Banker', 'Mutual Fund Analyst',
+                            'Portfolio Manager', 'Ratings Analyst', 'Real Estate Appraiser', 'Real Estate Officer', 'Residential Appraiser',
+                            'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
+            var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
+            for (var i = 0; i < 100000; i++) {
+                items.push({
+                    Name: names[genarateRandomInt(0, names.length - 1)],
+                    Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
+                    DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
+                    Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
+                    Position: positions[genarateRandomInt(0, positions.length - 1)],
+                    Department: departments[genarateRandomInt(0, departments.length - 1)]
+                });
+            }
+        })(genarateRandomInt, items);
 
         SimpleItemsProvider.prototype.isSortable = function () {
             return false;
@@ -106,11 +114,9 @@
             var oldItems = new Array();
             oldItems = oldItems.concat(items);
             sort(sortDescriptors);
-            setTimeout(function () {
-                callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-                items = new Array();
-                items = items.concat(oldItems);
-            }, 200);
+            callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            items = new Array();
+            items = items.concat(oldItems);
         };
 
         SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {

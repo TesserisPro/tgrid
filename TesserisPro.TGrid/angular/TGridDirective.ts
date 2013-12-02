@@ -30,6 +30,12 @@ module TGrid.Angular {
                     options.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
                 }
 
+                var pageSlideAttr = attrs["pageslide"];
+                options.pageSlide = parseInt(pageSlideAttr);
+                if (this.isEnablePaging) {
+                    options.pageSlide = (isNaN(this.pageSlide) || this.pageSlide < 1) ? 1 : this.pageSlide;
+                }
+
                 var editModeAtt = attrs["selectmode"];
                 options.selectionMode = editModeAtt;
                 if (isNaN(this.selectionMode)) {
