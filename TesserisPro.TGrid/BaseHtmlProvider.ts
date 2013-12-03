@@ -583,8 +583,8 @@ module TesserisPro.TGrid {
                 groupButton.onclick = e => {
                     e.cancelBubble = true;
                     hideElement(menu);
-                    Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor(<string>e.target["data-g-path"]);
-                    Grid.getGridObject(<HTMLElement>e.target).addGroupDescriptor(<string>e.target["data-g-path"], true);
+                    var grid = Grid.getGridObject(<HTMLElement>e.target);
+                    grid.togleGroupDescriptor(<string>e.target["data-g-path"]);
                 };
 
                 columnContainer.appendChild(buttonsContainer);
