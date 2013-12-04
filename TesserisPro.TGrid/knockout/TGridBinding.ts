@@ -42,15 +42,15 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         }
         if (isObservable(valueAccessor().enablePaging)) {
             if (typeof valueAccessor().enablePaging() == "boolean") {
-                options.isEnablePaging = valueAccessor().enablePaging();
+                options.enablePaging = valueAccessor().enablePaging();
             } else {
-                options.isEnablePaging = valueAccessor().enablePaging == "true" ? true : false;
+                options.enablePaging = valueAccessor().enablePaging == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enablePaging == "boolean") {
-                options.isEnablePaging = valueAccessor().enablePaging;
+                options.enablePaging = valueAccessor().enablePaging;
             } else {
-                options.isEnablePaging = valueAccessor().enablePaging == "true" ? true : false;
+                options.enablePaging = valueAccessor().enablePaging == "true" ? true : false;
             }
         }
 
@@ -72,57 +72,71 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
         
         if (isObservable(valueAccessor().enableVirtualScroll)) {
             if (typeof valueAccessor().enableVirtualScroll() == "boolean") {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll();
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll();
             } else {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableVirtualScroll == "boolean") {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll;
             } else {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
             }
         }
 
         if (isObservable(valueAccessor().enableCollapsing)) {
             if (typeof valueAccessor().enableCollapsing() == "boolean") {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing();
+                options.enableCollapsing = valueAccessor().enableCollapsing();
             } else {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+                options.enableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableCollapsing == "boolean") {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing;
+                options.enableCollapsing = valueAccessor().enableCollapsing;
             } else {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+                options.enableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+            }
+        }
+
+        if (isObservable(valueAccessor().enableSorting)) {
+            if (typeof valueAccessor().enableSorting() == "boolean") {
+                options.enableSorting = valueAccessor().enableSorting();
+            } else {
+                options.enableSorting = valueAccessor().enableSorting == "true" ? true : false;
+            }
+        } else {
+            if (typeof valueAccessor().enableSorting == "boolean") {
+                options.enableSorting = valueAccessor().enableSorting;
+            } else {
+                options.enableSorting = valueAccessor().enableSorting == "true" ? true : false;
             }
         }
 
         if (isObservable(valueAccessor().enableGrouping)) {
             if (typeof valueAccessor().enableGrouping() == "boolean") {
-                options.isEnableGrouping = valueAccessor().enableGrouping();
+                options.enableGrouping = valueAccessor().enableGrouping();
             } else {
-                options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
+                options.enableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableGrouping == "boolean") {
-                options.isEnableGrouping = valueAccessor().enableGrouping;
+                options.enableGrouping = valueAccessor().enableGrouping;
             } else {
-                options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
+                options.enableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
             }
         }    
 
         if (isObservable(valueAccessor().enableFiltering)) {
             if (typeof valueAccessor().enableFiltering() == "boolean") {
-                options.isEnableFiltering = valueAccessor().enableFiltering();
+                options.enableFiltering = valueAccessor().enableFiltering();
             } else {
-                options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+                options.enableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableFiltering == "boolean") {
-                options.isEnableFiltering = valueAccessor().enableFiltering;
+                options.enableFiltering = valueAccessor().enableFiltering;
             } else {
-                options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+                options.enableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
             }
         }
 

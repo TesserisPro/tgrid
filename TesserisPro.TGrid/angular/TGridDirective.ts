@@ -19,9 +19,9 @@ module TGrid.Angular {
                 }
 
                 if (attrs["enablepaging"] == undefined) {
-                    options.isEnablePaging = false;
+                    options.enablePaging = false;
                 } else {
-                    options.isEnablePaging = attrs["enablepaging"] == "true" ? true : false;
+                    options.enablePaging = attrs["enablepaging"] == "true" ? true : false;
                 }
 
                 var pageSizeAtt = attrs["pagesize"];
@@ -43,27 +43,33 @@ module TGrid.Angular {
                 }
 
                 if (attrs["enablevirtualscroll"] == undefined) {
-                    options.isEnableVirtualScroll = false;
+                    options.enableVirtualScroll = false;
                 } else {
-                    options.isEnableVirtualScroll = attrs["enablevirtualscroll"] == "true" ? true : false;
+                    options.enableVirtualScroll = attrs["enablevirtualscroll"] == "true" ? true : false;
                 }
 
                 if (attrs["enablecollapsing"] == undefined) {
-                    options.isEnableCollapsing = false;
+                    options.enableCollapsing = false;
                 } else {
-                    options.isEnableCollapsing = attrs["enablecollapsing"] == "true" ? true : false;
+                    options.enableCollapsing = attrs["enablecollapsing"] == "true" ? true : false;
+                }
+                
+                if (attrs["enablesorting"] == undefined) {
+                    options.enableSorting = false;
+                } else {
+                    options.enableSorting = attrs["enablesorting"] == "true" ? true : false;
                 }
 
                 if (attrs["enablegrouping"] == undefined) {
-                    options.isEnableGrouping = false;
+                    options.enableGrouping = false;
                 } else {
-                    options.isEnableGrouping = attrs["enablegrouping"] == "true" ? true : false;
+                    options.enableGrouping = attrs["enablegrouping"] == "true" ? true : false;
                 }
 
                 if (attrs["enablefiltering"] == undefined) {
-                    options.isEnableFiltering = false;
+                    options.enableFiltering = false;
                 } else {
-                    options.isEnableFiltering = attrs["enablefiltering"] == "true" ? true : false;
+                    options.enableFiltering = attrs["enablefiltering"] == "true" ? true : false;
                 }
 
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);

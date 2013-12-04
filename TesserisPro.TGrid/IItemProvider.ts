@@ -2,10 +2,6 @@ module TesserisPro.TGrid {
 
     export interface IItemProvider {
 
-        isSortable(): boolean;
-
-        isFilterable(): boolean;
-
         getItems(
             skip: number,
             take: number,
