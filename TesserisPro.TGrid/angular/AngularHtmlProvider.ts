@@ -83,14 +83,14 @@ module TesserisPro.TGrid {
             return angularFilterPopupViewModel;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: ColumnInfo) => void) {
             this.updateGroupByPanel(option, groupByContainer);
 
             if (header.innerHTML != null && header.innerHTML != "") {
                 //add intends for groupBy
                 this.showNeededIntends(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
                 // update table header
-                if (isSortable) {
+                if (option.enableSorting) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
 
@@ -136,7 +136,7 @@ module TesserisPro.TGrid {
                     })(i);
 
                     // Arrows
-                    if (isSortable) {
+                    if (option.enableSorting) {
                         if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                             <HTMLTableHeaderCellElement>this.addArrows(headerButtons, option, i);
                         }
@@ -258,7 +258,7 @@ module TesserisPro.TGrid {
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
-            if (option.tableFooterTemplate == null && option.isEnablePaging) {
+            if (option.tableFooterTemplate == null && option.enablePaging) {
                 this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
@@ -266,7 +266,7 @@ module TesserisPro.TGrid {
                 footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 footer.innerHTML = "";
-                if (option.isEnablePaging) {
+                if (option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 }
                 footer.appendChild(footerContainer);
@@ -399,7 +399,7 @@ module TesserisPro.TGrid {
                 headerTd = this.createDefaultGroupHeader(headerTd);
             }
             
-            if (option.isEnableCollapsing) {
+            if (option.enableCollapsing) {
                 if (!groupHeaderDescriptor.collapse) {
                     headerTd.onclick = (e) => {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);

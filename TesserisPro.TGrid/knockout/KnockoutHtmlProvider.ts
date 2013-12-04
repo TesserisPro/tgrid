@@ -62,7 +62,7 @@ module TesserisPro.TGrid {
             return filterPopupViewModel;
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: ColumnInfo) => void) {
             this.updateGroupByPanel(option, groupByContainer);
 
             if (header.innerHTML != null && header.innerHTML != "") {
@@ -70,7 +70,7 @@ module TesserisPro.TGrid {
                 this.showNeededIntends(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
                 // update table header
-                if (isSortable) {
+                if (option.enableSorting) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
 
@@ -110,13 +110,12 @@ module TesserisPro.TGrid {
                         this.buildDefaultHeader(headerContent, headerText);
                     }
 
-                    // Method changing sorting
-                    (function (i) {
-                        headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
-                    })(i);
-
                     // Arrows
-                    if (isSortable) {
+                    if (option.enableSorting) {
+                        // Method changing sorting
+                        (function (i) {
+                            headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
+                        })(i);
                         if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
                             this.addArrows(headerButtons, option, i);
                         }
@@ -179,16 +178,7 @@ module TesserisPro.TGrid {
             }
 
             //Hide table on mobile devices
-            var bodyClass = container.getAttribute("class");
-            if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
-                bodyClass = "desktop";
-            }
-            else {
-                if (bodyClass.indexOf("desktop") == -1) {
-                    bodyClass += " desktop";
-                }
-            }
-            container.classList.add(bodyClass);
+            container.classList.add("desktop");
         }
 
         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel) {
@@ -235,11 +225,11 @@ module TesserisPro.TGrid {
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
             //if there isn't footer template in grid
-            if (option.tableFooterTemplate == null && option.isEnablePaging) {
+            if (option.tableFooterTemplate == null && option.enablePaging) {
                 this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
                 var footerContainer = document.createElement("div");
-                if (option.isEnablePaging) {
+                if (option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 }
                 option.tableFooterTemplate.applyTemplate(footerContainer);
@@ -280,9 +270,6 @@ module TesserisPro.TGrid {
             }
         }
 
-        private upadeteTableColumnsWidth(option: Options, container: HTMLElement) {
-
-        }
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
@@ -356,7 +343,7 @@ module TesserisPro.TGrid {
             headerTd.setAttribute("colspan", colspan.toString());
             headerTd.classList.add("tgrid-table-group-header");
             headerTr.classList.add("tgrid-table-group-header");
-            if (option.isEnableCollapsing) {
+            if (option.enableCollapsing) {
                 if (!groupHeaderDescriptor.collapse) {
                     headerTd.onclick = (e) => {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -480,7 +467,7 @@ module TesserisPro.TGrid {
         }
 
         private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-
+            
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
             if (item.isGroupHeader && option.groupHeaderTemplate != null) {

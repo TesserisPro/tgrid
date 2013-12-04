@@ -76,9 +76,9 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'false', enableSorting: 'false' }">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name" data-g-filter-member="name" data-g-resizable ="true">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-group-member ="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -93,8 +93,10 @@
                 </div>
             </celldetail>
         </column>
-        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key" data-g-sort-member="key"  data-g-group-member ="key" data-g-filter-member="key" >
-            <header>Key</header>
+        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="key">
+           <header>
+                <span>Key</span>
+            </header>
             <cell>
                 <span data-bind="text: item.key"></span>
                 <a href data-bind="click: function () { showDetailForCell(1); }">[]</a>
@@ -229,13 +231,6 @@
                 { name: "a4", key: "a1", key2: "c2", detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } }
         ];        
 
-        SimpleItemsProvider.prototype.isSortable = function () {
-            return true;
-        }
-
-        SimpleItemsProvider.prototype.isFilterable = function () {
-            return true;
-        }
 
         function SimpleItemsProvider() {
             for (var i = 0; i < items.length; i++) {
@@ -401,7 +396,7 @@
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
 <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name key" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" >
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name key" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" >
      <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
             <header>
@@ -547,14 +542,6 @@
                 items[i].key = i;
                 items[i].detail = items[i].detail +" "+i;
             }
-        }
-
-        SimpleItemsProviderAngular.prototype.isSortable = function () {
-            return true;
-        }
-
-        SimpleItemsProviderAngular.prototype.isFilterable = function () {
-            return true;
         }
 
         SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {

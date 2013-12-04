@@ -31,7 +31,7 @@ module TesserisPro.TGrid {
         public getFilterPopupViewModel(container: HTMLElement) {
         }
 
-        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean, columnsResized: (c: ColumnInfo) => void) {
+        public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: ColumnInfo) => void) {
 
         }
 
@@ -176,7 +176,7 @@ module TesserisPro.TGrid {
 
         public updateGroupByPanel(option: Options, groupByPanel: HTMLElement) {
             groupByPanel.innerHTML = "";
-            if (option.isEnableGrouping) {
+            if (option.enableGrouping) {
 
                 this.addActualGroupByElements(option, groupByPanel);
                                
@@ -192,7 +192,7 @@ module TesserisPro.TGrid {
                     e.cancelBubble = true;
                     self.updateGoupByMenuContent(option, groupByMenu);
                     unhideElement(groupByMenu);
-                    self.doOncCickOutside(groupByMenu, () => hideElement(groupByMenu));
+                    self.doOnClickOutside(groupByMenu, () => hideElement(groupByMenu));
                 }
                 
                 groupButton.appendChild(groupByMenu);
@@ -269,7 +269,7 @@ module TesserisPro.TGrid {
             var exitButton = document.createElement("button");
             exitButton.innerText = "Close";
             exitButton.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).hideFilterPoup();
+                Grid.getGridObject(<HTMLElement>e.target).hideFilterPopup();
             };
             filterPopupContainer.appendChild(exitButton);
         }
@@ -381,7 +381,7 @@ module TesserisPro.TGrid {
                 headerContainer.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>"
             }
 
-            if (option.isEnableCollapsing) {
+            if (option.enableCollapsing) {
                 if (!groupHeaderDescriptor.collapse) {
                     headerContainer.onclick = (e) => {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -413,14 +413,14 @@ module TesserisPro.TGrid {
         }
 
         public addFilterButton(option: Options, header: HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number) {
-            if (option.isEnableFiltering) {
+            if (option.enableFiltering) {
                 var filter = document.createElement("div");
                 filter.classList.add("tgrid-filter-button");
                 var self = this;
                 (function (columnNumber) {
                     filter.onclick = (e) => {
                         Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY);
-                        self.doOncCickOutside(filterPopupContainer, () => Grid.getGridObject(<HTMLElement>e.target).hideFilterPoup());
+                        self.doOnClickOutside(filterPopupContainer, () => Grid.getGridObject(<HTMLElement>e.target).hideFilterPopup());
                         e.cancelBubble = true;
                     };
                 })(culumnNumber);
@@ -429,7 +429,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement, isSortable: boolean): void {
+        public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement): void {
             mobileHeader.innerHTML = "";
             this.updateMobileHeaderColumns(option, mobileHeader);
             this.createMobileButton(option, mobileHeader);
@@ -534,7 +534,7 @@ module TesserisPro.TGrid {
 
                 button.innerHTML = "";
                 button.appendChild(menu);                         
-                self.doOncCickOutside(mobileHeader, () => { e.cancelBubble = true; hideElement(menu); });
+                self.doOnClickOutside(mobileHeader, () => { e.cancelBubble = true; hideElement(menu); });
             }
 
             mobileHeader.appendChild(button);
@@ -555,38 +555,40 @@ module TesserisPro.TGrid {
 
                 var buttonsContainer = document.createElement("div");
                 buttonsContainer.className = "tgrid-header-cell-buttons";
-
-                var sortButton = document.createElement("div");
-                sortButton.className = "tgrid-sort-button";
-                buttonsContainer.appendChild(sortButton);
-                sortButton["data-g-path"] = column.sortMemberPath;
-                sortButton.onclick = e => {
-                    e.cancelBubble = true;
-                    hideElement(menu);
-                    Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
-                };
-
-                var filterButton = document.createElement("div");
-                filterButton.className = "tgrid-filter-button";
-                buttonsContainer.appendChild(filterButton);
-                filterButton["data-g-column"] = column;
-                filterButton.onclick = e => {
-                    e.cancelBubble = true;
-                    hideElement(menu);
-                    Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
-                };
-
-                var groupButton = document.createElement("div");
-                groupButton.className = "tgrid-group-button";
-                buttonsContainer.appendChild(groupButton);
-                groupButton["data-g-path"] = column.groupMemberPath;
-                groupButton.onclick = e => {
-                    e.cancelBubble = true;
-                    hideElement(menu);
-                    var grid = Grid.getGridObject(<HTMLElement>e.target);
-                    grid.togleGroupDescriptor(<string>e.target["data-g-path"]);
-                };
-
+                if (option.enableSorting) { 
+                    var sortButton = document.createElement("div");
+                    sortButton.className = "tgrid-sort-button";
+                    buttonsContainer.appendChild(sortButton);
+                    sortButton["data-g-path"] = column.sortMemberPath;
+                    sortButton.onclick = e => {
+                        e.cancelBubble = true;
+                        hideElement(menu);
+                        Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
+                    };
+                }
+                if (option.enableFiltering) {
+                    var filterButton = document.createElement("div");
+                    filterButton.className = "tgrid-filter-button";
+                    buttonsContainer.appendChild(filterButton);
+                    filterButton["data-g-column"] = column;
+                    filterButton.onclick = e => {
+                        e.cancelBubble = true;
+                        hideElement(menu);
+                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
+                    };
+                }
+                if(option.enableGrouping) {
+                    var groupButton = document.createElement("div");
+                    groupButton.className = "tgrid-group-button";
+                    buttonsContainer.appendChild(groupButton);
+                    groupButton["data-g-path"] = column.groupMemberPath;
+                    groupButton.onclick = e => {
+                        e.cancelBubble = true;
+                        hideElement(menu);
+                        var grid = Grid.getGridObject(<HTMLElement>e.target);
+                        grid.togleGroupDescriptor(<string>e.target["data-g-path"]);
+                    };
+                }
                 columnContainer.appendChild(buttonsContainer);
                 menuItem.appendChild(columnContainer);
                 menuItem.appendChild(buttonsContainer);
@@ -594,7 +596,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public doOncCickOutside(target: HTMLElement, action: () => void) {
+        public doOnClickOutside(target: HTMLElement, action: () => void) {
             var oldOnClick = document.onclick;
             document.onclick = (e) => {
                 var currentElement = <HTMLElement>e.target;

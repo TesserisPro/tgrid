@@ -83,9 +83,10 @@ module TesserisPro.TGrid {
             this.headerContainer.appendChild(headerTable);
             
             // filter popup
-            if (this.options.isEnableFiltering) {
+            if (this.options.enableFiltering) {
                 this.filterPopUp = document.createElement("div");
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
+                this.filterPopUp.style.display = "none";
                 this.rootElement.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
@@ -105,7 +106,7 @@ module TesserisPro.TGrid {
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
 
-            if (options.isEnableVirtualScroll) {
+            if (options.enableVirtualScroll) {
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
             } else {
                 this.itemProvider.getTotalItemsCount(options.filterDescriptors, (total) => { this.options.firstLoadSize = total; });
@@ -131,7 +132,7 @@ module TesserisPro.TGrid {
             
 
                         
-            if (options.isEnableVirtualScroll) {
+            if (options.enableVirtualScroll) {
                 this.buisyIndicator = document.createElement("div");
                 this.buisyIndicator.className = "tgrid-buisy-indicator";
                 this.rootElement.appendChild(this.buisyIndicator);
@@ -151,7 +152,7 @@ module TesserisPro.TGrid {
 
             if (this.options.groupBySortDescriptors.length > 0) {
                 this.refreshHeader();
-                this.refreshBody(options.isEnableVirtualScroll);
+                this.refreshBody(options.enableVirtualScroll);
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
@@ -483,7 +484,7 @@ module TesserisPro.TGrid {
             unhideElement(this.filterPopUp);
         }
 
-        public hideFilterPoup() {
+        public hideFilterPopup() {
             hideElement(this.filterPopUp);
         }
 
@@ -699,14 +700,14 @@ module TesserisPro.TGrid {
         }
 
         private refreshHeader() {
-            if (this.options.isEnableGrouping) {
+            if (this.options.enableGrouping) {
                 unhideElement(this.groupByElement);
             }
             else {
                 hideElement(this.groupByElement);
             }
 
-            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, this.itemProvider.isSortable(), c => this.columnsResized(c));
+            this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, c => this.columnsResized(c));
             this.refreshMobileHeader();
         }
 
@@ -719,7 +720,7 @@ module TesserisPro.TGrid {
                 this.showBuisyIndicator();
             }
 
-            if (!this.options.isEnablePaging) {
+            if (!this.options.enablePaging) {
                 this.itemProvider.getTotalItemsCount(
                     this.getEffectiveFiltering(),
                     totalitemsCount => {
@@ -777,7 +778,7 @@ module TesserisPro.TGrid {
                 this.footerViewModel.setCurrentPage(this.options.currentPage +1);
                 this.footerViewModel.setSelectedItem(this.options.selection[0]);
                 this.footerViewModel.setTotalCount(this.totalItemsCount);
-                if (this.options.isEnablePaging) {
+                if (this.options.enablePaging) {
                     this.footerViewModel.setTotalPages(Math.ceil(this.totalItemsCount / this.options.pageSize));
                 } else {
                     this.footerViewModel.setTotalPages(1);
@@ -828,7 +829,7 @@ module TesserisPro.TGrid {
         }
 
         private refreshMobileHeader() {
-            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp, this.itemProvider.isSortable());
+            this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
         }
     }
 }
