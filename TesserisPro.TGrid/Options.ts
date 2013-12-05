@@ -70,12 +70,10 @@ module TesserisPro.TGrid {
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptors: Array<SortDescriptor> = [];
         public selectionMode: SelectionMode;
+        public openDetailsOnSelection: boolean;
 
         public filterDescriptors: Array<FilterDescriptor> = [];
         public tableFooterTemplate: Template;
-
-        public ctrlKey: boolean;
-        public selectedRow: HTMLElement;
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];

@@ -98,6 +98,33 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             }
         }
 
+        if (isObservable(valueAccessor().showDetailsOnSelection)) {
+            if (typeof valueAccessor().showDetailsOnSelection() == "boolean") {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection();
+            } else {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection == "true" ? true : false;
+            }
+        } else {
+            if (typeof valueAccessor().showDetailsOnSelection == "boolean") {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection;
+            } else {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection == "true" ? true : false;
+            }
+        }
+
+        var selectionMode = isObservable(valueAccessor().selectionMode) ? valueAccessor().selectionMode() : valueAccessor().selectionMode;
+        if (selectionMode == "multi") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi;
+        }
+
+        if (selectionMode == "single") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
+        }
+
+        if (selectionMode == "none") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
+        }
+
         if (isObservable(valueAccessor().enableSorting)) {
             if (typeof valueAccessor().enableSorting() == "boolean") {
                 options.enableSorting = valueAccessor().enableSorting();
