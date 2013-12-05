@@ -66,6 +66,12 @@ module TGrid.Angular {
                     options.enableGrouping = attrs["enablegrouping"] == "true" ? true : false;
                 }
 
+                if (attrs["showdetailsonselection"] == undefined) {
+                    options.openDetailsOnSelection = false;
+                } else {
+                    options.openDetailsOnSelection = attrs["showdetailsonselection"] == "true" ? true : false;
+                }
+
                 if (attrs["enablefiltering"] == undefined) {
                     options.enableFiltering = false;
                 } else {

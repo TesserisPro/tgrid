@@ -547,18 +547,19 @@ module TesserisPro.TGrid {
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
+            var oldSelection = new Array<any>();
+            for (var i = 0; i < this.options.selection.length; i++) {
+                oldSelection.push(this.options.selection[i]);
+            }
+
             if (this.options.selectionMode == SelectionMode.Multi) {
                 if (multi) {
-                    for (var i = 0; i < this.options.selection.length; i++) {
-                        if (item.item == this.options.selection[i]) {
-                            this.options.selection.splice(i, 1);
-                            this.refreshBody();
-                            return false;
-                        }
+                    if (this.options.isSelected(item.item)) {
+                        this.options.selection.splice(i, 1);
                     }
-
-                    this.options.selection.push(item.item);
-      
+                    else {
+                        this.options.selection.push(item.item);
+                    }
                 }
                 else {
                     this.options.selection = [item.item];                   
@@ -566,18 +567,34 @@ module TesserisPro.TGrid {
             } else if (this.options.selectionMode == SelectionMode.Single) {
                 this.options.selection = [item.item];
             } else {
-                this.options.selection = null;
+                this.options.selection = new Array<any>();
+            }
+          
+            if (this.options.openDetailsOnSelection) {
+                if (this.options.selection.length == 1) {
+                    this.options.showDetailFor = new ShowDetail();
+                    this.options.showDetailFor.item = this.options.selection[0];
+                }
+                else {
+                    this.options.showDetailFor = new ShowDetail();
+                }
             }
 
-            if (this.options.selection.length == 1) {
-                this.options.showDetailFor = new ShowDetail();
-                this.options.showDetailFor.item = this.options.selection[0];
+            for (var i = 0; i < oldSelection.length; i++) {
+                this.updateRow(oldSelection[i]);
             }
 
-            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.options.showDetailFor.item);
-            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.options.showDetailFor.item);
+            for (var i = 0; i < this.options.selection.length; i++) {
+                this.updateRow(this.options.selection[i]);
+            }
+
             this.updateFooterViewModel();
             return true;
+        }
+
+        public updateRow(item: any):void {
+            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item);
+            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item);
         }
 
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {

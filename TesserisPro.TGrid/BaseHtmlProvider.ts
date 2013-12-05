@@ -146,17 +146,16 @@ module TesserisPro.TGrid {
             footer.appendChild(pagerElement);
         }
 
-        public hasDetails(selectedElement: NodeList, option: Options) {
-            if (selectedElement != null && selectedElement.length == 1) {
-                if (option.showDetailFor.column == -1) {
-                    if (option.detailsTemplateHtml != null) {
-                        return true;
-                    }
-                } else if (option.columns[option.showDetailFor.column].cellDetail != null) {
-                    return true;
-                }
+        public getActualDetailsTemplate(option: Options): Template {
+            if (option.showDetailFor.item == null) {
+                return null;
             }
-            return false;
+
+            if (option.showDetailFor.column == -1) {
+                return option.detailsTemplateHtml;
+            }
+
+            return option.columns[option.showDetailFor.column].cellDetail;
         }
 
         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
