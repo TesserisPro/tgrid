@@ -367,17 +367,19 @@ module TesserisPro.TGrid {
         }
 
         private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number) {
-            if (option.sortDescriptor.asc) {
-                var up = document.createElement("div");
-                up.classList.add("tgrid-arrow-up");
-                sortArrowContainer.appendChild(up);
+            if (option.sortDescriptor.path != null) {
+                if (option.sortDescriptor.asc) {
+                    var up = document.createElement("div");
+                    up.classList.add("tgrid-arrow-up");
+                    sortArrowContainer.appendChild(up);
+                }
+                if (!option.sortDescriptor.asc) {
+                    var down = document.createElement("div");
+                    down.classList.add("tgrid-arrow-down");
+                    sortArrowContainer.appendChild(down);
+                }
+                return sortArrowContainer;
             }
-            if (!option.sortDescriptor.asc) {
-                var down = document.createElement("div");
-                down.classList.add("tgrid-arrow-down");
-                sortArrowContainer.appendChild(down);
-            }
-            return sortArrowContainer;
         }
 
         private removeArrows(htmlNode: HTMLElement): void {

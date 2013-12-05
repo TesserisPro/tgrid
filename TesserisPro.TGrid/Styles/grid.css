@@ -241,9 +241,9 @@
 }
 
 
-thead>tr> .tgrid-table-indent-cell {
+/*thead>tr> .tgrid-table-indent-cell {
     display:none;
-}
+}*/
 
 .tgrid-filter-popup {
     position: absolute;
@@ -258,8 +258,7 @@ thead>tr> .tgrid-table-indent-cell {
     display: none;
 }
 
-.tgrid-filter-button{
-    background: url(../images/filter.png) no-repeat;
+.tgrid-filter-button, .tgrid-filter-indicator, .tgrid-filter-button-active {
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -269,7 +268,14 @@ thead>tr> .tgrid-table-indent-cell {
     right: 2px;
 }
 
-.tgrid-group-button{
+.tgrid-filter-button, .tgrid-filter-indicator {
+    background: url(../images/filter.png) no-repeat;
+}
+.tgrid-filter-button-active{
+    background: url(../images/filter_active.png) no-repeat;
+}
+
+.tgrid-group-button, .tgrid-group-indicator, .tgrid-group-button-active {
     background: url(../images/group.png) no-repeat;
     display: inline-block;
     text-align: right;    
@@ -279,9 +285,11 @@ thead>tr> .tgrid-table-indent-cell {
     top: 2px;
     right: 20px;
 }
+.tgrid-group-button-active{
+    background: url(../images/groupActive.jpg) no-repeat;
+}
 
-.tgrid-sort-button{
-    background: url(../images/arrow_up.png) no-repeat;
+.tgrid-sort-button,.tgrid-sort-button-asc, .tgrid-sort-button-desc, .tgrid-sort-indicator-asc, .tgrid-sort-indicator-desc {
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -289,6 +297,18 @@ thead>tr> .tgrid-table-indent-cell {
     position: absolute;
     top: 2px;
     right: 44px;
+}
+
+.tgrid-sort-button {
+    background: url(../images/no-sort.png) no-repeat;
+}
+
+.tgrid-sort-indicator-asc, .tgrid-sort-button-asc{
+    background: url(../images/arrow_up.png) no-repeat;
+}
+
+ .tgrid-sort-indicator-desc, .tgrid-sort-button-desc{
+    background: url(../images/arrow_down.png) no-repeat;
 }
 
 th.tgrid-placeholder {
@@ -361,17 +381,17 @@ ul.tgrid-menu li {
     position: relative;
     border: 1px solid rgb(122, 188, 255);
 }
-
+ 
 
 /* Mobile */
-@media (max-width: 480px) {
+@media (max-width: 1500px) {
     .desktop {
         display: none;
     }
 }
 
 /* Desktop */
-@media (min-width: 481px) {
+@media (min-width: 1501px) {
     .mobile {
         display: none;
     }

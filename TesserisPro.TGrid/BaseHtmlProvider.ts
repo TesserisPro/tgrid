@@ -190,7 +190,7 @@ module TesserisPro.TGrid {
                 var self = this;
                 groupButton.onclick = (e) => {
                     e.cancelBubble = true;
-                    self.updateGoupByMenuContent(option, groupByMenu);
+                    self.updateGroupByMenuContent(option, groupByMenu);
                     unhideElement(groupByMenu);
                     self.doOnClickOutside(groupByMenu, () => hideElement(groupByMenu));
                 }
@@ -277,9 +277,8 @@ module TesserisPro.TGrid {
         private addActualGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                 for (var j = 0; j < option.columns.length; j++) {
-                    if (option.columns[j].groupMemberPath == option.groupBySortDescriptors[i].path) {
-                        var column = option.columns[j];
-
+                    var column = option.columns[j];
+                    if (column.groupMemberPath == option.groupBySortDescriptors[i].path && column.groupMemberPath != null) {
                         var groupByHeaderElement = document.createElement("div");
                         var columnHeader = this.buildColumnHeader(column);
 
@@ -311,7 +310,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        private updateGoupByMenuContent(option: Options, menu: HTMLUListElement) {
+        private updateGroupByMenuContent(option: Options, menu: HTMLUListElement) {
             menu.innerHTML = "";
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].groupMemberPath != null) {
@@ -453,18 +452,18 @@ module TesserisPro.TGrid {
                         this.bindData(option, columnHeader);
 
                         groupByHeaderElement.className = "tgrid-group-by-element";
-                        groupByHeaderElement["data-group-by"] = column.groupMemberPath
+                        groupByHeaderElement["data-group-by"] = column.groupMemberPath != null ? column.groupMemberPath : "";
                         groupByHeaderElement.appendChild(columnHeader);
 
                         //create deleteGroupByElement
                         var buttonsContainer = document.createElement("div");
 
-                        var sortIndicator = document.createElement("div");
-                        sortIndicator.className = "tgrid-group-indicator";
-                        buttonsContainer.appendChild(sortIndicator);
+                        var groupIndicator = document.createElement("div");
+                        groupIndicator.className = "tgrid-group-indicator";
+                        buttonsContainer.appendChild(groupIndicator);
 
                         for (var f = 0; f < option.filterDescriptors.length; f++) {
-                            if (option.filterDescriptors[f].path == column.filterMemberPath) {
+                            if (option.filterDescriptors[f].path == column.filterMemberPath && column.filterMemberPath != null) {
                                 var filterIndicator = document.createElement("div");
                                 filterIndicator.className = "tgrid-filter-indicator";
                                 buttonsContainer.appendChild(filterIndicator);
@@ -472,9 +471,9 @@ module TesserisPro.TGrid {
                             }
                         }
 
-                        if (option.sortDescriptor.path == column.sortMemberPath) {
+                        if (option.sortDescriptor.path == column.sortMemberPath && column.sortMemberPath != null) {
                             var sortIndicator = document.createElement("div");
-                            sortIndicator.className = "tgrid-sort-indicator-" + (option.sortDescriptor.asc) ? "asc" : "desc";
+                            sortIndicator.className = "tgrid-sort-indicator-" + ((option.sortDescriptor.asc) ? "asc" : "desc");
                             buttonsContainer.appendChild(sortIndicator);
                         }
 
@@ -482,41 +481,53 @@ module TesserisPro.TGrid {
                         mobileHeader.appendChild(groupByHeaderElement);
                     }
                 }
+            }
+            for (var j = 0; j < option.columns.length; j++) {
+                var column = option.columns[j];
+                if (addedColumns.indexOf(column) < 0) {
+                    var isHeaderColumnCreated = false;
+                    var headerElement;
+                    //create buttonsContainer
+                    var buttonsContainer = document.createElement("div");
+                    buttonsContainer.className = "tgrid-header-cell-buttons";
 
-                for (var j = 0; j < option.columns.length; j++) {
-                    var column = option.columns[j];
-                    if (addedColumns.indexOf(column) < 0) {
+                    for (var f = 0; f < option.filterDescriptors.length; f++) {
+                        if (option.filterDescriptors[f].path == column.filterMemberPath && column.filterMemberPath != null) {
+                            headerElement = document.createElement("div");
+                            var columnHeader = this.buildColumnHeader(column);
 
-                        var headerElement = document.createElement("div");
-                        var columnHeader = this.buildColumnHeader(column);
+                            this.bindData(option, columnHeader);
 
-                        this.bindData(option, columnHeader);
+                            headerElement.className = "tgrid-group-by-element";
+                            headerElement.appendChild(columnHeader);
 
-                        headerElement.className = "tgrid-group-by-element";
-                        headerElement["data-group-by"] = column.groupMemberPath
-                        headerElement.appendChild(columnHeader);
-
-                        //create deleteGroupByElement
-                        buttonsContainer = document.createElement("div");
-                        buttonsContainer.className = "tgrid-header-cell-buttons";
-           
-                        for (var f = 0; f < option.filterDescriptors.length; f++) {
-                            if (option.filterDescriptors[f].path == column.filterMemberPath) {
-                                var filterIndicator = document.createElement("div");
-                                filterIndicator.className = "tgrid-filter-indicator";
-                                buttonsContainer.appendChild(filterIndicator);
-                                break;
-                            }
+                            isHeaderColumnCreated = true;
+                            var filterIndicator = document.createElement("div");
+                            filterIndicator.className = "tgrid-filter-indicator";
+                            buttonsContainer.appendChild(filterIndicator);
+                            break;
                         }
+                    }
 
-                        if (option.sortDescriptor.path == column.sortMemberPath) {
-                            var sortIndicator = document.createElement("div");
-                            sortIndicator.className = "tgrid-sort-indicator-" + (option.sortDescriptor.asc) ? "asc" : "desc";
-                            buttonsContainer.appendChild(sortIndicator);
+                    if (option.sortDescriptor.path == column.sortMemberPath && column.sortMemberPath != null) {
+                        if (!isHeaderColumnCreated) {
+                            headerElement = document.createElement("div");
+                            var columnHeader = this.buildColumnHeader(column);
+
+                            this.bindData(option, columnHeader);
+
+                            headerElement.className = "tgrid-group-by-element";
+                            headerElement.appendChild(columnHeader);
+                            isHeaderColumnCreated = true;
                         }
+                        var sortIndicator = document.createElement("div");
+                        sortIndicator.className = "tgrid-sort-indicator-"+((option.sortDescriptor.asc) ? "asc" : "desc");
+                        buttonsContainer.appendChild(sortIndicator);
+                    }
 
-                        groupByHeaderElement.appendChild(buttonsContainer);
-                        mobileHeader.appendChild(groupByHeaderElement);
+                    if (isHeaderColumnCreated) {
+                        headerElement.appendChild(buttonsContainer);
+                        mobileHeader.appendChild(headerElement);
                     }
                 }
             }
@@ -534,7 +545,8 @@ module TesserisPro.TGrid {
 
                 button.innerHTML = "";
                 button.appendChild(menu);                         
-                self.doOnClickOutside(mobileHeader, () => { e.cancelBubble = true; hideElement(menu); });
+                self.doOnClickOutside(menu, () => { hideElement(menu); });
+                e.cancelBubble = true; 
             }
 
             mobileHeader.appendChild(button);
@@ -544,55 +556,97 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columns.length; i++) {
                 var column = option.columns[i];
 
-                var menuItem = document.createElement("li");
+                if (column.member != null || column.sortMemberPath != null || column.filterMemberPath != null || column.groupMemberPath != null) {
 
-                var columnHeader = this.buildColumnHeader(column);
-                this.bindData(option, columnHeader);
+                    var menuItem = document.createElement("li");
 
-                var columnContainer = document.createElement("div");
-                columnContainer.className = "tgrid-header-cell-content";
-                columnContainer.appendChild(columnHeader);
+                    var columnHeader = this.buildColumnHeader(column);
+                    this.bindData(option, columnHeader);
 
-                var buttonsContainer = document.createElement("div");
-                buttonsContainer.className = "tgrid-header-cell-buttons";
-                if (option.enableSorting) { 
-                    var sortButton = document.createElement("div");
-                    sortButton.className = "tgrid-sort-button";
-                    buttonsContainer.appendChild(sortButton);
-                    sortButton["data-g-path"] = column.sortMemberPath;
-                    sortButton.onclick = e => {
-                        e.cancelBubble = true;
-                        hideElement(menu);
-                        Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
-                    };
+                    var columnContainer = document.createElement("div");
+                    columnContainer.className = "tgrid-header-cell-content";
+                    columnContainer.appendChild(columnHeader);
+
+                    var buttonsContainer = document.createElement("div");
+                    buttonsContainer.className = "tgrid-header-cell-buttons";
+
+                    if (option.enableSorting && column.sortMemberPath != null) {
+                        var sortButton = document.createElement("div");
+
+                        if (column.sortMemberPath == option.sortDescriptor.path) {
+                            if (option.sortDescriptor.asc == null) {
+                                sortButton.className = "tgrid-sort-button";
+                            } else if (option.sortDescriptor.asc) {
+                                sortButton.className = "tgrid-sort-button-asc";
+                            } else {
+                                sortButton.className = "tgrid-sort-button-desc";
+                            }
+                        } else {
+                            sortButton.className = "tgrid-sort-button";
+                        }
+
+                        buttonsContainer.appendChild(sortButton);
+                        sortButton["data-g-path"] = column.sortMemberPath;
+                        sortButton.onclick = e => {
+                            e.cancelBubble = true;
+                            hideElement(menu);
+                            Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
+                        };
+                    }
+                    if (option.enableFiltering && column.filterMemberPath != null) {
+                        var filterButton = document.createElement("div");
+                        var isFiltered = false;
+
+                        for (var j = 0; j < option.filterDescriptors.length; j++) {
+                            if (option.filterDescriptors[j].path == column.filterMemberPath) {
+                                filterButton.className = "tgrid-filter-button-active";
+                                isFiltered = true;
+                                break;
+                            }
+                        }
+
+                        if (!isFiltered) {
+                            filterButton.className = "tgrid-filter-button";
+                        }
+
+                        buttonsContainer.appendChild(filterButton);
+                        filterButton["data-g-column"] = column;
+                        filterButton.onclick = e => {
+                            e.cancelBubble = true;
+                            hideElement(menu);
+                            Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
+                        };
+                    }
+                    if (option.enableGrouping && column.groupMemberPath != null) {
+                        var groupButton = document.createElement("div");
+                        var isGrouped = false;
+
+                        for (var j = 0; j < option.groupBySortDescriptors.length; j++) {
+                            if (option.groupBySortDescriptors[j].path == column.groupMemberPath) {
+                                groupButton.className = "tgrid-group-button-active";
+                                isGrouped = true;
+                                break;
+                            }
+                        }
+
+                        if (!isGrouped) {
+                            groupButton.className = "tgrid-group-button";
+                        }
+
+                        buttonsContainer.appendChild(groupButton);
+                        groupButton["data-g-path"] = column.groupMemberPath;
+                        groupButton.onclick = e => {
+                            e.cancelBubble = true;
+                            hideElement(menu);
+                            var grid = Grid.getGridObject(<HTMLElement>e.target);
+                            grid.toggleGroupDescriptor(<string>e.target["data-g-path"]);
+                        };
+                    }
+                    columnContainer.appendChild(buttonsContainer);
+                    menuItem.appendChild(columnContainer);
+                    menuItem.appendChild(buttonsContainer);
+                    menu.appendChild(menuItem);
                 }
-                if (option.enableFiltering) {
-                    var filterButton = document.createElement("div");
-                    filterButton.className = "tgrid-filter-button";
-                    buttonsContainer.appendChild(filterButton);
-                    filterButton["data-g-column"] = column;
-                    filterButton.onclick = e => {
-                        e.cancelBubble = true;
-                        hideElement(menu);
-                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
-                    };
-                }
-                if(option.enableGrouping) {
-                    var groupButton = document.createElement("div");
-                    groupButton.className = "tgrid-group-button";
-                    buttonsContainer.appendChild(groupButton);
-                    groupButton["data-g-path"] = column.groupMemberPath;
-                    groupButton.onclick = e => {
-                        e.cancelBubble = true;
-                        hideElement(menu);
-                        var grid = Grid.getGridObject(<HTMLElement>e.target);
-                        grid.togleGroupDescriptor(<string>e.target["data-g-path"]);
-                    };
-                }
-                columnContainer.appendChild(buttonsContainer);
-                menuItem.appendChild(columnContainer);
-                menuItem.appendChild(buttonsContainer);
-                menu.appendChild(menuItem);
             }
         }
 
@@ -618,11 +672,13 @@ module TesserisPro.TGrid {
             if (column.header != null) {
                 column.header.applyTemplate(headerElement);
             } else {
-                var headerText = column.member;
-                this.buildDefaultHeader(headerElement, column.member);
+                var headerText = column.member != null ? column.member : '';
+                this.buildDefaultHeader(headerElement, headerText);
             }
 
             return headerElement;
         }
+
+       
     }
 }

@@ -457,7 +457,7 @@ module TesserisPro.TGrid {
             this.refreshBody();
         }
 
-        public togleGroupDescriptor(name: string): void {
+        public toggleGroupDescriptor(name: string): void {
             for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                 if (this.options.groupBySortDescriptors[i].path == name) {
                     this.removeGroupDescriptor(name);

@@ -427,18 +427,20 @@ module TesserisPro.TGrid {
             return headerTr;
         }
 
-        private addArrows(htmlNode: Node, option: Options, columnNumber: number): Node {
-            if (option.sortDescriptor.asc) {
-                var up = document.createElement("div");
-                up.classList.add("tgrid-arrow-up");
-                htmlNode.appendChild(up);
+        private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number): Node {
+            if (option.sortDescriptor.path != null) {
+                if (option.sortDescriptor.asc) {
+                    var up = document.createElement("div");
+                    up.classList.add("tgrid-arrow-up");
+                    sortArrowContainer.appendChild(up);
+                }
+                if (!option.sortDescriptor.asc) {
+                    var down = document.createElement("div");
+                    down.classList.add("tgrid-arrow-down");
+                    sortArrowContainer.appendChild(down);
+                }
+                return sortArrowContainer;
             }
-            if (!option.sortDescriptor.asc) {
-                var down = document.createElement("div");
-                down.classList.add("tgrid-arrow-down");
-                htmlNode.appendChild(down);
-            }
-            return htmlNode;
         }
 
         private removeArrows(htmlNode: HTMLElement): void {
