@@ -75,7 +75,7 @@ module TesserisPro.TGrid {
                     var element = header.getElementsByTagName("th");
 
                     for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
-                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
+                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[i].sortMemberPath != null) {
                             this.addArrows(element[i].getElementsByClassName("tgrid-header-cell-buttons")[0], option, i);
                         }
                     }
@@ -116,7 +116,7 @@ module TesserisPro.TGrid {
                         (function (i) {
                             headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
                         })(i);
-                        if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
+                        if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
                             this.addArrows(headerButtons, option, i);
                         }
                     }
@@ -367,19 +367,17 @@ module TesserisPro.TGrid {
         }
 
         private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number) {
-            if (option.sortDescriptor.path != null) {
-                if (option.sortDescriptor.asc) {
-                    var up = document.createElement("div");
-                    up.classList.add("tgrid-arrow-up");
-                    sortArrowContainer.appendChild(up);
-                }
-                if (!option.sortDescriptor.asc) {
-                    var down = document.createElement("div");
-                    down.classList.add("tgrid-arrow-down");
-                    sortArrowContainer.appendChild(down);
-                }
-                return sortArrowContainer;
+            if (option.sortDescriptor.asc) {
+                var up = document.createElement("div");
+                up.classList.add("tgrid-arrow-up");
+                sortArrowContainer.appendChild(up);
             }
+            if (!option.sortDescriptor.asc) {
+                var down = document.createElement("div");
+                down.classList.add("tgrid-arrow-down");
+                sortArrowContainer.appendChild(down);
+            }
+            return sortArrowContainer;
         }
 
         private removeArrows(htmlNode: HTMLElement): void {
