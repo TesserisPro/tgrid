@@ -75,7 +75,7 @@ module TesserisPro.TGrid {
                     var element = header.getElementsByTagName("th");
 
                     for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
-                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[i].sortMemberPath != null) {
+                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[j].sortMemberPath != null) {
                             this.addArrows(element[i].getElementsByClassName("tgrid-header-cell-buttons")[0], option, i);
                         }
                     }
