@@ -17,11 +17,11 @@ module TesserisPro.TGrid {
             var condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
             var value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
             var filterDescriptor = new FilterDescriptor(this.path, value, condition);
-            Grid.getGridObject(this.container).setFilters(filterDescriptor);
+            Grid.getGridObject(this.container).setFilters(filterDescriptor, this.path);
         }
 
         public onClear() {
-            Grid.getGridObject(this.container).removeFilters();
+            Grid.getGridObject(this.container).removeFilters(this.path);
         }
 
         public onClose() {

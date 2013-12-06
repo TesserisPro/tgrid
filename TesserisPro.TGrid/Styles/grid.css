@@ -12,7 +12,8 @@
     .tgrid-mobile-header, 
     .tgrid-group-by-element,
     .tgrid-goup-button .tgrid-menu li,
-    .tgrid-mobile-button .tgrid-menu li {
+    .tgrid-mobile-button .tgrid-menu li,
+    .tgrid-mobile-menu li {
         border-left: 1px solid rgb(122,188,255);
         border-right: 1px solid rgb(122,188,255);
         cursor: pointer;
@@ -375,7 +376,7 @@ ul.tgrid-menu, ul.tgrid-mobile-menu {
     z-index:1;
 }
 
-ul.tgrid-menu li {
+ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
     height: 22px;
     margin: 4px !important;
     min-width: 120px;
@@ -389,6 +390,39 @@ ul.tgrid-menu li {
     .desktop {
         display: none;
     }
+
+    .tgrid-filter-popup {
+        position: fixed;
+        background: white;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
+        border: 1px solid rgb(122,188,255);
+        padding: 3px;
+        z-index:1;
+        width: 200px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        margin-left: -105px;
+        margin-top: -50px;
+    }
+
+    ul.tgrid-mobile-menu {
+        position:fixed;
+        padding: 0px;
+        list-style-type: none;
+        background: white; 
+        border: 1px solid gray;
+        margin: 32px 0px 0px 0px; 
+        float: left;
+        text-align: center;
+        z-index:2;
+        width: 200px;
+        height: auto;
+        left: 50%;
+        top: 30%;
+        margin-left: -105px;        
+    }
+
 }
 
 /* Desktop */

@@ -417,7 +417,7 @@ module TesserisPro.TGrid {
                 var self = this;
                 (function (columnNumber) {
                     filter.onclick = (e) => {
-                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY);
+                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY, true);
                         self.doOnClickOutside(filterPopupContainer, () => Grid.getGridObject(<HTMLElement>e.target).hideFilterPopup());
                         e.cancelBubble = true;
                     };
@@ -430,7 +430,7 @@ module TesserisPro.TGrid {
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement): void {
             mobileHeader.innerHTML = "";
             this.updateMobileHeaderColumns(option, mobileHeader);
-            this.createMobileButton(option, mobileHeader);
+            this.createMobileButton(option, mobileHeader, filterPopupContainer);
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
@@ -532,15 +532,15 @@ module TesserisPro.TGrid {
             }
         }
 
-        public createMobileButton(option: Options, mobileHeader: HTMLElement) {
+        public createMobileButton(option: Options, mobileHeader: HTMLElement, filterPopUp: HTMLElement) {
             var button = document.createElement("div");
             button.className = "tgrid-mobile-button";
                 
             var self = this;
             button.onclick = (e) => {
                 var menu = document.createElement("ul");
-                menu.className = "tgrid-menu";
-                this.addMobileMenuItems(option, menu);
+                menu.className = "tgrid-mobile-menu";
+                this.addMobileMenuItems(option, menu, filterPopUp);
 
                 button.innerHTML = "";
                 button.appendChild(menu);                         
@@ -551,7 +551,7 @@ module TesserisPro.TGrid {
             mobileHeader.appendChild(button);
         }
 
-        private addMobileMenuItems(option: Options, menu: HTMLUListElement) {
+        private addMobileMenuItems(option: Options, menu: HTMLUListElement, filterPopUp: HTMLElement) {
             for (var i = 0; i < option.columns.length; i++) {
                 var column = option.columns[i];
 
@@ -610,10 +610,12 @@ module TesserisPro.TGrid {
 
                         buttonsContainer.appendChild(filterButton);
                         filterButton["data-g-column"] = column;
+                        var self = this;
                         filterButton.onclick = e => {
                             e.cancelBubble = true;
                             hideElement(menu);
-                            Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY);
+                            self.doOnClickOutside(filterPopUp, () => { hideElement(filterPopUp); });
+                            Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY, false);
                         };
                     }
                     if (option.enableGrouping && column.groupMemberPath != null) {

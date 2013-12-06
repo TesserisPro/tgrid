@@ -269,7 +269,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        public addFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
+        public updateFilteringPopUp(option: Options, filterPopup: HTMLElement, filterPopupModel: IFilterPopupViewModel) {
             if (option.filterPopup == null) {
                 this.buildDefaultFiltringPopUp(option, filterPopup);
             } else {

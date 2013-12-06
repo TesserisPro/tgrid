@@ -477,10 +477,12 @@ module TesserisPro.TGrid {
             this.refreshBody();
         }
 
-        public showFilterPopup(column: ColumnInfo, pageX: number, pageY: number) {
+        public showFilterPopup(column: ColumnInfo, pageX: number, pageY: number, isForDesktop: boolean) {
             this.filterPopupViewModel.onOpen(this.options, column);
-            this.filterPopUp.style.left = pageX.toString() + "px";
-            this.filterPopUp.style.top = pageY.toString() + "px";
+            if (isForDesktop) {
+                this.filterPopUp.style.left = pageX.toString() + "px";
+                this.filterPopUp.style.top = pageY.toString() + "px";
+            } 
             unhideElement(this.filterPopUp);
         }
 
@@ -826,16 +828,16 @@ module TesserisPro.TGrid {
             this.refreshBody();
        }
 
-        public setFilters(filterDescriptor: FilterDescriptor) {
-            this.removeFilters(false);
+        public setFilters(filterDescriptor: FilterDescriptor, filterPath: string) {
+            this.removeFilters(filterPath, false);
             this.options.filterDescriptors.push(filterDescriptor);
             this.refreshMobileHeader();
             this.refreshBody();
         }
 
-        public removeFilters(isRefresh: boolean = true) {
+        public removeFilters(filterPath: string, isRefresh: boolean = true) {
             for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                if (this.options.filterDescriptors[i].path == this.options.filterPath) {
+                if (this.options.filterDescriptors[i].path == filterPath) {
                     this.options.filterDescriptors.splice(i, 1);
                 }
             }
