@@ -76,7 +76,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10', selectMode: '1', enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true', enableSorting: 'true', showDetailsOnSelection: true, selectionMode: 'multi' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10',  enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true', enableSorting: 'true', showDetailsOnSelection: true, selectionMode: 'single' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-group-member ="name">
             <header>
@@ -84,7 +84,7 @@
             </header>
             <cell>
                 <span style="color: red;" data-bind="text: item.name"></span>
-                <a href data-bind="click: function (e) { showDetailForCell(0); }, clickBubble: false">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(0); }, clickBubble: false">[]</a>
             </cell>
             <celldetail>
                 <div>
@@ -99,7 +99,7 @@
             </header>
             <cell>
                 <span data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { showDetailForCell(1); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(1); }, clickBubble: false">[]</a>
             </cell>
             <celldetail>
                 <div>
@@ -151,11 +151,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;" data-bind="text: item.name"></span>
-                <a href data-bind="click: function () { showDetailForCell(0); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(0); }, clickBubble: false">[]</a>
                 <br />
                 <span>Key: </span>
                 <span style="color: red;" data-bind="text: item.key"></span>
-                <a href data-bind="click: function () { showDetailForCell(1); }">[]</a>
+                <a href data-bind="click: function () { showDetailForCell(1); }, clickBubble: false">[]</a>
                 <br />
                 <span>Key2: </span>
                 <span data-bind="text: item.key2"></span>
@@ -396,7 +396,7 @@
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
 <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectMode="1" groupBy="name key" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" showDetailsOnSelection= "true">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectionMode="single" groupBy="" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" showDetailsOnSelection= "true">
      <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
             <header>
@@ -404,7 +404,7 @@
             </header>
             <cell>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="showDetailForCell(0)">[]</a> @*data-bind="click: function () { showDetailForCell(0); }"*@
+                <a href ng-click="showDetailForCell(0); $event.stopPropagation();">[]</a> @*data-bind="click: function () { showDetailForCell(0); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -417,7 +417,7 @@
             <header>Key</header>
             <cell>
                 <span style="color: red;">{{item.key}}</span>
-                <a href ng-click="showDetailForCell(1)">[]</a> @*data-bind="click: function () { showDetailForCell(1); }"*@
+                <a href ng-click="showDetailForCell(1); $event.stopPropagation();">[]</a> @*data-bind="click: function () { showDetailForCell(1); }"*@
             </cell>
             <celldetail>
                 <div>
@@ -446,11 +446,11 @@
             <div>
                 <span>Name: </span>
                 <span style="color: red;">{{item.name}}</span>
-                <a href ng-click="showDetailForCell(0);">[]</a>
+                <a href ng-click="showDetailForCell(0); $event.stopPropagation();">[]</a>
                 <br />
                 <span>Key: </span>
                 <span style="color: red;">{{item.key}}</span>
-                <a href ng-click="showDetailForCell(1);">[]</a>
+                <a href ng-click="showDetailForCell(1); $event.stopPropagation();">[]</a>
             </div>       
         </mobile>
 

@@ -17,7 +17,7 @@ module TesserisPro.TGrid {
             this.grid.options.showDetailFor.column = columnIndex;
             this.grid.options.showDetailFor.isDetailColumn = true;
             this.grid.options.showDetailFor.item = this.item;
-            this.grid.updateRow();
+            this.grid.updateRow(this.item);
         }
     }
 

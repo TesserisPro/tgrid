@@ -36,10 +36,17 @@ module TGrid.Angular {
                     options.pageSlide = (isNaN(this.pageSlide) || this.pageSlide < 1) ? 1 : this.pageSlide;
                 }
 
-                var editModeAtt = attrs["selectmode"];
-                options.selectionMode = editModeAtt;
-                if (isNaN(this.selectionMode)) {
-                    options.selectionMode = 1;
+                var selectionModeAtt = attrs["selectionmode"];
+                if (selectionModeAtt == "multi") {
+                    options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi;
+                }
+
+                if (selectionModeAtt == "single") {
+                    options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
+                }
+
+                if (selectionModeAtt == "none") {
+                    options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
                 }
 
                 if (attrs["enablevirtualscroll"] == undefined) {

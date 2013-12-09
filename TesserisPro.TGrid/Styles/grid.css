@@ -247,7 +247,7 @@
 }*/
 
 .tgrid-filter-popup {
-    position: fixed;
+    position: absolute;
     top: 16px;
     background: white;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
@@ -386,7 +386,7 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
  
 
 /* Mobile */
-@media (max-width: 1500px) {
+@media (max-width: 480px) {
     .desktop {
         display: none;
     }
@@ -426,7 +426,7 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
 }
 
 /* Desktop */
-@media (min-width: 1501px) {
+@media (min-width: 481px) {
     .mobile {
         display: none;
     }

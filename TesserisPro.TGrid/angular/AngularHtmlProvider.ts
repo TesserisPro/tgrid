@@ -225,7 +225,7 @@ module TesserisPro.TGrid {
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if ((<HTMLElement>container.children.item(i))["dataContext"] == item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
@@ -331,6 +331,8 @@ module TesserisPro.TGrid {
             }
             angular.bootstrap(row, [angularModuleName]);
 
+            row["dataContext"] = item.item;
+
             var placeholderColumn = document.createElement("td");
             placeholderColumn.classList.add("tgrid-placeholder");
             row.appendChild(placeholderColumn);
@@ -352,7 +354,7 @@ module TesserisPro.TGrid {
 
             this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-            detailTr.classList.add("details");
+            detailTr.classList.add("tgrid-details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             template.applyTemplate(detailTd);
             
@@ -488,7 +490,7 @@ module TesserisPro.TGrid {
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if (container.children.item(i)['dataContext'] == item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
@@ -561,7 +563,8 @@ module TesserisPro.TGrid {
 
             row.setAttribute("ng-controller", angularItemViewModel.angularControllerName);
             angular.bootstrap(row, [AngularHtmlProvider.angularModuleName]);
-           
+            row["dataContext"] = item.item;
+
             var placeholderColumn = document.createElement("td");
             placeholderColumn.classList.add("tgrid-placeholder");
             row.appendChild(placeholderColumn);

@@ -87,7 +87,7 @@ module TesserisPro.TGrid {
                 this.filterPopUp = document.createElement("div");
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.filterPopUp.style.display = "none";
-                this.rootElement.appendChild(this.filterPopUp);
+                this.targetElement.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
