@@ -40,7 +40,7 @@
     padding: 2px .6em;
 }
 
-.tgrid-table-group-header {
+.tgrid-table-group-header, .tgrid-mobile-group-header  {
     border-bottom: none !important;
     border-left: none !important;
     background-color: rgb(233, 234, 235) !important;
@@ -58,12 +58,12 @@
     background-color: #dbdbde;
 }
 
-.tgrid-mobile-row, .tgrid-mobile-details, .tgrid-mobile-group-header {
+.tgrid-mobile-row {
     background-color: whitesmoke;
 }
 
 .tgrid-mobile-container .selected {
-    background-color: #dbdbde;
+    background-color: #dbdbde !important;
 }
 
 .tgrid-tablebodycontainer {
@@ -333,7 +333,9 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
 }
 
 .tgrid-mobile-details {
-    color: grey;
+    background-color:#FAFAFA;
+    padding-left: 10px;
+    color: brown;
 }
 
 .hidden {
@@ -357,7 +359,6 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
 tr:nth-child(even), .tgrid-mobile-row:nth-child(even) {
   background-color: whitesmoke;
 }
-
 
 tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
   background-color: white;
