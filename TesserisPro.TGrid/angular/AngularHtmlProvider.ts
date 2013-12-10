@@ -15,12 +15,19 @@ module TesserisPro.TGrid {
         public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
             var size = 0;
             var children = container.children;
-            for (var i = 0; i < children.length; i++) {
-                var child = children.item(i);
-                var viewModel = <ItemViewModel>(items[i]);//ko.contextFor(child).$root);
-
-                if (viewModel != null && items.indexOf(viewModel) > 0) {
+            if (items == null) {
+                for (var i = 0; i < children.length; i++) {
+                    var child = children.item(i);
                     size += child.clientHeight;
+                }
+            } else {
+                for (var i = 0; i < children.length; i++) {
+                    var child = children.item(i);
+                    var viewModel = <ItemViewModel>(items[i]);//ko.contextFor(child).$root);
+
+                    if (viewModel != null && items.indexOf(viewModel) > 0) {
+                        size += child.clientHeight;
+                    }
                 }
             }
 
@@ -33,7 +40,7 @@ module TesserisPro.TGrid {
             for (var i = 0; i < children.length; i++) {
                 var child = children.item(i);
                 var viewModel = <ItemViewModel>(items[i]);//(ko.contextFor(child).$root);
-                if (viewModel != null && items.indexOf(viewModel) > 0) {
+                if (viewModel != null && items.indexOf(viewModel) >= 0) {
                     size += child.clientHeight;
                 }
                 if (size > scrollTop) {

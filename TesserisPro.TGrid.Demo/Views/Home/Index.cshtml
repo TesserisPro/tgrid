@@ -76,7 +76,7 @@
 
 <h2>Knockout</h2>
 
-<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10',  enableVirtualScroll: 'false', enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true', enableSorting: 'true', showDetailsOnSelection: true, selectionMode: 'single' }">
+<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10',  enableVirtualScroll: true, enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true', enableSorting: 'true', showDetailsOnSelection: true, selectionMode: 'single' }">
     <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-group-member ="name">
             <header>
@@ -237,6 +237,11 @@
                 items[i].key2 = i;
                 items[i].detail = items[i].detail + " " + i;
             }
+
+            //for( var i= 0; i< 1000000; i++)
+            //{
+            //    items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
+            //}
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
@@ -396,7 +401,7 @@
 <h2>Angular</h2>
 <div ng-app="TGrid"> 
 <div ng-controller="ctrl">
-<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectionMode="single" groupBy="" enableVirtualScroll="false" enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" showDetailsOnSelection= "true">
+<t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectionMode="single" groupBy="" enableVirtualScroll=true enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" showDetailsOnSelection= "true">
      <script type="text/html">
         <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
             <header>
@@ -542,6 +547,10 @@
                 items[i].key = i;
                 items[i].detail = items[i].detail +" "+i;
             }
+
+            //for (var i = 0; i < 1000000; i++) {
+            //    items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
+            //}
         }
 
         SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {

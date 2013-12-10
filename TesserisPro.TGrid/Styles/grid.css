@@ -224,13 +224,7 @@
 }
 
 .tgrid-scroll {
-    display: inline-block;
-    position: absolute;
-    right: 1px;
-    top: 30px;
-    bottom: 36px;
-    width:32px;
-    overflow: scroll;
+
 }
 
 .tgrid-scroll div, .tgrid-mobile-group-header-container, .tgrid-mobile-group-indent-div {

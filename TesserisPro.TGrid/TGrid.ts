@@ -48,8 +48,6 @@ module TesserisPro.TGrid {
 
         private footerViewModel: IFooterViewModel;
 
-        
-
         private collapsedFilterGroup: FilterDescriptor[][];
 
         private enablePreload: boolean = true;
@@ -71,7 +69,7 @@ module TesserisPro.TGrid {
 
             this.rootElement = document.createElement("div");
             this.rootElement.className = "tgrid-root";
-           
+
             this.groupByElement = document.createElement("div");
             this.groupByElement.className = "tgrid-group-by-panel desktop";
             this.rootElement.appendChild(this.groupByElement);
@@ -81,7 +79,7 @@ module TesserisPro.TGrid {
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
-            
+
             // filter popup
             if (this.options.enableFiltering) {
                 this.filterPopUp = document.createElement("div");
@@ -119,7 +117,35 @@ module TesserisPro.TGrid {
 
             this.tableBody = document.createElement("tbody");
             bodyTable.appendChild(this.tableBody);
-            this.rootElement.appendChild(this.tableBodyContainer);
+            
+            if (options.enableVirtualScroll) {
+                
+                var scrollContainer = document.createElement("div");
+                scrollContainer.style.position = "relative";
+
+                this.scrollBar = document.createElement("div");
+                this.scrollBar.className = "tgrid-scroll";
+                this.scrollBar.style.position = "absolute";
+                this.scrollBar.style.right = "20px";
+                this.scrollBar.style.top = "0px";
+                this.scrollBar.style.bottom = "0px";
+                this.scrollBar.style.overflowX = "hidden";
+                this.scrollBar.style.overflowY = "scroll";
+
+                var scrollContent = document.createElement("div");
+                scrollContent.style.height = "10000px";
+                scrollContent.style.width = "1px";
+                this.scrollBar.appendChild(scrollContent);
+                scrollContainer.appendChild(this.scrollBar);
+
+                scrollContainer.appendChild(this.tableBodyContainer);
+                this.rootElement.appendChild(scrollContainer);
+
+                this.scrollBar.onscroll = () => this.onManualScroll();
+            }
+            else {
+                this.rootElement.appendChild(this.tableBodyContainer);
+            }
 
             this.mobileContainer = document.createElement("div");
             this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
@@ -129,23 +155,7 @@ module TesserisPro.TGrid {
             this.tableFooter = document.createElement("div");
             this.tableFooter.setAttribute("class", "tgrid-footer");
             this.rootElement.appendChild(this.tableFooter);
-            
 
-                        
-            if (options.enableVirtualScroll) {
-                this.buisyIndicator = document.createElement("div");
-                this.buisyIndicator.className = "tgrid-buisy-indicator";
-                this.rootElement.appendChild(this.buisyIndicator);
-
-                this.scrollBar = document.createElement("div");
-                this.scrollBar.className = "tgrid-scroll";
-                var scrollContent = document.createElement("div");
-                scrollContent.style.height = "1000px";
-                this.scrollBar.appendChild(scrollContent);
-                this.rootElement.appendChild(this.scrollBar);
-
-                this.scrollBar.onmouseup = () => this.onManualScroll();
-            }
 
             this.targetElement.appendChild(this.rootElement);
             this.tableBodyContainer.scrollTop = 0;
@@ -157,6 +167,11 @@ module TesserisPro.TGrid {
                 this.sortBy(this.options.sortDescriptor.path);
             }
             this.refreshFooter();
+
+            this.buisyIndicator = document.createElement("div");
+            this.buisyIndicator.className = "tgrid-buisy-indicator";
+            this.rootElement.appendChild(this.buisyIndicator);
+            this.hideBuisyIndicator();
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -188,7 +203,7 @@ module TesserisPro.TGrid {
         }
 
         private getPreviousPageSize(): number {
-            var realBatchSize = this.options.batchSize + (this.options.firstLoadSize - this.visibleItems.length);
+            var realBatchSize = this.options.batchSize;
 
             var perviousPageFirstItemsNumber = this.firstVisibleItemIndex - realBatchSize;
             if (perviousPageFirstItemsNumber < 0) {
@@ -235,7 +250,7 @@ module TesserisPro.TGrid {
                 result.push(this.options.sortDescriptor);
             }
 
-           
+
             return result;
         }
 
@@ -262,29 +277,33 @@ module TesserisPro.TGrid {
         }
 
         public scrollTable(): void {
-            if (!this.isPreloadingNext && this.enablePreload) {
-                if (this.tableBodyContainer.scrollTop > ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4 * 3) && this.nextPage == null) {
-                    this.preloadNextPage();
+            setTimeout(() => {
+                if (!this.isPreloadingNext && this.enablePreload) {
+                    if (this.tableBodyContainer.scrollTop > ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4 * 3) && this.nextPage == null) {
+                        this.preloadNextPage();
+                    }
                 }
-            }
-            if (!this.isPreloadingPrevious && this.enablePreload) {
-                if (this.tableBodyContainer.scrollTop < ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4) && this.previousPage == null) {
-                    this.preloadPreviousPage();
-                }
-            }
 
-            if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
-                if (this.tableBodyContainer.scrollTop + this.tableBodyContainer.clientHeight >= this.tableBodyContainer.scrollHeight) {
-                    this.showNextPage();
+                if (!this.isPreloadingPrevious && this.enablePreload) {
+                    if (this.tableBodyContainer.scrollTop < ((this.tableBodyContainer.scrollHeight - this.tableBodyContainer.clientHeight) / 4) && this.previousPage == null) {
+                        this.preloadPreviousPage();
+                    }
                 }
-            }
 
-            if (this.firstVisibleItemIndex > 0) {
-                if (this.tableBodyContainer.scrollTop == 0) {
-                    this.showPreviousPage();
+                if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
+                    if (this.tableBodyContainer.scrollTop + this.tableBodyContainer.clientHeight >= this.tableBodyContainer.scrollHeight) {
+                        this.showNextPage();
+                    }
                 }
-            }
-            this.updateGlobalScroll();
+
+                if (this.firstVisibleItemIndex > 0) {
+                    if (this.tableBodyContainer.scrollTop == 0) {
+                        this.showPreviousPage();
+                    }
+                }
+
+                this.updateGlobalScroll();
+            }, 1);
         }
 
         private updateGlobalScroll() {
@@ -297,15 +316,16 @@ module TesserisPro.TGrid {
                         break;
                     }
                 }
-
-                var scrollPosition = (1000 / this.totalItemsCount) * visibleItemNumber;
-
+                
+                this.scrollBar.onscroll = null;
+                var scrollPosition = (10000 / (this.totalItemsCount - 18)) * visibleItemNumber;
+                this.scrollBar.onscroll = () => { this.scrollBar.onscroll = () => this.onManualScroll(); };
                 this.scrollBar.scrollTop = scrollPosition;
             }
         }
 
         private onManualScroll() {
-            var itemSize = (1000 / this.totalItemsCount);
+            var itemSize = (10000 / (this.totalItemsCount -18));
             var itemNumber = this.scrollBar.scrollTop / itemSize;
             this.showBuisyIndicator();
             this.previousPage = null;
@@ -317,7 +337,12 @@ module TesserisPro.TGrid {
                 this.getEffectiveFiltering(),
                 this.getCollapsedGroupFilter(),
                 (items, first, count) => {
-                    this.tableBodyContainer.scrollTop = 1;
+                    if (itemNumber == 0) {
+                        this.silentScrollTableContainer(0);
+                    }
+                    else {
+                        this.silentScrollTableContainer(48);
+                    }
                     this.firstVisibleItemIndex = first;
                     this.visibleItems = items;
                     this.visibleViewModels = this.buildViewModels(this.visibleItems);
@@ -359,15 +384,19 @@ module TesserisPro.TGrid {
 
         private showPreviousPage(): void {
             if (this.previousPage == null) {
+                if (this.firstVisibleItemIndex == 0) {
+                    this.hideBuisyIndicator();
+                    return;
+                }
                 this.showBuisyIndicator();
                 if (!this.isPreloadingPrevious) {
-                    this.preloadNextPage();
+                    this.preloadPreviousPage();
                 }
                 setTimeout(
                     () => {
                         this.showPreviousPage();
                     },
-                    100);
+                    10);
             }
             else if (this.previousPage != null && this.previousPage.length > 0) {
                 this.hideBuisyIndicator();
@@ -386,29 +415,32 @@ module TesserisPro.TGrid {
 
                 this.updateVisibleItems();
 
-                setTimeout(() => {
-                    var skipItems = new Array<ItemViewModel>();
-                    for (var i = 0; i < this.visibleViewModels.length; i++) {
-                        skipItems.push(this.visibleViewModels[i]);
-                        if (this.visibleViewModels[i].item == firstNewItem) {
-                            break;
-                        }
+
+                var skipItems = new Array<ItemViewModel>();
+                for (var i = 0; i < this.visibleViewModels.length - 1; i++) {
+                    skipItems.push(this.visibleViewModels[i]);
+                    if (this.visibleViewModels[i].item == firstNewItem) {
+                        skipItems.push(this.visibleViewModels[i + 1]);
+                        break;
                     }
+                }
 
-                    var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+                var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
 
-                    this.tableBodyContainer.scrollTop = skipSize;
-                    this.previousPage = null;
-                    this.nextPage = null;
-                    this.enablePreload = true;
+                this.silentScrollTableContainer(skipSize);
+                this.previousPage = null;
+                this.nextPage = null;
+                this.enablePreload = true;
 
-                },
-                    1);
             }
         }
 
         private showNextPage(): void {
             if (this.nextPage == null) {
+                if (this.totalItemsCount <= this.firstVisibleItemIndex + this.visibleItems.length) {
+                    this.hideBuisyIndicator();
+                    return;
+                }
                 this.showBuisyIndicator();
                 if (!this.isPreloadingNext) {
                     this.preloadNextPage();
@@ -417,38 +449,64 @@ module TesserisPro.TGrid {
                     () => {
                         this.showNextPage();
                     },
-                    100);
+                    10);
             }
             else if (this.nextPage != null && this.nextPage.length > 0) {
                 this.hideBuisyIndicator();
                 this.enablePreload = false;
-                this.visibleItems.splice(0, this.options.batchSize);
-                this.firstVisibleItemIndex += this.options.batchSize;
 
-                var firstNewItem = this.nextPage[0];
+                var item = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+                var itemNumber = 0;
+
+                for (var i = 0; i < this.visibleItems.length; i++) {
+                    if (item.item == this.visibleItems[i]) {
+                        itemNumber = i;
+                        break;
+                    }
+                }
+
+                var itemsToRemove = itemNumber - this.options.batchSize;
+
+                if (itemsToRemove > 0) {
+                    this.visibleItems.splice(0, itemsToRemove);
+                    this.firstVisibleItemIndex += itemsToRemove;
+                }
+
+                var firstNewItem = item;
+                for (var i = 0; i < this.visibleItems.length - 1; i++) {
+                    if (item.item == this.visibleItems[i]) {
+                        firstNewItem = this.visibleItems[i + 1];
+                        break;
+                    }
+                }
+
                 this.visibleItems = this.visibleItems.concat(this.nextPage);
                 this.visibleViewModels = this.buildViewModels(this.visibleItems);
 
                 this.updateVisibleItems();
 
-                setTimeout(() => {
-                    var skipItems = new Array<ItemViewModel>();
-                    for (var i = 0; i < this.visibleViewModels.length; i++) {
-                        skipItems.push(this.visibleViewModels[i]);
-                        if (this.visibleViewModels[i].item == firstNewItem) {
-                            break;
-                        }
+
+                var skipItems = new Array<ItemViewModel>();
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    skipItems.push(this.visibleViewModels[i]);
+                    if (this.visibleViewModels[i].item == firstNewItem) {
+                        break;
                     }
+                }
 
-                    var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+                var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
 
-                    this.tableBodyContainer.scrollTop = skipSize - this.tableBodyContainer.clientHeight;
-                    this.nextPage = null;
-                    this.previousPage = null;
-                    this.enablePreload = true;
-                },
-                    1);
+                this.silentScrollTableContainer(skipSize);
+                this.nextPage = null;
+                this.previousPage = null;
+                this.enablePreload = true;
             }
+        }
+
+        private silentScrollTableContainer(scrollTop: number) {
+            //this.tableBodyContainer.onscroll = null;
+            this.tableBodyContainer.scrollTop = scrollTop;
+            //setTimeout(() => { this.tableBodyContainer.onscroll = () => this.scrollTable(); }, 10);
         }
 
         public addGroupDescriptor(name: string, asc: boolean): void {
@@ -482,7 +540,7 @@ module TesserisPro.TGrid {
             if (isForDesktop) {
                 this.filterPopUp.style.left = pageX.toString() + "px";
                 this.filterPopUp.style.top = pageY.toString() + "px";
-            } 
+            }
             unhideElement(this.filterPopUp);
         }
 
@@ -507,7 +565,7 @@ module TesserisPro.TGrid {
                     this.options.filterDescriptors.splice(i, 1);
                 }
             }
-            
+
             this.refreshBody();
         }
 
@@ -525,9 +583,9 @@ module TesserisPro.TGrid {
                     this.options.sortDescriptor.asc = true;
                 }
             }
-                this.refreshHeader();
-                this.refreshBody();
-            
+            this.refreshHeader();
+            this.refreshBody();
+
         }
 
         public mobileSortBy(name: string, asc: boolean) {
@@ -564,14 +622,14 @@ module TesserisPro.TGrid {
                     }
                 }
                 else {
-                    this.options.selection = [item.item];                   
+                    this.options.selection = [item.item];
                 }
             } else if (this.options.selectionMode == SelectionMode.Single) {
                 this.options.selection = [item.item];
             } else {
                 this.options.selection = new Array<any>();
             }
-          
+
             if (this.options.openDetailsOnSelection) {
                 if (this.options.selection.length == 1) {
                     this.options.showDetailFor = new ShowDetail();
@@ -594,7 +652,7 @@ module TesserisPro.TGrid {
             return true;
         }
 
-        public updateRow(item: any):void {
+        public updateRow(item: any): void {
             this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item);
             this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item);
         }
@@ -627,7 +685,7 @@ module TesserisPro.TGrid {
                             new GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor),
                             this,
                             true));
-                        
+
                         // clear name of group of deeper level
                         for (var k = j + 1; k < this.options.groupBySortDescriptors.length; k++) {
                             currentGroupNames[k] = "";
@@ -645,12 +703,11 @@ module TesserisPro.TGrid {
             return itemModels;
         }
 
-        private isFiltersEquals(filter: FilterDescriptor, deeperFilter: FilterDescriptor) : boolean {
+        private isFiltersEquals(filter: FilterDescriptor, deeperFilter: FilterDescriptor): boolean {
             // filter have less children then deeper filter
             if (filter.path == deeperFilter.path && filter.value == deeperFilter.value && filter.children.length <= deeperFilter.children.length) {
                 var count = 0;
-                for (var i = 0; i < filter.children.length; i++)
-                {
+                for (var i = 0; i < filter.children.length; i++) {
                     if (filter.children[i].path == deeperFilter.children[i].path && filter.children[i].value == deeperFilter.children[i].value) {
                         count++;
                     }
@@ -671,8 +728,8 @@ module TesserisPro.TGrid {
 
             return false;
         }
-        
-        private filterDescriptorToArray(filterDescriptor: FilterDescriptor): Array<FilterDescriptor>{
+
+        private filterDescriptorToArray(filterDescriptor: FilterDescriptor): Array<FilterDescriptor> {
             var arr = new Array<FilterDescriptor>();
             arr = arr.concat(filterDescriptor.children);
             arr.push(new FilterDescriptor(filterDescriptor.path, filterDescriptor.value, filterDescriptor.condition));
@@ -680,24 +737,22 @@ module TesserisPro.TGrid {
         }
 
         private updateVisibleItems(): void {
-            setTimeout(() => {
-                this.tableBody.innerHTML = "";
-                this.htmlProvider.updateTableBodyElement(
-                    this.options,
-                    this.tableBody,
-                    this.visibleViewModels,
-                    (x, m) => this.selectItem(x, m))
-                this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
-                }, 1);
 
-            setTimeout(() => {
-                this.mobileContainer.innerHTML = "";
-                this.htmlProvider.updateMobileItemsList(
-                    this.options,
-                    this.mobileContainer,
-                    this.visibleViewModels,
-                    (x, m) => this.selectItem(x, m))
-            }, 1);
+            this.tableBody.innerHTML = "";
+            this.htmlProvider.updateTableBodyElement(
+                this.options,
+                this.tableBody,
+                this.visibleViewModels,
+                (x, m) => this.selectItem(x, m));
+            this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
+           
+            this.mobileContainer.innerHTML = "";
+            this.htmlProvider.updateMobileItemsList(
+                this.options,
+                this.mobileContainer,
+                this.visibleViewModels,
+                (x, m) => this.selectItem(x, m));
+
         }
 
         private getHtmlProvider(options: Options): IHtmlProvider {
@@ -753,11 +808,16 @@ module TesserisPro.TGrid {
                             (items, first, count) => {
                                 this.firstVisibleItemIndex = first;
                                 this.visibleItems = items;
-                                this.visibleViewModels = this.buildViewModels(this.visibleItems );
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
                                 this.updateVisibleItems();
                                 this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
+                                }
+                                
+                                if (this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100)) {
+                                    this.options.firstLoadSize *= 2;
+                                    this.refreshBody();
                                 }
                             })
                     });
@@ -794,7 +854,7 @@ module TesserisPro.TGrid {
 
         private updateFooterViewModel() {
             if (this.footerViewModel != null) {
-                this.footerViewModel.setCurrentPage(this.options.currentPage +1);
+                this.footerViewModel.setCurrentPage(this.options.currentPage + 1);
                 this.footerViewModel.setSelectedItem(this.options.selection[0]);
                 this.footerViewModel.setTotalCount(this.totalItemsCount);
                 if (this.options.enablePaging) {
@@ -826,7 +886,7 @@ module TesserisPro.TGrid {
                 }
             }
             this.refreshBody();
-       }
+        }
 
         public setFilters(filterDescriptor: FilterDescriptor, filterPath: string) {
             this.removeFilters(filterPath, false);
