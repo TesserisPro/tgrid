@@ -1,0 +1,30 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
+        <script  type="text/html">
+            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
+                <cell>
+                    <span style="color: green;" data-bind="text: item.Name, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>                                     
+                    <input class="hidden" style="color: red;" data-bind="value: item.Name, css: { visible: model.editingItem() == item} "></input>                    
+                </cell>
+            </column>
+            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key"> 
+                <cell>
+                    <span data-bind="text: item.Surname, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item } "></span>
+                    <input class="hidden" data-bind="value: item.Surname, css: { visible: model.editingItem() == item }"></input>
+                </cell>
+            </column>
+            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">            
+                <cell>
+                    <span style="color: red;" data-bind="text: item.Age, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>
+                    <input class="hidden" style="color: red;" data-bind="value: item.Age, css: { visible: model.editingItem() == item }"></input>
+                </cell>
+            </column>
+        </script>
+    </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

@@ -448,7 +448,7 @@ module TesserisPro.TGrid {
             
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
-            if (item.isGroupHeader && option.groupHeaderTemplate != null) {
+            if (item.isGroupHeader) {
                 var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
                 container.appendChild(mobileGroupHeader);
                 ko.applyBindings(item, mobileGroupHeader);

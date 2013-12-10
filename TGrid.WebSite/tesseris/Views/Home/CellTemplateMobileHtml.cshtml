@@ -1,0 +1,24 @@
+﻿ <!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
+        <script type="text/html">
+            <mobile>
+                <div>
+                    <span>First name : </span>
+                    <span style="font-weight:700;" data-bind="text: item.Name"></span>
+                    <br />
+                    <span>Last name : </span>
+                    <span style="color:red;" data-bind="text: item.Surname"></span>
+                    <br />
+                    <span style="font-style: italic;">Age: </span>
+                    <span style="font-style: italic;" data-bind="text: item.Age"></span>
+                </div>
+            </mobile>
+        </script>
+    </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

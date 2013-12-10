@@ -429,8 +429,10 @@ module TesserisPro.TGrid {
 
         public updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement): void {
             mobileHeader.innerHTML = "";
-            this.updateMobileHeaderColumns(option, mobileHeader);
-            this.createMobileButton(option, mobileHeader, filterPopupContainer);
+            if (option.enableSorting || option.enableGrouping || option.enableFiltering) {
+                this.updateMobileHeaderColumns(option, mobileHeader);
+                this.createMobileButton(option, mobileHeader, filterPopupContainer);
+            }
         }
 
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {

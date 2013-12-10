@@ -114,13 +114,6 @@
                 { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
         ];
 
-        SimpleItemsProvider.prototype.isSortable = function () {
-            return false;
-        }
-
-        SimpleItemsProvider.prototype.isFilterable = function () {
-            return true;
-        }
 
         function SimpleItemsProvider() {
             for (var i = 0; i < items.length; i++) {

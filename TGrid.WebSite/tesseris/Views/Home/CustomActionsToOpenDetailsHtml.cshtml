@@ -1,16 +1,16 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: false }">
         <script type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
+            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">            
                 <cell>
-                    <span style="display: inline-block;" data-bind="text: item.Name">...</span>
-                    <a href data-bind="click: function () { showDetailForCell(0); },  clickBubble: false">...</a>
+                    <span style="display: inline-block;" data-bind="text: item.Name"></span>
+                    <span data-bind="event: { mouseover: function () { showDetailForCell(0);} }, eventBubble: false">...</span>
                 </cell>
                 <celldetail>
                     <div>
-                        <div>This is a sample of cell details: </div>
+                        <div>This is a sample of table cell details:  </div>
                         <div style="color: #444;" data-bind="text: item.detail_Name"></div>
                     </div>
                 </celldetail>
@@ -18,20 +18,28 @@
             <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
                 <cell>
                     <span style="display: inline-block;" data-bind="text: item.Surname"></span>
-                    <a href data-bind="click: function () { showDetailForCell(1); },  clickBubble: false">...</a>
+                    <span data-bind=" event: { mouseover: function () { showDetailForCell(1) } },  eventBubble: false">...</span>
                 </cell>
                 <celldetail>
                     <div>
-                        <div>This is a sample of cell details: </div>
+                        <div>This is a sample of table cell details:  </div>
                         <div style="color: #444;" data-bind="text: item.detail_Surname"></div>
                     </div>
                 </celldetail>
             </column>
             <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
             </column>
+            <column data-g-width="150" data-g-views="mobile,desktop">
+                <header>
+                    <span>Details for row</span>
+                </header>
+                    <cell>
+                    <button style="color: #444;" data-bind=" click: function () { showDetailForCell(-1) },  clickBubble: false">Details</button>
+                </cell>
+            </column>
             <details>
                 <div>
-                    <div>This is a sample of row details: </div>
+                    <div>This is a sample of table row details:  </div>
                     <div style="color: #444;" data-bind="text: item.detail"></div>
                     <div><span>First Name : </span><span style="color: #444;" data-bind="text: item.Name"></span></div>
                     <div><span>Last Name : </span><span style="color: #444;" data-bind="text: item.Surname"></span></div>

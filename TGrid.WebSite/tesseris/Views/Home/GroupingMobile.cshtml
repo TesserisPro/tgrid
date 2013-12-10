@@ -30,201 +30,186 @@
     <div>
         <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: 'true' }">
             <script type="text/html">
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name" data-g-group-member="name">         
-            
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
                 </column>
-                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key" data-g-group-member="key">
-          
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
                 </column>
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="key2" data-g-group-member="key2">
-           
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
                 </column>
             </script>
         </div>
-<script type="text/javascript">
-    var SimpleItemsProvider = (function () {
-        var items = [
-                { name: "Jong", key: "Figgins", key2: "a3", detail: "details item a1 a4", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sharilyn", key: "Ham", key2: "b4", detail: "details item b1 c3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Matthew", key: "Holz", key2: "a2", detail: "details item c1 b3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Jasmine", key: "Seidel", key2: "a3", detail: "details item a2 a3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Nevada", key: "Ronan", key2: "a1", detail: "details item b2 c2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Christiana ", key: "Gardella", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Cathrine", key: "Swanson", key2: "a1", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Allena", key: "Gardella", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Rufina", key: "Gardella", key2: "b4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sonny", key: "Swanson", key2: "c2", detail: "details item a4 a1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Allena", key: "Arboleda", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Nicole", key: "Newlin", key2: "c4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Theron", key: "Thrush", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Georgann", key: "Smartt", key2: "b2", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
-        ];
+        <script type="text/javascript">
+            var SimpleItemsProvider = (function () {
+                var items = [
+                        { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins", details: { a: "test", b: 1 } },
+                        { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham", details: { a: "test", b: 1 } },
+                        { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz", details: { a: "test", b: 1 } },
+                        { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel", details: { a: "test", b: 1 } },
+                        { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan", details: { a: "test", b: 1 } },
+                        { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+                        { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson", details: { a: "test", b: 2 } },
+                        { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+                        { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+                        { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson", details: { a: "test", b: 1 } },
+                        { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda", details: { a: "test", b: 2 } },
+                        { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin", details: { a: "test", b: 2 } },
+                        { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush", details: { a: "test", b: 2 } },
+                        { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt", details: { a: "test", b: 2 } },
+                        { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "details item First name: Rob", detail_Surname: "Last name: Premo", details: { a: "test", b: 1 } }
+                ];
 
-        SimpleItemsProvider.prototype.isSortable = function () {
-            return false;
-        }
-
-        SimpleItemsProvider.prototype.isFilterable = function () {
-            return false;
-        }
-
-        function SimpleItemsProvider() {
-            for (var i = 0; i < items.length; i++) {
-                items[i].key2 = i;
-                items[i].detail = items[i].detail + " " + i;
-            }
-        }
-
-        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
-            var oldItems = new Array();
-            oldItems = oldItems.concat(items);
-            sort(sortDescriptors);
-            setTimeout(function () {
-                callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-                items = new Array();
-                items = items.concat(oldItems);
-            }, 200);
-        };
-
-        SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-            callback(onFiltering(filterDescriptors).length);
-        };
-
-        function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
-            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
-                return items;
-            }
-            var isCollapsedItem = [];
-            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
-                isCollapsedItem.push(false);
-            }
-
-            var filterdItems = [];
-            for (var j = 0; j < items.length; j++) {
-                // filtering common filters
-                var isFiltered = 0;
-                for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (filter(items[j], filterDescriptors[i])) {
-                        isFiltered++;
-                    }
+                function SimpleItemsProvider() {
                 }
 
-                // filtering collapsed filter
-                var isCollapsedFiltered = false;
-                var numberfilter = -1;
-                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
-                    if (filter(items[j], collapsedFilterDescriptors[i])) {
-                        isCollapsedFiltered = true;
-                        numberfilter = i;
-                        i = collapsedFilterDescriptors.length;
-                    }
-                }
+                SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
+                    var oldItems = new Array();
+                    oldItems = oldItems.concat(items);
+                    sort(sortDescriptors);
+                    setTimeout(function () {
+                        callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                        items = new Array();
+                        items = items.concat(oldItems);
+                    }, 200);
+                };
 
-                if (isFiltered == 0 && !isCollapsedFiltered) {
-                    filterdItems.push(items[j]);
-                } else {
-                    if (isFiltered == 0) {
-                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
-                            var fakeItem = {};
-                            fakeItem["isFakeItem"] = true;
-                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
-                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
-                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+                    callback(onFiltering(filterDescriptors).length);
+                };
+
+                function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
+                    if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
+                        return items;
+                    }
+                    var isCollapsedItem = [];
+                    for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                        isCollapsedItem.push(false);
+                    }
+
+                    var filterdItems = [];
+                    for (var j = 0; j < items.length; j++) {
+                        // filtering common filters
+                        var isFiltered = 0;
+                        for (var i = 0; i < filterDescriptors.length; i++) {
+                            if (filter(items[j], filterDescriptors[i])) {
+                                isFiltered++;
                             }
-                            filterdItems.push(fakeItem);
-                            isCollapsedItem[numberfilter] = true;
+                        }
+
+                        // filtering collapsed filter
+                        var isCollapsedFiltered = false;
+                        var numberfilter = -1;
+                        for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                            if (filter(items[j], collapsedFilterDescriptors[i])) {
+                                isCollapsedFiltered = true;
+                                numberfilter = i;
+                                i = collapsedFilterDescriptors.length;
+                            }
+                        }
+
+                        if (isFiltered == 0 && !isCollapsedFiltered) {
+                            filterdItems.push(items[j]);
+                        } else {
+                            if (isFiltered == 0) {
+                                if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                                    var fakeItem = {};
+                                    fakeItem["isFakeItem"] = true;
+                                    fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                                    for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                        fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                                    }
+                                    filterdItems.push(fakeItem);
+                                    isCollapsedItem[numberfilter] = true;
+                                }
+                            }
                         }
                     }
+
+                    return filterdItems;
                 }
-            }
 
-            return filterdItems;
-        }
-
-        function filter(item, filterDescriptors) {
-            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
-                if (filterDescriptors.children.length == 0) {
-                    return true;
-                } else {
-                    var result = 0
-                    for (var i = 0; i < filterDescriptors.children.length; i++) {
-                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
-                            result++;
+                function filter(item, filterDescriptors) {
+                    if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                        if (filterDescriptors.children.length == 0) {
+                            return true;
+                        } else {
+                            var result = 0
+                            for (var i = 0; i < filterDescriptors.children.length; i++) {
+                                if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                                    result++;
+                                }
+                            }
+                            if (result == filterDescriptors.children.length) {
+                                return true;
+                            }
                         }
                     }
-                    if (result == filterDescriptors.children.length) {
-                        return true;
-                    }
-                }
-            }
 
-            return false;
-        }
-
-        function isFiltering(item, value, condition) {
-            // on true push to filtered items
-            switch (condition) {
-                case 1://equal
-                    return (item == value);
-                case 2://not equal
-                    return (item != value);
-            }
-            return false;
-        }
-
-        function sort(sortDescriptor) {
-            if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
-                items.sort(function (a, b) {
-                    return sortingRecursive(a, b, sortDescriptor, 0);
-                });
-            }
-        };
-
-        function sortingRecursive(a, b, sortDescriptor, i) {
-            if (i != sortDescriptor.length - 1) {
-                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
-                    return sortingOrder(sortDescriptor[i]);
-                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
-                    return sortingOrderDesc(sortDescriptor[i]);
-                return sortingRecursive(a, b, sortDescriptor, i + 1)
-            } else {
-                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
-            }
-        }
-
-        function sortingOrder(sortDescriptor) {
-            return sortDescriptor.asc ? -1 : 1;
-        }
-
-        function sortingOrderDesc(sortDescriptor) {
-            return sortDescriptor.asc ? 1 : -1;
-        }
-
-        function compareItems(item1, item2, columns) {
-            for (var i = 0; i < columns.length; i++) {
-                if (item1[columns[i]] != item2[columns[i]]) {
                     return false;
                 }
-            }
 
-            return true;
-        }
+                function isFiltering(item, value, condition) {
+                    // on true push to filtered items
+                    switch (condition) {
+                        case 1://equal
+                            return (item == value);
+                        case 2://not equal
+                            return (item != value);
+                    }
+                    return false;
+                }
 
-        return SimpleItemsProvider;
-    })();
+                function sort(sortDescriptor) {
+                    if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
+                        items.sort(function (a, b) {
+                            return sortingRecursive(a, b, sortDescriptor, 0);
+                        });
+                    }
+                };
 
-    function vm() {
-        var self = this;
-        self.nameColumnTitle = "First Name";
+                function sortingRecursive(a, b, sortDescriptor, i) {
+                    if (i != sortDescriptor.length - 1) {
+                        if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
+                            return sortingOrder(sortDescriptor[i]);
+                        if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
+                            return sortingOrderDesc(sortDescriptor[i]);
+                        return sortingRecursive(a, b, sortDescriptor, i + 1)
+                    } else {
+                        return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                    }
+                }
 
-        self.itemsProvider = new SimpleItemsProvider();
-    };
+                function sortingOrder(sortDescriptor) {
+                    return sortDescriptor.asc ? -1 : 1;
+                }
 
-    $(function () {
-        ko.applyBindings(new vm());
-    });
-</script>
+                function sortingOrderDesc(sortDescriptor) {
+                    return sortDescriptor.asc ? 1 : -1;
+                }
+
+                function compareItems(item1, item2, columns) {
+                    for (var i = 0; i < columns.length; i++) {
+                        if (item1[columns[i]] != item2[columns[i]]) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+
+                return SimpleItemsProvider;
+            })();
+
+            function vm() {
+                var self = this;
+                self.nameColumnTitle = "First Name";
+
+                self.itemsProvider = new SimpleItemsProvider();
+            };
+
+            $(function () {
+                ko.applyBindings(new vm());
+            });
+        </script>
     </div>
 </body>
 </html>

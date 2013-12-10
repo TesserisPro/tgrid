@@ -1,0 +1,42 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true }">
+        <script type="text/html">
+            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
+                <celldetail>
+                    <div>
+                        <div>This is a sample of cell details: </div>
+                        <div style="color: #444;" data-bind="text: item.detail_Name"></div>
+                    </div>
+                </celldetail>
+            </column>
+            <mobile>
+                <div>
+                    <span>First name: </span>
+                    <span data-bind="text: item.Name"></span>
+                    <a href data-bind="click: function () { showDetailForCell(0); },  clickBubble: false">...</a>
+                    <br />
+                    <span>Last name: </span>
+                    <span data-bind="text: item.Surname"></span>
+                    <br />
+                    <span>Age: </span>
+                    <span data-bind="text: item.Age"></span>
+                </div>
+            </mobile>
+            <details>
+                <div>
+                    <div>This is a sample of row details: </div>
+                    <div style="color: #444;" data-bind="text: item.detail"></div>
+                    <div><span>First Name : </span><span style="color: #444;" data-bind="text: item.Name"></span></div>
+                    <div><span>Last Name : </span><span style="color: #444;" data-bind="text: item.Surname"></span></div>
+                    <div><span>Age : </span><span style="color: #444;" data-bind="text: item.Age"></span></div>
+                </div>
+            </details>
+        </script>
+    </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

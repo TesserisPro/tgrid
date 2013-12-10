@@ -40,25 +40,25 @@ namespace TGrid.Demo.Controllers
             listOfDemosDesktop.Add(new UIModel { title = "Simple grid without paging", url = "SimpleGridWithoutPaging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });            
             listOfDemosDesktop.Add(new UIModel { title = "Cell template", url = "CellTemplate", htmlUrl = "CellTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });            
             listOfDemosDesktop.Add(new UIModel { title = "Header template", url = "HeaderTemplate", htmlUrl = "HeaderTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });            
-            listOfDemosDesktop.Add(new UIModel { title = "Details template", url = "DetailsTemplate", htmlUrl = "DetailsTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });            
-            listOfDemosDesktop.Add(new UIModel { title = "Custom actions to open details", url = "CustomActionsToOpenDetails", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Details template", url = "DetailsTemplate", htmlUrl = "DetailsTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Custom actions to open details", url = "CustomActionsToOpenDetails", htmlUrl = "CustomActionsToOpenDetailsHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Paging", url = "Paging", htmlUrl = "PagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Virtualization/lazy loading", url = "lazyLoading", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" }); 
             listOfDemosDesktop.Add(new UIModel { title = "Custom items provider", url = "CustomItemsProvider", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Grouping", url = "Grouping", htmlUrl = "GroupingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Editing with cell template", url = "EditingWithCellTemplate", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "GroupingWithVirtualizationHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Editing with cell template", url = "EditingWithCellTemplate", htmlUrl = "EditingWithCellTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with virtualization", url = "RowsWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with paging", url = "Performance100000RowsWithPaging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with paging", url = "Performance100000RowsWithPaging", htmlUrl = "Performance100000RowsWithPagingHtml", cssUrl = "StyleCss", jsUrl = "JsPerformance100000RowWithPaging" });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel { title = "Simple grid without paging mobile", url = "SimpleGridWithoutPagingMobile", htmlUrl = "SimpleGridWithoutPagingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Cell template mobile", url = "CellTemplateMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Header template mobile", url = "HeaderTemplateMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Details template mobile", url = "DetailsTemplateMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Paging mobile", url = "PagingMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Virtualization/lazy loading mobile", url = "lazyLoadingMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosMobile.Add(new UIModel { title = "Grouping mobile", url = "GroupingMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosMobile.Add(new UIModel { title = "Cell template mobile", url = "CellTemplateMobile", htmlUrl = "CellTemplateMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            //listOfDemosMobile.Add(new UIModel { title = "Header template mobile", url = "HeaderTemplateMobile", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosMobile.Add(new UIModel { title = "Details template mobile", url = "DetailsTemplateMobile", htmlUrl = "DetailsTemplateMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosMobile.Add(new UIModel { title = "Paging mobile", url = "PagingMobile", htmlUrl = "PagingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosMobile.Add(new UIModel { title = "Virtualization/lazy loading mobile", url = "lazyLoadingMobile", htmlUrl = "lazyLoadingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosMobile.Add(new UIModel { title = "Grouping mobile", url = "GroupingMobile", htmlUrl = "GroupingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
 
             return Json(new { desktop = listOfDemosDesktop, mobile = listOfDemosMobile }, JsonRequestBehavior.AllowGet);
         }

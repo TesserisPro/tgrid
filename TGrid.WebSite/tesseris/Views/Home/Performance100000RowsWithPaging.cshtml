@@ -40,7 +40,7 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: 'true', pageSize: 6, pageSlide: 5 }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSize: 6, pageSlide: 5 }">
             <script type="text/html">
                 <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Name">
                 </column>
@@ -64,199 +64,188 @@
                 </footer>  
             </script>
         </div>
-<script type="text/javascript">
-    var SimpleItemsProvider = (function () {
-        var items = [];
+        <script type="text/javascript">
+            var SimpleItemsProvider = (function () {
+                var items = [];
          
-        SimpleItemsProvider.prototype.getRandomInt = function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        }
-
-        var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
-        (function (genarateRandomInt, items) {
-            var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence'];
-            var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson'];
-            var picturesPaths = ['truck1.png',  'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
-                                'truck8.png', 'truck9.png', 'truck10.jpg', 'truck11.jpg', 'truck12.png', 'truck13.png', 'truck14.png', 'truck15.png',
-                                 'truck16.png', 'truck17.png', 'truck18.png'];
-            var positions = ['Sales Manager', 'Human Resourses Manager', 'Investor Relations Officer', 'Loan Officer', 'Mortgage Banker', 'Mutual Fund Analyst',
-                            'Portfolio Manager', 'Ratings Analyst', 'Real Estate Appraiser', 'Real Estate Officer', 'Residential Appraiser',
-                            'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
-            var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
-            for (var i = 0; i < 100000; i++) {
-                items.push({
-                    Name: names[genarateRandomInt(0, names.length - 1)],
-                    Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
-                    DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
-                    Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
-                    Position: positions[genarateRandomInt(0, positions.length - 1)],
-                    Department: departments[genarateRandomInt(0, departments.length - 1)]
-                });
-            }
-        })(genarateRandomInt, items);
-
-        SimpleItemsProvider.prototype.isSortable = function () {
-            return false;
-        }
-
-        SimpleItemsProvider.prototype.isFilterable = function () {
-            return false;
-        }
-
-        function SimpleItemsProvider() {
-            for (var i = 0; i < items.length; i++) {
-                items[i].key2 = i;
-                items[i].detail = items[i].detail + " " + i;
-            }
-        }
-
-        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
-            var oldItems = new Array();
-            oldItems = oldItems.concat(items);
-            sort(sortDescriptors);
-            callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-            items = new Array();
-            items = items.concat(oldItems);
-        };
-
-        SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-            callback(onFiltering(filterDescriptors).length);
-        };
-
-        function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
-            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
-                return items;
-            }
-            var isCollapsedItem = [];
-            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
-                isCollapsedItem.push(false);
-            }
-
-            var filterdItems = [];
-            for (var j = 0; j < items.length; j++) {
-                // filtering common filters
-                var isFiltered = 0;
-                for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (filter(items[j], filterDescriptors[i])) {
-                        isFiltered++;
-                    }
+                SimpleItemsProvider.prototype.getRandomInt = function getRandomInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1) + min);
                 }
 
-                // filtering collapsed filter
-                var isCollapsedFiltered = false;
-                var numberfilter = -1;
-                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
-                    if (filter(items[j], collapsedFilterDescriptors[i])) {
-                        isCollapsedFiltered = true;
-                        numberfilter = i;
-                        i = collapsedFilterDescriptors.length;
+                var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+                (function (genarateRandomInt, items) {
+                    var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence'];
+                    var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson'];
+                    var picturesPaths = ['truck1.png',  'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
+                                        'truck8.png', 'truck9.png', 'truck10.jpg', 'truck11.jpg', 'truck12.png', 'truck13.png', 'truck14.png', 'truck15.png',
+                                         'truck16.png', 'truck17.png', 'truck18.png'];
+                    var positions = ['Sales Manager', 'Human Resourses Manager', 'Investor Relations Officer', 'Loan Officer', 'Mortgage Banker', 'Mutual Fund Analyst',
+                                    'Portfolio Manager', 'Ratings Analyst', 'Real Estate Appraiser', 'Real Estate Officer', 'Residential Appraiser',
+                                    'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
+                    var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
+                    for (var i = 0; i < 100000; i++) {
+                        items.push({
+                            Name: names[genarateRandomInt(0, names.length - 1)],
+                            Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
+                            DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
+                            Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
+                            Position: positions[genarateRandomInt(0, positions.length - 1)],
+                            Department: departments[genarateRandomInt(0, departments.length - 1)]
+                        });
                     }
+                })(genarateRandomInt, items);
+
+                function SimpleItemsProvider() {
+           
                 }
 
-                if (isFiltered == 0 && !isCollapsedFiltered) {
-                    filterdItems.push(items[j]);
-                } else {
-                    if (isFiltered == 0) {
-                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
-                            var fakeItem = {};
-                            fakeItem["isFakeItem"] = true;
-                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
-                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
-                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
+                    var oldItems = new Array();
+                    oldItems = oldItems.concat(items);
+                    sort(sortDescriptors);
+                    callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                    items = new Array();
+                    items = items.concat(oldItems);
+                };
+
+                SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+                    callback(onFiltering(filterDescriptors).length);
+                };
+
+                function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
+                    if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
+                        return items;
+                    }
+                    var isCollapsedItem = [];
+                    for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                        isCollapsedItem.push(false);
+                    }
+
+                    var filterdItems = [];
+                    for (var j = 0; j < items.length; j++) {
+                        // filtering common filters
+                        var isFiltered = 0;
+                        for (var i = 0; i < filterDescriptors.length; i++) {
+                            if (filter(items[j], filterDescriptors[i])) {
+                                isFiltered++;
                             }
-                            filterdItems.push(fakeItem);
-                            isCollapsedItem[numberfilter] = true;
+                        }
+
+                        // filtering collapsed filter
+                        var isCollapsedFiltered = false;
+                        var numberfilter = -1;
+                        for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                            if (filter(items[j], collapsedFilterDescriptors[i])) {
+                                isCollapsedFiltered = true;
+                                numberfilter = i;
+                                i = collapsedFilterDescriptors.length;
+                            }
+                        }
+
+                        if (isFiltered == 0 && !isCollapsedFiltered) {
+                            filterdItems.push(items[j]);
+                        } else {
+                            if (isFiltered == 0) {
+                                if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                                    var fakeItem = {};
+                                    fakeItem["isFakeItem"] = true;
+                                    fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                                    for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                        fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                                    }
+                                    filterdItems.push(fakeItem);
+                                    isCollapsedItem[numberfilter] = true;
+                                }
+                            }
                         }
                     }
+
+                    return filterdItems;
                 }
-            }
 
-            return filterdItems;
-        }
-
-        function filter(item, filterDescriptors) {
-            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
-                if (filterDescriptors.children.length == 0) {
-                    return true;
-                } else {
-                    var result = 0
-                    for (var i = 0; i < filterDescriptors.children.length; i++) {
-                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
-                            result++;
+                function filter(item, filterDescriptors) {
+                    if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                        if (filterDescriptors.children.length == 0) {
+                            return true;
+                        } else {
+                            var result = 0
+                            for (var i = 0; i < filterDescriptors.children.length; i++) {
+                                if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                                    result++;
+                                }
+                            }
+                            if (result == filterDescriptors.children.length) {
+                                return true;
+                            }
                         }
                     }
-                    if (result == filterDescriptors.children.length) {
-                        return true;
-                    }
-                }
-            }
 
-            return false;
-        }
-
-        function isFiltering(item, value, condition) {
-            // on true push to filtered items
-            switch (condition) {
-                case 1://equal
-                    return (item == value);
-                case 2://not equal
-                    return (item != value);
-            }
-            return false;
-        }
-
-        function sort(sortDescriptor) {
-            if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
-                items.sort(function (a, b) {
-                    return sortingRecursive(a, b, sortDescriptor, 0);
-                });
-            }
-        };
-
-        function sortingRecursive(a, b, sortDescriptor, i) {
-            if (i != sortDescriptor.length - 1) {
-                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
-                    return sortingOrder(sortDescriptor[i]);
-                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
-                    return sortingOrderDesc(sortDescriptor[i]);
-                return sortingRecursive(a, b, sortDescriptor, i + 1)
-            } else {
-                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
-            }
-        }
-
-        function sortingOrder(sortDescriptor) {
-            return sortDescriptor.asc ? -1 : 1;
-        }
-
-        function sortingOrderDesc(sortDescriptor) {
-            return sortDescriptor.asc ? 1 : -1;
-        }
-
-        function compareItems(item1, item2, columns) {
-            for (var i = 0; i < columns.length; i++) {
-                if (item1[columns[i]] != item2[columns[i]]) {
                     return false;
                 }
-            }
 
-            return true;
-        }
+                function isFiltering(item, value, condition) {
+                    // on true push to filtered items
+                    switch (condition) {
+                        case 1://equal
+                            return (item == value);
+                        case 2://not equal
+                            return (item != value);
+                    }
+                    return false;
+                }
 
-        return SimpleItemsProvider;
-    })();
+                function sort(sortDescriptor) {
+                    if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
+                        items.sort(function (a, b) {
+                            return sortingRecursive(a, b, sortDescriptor, 0);
+                        });
+                    }
+                };
 
-    function vm() {
-        var self = this;
-        self.nameColumnTitle = "First Name";
+                function sortingRecursive(a, b, sortDescriptor, i) {
+                    if (i != sortDescriptor.length - 1) {
+                        if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
+                            return sortingOrder(sortDescriptor[i]);
+                        if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
+                            return sortingOrderDesc(sortDescriptor[i]);
+                        return sortingRecursive(a, b, sortDescriptor, i + 1)
+                    } else {
+                        return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+                    }
+                }
 
-        self.itemsProvider = new SimpleItemsProvider();
-    };
+                function sortingOrder(sortDescriptor) {
+                    return sortDescriptor.asc ? -1 : 1;
+                }
 
-    $(function () {
-        ko.applyBindings(new vm());
-    });
-</script>
+                function sortingOrderDesc(sortDescriptor) {
+                    return sortDescriptor.asc ? 1 : -1;
+                }
+
+                function compareItems(item1, item2, columns) {
+                    for (var i = 0; i < columns.length; i++) {
+                        if (item1[columns[i]] != item2[columns[i]]) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+
+                return SimpleItemsProvider;
+            })();
+
+            function vm() {
+                var self = this;
+                self.nameColumnTitle = "First Name";
+
+                self.itemsProvider = new SimpleItemsProvider();
+            };
+
+            $(function () {
+                ko.applyBindings(new vm());
+            });
+        </script>
     </div>
 </body>
 </html>

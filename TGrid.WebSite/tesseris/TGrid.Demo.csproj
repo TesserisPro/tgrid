@@ -154,11 +154,12 @@
     <Content Include="Content\HighlighterStyles\shThemeRDark.css" />
     <Content Include="Content\images\arrow_down.png" />
     <Content Include="Content\images\arrow_up.png" />
+    <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\filter.png" />
     <Content Include="Content\images\filter_active.png" />
     <Content Include="Content\images\gears5.png" />
-    <Content Include="Content\images\group.jpg" />
-    <Content Include="Content\images\groupActive.jpg" />
+    <Content Include="Content\images\group.png" />
+    <Content Include="Content\images\group_active.png" />
     <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo_small.png" />
@@ -263,6 +264,15 @@
     <Content Include="Views\Home\HeaderTemplateHtml.cshtml" />
     <Content Include="Views\Home\PagingHtml.cshtml" />
     <Content Include="Views\Home\Performance100000RowsWithPaging.cshtml" />
+    <Content Include="Views\Home\CellTemplateMobileHtml.cshtml" />
+    <Content Include="Views\Home\CustomActionsToOpenDetailsHtml.cshtml" />
+    <Content Include="Views\Home\DetailsTemplateMobileHtml.cshtml" />
+    <Content Include="Views\Home\GroupingMobileHtml.cshtml" />
+    <Content Include="Views\Home\EditingWithCellTemplateHtml.cshtml" />
+    <Content Include="Views\Home\HeaderTemplateMobileHtml.cshtml" />
+    <Content Include="Views\Home\Performance100000RowsWithPagingHtml.cshtml" />
+    <Content Include="Views\Home\JsPerformance100000RowWithPaging.cshtml" />
+    <Content Include="Views\Home\PagingMobileHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

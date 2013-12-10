@@ -5,36 +5,25 @@
 <pre class="brush: js">
         var SimpleItemsProvider = (function () {
         var items = [
-                { name: "Jong", key: "Figgins", key2: "a3", detail: "details item a1 a4", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sharilyn", key: "Ham", key2: "b4", detail: "details item b1 c3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Matthew", key: "Holz", key2: "a2", detail: "details item c1 b3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Jasmine", key: "Seidel", key2: "a3", detail: "details item a2 a3", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Nevada", key: "Ronan", key2: "a1", detail: "details item b2 c2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Christiana ", key: "Gardella", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Cathrine", key: "Swanson", key2: "a1", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Allena", key: "Gardella", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Rufina", key: "Gardella", key2: "b4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Sonny", key: "Swanson", key2: "c2", detail: "details item a4 a1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } },
-                { name: "Allena", key: "Arboleda", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Nicole", key: "Newlin", key2: "c4", detail: "details item c3 b1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Theron", key: "Thrush", key2: "b4", detail: "details item c2 b2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Georgann", key: "Smartt", key2: "b2", detail: "details item a3 a2", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 2 } },
-                { name: "Rob", key: "Premo", key2: "b1", detail: "details item b3 c1", detail_name: "details item First Name", detail_key: "details item Last Name", details: { a: "test", b: 1 } }
+            { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins", details: { a: "test", b: 1 } },
+            { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham", details: { a: "test", b: 1 } },
+            { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz", details: { a: "test", b: 1 } },
+            { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel", details: { a: "test", b: 1 } },
+            { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan", details: { a: "test", b: 1 } },
+            { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+            { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson", details: { a: "test", b: 2 } },
+            { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+            { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
+            { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson", details: { a: "test", b: 1 } },
+            { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda", details: { a: "test", b: 2 } },
+            { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin", details: { a: "test", b: 2 } },
+            { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush", details: { a: "test", b: 2 } },
+            { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt", details: { a: "test", b: 2 } },
+            { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "details item First name: Rob", detail_Surname: "Last name: Premo", details: { a: "test", b: 1 } },
         ];
 
-        SimpleItemsProvider.prototype.isSortable = function () {
-            return true;
-        }
-
-        SimpleItemsProvider.prototype.isFilterable = function () {
-            return true;
-        }
-
         function SimpleItemsProvider() {
-            for (var i = 0; i < items.length; i++) {
-                items[i].key2 = i;
-                items[i].detail = items[i].detail + " " + i;
-            }
+            
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
