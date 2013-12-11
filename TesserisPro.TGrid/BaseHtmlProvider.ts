@@ -298,34 +298,36 @@ module TesserisPro.TGrid {
         private addActualGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                 for (var j = 0; j < option.columns.length; j++) {
-                    var column = option.columns[j];
-                    if (column.groupMemberPath == option.groupBySortDescriptors[i].path && column.groupMemberPath != null) {
-                        var groupByHeaderElement = document.createElement("div");
-                        var columnHeader = this.buildColumnHeader(column);
+                    if (option.columns[j].device.indexOf("desktop") != -1) {
+                        var column = option.columns[j];
+                        if (column.groupMemberPath == option.groupBySortDescriptors[i].path && column.groupMemberPath != null) {
+                            var groupByHeaderElement = document.createElement("div");
+                            var columnHeader = this.buildColumnHeader(column);
 
-                        this.bindData(option, columnHeader);
+                            this.bindData(option, columnHeader);
 
-                        groupByHeaderElement.className = "tgrid-group-by-element";
-                        groupByHeaderElement["data-group-by"] = column.groupMemberPath
-                        groupByHeaderElement.appendChild(columnHeader);
+                            groupByHeaderElement.className = "tgrid-group-by-element";
+                            groupByHeaderElement["data-group-by"] = column.groupMemberPath;
+                            groupByHeaderElement.appendChild(columnHeader);
 
-                        //create deleteGroupByElement
-                        var buttonsContainer = document.createElement("div");
-                        buttonsContainer.className = "tgrid-header-cell-buttons";
+                            //create deleteGroupByElement
+                            var buttonsContainer = document.createElement("div");
+                            buttonsContainer.className = "tgrid-header-cell-buttons";
 
-                        var deleteGroupButton = document.createElement("div");
-                        deleteGroupButton.className = "tgrid-delete-button";
-                        deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
-                        deleteGroupButton.onclick = (e) => {
-                            e.cancelBubble = true;
-                            Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor((<SortDescriptor>e.target["data-delete-group-by"]).path);
-                        };
+                            var deleteGroupButton = document.createElement("div");
+                            deleteGroupButton.className = "tgrid-delete-button";
+                            deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
+                            deleteGroupButton.onclick = (e) => {
+                                e.cancelBubble = true;
+                                Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor((<SortDescriptor>e.target["data-delete-group-by"]).path);
+                            };
 
-                        buttonsContainer.appendChild(deleteGroupButton);
+                            buttonsContainer.appendChild(deleteGroupButton);
 
-                        groupByHeaderElement.appendChild(buttonsContainer);
-                        
-                        groupByContainer.appendChild(groupByHeaderElement);
+                            groupByHeaderElement.appendChild(buttonsContainer);
+
+                            groupByContainer.appendChild(groupByHeaderElement);
+                        }
                     }
                 }
             }
@@ -334,26 +336,28 @@ module TesserisPro.TGrid {
         private updateGroupByMenuContent(option: Options, menu: HTMLUListElement) {
             menu.innerHTML = "";
             for (var i = 0; i < option.columns.length; i++) {
-                if (option.columns[i].groupMemberPath != null) {
-                    var alreadyGrouped = false;
-                    for (var j = 0; j < option.groupBySortDescriptors.length; j++) {                        
-                        if (option.groupBySortDescriptors[j].path == option.columns[i].groupMemberPath) {
-                            alreadyGrouped = true;
+                if (option.columns[i].device.indexOf("desktop") != -1) {
+                    if (option.columns[i].groupMemberPath != null) {
+                        var alreadyGrouped = false;
+                        for (var j = 0; j < option.groupBySortDescriptors.length; j++) {
+                            if (option.groupBySortDescriptors[j].path == option.columns[i].groupMemberPath) {
+                                alreadyGrouped = true;
+                            }
                         }
-                    }
 
-                    if (!alreadyGrouped) {
-                        var groupMenuItem = document.createElement("li");
-                        groupMenuItem["data-group-by-path"] = option.columns[i].groupMemberPath;
-                        var columnHeader = this.buildColumnHeader(option.columns[i]);
-                        this.bindData(option, columnHeader);
-                        groupMenuItem.appendChild(columnHeader);
-                        groupMenuItem.onclick = (e) => {
-                            hideElement(menu);
-                            Grid.getGridObject(<HTMLElement>e.target).addGroupDescriptor(<string>e.currentTarget["data-group-by-path"], true);
-                        }
+                        if (!alreadyGrouped) {
+                            var groupMenuItem = document.createElement("li");
+                            groupMenuItem["data-group-by-path"] = option.columns[i].groupMemberPath;
+                            var columnHeader = this.buildColumnHeader(option.columns[i]);
+                            this.bindData(option, columnHeader);
+                            groupMenuItem.appendChild(columnHeader);
+                            groupMenuItem.onclick = (e) => {
+                                hideElement(menu);
+                                Grid.getGridObject(<HTMLElement>e.target).addGroupDescriptor(<string>e.currentTarget["data-group-by-path"], true);
+                            }
 
                         menu.appendChild(groupMenuItem);
+                        }
                     }
                 }
             }
