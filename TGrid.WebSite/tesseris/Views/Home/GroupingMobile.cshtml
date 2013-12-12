@@ -23,20 +23,42 @@
         }  
         .tgrid-tableheadercontainer {
             border-bottom: none;
-        }      
+        }
+        .mobile-phone-wrapper {
+            position:relative;
+        }
+        .mobile-grid-container {
+            position:absolute;
+            top: 136px;
+            left: 57px;
+            background: white;
+            height: 519px;
+        }
+        .tgrid-mobile-container.mobile {
+            height: 475px;
+        }
+        .tgrid-mobile-header.mobile {
+            width: 317px;
+            display: table-cell;
+        }    
     </style>    
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: 'true' }">
-            <script type="text/html">
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
-                </column>
-                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
-                </column>
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
-                </column>
-            </script>
+        <div class="mobile-phone-wrapper">
+            <img src="/TGrid.Demo/Content/images/iphone.png">
+            <div class ="mobile-grid-container">
+                <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: 'true' }">
+                    <script type="text/html">
+                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
+                        </column>
+                        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
+                        </column>
+                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
+                        </column>
+                    </script>
+                </div>
+            </div>
         </div>
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {

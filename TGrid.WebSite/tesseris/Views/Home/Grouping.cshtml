@@ -28,7 +28,7 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: 'true' }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true }">
             <script type="text/html">
                 <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
                 </column>
@@ -58,7 +58,7 @@
                     { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "details item First name: Rob", detail_Surname: "Last name: Premo", details: { a: "test", b: 1 } }
                 ];
 
-                function SimpleItemsProvider() {           
+                function SimpleItemsProvider() {
                 }
 
                 SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {

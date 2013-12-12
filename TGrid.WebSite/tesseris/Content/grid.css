@@ -11,7 +11,7 @@
 .tgrid-group-by-element,
 .tgrid-goup-button .tgrid-menu li,
 .tgrid-mobile-button .tgrid-menu li,
-.tgrid-mobile-menu li {       
+.tgrid-mobile-menu li, .tgrid-filter-popup {       
     border-right: 1px solid #BEBEBE;
     cursor: pointer;
     margin: 1px;
@@ -29,6 +29,45 @@
 
 .tgrid-mobile-header {
      border-bottom: 1px solid #BEBEBE;
+}
+
+.tgrid-header-cell-container{
+    margin: 0px;
+    display:inline-block;
+    width: 100%;
+    height: 22px;
+    position: relative;
+}
+
+.tgrid-header-cell-content {
+    margin: 0px;
+    display:inline-block;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+}
+
+.tgrid-header-cell-buttons {
+    margin: 0px;
+    display:inline-block;
+   /* position: absolute;*/
+    right:0;
+    top:0;
+    bottom:0;
+    left:0;
+    width: 55px;
+    float: right;
+}
+
+.tgrid-header-column-resize{
+    right: -4px;
+    width: 4px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    cursor: col-resize;
 }
 
 .tgrid-table tbody tr td, .tgrid-table-group-header {
@@ -115,7 +154,8 @@
 
 .tgrid-mobile-container.mobile {
     overflow:auto;
-    max-height:488px;
+    max-height:516px;
+    width:318px;
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
@@ -130,7 +170,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(images/arrow_up.png) no-repeat;
+    background: url(images/arrow_down.png) no-repeat;
     margin-left: 5px;
 }
 
@@ -138,7 +178,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(images/arrow_down.png) no-repeat;
+    background: url(images/arrow_up.png) no-repeat;
     margin-left: 5px;
 }
 
@@ -187,18 +227,28 @@ td a {
 .tgrid-filter-popup {
     position: absolute;
     top: 16px;
-    background: white;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
-    border: 1px solid rgb(122,188,255);
     padding: 3px;
+    z-index:1;
+    border: 1px solid #BEBEBE;
+    color: grey;
+}
+
+.tgrid-filter-popup-container>select, .tgrid-filter-popup-container>button, .tgrid-filter-popup-container>input {
+    color: #555;
+}
+.tgrid-filter-popup>select, .tgrid-filter-popup>button, .tgrid-filter-popup>input {
+    color: #555;
+}
+.tgrid-filter-popup > button {
+    width: 70px;
+    height:auto;
 }
 
 .tgrid-display-none{
     display: none;
 }
 
-.tgrid-filter-button, .tgrid-filter-indicator, .tgrid-filter-button-active{
-    background: url(images/filter.png) no-repeat;
+ .tgrid-filter-indicator{
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -207,14 +257,50 @@ td a {
     top: 2px;
     right: 2px;
 }
+
+.tgrid-filter-button, .tgrid-filter-button-active {
+    display: inline-block;
+    text-align: right;    
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
 .tgrid-filter-button, .tgrid-filter-indicator {
     background: url(images/filter.png) no-repeat;
 }
-.tgrid-filter-button-active{
-    background: url(images/filter_active.png) no-repeat;
+
+.tgrid-filter-button {
+    background: url(images/filter_mobile.png) no-repeat;
+    
 }
 
-.tgrid-group-button, .tgrid-group-indicator, .tgrid-group-button-active {
+.tgrid-filter-button-active{
+    background: url(images/filter_mobile_active.png) no-repeat;
+}
+
+.tgrid-group-button-active{
+    background: url(images/group_active1.png) no-repeat center;
+    
+}
+.tgrid-group-button {
+    background: url(images/group1.png) no-repeat center;
+   /*background-color: #BEBEBE;*/
+}
+
+.tgrid-group-button, .tgrid-group-button-active {
+    display: inline-block;
+    text-align: right;    
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 2px;
+    right: 40px;
+}
+
+.tgrid-group-indicator  {
     background: url(images/group.png) no-repeat;
     display: inline-block;
     text-align: right;    
@@ -224,9 +310,7 @@ td a {
     top: 2px;
     right: 7px;
 }
-.tgrid-group-button-active{
-    background: url(images/group_active.png) no-repeat;
-}
+
 
 .tgrid-sort-button,.tgrid-sort-button-asc, .tgrid-sort-button-desc, .tgrid-sort-indicator-asc, .tgrid-sort-indicator-desc {
     display: inline-block;
@@ -238,16 +322,41 @@ td a {
     right: 44px;
 }
 
+.tgrid-sort-button, .tgrid-sort-button-asc, .tgrid-sort-button-desc {
+    display: inline-block;
+    text-align: right;    
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 2px;
+    right: 76px;
+}
 .tgrid-sort-button {
-    background: url(images/no-sort.png) no-repeat;
+    background: url(images/no_sort_mobile.png) no-repeat center;
 }
 
-.tgrid-sort-indicator-asc, .tgrid-sort-button-asc{
+.tgrid-sort-button-asc{
+    background: url(images/arrow_up_mobile.png) no-repeat center;
+}
+
+.tgrid-sort-button-desc{
+    background: url(images/arrow_down_mobile.png) no-repeat center;
+}
+
+.tgrid-sort-indicator-asc{
     background: url(images/arrow_up.png) no-repeat;
 }
 
- .tgrid-sort-indicator-desc, .tgrid-sort-button-desc{
+ .tgrid-sort-indicator-desc {
     background: url(images/arrow_down.png) no-repeat;
+}
+
+.tgrid-group-button, .tgrid-group-button-active,
+.tgrid-filter-button, .tgrid-filter-button-active,
+.tgrid-sort-button,.tgrid-sort-button-asc, .tgrid-sort-button-desc {
+    background-color: whitesmoke;
+    border: 1px solid #A39A9A;
+    border-radius: 2px;
 }
 
 th.tgrid-placeholder {
@@ -283,15 +392,30 @@ th.tgrid-placeholder {
     width: 100%;
 }
 
+.tgrid-goup-button {
+    background-image: url(images/group_menu.png);
+    height: 24px;
+    width: 24px;
+}
+
+.tgrid-mobile-button, .tgrid-mobile-button-active {
+    background-image: url(images/menu.png);
+    height: 32px;
+    width: 32px;
+}
+.tgrid-mobile-button {
+    background-image: url(images/menu.png);  
+}
+.tgrid-mobile-button-active {
+    background: url(images/menu_active3.png) no-repeat;
+}
+
 .tgrid-goup-button, 
-.tgrid-mobile-button  {
+.tgrid-mobile-button, .tgrid-mobile-button-active  {
     display: inline-block;
-    background-image: url(images/plus.png);
     background-repeat: no-repeat;
     margin-top: 4px;   
     margin-left: 3.5px;
-    height: 24px;
-    width: 24px;
     background-color: #EEE9E9;
     background-color: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
     background-color: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
@@ -331,7 +455,9 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
     position: relative;
     border: 1px solid #BEBEBE;
 }
-
+ul.tgrid-mobile-menu li {
+    height: 38px;
+}
 .tgrid-mobile-details {
     background-color:#FAFAFA;
     padding-left: 10px;
@@ -364,22 +490,32 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
   background-color: white;
 }
 
+.tgrid-mobile-menu-li-column-header-container {
+    width: 150px;
+    height: 38px;
+    position: relative;
+}
+
+.tgrid-mobile-menu-li-column-header{
+    position: absolute;
+    top: 50%;
+    left:0px;
+    margin-top: -11px;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
     .desktop {
         display: none;
     }
-	.tgrid-filter-popup {
+    .tgrid-filter-popup {
 		position: fixed;
 		top: 16px;
-		background: white;
-		display: none;
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1)));
 		border: 1px solid #BEBEBE;
 		padding: 3px;
 		z-index:1;
-        width: 150px;
-        height: 100px;
+        width: 160px;
+        height: 105px;
         top: 50%;
         left: 50%;
         margin-left: -105px;
@@ -395,11 +531,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
         float: left;
         text-align: center;
         z-index:2;
-        width: 200px;
+        width: 240px;
         height: auto;
         left: 50%;
         top: 30%;
-        margin-left: -105px;        
+        margin-left: -120px;        
     }
 }
 

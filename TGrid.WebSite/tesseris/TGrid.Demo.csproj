@@ -160,6 +160,7 @@
     <Content Include="Content\images\gears5.png" />
     <Content Include="Content\images\group.png" />
     <Content Include="Content\images\group_active.png" />
+    <Content Include="Content\images\iphone.png" />
     <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo_small.png" />
@@ -183,6 +184,7 @@
     <Content Include="Content\images\picturesForGrid\truck7.png" />
     <Content Include="Content\images\picturesForGrid\truck8.png" />
     <Content Include="Content\images\picturesForGrid\truck9.png" />
+    <Content Include="Content\images\plus.png" />
     <Content Include="Content\images\tesseris.png" />
     <Content Include="Content\images\tgridSNS.png" />
     <Content Include="Content\images\web-1.jpg" />
@@ -271,6 +273,14 @@
     <Content Include="Views\Home\Performance100000RowsWithPagingHtml.cshtml" />
     <Content Include="Views\Home\JsPerformance100000RowWithPaging.cshtml" />
     <Content Include="Views\Home\PagingMobileHtml.cshtml" />
+    <Content Include="Views\Home\Filtering.cshtml" />
+    <Content Include="Views\Home\FilteringGroupingSorting.cshtml" />
+    <Content Include="Views\Home\FilteringGroupingSortingMobile.cshtml" />
+    <Content Include="Views\Home\FilteringMobile.cshtml" />
+    <Content Include="Views\Home\FilteringGroupingSortingMobileHtml.cshtml" />
+    <Content Include="Views\Home\FilteringMobileHtml.cshtml" />
+    <Content Include="Views\Home\FilteringGroupingSortingHtml.cshtml" />
+    <Content Include="Views\Home\FilteringHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

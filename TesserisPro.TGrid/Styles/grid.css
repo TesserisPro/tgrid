@@ -377,7 +377,18 @@ ul.tgrid-menu li, ul.tgrid-mobile-menu li  {
     position: relative;
     border: 1px solid rgb(122, 188, 255);
 }
- 
+
+.tgrid-mobile-button-active {
+    height: 32px;
+    background: url(../images/arrow_down.png) no-repeat;
+}
+
+.tgrid-mobile-menu-li-column-header-container {
+
+}
+
+.tgrid-mobile-menu-li-column-header {
+}
 
 /* Mobile */
 @media (max-width: 480px) {
