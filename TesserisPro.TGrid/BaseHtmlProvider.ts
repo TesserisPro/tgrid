@@ -259,7 +259,7 @@ module TesserisPro.TGrid {
             filterCondition.selectedIndex = 1;
 
             var filterText = document.createElement("input");
-            filterText.setAttribute("value", "c3");
+            filterText.setAttribute("value", "");
             filterPopupContainer.appendChild(filterText);
 
             filterPopupContainer.innerHTML += "<br>";

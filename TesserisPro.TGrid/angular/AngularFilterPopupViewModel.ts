@@ -27,10 +27,12 @@ module TesserisPro.TGrid {
             var value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
             var filterDescriptor = new FilterDescriptor(this.path, value, condition);
             Grid.getGridObject(this.container).setFilters(filterDescriptor, this.path);
+            hideElement(this.container);
         }
 
         public onClear() {
             Grid.getGridObject(this.container).removeFilters(this.path);
+            hideElement(this.container);
         }
 
         public onClose() {
