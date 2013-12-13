@@ -136,14 +136,15 @@
 .tgird-page-number {
     margin-left: 1px;
     margin-right: 1px;
-    width: 17px;
+    min-width: 25px;
+    width: auto;
     height: 18px;
     border: 1px solid #BEBEBE;
     display: inline-block;
 }
 
 .tgird-page-number {
-    color: black;
+    color: #555;
     cursor: pointer;
 }
 
@@ -248,7 +249,7 @@ td a {
     display: none;
 }
 
- .tgrid-filter-indicator{
+ .tgrid-filter-indicator, .tgrid-filter-button{
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -258,7 +259,7 @@ td a {
     right: 2px;
 }
 
-.tgrid-filter-button, .tgrid-filter-button-active {
+.tgrid-mobile-filter-button, .tgrid-mobile-filter-button-active {
     display: inline-block;
     text-align: right;    
     height: 32px;
@@ -268,16 +269,15 @@ td a {
     right: 2px;
 }
 
-.tgrid-filter-button, .tgrid-filter-indicator {
+.tgrid-filter-indicator, .tgrid-filter-button {
     background: url(images/filter.png) no-repeat;
 }
 
-.tgrid-filter-button {
+.tgrid-mobile-filter-button {
     background: url(images/filter_mobile.png) no-repeat;
-    
 }
 
-.tgrid-filter-button-active{
+.tgrid-mobile-filter-button-active{
     background: url(images/filter_mobile_active.png) no-repeat;
 }
 
@@ -352,7 +352,7 @@ td a {
 }
 
 .tgrid-group-button, .tgrid-group-button-active,
-.tgrid-filter-button, .tgrid-filter-button-active,
+.tgrid-mobile-filter-button, .tgrid-mobile-filter-button-active,
 .tgrid-sort-button,.tgrid-sort-button-asc, .tgrid-sort-button-desc {
     background-color: whitesmoke;
     border: 1px solid #A39A9A;
@@ -535,7 +535,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
         height: auto;
         left: 50%;
         top: 30%;
-        margin-left: -120px;        
+        margin-left: -140px;        
     }
 }
 

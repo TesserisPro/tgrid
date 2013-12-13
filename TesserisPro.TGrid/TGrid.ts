@@ -926,5 +926,13 @@ module TesserisPro.TGrid {
         private refreshMobileHeader() {
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
         }
+
+        public setDefaultFilterPopUpValues() {
+            for (var i = 0; i < this.filterPopUp.getElementsByTagName('input').length; i++) {
+                if (this.filterPopUp.getElementsByTagName('input')[i].type == 'text') {
+                    this.filterPopUp.getElementsByTagName('input')[i].value = '';
+                }
+            }
+        }
     }
 }

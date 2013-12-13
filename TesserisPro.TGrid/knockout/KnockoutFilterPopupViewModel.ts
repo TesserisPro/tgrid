@@ -17,16 +17,20 @@ module TesserisPro.TGrid {
             var condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
             var value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
             var filterDescriptor = new FilterDescriptor(this.path, value, condition);
-            Grid.getGridObject(this.container).setFilters(filterDescriptor, this.path);
+            var grid = Grid.getGridObject(this.container);
+            grid.setFilters(filterDescriptor, this.path);
+            grid.setDefaultFilterPopUpValues();
             hideElement(this.container);
         }
 
         public onClear() {
             Grid.getGridObject(this.container).removeFilters(this.path);
+            Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
             hideElement(this.container);
         }
 
         public onClose() {
+            Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
             hideElement(this.container);
         }
 
