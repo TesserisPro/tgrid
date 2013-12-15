@@ -238,10 +238,10 @@
                 items[i].detail = items[i].detail + " " + i;
             }
 
-            //for( var i= 0; i< 1000000; i++)
-            //{
-            //    items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
-            //}
+            for( var i= 0; i< 100; i++)
+            {
+                items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
+            }
         }
 
         SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
@@ -548,9 +548,9 @@
                 items[i].detail = items[i].detail +" "+i;
             }
 
-            //for (var i = 0; i < 1000000; i++) {
-            //    items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
-            //}
+            for (var i = 0; i < 100; i++) {
+                items.push({ name: "a4", key: "a1", key2: i, detail: "details item a4 a1", detail_name: "details item Name", detail_key: "details item Key", details: { a: "test", b: 2 } });
+            }
         }
 
         SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
