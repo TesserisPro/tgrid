@@ -933,6 +933,10 @@ module TesserisPro.TGrid {
                     this.filterPopUp.getElementsByTagName('input')[i].value = '';
                 }
             }
+            for (var i = 0; i < this.filterPopUp.getElementsByTagName('select').length; i++) {
+                this.filterPopUp.getElementsByTagName("select")[i].selectedIndex = FilterCondition.None;
+            }
+
         }
     }
 }

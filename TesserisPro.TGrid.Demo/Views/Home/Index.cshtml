@@ -138,6 +138,7 @@
 
         <filterpopup>
             <select data-bind="click: function(){}">
+                <option value="0">None</option>
                 <option value="1">Equals</option>
                 <option value="2">Not Equals</option>
             </select>
@@ -338,9 +339,9 @@
         function isFiltering(item, value, condition) {
             // on false push to filtered items
             switch (condition){
-                case 0://equal
+                case 1://equal
                     return (item == value);
-                case 1://not equal
+                case 2://not equal
                     return (item != value);
             }
             return false;
