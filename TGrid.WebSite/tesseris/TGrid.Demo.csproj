@@ -173,7 +173,6 @@
     <Content Include="Content\images\logo_small_for_doc.jpg" />
     <Content Include="Content\images\menu.png" />
     <Content Include="Content\images\menu_active3.png" />
-    <Content Include="Content\images\no-sort.png" />
     <Content Include="Content\images\no_sort_mobile.png" />
     <Content Include="Content\images\picturesForGrid\truck1.png" />
     <Content Include="Content\images\picturesForGrid\truck10.jpg" />
@@ -192,7 +191,6 @@
     <Content Include="Content\images\picturesForGrid\truck7.png" />
     <Content Include="Content\images\picturesForGrid\truck8.png" />
     <Content Include="Content\images\picturesForGrid\truck9.png" />
-    <Content Include="Content\images\plus.png" />
     <Content Include="Content\images\tesseris.png" />
     <Content Include="Content\images\tgridSNS.png" />
     <Content Include="Content\images\web-1.jpg" />
