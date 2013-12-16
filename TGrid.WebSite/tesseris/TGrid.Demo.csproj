@@ -165,6 +165,8 @@
     <Content Include="Content\images\group.png" />
     <Content Include="Content\images\group_active.png" />
     <Content Include="Content\images\group_menu.png" />
+    <Content Include="Content\images\group_mobile.png" />
+    <Content Include="Content\images\group_mobile_active.png" />
     <Content Include="Content\images\iphone.png" />
     <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />

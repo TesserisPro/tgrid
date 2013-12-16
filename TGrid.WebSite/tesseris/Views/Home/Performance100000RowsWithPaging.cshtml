@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <input id ="url" hidden ="hidden" value ="@Url.Content("~")"/>
+    <input id ="url" hidden ="hidden" value ="/"/>
     <div>
         <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSize: 6, pageSlide: 5 }">
             <script type="text/html">
@@ -84,8 +84,8 @@
                                     'Portfolio Manager', 'Ratings Analyst', 'Real Estate Appraiser', 'Real Estate Officer', 'Residential Appraiser',
                                     'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
                     var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
+                    var path = document.getElementById("url") != null && document.getElementById("url").value != "/" ? document.getElementById("url").value : document.location.host;
                     for (var i = 0; i < 100000; i++) {
-                        var path = document.getElementById("url") != null || document.getElementById("url").value != "/" ? document.getElementById("url").value : document.location.host;
                         items.push({
                             Name: names[genarateRandomInt(0, names.length - 1)],
                             Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
