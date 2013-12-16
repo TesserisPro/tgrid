@@ -39,6 +39,7 @@
     </style>
 </head>
 <body>
+    <input id ="url" hidden ="hidden" value ="@Url.Content("~")"/>
     <div>
         <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSize: 6, pageSlide: 5 }">
             <script type="text/html">
@@ -84,11 +85,12 @@
                                     'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
                     var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
                     for (var i = 0; i < 100000; i++) {
+                        var path = document.getElementById("url")!= null ? document.getElementById("url").value : document.location.host;
                         items.push({
                             Name: names[genarateRandomInt(0, names.length - 1)],
                             Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
                             DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
-                            Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
+                            Picture: path.concat("/Content/images/picturesForGrid/").concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
                             Position: positions[genarateRandomInt(0, positions.length - 1)],
                             Department: departments[genarateRandomInt(0, departments.length - 1)]
                         });

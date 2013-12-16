@@ -153,20 +153,28 @@
     <Content Include="Content\HighlighterStyles\shThemeMidnight.css" />
     <Content Include="Content\HighlighterStyles\shThemeRDark.css" />
     <Content Include="Content\images\arrow_down.png" />
+    <Content Include="Content\images\arrow_down_mobile.png" />
     <Content Include="Content\images\arrow_up.png" />
+    <Content Include="Content\images\arrow_up_mobile.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\filter.png" />
     <Content Include="Content\images\filter_active.png" />
+    <Content Include="Content\images\filter_mobile.png" />
+    <Content Include="Content\images\filter_mobile_active.png" />
     <Content Include="Content\images\gears5.png" />
     <Content Include="Content\images\group.png" />
     <Content Include="Content\images\group_active.png" />
+    <Content Include="Content\images\group_menu.png" />
     <Content Include="Content\images\iphone.png" />
     <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo_small.png" />
     <Content Include="Content\images\logo_small_1.png" />
     <Content Include="Content\images\logo_small_for_doc.jpg" />
+    <Content Include="Content\images\menu.png" />
+    <Content Include="Content\images\menu_active3.png" />
     <Content Include="Content\images\no-sort.png" />
+    <Content Include="Content\images\no_sort_mobile.png" />
     <Content Include="Content\images\picturesForGrid\truck1.png" />
     <Content Include="Content\images\picturesForGrid\truck10.jpg" />
     <Content Include="Content\images\picturesForGrid\truck11.jpg" />
@@ -210,7 +218,6 @@
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />
     <Content Include="Views\Home\CellTemplateHtml.cshtml" />
-    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\knockout-2.3.0.js" />
@@ -288,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
