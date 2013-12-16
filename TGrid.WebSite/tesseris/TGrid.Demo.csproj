@@ -206,7 +206,11 @@
     <Content Include="Scripts\iframe\IHtmlProvider.js" />
     <Content Include="Scripts\iframe\IItemProvider.js" />
     <Content Include="Scripts\iframe\ItemViewModel.js" />
+    <Content Include="Scripts\iframe\tgrid-angular-min.js" />
+    <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
+    <Content Include="Scripts\iframe\tgrid-min.js" />
     <Content Include="Views\Home\CellTemplateHtml.cshtml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\knockout-2.3.0.js" />

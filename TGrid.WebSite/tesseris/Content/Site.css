@@ -134,7 +134,7 @@ img, fieldset {
     position: absolute;
     top: 0;
     left: 0;
-    background: url(/TGrid.Demo/Content/images/gears5.png), whitesmoke;
+    background: url(/Content/images/gears5.png), whitesmoke;
     /*background: url(/Content/images/gears5.png),-webkit-gradient(radial, center center, 0, center center, 460, from(white), to(#EEE9E9));
     background: url(/Content/images/gears5.png),-webkit-radial-gradient(circle, white, #EEE9E9);
     background: url(/Content/images/gears5.png) no-repeat left,-moz-radial-gradient(circle, white, #EEE9E9);
