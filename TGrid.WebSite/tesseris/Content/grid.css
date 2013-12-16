@@ -11,7 +11,8 @@
 .tgrid-group-by-element,
 .tgrid-goup-button .tgrid-menu li,
 .tgrid-mobile-button .tgrid-menu li,
-.tgrid-mobile-menu li, .tgrid-filter-popup {       
+.tgrid-mobile-menu li, .tgrid-filter-popup, 
+.tgrid-filter-popup-button {       
     border-right: 1px solid #BEBEBE;
     cursor: pointer;
     margin: 1px;
@@ -501,6 +502,13 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     top: 50%;
     left:0px;
     margin-top: -11px;
+}
+
+.tgrid-filter-popup-button {
+    width: 70px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid #BEBEBE;
 }
 
 /* Mobile */
