@@ -25,6 +25,28 @@ module TesserisPro.TGrid {
             return null;
         }
 
+        public getVisibleitemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number {
+            var size = 0;
+            var visibleItemsCount = 0;
+            var children = container.children;
+            var visibleItemsSize = 0;
+            for (var i = 0; i < children.length; i++) {
+                var child = children.item(i);
+                size += child.clientHeight;
+
+                if (size > scrollTop) {
+                    visibleItemsCount++;
+                    visibleItemsSize += child.clientHeight;
+                }
+
+                if (visibleItemsSize >= view.clientHeight) {
+                    break;
+                }
+            }
+
+            return visibleItemsCount - 1;
+        }
+
         public getFooterViewModel() {
         }
 
