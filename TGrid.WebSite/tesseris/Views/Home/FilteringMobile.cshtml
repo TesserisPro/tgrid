@@ -46,7 +46,7 @@
 <body>
     <div>
         <div class="mobile-phone-wrapper">
-            <img src="/TGrid.Demo/Content/images/iphone.png">
+            <img src="@Url.Content("~/Content/images/iphone.png")">
             <div class ="mobile-grid-container">
                 <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableFiltering: true }">
                     <script type="text/html">
@@ -62,9 +62,9 @@
                                 <option value="2">Not Equals</option>
                             </select>
                             <input type='text' style="width:150px" value=""><br>
-                            <input type='button' value='Apply' style="width:70px" data-bind="click: function () { onApply(); }"/>
-                            <input type='button' value='Clear' style="width:70px" data-bind="click: function () { onClear(); }"/>
-                            <input type='button' value='Close' style="width:70px" data-bind="click: function () { onClose(); }"/>
+                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">Apply</div>
+                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClear(); }">Clear</div>
+                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Close</div>
                         </filterpopup>
                     </script>
                 </div>

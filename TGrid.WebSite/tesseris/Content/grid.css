@@ -283,11 +283,11 @@ td a {
 }
 
 .tgrid-group-button-active{
-    background: url(images/group_active1.png) no-repeat center;
+    background: url(images/group_mobile_active.png) no-repeat center;
     
 }
 .tgrid-group-button {
-    background: url(images/group1.png) no-repeat center;
+    background: url(images/group_mobile.png) no-repeat center;
    /*background-color: #BEBEBE;*/
 }
 
@@ -509,6 +509,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     height: 20px;
     display: inline-block;
     border: 1px solid #BEBEBE;
+    text-align: center;
 }
 
 /* Mobile */
