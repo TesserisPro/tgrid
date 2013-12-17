@@ -46,6 +46,7 @@ module TesserisPro.TGrid {
         }
 
         public onOpen(options: Options, column: ColumnInfo) {
+            Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
             this.path = column.filterMemberPath;
             this.columnInfo = column;
             for (var i = 0; i < options.filterDescriptors.length; i++) {

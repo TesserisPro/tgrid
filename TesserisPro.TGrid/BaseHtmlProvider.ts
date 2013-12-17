@@ -221,19 +221,19 @@ module TesserisPro.TGrid {
             }
         }
 
-        public showNeededIntends(target: HTMLElement, level: number, grid: TGrid.Grid) {
-            var visibleIntentsNumber = level;
+        public showNeededIndents(target: HTMLElement, level: number, grid: TGrid.Grid) {
+            var visibleIndentsNumber = level;
             var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
             for (var i = 0; i < cells.length; i++) {
                 hideElement(<HTMLElement>cells[i]);
             }
-            //check that number of existing intent-cells is not more than number of needed intent-cells
+            //check that number of existing indent-cells is not more than number of needed indent-cells
             if (cells.length < level) {
-                visibleIntentsNumber = cells.length;
+                visibleIndentsNumber = cells.length;
             }
 
-            for (var i = 0; i < visibleIntentsNumber; i++) {
+            for (var i = 0; i < visibleIndentsNumber; i++) {
                 unhideElement(<HTMLElement>cells[i]);
             }
         }
@@ -245,6 +245,11 @@ module TesserisPro.TGrid {
         public buildDefaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
             var filterCondition = document.createElement("select");
             // append filter conditions
+            var selectOption = document.createElement("option");
+            selectOption.value = FilterCondition.None.toString();
+            selectOption.text = "None";
+            filterCondition.appendChild(selectOption);
+
             var selectOption = document.createElement("option");
             selectOption.value = FilterCondition.Equals.toString();
             selectOption.text = "Equals";
@@ -259,6 +264,7 @@ module TesserisPro.TGrid {
             filterCondition.selectedIndex = 1;
 
             var filterText = document.createElement("input");
+            filterText.type = "text";
             filterText.className = 'tgrid-filter-input-text';
             filterText.setAttribute("value", "");
             filterText.style.width = '150px';
@@ -266,36 +272,27 @@ module TesserisPro.TGrid {
 
             filterPopupContainer.innerHTML += "<br>";
 
-            var applyButton = document.createElement("input");
-            applyButton.type = 'button';
-            applyButton.value = "Apply";
+            var applyButton = document.createElement("div");
+            applyButton.className = "tgrid-filter-popup-button";
             applyButton.style.width = '70px';
             applyButton.onclick = (e) => {
                 var grid = Grid.getGridObject(<HTMLElement>e.target);
                 grid.filterPopupViewModel.onApply();               
             };
+            (<HTMLElement>applyButton).innerHTML = "OK";
             filterPopupContainer.appendChild(applyButton);
+            
 
-            var clearButton = document.createElement("input");
-            clearButton.type = 'button';
-            clearButton.value = "Clear";
+            var clearButton = document.createElement("div");
+            clearButton.className = 'tgrid-filter-popup-button';
             clearButton.style.width = '70px';
             clearButton.onclick = (e) => {
                 var grid = Grid.getGridObject(<HTMLElement>e.target);
-                grid.filterPopupViewModel.onClear();
+                grid.filterPopupViewModel.onClose();
                 filterText.setAttribute("value", "");
             };
+            (<HTMLElement>clearButton).innerHTML = 'Cancel';
             filterPopupContainer.appendChild(clearButton);
-
-            var exitButton = document.createElement("input");
-            exitButton.type = 'button';
-            exitButton.style.width = '70px';
-            exitButton.value = "Close";
-            exitButton.onclick = (e) => {
-                Grid.getGridObject(<HTMLElement>e.target).filterPopupViewModel.onClose();
-                filterText.setAttribute("value", "");
-            };
-            filterPopupContainer.appendChild(exitButton);
         }
 
         private addActualGroupByElements(option: Options, groupByContainer: HTMLElement) {

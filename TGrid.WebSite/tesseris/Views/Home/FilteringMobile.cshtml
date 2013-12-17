@@ -58,13 +58,14 @@
                         </column>
                         <filterpopup>
                             <select data-bind="click: function(){}">
+                                <option value="0">None</option>
                                 <option value="1">Equals</option>
                                 <option value="2">Not Equals</option>
                             </select>
                             <input type='text' style="width:150px" value=""><br>
-                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">Apply</div>
-                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClear(); }">Clear</div>
-                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Close</div>
+                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">OK</div>
+                            @*<div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClear(); }">Clear</div>*@
+                            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Cancel</div>
                         </filterpopup>
                     </script>
                 </div>
@@ -187,9 +188,9 @@
                 function isFiltering(item, value, condition) {
                     // on false push to filtered items
                     switch (condition) {
-                        case 0://equal
+                        case 1://equal
                             return (item == value);
-                        case 1://not equal
+                        case 2://not equal
                             return (item != value);
                     }
                     return false;

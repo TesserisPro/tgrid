@@ -829,11 +829,11 @@ module TesserisPro.TGrid {
                                 this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
-                                }
-                                
-                                if (this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100)) {
-                                    this.options.firstLoadSize *= 2;
-                                    this.refreshBody();
+
+                                    if (this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100)) {
+                                        this.options.firstLoadSize *= 2;
+                                        this.refreshBody();
+                                    }
                                 }
                             })
                     });

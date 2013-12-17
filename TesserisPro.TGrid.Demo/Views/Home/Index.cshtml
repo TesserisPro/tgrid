@@ -78,7 +78,7 @@
 
 <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, pageSize: '10',  enableVirtualScroll: false, enablePaging: 'false', enableCollapsing: 'false', enableGrouping: 'true', enableFiltering: 'true', enableSorting: 'true', showDetailsOnSelection: true, selectionMode: 'single' }">
     <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile" data-g-member ="name" data-g-group-member ="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-group-member ="name">
             <header>
                 <span style="color: red;" data-bind="text: nameColumnTitle"></span>
             </header>
@@ -143,9 +143,8 @@
                 <option value="2">Not Equals</option>
             </select>
             <input type='text' style="width:150px" value=""><br>
-            <input type='button' value='Apply' style="width:70px" data-bind="click: function () { onApply(); }"/>
-            <input type='button' value='Clear' style="width:70px" data-bind="click: function () { onClear(); }"/>
-            <input type='button' value='Close' style="width:70px" data-bind="click: function () { onClose(); }"/>
+            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">OK</div>
+            <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Cancel</div>
         </filterpopup>
 
         <mobile>
@@ -404,7 +403,7 @@
 <div ng-controller="ctrl">
 <t-grid id="test-angular" provider="dataProvider" pageSize="10"  selectionMode="single" groupBy="" enableVirtualScroll=true enablePaging="false" enableCollapsing="false" enableGrouping="true" enableFiltering="true" enableSorting="true" showDetailsOnSelection= "true">
      <script type="text/html">
-        <column data-g-width="150" data-g-views="mobile" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
+        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="name" data-g-sort-member="name" data-g-group-member ="name"  data-g-filter-member="name">
             <header>
                 <span style="color: red;">Name</span>
             </header>
@@ -462,13 +461,13 @@
 
         <filterpopup>
             <select>
+                <option value="0">None</option>
                 <option value="1">Equals</option>
                 <option value="2">Not Equals</option>
             </select>
-            <input  style="width:150px" value=""><br>
-            <input type="button" value ="Apply" style="width:70px" ng-click="onApply()"/>
-            <input type="button" value ="Clear" style="width:70px" ng-click="onClear()">
-            <input type="button" value ="Close" style="width:70px" ng-click="onClose()">
+            <input type="text" style="width:150px" value=""><br>
+            <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">OK</div>
+            <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClose()">Cancel</div>
         </filterpopup>
 
         <details>
@@ -677,9 +676,9 @@
         function isFiltering(item, value, condition) {
             // on false push to filtered items
             switch (condition) {
-                case 0://equal
+                case 1://equal
                     return (item == value);
-                case 1://not equal
+                case 2://not equal
                     return (item != value);
             }
             return false;

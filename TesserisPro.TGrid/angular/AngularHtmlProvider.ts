@@ -94,16 +94,21 @@ module TesserisPro.TGrid {
             this.updateGroupByPanel(option, groupByContainer);
 
             if (header.innerHTML != null && header.innerHTML != "") {
-                //add intends for groupBy
-                this.showNeededIntends(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
+                //add indents for groupBy
+                this.showNeededIndents(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
                 // update table header
                 if (option.enableSorting) {
                     this.removeArrows(header);
                     var element = header.getElementsByTagName("th");
-
-                    for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
-                        if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[j].sortMemberPath != null) {
-                            this.addArrows(element[i].getElementsByClassName("tgrid-header-cell-buttons")[0], option, i);
+                    var indendsQuantity = option.columns.length;
+                    var columnsQuantity = option.columns.length;
+                    var headerElementsQuantity = element.length;
+                    for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
+                        if (option.columns[j].device.indexOf("desktop") != -1) {
+                            if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[j].sortMemberPath != null) {
+                                this.addArrows(element[headerElementNumber].getElementsByClassName("tgrid-header-cell-buttons")[0], option, headerElementNumber);
+                            }
+                            headerElementNumber++;
                         }
                     }
                 }
@@ -114,7 +119,7 @@ module TesserisPro.TGrid {
                 var head = document.createElement("tr");
 
                 this.appendIndent(head, option.columns.length, true);
-                this.showNeededIntends(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
+                this.showNeededIndents(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
                 for (var i = 0; i < option.columns.length; i++) {
                     if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -448,12 +453,14 @@ module TesserisPro.TGrid {
 
         private removeArrows(htmlNode: HTMLElement): void {
             var element = htmlNode.getElementsByClassName("tgrid-arrow-up");
-            if (element.length == 1) {
-                element[0].parentNode.removeChild(element[0]);
+            for (var i = 0; i < element.length; i++) {
+                element[i].parentNode.removeChild(element[i]);
+                i--;
             }
             var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
-            if (element.length == 1) {
-                element[0].parentNode.removeChild(element[0]);
+            for (var i = 0; i < element.length; i++) {
+                element[i].parentNode.removeChild(element[i]);
+                i--;
             }
         }
 
