@@ -882,16 +882,15 @@ module TesserisPro.TGrid {
                                     this.hideBuisyIndicator();
 
                                 }
-                                
+
                                 if (this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100)) {
                                     this.options.firstLoadSize *= 2;
                                     this.refreshBody();
                                 }
 
                                 if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100)) {
-                                        this.options.firstLoadSize *= 2;
-                                        this.refreshBody();
-                                    }
+                                    this.options.firstLoadSize *= 2;
+                                    this.refreshBody();
                                 }
                             })
                     });
