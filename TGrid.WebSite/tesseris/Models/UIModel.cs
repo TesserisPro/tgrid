@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace TGrid.Demo.Models
+namespace TesserisPro.TGrid.Web.Models
 {
     public class UIModel
     {

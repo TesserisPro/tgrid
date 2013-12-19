@@ -54,6 +54,11 @@
 					<xs:documentation>Configuration settings of processing JS-assets</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="assetHandler" type="AssetHandlerSettings_SchemaType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Configuration settings of the debugging HTTP-handler, that responsible for text output of processed asset</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:all>
 		<xs:attribute name="enableTracing" type="Boolean_SchemaType" use="optional" default="false">
 			<xs:annotation>
@@ -65,11 +70,6 @@
 			<xs:annotation>
 				<xs:documentation>List of JS-files with Microsoft-style extensions</xs:documentation>
 			</xs:annotation>			
-		</xs:attribute>
-		<xs:attribute name="useEnableOptimizationsProperty" type="Boolean_SchemaType" use="optional" default="true">
-			<xs:annotation>
-				<xs:documentation>Flag, which makes the debug mode is dependent on the value of the BundleTable.EnableOptimizations property</xs:documentation>
-			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
 
@@ -223,6 +223,30 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
+
+	<xs:complexType name="AssetHandlerSettings_SchemaType">
+		<xs:attribute name="disableServerCache" type="Boolean_SchemaType" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Flag for whether to disable storage text content of processed asset in server cache</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="serverCacheDurationInMinutes" use="optional" default="15">
+			<xs:annotation>
+				<xs:documentation>Duration of storage the text content of processed asset in server cache (in minutes)</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1" />
+					<xs:maxInclusive value="1440" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="disableClientCache" type="Boolean_SchemaType" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Flag for whether to disable storage text content of processed asset in browser cache</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 	<!-- /Core settings -->
 
 	<!-- LESS settings -->
@@ -285,6 +309,16 @@
 		<xs:attribute name="javascriptEnabled" type="Boolean_SchemaType" use="optional" default="true">
 			<xs:annotation>
 				<xs:documentation>Flag for whether to enable JavaScript in less files</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="globalVariables" type="xs:string" use="optional" default="">
+			<xs:annotation>
+				<xs:documentation>String representation of variable list, that can be referenced by the file (semicolon-separated list of values of the form VAR=VALUE)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="modifyVariables" type="xs:string" use="optional" default="">
+			<xs:annotation>
+				<xs:documentation>String representation of variable list, that modifies a variables already declared in the file (semicolon-separated list of values of the form VAR=VALUE)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
@@ -355,11 +389,6 @@
 		<xs:attribute name="removeComments" type="Boolean_SchemaType" use="optional" default="false">
 			<xs:annotation>
 				<xs:documentation>Flag for whether to do not emit comments to output</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="allowBool" type="Boolean_SchemaType" use="optional" default="false">
-			<xs:annotation>
-				<xs:documentation>Flag for whether to allow 'bool' as a synonym for 'boolean'</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="allowAutomaticSemicolonInsertion" type="Boolean_SchemaType" use="optional" default="true">
@@ -1140,6 +1169,16 @@ to preserve references to external symbols.</xs:documentation>
 				<xs:documentation>String representation of the object (comma-separated list of values of the form SYMBOL[=value]) with properties named after symbols to replace (except where symbol has properly declared by a var declaration or use as function parameter or similar) and the values representing the AST replacement value</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attribute name="pureGetters" type="Boolean_SchemaType" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Flag for whether to UglifyJS will assume that object property access (e.g. foo.bar or foo["bar"]) doesn't have any side effects</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pureFunctions" type="xs:string" use="optional" default="">
+			<xs:annotation>
+				<xs:documentation>String representation of the function names list, which UglifyJS will assume that those functions do not produce side effects</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="UglifyManglingSettings_SchemaType">
@@ -1362,10 +1401,44 @@ to preserve references to external symbols.</xs:documentation>
 				<xs:documentation>Flag for whether to keep line breaks</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="removeEmpty" type="Boolean_SchemaType" use="optional" default="false">
+		<xs:attribute name="noAdvanced" type="Boolean_SchemaType" use="optional" default="false">
 			<xs:annotation>
-				<xs:documentation>Flag for whether to remove empty elements</xs:documentation>
+				<xs:documentation>Flag for whether to disable advanced optimizations (selector and property merging, reduction, etc)</xs:documentation>
 			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="selectorsMergeMode" use="optional" default="Ie8Compatible">
+			<xs:annotation>
+				<xs:documentation>Selectors merge mode</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="MergeAll">
+						<xs:annotation>
+							<xs:documentation>Merge all selectors</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Ie8Compatible">
+						<xs:annotation>
+							<xs:documentation>IE8 compatibility mode</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="severity" use="optional" default="0">
+			<xs:annotation>
+				<xs:documentation>
+					Severity level of errors:
+					0 - only error messages;
+					1 - only error messages and warnings.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="1" />
+				</xs:restriction>
+			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
 	<!-- /Clean-css settings -->

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace TGrid.Demo
+namespace TesserisPro.TGrid.Web
 {
     public class RouteConfig
     {

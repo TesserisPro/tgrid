@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 
-namespace TGrid.Demo.App_Start
+namespace TesserisPro.TGrid.Web.App_Start
 {
     public class BundleConfig
     {

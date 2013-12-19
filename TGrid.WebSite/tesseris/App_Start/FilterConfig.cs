@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace TGrid.Demo
+namespace TesserisPro.TGrid.Web
 {
     public class FilterConfig
     {

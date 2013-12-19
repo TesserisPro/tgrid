@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TGrid.Demo.Models;
+using TesserisPro.TGrid.Web.Models;
 
-namespace TGrid.Demo.Controllers
+namespace TesserisPro.TGrid.Web
 {
     public class HomeController : Controller
     {
