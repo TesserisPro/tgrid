@@ -154,8 +154,9 @@
     cursor: default;
 }
 
-.tgrid-mobile-container.mobile {
-    overflow:auto;
+.tgrid-mobile-container {
+    height: 420px;
+    overflow-y: scroll;
     max-height:516px;
     width:318px;
     border-left: 1px solid #BEBEBE;
