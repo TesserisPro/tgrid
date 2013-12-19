@@ -883,13 +883,19 @@ module TesserisPro.TGrid {
 
                                 }
 
-                                if (this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100)) {
+                                if (this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
                                     this.options.firstLoadSize *= 2;
+                                    if (this.options.firstLoadSize > this.totalItemsCount) {
+                                        this.options.firstLoadSize = this.totalItemsCount;
+                                    }
                                     this.refreshBody();
                                 }
 
-                                if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100)) {
+                                if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
                                     this.options.firstLoadSize *= 2;
+                                    if (this.options.firstLoadSize > this.totalItemsCount) {
+                                        this.options.firstLoadSize = this.totalItemsCount;
+                                    }
                                     this.refreshBody();
                                 }
                             })

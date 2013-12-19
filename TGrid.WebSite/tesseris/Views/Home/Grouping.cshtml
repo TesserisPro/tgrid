@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SimpleGridWithoutPaging</title>
+    <title>Grouping</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
 
     <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
@@ -28,15 +28,14 @@
 </head>
 <body>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping:true }">
             <script type="text/html">
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name" data-g-filter-member="Name" data-g-group-member="Name" data-g-sort-member ="Name"> 
                 </column>
-                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Surname" data-g-filter-member="Surname" data-g-group-member="Surname" data-g-sort-member ="Surname">
                 </column>
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
-                </column>
-            </script>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Age" data-g-filter-member="Age" data-g-group-member="Age" data-g-sort-member ="Age">
+            </script>           
         </div>
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {
@@ -69,7 +68,7 @@
                         callback(onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
                         items = new Array();
                         items = items.concat(oldItems);
-                    }, 200);
+                    }, 1);
                 };
 
                 SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
@@ -80,6 +79,11 @@
                     if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                         return items;
                     }
+
+                    if (collapsedFilterDescriptors == undefined) {
+                        collapsedFilterDescriptors = [];
+                    }
+
                     var isCollapsedItem = [];
                     for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
                         isCollapsedItem.push(false);
@@ -106,13 +110,13 @@
                             }
                         }
 
+                        //add fake item for creating collapsing group
                         if (isFiltered == 0 && !isCollapsedFiltered) {
                             filterdItems.push(items[j]);
                         } else {
                             if (isFiltered == 0) {
                                 if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
                                     var fakeItem = {};
-                                    fakeItem["isFakeItem"] = true;
                                     fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
                                     for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
                                         fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
@@ -128,13 +132,13 @@
                 }
 
                 function filter(item, filterDescriptors) {
-                    if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                    if (!isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
                         if (filterDescriptors.children.length == 0) {
                             return true;
                         } else {
                             var result = 0
                             for (var i = 0; i < filterDescriptors.children.length; i++) {
-                                if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                                if (!isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
                                     result++;
                                 }
                             }
@@ -148,7 +152,7 @@
                 }
 
                 function isFiltering(item, value, condition) {
-                    // on true push to filtered items
+                    // on false push to filtered items
                     switch (condition) {
                         case 1://equal
                             return (item == value);
@@ -179,11 +183,11 @@
                 }
 
                 function sortingOrder(sortDescriptor) {
-                    return sortDescriptor.asc ? -1 : 1;
+                    return sortDescriptor.asc ? 1 : -1;
                 }
 
                 function sortingOrderDesc(sortDescriptor) {
-                    return sortDescriptor.asc ? 1 : -1;
+                    return sortDescriptor.asc ? -1 : 1;
                 }
 
                 function compareItems(item1, item2, columns) {
@@ -201,8 +205,7 @@
 
             function vm() {
                 var self = this;
-                self.nameColumnTitle = "First Name";
-
+                self.nameColumnTitle = "Name";
                 self.itemsProvider = new SimpleItemsProvider();
             };
 
