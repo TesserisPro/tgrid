@@ -148,11 +148,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <Import Project="$(SolutionDir)tools\ajaxmin.tasks" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(ProjectDir)*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-
-copy /Y "$(ProjectDir)knockout\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)angular\*.js" "$(SolutionDir)TesserisPro.TGrid.Demo\Scripts\"
-copy /Y "$(ProjectDir)Styles\*.css" "$(SolutionDir)TesserisPro.TGrid.Demo\Styles\"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -165,6 +165,12 @@
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TesserisPro.TGrid\TesserisPro.TGrid.csproj">
+      <Project>{f9339722-a757-47e2-897b-70ab9d202365}</Project>
+      <Name>TesserisPro.TGrid</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -199,7 +205,10 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy /Y "$(SolutionDir)TesserisPro.TGrid\bin\*.js" "$(ProjectDir)Scripts\"
-</PreBuildEvent>
+copy /Y "$(SolutionDir)TesserisPro.TGrid\*.js" "$(ProjectDir)Scripts\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\knockout\*.js" "$(ProjectDir)Scripts\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\angular\*.js" "$(ProjectDir)Scripts\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\Styles\*.css" "$(ProjectDir)Styles\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
