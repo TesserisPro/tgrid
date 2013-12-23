@@ -151,6 +151,7 @@
     <Content Include="Content\HighlighterStyles\shThemeMDUltra.css" />
     <Content Include="Content\HighlighterStyles\shThemeMidnight.css" />
     <Content Include="Content\HighlighterStyles\shThemeRDark.css" />
+    <Content Include="Content\iframe.css" />
     <Content Include="Content\images\arrow_down.png" />
     <Content Include="Content\images\arrow_down_mobile.png" />
     <Content Include="Content\images\arrow_up.png" />
