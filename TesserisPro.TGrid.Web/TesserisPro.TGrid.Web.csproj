@@ -295,6 +295,7 @@
     <Content Include="Views\Home\FilteringMobileHtml.cshtml" />
     <Content Include="Views\Home\FilteringGroupingSortingHtml.cshtml" />
     <Content Include="Views\Home\FilteringHtml.cshtml" />
+    <Content Include="Views\Home\Purchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
