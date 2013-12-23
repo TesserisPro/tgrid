@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Server.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Web", "TesserisPro.TGrid.Web\TesserisPro.TGrid.Web.csproj", "{65B99E41-E965-4FFC-A97B-8D51DD380C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserisPro.TGrid.Demo", "TesserisPro.TGrid.Demo\TesserisPro.TGrid.Demo.csproj", "{E7ECF736-2221-469C-B45F-D6E4205CB8B5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C3A8FBFA-D74A-445C-8742-A8C7672427BB}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -42,10 +40,6 @@ Global
 		{65B99E41-E965-4FFC-A97B-8D51DD380C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65B99E41-E965-4FFC-A97B-8D51DD380C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65B99E41-E965-4FFC-A97B-8D51DD380C60}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7ECF736-2221-469C-B45F-D6E4205CB8B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
