@@ -66,5 +66,15 @@ namespace TesserisPro.TGrid.Web
 
             return Json(new { desktop = listOfDemosDesktop, mobile = listOfDemosMobile }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Purchase(string purchase)
+        {
+            if (String.IsNullOrEmpty(purchase))
+            {
+                return View();
+            }
+
+            return View(purchase);
+        }
     }
 }

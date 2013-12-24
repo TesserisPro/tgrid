@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>PagingMobile</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
 
     <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
     <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
@@ -19,20 +20,6 @@
     <script type="text/javascript">
         $("#main-frame").contents().children().css({ "overflow": "hidden" });
     </script>
-
-    <style> 
-        .mobile-phone-wrapper {
-            position:relative;
-        }
-        .mobile-grid-container {
-            position:absolute;
-            top: 136px;
-            left: 57px;
-            background: white;
-            height: 519px;
-        }
-        
-    </style>
 </head>
 <body>
      <div>
@@ -54,21 +41,35 @@
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {
                 var items = [
-                    { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins", details: { a: "test", b: 1 } },
-                    { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham", details: { a: "test", b: 1 } },
-                    { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz", details: { a: "test", b: 1 } },
-                    { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel", details: { a: "test", b: 1 } },
-                    { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan", details: { a: "test", b: 1 } },
-                    { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson", details: { a: "test", b: 2 } },
-                    { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson", details: { a: "test", b: 1 } },
-                    { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda", details: { a: "test", b: 2 } },
-                    { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin", details: { a: "test", b: 2 } },
-                    { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush", details: { a: "test", b: 2 } },
-                    { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt", details: { a: "test", b: 2 } },
-                    { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "details item First name: Rob", detail_Surname: "Last name: Premo", details: { a: "test", b: 1 } }
+                    { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+                    { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+                    { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+                    { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+                    { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+                    { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+                    { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                    { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella" },
+                    { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella" },
+                    { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson" },
+                    { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda" },
+                    { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin" },
+                    { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush" },
+                    { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt" },
+                    { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "First name: Rob", detail_Surname: "Last name: Premo" },
+                    { Name: "Larry", Surname: "Figgins", Age: "20", detail: "Person details: Larry Figgins, 20 years, accounter", detail_Name: "First name:  Larry", detail_Surname: "Last name: Figgins" },
+                    { Name: "Tina", Surname: "Ham", Age: "43", detail: "Person details: Tina Ham, 43 years, loan officer", detail_Name: "First name: Tina", detail_Surname: "Last name: Ham" },
+                    { Name: "Nelson", Surname: "Seidel", Age: "31", detail: "Person details: Nelson Seidel, 31 years, sales manager", detail_Name: "First name: Nelson", detail_Surname: "Last name: Seidel" },
+                    { Name: "Ashley", Surname: "Stevens", Age: "22", detail: "Person details: Ashley Stevens, 22 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Stevens" },
+                    { Name: "Ashley ", Surname: "Gardella", Age: "21", detail: "Person details: item Ashley Gardella, 21 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Gardella" },
+                    { Name: "Cathrine", Surname: "Swanson", Age: "23", detail: "Person details: Cathrine Swanson,23 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                    { Name: "Maya", Surname: "Lewis", Age: "25", detail: "Person details: Maya Lewis, 25 years, sales manager", detail_Name: "First name: Maya", detail_Surname: "Last name: Lewis" },
+                    { Name: "Ted", Surname: "Lewis", Age: "20", detail: "Person details: Ted Lewis, 20 years, retailer", detail_Name: "First name: Ted", detail_Surname: "Last name: Lewis" },
+                    { Name: "William", Surname: "Swanson", Age: "25", detail: "Person details: William Swanson, 25 years, HR officer", detail_Name: "First name: William ", detail_Surname: "Last name: Swanson" },
+                    { Name: "Alison", Surname: "Lewis", Age: "32", detail: "Person details:Alison Lewis, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Lewis" },
+                    { Name: "Nicole", Surname: "Turner", Age: "20", detail: "Person details: Nicole Turner, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Turner" },
+                    { Name: "Theron", Surname: "Carter", Age: "25", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
+                    { Name: "George", Surname: "Collins", Age: "39", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
+                    { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
                 ];
 
                 function SimpleItemsProvider() {

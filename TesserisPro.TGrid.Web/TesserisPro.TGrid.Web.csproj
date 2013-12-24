@@ -151,6 +151,7 @@
     <Content Include="Content\HighlighterStyles\shThemeMDUltra.css" />
     <Content Include="Content\HighlighterStyles\shThemeMidnight.css" />
     <Content Include="Content\HighlighterStyles\shThemeRDark.css" />
+    <Content Include="Content\iframe.css" />
     <Content Include="Content\images\arrow_down.png" />
     <Content Include="Content\images\arrow_down_mobile.png" />
     <Content Include="Content\images\arrow_up.png" />
@@ -196,6 +197,7 @@
     <Content Include="Content\images\tgridSNS.png" />
     <Content Include="Content\images\web-1.jpg" />
     <Content Include="Content\images\web-2.gif" />
+    <Content Include="Content\purchaseStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Highlighter\shAutoloader.js" />
@@ -295,6 +297,7 @@
     <Content Include="Views\Home\FilteringMobileHtml.cshtml" />
     <Content Include="Views\Home\FilteringGroupingSortingHtml.cshtml" />
     <Content Include="Views\Home\FilteringHtml.cshtml" />
+    <Content Include="Views\Home\Purchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

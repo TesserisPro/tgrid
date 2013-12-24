@@ -1,0 +1,18 @@
+﻿.tgrid-mobile-container {
+    height: 492px;
+}
+
+.mobile-phone-wrapper {
+    position:relative;
+}
+
+.mobile-grid-container {
+    position:absolute;
+    top: 136px;
+    left: 57px;
+    background: white;
+    height: 519px;
+}
+
+
+
