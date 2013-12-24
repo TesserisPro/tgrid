@@ -50,8 +50,8 @@ namespace TesserisPro.TGrid.Web
             listOfDemosDesktop.Add(new UIModel { title = "Filtering, grouping and sorting", url = "FilteringGroupingSorting", htmlUrl = "FilteringGroupingSortingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "GroupingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
             listOfDemosDesktop.Add(new UIModel { title = "Editing with cell template", url = "EditingWithCellTemplate", htmlUrl = "EditingWithCellTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with virtualization", url = "RowsWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
-            listOfDemosDesktop.Add(new UIModel { title = "Performance - 100000 rows with paging", url = "Performance100000RowsWithPaging", htmlUrl = "Performance100000RowsWithPagingHtml", cssUrl = "StyleCss", jsUrl = "JsPerformance100000RowWithPaging" });
+            listOfDemosDesktop.Add(new UIModel { title = "Virtual scrolling of 100000 rows", url = "RowsWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Paging with 100000 rows", url = "Performance100000RowsWithPaging", htmlUrl = "Performance100000RowsWithPagingHtml", cssUrl = "StyleCss", jsUrl = "JsPerformance100000RowWithPaging" });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel { title = "Simple grid without paging mobile", url = "SimpleGridWithoutPagingMobile", htmlUrl = "SimpleGridWithoutPagingMobileHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
