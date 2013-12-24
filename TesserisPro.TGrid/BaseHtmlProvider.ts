@@ -44,7 +44,7 @@ module TesserisPro.TGrid {
                 }
             }
 
-            return visibleItemsCount - 1;
+            return visibleItemsCount;
         }
 
         public getFooterViewModel() {

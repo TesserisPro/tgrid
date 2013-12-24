@@ -37,6 +37,7 @@ namespace TesserisPro.TGrid.Web
         public ActionResult Ui()
         {
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
+<<<<<<< HEAD
             listOfDemosDesktop.Add(new UIModel
             {
                 title = "Simple grid without paging",
@@ -195,7 +196,7 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Virtual scrolling of 100000 rows",
+                title = "Performance - 100000 rows with virtualization",
                 url = "Knockout/RowsWithVirtualization",
                 htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
                 cssUrl = "Knockout/StyleCss",
@@ -207,7 +208,7 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Paging with 100000 rows",
+                title = "Performance - 100000 rows with paging",
                 url = "Knockout/Performance100000RowsWithPaging",
                 htmlUrl = "Knockout/Performance100000RowsWithPagingHtml",
                 cssUrl = "Knockout/StyleCss",
@@ -217,6 +218,23 @@ namespace TesserisPro.TGrid.Web
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
             });
+=======
+            listOfDemosDesktop.Add(new UIModel { title = "Simple grid without paging", url = "SimpleGridWithoutPaging", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Cell template", url = "CellTemplate", htmlUrl = "CellTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Header template", url = "HeaderTemplate", htmlUrl = "HeaderTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Details template", url = "DetailsTemplate", htmlUrl = "DetailsTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Custom actions to open details", url = "CustomActionsToOpenDetails", htmlUrl = "CustomActionsToOpenDetailsHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Paging", url = "Paging", htmlUrl = "PagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Virtualization/lazy loading", url = "lazyLoading", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Custom items provider", url = "CustomItemsProvider", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Filtering", url = "Filtering", htmlUrl = "FilteringHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Grouping", url = "Grouping", htmlUrl = "GroupingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Filtering, grouping and sorting", url = "FilteringGroupingSorting", htmlUrl = "FilteringGroupingSortingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Grouping with virtualization", url = "GroupingWithVirtualization", htmlUrl = "GroupingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Editing with cell template", url = "EditingWithCellTemplate", htmlUrl = "EditingWithCellTemplateHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Virtual scrolling of 100000 rows", url = "RowsWithVirtualization", htmlUrl = "SimpleGridWithoutPagingHtml", cssUrl = "StyleCss", jsUrl = "scriptjs" });
+            listOfDemosDesktop.Add(new UIModel { title = "Paging with 100000 rows", url = "Performance100000RowsWithPaging", htmlUrl = "Performance100000RowsWithPagingHtml", cssUrl = "StyleCss", jsUrl = "JsPerformance100000RowWithPaging" });
+>>>>>>> d621adc60f4d6894e7197d90e2b5226446f6f3bd
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel

@@ -38,13 +38,13 @@ module TesserisPro.TGrid {
             var size = 0;
             var children = container.children;
             for (var i = 0; i < children.length; i++) {
+                if (size > scrollTop) {
+                    return viewModel;
+                }
                 var child = children.item(i);
                 var viewModel = <ItemViewModel>(items[i]);//(ko.contextFor(child).$root);
                 if (viewModel != null && items.indexOf(viewModel) >= 0) {
                     size += child.clientHeight;
-                }
-                if (size > scrollTop) {
-                    return viewModel;
                 }
             }
 

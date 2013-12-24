@@ -549,32 +549,25 @@ footer .centered-content {
     margin: 0;
     padding: 0;
     list-style: none;
-    text-align: right;
     height: 100%;
     margin-bottom:20px;
 }
 
-#list ul a, #list .device{
+#list ul a {
     display: inline-block;
     padding: 3px 4px 3px 4px;
     color: #4e4e4e;
     line-height: 1.5;
-    -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-radius: 3px 0 0 3px;
-    border-radius: 3px 0 0 3px;
 }
 
 #list .device{   
-    background: #EEE9E9;
-    background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EEE9E9), color-stop(100%,#DDDCDC));
-    background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
-    background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
-    background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%);
-    background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 );
-    text-align: right;
-    width: 97%;
+    padding: 3px;
+    font-size: 24px;
+    color: #4e4e4e;
+    line-height: 1.5;
+    background-color: lightgray;
+    display:inline-block;
+    width: 100%;
 }
 
 #UI a {
@@ -582,10 +575,8 @@ footer .centered-content {
     padding: 3px 4px 3px 4px;
     color: #4e4e4e;
     line-height: 1.5;
-    -moz-border-radius: 3px 3px 3px 3px;
-    -webkit-border-radius: 3px 3px 3px 3px;
-    border-radius: 3px 3px 3px 3px;
 }
+
 #list ul a:hover, #list ul a:focus, #UI a:focus, #UI a:hover{
     color:red;
 }
@@ -597,7 +588,7 @@ footer .centered-content {
     border: none;
 }
 #list ul li a.active, #UI a.active{
-    background: red;
+    background: gray;
     color: white;
 }
 
@@ -658,7 +649,6 @@ footer .centered-content {
     background: linear-gradient(top, #313131 0%, #747474 100%);
     -webkit-box-shadow: 0 1px 0 #fff;
     box-shadow: 0 1px 0 #fff;
-    border-radius: 4px;
 }
 
 #ace-code .editor-menu > li a{
