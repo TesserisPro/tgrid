@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>  
+    .sf_colsOut.sf_1col_1_100 {
+        margin-top: 40px;
+    }
+</style>
+
+<script src="@Url.Content("~/ViewModels/DemoViewModel.js")" type="text/javascript"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shCore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushXml.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushCss.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushJScript.js")"></script>
+
+
+<link type="text/css" rel="stylesheet"  href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
+
+<script type="text/javascript">
+    $(function () {
+        $.getJSON('Ui', function (data) {
+            //ko.mapping.toJS(data, {}, ko.applyBindings(new DemoViewModel(data)));
+            ko.applyBindings(new DemoViewModel(data));
+        });
+        $("#main-frame").contents().find('body').css({ "overflow": "hidden" });
+        
+    });
+    $("#main-frame").contents().children().css({ "overflow": "hidden" });
+</script>
+
+<div id="UI">   
+    <a class="active">Knockout</a>
+    <a>Angular</a>
+</div>
+
+<div id="list">
+    <a class="device">Desktop</a>
+    <ul data-bind="foreach: demos">
+        <li>
+            <a data-bind="text: title, click: $root.openDemo, css: { active: url == $root.currentDemo() }"></a>
+        </li>
+    </ul>
+    <a class="device">Mobile</a>
+    <ul data-bind="foreach: demosmob">
+        <li>
+            <a data-bind="text: title, click: $root.openDemoMob, css: { active: url == $root.currentDemo() }"></a>
+        </li>
+    </ul>
+</div>
+<div style="display:inline-block; margin-left: 270px;">
+    <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl } , style:{ width: currentDemoUrl().indexOf('Mobile') != -1 ? '480px':'590px', height: currentDemoUrl().indexOf('Mobile') != -1 ? '810px': ''}"></iframe>
+    <div id="ace-code">
+        <header style="width: 100%; height: 28px;">           
+                <ul class="editor-menu" data-bind="foreach: codes">
+                    <li>
+                        <a data-bind="text: name, click: $root.showCode, css: { active: name == $root.currentCodeName() }"></a>
+                    </li>                   
+                </ul>           
+        </header>      
+        <div class="editor-container">
+            <div data-bind="html: currentCode">
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+
+        

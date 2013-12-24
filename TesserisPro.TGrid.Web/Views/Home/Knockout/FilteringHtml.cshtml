@@ -1,0 +1,28 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableFiltering: true, enableSorting: true }">
+            <script type="text/html">
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name" data-g-filter-member="Name"> 
+                </column>
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Surname" data-g-filter-member="Surname">
+                </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Age" data-g-filter-member="Age">
+                </column>
+                <filterpopup>
+                    <select data-bind="click: function(){}">
+                        <option value="1">Equals</option>
+                        <option value="2">Not Equals</option>
+                    </select>
+                    <input  style="width:150px" value=""><br>
+                    <button style="width:70px" data-bind="click: function () { onApply(); }">Apply</button>
+                    <button style="width:70px" data-bind="click: function () { onClear(); }">Clear</button>
+                    <button style="width:70px" data-bind="click: function () { onClose(); }">Close</button>
+                </filterpopup>
+            </script>
+        </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

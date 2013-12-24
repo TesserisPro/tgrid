@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-} 
+}
 
 <!DOCTYPE html>
 
@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>SimpleGridWithoutPaging</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
    
     <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
     <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
@@ -16,47 +17,90 @@
     <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
-
-
-
+    <style>
+        .tgrid-footer {
+            background: whitesmoke;
+            height: 50px;
+            border-bottom: 1px solid #BEBEBE;
+            border-left: 1px solid #BEBEBE;
+            border-right: 1px solid #BEBEBE;
+            background: #EEE9E9; /* Old browsers */
+            background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* IE10+ */
+            background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+        }
+        .footer {
+            color: #757575;
+            text-align: center;
+        }
+    </style>
 </head>
-<body>    
+<body>
+   <input id ="url" hidden ="hidden" value ="@Url.Content("~")"/>
     <div>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableVirtualScroll: true }">
             <script type="text/html">
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
+                <column data-g-width="55" data-g-views="mobile,desktop"  data-g-member="Number">
                 </column>
-                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
+                <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Name">
                 </column>
-                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
                 </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Position">
+                </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Department">
+                </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="DateOfBirth">
+                </column>
+                 <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
+                     <cell> <img width="100px" height='60px' style: "" data-bind="attr: {src: item.Picture}" /></cell>
+                </column>
+                 <footer>
+                    <div class ="footer">
+                        TotalCount: <span data-bind="text:totalCount"></span>
+                    </div>
+                </footer>  
             </script>
         </div>
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {
-                var items = [
-                    { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins", details: { a: "test", b: 1 } },
-                    { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham", details: { a: "test", b: 1 } },
-                    { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz", details: { a: "test", b: 1 } },
-                    { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel", details: { a: "test", b: 1 } },
-                    { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan", details: { a: "test", b: 1 } },
-                    { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson", details: { a: "test", b: 2 } },
-                    { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella", details: { a: "test", b: 1 } },
-                    { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson", details: { a: "test", b: 1 } },
-                    { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda", details: { a: "test", b: 2 } },
-                    { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin", details: { a: "test", b: 2 } },
-                    { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush", details: { a: "test", b: 2 } },
-                    { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt", details: { a: "test", b: 2 } },
-                    { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "details item First name: Rob", detail_Surname: "Last name: Premo", details: { a: "test", b: 1 } }
-                ];
+                var items = [];
+
+                SimpleItemsProvider.prototype.getRandomInt = function getRandomInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1) + min);
+                }
+
+                var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+                (function (genarateRandomInt, items) {
+                    var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence'];
+                    var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson'];
+                    var picturesPaths = ['truck1.png', 'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
+                                        'truck8.png', 'truck9.png', 'truck10.jpg', 'truck11.jpg', 'truck12.png', 'truck13.png', 'truck14.png', 'truck15.png',
+                                         'truck16.png', 'truck17.png', 'truck18.png'];
+                    var positions = ['Sales Manager', 'Human Resourses Manager', 'Investor Relations Officer', 'Loan Officer', 'Mortgage Banker', 'Mutual Fund Analyst',
+                                    'Portfolio Manager', 'Ratings Analyst', 'Real Estate Appraiser', 'Real Estate Officer', 'Residential Appraiser',
+                                    'Risk Manager', 'Service Representative', 'Stockbroker', 'Treasurer'];
+                    var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
+                    var path = document.getElementById("url") != null ? document.getElementById("url").value : "/";
+                    for (var i = 1; i <= 100000; i++) {
+                        items.push({
+                            Number: i,
+                            Name: names[genarateRandomInt(0, names.length - 1)],
+                            Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
+                            DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
+                            Picture: path.concat("Content/images/picturesForGrid/").concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
+                            Position: positions[genarateRandomInt(0, positions.length - 1)],
+                            Department: departments[genarateRandomInt(0, departments.length - 1)]
+                        });
+                    }
+                })(genarateRandomInt, items);
 
                 function SimpleItemsProvider() {
-                    for (var i = 0; i < items.length; i++) {
-                        items[i].key2 = i;
-                        items[i].detail = items[i].detail + " " + i;
-                    }
+
                 }
 
                 SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
@@ -199,7 +243,8 @@
 
             function vm() {
                 var self = this;
-                self.nameColumnTitle = "Name";
+                self.nameColumnTitle = "First Name";
+
                 self.itemsProvider = new SimpleItemsProvider();
             };
 
@@ -207,7 +252,6 @@
                 ko.applyBindings(new vm());
             });
         </script>
-
     </div>
 </body>
 </html>

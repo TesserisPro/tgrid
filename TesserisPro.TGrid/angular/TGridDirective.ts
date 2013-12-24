@@ -25,9 +25,11 @@ module TGrid.Angular {
                 }
 
                 var pageSizeAtt = attrs["pagesize"];
-                options.pageSize = parseInt(pageSizeAtt);
-                if (this.isEnablePaging) {
-                    options.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
+                if (pageSizeAtt != undefined) {
+                    options.pageSize = parseInt(pageSizeAtt);
+                    if (this.isEnablePaging) {
+                        options.pageSize = (isNaN(this.pageSize) || this.pageSize < 1) ? 10 : this.pageSize;
+                    }
                 }
 
                 var pageSlideAttr = attrs["pageslide"];
@@ -45,7 +47,7 @@ module TGrid.Angular {
                     options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
                 }
 
-                if (selectionModeAtt == "none") {
+                if (selectionModeAtt == undefined || selectionModeAtt == "none") {
                     options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
                 }
 
@@ -87,6 +89,7 @@ module TGrid.Angular {
 
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
             }
+            return this.directive;
         }
     }
 }

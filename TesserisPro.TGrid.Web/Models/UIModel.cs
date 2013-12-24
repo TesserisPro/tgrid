@@ -14,5 +14,9 @@ namespace TesserisPro.TGrid.Web.Models
         public string htmlUrl { set; get; }
         public string cssUrl { set; get; }
         public string jsUrl { set; get; }
+        public string angularUrl { get; set; }
+        public string angularHtmlUrl { set; get; }
+        public string angularCssUrl { set; get; }
+        public string angularJsUrl { set; get; }
     }
 }

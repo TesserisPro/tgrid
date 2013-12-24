@@ -41,16 +41,12 @@
             <div class="sfContentBlock">                
                 <nav class="tgrid-nav">
                     <div class="nav-submenu">
-                        <a href="#">   
-                            Products
-                            <span>▼</span>
-                        </a>
-                        <nav style="display: none;">
-                            <a href="#">Name</a>
+                        <a class ="menu"> Products <span>▼</span> </a>
+                        <nav class='menuItem' style="display: none;">
+                            @Html.ActionLink("TGrid", "Index")
                         </nav>
                         @Html.ActionLink("Demos", "Demo") 
                         @Html.ActionLink("Purchase", "Purchase")
-                        @*<a href="#" class="button">Download</a>*@
                     </div>
                 </nav>             
             </div>

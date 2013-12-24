@@ -1,4 +1,4 @@
-﻿var TesserisPro;
+var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="SortDescriptor.ts" />
     /// <reference path="FilterDescriptor.ts" />
@@ -59,11 +59,11 @@
         var Options = (function () {
             function Options(element, framework) {
                 this.columns = [];
-                this.pageSlide = 1;
-                this.batchSize = 10;
-                this.firstLoadSize = 20;
+                this.pageSize = 10;
+                this.batchSize = 5;
+                this.firstLoadSize = 10;
                 this.currentPage = 0;
-                this.groupBySortDescriptor = [];
+                this.groupBySortDescriptors = [];
                 this.filterDescriptors = [];
                 this.selection = [];
                 this.target = element;
@@ -98,7 +98,7 @@
                     column.member = columns[i].attributes['data-g-member'] != undefined ? columns[i].attributes['data-g-member'].nodeValue : null;
 
                     column.header = header.length > 0 ? new Template(header[0]) : null;
-                    column.cell = header.length > 0 ? new Template(cell[0]) : null;
+                    column.cell = cell.length > 0 ? new Template(cell[0]) : null;
 
                     var cellDetail = columnElement.find("celldetail");
                     column.cellDetail = cellDetail.length == 1 ? new Template(cellDetail[0]) : null;
@@ -108,11 +108,12 @@
                     column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 100;
                     column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
                     column.resizable = columns[i].attributes['data-g-resizable'] != undefined ? (columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true) : true;
+                    column.filterMemberPath = columns[i].attributes['data-g-filter-member'] != undefined ? columns[i].attributes['data-g-filter-member'].nodeValue : column.member;
 
                     this.columns.push(column);
                 }
 
-                this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(this.columns[0].sortMemberPath, true);
+                this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
 
                 var filterPopup = optionsElement.getElementsByTagName("filterpopup");
                 this.filterPopup = filterPopup.length == 1 ? new Template(filterPopup[0]) : null;

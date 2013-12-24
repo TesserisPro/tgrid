@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section featured {
+            <div class="header-content">
+            <div class="centered-content">
+                <div class="sfContentBlock">
+                    <img class="ml50" src="@Url.Content("~/Content/images/kendo-web-header.png")" />
+                    <div class="text">
+                        <h1 class="mb20">Everything you need to build super-fast HTML5 web apps</h1>
+                        <p class="copy">                            
+The days of slow, server-heavy web UI are done! Kendo UI has everything you need to build fast, HTML5 web apps in one compact easy-to-use package: UI widgets, data source, validation, an MVVM framework, themes, templates and so much more.
+                        </p>
+                        @Html.ActionLink("Launch Demos", "Demo", null, new {@class = "button"})                    
+                        <a class="button dimmed" href="#">Download</a>
+                        <a class="button" href="#">Purchase</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+@*<h2>Index</h2>*@
+                <div id="GeneralBox_Content_C012_Col00" class="sf_colsIn sf_1col_1in_100">
+                    <div class="sfContentBlock">
+                        <h4 class="tac"> Start now your 
+                            <a href="#"> Free Trial </a> with support included!
+                        </h4>
+                    </div>
+                    <div class="sfContentBlock shade pt30">
+                        <div class="fl mt-20 mr30" id="img-1">
+                            <img class="db" src="@Url.Content("~/Content/images/web-1.jpg")" />
+                        </div>
+                        <div class="c18 fr">
+                            <h2>Ready for touch</h2>
+                            <p>
+                                Out-of-the-box, Kendo UI Web is ready for touch. All Kendo UI Web widgets provide full support for
+                                touchscreen devices, such as the iPad, iPhone, and
+                                Android, so that your web apps can be used on a wide array of devices with varying input options. Even Kendo UI’s drag and drop framework is touch-enabled,
+                                eliminating the need for you to duplicate code just to handle mouse and touchscreen inputs.
+                            </p>
+                            <p>
+                                For even more native-like UI widgets and experiences on mobile devices, check-out
+                                <a href="#">Kendo UI Mobile</a>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="sfContentBlock shade scheme1 pb120 pt20">
+                        <div id="img-2" class="fr ml30">
+                            <img src="@Url.Content("~/Content/images/web-2.gif")" />
+                        </div>
+                        <h2>Really fast JavaScript</h2>
+                        <p>
+                            Every aspect of Kendo UI has been built from the ground-up to deliver maximum JavaScript app performance. Kendo UI is not another jQuery UI clone, and every decision made in Kendo UI optimizes for performance first. From a lightweight, built-in templating library that performs significantly faster than jQuery Templates, to optimized animations that leverage CSS3 hardware acceleration (when available), and advanced UI virtualization, Kendo UI leaves no stone unturned to deliver client-side UI with top performance.
+                        </p>
+                    </div>
+                </div>
+

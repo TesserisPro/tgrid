@@ -69,24 +69,20 @@ module TesserisPro.TGrid {
             angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
             angular
                 .module(angularFooterViewModel.angularModuleName, [])
-                .controller(
-                       'tgrid-footer-controller',
-                        function toGridFooterController($scope) {
-                            angularFooterViewModel.setScope($scope);
-                        });
+                .controller('tgrid-footer-controller', ['$scope',function ($scope) {
+                    angularFooterViewModel.setScope($scope);
+                }]);
             return angularFooterViewModel;
         }
          
         public getFilterPopupViewModel(container: HTMLElement) {
             var angularFilterPopupViewModel = new AngularFilterPopupViewModel(container);
             angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
-            angular
+            var angularFilterModule= angular
                 .module(angularFilterPopupViewModel.angularModuleName, [])
-                .controller(
-                'tgrid-filter-popup-controller',
-                function toGridFilterPopupController($scope) {
+                .controller('tgrid-filter-popup-controller', ['$scope',function ($scope) {
                     angularFilterPopupViewModel.setScope($scope);
-                });
+                }]);
             return angularFilterPopupViewModel;
         }
 
@@ -319,15 +315,13 @@ module TesserisPro.TGrid {
             if (option.isSelected(item.item)) {
                 row.classList.add("selected");
             }
-
             var angularItemViewModel = new AngularItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
             angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
-            angularModule.controller(
-                angularItemViewModel.angularControllerName,
-                function toGridRowController($scope) {
-                    angularItemViewModel.setScope($scope);
-                });
 
+            var appModule = angular.module(AngularHtmlProvider.angularModuleName, []);
+            appModule.controller(angularItemViewModel.angularControllerName, ['$scope', function ($scope) {
+                    angularItemViewModel.setScope($scope);
+                }]);
             row.setAttribute("ng-controller", angularItemViewModel.angularControllerName);
 
             this.appendIndent(row, option.groupBySortDescriptors.length, false);
@@ -373,17 +367,13 @@ module TesserisPro.TGrid {
             detailTr.classList.add("tgrid-details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             template.applyTemplate(detailTd);
-            
 
             var angularItemViewModel = new AngularItemViewModel(null, item, null, null);
             angularItemViewModel.angularControllerName = 'tgrid-detail-controller' + AngularHtmlProvider.controllerItemCounter++;
             angular.module(AngularHtmlProvider.angularModuleName, [])
-                .controller(
-                angularItemViewModel.angularControllerName,
-                function toGridFooterController($scope) {
+                .controller(angularItemViewModel.angularControllerName, ['scope',function toGridDetailsController($scope) {
                     angularItemViewModel.setScope($scope);
-                });
-
+                }]);
             detailTd.setAttribute("ng-controller", angularItemViewModel.angularControllerName); 
             detailTr.appendChild(detailTd);
             angular.bootstrap(detailTd, [AngularHtmlProvider.angularModuleName]);
@@ -425,10 +415,10 @@ module TesserisPro.TGrid {
             angularGroupViewModel.angularControllerName = 'tgrid-groupHeader-controller' + AngularHtmlProvider.controllerItemCounter++;
             angular.module(AngularHtmlProvider.angularGroupModuleName, [])
                 .controller(
-                angularGroupViewModel.angularControllerName,
+                angularGroupViewModel.angularControllerName,['$scope',
                 function toGridGroupHeaderController($scope) {
                     angularGroupViewModel.setScope($scope);
-                });
+                }]);
 
             headerTd.setAttribute("ng-controller", angularGroupViewModel.angularControllerName);
             headerTr.appendChild(headerTd);

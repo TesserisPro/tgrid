@@ -15,7 +15,11 @@
     self.currentDemoMobUrl = ko.computed(function () { return window.location.href + "?demo=" + self.currentDemo(); });
 
     self.openDemo = function (demoItem) {
-        self.currentDemo(demoItem.url);
+        if (self.knockoutActive()) {
+            self.currentDemo(demoItem.url);
+        } else {
+            self.currentDemo(demoItem.angularUrl);
+        }
         self.currentDemoItem(demoItem);
         self.currentCodeName(self.codes()[0].name);
         isDesktop = true;
@@ -67,6 +71,27 @@
                 $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().jsUrl), function (r) { self.currentCode(r) })
             } else {
                 $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().jsUrl), function (r) { self.currentCode(r) })
+            }
+        }
+    }
+    self.knockoutActive = ko.observable(true);
+    self.setKnockoutActive = function () {
+        if (!self.knockoutActive()) {
+            self.knockoutActive(true);
+            if (isDesktop) {
+                self.openDemo(self.currentDemoItem());
+            } else {
+                self.openDemoMob(self.currentDemoMobItem());
+            }
+        }
+    }
+    self.setKnockoutInactive = function () {
+        if (self.knockoutActive()) {
+            self.knockoutActive(false);
+            if (isDesktop) {
+                self.openDemo(self.currentDemoItem());
+            } else {
+                self.openDemoMob(self.currentDemoMobItem());
             }
         }
     }

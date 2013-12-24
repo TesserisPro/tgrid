@@ -14,6 +14,9 @@ var TesserisPro;
                 return table;
             };
 
+            BaseHtmlProvider.prototype.bindData = function (option, elementForBinding) {
+            };
+
             BaseHtmlProvider.prototype.getElemntsSize = function (container, items) {
                 return 0;
             };
@@ -22,13 +25,35 @@ var TesserisPro;
                 return null;
             };
 
+            BaseHtmlProvider.prototype.getVisibleitemsCount = function (container, view, items, scrollTop) {
+                var size = 0;
+                var visibleItemsCount = 0;
+                var children = container.children;
+                var visibleItemsSize = 0;
+                for (var i = 0; i < children.length; i++) {
+                    var child = children.item(i);
+                    size += child.clientHeight;
+
+                    if (size > scrollTop) {
+                        visibleItemsCount++;
+                        visibleItemsSize += child.clientHeight;
+                    }
+
+                    if (visibleItemsSize >= view.clientHeight) {
+                        break;
+                    }
+                }
+
+                return visibleItemsCount - 1;
+            };
+
             BaseHtmlProvider.prototype.getFooterViewModel = function () {
             };
 
             BaseHtmlProvider.prototype.getFilterPopupViewModel = function (container) {
             };
 
-            BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, isSortable, columnsResized) {
+            BaseHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, columnsResized) {
             };
 
             BaseHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
@@ -37,7 +62,67 @@ var TesserisPro;
             BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
             };
 
-            BaseHtmlProvider.prototype.updateTableFooterElementDefault = function (option, footer, totalItemsCount) {
+            BaseHtmlProvider.prototype.updateGroupedTableBodyElement = function (option, container, items, selected) {
+            };
+
+            BaseHtmlProvider.prototype.updateColumnWidth = function (option, header, body, footer) {
+                var headers = header.getElementsByTagName("th");
+
+                var tableRows = body.getElementsByTagName("tr");
+                var firstDataRow;
+
+                for (var i = 0; i < tableRows.length; i++) {
+                    if (tableRows.item(i).classList.contains("table-body-row")) {
+                        firstDataRow = tableRows.item(i);
+                        break;
+                    }
+                }
+                var columnNumber = 0;
+                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    columnNumber++;
+                }
+                for (var i = 0; i < headers.length - 1; i++) {
+                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                        columnNumber++;
+                    }
+
+                    if (columnNumber >= option.columns.length) {
+                        columnNumber = option.columns.length - 1;
+                        break;
+                    }
+
+                    (headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
+                    columnNumber++;
+                }
+
+                var columnNumber = 0;
+                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                    columnNumber++;
+                }
+
+                if (firstDataRow != undefined) {
+                    var columns = firstDataRow.getElementsByTagName("td");
+                    for (var i = 0; i < columns.length - 1; i++) {
+                        if ((columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
+                            continue;
+                        }
+
+                        while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                            columnNumber++;
+                        }
+
+                        if (columnNumber >= option.columns.length) {
+                            columnNumber = option.columns.length - 1;
+                            break;
+                        }
+
+                        (columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
+                        columnNumber++;
+                    }
+                }
+            };
+
+            BaseHtmlProvider.prototype.buildDefaultTableFooterElement = function (option, footer, totalItemsCount) {
                 var firstVisiblePage = option.currentPage - option.pageSlide;
 
                 if (firstVisiblePage < 0) {
@@ -77,82 +162,16 @@ var TesserisPro;
                 footer.appendChild(pagerElement);
             };
 
-            BaseHtmlProvider.prototype.updateMobileHeadElement = function (option, header, isSortable) {
-            };
-
-            BaseHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
-            };
-
-            BaseHtmlProvider.prototype.updateGroupedTableBodyElement = function (option, container, items, selected) {
-            };
-
-            BaseHtmlProvider.prototype.updateColumnWidth = function (option, header, body, footer) {
-                var headers = header.getElementsByTagName("th");
-
-                var tableRows = body.getElementsByTagName("tr");
-                var firstDataRow;
-
-                for (var i = 0; i < tableRows.length; i++) {
-                    if (tableRows.item(i).classList.contains("table-body-row")) {
-                        firstDataRow = tableRows.item(i);
-                        break;
-                    }
+            BaseHtmlProvider.prototype.getActualDetailsTemplate = function (option) {
+                if (option.showDetailFor.item == null) {
+                    return null;
                 }
 
-                var columns = firstDataRow.getElementsByTagName("td");
-
-                var columnNumber = 0;
-                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                    columnNumber++;
-                }
-                for (var i = 0; i < headers.length - 1; i++) {
-                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                        columnNumber++;
-                    }
-
-                    if (columnNumber >= option.columns.length) {
-                        columnNumber = option.columns.length - 1;
-                        break;
-                    }
-
-                    (headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
-                    columnNumber++;
+                if (option.showDetailFor.column == -1) {
+                    return option.detailsTemplateHtml;
                 }
 
-                var columnNumber = 0;
-                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                    columnNumber++;
-                }
-                for (var i = 0; i < columns.length - 1; i++) {
-                    if ((columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
-                        continue;
-                    }
-
-                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                        columnNumber++;
-                    }
-
-                    if (columnNumber >= option.columns.length) {
-                        columnNumber = option.columns.length - 1;
-                        break;
-                    }
-
-                    (columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
-                    columnNumber++;
-                }
-            };
-
-            BaseHtmlProvider.prototype.hasDetails = function (selectedElement, option) {
-                if (selectedElement != null && selectedElement.length == 1) {
-                    if (option.showDetailFor.column == -1) {
-                        if (option.detailsTemplateHtml != null) {
-                            return true;
-                        }
-                    } else if (option.columns[option.showDetailFor.column].cellDetail != null) {
-                        return true;
-                    }
-                }
-                return false;
+                return option.columns[option.showDetailFor.column].cellDetail;
             };
 
             BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item) {
@@ -161,68 +180,67 @@ var TesserisPro;
             BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
             };
 
-            BaseHtmlProvider.prototype.createDefaultHeader = function (container, headerName) {
+            BaseHtmlProvider.prototype.buildDefaultHeader = function (container, headerName) {
                 var defaultHeader = document.createElement("span");
                 var defaultName = document.createTextNode(headerName);
                 defaultHeader.appendChild(defaultName);
                 container.appendChild(defaultHeader);
             };
 
-            BaseHtmlProvider.prototype.addGroupBy = function (option, header, groupByContainer) {
-                if (option.isEnableGrouping) {
-                    TGrid.Grid.getGridObject(groupByContainer).showDivElement(groupByContainer);
-                    this.addGroupByElements(option, groupByContainer);
-                    this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
+            BaseHtmlProvider.prototype.updateGroupByPanel = function (option, groupByPanel) {
+                groupByPanel.innerHTML = "";
+                if (option.enableGrouping) {
+                    this.addActualGroupByElements(option, groupByPanel);
 
-                    var listButtonContainerElement = document.createElement("div");
-                    listButtonContainerElement.setAttribute("class", "list-button-container");
-                    var listGroupByElement = document.createElement("ul");
-                    listGroupByElement.setAttribute("class", "group-by-ul");
-                    var groupByButtonElement = document.createElement("a");
-                    groupByButtonElement.setAttribute("class", "button-group-by");
+                    var groupButton = document.createElement("div");
+                    groupButton.setAttribute("class", "tgrid-goup-button");
 
-                    groupByButtonElement.onclick = function (e) {
-                        TGrid.Grid.getGridObject(e.target).showHideListOnClick((e.target).nextElementSibling);
+                    var groupByMenu = document.createElement("ul");
+                    groupByMenu.setAttribute("class", "tgrid-menu");
+                    hideElement(groupByMenu);
+
+                    var self = this;
+                    groupButton.onclick = function (e) {
+                        e.cancelBubble = true;
+                        self.updateGroupByMenuContent(option, groupByMenu);
+                        unhideElement(groupByMenu);
+                        self.doOnClickOutside(groupByMenu, function () {
+                            return hideElement(groupByMenu);
+                        });
                     };
-                    listButtonContainerElement.appendChild(groupByButtonElement);
 
-                    var listGroupByToChooseFrom = this.addListGroupByItems(option, listGroupByElement);
-                    this.showListGroupByItems(option, listGroupByToChooseFrom, TGrid.Grid.getGridObject(header));
-
-                    listButtonContainerElement.appendChild(listGroupByElement);
-                    groupByContainer.appendChild(listButtonContainerElement);
-                } else {
-                    TGrid.Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+                    groupButton.appendChild(groupByMenu);
+                    groupByPanel.appendChild(groupButton);
                 }
             };
 
-            BaseHtmlProvider.prototype.showNeededIntends = function (target, level, grid) {
-                var visibleIntentsNumber = level;
+            BaseHtmlProvider.prototype.showNeededIndents = function (target, level, grid) {
+                var visibleIndentsNumber = level;
                 var cells = target.getElementsByClassName("tgrid-table-indent-cell");
 
                 for (var i = 0; i < cells.length; i++) {
-                    grid.hideElement(cells[i]);
+                    hideElement(cells[i]);
                 }
 
                 if (cells.length < level) {
-                    visibleIntentsNumber = cells.length;
+                    visibleIndentsNumber = cells.length;
                 }
 
-                for (var i = 0; i < visibleIntentsNumber; i++) {
-                    grid.showTableCellElement(cells[i]);
+                for (var i = 0; i < visibleIndentsNumber; i++) {
+                    unhideElement(cells[i]);
                 }
             };
 
-            BaseHtmlProvider.prototype.addFiltringPopUp = function (option, filterPopup, filterPopupModel) {
+            BaseHtmlProvider.prototype.updateFilteringPopUp = function (option, filterPopup, filterPopupModel) {
             };
 
-            BaseHtmlProvider.prototype.defaultFiltringPopUp = function (option, filterPopupContainer) {
+            BaseHtmlProvider.prototype.buildDefaultFiltringPopUp = function (option, filterPopupContainer) {
                 var filterCondition = document.createElement("select");
 
                 // append filter conditions
                 var selectOption = document.createElement("option");
                 selectOption.value = TGrid.FilterCondition.None.toString();
-                selectOption.text = "none";
+                selectOption.text = "None";
                 filterCondition.appendChild(selectOption);
 
                 var selectOption = document.createElement("option");
@@ -240,75 +258,101 @@ var TesserisPro;
                 filterCondition.selectedIndex = 1;
 
                 var filterText = document.createElement("input");
-                filterText.setAttribute("value", "c3");
+                filterText.type = "text";
+                filterText.className = 'tgrid-filter-input-text';
+                filterText.setAttribute("value", "");
+                filterText.style.width = '150px';
                 filterPopupContainer.appendChild(filterText);
 
                 filterPopupContainer.innerHTML += "<br>";
 
-                var applyButton = document.createElement("button");
-                applyButton.innerText = "Apply";
+                var applyButton = document.createElement("div");
+                applyButton.className = "tgrid-filter-popup-button";
+                applyButton.style.width = '70px';
                 applyButton.onclick = function (e) {
-                    TGrid.Grid.getGridObject(e.target).addFilter(option.filterPath, filterPopupContainer.getElementsByTagName("input")[0].value, filterPopupContainer.getElementsByTagName("select")[0].selectedIndex, filterPopupContainer);
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onApply();
                 };
+                (applyButton).innerHTML = "OK";
                 filterPopupContainer.appendChild(applyButton);
 
-                var clearButton = document.createElement("button");
-                clearButton.innerText = "Clear";
+                var clearButton = document.createElement("div");
+                clearButton.className = 'tgrid-filter-popup-button';
+                clearButton.style.width = '70px';
                 clearButton.onclick = function (e) {
-                    TGrid.Grid.getGridObject(e.target).clearFilter(option.filterPath, filterPopupContainer);
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onClose();
+                    filterText.setAttribute("value", "");
                 };
+                (clearButton).innerHTML = 'Cancel';
                 filterPopupContainer.appendChild(clearButton);
-
-                var exitButton = document.createElement("button");
-                exitButton.innerText = "Close";
-                exitButton.onclick = function (e) {
-                    TGrid.Grid.getGridObject(e.target).hideElement(filterPopupContainer);
-                };
-                filterPopupContainer.appendChild(exitButton);
             };
 
-            BaseHtmlProvider.prototype.addGroupByElements = function (option, groupByContainer) {
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].groupMemberPath != null) {
-                        var groupByHeaderElement = document.createElement("div");
-                        if (option.columns[i].header != null) {
-                            option.columns[i].header.applyTemplate(groupByHeaderElement);
-                        } else {
-                            var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                            this.createDefaultHeader(groupByHeaderElement, headerText);
+            BaseHtmlProvider.prototype.addActualGroupByElements = function (option, groupByContainer) {
+                for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
+                    for (var j = 0; j < option.columns.length; j++) {
+                        if (option.columns[j].device.indexOf("desktop") != -1) {
+                            var column = option.columns[j];
+                            if (column.groupMemberPath == option.groupBySortDescriptors[i].path && column.groupMemberPath != null) {
+                                var groupByHeaderElement = document.createElement("div");
+                                var columnHeader = this.buildColumnHeader(column);
+
+                                this.bindData(option, columnHeader);
+
+                                groupByHeaderElement.className = "tgrid-group-by-element";
+                                groupByHeaderElement["data-group-by"] = column.groupMemberPath;
+                                groupByHeaderElement.appendChild(columnHeader);
+
+                                //create deleteGroupByElement
+                                var buttonsContainer = document.createElement("div");
+                                buttonsContainer.className = "tgrid-header-cell-buttons";
+
+                                var deleteGroupButton = document.createElement("div");
+                                deleteGroupButton.className = "tgrid-delete-button";
+                                deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
+                                deleteGroupButton.onclick = function (e) {
+                                    e.cancelBubble = true;
+                                    TGrid.Grid.getGridObject(e.target).removeGroupDescriptor((e.target["data-delete-group-by"]).path);
+                                };
+
+                                buttonsContainer.appendChild(deleteGroupButton);
+
+                                groupByHeaderElement.appendChild(buttonsContainer);
+
+                                groupByContainer.appendChild(groupByHeaderElement);
+                            }
                         }
-
-                        groupByHeaderElement.setAttribute("class", "condition-group-by");
-                        groupByHeaderElement["data-group-by"] = option.columns[i].groupMemberPath;
-
-                        //create deleteGroupByElement
-                        var deleteGroupByElement = document.createElement("input");
-                        deleteGroupByElement.setAttribute("type", "button");
-                        deleteGroupByElement.setAttribute("class", "delete-condition-group-by");
-                        deleteGroupByElement.setAttribute("value", "x");
-                        deleteGroupByElement["data-delete-groupby"] = new TGrid.SortDescriptor(option.columns[i].groupMemberPath, true);
-
-                        //adding function to delete GroupBy condition by clicking on close button
-                        deleteGroupByElement.onclick = function (e) {
-                            var groupByElement = e.target["data-delete-groupby"];
-                            TGrid.Grid.getGridObject(e.target).deleteGroupBy(groupByElement.path, groupByElement.asc);
-                        };
-
-                        groupByHeaderElement.appendChild(deleteGroupByElement);
-                        this.bindData(option, groupByHeaderElement);
-                        groupByContainer.appendChild(groupByHeaderElement);
                     }
                 }
             };
 
-            BaseHtmlProvider.prototype.updateGroupByElements = function (option, header, groupByContainer) {
-                if (option.isEnableGrouping) {
-                    this.showGroupByElements(option, groupByContainer, TGrid.Grid.getGridObject(header));
+            BaseHtmlProvider.prototype.updateGroupByMenuContent = function (option, menu) {
+                menu.innerHTML = "";
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].device.indexOf("desktop") != -1) {
+                        if (option.columns[i].groupMemberPath != null) {
+                            var alreadyGrouped = false;
+                            for (var j = 0; j < option.groupBySortDescriptors.length; j++) {
+                                if (option.groupBySortDescriptors[j].path == option.columns[i].groupMemberPath) {
+                                    alreadyGrouped = true;
+                                }
+                            }
 
-                    var listButtonContainer = groupByContainer.getElementsByClassName("list-button-container");
-                    (listButtonContainer[0]).appendChild(this.showListGroupByItems(option, ((listButtonContainer[0]).children[1]), TGrid.Grid.getGridObject(header)));
-                } else {
-                    TGrid.Grid.getGridObject(groupByContainer).hideElement(groupByContainer);
+                            if (!alreadyGrouped) {
+                                var groupMenuItem = document.createElement("li");
+                                groupMenuItem["data-group-by-path"] = option.columns[i].groupMemberPath;
+                                var columnHeader = this.buildColumnHeader(option.columns[i]);
+                                this.bindData(option, columnHeader);
+                                groupMenuItem.appendChild(columnHeader);
+                                groupMenuItem.onclick = function (e) {
+                                    hideElement(menu);
+                                    TGrid.Grid.getGridObject(e.target).addGroupDescriptor(e.currentTarget["data-group-by-path"], true);
+                                };
+
+                                menu.appendChild(groupMenuItem);
+                            }
+                        }
+                    }
                 }
             };
 
@@ -329,84 +373,20 @@ var TesserisPro;
                         }
 
                         var columnData = document.createElement("span");
-                        columnData.innerHTML = ": ";
+                        if (option.columns[i].member != null) {
+                            var columnBinding = document.createElement('span');
+                            columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
+                            columnData.innerHTML = ": ";
+                            columnData.appendChild(columnBinding);
+                        } else {
+                            columnData.innerHTML = ": ";
+                        }
                         mobileColumnContainer.appendChild(mobileColumnName);
                         mobileColumnContainer.appendChild(columnData);
                         rowTemplate.appendChild(mobileColumnContainer);
                     }
                 }
                 return rowTemplate;
-            };
-
-            BaseHtmlProvider.prototype.showGroupByElements = function (option, groupByContainer, grid) {
-                var groupByElements = groupByContainer.getElementsByClassName("condition-group-by");
-
-                for (var j = 0; j < groupByElements.length; j++) {
-                    grid.hideElement(groupByElements[j]);
-                }
-
-                for (var i = option.groupBySortDescriptor.length - 1; i > -1; i--) {
-                    for (var j = 0; j < groupByElements.length; j++) {
-                        if (groupByElements[j]["data-group-by"] == option.groupBySortDescriptor[i].path) {
-                            grid.showDivElement(groupByElements[j]);
-                            groupByContainer.insertBefore(groupByElements[j], groupByContainer.firstChild);
-                            continue;
-                        }
-                    }
-                }
-            };
-
-            BaseHtmlProvider.prototype.addListGroupByItems = function (option, listGroupByElement) {
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].groupMemberPath != null) {
-                        var listItemGroupByItems = document.createElement("li");
-
-                        listItemGroupByItems.onclick = function (e) {
-                            //get top ancestor, because event fires on the last nested element
-                            var el = e.target;
-                            while (el && el.nodeName !== 'LI') {
-                                el = el.parentNode;
-                            }
-                            TGrid.Grid.getGridObject(e.target).addGroupBy((el["data-group-by-condition"]), true);
-                            TGrid.Grid.getGridObject(e.target).hideElement(el.parentNode);
-                        };
-                        if (option.columns[i].header != null) {
-                            option.columns[i].header.applyTemplate(listItemGroupByItems);
-                        } else {
-                            var headerText = option.columns[i].member != null ? option.columns[i].member : option.columns[i].groupMemberPath;
-                            this.createDefaultHeader(listItemGroupByItems, headerText);
-                        }
-                        listItemGroupByItems["data-group-by-condition"] = option.columns[i].groupMemberPath;
-
-                        listGroupByElement.appendChild(listItemGroupByItems);
-                    }
-                }
-                this.bindData(option, listGroupByElement);
-                return listGroupByElement;
-            };
-
-            BaseHtmlProvider.prototype.bindData = function (option, elementForBinding) {
-            };
-
-            BaseHtmlProvider.prototype.showListGroupByItems = function (option, listGroupByElement, grid) {
-                var listGroupByItems = listGroupByElement.getElementsByTagName("li");
-
-                for (var i = 0; i < listGroupByItems.length; i++) {
-                    if (listGroupByItems[i].getAttribute("style") == "display:block;") {
-                        grid.hideElement(listGroupByItems[i]);
-                    }
-                    var hasNotGroupBy = true;
-                    for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                        if (option.groupBySortDescriptor[j].path == listGroupByItems[i]["data-group-by-condition"]) {
-                            hasNotGroupBy = false;
-                            continue;
-                        }
-                    }
-                    if (hasNotGroupBy) {
-                        grid.showDivElement(listGroupByItems[i]);
-                    }
-                }
-                return listGroupByElement;
             };
 
             BaseHtmlProvider.prototype.buildGroupMobileHeaderRow = function (option, groupHeaderDescriptor) {
@@ -418,7 +398,7 @@ var TesserisPro;
                     headerContainer.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>";
                 }
 
-                if (option.isEnableCollapsing) {
+                if (option.enableCollapsing) {
                     if (!groupHeaderDescriptor.collapse) {
                         headerContainer.onclick = function (e) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -439,13 +419,218 @@ var TesserisPro;
                 headerDiv.classList.add('tgrid-mobile-group-header-container');
                 this.bindMobileGroupHeader(headerContainer, groupHeaderDescriptor.value, headerDiv);
 
-                //headerContainer.appendChild(headerDiv);
                 return headerContainer;
             };
+
             BaseHtmlProvider.prototype.bindMobileGroupHeader = function (headerContainer, item, headerDiv) {
                 headerContainer.appendChild(headerDiv);
             };
+
             BaseHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
+            };
+
+            BaseHtmlProvider.prototype.addFilterButton = function (option, header, filterPopupContainer, headerButtons, culumnNumber) {
+                if (option.enableFiltering) {
+                    var filter = document.createElement("div");
+                    filter.classList.add("tgrid-filter-button");
+                    var self = this;
+                    (function (columnNumber) {
+                        filter.onclick = function (e) {
+                            TGrid.Grid.getGridObject(e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY, true);
+                            self.doOnClickOutside(filterPopupContainer, function () {
+                                return TGrid.Grid.getGridObject(e.target).hideFilterPopup();
+                            });
+                            e.cancelBubble = true;
+                        };
+                    })(culumnNumber);
+
+                    headerButtons.appendChild(filter);
+                }
+            };
+
+            BaseHtmlProvider.prototype.updateMobileHeadElement = function (option, mobileHeader, filterPopupContainer) {
+                mobileHeader.innerHTML = "";
+                if (option.enableSorting || option.enableGrouping || option.enableFiltering) {
+                    this.createMobileButton(option, mobileHeader, filterPopupContainer);
+                }
+            };
+
+            BaseHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
+            };
+
+            BaseHtmlProvider.prototype.createMobileButton = function (option, mobileHeader, filterPopUp) {
+                var _this = this;
+                var button = document.createElement("div");
+                if (this.anyConditionIsApplied(option)) {
+                    button.className = "tgrid-mobile-button-active";
+                } else {
+                    button.className = "tgrid-mobile-button";
+                }
+
+                var self = this;
+                button.onclick = function (e) {
+                    var menu = document.createElement("ul");
+                    menu.className = "tgrid-mobile-menu";
+                    _this.addMobileMenuItems(option, menu, filterPopUp);
+
+                    button.innerHTML = "";
+                    button.appendChild(menu);
+                    self.doOnClickOutside(menu, function () {
+                        hideElement(menu);
+                    });
+                    e.cancelBubble = true;
+                };
+
+                mobileHeader.appendChild(button);
+            };
+
+            BaseHtmlProvider.prototype.addMobileMenuItems = function (option, menu, filterPopUp) {
+                for (var i = 0; i < option.columns.length; i++) {
+                    var column = option.columns[i];
+
+                    if (column.member != null || column.sortMemberPath != null || column.filterMemberPath != null || column.groupMemberPath != null) {
+                        var menuItem = document.createElement("li");
+
+                        var columnHeader = this.buildMobileMenuColumnHeader(column);
+                        this.bindData(option, columnHeader);
+
+                        var columnContainer = document.createElement("div");
+                        columnContainer.className = "tgrid-mobile-li-header-container";
+                        columnContainer.appendChild(columnHeader);
+
+                        var buttonsContainer = document.createElement("div");
+                        buttonsContainer.className = "tgrid-header-cell-buttons";
+
+                        if (option.enableSorting && column.sortMemberPath != null) {
+                            var sortButton = document.createElement("div");
+
+                            if (column.sortMemberPath == option.sortDescriptor.path) {
+                                if (option.sortDescriptor.asc == null) {
+                                    sortButton.className = "tgrid-sort-button";
+                                } else if (option.sortDescriptor.asc) {
+                                    sortButton.className = "tgrid-sort-button-asc";
+                                } else {
+                                    sortButton.className = "tgrid-sort-button-desc";
+                                }
+                            } else {
+                                sortButton.className = "tgrid-sort-button";
+                            }
+
+                            buttonsContainer.appendChild(sortButton);
+                            sortButton["data-g-path"] = column.sortMemberPath;
+                            sortButton.onclick = function (e) {
+                                e.cancelBubble = true;
+                                hideElement(menu);
+                                TGrid.Grid.getGridObject(e.target).sortBy(e.target["data-g-path"]);
+                            };
+                        }
+                        if (option.enableFiltering && column.filterMemberPath != null) {
+                            var filterButton = document.createElement("div");
+                            var isFiltered = false;
+
+                            for (var j = 0; j < option.filterDescriptors.length; j++) {
+                                if (option.filterDescriptors[j].path == column.filterMemberPath) {
+                                    filterButton.className = "tgrid-mobile-filter-button-active";
+                                    isFiltered = true;
+                                    break;
+                                }
+                            }
+
+                            if (!isFiltered) {
+                                filterButton.className = "tgrid-mobile-filter-button";
+                            }
+
+                            buttonsContainer.appendChild(filterButton);
+                            filterButton["data-g-column"] = column;
+                            var self = this;
+                            filterButton.onclick = function (e) {
+                                e.cancelBubble = true;
+                                hideElement(menu);
+                                self.doOnClickOutside(filterPopUp, function () {
+                                    hideElement(filterPopUp);
+                                });
+                                TGrid.Grid.getGridObject(e.target).showFilterPopup(e.target["data-g-column"], e.pageX, e.pageY, false);
+                            };
+                        }
+                        if (option.enableGrouping && column.groupMemberPath != null) {
+                            var groupButton = document.createElement("div");
+                            var isGrouped = false;
+
+                            for (var j = 0; j < option.groupBySortDescriptors.length; j++) {
+                                if (option.groupBySortDescriptors[j].path == column.groupMemberPath) {
+                                    groupButton.className = "tgrid-group-button-active";
+                                    isGrouped = true;
+                                    break;
+                                }
+                            }
+
+                            if (!isGrouped) {
+                                groupButton.className = "tgrid-group-button";
+                            }
+
+                            buttonsContainer.appendChild(groupButton);
+                            groupButton["data-g-path"] = column.groupMemberPath;
+                            groupButton.onclick = function (e) {
+                                e.cancelBubble = true;
+                                hideElement(menu);
+                                var grid = TGrid.Grid.getGridObject(e.target);
+                                grid.toggleGroupDescriptor(e.target["data-g-path"]);
+                            };
+                        }
+                        menuItem.appendChild(columnContainer);
+                        menuItem.appendChild(buttonsContainer);
+                        menu.appendChild(menuItem);
+                    }
+                }
+            };
+
+            BaseHtmlProvider.prototype.doOnClickOutside = function (target, action) {
+                var oldOnClick = document.onclick;
+                document.onclick = function (e) {
+                    var currentElement = e.target;
+                    while (currentElement.tagName != 'BODY') {
+                        if (currentElement == target) {
+                            return;
+                        }
+
+                        currentElement = currentElement.parentElement;
+                    }
+                    document.onclick = oldOnClick;
+                    action();
+                };
+            };
+
+            BaseHtmlProvider.prototype.buildColumnHeader = function (column) {
+                var headerElement = document.createElement("div");
+                headerElement.className = "tgrid-header-cell-content";
+                if (column.header != null) {
+                    column.header.applyTemplate(headerElement);
+                } else {
+                    var headerText = column.member != null ? column.member : '';
+                    this.buildDefaultHeader(headerElement, headerText);
+                }
+
+                return headerElement;
+            };
+
+            BaseHtmlProvider.prototype.buildMobileMenuColumnHeader = function (column) {
+                var headerElement = document.createElement("div");
+                headerElement.className = "tgrid-mobile-menu-li-column-header";
+                if (column.header != null) {
+                    column.header.applyTemplate(headerElement);
+                } else {
+                    var headerText = column.member != null ? column.member : '';
+                    this.buildDefaultHeader(headerElement, headerText);
+                }
+
+                return headerElement;
+            };
+            BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
+                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptors.length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             };
             return BaseHtmlProvider;
         })();

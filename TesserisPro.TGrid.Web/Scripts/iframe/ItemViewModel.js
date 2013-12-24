@@ -8,9 +8,11 @@ var TesserisPro;
                 this.grid = grid;
                 this.isGroupHeader = isGroupHeader;
             }
-            ItemViewModel.prototype.getCellDetailFor = function (columnIndex) {
+            ItemViewModel.prototype.showDetailForCell = function (columnIndex) {
                 this.grid.options.showDetailFor.column = columnIndex;
                 this.grid.options.showDetailFor.isDetailColumn = true;
+                this.grid.options.showDetailFor.item = this.item;
+                this.grid.updateRow(this.item);
             };
             return ItemViewModel;
         })();

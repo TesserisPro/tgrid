@@ -33,8 +33,8 @@
 </script>
 
 <div id="UI">   
-    <a class="active">Knockout</a>
-    <a>Angular</a>
+    <a data-bind="attr:{ class: knockoutActive() ? 'active' : ''}, click: setKnockoutActive">Knockout</a>
+    <a data-bind="attr:{ class: !knockoutActive() ? 'active' : ''}, click: setKnockoutInactive">Angular</a>
 </div>
 
 <div id="list">

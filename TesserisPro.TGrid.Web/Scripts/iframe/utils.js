@@ -67,4 +67,12 @@ function getMemberValue(target, path) {
 
     return value;
 }
+
+function hideElement(target) {
+    target.style.display = "none";
+}
+
+function unhideElement(target) {
+    target.style.display = "";
+}
 //# sourceMappingURL=utils.js.map
