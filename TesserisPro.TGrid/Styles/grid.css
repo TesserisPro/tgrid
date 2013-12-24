@@ -530,7 +530,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 }      
 
 /* Mobile */
-@media (max-width: 1200px) {
+@media (max-width: 480px) {
     .desktop {
         display: none;
     }
@@ -566,7 +566,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 }
 
 /* Desktop */
-@media (min-width: 1201px) {
+@media (min-width: 481px) {
     .mobile {
         display: none;
     }
