@@ -7,7 +7,6 @@
     width: 100%;
 }
 
-.tgrid-table thead tr th,
 .tgrid-group-by-element,
 .tgrid-goup-button .tgrid-menu li,
 .tgrid-mobile-button .tgrid-menu li,
@@ -26,6 +25,29 @@
     background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
     color:grey;
+}
+
+.tgrid-table thead tr th
+{
+    border-right: 1px solid #BEBEBE;
+    background: #EEE9E9; /* Old browsers */
+    background: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+    color:grey;
+}
+
+.tgrid-table thead tr th,
+.tgrid-mobile-header,
+.tgrid-header-cell-container{
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .tgrid-mobile-header {
@@ -77,7 +99,14 @@
     vertical-align: middle;
     text-overflow: ellipsis;
     color: grey;
-    padding: 2px .6em;
+    border-right: 1px solid #DDDCDC;
+}
+.tgrid-table tbody tr td > span,
+.tgrid-table tbody tr td > div,
+.tgrid-table tbody tr td > img,
+.tgrid-table tbody tr td > a
+{
+    margin: 2px;
 }
 
 .tgrid-table-group-header, .tgrid-mobile-group-header  {
@@ -157,8 +186,6 @@
 .tgrid-mobile-container {
     height: 420px;
     overflow-y: scroll;
-    max-height:516px;
-    width:318px;
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
@@ -173,7 +200,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(images/arrow_down.png) no-repeat;
+    background: url(../images/arrow_down.png) no-repeat;
     margin-left: 5px;
 }
 
@@ -181,7 +208,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(images/arrow_up.png) no-repeat;
+    background: url(../images/arrow_up.png) no-repeat;
     margin-left: 5px;
 }
 
@@ -220,6 +247,8 @@
 td a {
     text-decoration:none;
 }
+
+
 #main{
     width: 567px;
     height: auto;
@@ -272,23 +301,23 @@ td a {
 }
 
 .tgrid-filter-indicator, .tgrid-filter-button {
-    background: url(images/filter.png) no-repeat;
+    background: url(../images/filter.png) no-repeat;
 }
 
 .tgrid-mobile-filter-button {
-    background: url(images/filter_mobile.png) no-repeat;
+    background: url(../images/filter_mobile.png) no-repeat;
 }
 
 .tgrid-mobile-filter-button-active{
-    background: url(images/filter_mobile_active.png) no-repeat;
+    background: url(../images/filter_mobile_active.png) no-repeat;
 }
 
 .tgrid-group-button-active{
-    background: url(images/group_mobile_active.png) no-repeat center;
+    background: url(../images/group_mobile_active.png) no-repeat center;
     
 }
 .tgrid-group-button {
-    background: url(images/group_mobile.png) no-repeat center;
+    background: url(../images/group_mobile.png) no-repeat center;
    /*background-color: #BEBEBE;*/
 }
 
@@ -303,7 +332,7 @@ td a {
 }
 
 .tgrid-group-indicator  {
-    background: url(images/group.png) no-repeat;
+    background: url(../images/group.png) no-repeat;
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -334,23 +363,23 @@ td a {
     right: 76px;
 }
 .tgrid-sort-button {
-    background: url(images/no_sort_mobile.png) no-repeat center;
+    background: url(../images/no_sort_mobile.png) no-repeat center;
 }
 
 .tgrid-sort-button-asc{
-    background: url(images/arrow_up_mobile.png) no-repeat center;
+    background: url(../images/arrow_up_mobile.png) no-repeat center;
 }
 
 .tgrid-sort-button-desc{
-    background: url(images/arrow_down_mobile.png) no-repeat center;
+    background: url(../images/arrow_down_mobile.png) no-repeat center;
 }
 
 .tgrid-sort-indicator-asc{
-    background: url(images/arrow_up.png) no-repeat;
+    background: url(../images/arrow_up.png) no-repeat;
 }
 
  .tgrid-sort-indicator-desc {
-    background: url(images/arrow_down.png) no-repeat;
+    background: url(./images/arrow_down.png) no-repeat;
 }
 
 .tgrid-group-button, .tgrid-group-button-active,
@@ -380,7 +409,7 @@ th.tgrid-placeholder {
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url(images/delete.png) no-repeat;
+    background: url(../images/delete.png) no-repeat;
     position: absolute;
     right: 2px;
     top: 4px;
@@ -395,21 +424,21 @@ th.tgrid-placeholder {
 }
 
 .tgrid-goup-button {
-    background-image: url(images/group_menu.png);
+    background-image: url(../images/group_menu.png);
     height: 24px;
     width: 24px;
 }
 
 .tgrid-mobile-button, .tgrid-mobile-button-active {
-    background-image: url(images/menu.png);
+    background-image: url(../images/menu.png);
     height: 32px;
     width: 32px;
 }
 .tgrid-mobile-button {
-    background-image: url(images/menu.png);  
+    background-image: url(../images/menu.png);  
 }
 .tgrid-mobile-button-active {
-    background: url(images/menu_active3.png) no-repeat;
+    background: url(../images/menu_active3.png) no-repeat;
 }
 
 .tgrid-goup-button, 
@@ -418,6 +447,7 @@ th.tgrid-placeholder {
     background-repeat: no-repeat;
     margin-top: 4px;   
     margin-left: 3.5px;
+    margin-bottom: 4px;
     background-color: #EEE9E9;
     background-color: -moz-linear-gradient(top, #EEE9E9rgba(222,239,255,1) 0%, #DDDCDC 100%);
     background-color: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,#DDDCDC));
