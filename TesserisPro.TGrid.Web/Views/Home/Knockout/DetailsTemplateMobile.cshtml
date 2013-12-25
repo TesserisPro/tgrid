@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SimpleGridWithoutPaging</title>
+    <title>DetailsTemplateKnockout</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
     <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
    
@@ -16,19 +16,7 @@
 
     <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
-    <style>
-        .mobile-phone-wrapper {
-            position:relative;
-        }
-        .mobile-grid-container {
-            position:absolute;
-            top: 136px;
-            left: 57px;
-            background: white;
-            height: 519px;
-        }
-    </style>    
+    <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>   
 </head>
 <body>
    <div>
@@ -58,7 +46,7 @@
                                 <span data-bind="text: item.Age"></span>
                             </div>
                         </mobile>
-                        <details>
+                         <details>
                             <div>
                                 <div>This is a sample of row details: </div>
                                 <div style="color: #444;" data-bind="text: item.detail"></div>

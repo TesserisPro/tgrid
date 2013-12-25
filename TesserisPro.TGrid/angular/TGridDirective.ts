@@ -43,11 +43,11 @@ module TGrid.Angular {
                     options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi;
                 }
 
-                if (selectionModeAtt == "single") {
+                if (selectionModeAtt == undefined || selectionModeAtt == "single") {
                     options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
                 }
 
-                if (selectionModeAtt == undefined || selectionModeAtt == "none") {
+                if (selectionModeAtt == "none") {
                     options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
                 }
 

@@ -725,9 +725,9 @@ module TesserisPro.TGrid {
                     this.options.showDetailFor = new ShowDetail();
                     this.options.showDetailFor.item = this.options.selection[0];
                 }
-                else {
-                    this.options.showDetailFor = new ShowDetail();
-                }
+                
+            } else {
+                this.options.showDetailFor = new ShowDetail();
             }
 
             for (var i = 0; i < oldSelection.length; i++) {

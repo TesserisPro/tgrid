@@ -363,39 +363,6 @@ module TesserisPro.TGrid {
             }
         }
 
-        public createDefaultMobileTemplate(rowTemplate: any, option: Options) {
-            for (var i = 0; i < option.columns.length; i++) {
-                if (option.columns[i].device.indexOf("mobile") != -1) {
-                    var mobileColumnContainer = document.createElement("div");
-                    var mobileColumnName = document.createElement("span");
-
-                    if (option.columns[i].member != null) {
-                        mobileColumnName.innerHTML = option.columns[i].member;
-                    } else if (option.columns[i].sortMemberPath != null) {
-                        mobileColumnName.innerHTML = option.columns[i].sortMemberPath;
-                    } else if (option.columns[i].groupMemberPath != null) {
-                        mobileColumnName.innerHTML = option.columns[i].groupMemberPath;
-                    } else {
-                        mobileColumnName.innerHTML = "";
-                    }
-
-                    var columnData = document.createElement("span");
-                    if (option.columns[i].member != null) {
-                        var columnBinding = document.createElement('span');
-                        columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
-                        columnData.innerHTML = ": ";
-                        columnData.appendChild(columnBinding);
-                    } else {
-                        columnData.innerHTML = ": ";
-                    }
-                    mobileColumnContainer.appendChild(mobileColumnName);
-                    mobileColumnContainer.appendChild(columnData);
-                    rowTemplate.appendChild(mobileColumnContainer);
-                }
-            }
-            return rowTemplate;
-        }
-
         public buildGroupMobileHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor): HTMLElement {
             var headerContainer = document.createElement("div");
             var headerDiv = document.createElement("div");

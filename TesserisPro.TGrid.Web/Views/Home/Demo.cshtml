@@ -41,13 +41,13 @@
     <a class="device">Desktop</a>
     <ul data-bind="foreach: demos">
         <li>
-            <a data-bind="text: title, click: $root.openDemo, css: { active: url == $root.currentDemo() }"></a>
+            <a data-bind="text: title, click: $root.openDemo, css: { active: url == $root.currentDemo() || angularUrl == $root.currentDemo() }"></a>
         </li>
     </ul>
     <a class="device">Mobile</a>
     <ul data-bind="foreach: demosmob">
         <li>
-            <a data-bind="text: title, click: $root.openDemoMob, css: { active: url == $root.currentDemo() }"></a>
+            <a data-bind="text: title, click: $root.openDemoMob, css: { active: url == $root.currentDemo() || angularUrl == $root.currentDemo() }"></a>
         </li>
     </ul>
 </div>

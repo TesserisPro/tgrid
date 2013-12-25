@@ -341,7 +341,6 @@
     <Content Include="Views\Home\Angular\Performance100000RowsWithPaging.cshtml" />
     <Content Include="Views\Home\Angular\Performance100000RowsWithPagingHtml.cshtml" />
     <Content Include="Views\Home\Purchase.cshtml" />
-    <Content Include="Views\Home\Angular\RowsWithPaging.cshtml" />
     <Content Include="Views\Home\Angular\RowsWithVirtualization.cshtml" />
     <Content Include="Views\Home\Angular\ScriptJs.cshtml" />
     <Content Include="Views\Home\Angular\SimpleGridWithoutPaging.cshtml" />

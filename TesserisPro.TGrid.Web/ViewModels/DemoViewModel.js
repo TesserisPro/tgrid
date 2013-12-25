@@ -27,7 +27,11 @@
     }
 
     self.openDemoMob = function (demoItem) {
-        self.currentDemo(demoItem.url);
+        if (self.knockoutActive()) {
+            self.currentDemo(demoItem.url);
+        } else {
+            self.currentDemo(demoItem.angularUrl);
+        }
         self.currentDemoMobItem(demoItem);
         self.currentDemoItem(demoItem);
         self.currentCodeName(self.codes()[0].name);
