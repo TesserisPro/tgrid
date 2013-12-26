@@ -31,6 +31,8 @@ module TesserisPro.TGrid {
         private groupByElement: HTMLElement;
         private filterPopUp: HTMLElement;
 
+        private bodyAndHeaderContainer: HTMLElement;
+
         private htmlProvider: IHtmlProvider;
         private itemProvider: IItemProvider;
 
@@ -78,33 +80,41 @@ module TesserisPro.TGrid {
 
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
+            this.headerContainer.style.overflowX = "hidden";
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
-
+            
             // filter popup
             if (this.options.enableFiltering) {
                 this.filterPopUp = document.createElement("div");
-                this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
+                this.filterPopUp.setAttribute("class", "tgrid-filter-popup"); 
                 this.filterPopUp.style.display = "none";
                 this.targetElement.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
 
+
+            this.bodyAndHeaderContainer = document.createElement("div");
+            this.bodyAndHeaderContainer.style.position = "relative";
+            this.bodyAndHeaderContainer.style.overflowX = "auto";
+
             // Header
             this.mobileHeader = document.createElement("div");
             this.mobileHeader.className = "tgrid-mobile-header mobile";
-            this.rootElement.appendChild(this.mobileHeader);
+            this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
 
             this.tableHeader = document.createElement("thead");
             this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
             headerTable.appendChild(this.tableHeader);
-            this.rootElement.appendChild(this.headerContainer);
+            this.bodyAndHeaderContainer.appendChild(this.headerContainer);
 
             // Body
             this.tableBodyContainer = document.createElement("div");
             this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
+            this.tableBodyContainer.style.overflowX = "auto";
+            this.tableBodyContainer.onscroll = () => this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft;
 
             this.mobileContainer = document.createElement("div");
             this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
@@ -125,10 +135,6 @@ module TesserisPro.TGrid {
             bodyTable.appendChild(this.tableBody);
 
             if (options.enableVirtualScroll) {
-
-                var scrollContainer = document.createElement("div");
-                scrollContainer.style.position = "relative";
-
                 this.scrollBar = document.createElement("div");
                 this.scrollBar.className = "tgrid-scroll";
                 this.scrollBar.style.position = "absolute";
@@ -142,20 +148,15 @@ module TesserisPro.TGrid {
                 scrollContent.style.height = "10000px";
                 scrollContent.style.width = "1px";
                 this.scrollBar.appendChild(scrollContent);
-                scrollContainer.appendChild(this.scrollBar);
-
-                scrollContainer.appendChild(this.tableBodyContainer);
+                this.bodyAndHeaderContainer.appendChild(this.scrollBar);
 
                 this.scrollBar.onscroll = () => this.onManualScroll();
 
-                scrollContainer.appendChild(this.mobileContainer);
+            }
 
-                this.rootElement.appendChild(scrollContainer);
-            }
-            else {
-                this.rootElement.appendChild(this.tableBodyContainer);
-                this.rootElement.appendChild(this.mobileContainer);
-            }
+            this.bodyAndHeaderContainer.appendChild(this.tableBodyContainer);
+            this.bodyAndHeaderContainer.appendChild(this.mobileContainer);
+            this.rootElement.appendChild(this.bodyAndHeaderContainer);
 
             // Footer
             this.tableFooter = document.createElement("div");

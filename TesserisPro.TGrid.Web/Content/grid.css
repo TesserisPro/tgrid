@@ -101,10 +101,10 @@
     color: grey;
     border-right: 1px solid #DDDCDC;
 }
-.tgrid-table tbody tr td > span,
-.tgrid-table tbody tr td > div,
-.tgrid-table tbody tr td > img,
-.tgrid-table tbody tr td > a
+.tgrid-cell-content > span,
+.tgrid-cell-content > div,
+.tgrid-cell-content > img,
+.tgrid-cell-content > a
 {
     margin: 2px;
 }
@@ -119,7 +119,10 @@
     background-color: rgb(233, 234, 235)  !important;
 }
 
-.tgrid-mobile-indent-div, .tgrid-table-indent-cell, .tgrid-mobile-group-indent-div{
+.tgrid-mobile-indent-div, 
+.tgrid-table-indent-cell, 
+.tgrid-mobile-group-indent-div,
+.tgrid-table-indent-cell-content {
     width: 20px;
 }
 
@@ -391,8 +394,9 @@ td a {
 }
 
 th.tgrid-placeholder {
-    min-width: 17px;
+    min-width: 18px;
 }
+
 
 .tgrid-group-by-element {
     margin: 4px;

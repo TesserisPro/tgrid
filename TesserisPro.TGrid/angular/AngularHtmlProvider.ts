@@ -127,6 +127,7 @@ module TesserisPro.TGrid {
                         var headerContent = document.createElement("div");
                         var headerButtons = document.createElement("div");
                         headerContent.className = "tgrid-header-cell-content";
+                        headerContent.style.overflow = "hidden";
                         headerButtons.className = "tgrid-header-cell-buttons";
                         headerMainContainer.appendChild(headerContent);
                         headerMainContainer.appendChild(headerButtons);
@@ -328,11 +329,17 @@ module TesserisPro.TGrid {
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].device.indexOf("desktop") != -1) {
                     var cell = document.createElement("td");
+
+                    var cellContent = document.createElement("div");
+                    cellContent.className = "tgrid-cell-content";
+                    cellContent.style.overflow = "hidden"; 
+                    cell.appendChild(cellContent);
+                    
                     if (option.columns[i].cell != null) {
-                        option.columns[i].cell.applyTemplate(cell);
+                        option.columns[i].cell.applyTemplate(cellContent);
                     } else {
                         if (option.columns[i].member != null) {
-                            cell = this.createDefaultCell(cell, option.columns[i].member);
+                            this.createDefaultCell(cellContent, option.columns[i].member);
                         }
                     }
                     row.appendChild(cell);
@@ -453,17 +460,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        private appendIndent(target: HTMLElement, level: number, isHeader: boolean) {
-            var tag = isHeader ? "th" : "td";
-            for (var i = 0; i < level; i++) {
-                var cell = document.createElement(tag);
-                cell.className = "tgrid-table-indent-cell";
-                target.appendChild(cell);
-            }
-        }
-
         // Mobile Methods
-
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             if (!option.showDetailFor.isDetailColumn) {
                 option.showDetailFor.column = -1;
@@ -634,13 +631,11 @@ module TesserisPro.TGrid {
             angular.bootstrap(headerDiv, [AngularHtmlProvider.angularGroupModuleName]);
         }
 
-        private createDefaultCell(cell: HTMLTableCellElement, defaultCellBindingName: string): HTMLTableCellElement {
+        private createDefaultCell(cell: HTMLElement, defaultCellBindingName: string) {
             var spanForCell = document.createElement("span");
             var textBinding = "{{item.".concat(defaultCellBindingName).concat("}}");
             spanForCell.innerHTML = textBinding;
             cell.appendChild(spanForCell);
-
-            return cell;
         }
 
         private createDefaultMobileTemplate(rowTemplate: any, option: Options) {
