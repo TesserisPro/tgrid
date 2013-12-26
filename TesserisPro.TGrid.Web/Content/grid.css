@@ -222,11 +222,15 @@ td.tgrid-table-group-header {
 .tgrid-buisy-indicator {
     display: inline-block;
     position: absolute;
-    left: 0px;
-    right: 0px;
-    width: 0;
-    height: 0;
-    background-color: rgba(122, 188, 255, 0.44);
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+    background-image: url("images/busy.gif");
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .tgrid-scroll {
