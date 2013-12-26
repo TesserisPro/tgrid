@@ -424,7 +424,10 @@ th.tgrid-placeholder {
 .tgrid-group-by-panel, .tgrid-mobile-group-header {    
     height: 33px;
     border-collapse: collapse;
-    width: 100%;
+    background-color: whitesmoke;
+    border-top: 1px solid #BEBEBE;
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
 }
 
 .tgrid-goup-button {

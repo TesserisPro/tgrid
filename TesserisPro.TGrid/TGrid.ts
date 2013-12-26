@@ -97,8 +97,10 @@ module TesserisPro.TGrid {
 
 
             this.bodyAndHeaderContainer = document.createElement("div");
+            this.bodyAndHeaderContainer.className = "tgrid-body-and-header-container";
             this.bodyAndHeaderContainer.style.position = "relative";
             this.bodyAndHeaderContainer.style.overflowX = "auto";
+            this.bodyAndHeaderContainer.style.width = "100%";
 
             // Header
             this.mobileHeader = document.createElement("div");
