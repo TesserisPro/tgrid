@@ -369,13 +369,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Knockout\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Knockout\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TesserisPro.TGrid\TesserisPro.TGrid.csproj">
