@@ -224,8 +224,8 @@ td.tgrid-table-group-header {
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 0px;
-    bottom: 0px;
+    width: 0;
+    height: 0;
     background-color: rgba(122, 188, 255, 0.44);
 }
 

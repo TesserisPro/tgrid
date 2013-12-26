@@ -290,6 +290,20 @@ module TesserisPro.TGrid {
         }
 
         public scrollTable(): void {
+            var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
+
+            if (this.firstVisibleItemIndex > 0) {
+                if (container.scrollTop == 0) {
+                    container.scrollTop = 1;
+                }
+            }
+
+            if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+                    container.scrollTop = container.scrollHeight - container.clientHeight - 1;
+                }
+            }
+
             setTimeout(() => {
                 var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
                 if (!this.isPreloadingNext && this.enablePreload) {
@@ -305,13 +319,13 @@ module TesserisPro.TGrid {
                 }
 
                 if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
-                    if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+                    if (container.scrollTop + container.clientHeight >= container.scrollHeight - 1) {
                         this.showNextPage();
                     }
                 }
 
                 if (this.firstVisibleItemIndex > 0) {
-                    if (container.scrollTop == 0) {
+                    if (container.scrollTop <= 1) {
                         this.showPreviousPage();
                     }
                 }
