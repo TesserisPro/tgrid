@@ -72,18 +72,12 @@ module TesserisPro.TGrid {
             var headers = header.getElementsByTagName("th");
 
             var tableRows = body.getElementsByTagName("tr");
-            var firstDataRow: HTMLElement;
 
-            for (var i = 0; i < tableRows.length; i++) {
-                if (tableRows.item(i).classList.contains("table-body-row")) {
-                    firstDataRow = tableRows.item(i);
-                    break;
-                }
-            }
             var columnNumber = 0;
             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                 columnNumber++;
-            }
+            } 
+
             for (var i = 0; i < headers.length - 1; i++) {
 
                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
@@ -95,34 +89,41 @@ module TesserisPro.TGrid {
                     break;
                 }
 
-                (<HTMLElement>headers.item(i + option.columns.length)).setAttribute("width", option.columns[columnNumber].width);
+                (<HTMLElement>headers.item(i + option.columns.length)).style.width = option.columns[columnNumber].width.toString() + "px";
+                var headerContainer = (<HTMLElement>headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
+                (<HTMLElement>headerContainer).style.width = option.columns[columnNumber].width.toString() + "px";
                 columnNumber++;
             }
 
-            var columnNumber = 0;
-            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                columnNumber++;
-            }
+            var dataRow: HTMLElement;
 
-            if (firstDataRow != undefined) {
-                var columns = firstDataRow.getElementsByTagName("td");
-                for (var i = 0; i < columns.length - 1; i++) {
+            for (var i = 0; i < tableRows.length; i++) {
+                if (tableRows.item(i).classList.contains("table-body-row")) {
+                    dataRow = tableRows.item(i);
+                    if (dataRow != undefined) {
+                        var columns = dataRow.getElementsByTagName("td");
+                        columnNumber = 0;
+                        for (var j = 0; j < columns.length - 1; j++) {
 
-                    if ((<HTMLElement>columns.item(i)).classList.contains("tgrid-table-indent-cell")) {
-                        continue;
+                            if ((<HTMLElement>columns.item(j)).classList.contains("tgrid-table-indent-cell")) {
+                                continue;
+                            }
+
+                            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                                columnNumber++;
+                            }
+
+                            if (columnNumber >= option.columns.length) {
+                                columnNumber = option.columns.length - 1;
+                                break;
+                            }
+
+                            (<HTMLElement>columns.item(j)).style.width = option.columns[columnNumber].width.toString() + "px";
+                            var cellContainer = (<HTMLElement>columns.item(j)).firstChild;
+                            (<HTMLElement>cellContainer).style.width = option.columns[columnNumber].width.toString() + "px";
+                            columnNumber++;
+                        }
                     }
-
-                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                        columnNumber++;
-                    }
-
-                    if (columnNumber >= option.columns.length) {
-                        columnNumber = option.columns.length - 1;
-                        break;
-                    }
-
-                    (<HTMLElement>columns.item(i)).setAttribute("width", option.columns[columnNumber].width);
-                    columnNumber++;
                 }
             }
         }
@@ -569,6 +570,18 @@ module TesserisPro.TGrid {
             }
         }
 
+        public appendIndent(target: HTMLElement, level: number, isHeader: boolean) {
+            var tag = isHeader ? "th" : "td";
+            for (var i = 0; i < level; i++) {
+                var cell = document.createElement(tag);
+                cell.className = "tgrid-table-indent-cell";
+                var indentContent = document.createElement("div");
+                indentContent.className = "tgrid-table-indent-cell-content";
+                cell.appendChild(indentContent);
+                target.appendChild(cell);
+            }
+        }
+
         private buildColumnHeader(column: ColumnInfo): HTMLElement {
             var headerElement = document.createElement("div");
             headerElement.className = "tgrid-header-cell-content";
@@ -603,6 +616,8 @@ module TesserisPro.TGrid {
                 return false;
             }
         }
+
+       
        
     }
 }
