@@ -1,0 +1,32 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableVirtualScroll: true }">
+        <script type="text/html">
+            <column data-g-width="55" data-g-views="mobile,desktop"  data-g-member="Number">
+            </column>
+            <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Name">
+            </column>
+            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
+            </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Position">
+            </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Department">
+            </column>
+            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="DateOfBirth">
+            </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
+                    <cell> <img width="100px" height='60px' style: "" data-bind="attr: {src: item.Picture}" /></cell>
+            </column>
+                <footer>
+                <div class ="footer">
+                    TotalCount: <span data-bind="text:totalCount"></span>
+                </div>
+            </footer>  
+        </script>
+    </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

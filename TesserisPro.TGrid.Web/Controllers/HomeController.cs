@@ -113,11 +113,11 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Virtualization/lazy loading",
                 url = "Knockout/lazyLoading",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                htmlUrl = "Knockout/lazyLoadingHtmlKnock",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/lazyLoading",
-                angularHtmlUrl = "AngularlazyLoadingHtml",
+                angularHtmlUrl = "Angular/lazyLoadingHtml",
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
             });
@@ -125,7 +125,7 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Custom items provider",
                 url = "Knockout/CustomItemsProvider",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                htmlUrl = "Knockout/CustomItemsProviderHtmlKnock",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/CustomItemsProvider",
@@ -173,7 +173,7 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Grouping with virtualization",
                 url = "Knockout/GroupingWithVirtualization",
-                htmlUrl = "Knockout/GroupingHtml",
+                htmlUrl = "Knockout/GroupingWithVirtualizationHtmlKnock",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/GroupingWithVirtualization",
@@ -197,13 +197,13 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Virtual scrolling of 100000 rows",
                 url = "Knockout/RowsWithVirtualization",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                htmlUrl = "Knockout/RowsWithVirtualizationHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
+                jsUrl = "Knockout/Js100000RowsKnockout",
                 angularUrl = "Angular/RowsWithVirtualization",
                 angularHtmlUrl = "Angular/RowsWithVirtualizationHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/Js100000RowsAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -211,11 +211,11 @@ namespace TesserisPro.TGrid.Web
                 url = "Knockout/Performance100000RowsWithPaging",
                 htmlUrl = "Knockout/Performance100000RowsWithPagingHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/JsPerformance100000RowWithPaging",
+                jsUrl = "Knockout/Js100000RowsKnockout",
                 angularUrl = "Angular/Performance100000RowsWithPaging",
                 angularHtmlUrl = "Angular/Performance100000RowsWithPagingHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/Js100000RowsAngular"
             });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
@@ -272,7 +272,7 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Virtualization/lazy loading mobile",
                 url = "Knockout/lazyLoadingMobile",
-                htmlUrl = "Knockout/PagingMobileHtml",
+                htmlUrl = "Knockout/lazyLoadingMobileHtmlKnock",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/lazyLoadingMobile",

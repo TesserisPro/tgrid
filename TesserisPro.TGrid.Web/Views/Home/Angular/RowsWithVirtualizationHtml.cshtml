@@ -1,9 +1,9 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-       <div ng-app="TGrid"> 
+    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" pageSize="5" pageSlide="4" enablePaging="true">
+            <t-grid id="test-angular" provider="dataProvider" enableVirtualScroll="true">
                 <script type="text/html">
                     <column data-g-width="55" data-g-views="mobile,desktop"  data-g-member="Number">
                     </column>
@@ -20,9 +20,7 @@
                     </column>
                      <footer>
                         <div class ="footer">
-                            Total Count: <span >{{totalCount}}</span>
-                            Current Page: <span >{{currentPage}}</span>
-                            Total Pages: <span >{{totalPages}}</span>
+                            TotalCount: <span >{{totalCount}}</span>
                         </div>
                     </footer>  
                 </script>

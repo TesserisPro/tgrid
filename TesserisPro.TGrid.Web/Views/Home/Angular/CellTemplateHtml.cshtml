@@ -1,24 +1,33 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-   <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
-        <script type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
-                <cell>
-                    <span style="color: red;" data-bind="text: item.Name"></span>                
-                </cell>
-            </column>
-            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
-                <cell>
-                    <span data-bind="text: item.Surname"></span>
-                </cell>
-            </column>
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">            
-                <cell>
-                    <span style="color: red;" data-bind="text: item.Age"></span>
-                </cell>
-            </column>
-        </script>
+  <div ng-app="TGrid"> 
+        <div ng-controller="ctrl">
+            <t-grid id="test-angular" provider="dataProvider" >
+                 <script type="text/html">
+                     <column data-g-width="75" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                        <cell>
+                            <span style="color: red;">{{item.CompanyId}}</span>
+                        </cell>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                        <cell>
+                            <span style="font-weight:600;">{{item.Country}}</span>
+                        </cell>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="City">
+                        <cell>
+                            <span>{{item.City}}</span>
+                        </cell>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Street">
+                        <cell>
+                            <span style="font-size: smaller;">{{item.Street}}</span>
+                        </cell>
+                    </column>
+                </script>
+            </t-grid>
+        </div>
     </div>
 </pre>
 

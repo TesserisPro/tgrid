@@ -273,7 +273,6 @@
     <Content Include="Views\Home\Knockout\CustomActionsToOpenDetails.cshtml" />
     <Content Include="Views\Home\Knockout\DetailsTemplateMobile.cshtml" />
     <Content Include="Views\Home\Knockout\DetailsTemplate.cshtml" />
-    <Content Include="Views\Home\Knockout\HeaderTemplateMobile.cshtml" />
     <Content Include="Views\Home\Knockout\HeaderTemplate.cshtml" />
     <Content Include="Views\Home\Knockout\PagingMobile.cshtml" />
     <Content Include="Views\Home\Knockout\GroupingWithVirtualization.cshtml" />
@@ -293,7 +292,7 @@
     <Content Include="Views\Home\Knockout\GroupingMobileHtml.cshtml" />
     <Content Include="Views\Home\Knockout\EditingWithCellTemplateHtml.cshtml" />
     <Content Include="Views\Home\Knockout\Performance100000RowsWithPagingHtml.cshtml" />
-    <Content Include="Views\Home\Knockout\JsPerformance100000RowWithPaging.cshtml" />
+    <Content Include="Views\Home\Knockout\Js100000RowsKnockout.cshtml" />
     <Content Include="Views\Home\Knockout\PagingMobileHtml.cshtml" />
     <Content Include="Views\Home\Knockout\Filtering.cshtml" />
     <Content Include="Views\Home\Knockout\FilteringGroupingSorting.cshtml" />
@@ -331,7 +330,7 @@
     <Content Include="Views\Home\Angular\GroupingMobileHtml.cshtml" />
     <Content Include="Views\Home\Angular\GroupingWithVirtualization.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Angular\JsPerformance100000RowWithPaging.cshtml" />
+    <Content Include="Views\Home\Angular\Js100000RowsAngular.cshtml" />
     <Content Include="Views\Home\Angular\LazyLoading.cshtml" />
     <Content Include="Views\Home\Angular\lazyLoadingMobile.cshtml" />
     <Content Include="Views\Home\Angular\Paging.cshtml" />
@@ -351,6 +350,16 @@
     <Content Include="Views\Home\Download.cshtml" />
     <Content Include="Views\Home\Angular\HeaderTemplateHtml.cshtml" />
     <Content Include="Views\Home\Angular\HeaderTemplate.cshtml" />
+    <Content Include="Views\Home\Knockout\lazyLoadingHtmlKnock.cshtml" />
+    <Content Include="Views\Home\Knockout\lazyLoadingMobileHtmlKnock.cshtml" />
+    <Content Include="Views\Home\Knockout\CustomItemsProviderHtmlKnock.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupingWithVirtualizationHtmlKnock.cshtml" />
+    <Content Include="Views\Home\Angular\CustomItemsProviderHtml.cshtml" />
+    <Content Include="Views\Home\Angular\GroupingWithVirtualizationHtml.cshtml" />
+    <Content Include="Views\Home\Angular\lazyLoadingHtml.cshtml" />
+    <Content Include="Views\Home\Angular\lazyLoadingMobileHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\RowsWithVirtualizationHtml.cshtml" />
+    <Content Include="Views\Home\Angular\RowsWithVirtualizationHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

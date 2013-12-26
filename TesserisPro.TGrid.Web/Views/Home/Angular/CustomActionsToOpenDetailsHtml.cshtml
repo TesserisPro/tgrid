@@ -1,52 +1,46 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: false }">
-        <script type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">            
-                <cell>
-                    <span style="display: inline-block;" data-bind="text: item.Name"></span>
-                    <span data-bind="event: { mouseover: function () { showDetailForCell(0);} }, eventBubble: false">...</span>
-                </cell>
-                <celldetail>
-                    <div>
-                        <div>This is a sample of table cell details:  </div>
-                        <div style="color: #444;" data-bind="text: item.detail_Name"></div>
-                    </div>
-                </celldetail>
-            </column>
-            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
-                <cell>
-                    <span style="display: inline-block;" data-bind="text: item.Surname"></span>
-                    <span data-bind=" event: { mouseover: function () { showDetailForCell(1) } },  eventBubble: false">...</span>
-                </cell>
-                <celldetail>
-                    <div>
-                        <div>This is a sample of table cell details:  </div>
-                        <div style="color: #444;" data-bind="text: item.detail_Surname"></div>
-                    </div>
-                </celldetail>
-            </column>
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
-            </column>
-            <column data-g-width="150" data-g-views="mobile,desktop">
-                <header>
-                    <span>Details for row</span>
-                </header>
-                    <cell>
-                    <button style="color: #444;" data-bind=" click: function () { showDetailForCell(-1) },  clickBubble: false">Details</button>
-                </cell>
-            </column>
-            <details>
-                <div>
-                    <div>This is a sample of table row details:  </div>
-                    <div style="color: #444;" data-bind="text: item.detail"></div>
-                    <div><span>First Name : </span><span style="color: #444;" data-bind="text: item.Name"></span></div>
-                    <div><span>Last Name : </span><span style="color: #444;" data-bind="text: item.Surname"></span></div>
-                    <div><span>Age : </span><span style="color: #444;" data-bind="text: item.Age"></span></div>
-                </div>
-            </details>
-        </script>
+    <div ng-app="TGrid"> 
+        <div ng-controller="ctrl">
+            <t-grid id="test-angular" provider="dataProvider" selectionMode="single" showDetailsOnSelection="false">
+                 <script type="text/html">
+                     <column data-g-width="75" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                         <cell>
+                            <span>{{item.CompanyId}}</span>
+                            <a href ng-mouseover="showDetailForCell(0); $event.stopPropagation();">...</a> 
+                        </cell>
+                         <celldetail>
+                            <div>
+                                <div>This is a sample of cell details: </div>
+                                <div style="color: #444;">{{item.detail_Company}}</div>
+                            </div>
+                        </celldetail>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                    </column>
+                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="City">
+                    </column>
+                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="Street">
+                    </column>
+                     <column data-g-width="150" data-g-views="mobile,desktop">
+                        <header>
+                            <span>Details for row</span>
+                        </header>
+                         <cell>
+                            <button style="color: #444;" ng-click="showDetailForCell(-1); $event.stopPropagation();">Details</button>
+                        </cell>
+                    </column>
+                     <details>
+                        <div>
+                            <div>This is a sample of row details: </div>
+                            <div style="color: #444;">{{item.detail}}</div>                    
+                            <div><span>Company detail : </span><span style="color: #444;">{{item.detail_Company}} </span></div>         
+                        </div>
+                    </details>
+                </script>
+            </t-grid>
+        </div>
     </div>
 </pre>
 

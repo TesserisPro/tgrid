@@ -1,10 +1,10 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-   <div ng-app="TGrid">
-       <div ng-controller="ctrl">
-           <t-grid id="test-angular" provider="dataProvider" pageSize="6" pageSlide="2" enablePaging="true">
-               <script type="text/html">
+    <div ng-app="TGrid"> 
+        <div ng-controller="ctrl">
+            <t-grid id="test-angular" provider="dataProvider" enableVirtualScroll="true">
+                <script type="text/html">
                     <column data-g-width="75" data-g-views="mobile,desktop" data-g-member ="CompanyId">
                     </column>
                     <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">

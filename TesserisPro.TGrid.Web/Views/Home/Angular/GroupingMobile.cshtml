@@ -22,11 +22,11 @@
     </style>
 </head>
 <body> 
-    <div ng-app="TGrid"> 
-        <div ng-controller="ctrl">
-             <div class="mobile-phone-wrapper">
-                <img src="@Url.Content("~/Content/images/iphone.png")">
-                <div class ="mobile-grid-container">
+    <div class="mobile-phone-wrapper">
+        <img src="@Url.Content("~/Content/images/iphone.png")">
+        <div class ="mobile-grid-container">
+            <div ng-app="TGrid"> 
+                <div ng-controller="ctrl">
                     <t-grid id="test-angular" provider="dataProvider" enableGrouping="true">
                         <script type="text/html">
                             <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId" data-g-group-member ="CompanyId">

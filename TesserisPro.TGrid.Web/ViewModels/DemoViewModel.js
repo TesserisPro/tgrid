@@ -56,25 +56,49 @@
     }
 
     function UpdateCodePreview() {
-        if (self.currentCodeName() == "HTML") {
-            if (isDesktop) {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().htmlUrl), function (r) { self.currentCode(r) })
-            } else {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().htmlUrl), function (r) { self.currentCode(r) })
+        if (self.knockoutActive()) {
+            if (self.currentCodeName() == "HTML") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().htmlUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().htmlUrl), function (r) { self.currentCode(r) })
+                }
             }
-        }
-        if (self.currentCodeName() == "CSS") {
-            if (isDesktop) {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().cssUrl), function (r) { self.currentCode(r) })
-            } else {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().cssUrl), function (r) { self.currentCode(r) })
+            if (self.currentCodeName() == "CSS") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().cssUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().cssUrl), function (r) { self.currentCode(r) })
+                }
             }
-        }
-        if (self.currentCodeName() == "JS") {
-            if (isDesktop) {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().jsUrl), function (r) { self.currentCode(r) })
-            } else {
-                $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().jsUrl), function (r) { self.currentCode(r) })
+            if (self.currentCodeName() == "JS") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().jsUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().jsUrl), function (r) { self.currentCode(r) })
+                }
+            }
+        } else {
+            if (self.currentCodeName() == "HTML") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().angularHtmlUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().angularHtmlUrl), function (r) { self.currentCode(r) })
+                }
+            }
+            if (self.currentCodeName() == "CSS") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().angularCssUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().angularCssUrl), function (r) { self.currentCode(r) })
+                }
+            }
+            if (self.currentCodeName() == "JS") {
+                if (isDesktop) {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoItem().angularJsUrl), function (r) { self.currentCode(r) })
+                } else {
+                    $.get(window.location.href.replace(new RegExp("/([^/])+(/(\0x3F.+)?)?$"), "/Code?code=" + self.currentDemoMobItem().angularJsUrl), function (r) { self.currentCode(r) })
+                }
             }
         }
     }
