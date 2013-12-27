@@ -182,6 +182,15 @@ module TesserisPro.TGrid {
             this.buisyIndicator = document.createElement("div");
             this.buisyIndicator.className = "tgrid-buisy-indicator";
             this.rootElement.appendChild(this.buisyIndicator);
+
+            this.rootElement.onmousewheel = e => this.mouseWheel(e);
+
+            this.tableBodyContainer.onmousedown = e => {
+                if (e.button == 1) {
+                    e.preventDefault();
+                }
+            }
+
             this.hideBuisyIndicator();
         }
 
@@ -202,6 +211,13 @@ module TesserisPro.TGrid {
                 c.width = "5";
             }
             this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
+        }
+
+        private mouseWheel(e: MouseWheelEvent) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
         }
 
         private getPreviousPageFirsItemIndex(): number {
@@ -294,51 +310,34 @@ module TesserisPro.TGrid {
         public scrollTable(): void {
             var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
 
-            if (this.firstVisibleItemIndex > 0) {
-                if (container.scrollTop == 0) {
-                    container.scrollTop = 1;
+            if (!this.isPreloadingNext && this.enablePreload) {
+                if (container.scrollTop > ((container.scrollHeight - container.clientHeight) / 4 * 3) && this.nextPage == null) {
+                    this.preloadNextPage();
+                }
+            }
+
+            if (!this.isPreloadingPrevious && this.enablePreload) {
+                if (container.scrollTop < ((container.scrollHeight - container.clientHeight) / 4) && this.previousPage == null) {
+                    this.preloadPreviousPage();
                 }
             }
 
             if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
-                if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
-                    container.scrollTop = container.scrollHeight - container.clientHeight - 1;
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+                    this.showNextPage();
                 }
             }
 
-            if (!this.isBuisy) {
-                setTimeout(() => {
-                    var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
-                    if (!this.isPreloadingNext && this.enablePreload) {
-                        if (container.scrollTop > ((container.scrollHeight - container.clientHeight) / 4 * 3) && this.nextPage == null) {
-                            this.preloadNextPage();
-                        }
-                    }
-
-                    if (!this.isPreloadingPrevious && this.enablePreload) {
-                        if (container.scrollTop < ((container.scrollHeight - container.clientHeight) / 4) && this.previousPage == null) {
-                            this.preloadPreviousPage();
-                        }
-                    }
-
-                    if (this.totalItemsCount > this.firstVisibleItemIndex + this.visibleItems.length) {
-                        if (container.scrollTop + container.clientHeight >= container.scrollHeight - 1) {
-                            this.showNextPage();
-                        }
-                    }
-
-                    if (this.firstVisibleItemIndex > 0) {
-                        if (container.scrollTop <= 1) {
-                            this.showPreviousPage();
-                        }
-                    }
-                    if (this.isDesktopMode()) {
-                        this.updateGlobalScroll();
-                    }
-                    else {
-                        this.updateGlobalScrollMobile();
-                    }
-                }, 1);
+            if (this.firstVisibleItemIndex > 0) {
+                if (container.scrollTop <= 1) {
+                    this.showPreviousPage();
+                }
+            }
+            if (this.isDesktopMode()) {
+                this.updateGlobalScroll();
+            }
+            else {
+                this.updateGlobalScrollMobile();
             }
         }
 
