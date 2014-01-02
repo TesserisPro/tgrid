@@ -332,7 +332,7 @@ module TesserisPro.TGrid {
                             scope.$watch(attr.ngShowInFocus, function (value) {
                                 var el = element;
                                 if (value) {
-                                    el.css('display', '');
+                                    el.css('display', 'block');
                                     el.focus();
                                 } else {
                                     element.css('display', 'none');
