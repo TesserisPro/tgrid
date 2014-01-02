@@ -1,5 +1,5 @@
 ﻿body {
-    font: 13px/1.65 DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: "Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
     color: #3e3e3e;
 }
 body .mb20 {
@@ -12,7 +12,7 @@ body .pt30 {
     padding-top: 30px;
 }
 body .tac {
-    text-align: center;
+    text-align: left;
 }
 body .fl {
     float: left;
@@ -49,11 +49,17 @@ dl.key-value:after, .sfFormBox:after, .sfFormDropdown:after, .sfFormBlock:after,
     clear: both;
 }
 h2, .h2 {
-    font: 400 40px/1.2 Roboto-LightWeb,"Segoe UI Light","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 40px/1.2 "Segoe UI Light","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
     color: #313131;
 }
 h3, .h3 {
-    font: 400 22px/1.2 DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 22px/1.2 "Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+}
+
+.general-description
+{
+    color: whitesmoke;
+    font-size: 16px;
 }
 
 .page-web span, .page-mobile span, .page-dataviz span, .page-web div, .page-mobile div, .page-dataviz div, .page-web section, .page-mobile section, .page-dataviz section {
@@ -134,7 +140,7 @@ img, fieldset {
     position: absolute;
     top: 0;
     left: 0;
-    background: url(/Content/images/gears5.png), whitesmoke;
+    background: url(/Content/images/gears5.png) repeat, whitesmoke;
     /*background: url(/Content/images/gears5.png),-webkit-gradient(radial, center center, 0, center center, 460, from(white), to(#EEE9E9));
     background: url(/Content/images/gears5.png),-webkit-radial-gradient(circle, white, #EEE9E9);
     background: url(/Content/images/gears5.png) no-repeat left,-moz-radial-gradient(circle, white, #EEE9E9);
@@ -405,7 +411,6 @@ p, address {
     clear: both;
     position: relative;
     z-index: 4;
-    background: white;
 }
 .sf_cols {
     zoom: 1;
@@ -424,14 +429,7 @@ p, address {
     position: relative;
     padding: 0 0 67px 0;
 }
-#img-1 img{
-    width:520px;
-    height:400px;
-}
-#img-2 img{
-    width:454px;
-    height:382px;
-}
+
 .box-faq {
     margin-top: 30px;
 }
@@ -529,8 +527,8 @@ footer .centered-content {
     /*height:1281px;*/
     position:absolute;
     /*right: 471.5px;*/   
-    background-color: rgba(0, 0, 0, 0.06)
-    background: -webkit-gradient(linear, left top, right top, from(whitesmoke), to(rgb(185, 183, 183)));
+    background-color: rgba(0, 0, 0, 0.06);
+    background: -webkit-gradient(linear, left top, right top, from(whitesmoke), to(rgb(185, 183, 183)));    
     background: -webkit-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
     background: -moz-linear-gradient(right, whitesmoke, rgb(185, 183, 183));
     background: -ms-linear-gradient(right, whitesmoke,rgb(185, 183, 183));
@@ -540,7 +538,6 @@ footer .centered-content {
     display: inline-block;
     width:260px;
     height:auto;
-    background:white;
     margin-bottom: 40px;
     position:absolute;
 }

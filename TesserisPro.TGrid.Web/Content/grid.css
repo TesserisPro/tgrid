@@ -66,10 +66,10 @@
     margin: 0px;
     display:inline-block;
     position: absolute;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
+    left: 0;
+    right: 0;
+    top: 3px;
+    bottom: 0;
 }
 
 .tgrid-header-cell-buttons {
@@ -85,12 +85,13 @@
 }
 
 .tgrid-header-column-resize{
-    right: -4px;
-    width: 4px;
+    right: -6px;
+    width: 8px;
     top: 0px;
     bottom: 0px;
     position: absolute;
     cursor: col-resize;
+    z-index: 100;
 }
 
 .tgrid-table tbody tr td, .tgrid-table-group-header {
@@ -99,7 +100,8 @@
     vertical-align: middle;
     text-overflow: ellipsis;
     color: grey;
-    border-right: 1px solid #DDDCDC;
+    border-right: 1px solid #d7d7d7;
+    border-top: 1px solid #d7d7d7;
 }
 .tgrid-cell-content > span,
 .tgrid-cell-content > div,
@@ -110,20 +112,22 @@
 }
 
 .tgrid-table-group-header, .tgrid-mobile-group-header  {
-    border-bottom: none !important;
-    border-left: none !important;
     background-color: rgb(233, 234, 235) !important;
 }
 
-.tgrid-table-indent-cell {   
-    background-color: rgb(233, 234, 235)  !important;
+td.tgrid-table-group-header {
+    border-top: 1px solid #d7d7d7;
+    border-left: 1px solid #d7d7d7;
 }
+
 
 .tgrid-mobile-indent-div, 
 .tgrid-table-indent-cell, 
 .tgrid-mobile-group-indent-div,
 .tgrid-table-indent-cell-content {
-    width: 20px;
+    width: 24px;
+    background-color: rgb(233, 234, 235) !important;
+    border-top: none !important;
 }
 
 .tgrid-table tbody tr.selected td {
@@ -160,9 +164,9 @@
 }
 
 .tgrid-mobile-group {
-    border-left: 1px solid rgb(122,188,255);
-    border-right: 1px solid rgb(122,188,255);
-    border-bottom: 1px solid rgb(122,188,255);
+    border-left: 1px solid #d7d7d7;;
+    border-right: 1px solid #d7d7d7;;
+    border-bottom: 1px solid #d7d7d7;;
 }
 
 .tgird-page-current,
@@ -218,11 +222,13 @@
 .tgrid-buisy-indicator {
     display: inline-block;
     position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background-color: rgba(122, 188, 255, 0.44);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("images/busy.gif");
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .tgrid-scroll {

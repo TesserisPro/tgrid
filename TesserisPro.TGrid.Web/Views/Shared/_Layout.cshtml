@@ -28,7 +28,7 @@
                 <a id="tgrid-log" href="@Url.Content("~/Home")" >
                     <img src="@Url.Content("~/Content/images/tgridSNS.png")" />
                 </a>
-                <a id="tgrid-logo" href="http://www.tesseris.com/" >
+                <a id="tgrid-logo" href="http://www.tesseris.com/" style="position: absolute; left: 825px;">
                     <img src="@Url.Content("~/Content/images/tesseris.png")" />
                 </a>
             </div>
@@ -37,7 +37,7 @@
 <div id="wrapper" style="background: url(@Url.Content("~/Content/images/gears5.png"))">
     
     <header>
-        <div class="centered-content header-main">
+        @*<div class="centered-content header-main">
             <div class="sfContentBlock">                
                 <nav class="tgrid-nav">
                     <div class="nav-submenu">
@@ -50,7 +50,7 @@
                     </div>
                 </nav>             
             </div>
-        </div>  
+        </div>*@  
         @RenderSection("featured", required: false) 
 
     </header>

@@ -156,6 +156,7 @@
     <Content Include="Content\images\arrow_down_mobile.png" />
     <Content Include="Content\images\arrow_up.png" />
     <Content Include="Content\images\arrow_up_mobile.png" />
+    <Content Include="Content\images\busy.gif" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\filter.png" />
     <Content Include="Content\images\filter_active.png" />
