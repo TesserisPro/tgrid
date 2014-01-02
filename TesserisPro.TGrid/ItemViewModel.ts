@@ -22,7 +22,6 @@ module TesserisPro.TGrid {
 
         public setItemValue(item: any): void {
             this.item = item;
-            this.model.editingItem = null;
         }
         
     }

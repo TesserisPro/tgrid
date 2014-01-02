@@ -240,6 +240,7 @@
                     $scope.colName = colName;
                 }
                 $scope.getValueForSaving = function (colName) {
+                    $scope.editingItem = null;
                     $scope.valueForSaving[$scope.colName] = $scope.valueForEditing;
                     return $scope.valueForSaving;
                 }

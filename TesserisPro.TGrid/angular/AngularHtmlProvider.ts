@@ -320,7 +320,6 @@ module TesserisPro.TGrid {
             angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
 
             var appModule = angular.module(AngularHtmlProvider.angularModuleName, []);
-            var self = this;
             appModule.controller(angularItemViewModel.angularControllerName, ['$scope', function ($scope) {
                 angularItemViewModel.setScope($scope);
             }])
@@ -330,10 +329,9 @@ module TesserisPro.TGrid {
                         restrict: 'A',
                         link: function (scope, element, attr) {
                             scope.$watch(attr.ngShowInFocus, function (value) {
-                                var el = element;
                                 if (value) {
-                                    el.css('display', 'block');
-                                    el.focus();
+                                    element.css('display', 'block');
+                                    element.focus();
                                 } else {
                                     element.css('display', 'none');
                                 }
