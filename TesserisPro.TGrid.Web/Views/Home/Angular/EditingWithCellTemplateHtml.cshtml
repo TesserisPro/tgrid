@@ -1,27 +1,31 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
-        <script  type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="name">
-                <cell>
-                    <span style="color: green;" data-bind="text: item.Name, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>                                     
-                    <input class="hidden" style="color: red;" data-bind="value: item.Name, css: { visible: model.editingItem() == item} "></input>                    
-                </cell>
-            </column>
-            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="key"> 
-                <cell>
-                    <span data-bind="text: item.Surname, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item } "></span>
-                    <input class="hidden" data-bind="value: item.Surname, css: { visible: model.editingItem() == item }"></input>
-                </cell>
-            </column>
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">            
-                <cell>
-                    <span style="color: red;" data-bind="text: item.Age, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"></span>
-                    <input class="hidden" style="color: red;" data-bind="value: item.Age, css: { visible: model.editingItem() == item }"></input>
-                </cell>
-            </column>
-        </script>
+    <div ng-app="TGrid"> 
+        <div ng-controller="ctrl">
+            <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="false" selectionMode="none">
+                 <script type="text/html">
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="CompanyId">
+                        <cell>
+                            <span style="color: red;" ng-hide="model.editingItem == item.CompanyId"  ng-click="model.toggleActive(item, item.CompanyId, 'CompanyId')">{{item.CompanyId}}</span>                                     
+                            <input ng-show-in-focus="model.editingItem == item.CompanyId" ng-blur="setItemValue(model.getValueForSaving())"  ng-model="model.valueForEditing" style="display:none;" />             
+                        </cell>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Country">
+                        <cell>
+                            <span ng-hide="model.editingItem == item.Country"  ng-click="model.toggleActive(item, item.Country, 'Country')">{{item.Country}}</span>                                     
+                            <input ng-show-in-focus="model.editingItem == item.Country"  ng-blur="setItemValue(model.getValueForSaving())"  ng-model="model.valueForEditing" style="display:none;" />                 
+                        </cell>
+                    </column>
+                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="City">
+                        <cell>
+                            <span style="color: green;" ng-hide="model.editingItem == item.City"  ng-click="model.toggleActive(item,  item.City, 'City')">{{item.City}}</span>                                     
+                            <input ng-show-in-focus="model.editingItem == item.City" ng-blur="setItemValue(model.getValueForSaving())" ng-model="model.valueForEditing" style="display:none;" />                   
+                        </cell>
+                    </column>
+                </script>
+            </t-grid>
+        </div>
     </div>
 </pre>
 

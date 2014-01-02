@@ -22,6 +22,9 @@ var TesserisPro;
                 this.$scope.showDetailForCell = function (columnIndex) {
                     return _this.showDetailForCell(columnIndex);
                 };
+                this.$scope.setItemValue = function (item) {
+                    return _this.setItemValue(item);
+                };
             };
             return AngularItemViewModel;
         })(TGrid.ItemViewModel);

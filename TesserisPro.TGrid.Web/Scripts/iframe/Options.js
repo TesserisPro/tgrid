@@ -1,4 +1,4 @@
-var TesserisPro;
+﻿var TesserisPro;
 (function (TesserisPro) {
     /// <reference path="SortDescriptor.ts" />
     /// <reference path="FilterDescriptor.ts" />

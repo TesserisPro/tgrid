@@ -19,6 +19,12 @@ module TesserisPro.TGrid {
             this.grid.options.showDetailFor.item = this.item;
             this.grid.updateRow(this.item);
         }
+
+        public setItemValue(item: any): void {
+            this.item = item;
+            this.model.editingItem = null;
+        }
+        
     }
 
 }

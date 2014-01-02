@@ -1,57 +1,8 @@
-﻿@{
-    Layout = null;
-}
+﻿<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>EditingWithCellTemplateAngular</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
-   
-    
-    <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
-    <script src="~/Scripts/iframe/angular.js"></script>
-     <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
-
-    <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
-     <style>
-        .tgrid-table tbody tr td span {
-            display: block;
-            width: auto;
-        }
-    </style>
-</head>
-<body> 
-    <div ng-app="TGrid"> 
-        <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="false" selectionMode="none">
-                 <script type="text/html">
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="CompanyId">
-                        <cell>
-                            <span style="color: red;" ng-hide="model.editingItem == item.CompanyId"  ng-click="model.toggleActive(item, item.CompanyId, 'CompanyId')">{{item.CompanyId}}</span>                                     
-                            <input ng-show-in-focus="model.editingItem == item.CompanyId" ng-blur="setItemValue(model.getValueForSaving())"  ng-model="model.valueForEditing" style="display:none;" />             
-                        </cell>
-                    </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Country">
-                        <cell>
-                            <span ng-hide="model.editingItem == item.Country"  ng-click="model.toggleActive(item, item.Country, 'Country')">{{item.Country}}</span>                                     
-                            <input ng-show-in-focus="model.editingItem == item.Country"  ng-blur="setItemValue(model.getValueForSaving())"  ng-model="model.valueForEditing" style="display:none;" />                 
-                        </cell>
-                    </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="City">
-                        <cell>
-                            <span style="color: green;" ng-hide="model.editingItem == item.City"  ng-click="model.toggleActive(item,  item.City, 'City')">{{item.City}}</span>                                     
-                            <input ng-show-in-focus="model.editingItem == item.City" ng-blur="setItemValue(model.getValueForSaving())" ng-model="model.valueForEditing" style="display:none;" />                   
-                        </cell>
-                    </column>
-                </script>
-            </t-grid>
-        </div>
-    </div>
+<pre class="brush: js">
     <script type="text/javascript">
         var SimpleItemsProviderAngular = (function () {
             var items = [
@@ -249,6 +200,5 @@
         
         $(function () {
         })
-    </script> 
-</body>
-</html>
+    </script>
+</pre>

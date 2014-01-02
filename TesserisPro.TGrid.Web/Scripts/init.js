@@ -14,7 +14,6 @@
         for (var i = 0; i < menuItems.length; i++) {
             menuItems[i].style.display = 'block';
             event.stopPropagation();
-            event.cancelBubble();
             document.onclick = function () {
                 for (var j = 0; j < menuItems.length; j++) {
                     menuItems[j].style.display = 'none';

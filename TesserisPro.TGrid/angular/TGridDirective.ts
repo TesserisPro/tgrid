@@ -1,4 +1,4 @@
-/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+ /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 /// <reference path="../Options.ts"/>
 
 module TGrid.Angular {
@@ -7,7 +7,7 @@ module TGrid.Angular {
         directive.restrict = 'E';
         directive.link = function (scope, element, attrs) {
             var options = new TesserisPro.TGrid.Options(element[0], 1 /* Angular */);
-
+            options.parentViewModel = scope;
             if (attrs["groupby"] != undefined) {
                 var groupBy = attrs["groupby"].split(' ');
                 if (groupBy.length > 0 && groupBy[0] != "") {

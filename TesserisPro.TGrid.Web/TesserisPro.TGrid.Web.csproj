@@ -241,6 +241,7 @@
     <Content Include="Scripts\iframe\TGridDirective.js" />
     <Content Include="Scripts\iframe\utils.js" />
     <Content Include="Scripts\init.js" />
+    <Content Include="Scripts\iframe\knockout-2.3.0.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -360,6 +361,8 @@
     <Content Include="Views\Home\Angular\lazyLoadingMobileHtml.cshtml" />
     <Content Include="Views\Home\Knockout\RowsWithVirtualizationHtml.cshtml" />
     <Content Include="Views\Home\Angular\RowsWithVirtualizationHtml.cshtml" />
+    <Content Include="Views\Home\Angular\jaEditingWithCellTemplateAngular.cshtml" />
+    <Content Include="Views\Home\Knockout\jaEditingWithCellTemplateKnockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,13 +372,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Knockout\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Knockout\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TesserisPro.TGrid\TesserisPro.TGrid.csproj">

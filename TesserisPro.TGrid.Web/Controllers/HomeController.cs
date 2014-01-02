@@ -187,11 +187,11 @@ namespace TesserisPro.TGrid.Web
                 url = "Knockout/EditingWithCellTemplate",
                 htmlUrl = "Knockout/EditingWithCellTemplateHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
+                jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
                 angularUrl = "Angular/EditingWithCellTemplate",
                 angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {

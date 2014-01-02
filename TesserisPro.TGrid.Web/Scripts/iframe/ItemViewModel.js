@@ -14,6 +14,11 @@ var TesserisPro;
                 this.grid.options.showDetailFor.item = this.item;
                 this.grid.updateRow(this.item);
             };
+
+            ItemViewModel.prototype.setItemValue = function (item) {
+                this.item = item;
+                this.model.editingItem = null;
+            };
             return ItemViewModel;
         })();
         TGrid.ItemViewModel = ItemViewModel;

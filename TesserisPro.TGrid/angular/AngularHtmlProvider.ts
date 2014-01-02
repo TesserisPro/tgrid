@@ -273,9 +273,9 @@ module TesserisPro.TGrid {
                 if (option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 }
-                footer.appendChild(footerContainer);
 
                 angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
+                footer.appendChild(footerContainer);
             }
         }
 
@@ -288,9 +288,10 @@ module TesserisPro.TGrid {
                 filterPopupContainer.setAttribute("ng-controller", "tgrid-filter-popup-controller"); 
                 option.filterPopup.applyTemplate(filterPopupContainer);
                 filterPopup.innerHTML = "";
-                filterPopup.appendChild(filterPopupContainer);
 
                 angular.bootstrap(filterPopupContainer, [(<AngularFilterPopupViewModel>filterPopupModel).angularModuleName]);
+
+                filterPopup.appendChild(filterPopupContainer);
             }
         }
 
@@ -319,9 +320,27 @@ module TesserisPro.TGrid {
             angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
 
             var appModule = angular.module(AngularHtmlProvider.angularModuleName, []);
+            var self = this;
             appModule.controller(angularItemViewModel.angularControllerName, ['$scope', function ($scope) {
-                    angularItemViewModel.setScope($scope);
-                }]);
+                angularItemViewModel.setScope($scope);
+            }])
+                .directive('ngShowInFocus', function () {
+                    return {
+                        replace: true,
+                        restrict: 'A',
+                        link: function (scope, element, attr) {
+                            scope.$watch(attr.ngShowInFocus, function (value) {
+                                var el = element;
+                                if (value) {
+                                    el.css('display', '');
+                                    el.focus();
+                                } else {
+                                    element.css('display', 'none');
+                                }
+                            });
+                        }
+                    };
+                });
             row.setAttribute("ng-controller", angularItemViewModel.angularControllerName);
 
             this.appendIndent(row, option.groupBySortDescriptors.length, false);
