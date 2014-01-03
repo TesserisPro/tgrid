@@ -221,11 +221,14 @@
     <Content Include="Scripts\iframe\IItemProvider.js" />
     <Content Include="Scripts\iframe\ItemViewModel.js" />
     <Content Include="Scripts\iframe\knockout-3.0.0.js" />
+    <Content Include="Scripts\iframe\knockout.mapping-latest.js" />
     <Content Include="Scripts\iframe\KnockoutFilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\KnockoutItemViewModel.js" />
     <Content Include="Scripts\iframe\tgrid-angular-min.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Views\Home\Knockout\CellTemplateHtml.cshtml" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
