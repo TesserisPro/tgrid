@@ -680,3 +680,16 @@ footer .centered-content {
     margin-bottom: 10px;
 }
 
+.mobile-phone-wrapper {
+    position:relative;
+}
+
+.mobile-grid-container {
+    position:absolute;
+    top: 136px;
+    left: 57px;
+    background: white;
+    height: 519px;
+    width: 318px;
+}
+

@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SimpleGridWithoutPaging</title>
+    <title>SimpleGridWithoutPagingMobile</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
     <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
     
@@ -21,21 +21,16 @@
 </head>
 <body>
     <div>
-        <div class="mobile-phone-wrapper">
-            <img src="@Url.Content("~/Content/images/iphone.png")">
-            <div class ="mobile-grid-container">
-                <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
-                    <script type="text/html">
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
-                        </column>
-                        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
-                        </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">  
-                        </column>
-                    </script>
-                </div>
-            </div>
-        <div>
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
+            <script type="text/html">
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
+                </column>
+                <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
+                </column>
+                <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">  
+                </column>
+            </script>
+        </div>
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {
                 var items = [

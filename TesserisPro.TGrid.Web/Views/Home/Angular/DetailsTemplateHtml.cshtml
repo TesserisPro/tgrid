@@ -5,7 +5,7 @@
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true" selectionMode="single">
                  <script type="text/html">
-                     <column data-g-width="75" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
                          <cell>
                             <span>{{item.CompanyId}}</span>
                             <a href ng-click="showDetailForCell(0); $event.stopPropagation();">...</a> 

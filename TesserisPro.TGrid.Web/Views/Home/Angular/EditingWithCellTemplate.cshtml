@@ -30,7 +30,7 @@
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="false" selectionMode="none">
                  <script type="text/html">
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="CompanyId">
+                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="CompanyId">
                         <cell>
                             <span style="color: red;" ng-hide="model.editingItem == item.CompanyId"  ng-click="model.toggleActive(item, item.CompanyId, 'CompanyId')">{{item.CompanyId}}</span>                                     
                             <input ng-show-in-focus="model.editingItem == item.CompanyId" ng-blur="setItemValue(model.getValueForSaving())"  ng-model="model.valueForEditing" style="display:none;" />             
@@ -46,6 +46,12 @@
                         <cell>
                             <span style="color: green;" ng-hide="model.editingItem == item.City"  ng-click="model.toggleActive(item,  item.City, 'City')">{{item.City}}</span>                                     
                             <input ng-show-in-focus="model.editingItem == item.City" ng-blur="setItemValue(model.getValueForSaving())" ng-model="model.valueForEditing" style="display:none;" />                   
+                        </cell>
+                    </column>
+                     <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Street">
+                        <cell>
+                            <span style="color: green;" ng-hide="model.editingItem == item.Street"  ng-click="model.toggleActive(item,  item.Street, 'Street')">{{item.Street}}</span>                                     
+                            <input ng-show-in-focus="model.editingItem == item.Street" ng-blur="setItemValue(model.getValueForSaving())" ng-model="model.valueForEditing" style="display:none;" />                   
                         </cell>
                     </column>
                 </script>
