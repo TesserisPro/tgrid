@@ -36,21 +36,22 @@ var TGridBindingHandler = (function () {
         } else {
             groupBySortDescriptor = valueAccessor().groupBy;
         }
-        for (var i = 0; i < groupBySortDescriptor.length; i++) {
-            options.groupBySortDescriptor.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
+        if (groupBySortDescriptor != undefined) {
+            for (var i = 0; i < groupBySortDescriptor.length; i++) {
+                options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
+            }
         }
-
         if (isObservable(valueAccessor().enablePaging)) {
             if (typeof valueAccessor().enablePaging() == "boolean") {
-                options.isEnablePaging = valueAccessor().enablePaging();
+                options.enablePaging = valueAccessor().enablePaging();
             } else {
-                options.isEnablePaging = valueAccessor().enablePaging == "true" ? true : false;
+                options.enablePaging = valueAccessor().enablePaging == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enablePaging == "boolean") {
-                options.isEnablePaging = valueAccessor().enablePaging;
+                options.enablePaging = valueAccessor().enablePaging;
             } else {
-                options.isEnablePaging = valueAccessor().enablePaging == "true" ? true : false;
+                options.enablePaging = valueAccessor().enablePaging == "true" ? true : false;
             }
         }
 
@@ -59,9 +60,7 @@ var TGridBindingHandler = (function () {
         } else {
             options.pageSize = valueAccessor().pageSize;
         }
-        if (options.isEnablePaging) {
-            options.pageSize = (isNaN(options.pageSize) || options.pageSize < 1) ? 10 : options.pageSize;
-        }
+        options.pageSize = (isNaN(options.pageSize) || options.pageSize < 1) ? 10 : options.pageSize;
 
         if (isObservable(valueAccessor().selectMode)) {
             options.selectionMode = valueAccessor().selectMode();
@@ -74,59 +73,107 @@ var TGridBindingHandler = (function () {
 
         if (isObservable(valueAccessor().enableVirtualScroll)) {
             if (typeof valueAccessor().enableVirtualScroll() == "boolean") {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll();
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll();
             } else {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableVirtualScroll == "boolean") {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll;
             } else {
-                options.isEnableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
+                options.enableVirtualScroll = valueAccessor().enableVirtualScroll == "true" ? true : false;
             }
         }
 
         if (isObservable(valueAccessor().enableCollapsing)) {
             if (typeof valueAccessor().enableCollapsing() == "boolean") {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing();
+                options.enableCollapsing = valueAccessor().enableCollapsing();
             } else {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+                options.enableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableCollapsing == "boolean") {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing;
+                options.enableCollapsing = valueAccessor().enableCollapsing;
             } else {
-                options.isEnableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+                options.enableCollapsing = valueAccessor().enableCollapsing == "true" ? true : false;
+            }
+        }
+
+        if (isObservable(valueAccessor().showDetailsOnSelection)) {
+            if (typeof valueAccessor().showDetailsOnSelection() == "boolean") {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection();
+            } else {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection == "true" ? true : false;
+            }
+        } else {
+            if (typeof valueAccessor().showDetailsOnSelection == "boolean") {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection;
+            } else {
+                options.openDetailsOnSelection = valueAccessor().showDetailsOnSelection == "true" ? true : false;
+            }
+        }
+
+        var selectionMode = isObservable(valueAccessor().selectionMode) ? valueAccessor().selectionMode() : valueAccessor().selectionMode;
+        if (selectionMode == "multi") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi;
+        }
+
+        if (selectionMode == "single") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
+        }
+
+        if (selectionMode == "none") {
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
+        }
+
+        if (isObservable(valueAccessor().enableSorting)) {
+            if (typeof valueAccessor().enableSorting() == "boolean") {
+                options.enableSorting = valueAccessor().enableSorting();
+            } else {
+                options.enableSorting = valueAccessor().enableSorting == "true" ? true : false;
+            }
+        } else {
+            if (typeof valueAccessor().enableSorting == "boolean") {
+                options.enableSorting = valueAccessor().enableSorting;
+            } else {
+                options.enableSorting = valueAccessor().enableSorting == "true" ? true : false;
             }
         }
 
         if (isObservable(valueAccessor().enableGrouping)) {
             if (typeof valueAccessor().enableGrouping() == "boolean") {
-                options.isEnableGrouping = valueAccessor().enableGrouping();
+                options.enableGrouping = valueAccessor().enableGrouping();
             } else {
-                options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
+                options.enableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableGrouping == "boolean") {
-                options.isEnableGrouping = valueAccessor().enableGrouping;
+                options.enableGrouping = valueAccessor().enableGrouping;
             } else {
-                options.isEnableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
+                options.enableGrouping = valueAccessor().enableGrouping == "true" ? true : false;
             }
         }
 
         if (isObservable(valueAccessor().enableFiltering)) {
             if (typeof valueAccessor().enableFiltering() == "boolean") {
-                options.isEnableFiltering = valueAccessor().enableFiltering();
+                options.enableFiltering = valueAccessor().enableFiltering();
             } else {
-                options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+                options.enableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
             }
         } else {
             if (typeof valueAccessor().enableFiltering == "boolean") {
-                options.isEnableFiltering = valueAccessor().enableFiltering;
+                options.enableFiltering = valueAccessor().enableFiltering;
             } else {
-                options.isEnableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
+                options.enableFiltering = valueAccessor().enableFiltering == "true" ? true : false;
             }
         }
+
+        if (isObservable(valueAccessor().pageSlide)) {
+            options.pageSlide = valueAccessor().pageSlide();
+        } else {
+            options.pageSlide = valueAccessor().pageSlide;
+        }
+        options.pageSlide = (isNaN(options.pageSlide) || options.pageSlide < 1) ? 1 : options.pageSlide;
 
         return options;
     };

@@ -270,9 +270,9 @@ var TesserisPro;
                     if (option.enablePaging) {
                         this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                     }
-                    footer.appendChild(footerContainer);
 
                     angular.bootstrap(footerContainer, [(footerModel).angularModuleName]);
+                    footer.appendChild(footerContainer);
                 }
             };
 
@@ -317,46 +317,23 @@ var TesserisPro;
                 angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
 
                 var appModule = angular.module(AngularHtmlProvider.angularModuleName, []);
-                var self = this;
                 appModule.controller(angularItemViewModel.angularControllerName, [
                     '$scope',
                     function ($scope) {
                         angularItemViewModel.setScope($scope);
                     }
-                ]).directive('ngShow2', function () {
+                ]).directive('ngShowInFocus', function () {
                     return {
                         replace: true,
                         restrict: 'A',
                         link: function (scope, element, attr) {
-                            scope.$watch(attr.ngShow2, function (value) {
-                                var el = element;
+                            scope.$watch(attr.ngShowInFocus, function (value) {
                                 if (value) {
-                                    el.css('display', '');
-                                    el.focus();
-                                    //self.doOnClickOutside(el.parent, function () {
-                                    //var spansArray = el.parent.getElementsByTagName('span');
-                                    //var inputsArray = el.parent.getElementsByTagName('input');
-                                    //for (var i = 0; i > spansArray.length; i++) {
-                                    //    spansArray[i].css('display', '');
-                                    //}
-                                    //for (var i = 0; i > inputsArray.length; i++) {
-                                    //    inputsArray[i].css('display', 'none');
-                                    //}
-                                    //});
+                                    element.css('display', 'block');
+                                    element.focus();
                                 } else {
                                     element.css('display', 'none');
                                 }
-                            });
-                        }
-                    };
-                }).directive('ngDoOnClickOutside', function (callback) {
-                    return {
-                        replace: true,
-                        restrict: 'A',
-                        link: function (scope, element, attr) {
-                            var self = this;
-                            scope.$apply(function () {
-                                self.doOnClickOutside(element.parent, callback());
                             });
                         }
                     };

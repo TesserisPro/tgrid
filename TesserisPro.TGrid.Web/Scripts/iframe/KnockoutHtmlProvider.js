@@ -14,6 +14,7 @@ var TesserisPro;
     /// <reference path="../IFooterViewModel.ts" />
     /// <reference path="KnockoutFilterPopupViewModel.ts" />
     /// <reference path="KnockoutFooterViewModel.ts" />
+    /// <reference path="KnockoutItemViewModel.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -34,7 +35,7 @@ var TesserisPro;
                     var child = children.item(i);
                     var viewModel = (ko.contextFor(child).$root);
 
-                    if (viewModel != null && items.indexOf(viewModel) > 0) {
+                    if (viewModel != null && (items == null || items.indexOf(viewModel) > 0)) {
                         size += child.clientHeight;
                     }
                 }
@@ -48,7 +49,7 @@ var TesserisPro;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
                     var viewModel = (ko.contextFor(child).$root);
-                    if (viewModel != null && items.indexOf(viewModel) > 0) {
+                    if (viewModel != null && items.indexOf(viewModel) >= 0) {
                         size += child.clientHeight;
                     }
                     if (size > scrollTop) {
@@ -69,123 +70,110 @@ var TesserisPro;
                 return filterPopupViewModel;
             };
 
-            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, isSortable, columnsResized) {
-                if (header.innerHTML != null && header.innerHTML != "") {
-                    //add intends for groupBy
-                    this.showNeededIntends(header, option.groupBySortDescriptor.length, TGrid.Grid.getGridObject(header));
+            KnockoutHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, columnsResized) {
+                this.updateGroupByPanel(option, groupByContainer);
 
-                    if (isSortable) {
+                if (header.innerHTML != null && header.innerHTML != "") {
+                    //add indents for groupBy
+                    this.showNeededIndents(header, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
+
+                    if (option.enableSorting) {
                         this.removeArrows(header);
                         var element = header.getElementsByTagName("th");
-
-                        for (var i = option.columns.length, j = 0; i < element.length, j < option.columns.length; i++, j++) {
-                            if (option.sortDescriptor.path == option.columns[j].sortMemberPath) {
-                                this.addArrows(element[i].getElementsByClassName("tgrid-header-cell-buttons")[0], option, i);
+                        var indendsQuantity = option.columns.length;
+                        var columnsQuantity = option.columns.length;
+                        var headerElementsQuantity = element.length;
+                        for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
+                            if (option.columns[j].device.indexOf("desktop") != -1) {
+                                if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[j].sortMemberPath != null) {
+                                    this.addArrows(element[headerElementNumber].getElementsByClassName("tgrid-header-cell-buttons")[0], option, headerElementNumber);
+                                }
+                                headerElementNumber++;
                             }
                         }
                     }
-
-                    this.updateGroupByElements(option, header, groupByContainer);
                 } else {
-                    this.addGroupBy(option, header, groupByContainer);
-
                     // Create table header
                     var head = document.createElement("tr");
                     this.appendIndent(head, option.columns.length, true);
-                    this.showNeededIntends(head, option.groupBySortDescriptor.length, TGrid.Grid.getGridObject(header));
+                    this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
 
                     for (var i = 0; i < option.columns.length; i++) {
-                        var headerCell = document.createElement("th");
-                        headerCell.className = "tgrid-header-cell";
-                        var headerMainContainer = document.createElement("div");
-                        headerMainContainer.className = "tgrid-header-cell-container";
-                        var headerContent = document.createElement("div");
-                        var headerButtons = document.createElement("div");
-                        headerContent.className = "tgrid-header-cell-content";
-                        headerButtons.className = "tgrid-header-cell-buttons";
-                        headerMainContainer.appendChild(headerContent);
-                        headerMainContainer.appendChild(headerButtons);
-                        headerCell.appendChild(headerMainContainer);
+                        if (option.columns[i].device.indexOf("desktop") != -1) {
+                            var headerCell = document.createElement("th");
+                            headerCell.className = "tgrid-header-cell";
+                            headerCell.draggable = false;
+                            var headerMainContainer = document.createElement("div");
+                            headerMainContainer.className = "tgrid-header-cell-container";
+                            var headerContent = document.createElement("div");
+                            headerContent.style.overflow = "hidden";
+                            var headerButtons = document.createElement("div");
+                            headerContent.className = "tgrid-header-cell-content";
+                            headerButtons.className = "tgrid-header-cell-buttons";
+                            headerMainContainer.appendChild(headerContent);
+                            headerMainContainer.appendChild(headerButtons);
+                            headerCell.appendChild(headerMainContainer);
 
-                        headerCell.setAttribute("width", option.columns[i].width);
+                            headerCell.style.width = option.columns[i].width.toString() + "px";
 
-                        if (option.columns[i].header != null) {
-                            option.columns[i].header.applyTemplate(headerContent);
-                        } else {
-                            var headerText = option.columns[i].member != null ? option.columns[i].member : "";
-                            this.createDefaultHeader(headerContent, headerText);
-                        }
-
-                        // Method changing sorting
-                        (function (i) {
-                            headerCell.onclick = function (e) {
-                                return TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
-                            };
-                        })(i);
-
-                        if (isSortable) {
-                            if (option.sortDescriptor.path == option.columns[i].sortMemberPath) {
-                                this.addArrows(headerButtons, option, i);
+                            if (option.columns[i].header != null) {
+                                option.columns[i].header.applyTemplate(headerContent);
+                            } else {
+                                var headerText = option.columns[i].member != null ? option.columns[i].member : "";
+                                this.buildDefaultHeader(headerContent, headerText);
                             }
-                        }
 
-                        if (option.isEnableFiltering) {
-                            var filter = document.createElement("div");
-                            filter.classList.add("tgrid-filter-button");
-                            (function (i) {
-                                filter.onclick = function (e) {
-                                    var left = (e.target).offsetLeft;
-                                    for (var j = 0; j < i; j++) {
-                                        left += parseInt(option.columns[j].width);
-                                    }
-                                    var el = header.getElementsByClassName("tgrid-table-indent-cell");
-                                    if (el.length > 0) {
-                                        for (var j = 0; j < option.groupBySortDescriptor.length; j++) {
-                                            left += 20;
-                                        }
-                                    }
-                                    TGrid.Grid.getGridObject(e.target).showFilterBox((filterPopupContainer), option.columns[i].sortMemberPath, left);
-                                    e.cancelBubble = true;
-                                };
-                            })(i);
-                            headerButtons.appendChild(filter);
-                        }
-
-                        if (option.columns[i].resizable) {
-                            var columnResize = document.createElement("div");
-                            columnResize.className = "tgrid-header-column-resize";
-
-                            columnResize.onclick = function (e) {
-                                return e.stopImmediatePropagation();
-                            };
-
-                            (function (i, headerCell, columnResize) {
-                                var documentMouseMove = null;
-                                var position = 0;
-                                columnResize.onmousedown = function (e) {
-                                    e.stopImmediatePropagation();
-                                    console.log("test");
-                                    position = e.screenX;
-                                    documentMouseMove = document.onmousemove;
-                                    document.onmousemove = function (m) {
-                                        if (position != 0) {
-                                            option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
-                                            position = m.screenX;
-                                            columnsResized(option.columns[i]);
-                                        }
+                            if (option.enableSorting) {
+                                // Method changing sorting
+                                (function (i) {
+                                    headerCell.onclick = function (e) {
+                                        return TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
                                     };
+                                })(i);
+                                if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
+                                    this.addArrows(headerButtons, option, i);
+                                }
+                            }
+
+                            // Filter
+                            this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+
+                            if (option.columns[i].resizable) {
+                                var columnResize = document.createElement("div");
+                                columnResize.className = "tgrid-header-column-resize";
+
+                                columnResize.onclick = function (e) {
+                                    return e.stopImmediatePropagation();
                                 };
 
-                                document.onmouseup = function (e) {
-                                    document.onmousemove = documentMouseMove;
-                                    position = 0;
-                                };
-                            })(i, headerCell, columnResize);
+                                (function (i, headerCell, columnResize) {
+                                    var documentMouseMove = null;
+                                    var position = 0;
+                                    columnResize.onmousedown = function (e) {
+                                        e.stopImmediatePropagation();
+                                        console.log("test");
+                                        position = e.screenX;
+                                        documentMouseMove = document.onmousemove;
+                                        document.onmousemove = function (m) {
+                                            if (position != 0) {
+                                                option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                                position = m.screenX;
+                                                columnsResized(option.columns[i]);
+                                            }
+                                        };
+                                    };
 
-                            headerButtons.appendChild(columnResize);
+                                    document.onmouseup = function (e) {
+                                        document.onmousemove = documentMouseMove;
+                                        position = 0;
+                                    };
+                                })(i, headerCell, columnResize);
+
+                                headerButtons.appendChild(columnResize);
+                            }
+
+                            head.appendChild(headerCell);
                         }
-
-                        head.appendChild(headerCell);
                     }
                     var placeholderColumn = document.createElement("th");
                     placeholderColumn.classList.add("tgrid-placeholder");
@@ -206,63 +194,48 @@ var TesserisPro;
                 }
 
                 //Hide table on mobile devices
-                var bodyClass = container.getAttribute("class");
-                if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
-                    bodyClass = "desktop";
-                } else {
-                    if (bodyClass.indexOf("desktop") == -1) {
-                        bodyClass += " desktop";
-                    }
-                }
-                container.classList.add(bodyClass);
+                container.classList.add("desktop");
             };
 
-            KnockoutHtmlProvider.prototype.updateTableDetailRow = function (option, container, item) {
-                var detailRow = container.getElementsByClassName("details");
+            KnockoutHtmlProvider.prototype.updateTableDetailRow = function (options, container, item) {
+                var detailRow = container.getElementsByClassName("tgrid-details");
                 if (detailRow.length > 0) {
                     detailRow[0].parentNode.removeChild(detailRow[0]);
                 }
 
-                if (option.selectionMode == TGrid.SelectionMode.Multi) {
-                    if (!option.ctrlKey) {
-                        for (var i = 0; i < container.children.length; i++) {
-                            (container.children.item(i)).classList.remove("selected");
-                        }
-                    }
-                    if (option.isSelected(item)) {
-                        option.selectedRow.classList.add("selected");
-                    } else {
-                        option.selectedRow.classList.remove("selected");
-                    }
-                }
-                if (option.selectionMode == TGrid.SelectionMode.Single) {
-                    for (var i = 0; i < container.children.length; i++) {
-                        (container.children.item(i)).classList.remove("selected");
-                    }
-                    if (option.isSelected(item)) {
-                        option.selectedRow.classList.add("selected");
-                    } else {
-                        option.selectedRow.classList.remove("selected");
+                var targetRow;
+
+                for (var i = 0; i < container.children.length; i++) {
+                    if (ko.contextFor(container.children.item(i)).$data.item == item) {
+                        targetRow = container.children.item(i);
+                        break;
                     }
                 }
 
-                var selectedElement = container.getElementsByClassName("selected");
+                if (targetRow != null) {
+                    if (options.isSelected(item)) {
+                        targetRow.classList.add("selected");
+                    } else {
+                        targetRow.classList.remove("selected");
+                    }
 
-                if (this.hasDetails(selectedElement, option)) {
-                    var details = this.buildDetailsRow(option);
-                    details.classList.add("details");
-                    insertAfter(selectedElement[0], details);
-                    ko.applyBindings(option.showDetailFor, details);
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                    if (detailsTemplate != null) {
+                        var details = this.buildDetailsRow(options, detailsTemplate);
+                        insertAfter(targetRow, details);
+                        ko.applyBindings(options.showDetailFor, details);
+                    }
                 }
             };
 
             KnockoutHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
-                if (option.tableFooterTemplate == null && option.isEnablePaging) {
-                    this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                if (option.tableFooterTemplate == null && option.enablePaging) {
+                    this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
                     var footerContainer = document.createElement("div");
-                    if (option.isEnablePaging) {
-                        this.updateTableFooterElementDefault(option, footer, totalItemsCount);
+                    if (option.enablePaging) {
+                        this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                     }
                     option.tableFooterTemplate.applyTemplate(footerContainer);
                     ko.applyBindings(footerModel, footerContainer);
@@ -271,9 +244,9 @@ var TesserisPro;
                 }
             };
 
-            KnockoutHtmlProvider.prototype.addFiltringPopUp = function (option, filterPopup, filterPopupModel) {
+            KnockoutHtmlProvider.prototype.updateFilteringPopUp = function (option, filterPopup, filterPopupModel) {
                 if (option.filterPopup == null) {
-                    this.defaultFiltringPopUp(option, filterPopup);
+                    this.buildDefaultFiltringPopUp(option, filterPopup);
                 } else {
                     var filterContainer = document.createElement("div");
                     filterContainer.className = "tgrid-filter-popup-container";
@@ -297,11 +270,11 @@ var TesserisPro;
                     var row = this.buildRowElement(option, item, container, selected);
 
                     container.appendChild(row);
+
+                    // var knockItem = new TesserisPro.TGrid.KnockoutItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
+                    // knockItem.setObservable(item.item);
                     ko.applyBindings(item, row);
                 }
-            };
-
-            KnockoutHtmlProvider.prototype.upadeteTableColumnsWidth = function (option, container) {
             };
 
             KnockoutHtmlProvider.prototype.buildRowElement = function (option, item, container, selected) {
@@ -312,30 +285,35 @@ var TesserisPro;
                     row.classList.add("selected");
                 }
 
-                this.appendIndent(row, option.groupBySortDescriptor.length, false);
+                this.appendIndent(row, option.groupBySortDescriptors.length, false);
 
                 for (var i = 0; i < option.columns.length; i++) {
-                    var cell = document.createElement("td");
+                    if (option.columns[i].device.indexOf("desktop") != -1) {
+                        var cell = document.createElement("td");
+                        var cellContent = document.createElement("div");
+                        cellContent.className = "tgrid-cell-content";
+                        cellContent.style.overflow = "hidden";
+                        cell.appendChild(cellContent);
 
-                    if (option.columns[i].cell != null) {
-                        option.columns[i].cell.applyTemplate(cell);
-                    } else {
-                        if (option.columns[i].member != null) {
-                            cell = this.createDefaultCell(cell, option.columns[i].member);
+                        if (option.columns[i].cell != null) {
+                            option.columns[i].cell.applyTemplate(cellContent);
+                        } else {
+                            if (option.columns[i].member != null) {
+                                this.createDefaultCell(cellContent, option.columns[i].member);
+                            }
                         }
+                        row.appendChild(cell);
                     }
-                    row.appendChild(cell);
                 }
 
                 var placeholderColumn = document.createElement("td");
                 placeholderColumn.classList.add("tgrid-placeholder");
+
                 row.appendChild(placeholderColumn);
 
                 (function (item) {
                     row.onclick = function (e) {
                         if (option.selectionMode != TGrid.SelectionMode.None) {
-                            option.ctrlKey = e.ctrlKey;
-                            option.selectedRow = this;
                             selected(item, e.ctrlKey);
                         }
                     };
@@ -344,15 +322,17 @@ var TesserisPro;
                 return row;
             };
 
-            KnockoutHtmlProvider.prototype.buildDetailsRow = function (option) {
+            KnockoutHtmlProvider.prototype.buildDetailsRow = function (option, template) {
                 var detailTr = document.createElement("tr");
                 var detailTd = document.createElement("td");
 
-                this.appendIndent(detailTr, option.groupBySortDescriptor.length, false);
+                this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-                detailTr.classList.add("details");
+                detailTr.classList.add("tgrid-details");
                 detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
-                option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailTd) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailTd);
+
+                template.applyTemplate(detailTd);
+
                 detailTr.appendChild(detailTd);
 
                 return detailTr;
@@ -364,11 +344,11 @@ var TesserisPro;
 
                 this.appendIndent(headerTr, groupHeaderDescriptor.level, false);
 
-                var colspan = option.columns.length + 1 + option.groupBySortDescriptor.length - groupHeaderDescriptor.level;
+                var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
                 headerTd.setAttribute("colspan", colspan.toString());
                 headerTd.classList.add("tgrid-table-group-header");
                 headerTr.classList.add("tgrid-table-group-header");
-                if (option.isEnableCollapsing) {
+                if (option.enableCollapsing) {
                     if (!groupHeaderDescriptor.collapse) {
                         headerTd.onclick = function (e) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -382,7 +362,7 @@ var TesserisPro;
                 if (option.groupHeaderTemplate != null) {
                     option.groupHeaderTemplate.applyTemplate(headerTd);
                 } else {
-                    headerTd = this.createDefaultGroupHeader(headerTd);
+                    this.createDefaultGroupHeader(headerTd);
                 }
 
                 headerTr.appendChild(headerTd);
@@ -406,97 +386,18 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.removeArrows = function (htmlNode) {
                 var element = htmlNode.getElementsByClassName("tgrid-arrow-up");
-                if (element.length == 1) {
-                    element[0].parentNode.removeChild(element[0]);
+                for (var i = 0; i < element.length; i++) {
+                    element[i].parentNode.removeChild(element[i]);
+                    i--;
                 }
                 var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
-                if (element.length == 1) {
-                    element[0].parentNode.removeChild(element[0]);
-                }
-            };
-
-            KnockoutHtmlProvider.prototype.appendIndent = function (target, level, isHeader) {
-                var tag = isHeader ? "th" : "td";
-                for (var i = 0; i < level; i++) {
-                    var cell = document.createElement(tag);
-                    cell.className = "tgrid-table-indent-cell";
-                    target.appendChild(cell);
+                for (var i = 0; i < element.length; i++) {
+                    element[i].parentNode.removeChild(element[i]);
+                    i--;
                 }
             };
 
             // Mobile Methods
-            KnockoutHtmlProvider.prototype.updateMobileHeadElement = function (option, mobileHeader, isSortable) {
-                if (mobileHeader.innerHTML != null && mobileHeader.innerHTML != "") {
-                    // Update mobile sort arrow
-                    this.removeArrows(mobileHeader);
-                    var arrowUpdate = mobileHeader.getElementsByClassName("arrows");
-                    if (option.sortDescriptor.asc) {
-                        var up = document.createElement("div");
-                        up.classList.add("tgrid-arrow-up");
-                        arrowUpdate[0].appendChild(up);
-                    } else {
-                        var down = document.createElement("div");
-                        down.classList.add("tgrid-arrow-down");
-                        arrowUpdate[0].appendChild(down);
-                    }
-
-                    // Update mobile sort column
-                    var selectUpdate = document.getElementsByTagName("select");
-                    for (var i = 0; i < option.columns.length; i++) {
-                        if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                            selectUpdate[0].selectedIndex = i;
-                        }
-                    }
-                } else {
-                    // Create mobile header
-                    // Hide table on mobile devices
-                    var headerClass = mobileHeader.getAttribute("class");
-                    if (headerClass == null || headerClass == undefined || headerClass == '') {
-                        headerClass = "mobile";
-                    } else {
-                        headerClass += " mobile";
-                    }
-                    mobileHeader.setAttribute("class", headerClass);
-
-                    if (isSortable) {
-                        var mobileSortingContainer = document.createElement("div");
-                        var mobileHeaderButtons = document.createElement("div");
-                        var arrows = document.createElement("span");
-                        var select = document.createElement("select");
-
-                        select.onchange = function (e) {
-                            TGrid.Grid.getGridObject(e.target).sortBy(select.options[select.selectedIndex].value);
-                        };
-
-                        for (var i = 0; i < option.columns.length; i++) {
-                            var selectOption = document.createElement("option");
-                            selectOption.value = option.columns[i].sortMemberPath;
-                            selectOption.text = option.columns[i].sortMemberPath;
-                            select.appendChild(selectOption);
-                            if (option.columns[i].sortMemberPath == option.sortDescriptor.path) {
-                                arrows = this.addArrows(arrows, option, i);
-                            }
-                        }
-
-                        mobileHeaderButtons.classList.add("tgrid-header-cell-buttons");
-                        arrows.classList.add("arrows");
-                        mobileHeaderButtons.appendChild(arrows);
-                        mobileSortingContainer.classList.add("tgrid-inline-block");
-                        mobileSortingContainer.innerHTML += "Sorting by ";
-                        mobileSortingContainer.appendChild(select);
-                        mobileSortingContainer.appendChild(mobileHeaderButtons);
-
-                        arrows.onclick = function (e) {
-                            TGrid.Grid.getGridObject(e.target).sortBy(select.options[select.selectedIndex].value);
-                        };
-
-                        mobileHeader.appendChild(mobileSortingContainer);
-                    } else {
-                        mobileHeader.innerHTML = "<div></div>";
-                    }
-                }
-            };
-
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
                 if (!option.showDetailFor.isDetailColumn) {
                     option.showDetailFor.column = -1;
@@ -516,52 +417,44 @@ var TesserisPro;
                     }
                 }
                 container.setAttribute("class", bodyClass);
-                option.showDetailFor.isDetailColumn = false;
             };
 
-            KnockoutHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
-                var detailRow = container.getElementsByClassName("details");
+            KnockoutHtmlProvider.prototype.updateMobileDetailRow = function (options, container, item) {
+                var detailRow = container.getElementsByClassName("tgrid-mobile-details");
                 if (detailRow.length > 0) {
                     detailRow[0].parentNode.removeChild(detailRow[0]);
                 }
 
-                if (option.selectionMode == TGrid.SelectionMode.Multi) {
-                    if (!option.ctrlKey) {
-                        for (var i = 0; i < container.children.length; i++) {
-                            (container.children.item(i)).classList.remove("selected");
-                        }
-                    }
-                    if (option.isSelected(item.item)) {
-                        option.selectedRow.classList.add("selected");
-                    } else {
-                        (container.children.item(i)).classList.remove("selected");
-                    }
-                }
-                if (option.selectionMode == TGrid.SelectionMode.Single) {
-                    for (var i = 0; i < container.children.length; i++) {
-                        (container.children.item(i)).classList.remove("selected");
-                    }
-                    if (option.isSelected(item)) {
-                        option.selectedRow.classList.add("selected");
-                    } else {
-                        (container.children.item(i)).classList.remove("selected");
+                var targetRow;
+
+                for (var i = 0; i < container.children.length; i++) {
+                    if (ko.contextFor(container.children.item(i)).$data.item == item) {
+                        targetRow = container.children.item(i);
+                        break;
                     }
                 }
 
-                var selectedElement = container.getElementsByClassName("selected");
+                if (targetRow != null) {
+                    if (options.isSelected(item)) {
+                        targetRow.classList.add("selected");
+                    } else {
+                        targetRow.classList.remove("selected");
+                    }
 
-                if (this.hasDetails(selectedElement, option)) {
-                    var details = this.buildMobileDetailsRow(option);
-                    details.classList.add("details");
-                    insertAfter(selectedElement[0], details);
-                    ko.applyBindings(option.showDetailFor, details);
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                    if (detailsTemplate != null) {
+                        var details = this.buildMobileDetailsRow(options, detailsTemplate);
+                        insertAfter(targetRow, details);
+                        ko.applyBindings(options.showDetailFor, details);
+                    }
                 }
             };
 
             KnockoutHtmlProvider.prototype.appendMobileElement = function (option, container, item, groupLevel, selected) {
                 var itemWithDetails;
                 var rowWithDetail;
-                if (item.isGroupHeader && option.groupHeaderTemplate != null) {
+                if (item.isGroupHeader) {
                     var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
                     container.appendChild(mobileGroupHeader);
                     ko.applyBindings(item, mobileGroupHeader);
@@ -581,7 +474,7 @@ var TesserisPro;
                     row.classList.add("selected");
                 }
 
-                for (var i = 0; i < option.groupBySortDescriptor.length; i++) {
+                for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                     row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>";
                 }
 
@@ -601,8 +494,6 @@ var TesserisPro;
                 (function (item) {
                     row.onclick = function (e) {
                         if (option.selectionMode != TGrid.SelectionMode.None) {
-                            option.ctrlKey = e.ctrlKey;
-                            option.selectedRow = this;
                             var s = container;
                             selected(item, e.ctrlKey);
                         }
@@ -612,12 +503,10 @@ var TesserisPro;
                 return row;
             };
 
-            KnockoutHtmlProvider.prototype.buildMobileDetailsRow = function (option) {
+            KnockoutHtmlProvider.prototype.buildMobileDetailsRow = function (option, template) {
                 var detailDiv = document.createElement("div");
-
                 detailDiv.classList.add("tgrid-mobile-details");
-                option.showDetailFor.column == -1 ? option.detailsTemplateHtml.applyTemplate(detailDiv) : option.columns[option.showDetailFor.column].cellDetail.applyTemplate(detailDiv);
-
+                template.applyTemplate(detailDiv);
                 return detailDiv;
             };
 
@@ -626,8 +515,6 @@ var TesserisPro;
                 var textBinding = "text: item.".concat(defaultCellBindingName);
                 spanForCell.setAttribute("data-bind", textBinding);
                 cell.appendChild(spanForCell);
-
-                return cell;
             };
 
             KnockoutHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
@@ -637,7 +524,38 @@ var TesserisPro;
                 groupHeaderName.setAttribute("style", "color: green;");
                 groupHeaderContainer.appendChild(groupHeaderName);
                 tableRowElement.appendChild(groupHeaderContainer);
-                return tableRowElement;
+            };
+            KnockoutHtmlProvider.prototype.createDefaultMobileTemplate = function (rowTemplate, option) {
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].device.indexOf("mobile") != -1) {
+                        var mobileColumnContainer = document.createElement("div");
+                        var mobileColumnName = document.createElement("span");
+
+                        if (option.columns[i].member != null) {
+                            mobileColumnName.innerHTML = option.columns[i].member;
+                        } else if (option.columns[i].sortMemberPath != null) {
+                            mobileColumnName.innerHTML = option.columns[i].sortMemberPath;
+                        } else if (option.columns[i].groupMemberPath != null) {
+                            mobileColumnName.innerHTML = option.columns[i].groupMemberPath;
+                        } else {
+                            mobileColumnName.innerHTML = "";
+                        }
+
+                        var columnData = document.createElement("span");
+                        if (option.columns[i].member != null) {
+                            var columnBinding = document.createElement('span');
+                            columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
+                            columnData.innerHTML = ": ";
+                            columnData.appendChild(columnBinding);
+                        } else {
+                            columnData.innerHTML = ": ";
+                        }
+                        mobileColumnContainer.appendChild(mobileColumnName);
+                        mobileColumnContainer.appendChild(columnData);
+                        rowTemplate.appendChild(mobileColumnContainer);
+                    }
+                }
+                return rowTemplate;
             };
 
             KnockoutHtmlProvider.prototype.bindData = function (option, elementForBinding) {

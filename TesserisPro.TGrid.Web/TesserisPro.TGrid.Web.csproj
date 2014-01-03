@@ -214,8 +214,6 @@
     <Content Include="Scripts\iframe\BaseHtmlProvider.js" />
     <Content Include="Scripts\iframe\FilterDescriptor.js" />
     <Content Include="Scripts\iframe\FilterPopupViewModel.js" />
-    <Content Include="Scripts\iframe\FooterDirective.js" />
-    <Content Include="Scripts\iframe\FooterViewModel.js" />
     <Content Include="Scripts\iframe\GroupHeaderDescriptor.js" />
     <Content Include="Scripts\iframe\IFilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\IFooterViewModel.js" />
@@ -224,6 +222,7 @@
     <Content Include="Scripts\iframe\ItemViewModel.js" />
     <Content Include="Scripts\iframe\knockout-3.0.0.js" />
     <Content Include="Scripts\iframe\KnockoutFilterPopupViewModel.js" />
+    <Content Include="Scripts\iframe\KnockoutItemViewModel.js" />
     <Content Include="Scripts\iframe\tgrid-angular-min.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />

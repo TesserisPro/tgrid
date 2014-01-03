@@ -17,7 +17,6 @@ var TesserisPro;
 
             ItemViewModel.prototype.setItemValue = function (item) {
                 this.item = item;
-                this.model.editingItem = null;
             };
             return ItemViewModel;
         })();

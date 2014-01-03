@@ -10,6 +10,7 @@
 /// <reference path="utils.ts" />
 /// <reference path="IFooterViewModel.ts"/>
 /// <reference path="scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="scripts/typings/knockout/knockout.d.ts"/>
 
 module TesserisPro.TGrid {
 
