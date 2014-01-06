@@ -14,8 +14,10 @@
 
     <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
     <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
+    <script src="~/Scripts/iframe/knockout.mapping-latest.js"></script>
+    
 
-    <script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
+    @*<script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/KnockoutHtmlProvider.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/KnockoutFooterViewModel.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/KnockoutFilterPopupViewModel.js" type="text/javascript"></script>
@@ -28,11 +30,11 @@
     <script src="~/Scripts/iframe/SortDescriptor.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>
+    <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>*@
 
-   @* <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+    <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     <style>
         .tgrid-table tbody tr td span {
             display: block;
@@ -66,9 +68,9 @@
         </div>
         <script type="text/javascript">
             var SimpleItemsProvider = (function () {
-                var items = [
-                    { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
-                    { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+                var items = ko.mapping.fromJS([
+                    { Name: "John", Surname: "Figgins", Age: 20, detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+                    { Name: "Sharilyn", Surname: "Ham", Age: 52, detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
                     { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
                     { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
                     { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
@@ -96,7 +98,7 @@
                     { Name: "Theron", Surname: "Carter", Age: "25", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
                     { Name: "George", Surname: "Collins", Age: "39", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
                     { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
-                ];
+                ])();
 
                 function SimpleItemsProvider() {
                 }
