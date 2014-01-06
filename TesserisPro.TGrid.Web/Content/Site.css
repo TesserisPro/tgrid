@@ -678,15 +678,20 @@ footer .centered-content {
 }
 
 .mobile-phone-wrapper {
-    position:relative;
+    position: relative;
+    display: block;
 }
 
 .mobile-grid-container {
     position:absolute;
     top: 136px;
-    left: 57px;
+    left: 202px;
     background: white;
     height: 519px;
     width: 318px;
+}
+
+.cell-phone-img-container {
+    margin-left: 145px;
 }
 

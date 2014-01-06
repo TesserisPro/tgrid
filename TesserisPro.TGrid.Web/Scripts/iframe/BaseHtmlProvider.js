@@ -311,8 +311,10 @@ var TesserisPro;
                                 var deleteGroupButton = document.createElement("div");
                                 deleteGroupButton.className = "tgrid-delete-button";
                                 deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
+                                deleteGroupButton["data-delete-group-by-number"] = i;
                                 deleteGroupButton.onclick = function (e) {
                                     e.cancelBubble = true;
+                                    TGrid.Grid.getGridObject(e.target).removeCollapsedFiltersOnGroupByCancel(e.target["data-delete-group-by-number"]);
                                     TGrid.Grid.getGridObject(e.target).removeGroupDescriptor((e.target["data-delete-group-by"]).path);
                                 };
 

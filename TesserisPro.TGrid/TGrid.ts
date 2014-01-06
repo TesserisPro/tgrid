@@ -630,6 +630,7 @@ module TesserisPro.TGrid {
             for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                 if (this.options.groupBySortDescriptors[i].path == name) {
                     this.removeGroupDescriptor(name);
+                    this.removeCollapsedFiltersOnGroupByCancel(i);
                     return;
                 }
             }
@@ -1010,6 +1011,11 @@ module TesserisPro.TGrid {
                     this.collapsedFilterGroup[filterDescriptor.children.length].splice(i, 1);
                 }
             }
+            this.refreshBody();
+        }
+
+        public removeCollapsedFiltersOnGroupByCancel(groupByNumber: number) {
+            this.collapsedFilterGroup[groupByNumber].length = 0;
             this.refreshBody();
         }
 

@@ -931,6 +931,11 @@ var TesserisPro;
                 this.refreshBody();
             };
 
+            Grid.prototype.removeCollapsedFiltersOnGroupByCancel = function (groupByNumber) {
+                this.collapsedFilterGroup[groupByNumber].length = 0;
+                this.refreshBody();
+            };
+
             Grid.prototype.setFilters = function (filterDescriptor, filterPath) {
                 this.removeFilters(filterPath, false);
                 this.options.filterDescriptors.push(filterDescriptor);

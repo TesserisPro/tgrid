@@ -54,7 +54,9 @@
 <div style="display:inline-block; margin-left: 270px;">
      <div data-bind="if:currentDemoUrl().indexOf('Mobile') != -1">
         <div class="mobile-phone-wrapper">
-            <img src="@Url.Content("~/Content/images/iphone.png")">
+            <div class="cell-phone-img-container">
+                <img src="@Url.Content("~/Content/images/iphone.png")">
+            </div>
             <div class ="mobile-grid-container">
                 <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }" style="width: 320px; height: 530px; margin-left: 0"></iframe>
             </div>
