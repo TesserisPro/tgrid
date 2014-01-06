@@ -30,7 +30,6 @@
     <input path="knockout/TGridBinding.js"/>
     <input path="knockout/KnockoutFooterViewModel.js"/>
     <input path="knockout/KnockoutFilterPopupViewModel.js"/>
-    <input path="knockout/KnockoutItemViewModel.js"/>
   </output>
   
 </root>
