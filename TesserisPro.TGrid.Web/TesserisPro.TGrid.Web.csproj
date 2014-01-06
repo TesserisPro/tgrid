@@ -367,6 +367,13 @@
     <Content Include="Views\Home\Angular\jaEditingWithCellTemplateAngular.cshtml" />
     <Content Include="Views\Home\Knockout\jaEditingWithCellTemplateKnockout.cshtml" />
     <Content Include="Views\Home\Knockout\GroupCollapsingKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingAngular.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingAngularHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingKnockoutHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingMobileKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingMobileKnockoutHtml.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingMobileAngular.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingMobileAngularHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
