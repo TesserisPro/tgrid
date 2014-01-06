@@ -56,15 +56,15 @@
         <div class="mobile-phone-wrapper">
             <img src="@Url.Content("~/Content/images/iphone.png")">
             <div class ="mobile-grid-container">
-                <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }  " style="width: 320px; height: 530px; margin-left: 0"></iframe>
+                <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }" style="width: 320px; height: 530px; margin-left: 0"></iframe>
             </div>
         </div>
     </div>
     <div data-bind="if:currentDemoUrl().indexOf('Mobile') == -1">
-        <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl } , style:{ width: '600px'}"></iframe>
+        <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }"></iframe>
     </div>
     <div id="ace-code">
-        <header style="width: 100%; height: 28px;"> 
+        <header style="width: 700px; height: 28px;"> 
                 <ul class="editor-menu" data-bind="foreach: codes">
                     <li>
                         <a data-bind="text: name, click: $root.showCode, css: { active: name == $root.currentCodeName() }"></a>

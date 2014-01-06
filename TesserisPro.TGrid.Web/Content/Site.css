@@ -404,7 +404,7 @@ p, address {
     transition: color 200ms ease;
 }
 #content {
-    width: 940px;
+    width: 1024px;
     /*padding: 50px 0 40px 0;*/
     padding:1px 0 0 0;
     margin: 0 auto;
@@ -579,8 +579,8 @@ footer .centered-content {
 }
 #main-frame{
     visibility: visible;
-    height: 564px;
-    width: 590px;   
+    height: 520px;
+    width: 700px;   
     margin-left: 20px;
     border: none;
 }
@@ -589,11 +589,8 @@ footer .centered-content {
     color: white;
 }
 
-#ace-code{
-    width:200px; 
-    height:200px;  
+#ace-code{ 
     height: 560px;
-    width: 590px;
     margin-left: 20px;
     border: 1px solid #cacaca; 
     border-top:none;
@@ -658,7 +655,7 @@ footer .centered-content {
 }
 
 .editor-container div{
-    max-width: 590px;
+    width: 700px;
     height: 530px;
 }
 
