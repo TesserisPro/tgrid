@@ -6,7 +6,6 @@
 /// <reference path="../IFooterViewModel.ts" />
 /// <reference path="KnockoutFilterPopupViewModel.ts" />
 /// <reference path="KnockoutFooterViewModel.ts" />
-/// <reference path="KnockoutItemViewModel.ts" />
 
 
 module TesserisPro.TGrid {
@@ -268,8 +267,6 @@ module TesserisPro.TGrid {
                 var row = this.buildRowElement(option, item, container, selected);
 
                 container.appendChild(row);
-               // var knockItem = new TesserisPro.TGrid.KnockoutItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
-               // knockItem.setObservable(item.item);
                 ko.applyBindings(item, row);
             }
         }

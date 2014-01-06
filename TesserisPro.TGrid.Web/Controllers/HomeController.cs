@@ -159,6 +159,18 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
+                title = "Group collapsing",
+                url = "Knockout/GroupCollapsingKnockout",
+                htmlUrl = "Knockout/GroupCollapsingKnockoutHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/GroupCollapsingAngular",
+                angularHtmlUrl = "Angular/GroupCollapsingAngularHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
                 title = "Filtering, grouping and sorting",
                 url = "Knockout/FilteringGroupingSorting",
                 htmlUrl = "Knockout/FilteringGroupingSortingHtml",
@@ -289,6 +301,18 @@ namespace TesserisPro.TGrid.Web
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/GroupingMobile",
                 angularHtmlUrl = "Angular/GroupingMobileHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosMobile.Add(new UIModel
+            {
+                title = "Group collapsing mobile",
+                url = "Knockout/GroupCollapsingMobileKnockout",
+                htmlUrl = "Knockout/GroupCollapsingMobileKnockoutHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/GroupCollapsingMobileAngular",
+                angularHtmlUrl = "Angular/GroupCollapsingMobileAngularHtml",
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
             });

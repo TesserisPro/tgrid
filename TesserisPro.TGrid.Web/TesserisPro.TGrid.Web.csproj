@@ -366,6 +366,7 @@
     <Content Include="Views\Home\Angular\RowsWithVirtualizationHtml.cshtml" />
     <Content Include="Views\Home\Angular\jaEditingWithCellTemplateAngular.cshtml" />
     <Content Include="Views\Home\Knockout\jaEditingWithCellTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingKnockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -515,7 +515,6 @@ ul.tgrid-mobile-menu li {
 
 .visible{
     display:block !important;
-    width: 100%;
 }
 .activeStyle
 {
@@ -571,7 +570,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     background: -ms-linear-gradient(top, #EEE9E9 0%,#DDDCDC 100%); /* IE10+ */
     background: linear-gradient(to bottom, #EEE9E9rgba(222,239,255,1) 0%,#DDDCDC 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
-}      
+}
+
+.tgrid-edit-input {
+     width: 85%;
+}    
 
 /* Mobile */
 @media (max-width: 480px) {
