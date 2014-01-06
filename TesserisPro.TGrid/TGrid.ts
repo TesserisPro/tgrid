@@ -219,6 +219,7 @@ module TesserisPro.TGrid {
             e.stopImmediatePropagation();
             e.stopPropagation();
             this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
+            this.mobileContainer.scrollTop = this.mobileContainer.scrollTop - e.wheelDelta;
         }
 
         private getPreviousPageFirsItemIndex(): number {
