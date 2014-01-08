@@ -33,7 +33,7 @@ var TesserisPro;
                 this.itemProvider = provider;
                 this.htmlProvider = this.getHtmlProvider(this.options);
 
-                this.footerViewModel = this.htmlProvider.getFooterViewModel();
+                this.footerViewModel = this.htmlProvider.getFooterViewModel(this);
 
                 this.rootElement = document.createElement("div");
                 this.rootElement.className = "tgrid-root";
@@ -187,6 +187,7 @@ var TesserisPro;
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
+                this.mobileContainer.scrollTop = this.mobileContainer.scrollTop - e.wheelDelta;
             };
 
             Grid.prototype.getPreviousPageFirsItemIndex = function () {
@@ -579,6 +580,7 @@ var TesserisPro;
                 for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                     if (this.options.groupBySortDescriptors[i].path == name) {
                         this.removeGroupDescriptor(name);
+                        this.removeCollapsedFiltersOnGroupByCancel(i);
                         return;
                     }
                 }

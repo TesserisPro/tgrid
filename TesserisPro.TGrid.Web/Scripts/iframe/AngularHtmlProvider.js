@@ -65,8 +65,8 @@ var TesserisPro;
                 return table;
             };
 
-            AngularHtmlProvider.prototype.getFooterViewModel = function () {
-                var angularFooterViewModel = new TGrid.AngularFooterViewModel();
+            AngularHtmlProvider.prototype.getFooterViewModel = function (grid) {
+                var angularFooterViewModel = new TGrid.AngularFooterViewModel(grid);
                 angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
                 angular.module(angularFooterViewModel.angularModuleName, []).controller('tgrid-footer-controller', [
                     '$scope',

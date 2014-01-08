@@ -47,7 +47,7 @@ var TesserisPro;
                 return visibleItemsCount;
             };
 
-            BaseHtmlProvider.prototype.getFooterViewModel = function () {
+            BaseHtmlProvider.prototype.getFooterViewModel = function (grid) {
             };
 
             BaseHtmlProvider.prototype.getFilterPopupViewModel = function (container) {

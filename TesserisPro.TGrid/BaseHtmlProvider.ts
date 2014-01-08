@@ -47,7 +47,7 @@ module TesserisPro.TGrid {
             return visibleItemsCount;
         }
 
-        public getFooterViewModel() {
+        public getFooterViewModel(grid: any) {
         }
 
         public getFilterPopupViewModel(container: HTMLElement) {

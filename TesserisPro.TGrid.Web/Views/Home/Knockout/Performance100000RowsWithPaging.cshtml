@@ -41,6 +41,10 @@
                         TotalCount: <span data-bind="text:totalCount"></span>
                         CurrentPage: <span data-bind="text:currentPage"></span>. 
                         TotalPages: <span data-bind="text:totalPages"></span>.
+                         Choose Page: <input class="tgrid-choose-page-input" data-bind="value: currentPage"/> 
+                        <button data-bind="click: function () { changePage(currentPage()); }, clickBubble: false">
+                            Go
+                        </button>
                     </div>
                 </footer>  
             </script>

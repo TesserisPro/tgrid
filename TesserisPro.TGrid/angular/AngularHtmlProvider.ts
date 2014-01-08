@@ -64,8 +64,8 @@ module TesserisPro.TGrid {
         static angularModuleName = 'tgrid-row-module';
         static angularGroupModuleName = 'tgrid-group-module';
 
-        public getFooterViewModel() {
-            var angularFooterViewModel = new AngularFooterViewModel();
+        public getFooterViewModel(grid:any) {
+            var angularFooterViewModel = new AngularFooterViewModel(grid);
             angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
             angular
                 .module(angularFooterViewModel.angularModuleName, [])
