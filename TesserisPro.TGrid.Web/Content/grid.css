@@ -558,7 +558,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 .tgrid-footer {
     color: #555;
     background: whitesmoke;
-    height:25px;
+    height: auto;
     border-bottom: 1px solid #BEBEBE;
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
@@ -574,7 +574,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-edit-input {
      width: 85%;
-}    
+}
+
+ .tgrid-choose-page-input {
+    width: 40px;
+}  
 
 /* Mobile */
 @media (max-width: 480px) {

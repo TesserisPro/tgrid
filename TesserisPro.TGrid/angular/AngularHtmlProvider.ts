@@ -64,13 +64,13 @@ module TesserisPro.TGrid {
         static angularModuleName = 'tgrid-row-module';
         static angularGroupModuleName = 'tgrid-group-module';
 
-        public getFooterViewModel() {
+        public getFooterViewModel(grid:any) {
             var angularFooterViewModel = new AngularFooterViewModel();
             angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
             angular
                 .module(angularFooterViewModel.angularModuleName, [])
                 .controller('tgrid-footer-controller', ['$scope',function ($scope) {
-                    angularFooterViewModel.setScope($scope);
+                    angularFooterViewModel.setScope($scope, grid);
                 }]);
             return angularFooterViewModel;
         }

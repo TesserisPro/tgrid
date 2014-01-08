@@ -40,6 +40,8 @@
                             Total Count: <span >{{totalCount}}</span>
                             Current Page: <span >{{currentPage}}</span>
                             Total Pages: <span >{{totalPages}}</span>
+                            Go to page: <input class="tgrid-choose-page-input" value="{{currentPage}}"/>
+                            <button ng-click="changePage(currentPage); $event.stopPropagation();">Go</button>
                         </div>
                     </footer>  
                 </script>

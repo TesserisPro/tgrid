@@ -52,8 +52,8 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public getFooterViewModel() {
-            var knockoutFooterViewModel = new KnockoutFooterViewModel(0, 0, 0, 0);
+        public getFooterViewModel(grid: any) {
+            var knockoutFooterViewModel = new KnockoutFooterViewModel(0, 0, 0, 0, grid);
             return knockoutFooterViewModel;
         }
 
