@@ -72,7 +72,7 @@ module TesserisPro.TGrid {
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
 
-            this.footerViewModel = this.htmlProvider.getFooterViewModel(this);
+            this.footerViewModel = this.htmlProvider.getFooterViewModel();
 
             this.rootElement = document.createElement("div");
             this.rootElement.className = "tgrid-root";
