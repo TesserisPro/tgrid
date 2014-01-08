@@ -4,11 +4,12 @@ var TesserisPro;
     /// <reference path="../IFooterViewModel.ts" />
     (function (TGrid) {
         var AngularFooterViewModel = (function () {
-            function AngularFooterViewModel() {
+            function AngularFooterViewModel(grid) {
                 this.totalCount = 0;
                 this.selectedItem = null;
                 this.currentPage = 1;
                 this.totalPages = 1;
+                this.grid = grid;
             }
             AngularFooterViewModel.prototype.setScope = function (scope) {
                 this.$scope = scope;
@@ -48,6 +49,10 @@ var TesserisPro;
                     this.$scope.totalPages = totalPages;
                     this.$scope.$apply();
                 }
+            };
+
+            AngularFooterViewModel.prototype.changePage = function (pageNumber) {
+                this.grid.selectPage(pageNumber - 1);
             };
             return AngularFooterViewModel;
         })();

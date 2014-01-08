@@ -47,7 +47,7 @@ module TesserisPro.TGrid {
             return visibleItemsCount;
         }
 
-        public getFooterViewModel() {
+        public getFooterViewModel(grid: any) {
         }
 
         public getFilterPopupViewModel(container: HTMLElement) {
@@ -318,8 +318,10 @@ module TesserisPro.TGrid {
                             var deleteGroupButton = document.createElement("div");
                             deleteGroupButton.className = "tgrid-delete-button";
                             deleteGroupButton["data-delete-group-by"] = option.groupBySortDescriptors[i];
+                            deleteGroupButton["data-delete-group-by-number"] = i;
                             deleteGroupButton.onclick = (e) => {
                                 e.cancelBubble = true;
+                                Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFiltersOnGroupByCancel(<number>e.target["data-delete-group-by-number"]);
                                 Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor((<SortDescriptor>e.target["data-delete-group-by"]).path);
                             };
 

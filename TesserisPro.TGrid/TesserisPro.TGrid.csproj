@@ -50,7 +50,6 @@
     <Content Include="Images\menu_active3.png" />
     <Content Include="Images\no_sort_mobile.png" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
-    <TypeScriptCompile Include="knockout\KnockoutItemViewModel.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>

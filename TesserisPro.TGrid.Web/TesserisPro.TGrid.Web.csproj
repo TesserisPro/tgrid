@@ -15,7 +15,7 @@
     <AssemblyName>TesserisPro.TGrid.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -366,6 +366,14 @@
     <Content Include="Views\Home\Angular\RowsWithVirtualizationHtml.cshtml" />
     <Content Include="Views\Home\Angular\jaEditingWithCellTemplateAngular.cshtml" />
     <Content Include="Views\Home\Knockout\jaEditingWithCellTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingAngular.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingAngularHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingKnockoutHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingMobileKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\GroupCollapsingMobileKnockoutHtml.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingMobileAngular.cshtml" />
+    <Content Include="Views\Home\Angular\GroupCollapsingMobileAngularHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,7 +409,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55247</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55247/</IISUrl>
+          <IISUrl>http://localhost/tgrid</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

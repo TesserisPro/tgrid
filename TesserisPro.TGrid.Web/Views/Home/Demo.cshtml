@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>  
+<style>
     .sf_colsOut.sf_1col_1_100 {
         margin-top: 40px;
     }
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushJScript.js")"></script>
 
 
-<link type="text/css" rel="stylesheet"  href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
 <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
 
 <script type="text/javascript">
@@ -27,12 +27,12 @@
             ko.applyBindings(new DemoViewModel(data));
         });
         $("#main-frame").contents().find('body').css({ "overflow": "hidden" });
-        
+
     });
     $("#main-frame").contents().children().css({ "overflow": "hidden" });
 </script>
 
-<div id="UI">   
+<div id="UI">
     <a data-bind="attr:{ class: knockoutActive() ? 'active' : ''}, click: setKnockoutActive">Knockout</a>
     <a data-bind="attr:{ class: !knockoutActive() ? 'active' : ''}, click: setKnockoutInactive">Angular</a>
 </div>
@@ -52,32 +52,34 @@
     </ul>
 </div>
 <div style="display:inline-block; margin-left: 270px;">
-     <div data-bind="if:currentDemoUrl().indexOf('Mobile') != -1">
+    <div data-bind="if:currentDemoUrl().indexOf('Mobile') != -1">
         <div class="mobile-phone-wrapper">
-            <img src="@Url.Content("~/Content/images/iphone.png")">
-            <div class ="mobile-grid-container">
-                <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }  " style="width: 320px; height: 530px; margin-left: 0"></iframe>
+            <div class="cell-phone-img-container">
+                <img src="@Url.Content("~/Content/images/iphone.png")">
+            </div>
+            <div class="mobile-grid-container">
+                <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }" style="width: 320px; height: 530px; margin-left: 0"></iframe>
             </div>
         </div>
     </div>
     <div data-bind="if:currentDemoUrl().indexOf('Mobile') == -1">
-        <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl } , style:{ width: '600px'}"></iframe>
+        <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }"></iframe>
     </div>
+    <a style="margin-left: 22px;" data-bind="attr: { href: currentDemoUrl }">View demo only</a>
     <div id="ace-code">
-        <header style="width: 100%; height: 28px;"> 
-                <ul class="editor-menu" data-bind="foreach: codes">
-                    <li>
-                        <a data-bind="text: name, click: $root.showCode, css: { active: name == $root.currentCodeName() }"></a>
-                    </li>                   
-                </ul>           
-        </header>      
+        <header style="width: 700px; height: 28px;">
+            <ul class="editor-menu" data-bind="foreach: codes">
+                <li>
+                    <a data-bind="text: name, click: $root.showCode, css: { active: name == $root.currentCodeName() }"></a>
+                </li>
+            </ul>
+        </header>
         <div class="editor-container">
             <div data-bind="html: currentCode">
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
 
 
-        
