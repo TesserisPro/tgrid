@@ -11,6 +11,7 @@ module TesserisPro.TGrid {
         private currentPage: number = 1;
         private totalPages: number = 1;
         private grid: any;
+        private pageNumber;
 
         public angularModuleName: string;
 
@@ -24,6 +25,8 @@ module TesserisPro.TGrid {
             this.$scope.selectedItem = this.selectedItem;
             this.$scope.currentPage = this.currentPage;
             this.$scope.totalPages = this.totalPages;
+            this.$scope.grid = this.grid;
+            this.$scope.pageNumber = this.currentPage;
             this.$scope.changePage = (pageNumber) => this.changePage(pageNumber);
         }
 
@@ -47,6 +50,7 @@ module TesserisPro.TGrid {
             this.currentPage = currentPage;
             if (this.$scope != null) {
                 this.$scope.currentPage = currentPage;
+                this.$scope.pageNumber = currentPage;
                 this.$scope.$apply();
             }
         }
