@@ -1,0 +1,59 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <div ng-app="TGrid"> 
+            <div ng-controller="ctrl">
+                <t-grid id="test-angular" provider="dataProvider" pageSize="6" pageSlide="4" enablePaging="true">
+                    <script type="text/html">
+                        <column data-g-width="35" data-g-views="mobile,desktop"  data-g-member="Number">
+                            <header>
+                                 <span>No.</span>
+                            </header>
+                        </column>
+                         <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
+                             <cell> <img width="100px" height='60px' style: "" ng-src="{{item.Picture}}" /></cell>
+                        </column>
+                        <column data-g-width="70" data-g-views="mobile,desktop"  data-g-member="Brand">
+                        </column>
+                        <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Type"> 
+                        </column>
+                         <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="EnginePower">
+                             <header>
+                                 <span>Engine power</span>
+                            </header>
+                             <cell>
+                                 <span>{{item.EnginePower}}</span> HP
+                             </cell>
+                        </column>
+                         <column data-g-width="60" data-g-views="mobile,desktop" data-g-member="Year">
+                             <header>
+                                 <span>1st Reg.</span>
+                            </header>
+                        </column>
+                        <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Cabin">
+                        </column>
+                        <footer>
+                            <div class ="footer" style="font-size:14px;">
+                                <div class="tgrid-pagination" style="display:inline-block">
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage - 1);" ng-hide="(currentPage - 1) <= 0">...</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage - 1);" ng-hide="(currentPage - 1) <= 0">{{currentPage - 1}}</span>
+                                    <span class='tgrid-page-current' >{{currentPage}}</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage + 1);" ng-hide="(currentPage + 1) > totalPages">{{currentPage+1}}</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage + 1);" ng-hide="(currentPage+1) > totalPages" >...</span>
+                                </div>
+                                <span style="float:right; position:absolute; right:3px">
+                                    To page: <input class="tgrid-choose-page-input" ng-model="viewPageNumber"/> 
+                                    of <span>{{totalPages}}</span>
+                                    <div class="tgrid-change-page-button" ng-click="changePage(viewPageNumber); $event.stopPropagation();">Go</div>
+                                </span>
+                            </div>
+                        </footer>
+                    </script>
+                </t-grid>
+            </div>
+        </div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

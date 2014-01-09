@@ -233,13 +233,13 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Footer template",
                 url = "Knockout/FooterTemplateKnockout",
-                htmlUrl = "Knockout/EditingWithCellTemplateHtml",
+                htmlUrl = "Knockout/FooterTemplateKnockoutHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
-                angularUrl = "Angular/EditingWithCellTemplate",
-                angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
+                jsUrl = "Knockout/jsFooterTemplateKnockout",
+                angularUrl = "Angular/FooterTemplateAngular",
+                angularHtmlUrl = "Angular/FooterTemplateAngularHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"
+                angularJsUrl = "Angular/jsFooterTemplateAngular"
             });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();

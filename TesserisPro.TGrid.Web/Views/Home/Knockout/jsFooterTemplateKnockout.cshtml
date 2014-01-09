@@ -1,0 +1,182 @@
+﻿<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+    var SimpleItemsProvider = (function () {
+        var items = [];
+         
+        SimpleItemsProvider.prototype.getRandomInt = function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        var generateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+        (function (generateRandomInt, items) {
+            var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence', "John", "Sharilyn", "Matthew", "Jasmine", "Ashley", "Christiana",
+            "Cathrine", "Alison","Nicole", "Theron", "Rob", "Larry", "Tina",  "Nelson", "Ted", "William" ];
+            var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson', "Figgins","Seidel","Holz","Newlin", "Swanson", "Ronan", "Lewis", 
+                'Carter', 'Collins', "Thrush", 'Murphy', 'Turner', 'Ham'];
+            var path = document.getElementById("url") != null  ? document.getElementById("url").value : "/";
+            for (var i = 0; i < 2000; i++) {
+                items.push({
+                    Name: names[generateRandomInt(0, names.length - 1)],
+                    Surname: surnames[generateRandomInt(0, surnames.length - 1)],
+                    Age: generateRandomInt(20, 60),
+                });
+            }
+        })(generateRandomInt, items);
+
+        function SimpleItemsProvider() {
+           
+        }
+        
+        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, collapsedFilterDescriptors, filterDescriptors, callback) {
+            var oldItems = new Array();
+            oldItems = oldItems.concat(items);
+            sort(sortDescriptors);
+            setTimeout(function () {
+                callback(filtering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                items = new Array();
+                items = items.concat(oldItems);
+            }, 200);
+        };
+
+        SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+            callback(filtering(filterDescriptors).length);
+        };
+
+        function filtering(filterDescriptors, collapsedFilterDescriptors) {
+            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
+                return items;
+            }
+
+            var isCollapsedItem = [];
+            for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
+                isCollapsedItem.push(false);
+            }
+
+            var filterdItems = [];
+            for (var j = 0; j < items.length; j++) {
+                // filtering common filters
+                var isFiltered = 0;
+                for (var i = 0; i < filterDescriptors.length; i++) {
+                    if (filter(items[j], filterDescriptors[i])) {
+                        isFiltered++;
+                    }
+                }
+
+                // filtering collapsed filter
+                var isCollapsedFiltered = false;
+                var numberfilter = -1;
+                for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
+                    if (filter(items[j], collapsedFilterDescriptors[i])) {
+                        isCollapsedFiltered = true;
+                        numberfilter = i;
+                        i = collapsedFilterDescriptors.length;
+                    }
+                }
+
+                if (isFiltered == 0 && !isCollapsedFiltered) {
+                    filterdItems.push(items[j]);
+                } else {
+                    if (isFiltered == 0) {
+                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
+                            var fakeItem = {};
+                            fakeItem["isFakeItem"] = true;
+                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
+                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
+                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
+                            }
+                            filterdItems.push(fakeItem);
+                            isCollapsedItem[numberfilter] = true;
+                        }
+                    }
+                }
+            }
+
+            return filterdItems;
+        }
+
+        function filter(item, filterDescriptors) {
+            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+                if (filterDescriptors.children.length == 0) {
+                    return true;
+                } else {
+                    var result = 0
+                    for (var i = 0; i < filterDescriptors.children.length; i++) {
+                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                            result++;
+                        }
+                    }
+                    if (result == filterDescriptors.children.length) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        function isFiltering(item, value, condition) {
+            // on true push to filtered items
+            switch (condition) {
+                case 1://equal
+                    return (item == value);
+                case 2://not equal
+                    return (item != value);
+            }
+            return false;
+        }
+
+        function sort(sortDescriptor) {
+            if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
+                items.sort(function (a, b) {
+                    return sortingRecursive(a, b, sortDescriptor, 0);
+                });
+            }
+        };
+
+        function sortingRecursive(a, b, sortDescriptor, i) {
+            if (i != sortDescriptor.length - 1) {
+                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
+                    return sortingOrder(sortDescriptor[i]);
+                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
+                    return sortingOrderDesc(sortDescriptor[i]);
+                return sortingRecursive(a, b, sortDescriptor, i + 1)
+            } else {
+                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+            }
+        }
+
+        function sortingOrder(sortDescriptor) {
+            return sortDescriptor.asc ? -1 : 1;
+        }
+
+        function sortingOrderDesc(sortDescriptor) {
+            return sortDescriptor.asc ? 1 : -1;
+        }
+
+        function compareItems(item1, item2, columns) {
+            for (var i = 0; i < columns.length; i++) {
+                if (item1[columns[i]] != item2[columns[i]]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return SimpleItemsProvider;
+    })();
+
+    function vm() {
+        var self = this;
+        self.nameColumnTitle = "First Name";
+
+        self.itemsProvider = new SimpleItemsProvider();
+    };
+
+    $(function () {
+        ko.applyBindings(new vm());
+    });
+</pre>
