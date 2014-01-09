@@ -138,25 +138,25 @@ var TesserisPro;
                 }
 
                 var pagerElement = document.createElement("div");
-                pagerElement.setAttribute("class", "tgird-pagination");
+                pagerElement.setAttribute("class", "tgrid-pagination");
 
                 if (firstVisiblePage > 0) {
-                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + (firstVisiblePage - 1).toString() + ")' >...</span>";
+                    pagerElement.innerHTML += "<span class='tgrid-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + (firstVisiblePage - 1).toString() + ")' >...</span>";
                 }
 
                 for (var i = firstVisiblePage; i <= lastVisiblePage; i++) {
                     if (option.currentPage == i) {
-                        pagerElement.innerHTML += "<span class='tgird-page-current'>" + (i + 1) + "</span>";
+                        pagerElement.innerHTML += "<span class='tgrid-page-current'>" + (i + 1) + "</span>";
                     } else {
-                        pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
+                        pagerElement.innerHTML += "<span class='tgrid-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + i + ")' >" + (i + 1) + "</span>";
                     }
                 }
 
                 if (lastVisiblePage < (pageCount - 1)) {
-                    pagerElement.innerHTML += "<span class='tgird-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
+                    pagerElement.innerHTML += "<span class='tgrid-page-number' onclick='TesserisPro.TGrid.Grid.getGridObject(event.target).selectPage(" + lastVisiblePage.toString() + ")' >...</span>";
                 }
 
-                var pages = footer.getElementsByClassName("tgird-pagination");
+                var pages = footer.getElementsByClassName("tgrid-pagination");
                 for (var i = 0; i < pages.length; i++) {
                     footer.removeChild(pages[i]);
                 }

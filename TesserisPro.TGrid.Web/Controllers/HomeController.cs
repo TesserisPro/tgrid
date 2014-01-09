@@ -229,6 +229,18 @@ namespace TesserisPro.TGrid.Web
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/Js100000RowsAngular"
             });
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Footer template",
+                url = "Knockout/FooterTemplateKnockout",
+                htmlUrl = "Knockout/EditingWithCellTemplateHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
+                angularUrl = "Angular/EditingWithCellTemplate",
+                angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"
+            });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel

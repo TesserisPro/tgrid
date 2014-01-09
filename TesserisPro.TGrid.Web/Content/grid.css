@@ -103,13 +103,13 @@
     border-right: 1px solid #d7d7d7;
     border-top: 1px solid #d7d7d7;
 }
-.tgrid-cell-content > span,
+/*.tgrid-cell-content > span,
 .tgrid-cell-content > div,
 .tgrid-cell-content > img,
 .tgrid-cell-content > a
 {
     margin: 2px;
-}
+}*/
 
 .tgrid-table-group-header, .tgrid-mobile-group-header  {
     background-color: rgb(233, 234, 235) !important;
@@ -158,9 +158,10 @@ td.tgrid-table-group-header {
     border-bottom: none;
 }
 
-.tgird-pagination {
+.tgrid-pagination {
     padding-top: 3px;
     text-align: center;
+    font-size:14px;
 }
 
 .tgrid-mobile-group {
@@ -169,8 +170,8 @@ td.tgrid-table-group-header {
     border-bottom: 1px solid #d7d7d7;;
 }
 
-.tgird-page-current,
-.tgird-page-number {
+.tgrid-page-current,
+.tgrid-page-number {
     margin-left: 1px;
     margin-right: 1px;
     min-width: 25px;
@@ -180,12 +181,12 @@ td.tgrid-table-group-header {
     display: inline-block;
 }
 
-.tgird-page-number {
+.tgrid-page-number {
     color: #555;
     cursor: pointer;
 }
 
-.tgird-page-current {
+.tgrid-page-current {
     color: #A39A9A;
     cursor: default;
 }
@@ -558,7 +559,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 .tgrid-footer {
     color: #555;
     background: whitesmoke;
-    height: auto;
+    height: 25px;
     border-bottom: 1px solid #BEBEBE;
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
@@ -577,8 +578,26 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 }    
 
 .tgrid-choose-page-input {
-    width: 40px;
-}    
+    width: 25px;
+    height: 15px;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.tgrid-change-page-button {
+    width: 60px;
+    height: 17px;
+    display: inline-block;
+    border: 1px solid #BEBEBE;
+    text-align: center;
+    padding: 1px 0;
+    margin-right: 3px;
+}
+
+.tgrid-footer-template {
+    font-size: 12px;
+}
+ 
 /* Mobile */
 @media (max-width: 480px) {
     .desktop {
