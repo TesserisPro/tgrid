@@ -109,3 +109,6 @@ TesserisPro.TGrid.Demo/Scripts/AngularItemViewModel.js
 TesserisPro.TGrid.Demo/Scripts/IFilterPopupViewModel.js
 TesserisPro.TGrid.Demo/Scripts/KnockoutFilterPopupViewModel.js
 TesserisPro.TGrid.Demo/Scripts/AngularItamViewModel.js
+TesserisPro.TGrid.Web/Scripts/iframe/tgrid-angular-min.js
+TesserisPro.TGrid.Web/Scripts/iframe/tgrid-knockout-min.js
+TesserisPro.TGrid.Web/Scripts/iframe/tgrid-min.js
