@@ -12,8 +12,8 @@
                 return Math.floor(Math.random() * (max - min + 1) + min);
             }
 
-            var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
-            (function (genarateRandomInt, items) {
+            var generateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+            (function (generateRandomInt, items) {
                 var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence'];
                 var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson'];
                 var picturesPaths = ['truck1.png', 'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
@@ -25,15 +25,15 @@
                 var departments = ['Sales', 'Human Resourses', 'Public Relations', 'Risk Management', 'Customer Service'];
                 for (var i = 0; i < 100000; i++) {
                     items.push({
-                        Name: names[genarateRandomInt(0, names.length - 1)],
-                        Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
-                        DateOfBirth: new Date(genarateRandomInt(1953, 1995), genarateRandomInt(1, 12), genarateRandomInt(1, 32)).toLocaleDateString(),
-                        Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)]),
-                        Position: positions[genarateRandomInt(0, positions.length - 1)],
-                        Department: departments[genarateRandomInt(0, departments.length - 1)]
+                        Name: names[generateRandomInt(0, names.length - 1)],
+                        Surname: surnames[generateRandomInt(0, surnames.length - 1)],
+                        DateOfBirth: new Date(generateRandomInt(1953, 1995), generateRandomInt(1, 12), generateRandomInt(1, 32)).toLocaleDateString(),
+                        Picture: '/TGrid.Demo/Content/images/picturesForGrid/'.concat(picturesPaths[generateRandomInt(0, picturesPaths.length - 1)]),
+                        Position: positions[generateRandomInt(0, positions.length - 1)],
+                        Department: departments[generateRandomInt(0, departments.length - 1)]
                     });
                 }
-            })(genarateRandomInt, items);
+            })(generateRandomInt, items);
 
             function SimpleItemsProvider() {
 

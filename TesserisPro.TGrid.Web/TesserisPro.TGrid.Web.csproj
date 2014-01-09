@@ -375,6 +375,7 @@
     <Content Include="Views\Home\Angular\GroupCollapsingMobileAngular.cshtml" />
     <Content Include="Views\Home\Angular\GroupCollapsingMobileAngularHtml.cshtml" />
     <Content Include="Views\Home\Knockout\FooterTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\FooterTemplateAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

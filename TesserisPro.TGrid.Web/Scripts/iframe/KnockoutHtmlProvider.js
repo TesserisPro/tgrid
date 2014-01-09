@@ -14,7 +14,6 @@ var TesserisPro;
     /// <reference path="../IFooterViewModel.ts" />
     /// <reference path="KnockoutFilterPopupViewModel.ts" />
     /// <reference path="KnockoutFooterViewModel.ts" />
-    /// <reference path="KnockoutItemViewModel.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);
@@ -60,8 +59,8 @@ var TesserisPro;
                 return null;
             };
 
-            KnockoutHtmlProvider.prototype.getFooterViewModel = function () {
-                var knockoutFooterViewModel = new TGrid.KnockoutFooterViewModel(0, 0, 0, 0);
+            KnockoutHtmlProvider.prototype.getFooterViewModel = function (grid) {
+                var knockoutFooterViewModel = new TGrid.KnockoutFooterViewModel(0, 0, 0, 0, grid);
                 return knockoutFooterViewModel;
             };
 
@@ -234,9 +233,6 @@ var TesserisPro;
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
                     var footerContainer = document.createElement("div");
-                    if (option.enablePaging) {
-                        this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
-                    }
                     option.tableFooterTemplate.applyTemplate(footerContainer);
                     ko.applyBindings(footerModel, footerContainer);
 
@@ -270,9 +266,6 @@ var TesserisPro;
                     var row = this.buildRowElement(option, item, container, selected);
 
                     container.appendChild(row);
-
-                    // var knockItem = new TesserisPro.TGrid.KnockoutItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
-                    // knockItem.setObservable(item.item);
                     ko.applyBindings(item, row);
                 }
             };

@@ -14,20 +14,7 @@
     <script src="~/Scripts/iframe/angular.js"></script>
     <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
 
-  @*  <script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/AngularHtmlProvider.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/AngularFooterViewModel.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/AngularFilterPopupViewModel.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/AngularItemViewModel.js" type="text/javascript"></script> 
-    <script src="~/Scripts/iframe/options.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/ItemViewModel.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/TGrid.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/TGridDirective.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/SortDescriptor.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
-    <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>*@
-
+ 
     <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
     <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
 </head>
@@ -35,30 +22,32 @@
    <input id ="url" hidden ="hidden" value ="@Url.Content("~")"/>
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" pageSize="5" pageSlide="4" enablePaging="true">
+            <t-grid id="test-angular" provider="dataProvider" pageSize="6" pageSlide="4" enablePaging="true">
                 <script type="text/html">
                     <column data-g-width="55" data-g-views="mobile,desktop"  data-g-member="Number">
-                    </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Company">
-                    </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="City"> 
-                    </column>
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Year">
-                    </column>
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Employees">
                     </column>
                      <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
                          <cell> <img width="100px" height='60px' style: "" ng-src="{{item.Picture}}" /></cell>
                     </column>
-                     <footer>
-                        <div class ="footer">
-                            Total Count: <span >{{totalCount}}</span>
-                            Current Page: <span >{{currentPage}}</span>
-                            Total Pages: <span >{{totalPages}}</span>
-                             Go to page: <input class="tgrid-choose-page-input" ng-model="pageNumber"/>
-                            <button ng-click="changePage(pageNumber); $event.stopPropagation();">Go</button>
-                        </div>
-                    </footer>  
+                    <column data-g-width="70" data-g-views="mobile,desktop"  data-g-member="Brand">
+                    </column>
+                    <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Type"> 
+                    </column>
+                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="EnginePower">
+                         <header>
+                             <span>Engine power</span>
+                        </header>
+                         <cell>
+                             <span>{{item.EnginePower}}</span> HP
+                         </cell>
+                    </column>
+                     <column data-g-width="60" data-g-views="mobile,desktop" data-g-member="Year">
+                         <header>
+                             <span>1st Reg.</span>
+                        </header>
+                    </column>
+                    <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Cabin">
+                    </column>
                 </script>
             </t-grid>
         </div>
@@ -71,27 +60,65 @@
                 return Math.floor(Math.random() * (max - min + 1) + min);
             }
 
-            var genarateRandomInt = SimpleItemsProviderAngular.prototype.getRandomInt;
-            (function (genarateRandomInt, items) {
-                var companies = ['Parmalat', 'Pepper Lunch', 'PepsiCo', 'Petronas', 'Lockheed Martin', "L'Oréal", 'Luxottica', "McDonald's", 'Maggi', 'Marriott', 'Martini & Rossi', 'Electronic Data Systems', 'Electrolux', 'Emerson Electric', 'Epson', 'Bridgestone', 'BP', 'Cadbury Schweppes', 'Alcatel-Lucent', 'Allianz', 'Danone', 'Dell'];
-                var employees = ['100', '127', '150', '380', '1050', '157', '277', '562', '436', '780', '523', '191', '163', '514', '1205', '950', '552', '671', '254', '267', '824', '732'];
+            var generateRandomInt = SimpleItemsProviderAngular.prototype.getRandomInt;
+            (function (generateRandomInt, items) {
+                var brand = ['MAN', 'DAF', 'Mercedes', 'Iveco', 'Volvo', "Scania", 'Terberg', "Renault"];
+                var hp = ['460', '510', '410', '380', '360', '430', '480', '450', '460', '460', '410', '410', '400', '500', '310'];
                 var picturesPaths = ['truck1.png', 'truck3.jpg', 'truck4.png', 'truck5.png', 'truck6.png', 'truck7.png',
                                     'truck8.png', 'truck9.png', 'truck10.jpg', 'truck11.jpg', 'truck12.png', 'truck13.png', 'truck14.png', 'truck15.png',
                                         'truck16.png', 'truck17.png', 'truck18.png'];
-                var cities = ['New York', 'London', 'Boston', 'Dublin', 'Burmingham', 'Munich', 'Berlin', 'Francfurt', 'Hamburg', 'Washington DC', 'San Diego', 'San Francisco', 'Chicago', 'Rome', 'Milan', 'Turin', 'Palermo', 'Florence', 'Paris', 'Nantes', 'Lyon', 'Marsellie', 'Toulouse', 'Madrid', 'Barcelona', 'Seville', 'Valencia'];
-
+                var type0 = ['TGX 18.440 XLX', 'TGX 18.680 XXL', 'TGS 33.480 LX', 'TGA 33.400 L RHD', 'TGA 18.440 XLX', 'TGA 18.400 XXL', 'TGA 18.480 M', 'TGA 33.480 M', 'TGA 18.460 LX'];
+                var type1 = ['XF105.410', 'XF105.460', 'CF85.360', 'XF105.410', 'CF85.430', 'CF85.460', 'XF95.480'];
+                var type2 = ['Actros 2541 LS', 'Actros 1848 LS', 'Actros 3350 S', 'Actros 3350 S V8 ', 'Actros 2641 S', 'Actros 2544 LSVLA', 'Actros 1844 LLS', 'Actros 3350 AS', 'Actros 1844 LS']
+                var type3 = ['Stralis AS440S50', 'Stralis AS440S45', 'Stralis AT440S45', 'Stralis AS440S43', 'EuroTech 440E43', 'EuroTech 440E38'];
+                var type4 = ['FH 500', 'FH 420 Budapest HU', 'FH 420', 'FH16 580', 'FM 300', 'FH12 460', 'FH12 420', 'FM7 290']
+                var type5 = ['G400', 'R380', 'R420', 'R480', 'R500', 'R470', 'R124L 470', 'R124L 400'];
+                var type6 = ['YT 182 Terminal Tractorhead', 'YT180 Terminal Tractorhead']
+                var type7 = ['Premium Lander 460', 'Kerax 480', 'Kerax 33.480', 'Magnum 520', 'Magnum 440', 'Premium 450', 'Kerax 420'];
+                var cabin = ['Sleepercab', 'Super Space Cab', 'Space Cab', 'Active Space', 'ActiveTime', 'Comfort Cab', 'Globetrotter', 'Globetrotter XL', 'Short', 'Sleepercab', 'Super Space Cab', 'Space Cab', 'Sleepercab', 'Space Cab', 'Megaspace (F15)'];
                 var path = document.getElementById("url") != null ? document.getElementById("url").value : "/";
                 for (var i = 1; i <= 100000; i++) {
+                    var brandNumber = generateRandomInt(0, brand.length - 1);
+                    var typeNumber = []
+                    switch(brandNumber){
+                        case 0:
+                            typeNumber = type0;
+                            break;
+                        case 1:
+                            typeNumber = type1;
+                            break;
+                        case 2:
+                            typeNumber = type2;
+                            break;
+                        case 3:
+                            typeNumber = type3;
+                            break;
+                        case 4:
+                            typeNumber = type4;
+                            break;
+                        case 5:
+                            typeNumber = type5;
+                            break;
+                        case 6:
+                            typeNumber = type6;
+                            break;
+                        case 7:
+                            typeNumber = type7;
+                            break;
+                        default:
+                            typeNumber = type0;
+                }
                     items.push({
                         Number: i,
-                        Company: companies[genarateRandomInt(0, companies.length - 1)],
-                        City: cities[genarateRandomInt(0, cities.length - 1)],
-                        Year: genarateRandomInt(1953, 1999),
-                        Employees: employees[genarateRandomInt(0, employees.length - 1)],
-                        Picture: path.concat("Content/images/picturesForGrid/").concat(picturesPaths[genarateRandomInt(0, picturesPaths.length - 1)])
+                        Brand: brand[brandNumber],
+                        Type: typeNumber[generateRandomInt(0, typeNumber.length - 1)],
+                        Year: generateRandomInt(2000, 2013),
+                        EnginePower: hp[generateRandomInt(0, hp.length - 1)],
+                        Cabin: cabin[generateRandomInt(0, cabin.length - 1)],
+                        Picture: path.concat("Content/images/picturesForGrid/").concat(picturesPaths[generateRandomInt(0, picturesPaths.length - 1)])
                     });
                 }
-            })(genarateRandomInt, items);
+            })(generateRandomInt, items);
 
             function SimpleItemsProviderAngular() {
 

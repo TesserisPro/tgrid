@@ -236,7 +236,7 @@ namespace TesserisPro.TGrid.Web
                 htmlUrl = "Knockout/EditingWithCellTemplateHtml",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
-                angularUrl = "Angular/EditingWithCellTemplate",
+                angularUrl = "Angular/FooterTemplateAngular",
                 angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"

@@ -56,8 +56,8 @@
                     return Math.floor(Math.random() * (max - min + 1) + min);
                 }
 
-                var genarateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
-                (function (genarateRandomInt, items) {
+                var generateRandomInt = SimpleItemsProvider.prototype.getRandomInt;
+                (function (generateRandomInt, items) {
                     var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence', "John", "Sharilyn", "Matthew", "Jasmine", "Ashley", "Christiana",
                     "Cathrine", "Alison","Nicole", "Theron", "Rob", "Larry", "Tina",  "Nelson", "Ted", "William" ];
                     var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson', "Figgins","Seidel","Holz","Newlin", "Swanson", "Ronan", "Lewis", 
@@ -66,12 +66,12 @@
                     var path = document.getElementById("url") != null  ? document.getElementById("url").value : "/";
                     for (var i = 0; i < 2000; i++) {
                         items.push({
-                            Name: names[genarateRandomInt(0, names.length - 1)],
-                            Surname: surnames[genarateRandomInt(0, surnames.length - 1)],
-                            Age: genarateRandomInt(20, 60),
+                            Name: names[generateRandomInt(0, names.length - 1)],
+                            Surname: surnames[generateRandomInt(0, surnames.length - 1)],
+                            Age: generateRandomInt(20, 60),
                         });
                     }
-                })(genarateRandomInt, items);
+                })(generateRandomInt, items);
 
                 function SimpleItemsProvider() {
            
