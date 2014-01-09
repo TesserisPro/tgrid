@@ -23,9 +23,7 @@ body .mr30 {
 body .mt-20 {
     margin-top: -20px;
 }
-body .c18 {
-    width: 360px;
-}
+
 body .fr {
     float: right;
 }
@@ -117,7 +115,7 @@ img, fieldset {
     background-color: #4F4F4F;
 }
 #tgrid-navi .inner {
-    max-width: 940px;
+    max-width: 1024px;
     /*text-align: center;*/
     position: relative;
     margin: 0 auto;
@@ -341,7 +339,7 @@ header .centered-content {
     padding: 30px 0 35px;
 }
 .header-content .centered-content .sfContentBlock img{
-    height:244px;
+    height:265px;
     width:341px;
 }
 .header-content .text {
@@ -411,16 +409,8 @@ p, address {
     clear: both;
     position: relative;
     z-index: 4;
-}
-.sf_cols {
     zoom: 1;
-}
-.page-web, .page-mobile, .page-dataviz, .page-server-wrappers {
     font-size: 14px;
-}
-.sf_1col_1_100 {
-    float: none;
-    margin: 0;
 }
 
 .shade, #content .ty-started {
@@ -453,7 +443,6 @@ p, address {
     float: right;
 }
 footer {
-    height: 28px;
     color: whitesmoke;
     background-color: #4F4F4F;
     line-height: 20px;
@@ -485,9 +474,8 @@ footer .centered-content {
     color: whitesmoke;
     position: relative;
 }
-.sf_cols.page-web{
-    margin: 0 15px 0 15px;
-}
+
+
 #left{
     width:10px;
     /*height:1281px;*/
@@ -498,11 +486,6 @@ footer .centered-content {
     background: -moz-linear-gradient(right, rgb(185, 183, 183), whitesmoke);
     background: -ms-linear-gradient(right, rgb(185, 183, 183),whitesmoke);
     background: -o-linear-gradient(right, rgb(185, 183, 183), whitesmoke);    
-
-    /*background: -webkit-gradient(radial, center center, 0, center center, 460, from(rgb(185, 183, 183)), to(whitesmoke));
-    background: -webkit-radial-gradient(circle, rgb(185, 183, 183), whitesmoke);
-    background: -moz-radial-gradient(circle, rgb(185, 183, 183), whitesmoke);
-    background: -ms-radial-gradient(circle, rgb(185, 183, 183), whitesmoke);*/
 }
 #bottom{
     width:1903px;
@@ -572,6 +555,7 @@ footer .centered-content {
     padding: 3px 4px 3px 4px;
     color: #4e4e4e;
     line-height: 1.5;
+    margin-top: 32px;
 }
 
 #list ul a:hover, #list ul a:focus, #UI a:focus, #UI a:hover{

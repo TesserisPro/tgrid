@@ -134,6 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\gridonmainpage.png" />
     <Content Include="Content\HighlighterStyles\shCore.css" />
     <Content Include="Content\HighlighterStyles\shCoreDefault.css" />
     <Content Include="Content\HighlighterStyles\shCoreDjango.css" />
@@ -169,7 +170,6 @@
     <Content Include="Content\images\group_mobile.png" />
     <Content Include="Content\images\group_mobile_active.png" />
     <Content Include="Content\images\iphone.png" />
-    <Content Include="Content\images\kendo-web-header.png" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo_small.png" />
     <Content Include="Content\images\logo_small_1.png" />
@@ -196,8 +196,8 @@
     <Content Include="Content\images\picturesForGrid\truck9.png" />
     <Content Include="Content\images\tesseris.png" />
     <Content Include="Content\images\tgridSNS.png" />
-    <Content Include="Content\images\web-1.jpg" />
-    <Content Include="Content\images\web-2.gif" />
+    <Content Include="Content\monitorwithgrid.png" />
+    <Content Include="Content\phonewithgrid.png" />
     <Content Include="Content\purchaseStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
