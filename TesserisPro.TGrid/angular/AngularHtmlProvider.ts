@@ -270,9 +270,6 @@ module TesserisPro.TGrid {
                 footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
                 option.tableFooterTemplate.applyTemplate(footerContainer);
                 footer.innerHTML = "";
-                if (option.enablePaging) {
-                    this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
-                }
 
                 angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
                 footer.appendChild(footerContainer);

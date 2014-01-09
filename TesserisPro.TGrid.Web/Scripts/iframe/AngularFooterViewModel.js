@@ -17,6 +17,10 @@ var TesserisPro;
                 this.$scope.selectedItem = this.selectedItem;
                 this.$scope.currentPage = this.currentPage;
                 this.$scope.totalPages = this.totalPages;
+                this.$scope.grid = this.grid;
+                this.$scope.changePage = function (pageNumber) {
+                    this.grid.selectPage(pageNumber - 1);
+                };
             };
 
             AngularFooterViewModel.prototype.setTotalCount = function (totalCount) {
@@ -52,7 +56,6 @@ var TesserisPro;
             };
 
             AngularFooterViewModel.prototype.changePage = function (pageNumber) {
-                this.grid.selectPage(pageNumber - 1);
             };
             return AngularFooterViewModel;
         })();
