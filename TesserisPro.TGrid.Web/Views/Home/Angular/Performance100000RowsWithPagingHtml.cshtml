@@ -1,30 +1,34 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-       <div ng-app="TGrid"> 
+    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" pageSize="5" pageSlide="4" enablePaging="true">
+            <t-grid id="test-angular" provider="dataProvider" pageSize="6" pageSlide="4" enablePaging="true">
                 <script type="text/html">
                     <column data-g-width="55" data-g-views="mobile,desktop"  data-g-member="Number">
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop"  data-g-member="Company">
+                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
+                        <cell> <img width="100px" height='60px' style: "" ng-src="{{item.Picture}}" /></cell>
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="City"> 
+                    <column data-g-width="70" data-g-views="mobile,desktop"  data-g-member="Brand">
                     </column>
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Year">
+                    <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Type"> 
                     </column>
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Employees">
+                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="EnginePower">
+                        <header>
+                            <span>Engine power</span>
+                    </header>
+                        <cell>
+                            <span>{{item.EnginePower}}</span> HP
+                        </cell>
                     </column>
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Picture">
-                         <cell> <img width="100px" height='60px' style: "" ng-src="{{item.Picture}}" /></cell>
+                    <column data-g-width="60" data-g-views="mobile,desktop" data-g-member="Year">
+                        <header>
+                            <span>1st Reg.</span>
+                    </header>
                     </column>
-                     <footer>
-                        <div class ="footer">
-                            Total Count: <span >{{totalCount}}</span>
-                            Current Page: <span >{{currentPage}}</span>
-                            Total Pages: <span >{{totalPages}}</span>
-                        </div>
-                    </footer>  
+                    <column data-g-width="120" data-g-views="mobile,desktop" data-g-member="Cabin">
+                    </column>
                 </script>
             </t-grid>
         </div>

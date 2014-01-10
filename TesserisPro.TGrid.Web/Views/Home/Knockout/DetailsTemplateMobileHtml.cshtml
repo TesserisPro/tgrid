@@ -11,11 +11,15 @@
                     </div>
                 </celldetail>
             </column>
+            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
+            </column>
+            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age"> 
+            </column>
             <mobile>
                 <div>
                     <span>First name: </span>
                     <span data-bind="text: item.Name"></span>
-                    <a href data-bind="click: function () { showDetailForCell(0); },  clickBubble: false">...</a>
+                    <a href data-bind="click: function () { showDetailForCell(0); }, clickBubble: false">...</a>
                     <br />
                     <span>Last name: </span>
                     <span data-bind="text: item.Surname"></span>

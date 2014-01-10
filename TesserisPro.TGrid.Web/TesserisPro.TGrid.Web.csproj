@@ -380,6 +380,8 @@
     <Content Include="Views\Home\Angular\FooterTemplateAngularHtml.cshtml" />
     <Content Include="Views\Home\Angular\jsFooterTemplateAngular.cshtml" />
     <Content Include="Views\Home\Knockout\jsFooterTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\jsCustomProviderKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\jsCustomItemsProviderAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
