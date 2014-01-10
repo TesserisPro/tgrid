@@ -146,6 +146,7 @@ img, fieldset {
     right: 0;
     left: 0;
     width: 100%;
+    min-width: 1124px;
     font-size: 10px;
     line-height: 16px;
     background-color: #8B7D7B;
@@ -189,6 +190,7 @@ img, fieldset {
 #wrapper {
     padding: 45px 0 28px 0;
     width: 100%;
+    min-width: 1124px;
     /*background: url("/Content/images/Gears-main.png") no-repeat fixed -60px 450px;*/
     position: absolute;
     top: 0;
