@@ -331,15 +331,16 @@ module TesserisPro.TGrid {
             }
 
             if (this.firstVisibleItemIndex > 0) {
-                if (container.scrollTop <= 1) {
+                if (container.scrollTop <= 10) {
                     this.showPreviousPage();
                 }
             }
+
             if (this.isDesktopMode()) {
                 this.updateGlobalScroll();
             }
             else {
-                this.updateGlobalScrollMobile();
+                //this.updateGlobalScrollMobile();
             }
         }
 
