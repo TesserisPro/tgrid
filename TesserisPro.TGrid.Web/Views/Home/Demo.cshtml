@@ -27,6 +27,20 @@
     $("#main-frame").contents().children().css({ "overflow": "hidden" });
 </script>
 
+@section featured {
+    <div class="header-content">
+        <div class="small-header-content">
+
+            <span class="general-description" style="font-size: 24px;">
+                Review TGrid demo
+            </span>
+
+            @Html.ActionLink("Download", "Download", null, new { @class = "button dimmed" })
+
+        </div>
+    </div>
+}
+
 <div id="UI">
     <a data-bind="attr:{ class: knockoutActive() ? 'active' : ''}, click: setKnockoutActive">Knockout</a>
     <a data-bind="attr:{ class: !knockoutActive() ? 'active' : ''}, click: setKnockoutInactive">Angular</a>

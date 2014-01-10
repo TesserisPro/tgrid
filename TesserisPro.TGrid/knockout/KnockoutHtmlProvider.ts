@@ -475,7 +475,7 @@ module TesserisPro.TGrid {
             }
 
             for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
-                row.innerHTML += "<div class='tgrid-mobile-indent-div'></div>"
+                row.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>"
             }
 
             var rowTemplate = document.createElement("div");
@@ -486,11 +486,7 @@ module TesserisPro.TGrid {
                 rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
             }
             row.appendChild(rowTemplate);
-
-            var placeholderColumn = document.createElement("td");
-            placeholderColumn.classList.add("tgrid-placeholder");
-            row.appendChild(placeholderColumn);
-
+                        
             (function (item) {
                 row.onclick = function (e) {
                     if (option.selectionMode != SelectionMode.None) {
@@ -521,7 +517,6 @@ module TesserisPro.TGrid {
             var groupHeaderContainer = document.createElement("div");
             var groupHeaderName = document.createElement("span");
             groupHeaderName.setAttribute("data-bind", "text: item.value");
-            groupHeaderName.setAttribute("style", "color: green;");
             groupHeaderContainer.appendChild(groupHeaderName);
             tableRowElement.appendChild(groupHeaderContainer);
         }

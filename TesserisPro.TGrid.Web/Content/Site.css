@@ -54,10 +54,65 @@ h3, .h3 {
     font: 400 22px/1.2 "Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
 }
 
+.sell-table
+{
+    text-align: center;
+    font-size: 16px;
+    margin-top: 100px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.sell-table thead
+{
+    color: #2F2727
+}
+
+.sell-table thead td
+{
+    width: 184px;
+    height: 64px;
+    background-color: whitesmoke;
+    border: 1px solid rgb(185, 183, 183);
+}
+
+.sell-table tbody
+{
+    color: black;
+}
+
+    .sell-table tbody td:first-child {
+        border: 1px solid rgb(185, 183, 183);
+        background-color: whitesmoke;
+        color: #2F2727;
+    }
+
+.sell-table tbody td
+{
+    width: 184px;
+    height: 64px;
+    background-color: rgb(185, 183, 183);
+    border: 1px solid #9d9d9d;
+}
+
+.empty-cell
+{
+    background-color: transparent !important;
+    border: none !important;
+}
+
 .general-description
 {
     color: whitesmoke;
     font-size: 16px;
+}
+
+.small-header-content{
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
 }
 
 .page-web span, .page-mobile span, .page-dataviz span, .page-web div, .page-mobile div, .page-dataviz div, .page-web section, .page-mobile section, .page-dataviz section {
@@ -76,7 +131,7 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 0.6em;
 }
 h4, .h4 {
-    font: 400 20px/1.2 Roboto-LightWeb,"Segoe UI Light","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 20px/1.2 "Segoe UI",Arial;
 }
 a {
     text-decoration: none;
@@ -91,6 +146,7 @@ img, fieldset {
     right: 0;
     left: 0;
     width: 100%;
+    min-width: 1124px;
     font-size: 10px;
     line-height: 16px;
     background-color: #8B7D7B;
@@ -100,7 +156,7 @@ img, fieldset {
     -o-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     z-index: 10000;
-    font-family: "Roboto-Light-Web",Arial,sans-serif;
+    font-family: "Segoe UI",Arial;
     position: absolute;
 }
 #tgrid-bar {
@@ -134,6 +190,7 @@ img, fieldset {
 #wrapper {
     padding: 45px 0 28px 0;
     width: 100%;
+    min-width: 1124px;
     /*background: url("/Content/images/Gears-main.png") no-repeat fixed -60px 450px;*/
     position: absolute;
     top: 0;
@@ -211,7 +268,7 @@ header .centered-content {
 }
 .tgrid-nav a {
     margin-left: 40px;
-    font: 21px/1.4 Arial,Helvetica,sans-serif;
+    font: 21px/1.4 "Segoe UI",Arial;
     color: #2e2e2e;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -259,7 +316,7 @@ header .centered-content {
     top: -1px;
 }
 .button, .sfcommentsFormWrp input[type="submit"], button, input[type="submit"] {
-    font: 14px/normal DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 14px/normal DroidSansWeb,"Segoe UI",Arial,Helvetica,sans-serif;
     color: #fff !important;
     text-decoration: none;
     padding: 8px 15px 6px;
@@ -292,7 +349,7 @@ header .centered-content {
     position: relative;
 }
 .main-nav a span {
-    font: 400 8px/1.4 DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 8px/1.4 DroidSansWeb,"Segoe UI",Arial,Helvetica,sans-serif;
     position: relative;
     top: -1px;
 }
@@ -320,7 +377,7 @@ header .centered-content {
     border-radius: 10px;
 }
 .main-nav .nav-submenu nav a {
-    font: 400 14px/22px DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 14px/22px DroidSansWeb,"Segoe UI",Arial,Helvetica,sans-serif;
 }
 .header-content {
     background: #FF0000;
@@ -347,7 +404,7 @@ header .centered-content {
     margin-left: 50%;
 }
 h1, .header-content h2 {
-    font: 400 30px/1.2 Roboto-LightWeb,"Segoe UI Light","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 400 30px/1.2 "Segoe UI",Arial;
     color: #fff;
     margin-bottom: -5px;
 }
@@ -395,7 +452,7 @@ p, address {
     position: relative;
     display: inline-block;
     color: #2e2e2e;
-    font: 16px/46px DroidSansWeb,"Segoe UI","Lucida Sans Unicode",Arial,Helvetica,sans-serif;
+    font: 16px/46px DroidSansWeb,"Segoe UI",Arial;
     text-decoration: none;
     text-shadow: 0 1px #fff;
     -webkit-transition: color 200ms ease;

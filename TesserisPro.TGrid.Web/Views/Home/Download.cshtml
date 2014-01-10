@@ -3,6 +3,98 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Download trial version of TGrid FOR FREE</h3>
-<button>Download</button>
+@section featured {
+    <div class="header-content">
+        <div class="small-header-content">
+
+            <span class="general-description" style="font-size: 24px;">
+                Buy or download trial version of TGrid
+            </span>
+
+            @Html.ActionLink("Purchase", "Purchase", null, new { @class = "button dimmed" })
+
+        </div>
+    </div>
+}
+
+
+
+<table class="sell-table" cellpadding="0" cellspacing="16">
+    <thead>
+        <tr>
+            <td class="empty-cell">
+
+            </td>
+            <td>
+                Free trial version
+            </td>
+            <td>
+                Full version
+            </td>
+        </tr>
+       
+    </thead>
+    <tbody>
+        <tr>
+            <td class="empty-cell"></td>
+            <td>
+                @Html.ActionLink("Download", "Download", null, new { @class = "button dimmed" })
+
+            </td>
+            <td>
+                @Html.ActionLink("Purchase", "Purchase", null, new { @class = "button dimmed" })
+
+            </td>
+        </tr> 
+
+        <tr>
+            <td>
+                Price
+            </td>
+            <td>
+                Free
+            </td>
+            <td>
+                $149.99
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Fully featrured grid
+            </td>
+            <td>
+                30 days trial
+            </td>
+            <td>
+                Yes
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+               Support
+            </td>
+            <td>
+                No
+            </td>
+            <td>
+                5 free incidents
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Free Updates
+            </td>
+            <td>
+                No
+            </td>
+            <td>
+                One year
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 
