@@ -5,6 +5,7 @@ module TesserisPro.TGrid {
         onApply();
         onClear();
         onClose();
-        getColumnInfo(): ColumnInfo;       
+        getColumnInfo(): ColumnInfo;
+        onCloseFilterPopup();
     }
 }

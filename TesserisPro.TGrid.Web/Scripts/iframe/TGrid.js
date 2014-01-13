@@ -297,14 +297,15 @@ var TesserisPro;
                 }
 
                 if (this.firstVisibleItemIndex > 0) {
-                    if (container.scrollTop <= 1) {
+                    if (container.scrollTop <= 10) {
                         this.showPreviousPage();
                     }
                 }
+
                 if (this.isDesktopMode()) {
                     this.updateGlobalScroll();
                 } else {
-                    this.updateGlobalScrollMobile();
+                    //this.updateGlobalScrollMobile();
                 }
             };
 
@@ -941,7 +942,7 @@ var TesserisPro;
             Grid.prototype.setFilters = function (filterDescriptor, filterPath) {
                 this.removeFilters(filterPath, false);
                 this.options.filterDescriptors.push(filterDescriptor);
-                this.refreshMobileHeader();
+                this.refreshHeader();
                 this.refreshBody();
             };
 
@@ -953,7 +954,7 @@ var TesserisPro;
                     }
                 }
                 if (isRefresh) {
-                    this.refreshMobileHeader();
+                    this.refreshHeader();
                     this.refreshBody();
                 }
             };

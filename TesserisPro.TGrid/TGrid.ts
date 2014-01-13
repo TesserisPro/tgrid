@@ -1024,7 +1024,7 @@ module TesserisPro.TGrid {
         public setFilters(filterDescriptor: FilterDescriptor, filterPath: string) {
             this.removeFilters(filterPath, false);
             this.options.filterDescriptors.push(filterDescriptor);
-            this.refreshMobileHeader();
+            this.refreshHeader();
             this.refreshBody();
         }
 
@@ -1035,7 +1035,7 @@ module TesserisPro.TGrid {
                 }
             }
             if (isRefresh) {
-                this.refreshMobileHeader();
+                this.refreshHeader();
                 this.refreshBody();
             }
         }

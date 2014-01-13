@@ -25,8 +25,9 @@ var TesserisPro;
 
             ArrayItemsProvider.prototype.sort = function (sortDescriptors) {
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
+                    var self = this;
                     this.items.sort(function (a, b) {
-                        return this.sortingRecursive(a, b, sortDescriptors, 0);
+                        return self.sortingRecursive(a, b, sortDescriptors, 0);
                     });
                 }
             };

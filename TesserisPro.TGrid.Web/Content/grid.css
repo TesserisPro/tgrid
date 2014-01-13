@@ -294,7 +294,7 @@ td a {
     display: none;
 }
 
- .tgrid-filter-indicator, .tgrid-filter-button{
+ .tgrid-filter-indicator, .tgrid-filter-button, .tgrid-filter-button-active {
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -316,6 +316,10 @@ td a {
 
 .tgrid-filter-indicator, .tgrid-filter-button {
     background: url(images/filter.png) no-repeat;
+}
+
+.tgrid-filter-button-active {
+    background: url(images/filter_active.png) no-repeat;
 }
 
 .tgrid-mobile-filter-button {

@@ -58,7 +58,7 @@ module TesserisPro.TGrid {
         }
 
         public getFilterPopupViewModel(container: HTMLElement) {
-            var filterPopupViewModel = new KnockoutFilterPopupViewModel(container);
+            var filterPopupViewModel = new KnockoutFilterPopupViewModel(container, this.onCloseFilterPopup);
             return filterPopupViewModel;
         }
 
@@ -69,13 +69,14 @@ module TesserisPro.TGrid {
                 //add indents for groupBy
                 this.showNeededIndents(header, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
+                var element = header.getElementsByTagName("th");
+                var indendsQuantity = option.columns.length;
+                var columnsQuantity = option.columns.length;
+                var headerElementsQuantity = element.length;
+
                 // update table header
                 if (option.enableSorting) {
                     this.removeArrows(header);
-                    var element = header.getElementsByTagName("th");
-                    var indendsQuantity = option.columns.length;
-                    var columnsQuantity = option.columns.length;
-                    var headerElementsQuantity = element.length;
                     for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
                         if (option.columns[j].device.indexOf("desktop") != -1) {
                             if (option.sortDescriptor.path == option.columns[j].sortMemberPath && option.columns[j].sortMemberPath != null) {
@@ -83,6 +84,24 @@ module TesserisPro.TGrid {
                             }
                             headerElementNumber++;
                         } 
+                    }
+                }
+                if (option.enableFiltering) {
+                    this.removeFilterButtons(header);
+                    for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
+                        if (option.columns[j].device.indexOf("desktop") != -1) {
+                            var isFilterApplied = false;
+                            for (var i = 0; i < option.filterDescriptors.length; i++) {
+                                if (option.filterDescriptors[i].path == option.columns[j].filterMemberPath && option.columns[j].filterMemberPath != null) {
+                                    isFilterApplied = true;
+                                    break;
+                                }
+                            }
+                            var headerElementsButton = element[headerElementNumber].getElementsByClassName("tgrid-header-cell-buttons")[0];
+                            this.addFilterButton(option, filterPopupContainer, <HTMLElement>headerElementsButton, j, isFilterApplied);
+                            
+                            headerElementNumber++;
+                        }
                     }
                 }
 
@@ -130,7 +149,7 @@ module TesserisPro.TGrid {
                         }
 
                         // Filter
-                        this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+                        this.addFilterButton(option, filterPopupContainer, headerButtons, i, false);
 
                         if (option.columns[i].resizable) {
                             var columnResize = document.createElement("div");
@@ -387,6 +406,19 @@ module TesserisPro.TGrid {
             var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
             for (var i = 0; i < element.length; i++){
                 element[i].parentNode.removeChild(element[i]);
+                i--;
+            }
+        }
+
+        private removeFilterButtons(container: HTMLElement): void {
+            var elements = container.getElementsByClassName("tgrid-filter-button");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].parentNode.removeChild(elements[i]);
+                i--;
+            }
+            var elements = container.getElementsByClassName("tgrid-filter-button-active");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].parentNode.removeChild(elements[i]);
                 i--;
             }
         }

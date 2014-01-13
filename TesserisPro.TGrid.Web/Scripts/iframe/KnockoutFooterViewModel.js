@@ -34,7 +34,6 @@ var TesserisPro;
                 } else {
                     this.grid.selectPage(viewPageNumber - 1);
                 }
-                this.grid.selectPage(viewPageNumber - 1);
             };
             return KnockoutFooterViewModel;
         })();
