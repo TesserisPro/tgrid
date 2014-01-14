@@ -19,8 +19,14 @@ var TesserisPro;
                 this.$scope.item = this.item;
                 this.$scope.grid = this.grid;
                 this.$scope.isGroupHeader = this.isGroupHeader;
-                this.$scope.showDetailForCell = function (columnIndex) {
-                    return _this.showDetailForCell(columnIndex);
+                this.$scope.openDetailsForCell = function (columnIndex) {
+                    return _this.openDetailsForCell(columnIndex);
+                };
+                this.$scope.closeDetailsForCell = function (columnIndex) {
+                    return _this.closeDetailsForCell(columnIndex);
+                };
+                this.$scope.toggleDetailsForCell = function (columnIndex) {
+                    return _this.toggleDetailsForCell(columnIndex);
                 };
                 this.$scope.setItemValue = function (item) {
                     return _this.setItemValue(item);

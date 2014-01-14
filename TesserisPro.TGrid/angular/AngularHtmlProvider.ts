@@ -218,10 +218,7 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            if (!option.showDetailFor.isDetailColumn) {
-                option.showDetailFor.column = -1;
-            }
-
+           
             var angularModule = angular.module(AngularHtmlProvider.angularModuleName, []);
 
             for (var i = 0; i < items.length; i++) {
@@ -245,7 +242,7 @@ module TesserisPro.TGrid {
 
         }
 
-        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
+        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, isDetailsAdded: boolean) {
             var detailRow = container.getElementsByClassName("tgrid-details");
             if (detailRow.length > 0) {
                 detailRow[0].parentNode.removeChild(detailRow[0]);
@@ -268,12 +265,14 @@ module TesserisPro.TGrid {
                     targetRow.classList.remove("selected");
                 }
 
-                var detailsTemplate = this.getActualDetailsTemplate(options);
+                if (isDetailsAdded) {
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                // Insert row details after selected item
-                if (detailsTemplate != null) {
-                    var details = this.buildDetailsRow(options, item, detailsTemplate);
-                    insertAfter(targetRow, details);
+                    // Insert row details after selected item
+                    if (detailsTemplate != null) {
+                        var details = this.buildDetailsRow(options, item, detailsTemplate);
+                        insertAfter(targetRow, details);
+                    }
                 }
             }
         }
@@ -506,10 +505,7 @@ module TesserisPro.TGrid {
         }
         // Mobile Methods
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            if (!option.showDetailFor.isDetailColumn) {
-                option.showDetailFor.column = -1;
-            }
-
+           
             for (var i = 0; i < items.length; i++) {
                 this.appendMobileElement(option, container, items[i], 0, selected);
             }
@@ -525,10 +521,10 @@ module TesserisPro.TGrid {
                 }
             }
             container.setAttribute("class", bodyClass);
-            option.showDetailFor.isDetailColumn = false;
+            option.showDetailFor.column = -1;
         }
 
-        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
+        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
 
             var detailRow = container.getElementsByClassName("tgrid-mobile-details");
             if (detailRow.length > 0) {
@@ -552,12 +548,14 @@ module TesserisPro.TGrid {
                     targetRow.classList.remove("selected");
                 }
 
-                var detailsTemplate = this.getActualDetailsTemplate(options);
+                if (shouldAddDetails) {
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                // Insert row details after selected item
-                if (detailsTemplate != null) {
-                    var details = this.buildMobileDetailsRow(options,item, detailsTemplate);
-                    insertAfter(targetRow, details);
+                    // Insert row details after selected item
+                    if (detailsTemplate != null) {
+                        var details = this.buildMobileDetailsRow(options, item, detailsTemplate);
+                        insertAfter(targetRow, details);
+                    }
                 }
             }
         }

@@ -739,6 +739,11 @@ module TesserisPro.TGrid {
                     this.options.selection = [item.item];
                 }
             } else if (this.options.selectionMode == SelectionMode.Single) {
+                if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
+                   this.options.shouldAddDetailsOnSelection = false;
+                } else {
+                    this.options.shouldAddDetailsOnSelection = true;
+                }
                 this.options.selection = [item.item];
             } else {
                 this.options.selection = new Array<any>();
@@ -755,20 +760,20 @@ module TesserisPro.TGrid {
             }
 
             for (var i = 0; i < oldSelection.length; i++) {
-                this.updateRow(oldSelection[i]);
+                this.updateRow(oldSelection[i], this.options.shouldAddDetailsOnSelection);
             }
 
             for (var i = 0; i < this.options.selection.length; i++) {
-                this.updateRow(this.options.selection[i]);
+                this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
             }
 
             this.updateFooterViewModel();
             return true;
         }
 
-        public updateRow(item: any): void {
-            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item);
-            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item);
+        public updateRow(item: any, shouldAddDetails: boolean): void {
+            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
+            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails);
         }
 
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {

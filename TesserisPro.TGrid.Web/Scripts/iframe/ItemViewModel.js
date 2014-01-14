@@ -8,11 +8,28 @@ var TesserisPro;
                 this.grid = grid;
                 this.isGroupHeader = isGroupHeader;
             }
-            ItemViewModel.prototype.showDetailForCell = function (columnIndex) {
+            ItemViewModel.prototype.closeDetailsForCell = function (columnIndex) {
+                if (this.grid.options.showCustomDetailFor.item == this.item) {
+                    this.grid.updateRow(this.item, false);
+                    this.grid.options.showCustomDetailFor = new TGrid.ShowDetail();
+                }
+            };
+
+            ItemViewModel.prototype.openDetailsForCell = function (columnIndex) {
                 this.grid.options.showDetailFor.column = columnIndex;
-                this.grid.options.showDetailFor.isDetailColumn = true;
                 this.grid.options.showDetailFor.item = this.item;
-                this.grid.updateRow(this.item);
+                this.grid.updateRow(this.item, true);
+                this.grid.options.showCustomDetailFor.item = this.item;
+                this.grid.options.showCustomDetailFor.column = columnIndex;
+                this.grid.options.shouldAddDetailsOnSelection = false;
+            };
+
+            ItemViewModel.prototype.toggleDetailsForCell = function (columnIndex) {
+                if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+                    this.openDetailsForCell(columnIndex);
+                } else {
+                    this.closeDetailsForCell(columnIndex);
+                }
             };
 
             ItemViewModel.prototype.setItemValue = function (item) {

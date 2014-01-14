@@ -38,7 +38,6 @@
             function ShowDetail() {
                 this.column = -1;
                 this.item = null;
-                this.isDetailColumn = false;
             }
             return ShowDetail;
         })();

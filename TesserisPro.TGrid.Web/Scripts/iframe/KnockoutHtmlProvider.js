@@ -203,10 +203,6 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
-                if (!option.showDetailFor.isDetailColumn) {
-                    option.showDetailFor.column = -1;
-                }
-
                 for (var i = 0; i < items.length; i++) {
                     this.appendTableElement(option, container, items[i], 0, selected);
                 }
@@ -215,7 +211,7 @@ var TesserisPro;
                 container.classList.add("desktop");
             };
 
-            KnockoutHtmlProvider.prototype.updateTableDetailRow = function (options, container, item) {
+            KnockoutHtmlProvider.prototype.updateTableDetailRow = function (options, container, item, shouldAddDetails) {
                 var detailRow = container.getElementsByClassName("tgrid-details");
                 if (detailRow.length > 0) {
                     detailRow[0].parentNode.removeChild(detailRow[0]);
@@ -237,12 +233,14 @@ var TesserisPro;
                         targetRow.classList.remove("selected");
                     }
 
-                    var detailsTemplate = this.getActualDetailsTemplate(options);
+                    if (shouldAddDetails) {
+                        var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                    if (detailsTemplate != null) {
-                        var details = this.buildDetailsRow(options, detailsTemplate);
-                        insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        if (detailsTemplate != null) {
+                            var details = this.buildDetailsRow(options, detailsTemplate);
+                            insertAfter(targetRow, details);
+                            ko.applyBindings(options.showDetailFor, details);
+                        }
                     }
                 }
             };
@@ -326,7 +324,11 @@ var TesserisPro;
                 (function (item) {
                     row.onclick = function (e) {
                         if (option.selectionMode != TGrid.SelectionMode.None) {
-                            selected(item, e.ctrlKey);
+                            var wasSelected = false;
+                            if (option.shouldAddDetailsOnSelection == item.item) {
+                                wasSelected = true;
+                            }
+                            selected(item, e.ctrlKey, wasSelected);
                         }
                     };
                 })(item);
@@ -424,10 +426,6 @@ var TesserisPro;
 
             // Mobile Methods
             KnockoutHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
-                if (!option.showDetailFor.isDetailColumn) {
-                    option.showDetailFor.column = -1;
-                }
-
                 for (var i = 0; i < items.length; i++) {
                     this.appendMobileElement(option, container, items[i], 0, selected);
                 }

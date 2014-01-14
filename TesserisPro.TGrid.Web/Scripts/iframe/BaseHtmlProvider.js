@@ -175,7 +175,7 @@ var TesserisPro;
                 return option.columns[option.showDetailFor.column].cellDetail;
             };
 
-            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item) {
+            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item, isDetailsAdded) {
             };
 
             BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {

@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width" />
-        <title>CellTemplateAngular</title>
+        <title>Custom Actions To Open Details Angular</title>
         <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
    
         <script src="~/Scripts/iframe/angular.js"></script>
@@ -25,7 +25,7 @@
                          <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
                              <cell>
                                 <span>{{item.CompanyId}}</span>
-                                <a href ng-mouseover="showDetailForCell(0); $event.stopPropagation();">...</a> 
+                                <a href ng-mouseover="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
                             </cell>
                              <celldetail>
                                 <div>
@@ -34,18 +34,29 @@
                                 </div>
                             </celldetail>
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                        <column data-g-width="185" data-g-views="mobile,desktop" data-g-member ="Country">
+                             <cell>
+                                 <span>{{item.Country}}</span>
+                                 <div ng-click="toggleDetailsForCell(1); $event.stopPropagation();" class ="tgrid-custom-details-button" style="float:right">Toggle Details</div>
+                             </cell>
+                             <celldetail>
+                                <div>
+                                    <div>This is a sample of cell details: </div>
+                                    <div style="color: #444;">{{item.detail_Country}}</div>
+                                </div>
+                            </celldetail>
                         </column>
                         <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="City">
                         </column>
                         <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="Street">
                         </column>
-                         <column data-g-width="150" data-g-views="mobile,desktop">
+                         <column data-g-width="116" data-g-views="mobile,desktop">
                             <header>
                                 <span>Details for row</span>
                             </header>
                              <cell>
-                                <button style="color: #444;" ng-click="showDetailForCell(-1); $event.stopPropagation();">Details</button>
+                                <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="openDetailsForCell(-1); $event.stopPropagation();">Open</div>
+                                <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="closeDetailsForCell(-1); $event.stopPropagation();">Close</div>
                             </cell>
                         </column>
                          <details>
@@ -61,38 +72,38 @@
         </div>
          <script type="text/javascript">
              var items = [
-                        { CompanyId: "1", Country: "Great Britain", City: "Boston", Street: "Cottage St", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, Boston, Cottage St" },
-                        { CompanyId: "2", Country: "France", City: "Nantes", Street: "Talensac", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Talensac" },
-                        { CompanyId: "3", Country: "Italy", City: "Rome", Street: "Labicana", detail_Company: "Company name: Rome Tour", detail: "Address: Italy, Rome, Labicana" },
-                        { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Ferrara", detail_Company: "Company name: Naples Fish", detail: "Address: Italy, Naples, Ferrara" },
-                        { CompanyId: "5", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Danshtain", detail: "Address: Germany, Frankfurt, Dreieich" },
-                        { CompanyId: "8", Country: "USA", City: "New York", Street: "Franklin", detail_Company: "Company name: McSandersAndCo", detail: "Address: USA, New York, Franklin" },
-                        { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail: "Address: Rome, Italy, Cavour" },
-                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                        { CompanyId: "7", Country: "Germany", City: "Hamburg", Street: "Bramfeld", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Hamburg, Bramfeld" },
-                        { CompanyId: "2", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Saget" },
-                        { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Miano", detail_Company: "Company name: Naples Fish", detail: "Address: Italy, Naples, Miano" },
-                        { CompanyId: "1", Country: "Great Britain", City: "London", Street: "New Oxford", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, London, New Oxford" },
-                        { CompanyId: "1", Country: "Great Britain", City: "London", Street: "Wigmore", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, London, Wigmore" },
-                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                        { CompanyId: "8", Country: "USA", City: "New York", Street: "Melrose Avenue", detail_Company: "Company name: McSandersAndCo", detail: "Address: USA, New York, Melrose Avenue" },
-                        { CompanyId: "9", Country: "USA", City: "Little Rock", Street: "Boone", detail_Company: "Company name: Target", detail: "Address: USA, Little Rock, Boone" },
-                        { CompanyId: "10", Country: "Great Britain", City: "Birmingham", Street: "Alumn Rock", detail_Company: "Company name: Mars, Inc", detail: "Address: Great Britain, Birmingham, Alumn Rock" },
-                        { CompanyId: "10", Country: "Great Britain", City: "Bristol", Street: "Barton Hill", detail_Company: "Company name: Mars, Inc", detail: "Address: Great Britain, Bristol, Barton Hill" },
-                        { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Picanya", detail_Company: "Company name: Mars, Inc", detail: "Address: Spain, Valencia, Picanya" },
-                        { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Rocafort", detail_Company: "Company name: Mars, Inc", detail: "Address: Spain, Valencia, Rocafort" },
-                        { CompanyId: "11", Country: "Germany", City: "Munich", Street: "Lieberweg", detail_Company: "Company name: TEKsystems", detail: "Address: Germany, Munich, Lieberweg" },
-                        { CompanyId: "11", Country: "Denmark", City: "Odense", Street: "Bellinge", detail_Company: "Company name: TEKsystems", detail: "Address: Denmark, Odense, Bellinge" },
-                        { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail: "Address: Rome, Italy, Cavour" },
-                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                        { CompanyId: "13", Country: "Germany", City: "Munich", Street: "Ottostrabe", detail_Company: "Company name: Grainger", detail: "Address: Germany, Munich, Ottostrabe" },
-                        { CompanyId: "13", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Saget" },
-                        { CompanyId: "14", Country: "Italy", City: "Turin", Street: "Cenicia", detail_Company: "Company name: Mariott Intarnational, Inc", detail: "Address: Italy, Turin, Cenicia" },
-                        { CompanyId: "15", Country: "Denmark", City: "Odense", Street: "Assensvej", detail_Company: "Company name: Hasbro, Inc", detail: "Address: Denmark, Odense, Assensvej" },
-                        { CompanyId: "16", Country: "Great Britain", City: "Boston", Street: "Frampton", detail_Company: "Company name: Balfour Beatty Construction", detail: "Address: Great Britain, Boston, Frampton" },
-                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                        { CompanyId: "17", Country: "Italy", City: "Turin", Street: "Santa Rita", detail_Company: "Company name: Deloitte", detail: "Address: Italy, Turin, Santa Rita" },
-                        { CompanyId: "9", Country: "USA", City: "Madison", Street: "Fitchburg", detail_Company: "Company name: Target", detail: "Address: USA, Madison, Fitchburg" }
+                        { CompanyId: "1", Country: "Great Britain", City: "Boston", Street: "Cottage St", detail_Company: "Company name: Flowers Delivery", detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, Boston, Cottage St" },
+                        { CompanyId: "2", Country: "France", City: "Nantes", Street: "Talensac", detail_Company: "Company name: BHF", detail_Country: "Europe, France", detail: "Address: France, Nantes, Talensac" },
+                        { CompanyId: "3", Country: "Italy", City: "Rome", Street: "Labicana", detail_Company: "Company name: Rome Tour", detail_Country: "Europe, Italy", detail: "Address: Italy, Rome, Labicana" },
+                        { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Ferrara", detail_Company: "Company name: Naples Fish", detail_Country: "Europe, Italy", detail: "Address: Italy, Naples, Ferrara" },
+                        { CompanyId: "5", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Danshtain", detail_Country: "Europe, Germany", detail: "Address: Germany, Frankfurt, Dreieich" },
+                        { CompanyId: "8", Country: "USA", City: "New York", Street: "Franklin", detail_Company: "Company name: McSandersAndCo", detail_Country: "North America, USA", detail: "Address: USA, New York, Franklin" },
+                        { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail_Country: "Europe, Italy", detail: "Address: Rome, Italy, Cavour" },
+                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail_Country: "Europe, Germany", detail: "Address: Germany, Frankfurt, Dreieich" },
+                        { CompanyId: "7", Country: "Germany", City: "Hamburg", Street: "Bramfeld", detail_Company: "Company name: Lastwagen", detail_Country: "Europe, Germany", detail: "Address: Germany, Hamburg, Bramfeld" },
+                        { CompanyId: "2", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail_Country: "Europe, France", detail: "Address: France, Nantes, Saget" },
+                        { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Miano", detail_Company: "Company name: Naples Fish", detail_Country: "Europe, Italy", detail: "Address: Italy, Naples, Miano" },
+                        { CompanyId: "1", Country: "Great Britain", City: "London", Street: "New Oxford", detail_Company: "Company name: Flowers Delivery", detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, London, New Oxford" },
+                        { CompanyId: "1", Country: "Great Britain", City: "London", Street: "Wigmore", detail_Company: "Company name: Flowers Delivery", detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, London, Wigmore" },
+                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail_Country: "Europe, Germany", detail: "Address: Germany, Frankfurt, Dreieich" },
+                        { CompanyId: "8", Country: "USA", City: "New York", Street: "Melrose Avenue", detail_Company: "Company name: McSandersAndCo", detail_Country: "North America, USA", detail: "Address: USA, New York, Melrose Avenue" },
+                        { CompanyId: "9", Country: "USA", City: "Little Rock", Street: "Boone", detail_Company: "Company name: Target", detail_Country: "North America, USA", detail: "Address: USA, Little Rock, Boone" },
+                        { CompanyId: "10", Country: "Great Britain", City: "Birmingham", Street: "Alumn Rock", detail_Company: "Company name: Mars, Inc",detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, Birmingham, Alumn Rock" },
+                        { CompanyId: "10", Country: "Great Britain", City: "Bristol", Street: "Barton Hill", detail_Company: "Company name: Mars, Inc", detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, Bristol, Barton Hill" },
+                        { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Picanya", detail_Company: "Company name: Mars, Inc", detail_Country: "Europe, Spain", detail: "Address: Spain, Valencia, Picanya" },
+                        { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Rocafort", detail_Company: "Company name: Mars, Inc", detail_Country: "Europe, Spain", detail: "Address: Spain, Valencia, Rocafort" },
+                        { CompanyId: "11", Country: "Germany", City: "Munich", Street: "Lieberweg", detail_Company: "Company name: TEKsystems", detail_Country: "Europe, Germany", detail: "Address: Germany, Munich, Lieberweg" },
+                        { CompanyId: "11", Country: "Denmark", City: "Odense", Street: "Bellinge", detail_Company: "Company name: TEKsystems", detail_Country: "Europe, Denmark", detail: "Address: Denmark, Odense, Bellinge" },
+                        { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail_Country: "Europe, Italy", detail: "Address: Rome, Italy, Cavour" },
+                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail_Country: "Europe, Germany", detail: "Address: Germany, Frankfurt, Dreieich" },
+                        { CompanyId: "13", Country: "Germany", City: "Munich", Street: "Ottostrabe", detail_Company: "Company name: Grainger", detail_Country: "Europe, Germany", detail: "Address: Germany, Munich, Ottostrabe" },
+                        { CompanyId: "13", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail_Country: "Europe, France", detail: "Address: France, Nantes, Saget" },
+                        { CompanyId: "14", Country: "Italy", City: "Turin", Street: "Cenicia", detail_Company: "Company name: Mariott Intarnational, Inc", detail_Country: "Europe, Italy", detail: "Address: Italy, Turin, Cenicia" },
+                        { CompanyId: "15", Country: "Denmark", City: "Odense", Street: "Assensvej", detail_Company: "Company name: Hasbro, Inc", detail_Country: "Europe, Denmark", detail: "Address: Denmark, Odense, Assensvej" },
+                        { CompanyId: "16", Country: "Great Britain", City: "Boston", Street: "Frampton", detail_Company: "Company name: Balfour Beatty Construction", detail_Country: "Europe, Great Britain", detail: "Address: Great Britain, Boston, Frampton" },
+                        { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail_Country: "Europe, Germany", detail: "Address: Germany, Frankfurt, Dreieich" },
+                        { CompanyId: "17", Country: "Italy", City: "Turin", Street: "Santa Rita", detail_Company: "Company name: Deloitte", detail_Country: "Europe, Italy", detail: "Address: Italy, Turin, Santa Rita" },
+                        { CompanyId: "9", Country: "USA", City: "Madison", Street: "Fitchburg", detail_Company: "Company name: Target", detail_Country: "North America, USA", detail: "Address: USA, Madison, Fitchburg" }
              ];
 
              var TGrid = angular.module('TGrid', [])

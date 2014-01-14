@@ -13,11 +13,28 @@ module TesserisPro.TGrid {
             this.isGroupHeader = isGroupHeader;
         }
 
-        public showDetailForCell(columnIndex: any): void {
+        public toggleDetailsForCell(columnIndex: any) {
+            if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+                this.openDetailsForCell(columnIndex);
+            } else {
+                this.closeDetailsForCell(columnIndex);
+            }
+        }
+
+        public openDetailsForCell(columnIndex: any): void {
             this.grid.options.showDetailFor.column = columnIndex;
-            this.grid.options.showDetailFor.isDetailColumn = true;
             this.grid.options.showDetailFor.item = this.item;
-            this.grid.updateRow(this.item);
+            this.grid.updateRow(this.item, true);
+            this.grid.options.showCustomDetailFor.item = this.item;
+            this.grid.options.showCustomDetailFor.column = columnIndex;
+            this.grid.options.shouldAddDetailsOnSelection = false;
+        }
+
+        public closeDetailsForCell(columnIndex: any): void {
+            if (this.grid.options.showCustomDetailFor.item == this.item) {
+                this.grid.updateRow(this.item, false);
+                this.grid.options.showCustomDetailFor = new ShowDetail();
+            }
         }
 
         public setItemValue(item: any): void {
