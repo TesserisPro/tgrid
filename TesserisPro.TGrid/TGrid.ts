@@ -653,6 +653,7 @@ module TesserisPro.TGrid {
         }
 
         public showFilterPopup(column: ColumnInfo, pageX: number, pageY: number, isForDesktop: boolean) {
+            this.options.filterPopupForColumn = column;
             this.filterPopupViewModel.onOpen(this.options, column);
             if (isForDesktop) {
                 this.filterPopUp.style.left = pageX.toString() + "px";

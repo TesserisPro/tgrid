@@ -266,9 +266,8 @@ var TesserisPro;
                     option.filterPopup.applyTemplate(filterContainer);
                     filterPopup.innerHTML = "";
                     filterPopup.appendChild(filterContainer);
-
-                    ko.applyBindings(filterPopupModel, filterPopup);
                 }
+                ko.applyBindings(filterPopupModel, filterPopup);
             };
 
             KnockoutHtmlProvider.prototype.appendTableElement = function (option, container, item, groupLevel, selected) {
@@ -581,6 +580,66 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.bindData = function (option, elementForBinding) {
                 var viewModel = ko.contextFor(option.target);
                 ko.applyBindings(viewModel, elementForBinding);
+            };
+
+            KnockoutHtmlProvider.prototype.buildDefaultFilteringPopUp = function (option, filterPopupContainer) {
+                var columnNameContainer = document.createElement("div");
+                var columnName = document.createElement("span");
+                columnName.setAttribute("data-bind", "text:path");
+                columnNameContainer.appendChild(columnName);
+                filterPopupContainer.appendChild(columnNameContainer);
+
+                var filterCondition = document.createElement("select");
+
+                // append filter conditions
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.None.toString();
+                selectOption.text = "None";
+                filterCondition.appendChild(selectOption);
+
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.Equals.toString();
+                selectOption.text = "Equals";
+                filterCondition.appendChild(selectOption);
+
+                var selectOption = document.createElement("option");
+                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
+                selectOption.text = "Not equals";
+                filterCondition.appendChild(selectOption);
+
+                // end append filter conditions
+                filterPopupContainer.appendChild(filterCondition);
+                filterCondition.selectedIndex = 1;
+
+                var filterText = document.createElement("input");
+                filterText.type = "text";
+                filterText.className = 'tgrid-filter-input-text';
+                filterText.setAttribute("value", "");
+                filterText.style.width = '150px';
+                filterPopupContainer.appendChild(filterText);
+
+                filterPopupContainer.innerHTML += "<br>";
+
+                var applyButton = document.createElement("div");
+                applyButton.className = "tgrid-filter-popup-button";
+                applyButton.style.width = '70px';
+                applyButton.onclick = function (e) {
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onApply();
+                };
+                (applyButton).innerHTML = "OK";
+                filterPopupContainer.appendChild(applyButton);
+
+                var clearButton = document.createElement("div");
+                clearButton.className = 'tgrid-filter-popup-button';
+                clearButton.style.width = '70px';
+                clearButton.onclick = function (e) {
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onClose();
+                    filterText.setAttribute("value", "");
+                };
+                (clearButton).innerHTML = 'Cancel';
+                filterPopupContainer.appendChild(clearButton);
             };
             return KnockoutHtmlProvider;
         })(TGrid.BaseHtmlProvider);

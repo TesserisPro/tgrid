@@ -139,6 +139,7 @@
                 } else {
                     this.tableFooterTemplate = null;
                 }
+                this.filterPopupForColumn = new ColumnInfo();
             };
             return Options;
         })();
