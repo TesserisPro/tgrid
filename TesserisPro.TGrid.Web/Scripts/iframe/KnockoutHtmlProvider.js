@@ -104,7 +104,7 @@ var TesserisPro;
                                     }
                                 }
                                 var headerElementsButton = element[headerElementNumber].getElementsByClassName("tgrid-header-cell-buttons")[0];
-                                this.addFilterButton(option, filterPopupContainer, headerElementsButton, j, isFilterApplied);
+                                this.addFilterButton(option, header, filterPopupContainer, headerElementsButton, j, isFilterApplied);
 
                                 headerElementNumber++;
                             }
@@ -154,7 +154,7 @@ var TesserisPro;
                             }
 
                             // Filter
-                            this.addFilterButton(option, filterPopupContainer, headerButtons, i, false);
+                            this.addFilterButton(option, header, filterPopupContainer, headerButtons, i, false);
 
                             if (option.columns[i].resizable) {
                                 var columnResize = document.createElement("div");
@@ -259,7 +259,7 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.updateFilteringPopUp = function (option, filterPopup, filterPopupModel) {
                 if (option.filterPopup == null) {
-                    this.buildDefaultFiltringPopUp(option, filterPopup);
+                    this.buildDefaultFilteringPopUp(option, filterPopup);
                 } else {
                     var filterContainer = document.createElement("div");
                     filterContainer.className = "tgrid-filter-popup-container";
@@ -442,7 +442,7 @@ var TesserisPro;
                 container.setAttribute("class", bodyClass);
             };
 
-            KnockoutHtmlProvider.prototype.updateMobileDetailRow = function (options, container, item) {
+            KnockoutHtmlProvider.prototype.updateMobileDetailRow = function (options, container, item, shouldAddDetails) {
                 var detailRow = container.getElementsByClassName("tgrid-mobile-details");
                 if (detailRow.length > 0) {
                     detailRow[0].parentNode.removeChild(detailRow[0]);
@@ -464,12 +464,14 @@ var TesserisPro;
                         targetRow.classList.remove("selected");
                     }
 
-                    var detailsTemplate = this.getActualDetailsTemplate(options);
+                    if (shouldAddDetails) {
+                        var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                    if (detailsTemplate != null) {
-                        var details = this.buildMobileDetailsRow(options, detailsTemplate);
-                        insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        if (detailsTemplate != null) {
+                            var details = this.buildMobileDetailsRow(options, detailsTemplate);
+                            insertAfter(targetRow, details);
+                            ko.applyBindings(options.showDetailFor, details);
+                        }
                     }
                 }
             };

@@ -276,7 +276,7 @@ td a {
     padding: 3px;
     z-index:1;
     border: 1px solid #BEBEBE;
-    color: grey;
+    width: 160px;
 }
 
 .tgrid-filter-popup-container>select, .tgrid-filter-popup-container>button, .tgrid-filter-popup-container>input {
@@ -285,6 +285,16 @@ td a {
 .tgrid-filter-popup>select, .tgrid-filter-popup>button, .tgrid-filter-popup>input {
     color: #555;
 }
+
+.tgrid-filter-popup-container>select, .tgrid-filter-popup>select {
+    margin: 4px 0;
+}
+
+.tgrid-filter-popup > input, .tgrid-filter-popup-container>input {
+    width: 155px;
+    height:20px;
+}
+
 .tgrid-filter-popup > button {
     width: 70px;
     height:auto;
@@ -576,10 +586,12 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-filter-popup-button {
     width: 70px;
-    height: 20px;
     display: inline-block;
     border: 1px solid #BEBEBE;
     text-align: center;
+    margin-top: 5px;
+    padding: 5px 2px;
+
 }
 
 .tgrid-footer {
@@ -641,7 +653,6 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 		padding: 3px;
 		z-index:1;
         width: 160px;
-        height: 105px;
         top: 50%;
         left: 50%;
         margin-left: -105px;

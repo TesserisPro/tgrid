@@ -249,59 +249,6 @@ module TesserisPro.TGrid {
 
         }
 
-        public buildDefaultFiltringPopUp(option: Options, filterPopupContainer: HTMLElement) {
-            var filterCondition = document.createElement("select");
-            // append filter conditions
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.None.toString();
-            selectOption.text = "None";
-            filterCondition.appendChild(selectOption);
-
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.Equals.toString();
-            selectOption.text = "Equals";
-            filterCondition.appendChild(selectOption);
-
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.NotEquals.toString();
-            selectOption.text = "Not equals";
-            filterCondition.appendChild(selectOption);
-            // end append filter conditions
-            filterPopupContainer.appendChild(filterCondition);
-            filterCondition.selectedIndex = 1;
-
-            var filterText = document.createElement("input");
-            filterText.type = "text";
-            filterText.className = 'tgrid-filter-input-text';
-            filterText.setAttribute("value", "");
-            filterText.style.width = '150px';
-            filterPopupContainer.appendChild(filterText);
-
-            filterPopupContainer.innerHTML += "<br>";
-
-            var applyButton = document.createElement("div");
-            applyButton.className = "tgrid-filter-popup-button";
-            applyButton.style.width = '70px';
-            applyButton.onclick = (e) => {
-                var grid = Grid.getGridObject(<HTMLElement>e.target);
-                grid.filterPopupViewModel.onApply();               
-            };
-            (<HTMLElement>applyButton).innerHTML = "OK";
-            filterPopupContainer.appendChild(applyButton);
-            
-
-            var clearButton = document.createElement("div");
-            clearButton.className = 'tgrid-filter-popup-button';
-            clearButton.style.width = '70px';
-            clearButton.onclick = (e) => {
-                var grid = Grid.getGridObject(<HTMLElement>e.target);
-                grid.filterPopupViewModel.onClose();
-                filterText.setAttribute("value", "");
-            };
-            (<HTMLElement>clearButton).innerHTML = 'Cancel';
-            filterPopupContainer.appendChild(clearButton);
-        }
-
         private addActualGroupByElements(option: Options, groupByContainer: HTMLElement) {
             for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
                 for (var j = 0; j < option.columns.length; j++) {
@@ -412,7 +359,7 @@ module TesserisPro.TGrid {
         public createDefaultGroupHeader(tableRowElement: any) {
         }
 
-        public addFilterButton(option: Options, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number, isActive: boolean) {
+        public addFilterButton(option: Options, header:HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number, isActive: boolean) {
             if (option.enableFiltering) {
                 var filter = document.createElement("div");
                 if (isActive) {
@@ -423,8 +370,18 @@ module TesserisPro.TGrid {
                 var self = this;
                 (function (columnNumber) {
                     filter.onclick = (e) => {
-                        Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY, true);
-                        self.doOnClickOutside(filterPopupContainer, () => Grid.getGridObject(<HTMLElement>e.target).hideFilterPopup());
+                        var eventTarget = <HTMLElement>e.target;
+                        var headerBottomY = header.getBoundingClientRect().bottom;
+                        var eventTargetLeftX = eventTarget.getBoundingClientRect().left;
+                        if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
+                            Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX, headerBottomY, true);
+                            if ((eventTargetLeftX + filterPopupContainer.offsetWidth) > header.getBoundingClientRect().right) {
+                                Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX - filterPopupContainer.offsetWidth, headerBottomY, true);
+                            }
+                        } else {
+                            Grid.getGridObject(eventTarget).hideFilterPopup();
+                        }
+                        self.doOnClickOutside(filterPopupContainer, () => Grid.getGridObject(eventTarget).hideFilterPopup());
                         e.cancelBubble = true;
                     };
                 })(culumnNumber);

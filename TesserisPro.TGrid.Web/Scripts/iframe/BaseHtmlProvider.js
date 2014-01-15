@@ -175,10 +175,10 @@ var TesserisPro;
                 return option.columns[option.showDetailFor.column].cellDetail;
             };
 
-            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item, isDetailsAdded) {
+            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item, shouldAddDetails) {
             };
 
-            BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
+            BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item, shouldAddDetails) {
             };
 
             BaseHtmlProvider.prototype.buildDefaultHeader = function (container, headerName) {
@@ -239,7 +239,7 @@ var TesserisPro;
             BaseHtmlProvider.prototype.updateFilteringPopUp = function (option, filterPopup, filterPopupModel) {
             };
 
-            BaseHtmlProvider.prototype.buildDefaultFiltringPopUp = function (option, filterPopupContainer) {
+            BaseHtmlProvider.prototype.buildDefaultFilteringPopUp = function (option, filterPopupContainer) {
                 var filterCondition = document.createElement("select");
 
                 // append filter conditions
@@ -403,7 +403,7 @@ var TesserisPro;
             BaseHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
             };
 
-            BaseHtmlProvider.prototype.addFilterButton = function (option, filterPopupContainer, headerButtons, culumnNumber, isActive) {
+            BaseHtmlProvider.prototype.addFilterButton = function (option, header, filterPopupContainer, headerButtons, culumnNumber, isActive) {
                 if (option.enableFiltering) {
                     var filter = document.createElement("div");
                     if (isActive) {
@@ -414,7 +414,11 @@ var TesserisPro;
                     var self = this;
                     (function (columnNumber) {
                         filter.onclick = function (e) {
-                            TGrid.Grid.getGridObject(e.target).showFilterPopup(option.columns[columnNumber], e.pageX, e.pageY, true);
+                            var element = e.target;
+                            TGrid.Grid.getGridObject(element).toggleFilterPopup(option.columns[columnNumber], element.getBoundingClientRect().left, header.getBoundingClientRect().bottom, true);
+                            if ((element.getBoundingClientRect().left + filterPopupContainer.offsetWidth) > header.getBoundingClientRect().right) {
+                                TGrid.Grid.getGridObject(e.target).toggleFilterPopup(option.columns[columnNumber], element.getBoundingClientRect().left - filterPopupContainer.offsetWidth, header.getBoundingClientRect().bottom, true);
+                            }
                             self.doOnClickOutside(filterPopupContainer, function () {
                                 return TGrid.Grid.getGridObject(e.target).hideFilterPopup();
                             });

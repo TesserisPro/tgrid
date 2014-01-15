@@ -614,6 +614,14 @@ var TesserisPro;
                 hideElement(this.filterPopUp);
             };
 
+            Grid.prototype.toggleFilterPopup = function (column, pageX, pageY, isForDesktop) {
+                if (this.filterPopUp.style.display == "none") {
+                    this.showFilterPopup(column, pageX, pageY, isForDesktop);
+                } else {
+                    this.hideFilterPopup();
+                }
+            };
+
             Grid.prototype.setFilter = function (column, filter) {
                 for (var i = 0; i < this.options.filterDescriptors.length; i++) {
                     if (this.options.filterDescriptors[i].path == column.filterMemberPath) {

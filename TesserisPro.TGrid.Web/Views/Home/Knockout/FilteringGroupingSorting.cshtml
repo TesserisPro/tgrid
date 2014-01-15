@@ -29,14 +29,14 @@
                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Age" data-g-filter-member="Age" data-g-group-member="Age" data-g-sort-member ="Age">
                     </column>
                     <filterpopup>
+                        <div><span data-bind="text: path"></span></div>
                         <select data-bind="click: function(){}">
                             <option value="0">None</option>
                             <option value="1">Equals</option>
                             <option value="2">Not Equals</option>
                         </select>
-                        <input type='text' style="width:150px" value=""/><br>
+                        <input type='text' value=""/><br>
                        <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">OK</div>
-                        @*<div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClear(); }">Clear</div>*@
                         <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Cancel</div>
                     </filterpopup>
                 </script>

@@ -8,10 +8,11 @@ var TesserisPro;
                 this.grid = grid;
                 this.isGroupHeader = isGroupHeader;
             }
-            ItemViewModel.prototype.closeDetailsForCell = function (columnIndex) {
-                if (this.grid.options.showCustomDetailFor.item == this.item) {
-                    this.grid.updateRow(this.item, false);
-                    this.grid.options.showCustomDetailFor = new TGrid.ShowDetail();
+            ItemViewModel.prototype.toggleDetailsForCell = function (columnIndex) {
+                if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+                    this.openDetailsForCell(columnIndex);
+                } else {
+                    this.closeDetailsForCell(columnIndex);
                 }
             };
 
@@ -24,11 +25,10 @@ var TesserisPro;
                 this.grid.options.shouldAddDetailsOnSelection = false;
             };
 
-            ItemViewModel.prototype.toggleDetailsForCell = function (columnIndex) {
-                if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
-                    this.openDetailsForCell(columnIndex);
-                } else {
-                    this.closeDetailsForCell(columnIndex);
+            ItemViewModel.prototype.closeDetailsForCell = function (columnIndex) {
+                if (this.grid.options.showCustomDetailFor.item == this.item) {
+                    this.grid.updateRow(this.item, false);
+                    this.grid.options.showCustomDetailFor = new TGrid.ShowDetail();
                 }
             };
 

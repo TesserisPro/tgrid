@@ -79,6 +79,7 @@ module TesserisPro.TGrid {
         public showCustomDetailFor: ShowDetail;
 
         public parentViewModel: any;
+        public filterPopupForColumn: ColumnInfo;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
@@ -156,6 +157,7 @@ module TesserisPro.TGrid {
             } else {
                 this.tableFooterTemplate = null;
             }
+            this.filterPopupForColumn = new ColumnInfo();
         }
       
     }
