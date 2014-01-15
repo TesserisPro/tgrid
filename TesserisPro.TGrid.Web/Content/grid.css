@@ -619,7 +619,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 }
 
 .tgrid-custom-details-button {
-    width: 90px;
+    width: 100px;
     height: 20px;
     display: inline-block;
     border: 1px solid #BEBEBE;

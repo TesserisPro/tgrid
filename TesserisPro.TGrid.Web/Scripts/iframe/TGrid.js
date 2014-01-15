@@ -276,6 +276,9 @@ var TesserisPro;
             };
 
             Grid.prototype.scrollTable = function () {
+                if (this.isDesktopMode) {
+                    this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft;
+                }
                 var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
 
                 if (!this.isPreloadingNext && this.enablePreload) {
@@ -718,7 +721,7 @@ var TesserisPro;
 
             Grid.prototype.updateRow = function (item, shouldAddDetails) {
                 this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
-                this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item);
+                this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails);
             };
 
             Grid.prototype.buildViewModels = function (items) {

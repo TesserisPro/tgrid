@@ -310,6 +310,9 @@ module TesserisPro.TGrid {
         }
 
         public scrollTable(): void {
+            if (this.isDesktopMode) {
+                this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft;
+            }
             var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
 
             if (!this.isPreloadingNext && this.enablePreload) {
