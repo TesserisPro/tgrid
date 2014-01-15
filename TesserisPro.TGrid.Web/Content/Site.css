@@ -643,15 +643,9 @@ footer .centered-content {
     font-size: 12px;
     border-top: 1px solid #cacaca;
     border-bottom: 1px solid #cacaca;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #f1f1f1));
-    background: -webkit-linear-gradient(top, #fff 0%, #f1f1f1 100%);
-    background: -moz-linear-gradient(top, #fff 0%, #f1f1f1 100%);
-    background: -o-linear-gradient(top, #fff 0%, #f1f1f1 100%);
-    background: -ms-linear-gradient(top, #fff 0%, #f1f1f1 100%);
-    background: linear-gradient(top, #fff 0%, #f1f1f1 100%);
+    background-color: whitesmoke;
     height: 26px;
-    -webkit-box-shadow: inset 0 -1px 0 #f9f9f9;
-    box-shadow: inset 0 -1px 0 #f9f9f9;    
+    user-select: none;
 }
 
 #ace-code .header-draggable {
@@ -663,36 +657,42 @@ footer .centered-content {
 }
 
 #ace-code .editor-menu {
-    margin: 6px 0 0 0;
+    margin: 3px 0 0 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #ace-code .editor-menu > li {
     float: left;
     margin: 0;
-    margin-right: 7px;
+    margin-right: 4px;
     list-style-type:none;
+    user-select: none;
 }
 
 #ace-code .editor-menu > li a.active {
     color: #fff;
-    text-shadow: 0 1px 0 #535353;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #313131), color-stop(1, #747474));
-    background: -webkit-linear-gradient(top, #313131 0%, #747474 100%);
-    background: -moz-linear-gradient(top, #313131 0%, #747474 100%);
-    background: -o-linear-gradient(top, #313131 0%, #747474 100%);
-    background: -ms-linear-gradient(top, #313131 0%, #747474 100%);
-    background: linear-gradient(top, #313131 0%, #747474 100%);
-    -webkit-box-shadow: 0 1px 0 #fff;
-    box-shadow: 0 1px 0 #fff;
+    background-color: gray;
+    border: 1px solid #474c57;
 }
 
 #ace-code .editor-menu > li a{
     color: gray;
     text-shadow:none;
+    width: 48px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: inline-block;
+    text-align:center;
+    border: 1px solid #BEBEBE;
 }
 
 #ace-code header ul{
-    padding-left: 11px;
+    padding-left: 3px;
 }
 
 .editor-container div{

@@ -506,8 +506,7 @@ th.tgrid-placeholder {
     margin-left: 3.5px;
     margin-bottom: 4px;
     background-color: #EEE9E9;
-    border: 1px solid grey;
-    border-radius: 5px;
+    border: 1px solid #BEBEBE;
 }
 
 .tgrid-mobile-button .tgrid-header-cell-content {
@@ -596,13 +595,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-footer {
     color: #555;
-    background: whitesmoke;
     height: 25px;
     border-bottom: 1px solid #BEBEBE;
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
-    background: #EEE9E9; /* Old browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+    background-color: whitesmoke;
 }
 
 .tgrid-edit-input {
@@ -639,6 +636,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     background: #d7d7d7;
     padding-bottom: 6px;
     margin: 2px;
+    cursor: default;
 }
  
 /* Mobile */
