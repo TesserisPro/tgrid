@@ -15,8 +15,8 @@ module TesserisPro.TGrid {
         updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void;
         updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void;
         updateMobileHeadElement(option: Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement): void;
-        updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
-        updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void;
+        updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void;
+        updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void;
         updateFilteringPopUp(option: Options, filterPopupContainer: HTMLElement, filterPopupModel: IFilterPopupViewModel): void;
         updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void;
     }

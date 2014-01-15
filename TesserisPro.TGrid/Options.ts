@@ -24,11 +24,9 @@ module TesserisPro.TGrid {
     export class ShowDetail {
         public item: any;
         public column: number;
-        public isDetailColumn: boolean;
         constructor() {
             this.column = -1;
             this.item = null;
-            this.isDetailColumn = false;
         }
     }
 
@@ -77,6 +75,8 @@ module TesserisPro.TGrid {
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
+        public shouldAddDetailsOnSelection: boolean;
+        public showCustomDetailFor: ShowDetail;
 
         public parentViewModel: any;
 
@@ -146,6 +146,7 @@ module TesserisPro.TGrid {
             this.detailsTemplateHtml = detailsTemplate.length == 1 ? new Template(detailsTemplate[0]) : null;
 
             this.showDetailFor = new ShowDetail();
+            this.showCustomDetailFor = new ShowDetail();
 
             var footer = optionsElement.getElementsByTagName("footer"); 
             this.tableFooterTemplate = footer.length > 0 ? new Template(footer[0]) : null;

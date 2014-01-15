@@ -127,11 +127,11 @@ namespace TesserisPro.TGrid.Web
                 url = "Knockout/CustomItemsProvider",
                 htmlUrl = "Knockout/CustomItemsProviderHtmlKnock",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
+                jsUrl = "Knockout/jsCustomProviderKnockout",
                 angularUrl = "Angular/CustomItemsProvider",
                 angularHtmlUrl = "Angular/CustomItemsProviderHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jsCustomItemsProviderAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {

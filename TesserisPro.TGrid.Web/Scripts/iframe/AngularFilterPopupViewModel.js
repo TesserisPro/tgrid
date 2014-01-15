@@ -2,8 +2,9 @@ var TesserisPro;
 (function (TesserisPro) {
     (function (TGrid) {
         var AngularFilterPopupViewModel = (function () {
-            function AngularFilterPopupViewModel(container) {
+            function AngularFilterPopupViewModel(container, onCloseFilterPopup) {
                 this.container = container;
+                this.onCloseFilterPopup = onCloseFilterPopup;
             }
             AngularFilterPopupViewModel.prototype.setScope = function (scope) {
                 var _this = this;
@@ -19,6 +20,9 @@ var TesserisPro;
                 };
             };
 
+            AngularFilterPopupViewModel.prototype.onCloseFilterPopup = function () {
+            };
+
             AngularFilterPopupViewModel.prototype.onApply = function () {
                 this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
                 if (this.condition != TGrid.FilterCondition.None) {
@@ -31,15 +35,18 @@ var TesserisPro;
                 }
 
                 hideElement(this.container);
+                this.onCloseFilterPopup();
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
                 TGrid.Grid.getGridObject(this.container).removeFilters(this.path);
                 hideElement(this.container);
+                this.onCloseFilterPopup();
             };
 
             AngularFilterPopupViewModel.prototype.onClose = function () {
                 hideElement(this.container);
+                this.onCloseFilterPopup();
             };
 
             AngularFilterPopupViewModel.prototype.onOpen = function (options, column) {

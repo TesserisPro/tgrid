@@ -11,7 +11,9 @@ module TesserisPro.TGrid {
             this.$scope.item = this.item;
             this.$scope.grid = this.grid;
             this.$scope.isGroupHeader = this.isGroupHeader;
-            this.$scope.showDetailForCell = (columnIndex) => this.showDetailForCell(columnIndex);
+            this.$scope.openDetailsForCell = (columnIndex) => this.openDetailsForCell(columnIndex);
+            this.$scope.closeDetailsForCell = (columnIndex) => this.closeDetailsForCell(columnIndex);
+            this.$scope.toggleDetailsForCell = (columnIndex) => this.toggleDetailsForCell(columnIndex);
             this.$scope.setItemValue = (item) => this.setItemValue(item);
         }
     }

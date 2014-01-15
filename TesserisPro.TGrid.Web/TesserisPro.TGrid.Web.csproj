@@ -211,6 +211,7 @@
     <Content Include="Scripts\iframe\AngularFooterViewModel.js" />
     <Content Include="Scripts\iframe\AngularHtmlProvider.js" />
     <Content Include="Scripts\iframe\AngularItemViewModel.js" />
+    <Content Include="Scripts\iframe\ArrayItemsProvider.js" />
     <Content Include="Scripts\iframe\BaseHtmlProvider.js" />
     <Content Include="Scripts\iframe\FilterDescriptor.js" />
     <Content Include="Scripts\iframe\FilterPopupViewModel.js" />
@@ -225,6 +226,7 @@
     <Content Include="Scripts\iframe\KnockoutFilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\KnockoutItemViewModel.js" />
     <Content Include="Scripts\iframe\tgrid-angular-min.js" />
+    <Content Include="Scripts\iframe\tgrid-array-items-provider-min.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -380,6 +382,8 @@
     <Content Include="Views\Home\Angular\FooterTemplateAngularHtml.cshtml" />
     <Content Include="Views\Home\Angular\jsFooterTemplateAngular.cshtml" />
     <Content Include="Views\Home\Knockout\jsFooterTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Knockout\jsCustomProviderKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\jsCustomItemsProviderAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

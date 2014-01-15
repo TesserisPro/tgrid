@@ -175,7 +175,7 @@ var TesserisPro;
                 return option.columns[option.showDetailFor.column].cellDetail;
             };
 
-            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item) {
+            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item, isDetailsAdded) {
             };
 
             BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
@@ -186,6 +186,10 @@ var TesserisPro;
                 var defaultName = document.createTextNode(headerName);
                 defaultHeader.appendChild(defaultName);
                 container.appendChild(defaultHeader);
+            };
+
+            BaseHtmlProvider.prototype.onCloseFilterPopup = function () {
+                document.onclick = BaseHtmlProvider.oldOnClick;
             };
 
             BaseHtmlProvider.prototype.updateGroupByPanel = function (option, groupByPanel) {
@@ -399,10 +403,14 @@ var TesserisPro;
             BaseHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
             };
 
-            BaseHtmlProvider.prototype.addFilterButton = function (option, header, filterPopupContainer, headerButtons, culumnNumber) {
+            BaseHtmlProvider.prototype.addFilterButton = function (option, filterPopupContainer, headerButtons, culumnNumber, isActive) {
                 if (option.enableFiltering) {
                     var filter = document.createElement("div");
-                    filter.classList.add("tgrid-filter-button");
+                    if (isActive) {
+                        filter.classList.add("tgrid-filter-button-active");
+                    } else {
+                        filter.classList.add("tgrid-filter-button");
+                    }
                     var self = this;
                     (function (columnNumber) {
                         filter.onclick = function (e) {
@@ -555,7 +563,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.doOnClickOutside = function (target, action) {
-                var oldOnClick = document.onclick;
+                BaseHtmlProvider.oldOnClick = document.onclick;
                 document.onclick = function (e) {
                     var currentElement = e.target;
                     while (currentElement.tagName != 'BODY') {
@@ -565,7 +573,7 @@ var TesserisPro;
 
                         currentElement = currentElement.parentElement;
                     }
-                    document.onclick = oldOnClick;
+                    document.onclick = BaseHtmlProvider.oldOnClick;
                     action();
                 };
             };
@@ -607,6 +615,7 @@ var TesserisPro;
 
                 return headerElement;
             };
+
             BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
                 if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptors.length > 0) {
                     return true;
@@ -614,6 +623,11 @@ var TesserisPro;
                     return false;
                 }
             };
+
+            BaseHtmlProvider.prototype.detachDocumentClickEvent = function () {
+                document.onclick = BaseHtmlProvider.oldOnClick;
+            };
+            BaseHtmlProvider.oldOnClick = document.onclick;
             return BaseHtmlProvider;
         })();
         TGrid.BaseHtmlProvider = BaseHtmlProvider;

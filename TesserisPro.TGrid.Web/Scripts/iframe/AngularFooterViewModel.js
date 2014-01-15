@@ -12,14 +12,16 @@ var TesserisPro;
                 this.grid = grid;
             }
             AngularFooterViewModel.prototype.setScope = function (scope) {
+                var _this = this;
                 this.$scope = scope;
                 this.$scope.totalCount = this.totalCount;
                 this.$scope.selectedItem = this.selectedItem;
                 this.$scope.currentPage = this.currentPage;
                 this.$scope.totalPages = this.totalPages;
                 this.$scope.grid = this.grid;
+                this.$scope.viewPageNumber = "";
                 this.$scope.changePage = function (pageNumber) {
-                    this.grid.selectPage(pageNumber - 1);
+                    return _this.changePage(pageNumber);
                 };
             };
 
@@ -55,7 +57,14 @@ var TesserisPro;
                 }
             };
 
-            AngularFooterViewModel.prototype.changePage = function (pageNumber) {
+            AngularFooterViewModel.prototype.changePage = function (viewPageNumber) {
+                if (this.$scope.totalPages != undefined && this.$scope.totalPages != null && this.$scope.totalPages < viewPageNumber) {
+                    this.grid.selectPage(this.$scope.totalPages - 1);
+                } else if (viewPageNumber < 1) {
+                    this.grid.selectPage(0);
+                } else {
+                    this.grid.selectPage(viewPageNumber - 1);
+                }
             };
             return AngularFooterViewModel;
         })();

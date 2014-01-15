@@ -7,6 +7,8 @@ module TesserisPro.TGrid {
 
     export class BaseHtmlProvider implements IHtmlProvider {
 
+        static oldOnClick = document.onclick;
+
         public getTableElement(option: Options): HTMLElement {
             var table = document.createElement("table");
             table.className = "tgrid-table";
@@ -181,11 +183,11 @@ module TesserisPro.TGrid {
             return option.columns[option.showDetailFor.column].cellDetail;
         }
 
-        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
 
         }
 
-        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
 
         }
 
@@ -194,6 +196,10 @@ module TesserisPro.TGrid {
             var defaultName = document.createTextNode(headerName);
             defaultHeader.appendChild(defaultName);
             container.appendChild(defaultHeader);
+        }
+
+        public onCloseFilterPopup() {
+            document.onclick = BaseHtmlProvider.oldOnClick;
         }
 
         public updateGroupByPanel(option: Options, groupByPanel: HTMLElement) {
@@ -406,10 +412,14 @@ module TesserisPro.TGrid {
         public createDefaultGroupHeader(tableRowElement: any) {
         }
 
-        public addFilterButton(option: Options, header: HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number) {
+        public addFilterButton(option: Options, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number, isActive: boolean) {
             if (option.enableFiltering) {
                 var filter = document.createElement("div");
-                filter.classList.add("tgrid-filter-button");
+                if (isActive) {
+                    filter.classList.add("tgrid-filter-button-active");
+                } else {
+                    filter.classList.add("tgrid-filter-button");
+                }
                 var self = this;
                 (function (columnNumber) {
                     filter.onclick = (e) => {
@@ -557,7 +567,7 @@ module TesserisPro.TGrid {
         }
 
         public doOnClickOutside(target: HTMLElement, action: () => void) {
-            var oldOnClick = document.onclick;
+            BaseHtmlProvider.oldOnClick = document.onclick;
             document.onclick = (e) => {
                 var currentElement = <HTMLElement>e.target;
                 while (currentElement.tagName != 'BODY') {
@@ -567,7 +577,7 @@ module TesserisPro.TGrid {
 
                     currentElement = currentElement.parentElement;
                 }
-                document.onclick = oldOnClick;
+                document.onclick = BaseHtmlProvider.oldOnClick;
                 action();
             }
         }
@@ -609,6 +619,7 @@ module TesserisPro.TGrid {
 
             return headerElement;
         }
+
         private anyConditionIsApplied(options: Options): boolean {
             if (options.sortDescriptor.path != null ||
                (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) ||
@@ -617,6 +628,10 @@ module TesserisPro.TGrid {
             } else {
                 return false;
             }
+        }
+
+        private detachDocumentClickEvent() {
+            document.onclick = BaseHtmlProvider.oldOnClick;
         }
 
        

@@ -294,7 +294,7 @@ td a {
     display: none;
 }
 
- .tgrid-filter-indicator, .tgrid-filter-button{
+ .tgrid-filter-indicator, .tgrid-filter-button, .tgrid-filter-button-active {
     display: inline-block;
     text-align: right;    
     height: 16px;
@@ -316,6 +316,10 @@ td a {
 
 .tgrid-filter-indicator, .tgrid-filter-button {
     background: url(images/filter.png) no-repeat;
+}
+
+.tgrid-filter-button-active {
+    background: url(images/filter_active.png) no-repeat;
 }
 
 .tgrid-mobile-filter-button {
@@ -612,6 +616,17 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-footer-template {
     font-size: 12px;
+}
+
+.tgrid-custom-details-button {
+    width: 100px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid #BEBEBE;
+    text-align: center;
+    background: #d7d7d7;
+    padding-bottom: 6px;
+    margin: 2px;
 }
  
 /* Mobile */

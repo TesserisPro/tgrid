@@ -31,5 +31,9 @@
     <input path="knockout/KnockoutFooterViewModel.js"/>
     <input path="knockout/KnockoutFilterPopupViewModel.js"/>
   </output>
+
+  <output path="bin/tgrid-array-items-provider-min.js">
+    <input path="ArrayItemsProvider.js"/>
+  </output>
   
 </root>

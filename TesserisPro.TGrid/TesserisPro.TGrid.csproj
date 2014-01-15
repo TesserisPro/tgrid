@@ -26,6 +26,7 @@
     <TypeScriptCompile Include="angular\AngularFooterViewModel.ts" />
     <TypeScriptCompile Include="angular\AngularFilterPopupViewModel.ts" />
     <TypeScriptCompile Include="angular\AngularItemViewModel.ts" />
+    <TypeScriptCompile Include="ArrayItemsProvider.ts" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <TypeScriptCompile Include="IFilterPopupViewModel.ts" />
     <Content Include="IHtmlProvider.ts" />
