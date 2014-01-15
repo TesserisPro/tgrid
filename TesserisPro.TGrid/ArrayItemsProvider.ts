@@ -4,9 +4,9 @@
 module TesserisPro.TGrid {
 
     export class ArrayItemsProvider implements IItemProvider {
-        private items: Array;
+        private items: Array<any>;
 
-        constructor(items: Array) {
+        constructor(items: Array<any>) {
             this.items = items;
         }
 
