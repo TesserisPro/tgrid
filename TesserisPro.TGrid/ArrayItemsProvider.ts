@@ -21,11 +21,11 @@ module TesserisPro.TGrid {
             oldItems = oldItems.concat(this.items);
             this.sort(sortDescriptors);
             var self = this;
-            setTimeout(function () {
-                callback(self.onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
-                this.items = new Array();
-                this.items = this.items.concat(oldItems);
-            }, 200);
+
+            callback(self.onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+
+            this.items = new Array();
+            this.items = this.items.concat(oldItems);
         }
 
         public getTotalItemsCount(filterDescriptors: Array<FilterDescriptor>, callback: (total: number) => void): void {
