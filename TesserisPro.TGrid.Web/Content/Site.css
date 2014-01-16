@@ -736,3 +736,34 @@ footer .centered-content {
     margin-left: 145px;
 }
 
+.license {
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    max-width: 800px;
+    line-height: 20px;
+}
+
+.license > div {
+    margin-bottom: 20px;
+}
+
+.agree {
+    font-family: 'Segoe UI';
+    font-size: 18px;
+    max-width: 800px;
+    line-height: 20px;
+}
+
+.agree > div {
+    margin-bottom: 20px;
+}
+
+.agree > div > div {
+    line-height: 48px;
+}
+
+.agree a {
+    min-width: 100px;
+    text-align: center;
+}
+
