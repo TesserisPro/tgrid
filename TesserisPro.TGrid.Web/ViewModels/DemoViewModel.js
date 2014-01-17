@@ -43,7 +43,6 @@
 
     self.codes = ko.observableArray([
         { name: "HTML" },
-        { name: "CSS" },
         { name: "JS" }
     ]);
 

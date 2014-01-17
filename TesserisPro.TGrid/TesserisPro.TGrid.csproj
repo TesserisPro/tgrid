@@ -78,6 +78,7 @@
     <Content Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="SortDescriptor.ts" />
+    <TypeScriptCompile Include="ServerItemsProvider.ts" />
     <Content Include="Styles\grid.css" />
     <Content Include="TGrid.js">
       <DependentUpon>TGrid.ts</DependentUpon>

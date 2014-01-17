@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TesserisPro.TGrid.Web.Models;
+using TesserisPro.TGrid.Web.Models.TGridModels;
 
 namespace TesserisPro.TGrid.Web
 {
@@ -37,6 +38,18 @@ namespace TesserisPro.TGrid.Web
         public ActionResult Ui()
         {
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Server items provider",
+                url = "Knockout/ServerItemsProviderKnockout",
+                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/ServerItemsProviderAngular",
+                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
             listOfDemosDesktop.Add(new UIModel
             {
                 title = "Simple grid without paging",
@@ -373,6 +386,18 @@ namespace TesserisPro.TGrid.Web
             }
 
             return View(download);
+        }
+
+        public JsonResult GetItems(string path, int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
+        {
+            var json = CustomServerItemsProvider.getItems(firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors);
+            return Json(json);
+        }
+
+        public JsonResult GetTotalItemsCount(string path,  List<FilterDescriptor> filterDescriptors)
+        {
+            var json = CustomServerItemsProvider.getTotalItemsCount(filterDescriptors, null);
+            return Json(json);
         }
     }
 }
