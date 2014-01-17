@@ -200,6 +200,7 @@
     <Content Include="Content\phonewithgrid.png" />
     <Content Include="Content\purchaseStyle.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Highlighter\shAutoloader.js" />
     <Content Include="Scripts\Highlighter\shBrushCss.js" />
@@ -345,7 +346,6 @@
     <Content Include="Views\Home\Angular\PagingMobileHtml.cshtml" />
     <Content Include="Views\Home\Angular\Performance100000RowsWithPaging.cshtml" />
     <Content Include="Views\Home\Angular\Performance100000RowsWithPagingHtml.cshtml" />
-    <Content Include="Views\Home\Purchase.cshtml" />
     <Content Include="Views\Home\Angular\RowsWithVirtualization.cshtml" />
     <Content Include="Views\Home\Angular\ScriptJs.cshtml" />
     <Content Include="Views\Home\Angular\SimpleGridWithoutPaging.cshtml" />
