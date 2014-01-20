@@ -700,7 +700,7 @@ module TesserisPro.TGrid {
                     var columnData = document.createElement("span");
                     if (option.columns[i].member != null) {
                         var columnBinding = document.createElement('span');
-                        columnData.innerHTML = " : {{item." + option.columns[i].member +"}}";
+                        columnData.innerHTML = ": {{item." + option.columns[i].member +"}}";
                         columnData.appendChild(columnBinding);
                     } else {
                         columnData.innerHTML = ": ";

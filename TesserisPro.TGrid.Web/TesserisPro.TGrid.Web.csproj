@@ -126,6 +126,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
+    <Compile Include="Models\TGridModels\Item.cs" />
+    <Compile Include="Models\TGridModels\CustomServerItemsProvider.cs" />
+    <Compile Include="Models\TGridModels\SortDescriptor.cs" />
     <Compile Include="Models\UIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -385,6 +389,8 @@
     <Content Include="Views\Home\Knockout\jsFooterTemplateKnockout.cshtml" />
     <Content Include="Views\Home\Knockout\jsCustomProviderKnockout.cshtml" />
     <Content Include="Views\Home\Angular\jsCustomItemsProviderAngular.cshtml" />
+    <Content Include="Views\Home\Knockout\ServerItemsProviderKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\ServerItemsProviderAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
