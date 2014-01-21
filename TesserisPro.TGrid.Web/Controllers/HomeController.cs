@@ -388,15 +388,15 @@ namespace TesserisPro.TGrid.Web
             return View(download);
         }
 
-        public JsonResult GetItems(string path, int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
+        public JsonResult GetItems(int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
         {
             var json = CustomServerItemsProvider.getItems(firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors);
             return Json(json);
         }
 
-        public JsonResult GetTotalItemsCount(string path,  List<FilterDescriptor> filterDescriptors)
+        public JsonResult GetTotalItemsCount(List<FilterDescriptor> filterDescriptors)
         {
-            var json = CustomServerItemsProvider.getTotalItemsCount(filterDescriptors, null);
+            var json = CustomServerItemsProvider.getTotalItemsCount(filterDescriptors);
             return Json(json);
         }
     }

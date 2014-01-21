@@ -602,6 +602,7 @@ var TesserisPro;
             };
 
             Grid.prototype.showFilterPopup = function (column, pageX, pageY, isForDesktop) {
+                this.options.filterPopupForColumn = column;
                 this.filterPopupViewModel.onOpen(this.options, column);
                 if (isForDesktop) {
                     this.filterPopUp.style.left = pageX.toString() + "px";

@@ -230,10 +230,12 @@
     <Content Include="Scripts\iframe\knockout.mapping-latest.js" />
     <Content Include="Scripts\iframe\KnockoutFilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\KnockoutItemViewModel.js" />
+    <Content Include="Scripts\iframe\ServerItemsProvider.js" />
     <Content Include="Scripts\iframe\tgrid-angular-min.js" />
     <Content Include="Scripts\iframe\tgrid-array-items-provider-min.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />
+    <Content Include="Scripts\iframe\tgrid-server-items-provider-min.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Views\Home\Knockout\CellTemplateHtml.cshtml" />

@@ -563,7 +563,7 @@ var TesserisPro;
                         var columnData = document.createElement("span");
                         if (option.columns[i].member != null) {
                             var columnBinding = document.createElement('span');
-                            columnBinding.setAttribute("data-bind", 'text: item.'.concat(option.columns[i].member));
+                            columnBinding.setAttribute("data-bind", 'text:item.'.concat(option.columns[i].member));
                             columnData.innerHTML = ": ";
                             columnData.appendChild(columnBinding);
                         } else {

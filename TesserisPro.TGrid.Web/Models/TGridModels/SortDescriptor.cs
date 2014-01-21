@@ -7,29 +7,19 @@ namespace TesserisPro.TGrid.Web.Models.TGridModels
 {
     public class SortDescriptor
     {
-        private string path;
-        private bool acs;
+        public string path {get; set;}
+        public bool? asc { get; set; }
 
-        public SortDescriptor(string path, bool acs)
+
+        public SortDescriptor()
+        {
+            this.path = String.Empty;
+            this.asc = null;
+        }
+        public SortDescriptor(string path, bool? acs)
         {
             this.path = path;
-            this.acs = acs;
-        }
-
-        public string Path
-        {
-            get
-            {
-                return this.path;
-            }
-        }
-
-        public bool Acs
-        {
-            get 
-            { 
-                return this.acs; 
-            }
+            this.asc = acs;
         }
     }
 }

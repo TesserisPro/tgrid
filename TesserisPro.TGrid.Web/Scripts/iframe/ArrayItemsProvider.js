@@ -93,7 +93,8 @@ var TesserisPro;
                         if (isFiltered == 0) {
                             if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
                                 var fakeItem = {};
-                                fakeItem["isFakeItem"] = true;
+
+                                //fakeItem["isFakeItem"] = true;
                                 fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
                                 for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
                                     fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;

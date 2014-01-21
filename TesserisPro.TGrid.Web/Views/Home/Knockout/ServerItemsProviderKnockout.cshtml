@@ -36,7 +36,7 @@
         <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>*@
     </head>
     <body>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableSorting: true, enableFiltering: true, enableCollapsing: true }">
             <script type="text/html">
                 <column data-g-width="65" data-g-views="mobile,desktop"  data-g-member="Number">
                 </column>
@@ -66,12 +66,11 @@
             </script>
         </div>
         <script type="text/javascript">
-          
             function vm() {
                 var self = this;
-                self.nameColumnTitle = "First Name";
                 self.url = '@Url.Content("~")'.concat("Content/images/picturesForGrid/");
                 self.itemsProvider = new TesserisPro.TGrid.ServerItemsProvider('@Url.Content("~/Home/GetItems")', '@Url.Content("~/Home/GetTotalItemsCount")','@Url.Content("~")');
+               
             };
 
             $(function () {

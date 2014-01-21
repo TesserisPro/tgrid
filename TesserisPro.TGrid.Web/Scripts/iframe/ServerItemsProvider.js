@@ -19,10 +19,12 @@ var TesserisPro;
                     }
                 };
                 xmlhttp.open("POST", this.urlGetItems.toString(), true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.setRequestHeader("Content-type", "application/json");
                 xmlhttp.setRequestHeader("Accept", "application/json");
                 var object = { firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors };
-                xmlhttp.send(object);
+
+                //xmlhttp.send(JSON.stringify({ firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors }));
+                xmlhttp.send(JSON.stringify({ firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors }));
             };
 
             ServerItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
@@ -30,13 +32,14 @@ var TesserisPro;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        callback(xmlhttp.response);
+                        var count = parseInt(xmlhttp.response);
+                        callback(count);
                     }
                 };
                 xmlhttp.open("POST", this.urlGetTotalNumber.toString(), true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.setRequestHeader("Content-type", "application/json");
                 xmlhttp.setRequestHeader("Accept", "application/json");
-                xmlhttp.send({ filterDescriptors: filterDescriptors });
+                xmlhttp.send(JSON.stringify(filterDescriptors));
             };
             return ServerItemsProvider;
         })();
