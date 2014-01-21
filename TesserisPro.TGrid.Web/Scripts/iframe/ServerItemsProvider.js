@@ -21,9 +21,6 @@ var TesserisPro;
                 xmlhttp.open("POST", this.urlGetItems.toString(), true);
                 xmlhttp.setRequestHeader("Content-type", "application/json");
                 xmlhttp.setRequestHeader("Accept", "application/json");
-                var object = { firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors };
-
-                //xmlhttp.send(JSON.stringify({ firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors }));
                 xmlhttp.send(JSON.stringify({ firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors }));
             };
 
