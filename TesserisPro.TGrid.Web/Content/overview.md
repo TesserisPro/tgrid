@@ -22,23 +22,22 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 
 ## Features
 
-* Knockout.js and Angular support
-* No dependcy on JQuery or any other libraries
-* Angular or Knockout.JS support are atteched as modules
-* Posibility to implement adapter for another technology
-* TypeScript compatible. TGrid is developed on TypeScript
-* Fully customizable. Header, Cell, Details, Footer are fully customizable with templates
-* Custom user actions support
-* Paging
-* Virtualization/lazy loading
-* Predefined set of item providers and possiblity to create custom provider
-** No complex code in items provider, custom item provider should only support sorting and filtering
-* Filtering, grouping and sorting
-* Grouping and group collapsing. with virtualization and paging
-* Editing with cell template
-* Automatic swtich to mobile mode depending on @media
-* Fully customizable with CSS. No hardcoded styles
-* Free and open source
+* Knockout.js and Angular support.
+* No dependcy on JQuery or any other libraries.
+* Angular or Knockout.JS support are atteched as modules.
+* Posibility to implement adapter for another technology.
+* TypeScript compatible. TGrid is developed on TypeScript.
+* Fully customizable. Header, Cell, Details, Footer are fully customizable with templates.
+* Custom user actions support.
+* Paging.
+* Virtualization/lazy loading.
+* Predefined set of item providers and possiblity to create custom provider. Custom item provider should only support sorting and filtering.
+* Filtering, grouping and sorting.
+* Grouping and group collapsing with virtualization and paging.
+* Editing with cell template.
+* Automatic swtich to mobile mode depending on @media.
+* Fully customizable with CSS. No hardcoded styles.
+* Free and open source.
 
 ## Usage
 
