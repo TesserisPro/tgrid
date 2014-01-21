@@ -40,18 +40,6 @@ namespace TesserisPro.TGrid.Web
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Server items provider",
-                url = "Knockout/ServerItemsProviderKnockout",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
-                cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
-                angularUrl = "Angular/ServerItemsProviderAngular",
-                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
-                angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
-            });
-            listOfDemosDesktop.Add(new UIModel
-            {
                 title = "Simple grid without paging",
                 url = "Knockout/SimpleGridWithoutPaging",
                 htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
@@ -212,11 +200,11 @@ namespace TesserisPro.TGrid.Web
                 url = "Knockout/EditingWithCellTemplate",
                 htmlUrl = "Knockout/EditingWithCellTemplateHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
+                jsUrl = "Knockout/jsEditingWithCellTemplateKnockout",
                 angularUrl = "Angular/EditingWithCellTemplate",
                 angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"
+                angularJsUrl = "Angular/jsEditingWithCellTemplateAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {

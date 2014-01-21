@@ -9,7 +9,7 @@ namespace TesserisPro.TGrid.Web.Models.TGridModels
     public static class CustomServerItemsProvider
     {
         private static List<Item> sendItems = new List<Item>();
-        private static List<Item> items = new List<Item>();
+        private static List<Item> items = new List<Item>(100000);
         private static string Path;
         private static List<SortDescriptor> sortDescriptors;
         private static int i;
@@ -49,7 +49,7 @@ namespace TesserisPro.TGrid.Web.Models.TGridModels
 
         public static List<Item> getItems(int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
         {
-            CustomServerItemsProvider.sendItems = new List<Item>();
+            CustomServerItemsProvider.sendItems = new List<Item>(100000);
             foreach(var item in CustomServerItemsProvider.items){
                 CustomServerItemsProvider.sendItems.Add(item);
             }
@@ -142,7 +142,7 @@ namespace TesserisPro.TGrid.Web.Models.TGridModels
 
         public static int getTotalItemsCount(List<FilterDescriptor> filterDescriptors)
         {
-            CustomServerItemsProvider.sendItems = new List<Item>();
+            CustomServerItemsProvider.sendItems = new List<Item>(100000);
             foreach (var item in CustomServerItemsProvider.items)
             {
                 CustomServerItemsProvider.sendItems.Add(item);

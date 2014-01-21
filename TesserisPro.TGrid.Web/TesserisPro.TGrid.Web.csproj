@@ -242,7 +242,6 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Content\overview.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
@@ -277,7 +276,6 @@
     <Content Include="Views\Home\Knockout\CellTemplate.cshtml" />
     <Content Include="Views\Home\Knockout\Paging.cshtml" />
     <Content Include="Views\Home\Knockout\CellTemplateMobile.cshtml" />
-    <Content Include="Views\Home\Knockout\RowsWithPaging.cshtml" />
     <Content Include="Views\Home\Knockout\RowsWithVirtualization.cshtml" />
     <Content Include="Views\Home\Knockout\EditingWithCellTemplate.cshtml" />
     <Content Include="Views\Home\Knockout\GroupingMobile.cshtml" />
@@ -373,8 +371,8 @@
     <Content Include="Views\Home\Angular\lazyLoadingMobileHtml.cshtml" />
     <Content Include="Views\Home\Knockout\RowsWithVirtualizationHtml.cshtml" />
     <Content Include="Views\Home\Angular\RowsWithVirtualizationHtml.cshtml" />
-    <Content Include="Views\Home\Angular\jaEditingWithCellTemplateAngular.cshtml" />
-    <Content Include="Views\Home\Knockout\jaEditingWithCellTemplateKnockout.cshtml" />
+    <Content Include="Views\Home\Angular\jsEditingWithCellTemplateAngular.cshtml" />
+    <Content Include="Views\Home\Knockout\jsEditingWithCellTemplateKnockout.cshtml" />
     <Content Include="Views\Home\Knockout\GroupCollapsingKnockout.cshtml" />
     <Content Include="Views\Home\Angular\GroupCollapsingAngular.cshtml" />
     <Content Include="Views\Home\Angular\GroupCollapsingAngularHtml.cshtml" />
@@ -391,8 +389,6 @@
     <Content Include="Views\Home\Knockout\jsFooterTemplateKnockout.cshtml" />
     <Content Include="Views\Home\Knockout\jsCustomProviderKnockout.cshtml" />
     <Content Include="Views\Home\Angular\jsCustomItemsProviderAngular.cshtml" />
-    <Content Include="Views\Home\Knockout\ServerItemsProviderKnockout.cshtml" />
-    <Content Include="Views\Home\Angular\ServerItemsProviderAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
