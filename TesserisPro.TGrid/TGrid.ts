@@ -186,6 +186,8 @@ module TesserisPro.TGrid {
 
             this.rootElement.onmousewheel = e => this.mouseWheel(e);
 
+            this.tableBodyContainer.onkeydown = e => this.keyPress(e);
+            
             this.tableBodyContainer.onmousedown = e => {
                 if (e.button == 1) {
                     e.preventDefault();
@@ -220,6 +222,57 @@ module TesserisPro.TGrid {
             e.stopPropagation();
             this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
             this.mobileContainer.scrollTop = this.mobileContainer.scrollTop - e.wheelDelta;
+        }
+
+        private keyPress(e: KeyboardEvent): void{
+            console.log(e.keyCode);
+            switch (e.keyCode)
+            {
+                case 38: //Up arrow
+                    this.selectPreviousItem();
+                    break;
+                case 40: // Down arrow
+                    this.selectNextItem();
+                    break;
+            }
+        }
+
+        private selectNextItem() {
+            var selectedItem: ItemViewModel;
+            if (this.options.selection.length > 0) {
+                var item = this.options.selection[this.options.selection.length - 1];
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        selectedItem = i < (this.visibleItems.length - 1) ? this.visibleViewModels[i + 1] : this.visibleViewModels[i];
+                        break;
+                    }
+                }
+            }
+            if (selectedItem == null && this.visibleViewModels.length != 0) {
+                selectedItem = this.visibleViewModels[0];
+            }
+            if (selectedItem != null) {
+                this.selectItem(selectedItem, false);
+            }
+        }
+
+        private selectPreviousItem() {
+            var selectedItem: ItemViewModel;
+            if (this.options.selection.length > 0) {
+                var item = this.options.selection[this.options.selection.length - 1];
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        selectedItem = i > 0 ? this.visibleViewModels[i - 1] : this.visibleViewModels[i];
+                        break;
+                    }
+                }
+            }
+            if (selectedItem == null && this.visibleViewModels.length != 0) {
+                selectedItem = this.visibleViewModels[0];
+            }
+            if (selectedItem != null) {
+                this.selectItem(selectedItem, false);
+            }
         }
 
         private getPreviousPageFirsItemIndex(): number {
