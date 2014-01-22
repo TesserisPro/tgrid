@@ -9,6 +9,7 @@ var TesserisPro;
             AngularFilterPopupViewModel.prototype.setScope = function (scope) {
                 var _this = this;
                 this.$scope = scope;
+                this.$scope.path = this.path;
                 this.$scope.onApply = function () {
                     return _this.onApply();
                 };
@@ -27,11 +28,11 @@ var TesserisPro;
                 this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
                 if (this.condition != TGrid.FilterCondition.None) {
                     this.value = (this.container.getElementsByTagName("input")[0]).value;
-                    var filterDescriptor = new TGrid.FilterDescriptor(this.path, this.value, this.condition);
+                    var filterDescriptor = new TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition);
                     var grid = TGrid.Grid.getGridObject(this.container);
-                    grid.setFilters(filterDescriptor, this.path);
+                    grid.setFilters(filterDescriptor, this.$scope.path);
                 } else {
-                    TGrid.Grid.getGridObject(this.container).removeFilters(this.path);
+                    TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
                 }
 
                 hideElement(this.container);
@@ -39,7 +40,7 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
-                TGrid.Grid.getGridObject(this.container).removeFilters(this.path);
+                TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
                 hideElement(this.container);
                 this.onCloseFilterPopup();
             };
@@ -51,7 +52,7 @@ var TesserisPro;
 
             AngularFilterPopupViewModel.prototype.onOpen = function (options, column) {
                 TGrid.Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
-                this.path = column.filterMemberPath;
+                this.$scope.path = column.filterMemberPath;
                 this.columnInfo = column;
                 for (var i = 0; i < options.filterDescriptors.length; i++) {
                     if (options.filterDescriptors[i].path == column.filterMemberPath) {
@@ -59,6 +60,7 @@ var TesserisPro;
                         (this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptors[i].condition;
                     }
                 }
+                this.$scope.$apply();
             };
 
             AngularFilterPopupViewModel.prototype.getColumnInfo = function () {

@@ -1,7 +1,7 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true }">
+   <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true }">
         <script type="text/html">
             <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name"> 
                 <celldetail>
@@ -19,7 +19,7 @@
                 <div>
                     <span>First name: </span>
                     <span data-bind="text: item.Name"></span>
-                    <a href data-bind="click: function () { showDetailForCell(0); }, clickBubble: false">...</a>
+                    <a href data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">...</a>
                     <br />
                     <span>Last name: </span>
                     <span data-bind="text: item.Surname"></span>

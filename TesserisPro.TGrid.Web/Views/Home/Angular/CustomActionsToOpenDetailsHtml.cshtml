@@ -4,34 +4,45 @@
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" selectionMode="single" showDetailsOnSelection="false">
-                 <script type="text/html">
-                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
-                         <cell>
+                    <script type="text/html">
+                        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                            <cell>
                             <span>{{item.CompanyId}}</span>
-                            <a href ng-mouseover="showDetailForCell(0); $event.stopPropagation();">...</a> 
+                            <a href ng-mouseover="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
                         </cell>
-                         <celldetail>
+                        <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
                                 <div style="color: #444;">{{item.detail_Company}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                    <column data-g-width="195" data-g-views="mobile,desktop" data-g-member ="Country">
+                        <cell>
+                            <span>{{item.Country}}</span>
+                            <div ng-click="toggleDetailsForCell(1); $event.stopPropagation();" class ="tgrid-custom-details-button" style="float:right">Toggle Details</div>
+                        </cell>
+                        <celldetail>
+                            <div>
+                                <div>This is a sample of cell details: </div>
+                                <div style="color: #444;">{{item.detail_Country}}</div>
+                            </div>
+                        </celldetail>
                     </column>
                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="City">
                     </column>
                     <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="Street">
                     </column>
-                     <column data-g-width="150" data-g-views="mobile,desktop">
+                    <column data-g-width="116" data-g-views="mobile,desktop">
                         <header>
                             <span>Details for row</span>
                         </header>
-                         <cell>
-                            <button style="color: #444;" ng-click="showDetailForCell(-1); $event.stopPropagation();">Details</button>
+                        <cell>
+                            <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="openDetailsForCell(-1); $event.stopPropagation();">Open</div>
+                            <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="closeDetailsForCell(-1); $event.stopPropagation();">Close</div>
                         </cell>
                     </column>
-                     <details>
+                    <details>
                         <div>
                             <div>This is a sample of row details: </div>
                             <div style="color: #444;">{{item.detail}}</div>                    

@@ -15,22 +15,6 @@
         <script src="~/Scripts/iframe/jquery-2.0.3.js"></script>
         <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
         <script src="~/Scripts/iframe/knockout.mapping-latest.js"></script>
-    
-
-        @*<script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/KnockoutHtmlProvider.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/KnockoutFooterViewModel.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/KnockoutFilterPopupViewModel.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/KnockoutItemViewModel.js" type="text/javascript"></script> 
-        <script src="~/Scripts/iframe/options.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/ItemViewModel.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/TGrid.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/TGridBinding.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/TGridDirective.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/SortDescriptor.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>*@
 
         <script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
         <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
@@ -66,7 +50,6 @@
                     </column>
                 </script>
             </div>
-
             <script type="text/javascript">
                 var items = ko.mapping.fromJS([
                         { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
@@ -101,7 +84,6 @@
                 ])();
                 function vm() {
                     var self = this;
-                    self.nameColumnTitle = "First Name";
                     self.editingItem = ko.observable(null);
                     self.editingItem.extend({notify: 'always'});
 

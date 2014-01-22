@@ -1,7 +1,7 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-   <div ng-app="TGrid"> 
+    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true">
                 <script type="text/html">
@@ -23,7 +23,7 @@
                         <div>
                             <span>Company Id: </span>
                             <span>{{item.CompanyId}}</span>
-                            <a href ng-click="showDetailForCell(0); $event.stopPropagation();">...</a>
+                            <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a>
                             <br />
                             <span>Country: </span>
                             <span>{{item.Country}}</span>

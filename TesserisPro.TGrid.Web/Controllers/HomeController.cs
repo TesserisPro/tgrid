@@ -40,18 +40,6 @@ namespace TesserisPro.TGrid.Web
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Server items provider",
-                url = "Knockout/ServerItemsProviderKnockout",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
-                cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
-                angularUrl = "Angular/ServerItemsProviderAngular",
-                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
-                angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
-            });
-            listOfDemosDesktop.Add(new UIModel
-            {
                 title = "Simple grid without paging",
                 url = "Knockout/SimpleGridWithoutPaging",
                 htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
@@ -212,11 +200,11 @@ namespace TesserisPro.TGrid.Web
                 url = "Knockout/EditingWithCellTemplate",
                 htmlUrl = "Knockout/EditingWithCellTemplateHtml",
                 cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/jaEditingWithCellTemplateKnockout",
+                jsUrl = "Knockout/jsEditingWithCellTemplateKnockout",
                 angularUrl = "Angular/EditingWithCellTemplate",
                 angularHtmlUrl = "Angular/EditingWithCellTemplateHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/jaEditingWithCellTemplateAngular"
+                angularJsUrl = "Angular/jsEditingWithCellTemplateAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -388,15 +376,15 @@ namespace TesserisPro.TGrid.Web
             return View(download);
         }
 
-        public JsonResult GetItems(string path, int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
+        public JsonResult GetItems(int? firstItem, int? itemsNumber, List<SortDescriptor> sortDescriptors, List<FilterDescriptor> filterDescriptors, List<FilterDescriptor> collapsedFilterDescriptors)
         {
             var json = CustomServerItemsProvider.getItems(firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors);
             return Json(json);
         }
 
-        public JsonResult GetTotalItemsCount(string path,  List<FilterDescriptor> filterDescriptors)
+        public JsonResult GetTotalItemsCount(List<FilterDescriptor> filterDescriptors)
         {
-            var json = CustomServerItemsProvider.getTotalItemsCount(filterDescriptors, null);
+            var json = CustomServerItemsProvider.getTotalItemsCount(filterDescriptors);
             return Json(json);
         }
     }

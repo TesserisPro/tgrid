@@ -35,5 +35,9 @@
   <output path="bin/tgrid-array-items-provider-min.js">
     <input path="ArrayItemsProvider.js"/>
   </output>
+
+  <output path="bin/tgrid-server-items-provider-min.js">
+    <input path="ServerItemsProvider.js"/>
+  </output>
   
 </root>
