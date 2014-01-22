@@ -13,13 +13,14 @@
                     </column>
                     <column data-g-width="125" data-g-views="mobile,desktop" data-g-member ="Street" data-g-filter-member ="Street" data-g-group-member ="Street" data-g-sort-member ="Street">
                     </column>
-                        <filterpopup>
+                    <filterpopup>
+                        <div><span>{{path}}</span></div>
                         <select>
                             <option value="0">None</option>
                             <option value="1">Equals</option>
                             <option value="2">Not Equals</option>
                         </select>
-                        <input type="text" style="width:150px" value=""><br>
+                        <input type="text" value=""><br>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">OK</div>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClose()">Cancel</div>
                     </filterpopup>
