@@ -186,7 +186,8 @@ module TesserisPro.TGrid {
 
             this.rootElement.onmousewheel = e => this.mouseWheel(e);
 
-            this.tableBodyContainer.onkeydown = e => this.keyPress(e);
+            this.rootElement.tabIndex = 0;
+            this.rootElement.onkeydown = e => this.keyPress(e);
             
             this.tableBodyContainer.onmousedown = e => {
                 if (e.button == 1) {
@@ -823,9 +824,42 @@ module TesserisPro.TGrid {
             for (var i = 0; i < this.options.selection.length; i++) {
                 this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
             }
-
+            this.scrollIntoView(item.item);
             this.updateFooterViewModel();
             return true;
+        }
+
+
+        public scrollIntoView(item: any): void {
+            var viewModels: Array<ItemViewModel> = new Array<ItemViewModel>();
+            var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+            var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+            var visibleItemsArea: boolean = false;
+
+            for (var i = 0; i < this.visibleViewModels.length; i++){
+                if (firstVisibleItem == this.visibleViewModels[i]) {
+                    visibleItemsArea = true;
+                }
+                if (visibleItemsArea) {
+                    visibleItemsCount--;
+                }
+                if (visibleItemsCount < 0) {
+                    visibleItemsArea = false;
+                }
+                if (this.visibleViewModels[i].item == item) {
+                    if (visibleItemsArea) {
+                        return;
+                    }
+                    break;
+                }
+                viewModels.push(this.visibleViewModels[i]);
+            }
+
+            var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
+            
+            this.scrollTableContainer(scrollTo);
         }
 
         public updateRow(item: any, shouldAddDetails: boolean): void {
