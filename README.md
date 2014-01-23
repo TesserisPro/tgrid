@@ -12,20 +12,20 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 
 ### Supported browsers:
 
-* Iternet Explorer 9+
+* Internet Explorer 9+
 * Mozilla Firefox 
 * Google Chrome
 * Safari
 * iPhone/iPad
 * Android 4+ 
-* Windows Phone are supprorted.
+* Windows Phone are supporrted.
 
 ## Features
 
 * Knockout.js and Angular support.
-* No dependcy on JQuery or any other libraries.
-* Angular or Knockout.JS support are atteched as modules.
-* Posibility to implement adapter for another technology.
+* No dependency on JQuery or any other libraries.
+* Angular or Knockout.JS support are attached as modules.
+* Possibility to implement adapter for another technology.
 * TypeScript compatible. TGrid is developed on TypeScript.
 * Fully customizable. Header, Cell, Details, Footer are fully customizable with templates.
 * Custom user actions support.
