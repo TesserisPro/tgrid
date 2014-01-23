@@ -59,12 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TesserisPro.TGrid.Server\TesserisPro.TGrid.Server.csproj">
-      <Project>{4cf2255a-2d4a-4922-8d2c-a9b6bc086417}</Project>
-      <Name>TesserisPro.TGrid.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
