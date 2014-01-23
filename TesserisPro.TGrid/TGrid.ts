@@ -186,6 +186,9 @@ module TesserisPro.TGrid {
 
             this.rootElement.onmousewheel = e => this.mouseWheel(e);
 
+            this.rootElement.tabIndex = 0;
+            this.rootElement.onkeydown = e => this.keyPress(e);
+            
             this.tableBodyContainer.onmousedown = e => {
                 if (e.button == 1) {
                     e.preventDefault();
@@ -220,6 +223,57 @@ module TesserisPro.TGrid {
             e.stopPropagation();
             this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
             this.mobileContainer.scrollTop = this.mobileContainer.scrollTop - e.wheelDelta;
+        }
+
+        private keyPress(e: KeyboardEvent): void{
+            console.log(e.keyCode);
+            switch (e.keyCode)
+            {
+                case 38: //Up arrow
+                    this.selectPreviousItem();
+                    break;
+                case 40: // Down arrow
+                    this.selectNextItem();
+                    break;
+            }
+        }
+
+        private selectNextItem() {
+            var selectedItem: ItemViewModel;
+            if (this.options.selection.length > 0) {
+                var item = this.options.selection[this.options.selection.length - 1];
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        selectedItem = i < (this.visibleItems.length - 1) ? this.visibleViewModels[i + 1] : this.visibleViewModels[i];
+                        break;
+                    }
+                }
+            }
+            if (selectedItem == null && this.visibleViewModels.length != 0) {
+                selectedItem = this.visibleViewModels[0];
+            }
+            if (selectedItem != null) {
+                this.selectItem(selectedItem, false);
+            }
+        }
+
+        private selectPreviousItem() {
+            var selectedItem: ItemViewModel;
+            if (this.options.selection.length > 0) {
+                var item = this.options.selection[this.options.selection.length - 1];
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        selectedItem = i > 0 ? this.visibleViewModels[i - 1] : this.visibleViewModels[i];
+                        break;
+                    }
+                }
+            }
+            if (selectedItem == null && this.visibleViewModels.length != 0) {
+                selectedItem = this.visibleViewModels[0];
+            }
+            if (selectedItem != null) {
+                this.selectItem(selectedItem, false);
+            }
         }
 
         private getPreviousPageFirsItemIndex(): number {
@@ -770,9 +824,42 @@ module TesserisPro.TGrid {
             for (var i = 0; i < this.options.selection.length; i++) {
                 this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
             }
-
+            this.scrollIntoView(item.item);
             this.updateFooterViewModel();
             return true;
+        }
+
+
+        public scrollIntoView(item: any): void {
+            var viewModels: Array<ItemViewModel> = new Array<ItemViewModel>();
+            var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+            var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+            var visibleItemsArea: boolean = false;
+
+            for (var i = 0; i < this.visibleViewModels.length; i++){
+                if (firstVisibleItem == this.visibleViewModels[i]) {
+                    visibleItemsArea = true;
+                }
+                if (visibleItemsArea) {
+                    visibleItemsCount--;
+                }
+                if (visibleItemsCount < 0) {
+                    visibleItemsArea = false;
+                }
+                if (this.visibleViewModels[i].item == item) {
+                    if (visibleItemsArea) {
+                        return;
+                    }
+                    break;
+                }
+                viewModels.push(this.visibleViewModels[i]);
+            }
+
+            var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
+            
+            this.scrollTableContainer(scrollTo);
         }
 
         public updateRow(item: any, shouldAddDetails: boolean): void {
