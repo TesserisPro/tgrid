@@ -43,9 +43,9 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 
 Please see all samples with code at [Demo page](http://grid.tesseris.com/Home/Demo)
 
-**If this overview and demo page with code samples are not enogth, please submit an issue**
+**If this overview and demo page with code samples are not enougth, please submit an issue**
 
-### Simple TGrid usage scenerio:
+### Simple TGrid usage scenario:
 
 Grid rows in JavaScript:
 
