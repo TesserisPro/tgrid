@@ -4,25 +4,25 @@
    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" >
-                <script type="text/html">
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
-                    </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
-                        <cell>
-                            <span style="font-weight:700;">{{item.Country}}</span>
-                        </cell>
-                    </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="City">
+                    <script type="text/html">
+                         <column data-g-member ="CompanyId">
+                        </column>
+                        <column data-g-member ="Country">
                             <cell>
-                            <span style="color:red;">{{item.City}}</span>
-                        </cell>
-                    </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Street">
-                            <cell>
-                            <span style="font-style: italic;">{{item.Street}}</span>
-                        </cell>
-                    </column>
-                    <mobile>
+                               <span style="font-weight:700;">{{item.Country}}</span>
+                            </cell>
+                        </column>
+                        <column data-g-member ="City">
+                             <cell>
+                               <span style="color:red;">{{item.City}}</span>
+                            </cell>
+                        </column>
+                        <column data-g-member ="Street">
+                             <cell>
+                                <span style="font-style: italic;">{{item.Street}}</span>
+                            </cell>
+                        </column>
+                        <mobile>
                         <div>
                             <span>Company Id: </span>
                             <span>{{item.CompanyId}}</span>

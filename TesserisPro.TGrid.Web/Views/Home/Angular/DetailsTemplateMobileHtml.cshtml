@@ -1,11 +1,11 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div ng-app="TGrid"> 
+     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true">
                 <script type="text/html">
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="CompanyId"> 
+                    <column data-g-member="CompanyId"> 
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
@@ -13,11 +13,11 @@
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                    <column data-g-member="Country">
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="City">
+                    <column data-g-member="City">
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Street">
+                    <column data-g-member="Street">
                     </column>
                     <mobile>
                         <div>

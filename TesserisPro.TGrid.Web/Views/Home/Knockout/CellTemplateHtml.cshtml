@@ -3,17 +3,17 @@
 <pre class="brush: html">
    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
         <script type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
+            <column data-g-member="Name">
                 <cell>
                     <span style="color: red;" data-bind="text: item.Name"></span>                
                 </cell>
             </column>
-            <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
+            <column data-g-member="Surname"> 
                 <cell>
                     <span data-bind="text: item.Surname"></span>
                 </cell>
             </column>
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">            
+            <column data-g-member="Age">            
                 <cell>
                     <span style="color: red;" data-bind="text: item.Age"></span>
                 </cell>

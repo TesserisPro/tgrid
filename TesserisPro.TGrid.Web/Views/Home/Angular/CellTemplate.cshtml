@@ -23,22 +23,22 @@
             <div ng-controller="ctrl">
                 <t-grid id="test-angular" provider="dataProvider" >
                      <script type="text/html">
-                         <column data-g-width="85" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                         <column data-g-member ="CompanyId">
                             <cell>
                                 <span style="color: red;">{{item.CompanyId}}</span>
                             </cell>
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country">
+                        <column data-g-member ="Country">
                             <cell>
                                 <span style="font-weight:600;">{{item.Country}}</span>
                             </cell>
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="City">
+                        <column data-g-member ="City">
                             <cell>
                                 <span>{{item.City}}</span>
                             </cell>
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Street">
+                        <column data-g-member ="Street">
                             <cell>
                                 <span style="font-size: smaller;">{{item.Street}}</span>
                             </cell>

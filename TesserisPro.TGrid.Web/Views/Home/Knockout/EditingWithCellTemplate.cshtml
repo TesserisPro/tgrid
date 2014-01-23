@@ -29,20 +29,20 @@
     <body>
         <div>
             <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, selectionMode: 'none' }">
-                <script  type="text/html">
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
+                <script type="text/html">
+                    <column data-g-member="Name">
                         <cell>
                             <span style="color: green;" data-bind="text: item.Name, event: { click: model.toggleActive(item.Name) }, css: { hidden: model.editingItem() == item.Name}"></span>                                     
                             <input class="tgrid-edit-input hidden" style="color: red;" data-bind="value: item.Name, css: { visible: model.editingItem() == item.Name}"></input>                    
                         </cell>
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname"> 
+                    <column data-g-member="Surname"> 
                         <cell>
                             <span data-bind="text: item.Surname, event: { click: model.toggleActive(item.Surname) }, css: { hidden: model.editingItem() == item.Surname}"></span>
                             <input class="tgrid-edit-input hidden" data-bind="value: item.Surname, css: { visible: model.editingItem() == item.Surname }"></input>
                         </cell>
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">            
+                    <column data-g-member="Age">            
                         <cell>
                             <span style="color: red;" data-bind="text: item.Age, event: { click: model.toggleActive(item.Age) }, css: { hidden: model.editingItem() == item.Age}"></span>
                             <input class="tgrid-edit-input hidden" style="color: red;" data-bind="value: item.Age, css: { visible: model.editingItem() == item.Age}"></input>
