@@ -68,7 +68,7 @@ Simple knockout view model in JavaScript:
         ko.applyBindings(new vm());
     });
 
-Grid marckup in HTML:
+Grid markup in HTML:
 
     <div data-bind="tgrid: {provider: itemsProvider}">
        <script type="text/html">  
