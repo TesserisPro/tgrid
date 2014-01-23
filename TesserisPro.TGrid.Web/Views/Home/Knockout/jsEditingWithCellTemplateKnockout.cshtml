@@ -3,24 +3,23 @@
 </script>
 
 <pre class="brush: js">
-        var items = ko.mapping.fromJS([
-                { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" }
-                //... add your items here
-               ])();
-        function vm() {
-            var self = this;
-            self.editingItem = ko.observable(null);
-            self.editingItem.extend({ notify: 'always' });
+    var items = ko.mapping.fromJS([
+            { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" }
+            //... add your items here
+            ])();
+    function vm() {
+        var self = this;
+        self.editingItem = ko.observable(null);
+        self.editingItem.extend({ notify: 'always' });
 
-            self.toggleActive = function (item) {
-                self.editingItem(item);
-            }
-            self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+        self.toggleActive = function (item) {
+            self.editingItem(item);
+        }
+        self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
 
-        };
+    };
 
-        $(function () {
-            ko.applyBindings(new vm());
-        });
-    </script>
+    $(function () {
+        ko.applyBindings(new vm());
+    });
 </pre>

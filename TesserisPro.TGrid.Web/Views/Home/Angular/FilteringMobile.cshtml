@@ -28,13 +28,13 @@
             <div ng-controller="ctrl">
                 <t-grid id="test-angular" provider="dataProvider" enableFiltering="true">
                     <script type="text/html">
-                        <column data-g-width="125" data-g-views="mobile,desktop" data-g-member ="CompanyId" data-g-filter-member ="CompanyId">
+                        <column data-g-member="CompanyId" data-g-filter-member="CompanyId">
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Country" data-g-filter-member ="Country">
+                        <column data-g-member="Country" data-g-filter-member="Country">
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="City" data-g-filter-member ="City">
+                        <column data-g-member="City" data-g-filter-member="City">
                         </column>
-                        <column data-g-width="150" data-g-views="mobile,desktop" data-g-member ="Street" data-g-filter-member ="Street">
+                        <column data-g-member="Street" data-g-filter-member="Street">
                         </column>
                         <filterpopup>
                             <div><span>{{path}}</span></div>

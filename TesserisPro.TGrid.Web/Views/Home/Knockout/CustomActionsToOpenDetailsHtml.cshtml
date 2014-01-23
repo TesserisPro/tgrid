@@ -3,7 +3,7 @@
 <pre class="brush: html">
      <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: false }">
         <script type="text/html">
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">            
+            <column data-g-width="150" data-g-member="Name">            
                 <cell>
                     <span style="display: inline-block;" data-bind="text: item.Name"></span>
                     <span data-bind="event: { mouseover: function () { toggleDetailsForCell(0); } }, eventBubble: false">...</span>
@@ -15,7 +15,7 @@
                     </div>
                 </celldetail>
             </column>
-            <column data-g-width="180" data-g-views="mobile,desktop" data-g-member="Surname">
+            <column data-g-width="180" data-g-member="Surname">
                 <cell>
                     <span style="display: inline-block;" data-bind="text: item.Surname"></span>
                     <div class ="tgrid-custom-details-button"  style="float:right" data-bind=" click: function () { toggleDetailsForCell(1) }, clickBubble: false">Toggle Details</div>
@@ -27,9 +27,9 @@
                     </div>
                 </celldetail>
             </column>
-            <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
+            <column data-g-width="150" data-g-member="Age">
             </column>
-            <column data-g-width="116" data-g-views="mobile,desktop">
+            <column data-g-width="116">
                 <header>
                     <span>Details for row</span>
                 </header>

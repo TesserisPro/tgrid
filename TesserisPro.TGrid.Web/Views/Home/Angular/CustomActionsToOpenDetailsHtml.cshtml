@@ -5,7 +5,7 @@
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" selectionMode="single" showDetailsOnSelection="false">
                     <script type="text/html">
-                        <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="CompanyId">
+                        <column data-g-width="100" data-g-member ="CompanyId">
                             <cell>
                             <span>{{item.CompanyId}}</span>
                             <a href ng-mouseover="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
@@ -17,7 +17,7 @@
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="195" data-g-views="mobile,desktop" data-g-member ="Country">
+                    <column data-g-width="195" data-g-member ="Country">
                         <cell>
                             <span>{{item.Country}}</span>
                             <div ng-click="toggleDetailsForCell(1); $event.stopPropagation();" class ="tgrid-custom-details-button" style="float:right">Toggle Details</div>
@@ -29,11 +29,11 @@
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="City">
+                    <column data-g-width="100" data-g-member ="City">
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member ="Street">
+                    <column data-g-width="100" data-g-member ="Street">
                     </column>
-                    <column data-g-width="116" data-g-views="mobile,desktop">
+                    <column data-g-width="116">
                         <header>
                             <span>Details for row</span>
                         </header>

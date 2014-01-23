@@ -22,17 +22,17 @@
         <div>
             <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
                 <script type="text/html">
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Name">
+                    <column data-g-member="Name">
                         <header>
                             <span data-bind="text: nameColumnTitle"></span>
                         </header>
                     </column>
-                    <column data-g-width="100" data-g-views="mobile,desktop" data-g-member="Surname">
+                    <column  data-g-member="Surname">
                         <header>Last Name</header>
                     </column>
-                    <column data-g-width="150" data-g-views="mobile,desktop" data-g-member="Age">
+                    <column data-g-member="Age">
                         <header>
-                            <span>Age</span>
+                            <span style="color: green;">Age</span>
                         </header>
                     </column>
                 </script>
