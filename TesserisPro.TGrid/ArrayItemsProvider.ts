@@ -10,7 +10,7 @@
 // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to 
 // permit persons to whom the Software is furnished to do so, subject to the following
 // conditions:
-  
+//  
 // 1. The above copyright notice and this permission notice shall be included in all 
 //    copies or substantial portions of the Software.
 //
@@ -28,7 +28,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //=====================================================================================
-
+//
 /// <reference path="SortDescriptor.ts" />
 /// <reference path="FilterDescriptor.ts" />
 
@@ -67,18 +67,18 @@ module TesserisPro.TGrid {
             if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
                 var self = this;
                 this.items.sort(function (a, b) {
-                    return self.sortingRecursive(a, b, sortDescriptors, 0);
+                    return self.compareRecursive(a, b, sortDescriptors, 0);
                 });
             }
         }
 
-        private sortingRecursive(a, b, sortDescriptors: Array<SortDescriptor>, i) {
+        private compareRecursive(a, b, sortDescriptors: Array<SortDescriptor>, i) {
             if (i != sortDescriptors.length - 1) {
                 if (getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path))
                     return this.sortingOrder(sortDescriptors[i]);
                 if (getMemberValue(b, sortDescriptors[i].path) > getMemberValue(a, sortDescriptors[i].path))
                     return this.sortingOrderDesc(sortDescriptors[i]);
-                    return this.sortingRecursive(a, b, sortDescriptors, i + 1)
+                    return this.compareRecursive(a, b, sortDescriptors, i + 1)
                 } else {
                 return getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path) ? this.sortingOrder(sortDescriptors[i]) : this.sortingOrderDesc(sortDescriptors[i]);
             }
