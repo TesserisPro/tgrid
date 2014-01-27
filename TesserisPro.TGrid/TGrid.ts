@@ -263,10 +263,12 @@ module TesserisPro.TGrid {
             switch (e.keyCode)
             {
                 case 38: //Up arrow
+                    e.preventDefault();
                     this.selectPreviousItem();
                     e.stopPropagation();
                     break;
                 case 40: // Down arrow
+                    e.preventDefault();
                     this.selectNextItem();
                     e.stopPropagation();
                     break;
