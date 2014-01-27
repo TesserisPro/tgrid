@@ -202,6 +202,7 @@
     <Content Include="Content\images\picturesForGrid\truck9.png" />
     <Content Include="Content\images\tesseris.png" />
     <Content Include="Content\images\tgridSNS.png" />
+    <Content Include="Content\license.txt" />
     <Content Include="Content\monitorwithgrid.png" />
     <Content Include="Content\phonewithgrid.png" />
     <Content Include="Content\purchaseStyle.css" />
@@ -244,6 +245,7 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Content\TGrid-0.1.zip" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
