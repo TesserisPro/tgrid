@@ -2,6 +2,9 @@
     position: relative;
 }
 
+.tgrid-root:focus {
+    outline: 0;
+}
 .tgrid-table {
     border-collapse: collapse;
     width: 100%;
@@ -238,7 +241,7 @@ th.tgrid-table-indent-cell-content
     display: inline-block;
     position: absolute;
     right: 1px;
-    top: 30px;
+    top: 30px !important;
     bottom: 36px;
     width:32px;
     overflow: scroll;

@@ -1,5 +1,34 @@
 var TesserisPro;
 (function (TesserisPro) {
+    //=====================================================================================
+    //
+    // The Tesseris Free License
+    //
+    // Copyright(c) 2014 Tesseris Pro LLC
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    // software and associated documentation files(the "Software"), to deal in the Software
+    // without restriction, including without limitation the rights to use, copy, modify,
+    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+    // permit persons to whom the Software is furnished to do so, subject to the following
+    // conditions:
+    // 1. The above copyright notice and this permission notice shall be included in all
+    //    copies or substantial portions of the Software.
+    //
+    // 2. Any software that fully or partially contains or uses materials covered by
+    //    this license shall notify users about this notice and above copyright.The
+    //    notification can be made in "About box" and / or site main web - page footer.The
+    //    notification shall contain name of Tesseris Pro company and name of the Software
+    //    covered by current license.
+    //
+    // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+    // PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+    // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    //
+    //=====================================================================================
     /// <reference path="Scripts/typings/extenders.d.ts" />
     /// <reference path="Options.ts" />
     /// <reference path="IHtmlProvider.ts" />
@@ -8,6 +37,7 @@ var TesserisPro;
     /// <reference path="knockout/KnockoutFilterPopupViewModel.ts"/>
     /// <reference path="angular/AngularFilterPopupViewModel.ts"/>
     /// <reference path="angular/AngularHtmlProvider.ts" />
+    /// <reference path="angular/AngularItemViewModel.ts"/>
     /// <reference path="GroupHeaderDescriptor.ts" />
     /// <reference path="utils.ts" />
     /// <reference path="IFooterViewModel.ts"/>
@@ -111,7 +141,7 @@ var TesserisPro;
                     this.scrollBar.className = "tgrid-scroll";
                     this.scrollBar.style.position = "absolute";
                     this.scrollBar.style.right = "0px";
-                    this.scrollBar.style.top = "0px";
+                    this.scrollBar.style.top = "30px";
                     this.scrollBar.style.bottom = "0px";
                     this.scrollBar.style.overflowX = "hidden";
                     this.scrollBar.style.overflowY = "scroll";
@@ -155,6 +185,11 @@ var TesserisPro;
                     return _this.mouseWheel(e);
                 };
 
+                this.rootElement.tabIndex = 0;
+                this.rootElement.onkeydown = function (e) {
+                    return _this.keyPress(e);
+                };
+
                 this.tableBodyContainer.onmousedown = function (e) {
                     if (e.button == 1) {
                         e.preventDefault();
@@ -188,6 +223,56 @@ var TesserisPro;
                 e.stopPropagation();
                 this.tableBodyContainer.scrollTop = this.tableBodyContainer.scrollTop - e.wheelDelta;
                 this.mobileContainer.scrollTop = this.mobileContainer.scrollTop - e.wheelDelta;
+            };
+
+            Grid.prototype.keyPress = function (e) {
+                console.log(e.keyCode);
+                switch (e.keyCode) {
+                    case 38:
+                        this.selectPreviousItem();
+                        break;
+                    case 40:
+                        this.selectNextItem();
+                        break;
+                }
+            };
+
+            Grid.prototype.selectNextItem = function () {
+                var selectedItem;
+                if (this.options.selection.length > 0) {
+                    var item = this.options.selection[this.options.selection.length - 1];
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
+                        if (this.visibleViewModels[i].item == item) {
+                            selectedItem = i < (this.visibleItems.length - 1) ? this.visibleViewModels[i + 1] : this.visibleViewModels[i];
+                            break;
+                        }
+                    }
+                }
+                if (selectedItem == null && this.visibleViewModels.length != 0) {
+                    selectedItem = this.visibleViewModels[0];
+                }
+                if (selectedItem != null) {
+                    this.selectItem(selectedItem, false);
+                }
+            };
+
+            Grid.prototype.selectPreviousItem = function () {
+                var selectedItem;
+                if (this.options.selection.length > 0) {
+                    var item = this.options.selection[this.options.selection.length - 1];
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
+                        if (this.visibleViewModels[i].item == item) {
+                            selectedItem = i > 0 ? this.visibleViewModels[i - 1] : this.visibleViewModels[i];
+                            break;
+                        }
+                    }
+                }
+                if (selectedItem == null && this.visibleViewModels.length != 0) {
+                    selectedItem = this.visibleViewModels[0];
+                }
+                if (selectedItem != null) {
+                    this.selectItem(selectedItem, false);
+                }
             };
 
             Grid.prototype.getPreviousPageFirsItemIndex = function () {
@@ -715,9 +800,41 @@ var TesserisPro;
                 for (var i = 0; i < this.options.selection.length; i++) {
                     this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
                 }
-
+                this.scrollIntoView(item.item);
                 this.updateFooterViewModel();
                 return true;
+            };
+
+            Grid.prototype.scrollIntoView = function (item) {
+                var viewModels = new Array();
+                var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+                var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+
+                var visibleItemsArea = false;
+
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (firstVisibleItem == this.visibleViewModels[i]) {
+                        visibleItemsArea = true;
+                    }
+                    if (visibleItemsArea) {
+                        visibleItemsCount--;
+                    }
+                    if (visibleItemsCount < 0) {
+                        visibleItemsArea = false;
+                    }
+                    if (this.visibleViewModels[i].item == item) {
+                        if (visibleItemsArea) {
+                            return;
+                        }
+                        break;
+                    }
+                    viewModels.push(this.visibleViewModels[i]);
+                }
+
+                var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
+
+                this.scrollTableContainer(scrollTo);
             };
 
             Grid.prototype.updateRow = function (item, shouldAddDetails) {

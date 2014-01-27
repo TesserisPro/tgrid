@@ -38,6 +38,7 @@
 /// <reference path="knockout/KnockoutFilterPopupViewModel.ts"/>
 /// <reference path="angular/AngularFilterPopupViewModel.ts"/>
 /// <reference path="angular/AngularHtmlProvider.ts" />
+/// <reference path="angular/AngularItemViewModel.ts"/>
 /// <reference path="GroupHeaderDescriptor.ts" />
 /// <reference path="utils.ts" />
 /// <reference path="IFooterViewModel.ts"/>
@@ -263,9 +264,11 @@ module TesserisPro.TGrid {
             {
                 case 38: //Up arrow
                     this.selectPreviousItem();
+                    e.stopPropagation();
                     break;
                 case 40: // Down arrow
                     this.selectNextItem();
+                    e.stopPropagation();
                     break;
             }
         }
