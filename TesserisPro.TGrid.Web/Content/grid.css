@@ -241,10 +241,9 @@ th.tgrid-table-indent-cell-content
     display: inline-block;
     position: absolute;
     right: 1px;
-    top: 30px !important;
-    bottom: 36px;
+    top: 32px;
+    bottom: 2px;
     width:32px;
-    overflow: scroll;
 }
 
 .tgrid-scroll div {

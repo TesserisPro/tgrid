@@ -175,10 +175,6 @@ module TesserisPro.TGrid {
             if (options.enableVirtualScroll) {
                 this.scrollBar = document.createElement("div");
                 this.scrollBar.className = "tgrid-scroll";
-                this.scrollBar.style.position = "absolute";
-                this.scrollBar.style.right = "0px";
-                this.scrollBar.style.top = "0px";
-                this.scrollBar.style.bottom = "0px";
                 this.scrollBar.style.overflowX = "hidden";
                 this.scrollBar.style.overflowY = "scroll";
 
