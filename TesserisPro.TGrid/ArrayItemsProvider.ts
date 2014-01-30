@@ -35,40 +35,44 @@
 module TesserisPro.TGrid {
 
     export class ArrayItemsProvider implements IItemProvider {
-        private items: Array<any>;
+        private sourceItems: Array<any>;
 
         constructor(items: Array<any>) {
-            this.items = items;
+            this.sourceItems = items;
         }
 
         public getItems(firstItem: number,
             itemsNumber: number,
             sortDescriptors: Array<SortDescriptor>,
-            filterDescriptors: Array<FilterDescriptor>,
+            filterDescriptor: FilterDescriptor,
             collapsedFilterDescriptors: Array<FilterDescriptor>,
             callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void): void
         {
-            var oldItems = new Array();
-            oldItems = oldItems.concat(this.items);
-            this.sort(sortDescriptors);
-            var self = this;
+            // Copy items
+            var items = new Array();
+            items = items.concat(this.sourceItems);
 
-            callback(self.onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+            // SortItems
+            this.sort(items, sortDescriptors);
 
-            this.items = new Array();
-            this.items = this.items.concat(oldItems);
+            // FilterItems
+            items = this.filter(items, filterDescriptor, collapsedFilterDescriptors);
+
+            // Apply paging
+            items = items.slice(firstItem, firstItem + itemsNumber);
+
+            // Return result
+            callback(items, firstItem, itemsNumber);
         }
 
-        public getTotalItemsCount(filterDescriptors: Array<FilterDescriptor>, callback: (total: number) => void): void {
-            callback(this.onFiltering(filterDescriptors, null).length);
+        public getTotalItemsCount(filterDescriptor: FilterDescriptor, callback: (total: number) => void): void {
+            // For items count we just need to apply filter
+            callback(this.filter(this.sourceItems, filterDescriptor, null).length);
         }
 
-        private sort(sortDescriptors: Array<SortDescriptor>) {
+        private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {
             if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
-                var self = this;
-                this.items.sort(function (a, b) {
-                    return self.compareRecursive(a, b, sortDescriptors, 0);
-                });
+                items.sort((a, b) => this.compareRecursive(a, b, sortDescriptors, 0));
             }
         }
 
@@ -92,92 +96,105 @@ module TesserisPro.TGrid {
             return sortDescriptor.asc ? -1 : 1;
         }
 
-        private onFiltering(filterDescriptors: Array <FilterDescriptor>, collapsedFilterDescriptors) {
-            if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
-                return this.items;
+        private filter(items: Array<any>, filterDescriptor: FilterDescriptor, collapsedFilterDescriptors): Array<any> {
+            if (filterDescriptor == null && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
+                return items;
             }
 
             if (collapsedFilterDescriptors == undefined) {
                 collapsedFilterDescriptors = [];
             }
 
-            var isCollapsedItem = [];
+            var collapsedFilterUsed = [];
             for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
-                isCollapsedItem.push(false);
+                collapsedFilterUsed.push(false);
             }
 
             var filteredItems = [];
-            for (var j = 0; j < this.items.length; j++) {
-                // filtering common filters
-                var isFiltered = 0;
-                for (var i = 0; i < filterDescriptors.length; i++) {
-                    if (this.filter(this.items[j], filterDescriptors[i])) {
-                        isFiltered++;
-                    }
+            for (var j = 0; j < items.length; j++) {
+                if (!this.isFilterSatisfied(items[j], filterDescriptor)) {
+                    continue;
                 }
 
-                // filtering collapsed filter
-                var isCollapsedFiltered = false;
-                var numberfilter = -1;
+                var isFilteredOut = false;
                 for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
-                    if (this.filter(this.items[j], collapsedFilterDescriptors[i])) {
-                        isCollapsedFiltered = true;
-                        numberfilter = i;
-                        i = collapsedFilterDescriptors.length;
+                    if (this.isFilterSatisfied(items[j], collapsedFilterDescriptors[i])) {
+                        if (!collapsedFilterUsed[i]) {
+                            collapsedFilterUsed[i] = true;
+                        }
+                        else {
+                            isFilteredOut = true;
+                        }
+                        break;
                     }
                 }
 
-                //add fake item for creating collapsing group
-                if (isFiltered == 0 && !isCollapsedFiltered) {
-                    filteredItems.push(this.items[j]);
-                } else {
-                    if (isFiltered == 0) {
-                        if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
-                            var fakeItem = {};
-                            //fakeItem["isFakeItem"] = true;
-                            fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
-                            for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
-                                fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
-                            }
-                            filteredItems.push(fakeItem);
-                            isCollapsedItem[numberfilter] = true;
-                        }
-                    }
+                if (!isFilteredOut) {
+                    filteredItems.push(items[j]);    
                 }
             }
 
             return filteredItems;
         }
 
-        private filter(item, filterDescriptor: FilterDescriptor) {
-            if (!this.isFiltering(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
-                if (filterDescriptor.children.length == 0) {
+        private isFilterSatisfied(item, filterDescriptor: FilterDescriptor) {
+            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+                if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == LogicalOperator.Or) {
                     return true;
                 } else {
-                    var result = 0
-                        for (var i = 0; i < filterDescriptor.children.length; i++) {
-                        if (!this.isFiltering(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
-                            result++;
-                        }
-                    }
-                    if (result == filterDescriptor.children.length) {
+                    return this.isChildFiltersSatisfied(item, filterDescriptor);
+                }
+            }
+            else {
+                if (filterDescriptor.parentChildUnionOperator == LogicalOperator.And) {
+                    return false;
+                }
+                else
+                {
+                    return this.isChildFiltersSatisfied(item, filterDescriptor);
+                }
+            }
+        }
+
+        private isChildFiltersSatisfied(item, filterDescriptor: FilterDescriptor) {
+            if (filterDescriptor.childrenUnionOperator == LogicalOperator.Or) {
+                for (var i = 0; i < filterDescriptor.children.length; i++) {
+                    if (this.isFilterConditionSatisfied(
+                                        item[filterDescriptor.children[i].path],
+                                        filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].condition)) {
                         return true;
                     }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            else {
+                for (var i = 0; i < filterDescriptor.children.length; i++) {
+                    if (!this.isFilterConditionSatisfied(
+                                        item[filterDescriptor.children[i].path],
+                                        filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].condition)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
+        
 
-        private isFiltering(item, value, condition) {
-            // on false push to filtered items
+        private isFilterConditionSatisfied(item: any, value: any, condition: FilterCondition): boolean {
             switch (condition) {
-                case 1://equal
+                case FilterCondition.None:
+                    return true;
+                case FilterCondition.Equals:
                     return (item == value);
-                case 2://not equal
+                case FilterCondition.NotEquals:
                     return (item != value);
+                default:
+                    return false;
             }
-            return false;
         }
     }
 }

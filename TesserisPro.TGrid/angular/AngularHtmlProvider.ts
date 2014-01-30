@@ -145,8 +145,8 @@ module TesserisPro.TGrid {
                     for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
                         if (option.columns[j].device.indexOf("desktop") != -1) {
                             var isFilterApplied = false;
-                            for (var i = 0; i < option.filterDescriptors.length; i++) {
-                                if (option.filterDescriptors[i].path == option.columns[j].filterMemberPath && option.columns[j].filterMemberPath != null) {
+                            for (var i = 0; i < option.filterDescriptor.children.length; i++) {
+                                if (option.filterDescriptor.children[i].path == option.columns[j].filterMemberPath && option.columns[j].filterMemberPath != null) {
                                     isFilterApplied = true;
                                     break;
                                 }
@@ -216,7 +216,6 @@ module TesserisPro.TGrid {
                                 var position = 0;
                                 columnResize.onmousedown = e => {
                                     e.stopImmediatePropagation();
-                                    console.log("test");
                                     position = e.screenX;
                                     documentMouseMove = document.onmousemove;
                                     document.onmousemove = m => {
@@ -475,15 +474,16 @@ module TesserisPro.TGrid {
             }
             
             if (option.enableCollapsing) {
-                if (!groupHeaderDescriptor.collapse) {
-                    headerTd.onclick = (e) => {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
-                    }
-                } else {
-                    headerTd.onclick = (e) => {
+                headerTd.onclick = (e) => {
+                    if (groupHeaderDescriptor.collapse) {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
+                        groupHeaderDescriptor.collapse = false;
                     }
-                }
+                    else {
+                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
+                        groupHeaderDescriptor.collapse = true;
+                    }
+                };
             }
 
             var angularGroupViewModel = new AngularItemViewModel(null, groupHeaderDescriptor.value, null, null);

@@ -50,7 +50,7 @@ module TesserisPro.TGrid {
         public getItems(firstItem: number,
             itemsNumber: number,
             sortDescriptors: Array<SortDescriptor>,
-            filterDescriptors: Array<FilterDescriptor>,
+            filterDescriptors: FilterDescriptor,
             collapsedFilterDescriptors: Array<FilterDescriptor>,
             callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void): void {
                 var xmlhttp = new XMLHttpRequest();
@@ -67,7 +67,7 @@ module TesserisPro.TGrid {
                 xmlhttp.send(JSON.stringify({ firstItem: firstItem, itemsNumber: itemsNumber, sortDescriptors: sortDescriptors, filterDescriptors: filterDescriptors, collapsedFilterDescriptors: collapsedFilterDescriptors } ));
         }
 
-        public getTotalItemsCount(filterDescriptors: Array<FilterDescriptor>, callback: (total: number) => void): void {
+        public getTotalItemsCount(filterDescriptors: FilterDescriptor, callback: (total: number) => void): void {
             var xmlhttp = new XMLHttpRequest();
 
             xmlhttp.onreadystatechange = function () {

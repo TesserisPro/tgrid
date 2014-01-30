@@ -38,7 +38,7 @@ module TesserisPro.TGrid {
 	export enum Framework { Knockout, Angular }
     export enum SelectionMode { None, Single, Multi }//0,1,2
     export enum FilterCondition { None, Equals, NotEquals }
-    export enum FilterOperation { And, Or };
+    export enum LogicalOperator { And, Or };
 
     export class ColumnInfo {
         public header: Template;
@@ -102,7 +102,7 @@ module TesserisPro.TGrid {
         public selectionMode: SelectionMode;
         public openDetailsOnSelection: boolean;
 
-        public filterDescriptors: Array<FilterDescriptor> = [];
+        public filterDescriptor: FilterDescriptor = FilterDescriptor.getEmpty();
         public tableFooterTemplate: Template;
 
         public showDetailFor: ShowDetail;

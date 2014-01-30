@@ -35,13 +35,34 @@ module TesserisPro.TGrid {
         value: string;
         condition: FilterCondition;
         children: Array<FilterDescriptor>;
-        operation: FilterOperation;
-        constructor(path: string, values: string, condition: FilterCondition, operation?: FilterOperation, children?: Array<FilterDescriptor>) {
+        parentChildUnionOperator: LogicalOperator;
+        childrenUnionOperator: LogicalOperator;
+
+        constructor(path: string, values: string, condition: FilterCondition, parentChildOperator?: LogicalOperator, childOperator?: LogicalOperator, children?: Array<FilterDescriptor>) {
             this.path = path;
             this.value = values;
             this.condition = condition;
             this.children = children != undefined ? children : new Array<FilterDescriptor>();
-            this.operation = operation != undefined ? operation : FilterOperation.And;
+            this.childrenUnionOperator = childOperator != undefined ? childOperator : LogicalOperator.And;
+            this.parentChildUnionOperator = parentChildOperator != undefined ? parentChildOperator : LogicalOperator.And;
+        }
+
+        public addChild(filter: FilterDescriptor) {
+            this.children.push(filter);
+        }
+
+        public removeChildByPath(path: string) {
+            for (var i = 0; i < this.children.length; i++) {
+                if (this.children[i].path == path) {
+                    this.children.splice(i, 1);
+                    return;
+                }
+            }
+        }
+
+        public static getEmpty(): FilterDescriptor
+        {
+            return new FilterDescriptor("", "", FilterCondition.None);
         }
     }
 }

@@ -305,7 +305,6 @@ module TesserisPro.TGrid {
                             deleteGroupButton["data-delete-group-by-number"] = i;
                             deleteGroupButton.onclick = (e) => {
                                 e.cancelBubble = true;
-                                Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFiltersOnGroupByCancel(<number>e.target["data-delete-group-by-number"]);
                                 Grid.getGridObject(<HTMLElement>e.target).removeGroupDescriptor((<SortDescriptor>e.target["data-delete-group-by"]).path);
                             };
 
@@ -500,8 +499,8 @@ module TesserisPro.TGrid {
                         var filterButton = document.createElement("div");
                         var isFiltered = false;
 
-                        for (var j = 0; j < option.filterDescriptors.length; j++) {
-                            if (option.filterDescriptors[j].path == column.filterMemberPath) {
+                        for (var j = 0; j < option.filterDescriptor.children.length; j++) {
+                            if (option.filterDescriptor.children[j].path == column.filterMemberPath) {
                                 filterButton.className = "tgrid-mobile-filter-button-active";
                                 isFiltered = true;
                                 break;
@@ -555,19 +554,20 @@ module TesserisPro.TGrid {
         }
 
         public doOnClickOutside(target: HTMLElement, action: () => void) {
-            BaseHtmlProvider.oldOnClick = document.onclick;
-            document.onclick = (e) => {
+            var eventListener = (e) => {
                 var currentElement = <HTMLElement>e.target;
-                while (currentElement.tagName != 'BODY') {
+
+                while (currentElement != null && currentElement.tagName != 'BODY') {
                     if (currentElement == target) {
                         return;
                     }
-
                     currentElement = currentElement.parentElement;
                 }
-                document.onclick = BaseHtmlProvider.oldOnClick;
+                document.removeEventListener("click", eventListener);
                 action();
-            }
+            };
+
+            document.addEventListener("click", eventListener);
         }
 
         public appendIndent(target: HTMLElement, level: number, isHeader: boolean) {
@@ -611,7 +611,8 @@ module TesserisPro.TGrid {
         private anyConditionIsApplied(options: Options): boolean {
             if (options.sortDescriptor.path != null ||
                (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) ||
-               options.filterDescriptors.length > 0) {
+                options.filterDescriptor.children.length > 0 ||
+                options.filterDescriptor.condition != FilterCondition.None) {
                 return true;
             } else {
                 return false;

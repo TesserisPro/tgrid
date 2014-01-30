@@ -84,7 +84,7 @@ module TesserisPro.TGrid {
 
         private footerViewModel: IFooterViewModel;
 
-        private collapsedFilterGroup: FilterDescriptor[][];
+        private collapsedGroupFilterDescriptors: FilterDescriptor[];
 
         private enablePreload: boolean = true;
 
@@ -97,10 +97,10 @@ module TesserisPro.TGrid {
             this.targetElement = element;
             this.options = options;
 
-            this.collapsedFilterGroup = new Array<FilterDescriptor[]>();
-            for (var i = 0; i < this.options.columns.length; i++) {
-                this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
-            }
+            this.collapsedGroupFilterDescriptors = new Array<FilterDescriptor>();
+            //for (var i = 0; i < this.options.columns.length; i++) {
+            //    this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
+            //}
 
             this.itemProvider = provider;
             this.htmlProvider = this.getHtmlProvider(this.options);
@@ -161,7 +161,7 @@ module TesserisPro.TGrid {
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
                 this.mobileContainer.onscroll = () => this.scrollTable();
             } else {
-                this.itemProvider.getTotalItemsCount(options.filterDescriptors, (total) => { this.options.firstLoadSize = total; });
+                this.itemProvider.getTotalItemsCount(options.filterDescriptor, (total) => { this.options.firstLoadSize = total; });
             }
 
             var bodyTable = document.createElement("table");
@@ -255,7 +255,6 @@ module TesserisPro.TGrid {
         }
 
         private keyPress(e: KeyboardEvent): void{
-            console.log(e.keyCode);
             switch (e.keyCode)
             {
                 case 38: //Up arrow
@@ -372,26 +371,12 @@ module TesserisPro.TGrid {
             return result;
         }
 
-        private getEffectiveFiltering(): Array<FilterDescriptor> {
-            var allFilter: Array<FilterDescriptor> = [];
-
-            if (this.options.filterDescriptors != null || this.options.filterDescriptors.length > 0) {
-                allFilter = allFilter.concat(this.options.filterDescriptors);
-            }
-
-            return allFilter;
+        private getEffectiveFiltering(): FilterDescriptor {
+            return this.options.filterDescriptor;
         }
 
         private getCollapsedGroupFilter(): Array<FilterDescriptor> {
-            var allFilter: Array<FilterDescriptor> = [];
-
-            for (var i = 0; i < this.collapsedFilterGroup.length; i++) {
-                if (this.collapsedFilterGroup[i] != null || this.collapsedFilterGroup[i].length > 0) {
-                    allFilter = allFilter.concat(this.collapsedFilterGroup[i]);
-                }
-            }
-
-            return allFilter;
+            return this.collapsedGroupFilterDescriptors;
         }
 
         public scrollTable(): void {
@@ -720,7 +705,6 @@ module TesserisPro.TGrid {
             for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                 if (this.options.groupBySortDescriptors[i].path == name) {
                     this.removeGroupDescriptor(name);
-                    this.removeCollapsedFiltersOnGroupByCancel(i);
                     return;
                 }
             }
@@ -731,8 +715,22 @@ module TesserisPro.TGrid {
             for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                 if (this.options.groupBySortDescriptors[i].path == path) {
                     this.options.groupBySortDescriptors.splice(i, 1);
+                    break;
                 }
             }
+            var removed = true;
+            while (removed) {
+                removed = false;
+                for (var i = 0; !removed && i < this.collapsedGroupFilterDescriptors.length; i++) {
+                    for (var j = 0; !removed && j < this.collapsedGroupFilterDescriptors[i].children.length; j++) {
+                        if (this.collapsedGroupFilterDescriptors[i].children[j].path == path) {
+                            this.collapsedGroupFilterDescriptors.splice(i, 1);
+                            removed = true;
+                        }
+                    }
+                }
+            }
+
             this.refreshHeader();
             this.refreshBody();
         }
@@ -749,27 +747,6 @@ module TesserisPro.TGrid {
 
         public hideFilterPopup() {
             hideElement(this.filterPopUp);
-        }
-
-        public setFilter(column: ColumnInfo, filter: FilterDescriptor) {
-            for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                if (this.options.filterDescriptors[i].path == column.filterMemberPath) {
-                    this.options.filterDescriptors.splice(i, 1);
-                }
-            }
-
-            this.options.filterDescriptors.push(filter);
-            this.refreshBody();
-        }
-
-        public clearFilter(column: ColumnInfo) {
-            for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                if (this.options.filterDescriptors[i].path == column.filterMemberPath) {
-                    this.options.filterDescriptors.splice(i, 1);
-                }
-            }
-
-            this.refreshBody();
         }
 
         public sortBy(name: string): void {
@@ -910,17 +887,30 @@ module TesserisPro.TGrid {
                 isGroupHeader.push(false);
             }
 
+            var collapsed = false;
+            var colapsedGroupLevel = this.options.groupBySortDescriptors.length;
             for (var i = 0; i < items.length; i++) {
-                var collapsed = false;
-                for (var j = 0; j < this.options.groupBySortDescriptors.length; j++) {
+                for (var j = 0; j < colapsedGroupLevel; j++) {
                     var columnValue = getMemberValue(items[i], this.options.groupBySortDescriptors[j].path);
+                    // New group found
                     if (currentGroupNames[j] !== columnValue) {
                         currentGroupNames[j] = columnValue;
-                        var filterDescriptor = new FilterDescriptor(this.options.groupBySortDescriptors[0].path, currentGroupNames[0], FilterCondition.NotEquals);
-                        for (var k = 1; k <= j; k++) {
-                            filterDescriptor.children.push(new FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], FilterCondition.NotEquals));
+                        collapsed = false;
+                        colapsedGroupLevel = this.options.groupBySortDescriptors.length;
+
+                        var filterDescriptor = new FilterDescriptor(
+                            "",
+                            "",
+                            FilterCondition.None,
+                            LogicalOperator.And,
+                            LogicalOperator.And);
+
+                        for (var k = 0; k <= j; k++) {
+                            filterDescriptor.children.push(
+                                new FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], FilterCondition.Equals));
                         }
-                        collapsed = this.isFilterInCollapsed(filterDescriptor);
+
+                        collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
 
                         itemModels.push(new ItemViewModel(this.options.parentViewModel,
                             new GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor),
@@ -933,7 +923,8 @@ module TesserisPro.TGrid {
                         }
 
                         if (collapsed) {
-                            j = this.options.groupBySortDescriptors.length;
+                            colapsedGroupLevel = j + 1;
+                            break;
                         }
                     }
                 }
@@ -944,37 +935,26 @@ module TesserisPro.TGrid {
             return itemModels;
         }
 
-        private isFiltersEquals(filter: FilterDescriptor, deeperFilter: FilterDescriptor): boolean {
-            // filter have less children then deeper filter
-            if (filter.path == deeperFilter.path && filter.value == deeperFilter.value && filter.children.length <= deeperFilter.children.length) {
-                var count = 0;
-                for (var i = 0; i < filter.children.length; i++) {
-                    if (filter.children[i].path == deeperFilter.children[i].path && filter.children[i].value == deeperFilter.children[i].value) {
-                        count++;
+        private isEqualOrDeeperThanCollapsedFilter(collapsedFilter: FilterDescriptor, filter: FilterDescriptor): boolean {
+            if (filter.children.length >= collapsedFilter.children.length) {
+                for (var i = 0; i < collapsedFilter.children.length; i++) {
+                    if ( filter.children[i].path !== collapsedFilter.children[i].path ||
+                         filter.children[i].value !== collapsedFilter.children[i].value) {
+                             return false;
                     }
                 }
-                if (count == filter.children.length) {
-                    return true;
-                }
+                return true;
             }
             return false;
         }
 
-        private isFilterInCollapsed(filterDescriptor: FilterDescriptor): boolean {
-            for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
-                if (this.isFiltersEquals(filterDescriptor, this.collapsedFilterGroup[filterDescriptor.children.length][i])) {
+        private isGroupCollapsedOrInsideCollapsed(filterDescriptor: FilterDescriptor): boolean {
+            for (var i = 0; i < this.collapsedGroupFilterDescriptors.length; i++) {
+                if (this.isEqualOrDeeperThanCollapsedFilter(this.collapsedGroupFilterDescriptors[i], filterDescriptor)) {
                     return true;
                 }
             }
-
             return false;
-        }
-
-        private filterDescriptorToArray(filterDescriptor: FilterDescriptor): Array<FilterDescriptor> {
-            var arr = new Array<FilterDescriptor>();
-            arr = arr.concat(filterDescriptor.children);
-            arr.push(new FilterDescriptor(filterDescriptor.path, filterDescriptor.value, filterDescriptor.condition));
-            return arr;
         }
 
         private updateVisibleItems(): void {
@@ -1130,57 +1110,27 @@ module TesserisPro.TGrid {
         }
 
         public setCollapsedFilters(filterDescriptor: FilterDescriptor) {
-            this.collapsedFilterGroup[filterDescriptor.children.length].push(filterDescriptor);
+            this.collapsedGroupFilterDescriptors.push(filterDescriptor);
             this.refreshBody();
         }
 
         public removeCollapsedFilters(filterDescriptor: FilterDescriptor) {
-            for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
-                if (this.isFiltersEquals(this.collapsedFilterGroup[filterDescriptor.children.length][i], filterDescriptor)) {
-                    this.collapsedFilterGroup[filterDescriptor.children.length].splice(i, 1);
+            for (var i = 0; i < this.collapsedGroupFilterDescriptors.length; i++) {
+                if (this.isEqualOrDeeperThanCollapsedFilter(this.collapsedGroupFilterDescriptors[i], filterDescriptor)) {
+                    this.collapsedGroupFilterDescriptors.splice(i, 1);
                 }
             }
+
             this.refreshBody();
         }
 
-        public removeCollapsedFiltersOnGroupByCancel(groupByNumber: number) {
-            this.collapsedFilterGroup[groupByNumber].length = 0;
-            this.refreshBody();
-        }
-
-        public setFilters(filterDescriptor: FilterDescriptor, filterPath: string) {
-            this.removeFilters(filterPath, false);
-            this.options.filterDescriptors.push(filterDescriptor);
+        public applyFilters() {
             this.refreshHeader();
             this.refreshBody();
         }
 
-        public removeFilters(filterPath: string, isRefresh: boolean = true) {
-            for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                if (this.options.filterDescriptors[i].path == filterPath) {
-                    this.options.filterDescriptors.splice(i, 1);
-                }
-            }
-            if (isRefresh) {
-                this.refreshHeader();
-                this.refreshBody();
-            }
-        }
-
         private refreshMobileHeader() {
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
-        }
-
-        public setDefaultFilterPopUpValues() {
-            for (var i = 0; i < this.filterPopUp.getElementsByTagName('input').length; i++) {
-                if (this.filterPopUp.getElementsByTagName('input')[i].type == 'text') {
-                    this.filterPopUp.getElementsByTagName('input')[i].value = '';
-                }
-            }
-            for (var i = 0; i < this.filterPopUp.getElementsByTagName('select').length; i++) {
-                this.filterPopUp.getElementsByTagName("select")[i].selectedIndex = FilterCondition.None;
-            }
-
         }
     }
 }
