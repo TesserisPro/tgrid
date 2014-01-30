@@ -1,17 +1,17 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -55,11 +55,11 @@ var TesserisPro;
                 this.targetElement = element;
                 this.options = options;
 
-                this.collapsedFilterGroup = new Array();
-                for (var i = 0; i < this.options.columns.length; i++) {
-                    this.collapsedFilterGroup.push(new Array());
-                }
+                this.collapsedGroupFilterDescriptors = new Array();
 
+                //for (var i = 0; i < this.options.columns.length; i++) {
+                //    this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
+                //}
                 this.itemProvider = provider;
                 this.htmlProvider = this.getHtmlProvider(this.options);
 
@@ -79,6 +79,7 @@ var TesserisPro;
                 headerTable.className = "tgrid-table";
                 this.headerContainer.appendChild(headerTable);
 
+                // filter popup
                 if (this.options.enableFiltering) {
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
@@ -123,7 +124,7 @@ var TesserisPro;
                         return _this.scrollTable();
                     };
                 } else {
-                    this.itemProvider.getTotalItemsCount(options.filterDescriptors, function (total) {
+                    this.itemProvider.getTotalItemsCount(options.filterDescriptor, function (total) {
                         _this.options.firstLoadSize = total;
                     });
                 }
@@ -139,10 +140,6 @@ var TesserisPro;
                 if (options.enableVirtualScroll) {
                     this.scrollBar = document.createElement("div");
                     this.scrollBar.className = "tgrid-scroll";
-                    this.scrollBar.style.position = "absolute";
-                    this.scrollBar.style.right = "0px";
-                    this.scrollBar.style.top = "30px";
-                    this.scrollBar.style.bottom = "0px";
                     this.scrollBar.style.overflowX = "hidden";
                     this.scrollBar.style.overflowY = "scroll";
 
@@ -211,8 +208,8 @@ var TesserisPro;
             };
 
             Grid.prototype.columnsResized = function (c) {
-                if (parseInt(c.width) < 5) {
-                    c.width = "5";
+                if (parseInt(c.width) < this.options.columnMinWidth) {
+                    c.width = this.options.columnMinWidth.toString();
                 }
                 this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
             };
@@ -226,12 +223,13 @@ var TesserisPro;
             };
 
             Grid.prototype.keyPress = function (e) {
-                console.log(e.keyCode);
                 switch (e.keyCode) {
                     case 38:
+                        e.preventDefault();
                         this.selectPreviousItem();
                         break;
                     case 40:
+                        e.preventDefault();
                         this.selectNextItem();
                         break;
                 }
@@ -339,25 +337,11 @@ var TesserisPro;
             };
 
             Grid.prototype.getEffectiveFiltering = function () {
-                var allFilter = [];
-
-                if (this.options.filterDescriptors != null || this.options.filterDescriptors.length > 0) {
-                    allFilter = allFilter.concat(this.options.filterDescriptors);
-                }
-
-                return allFilter;
+                return this.options.filterDescriptor;
             };
 
             Grid.prototype.getCollapsedGroupFilter = function () {
-                var allFilter = [];
-
-                for (var i = 0; i < this.collapsedFilterGroup.length; i++) {
-                    if (this.collapsedFilterGroup[i] != null || this.collapsedFilterGroup[i].length > 0) {
-                        allFilter = allFilter.concat(this.collapsedFilterGroup[i]);
-                    }
-                }
-
-                return allFilter;
+                return this.collapsedGroupFilterDescriptors;
             };
 
             Grid.prototype.scrollTable = function () {
@@ -660,7 +644,7 @@ var TesserisPro;
             };
 
             Grid.prototype.addGroupDescriptor = function (name, asc) {
-                this.options.groupBySortDescriptors.push(new TGrid.SortDescriptor(name, asc));
+                this.options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(name, asc));
                 this.refreshHeader();
                 this.refreshBody();
             };
@@ -669,7 +653,6 @@ var TesserisPro;
                 for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                     if (this.options.groupBySortDescriptors[i].path == name) {
                         this.removeGroupDescriptor(name);
-                        this.removeCollapsedFiltersOnGroupByCancel(i);
                         return;
                     }
                 }
@@ -680,8 +663,22 @@ var TesserisPro;
                 for (var i = 0; i < this.options.groupBySortDescriptors.length; i++) {
                     if (this.options.groupBySortDescriptors[i].path == path) {
                         this.options.groupBySortDescriptors.splice(i, 1);
+                        break;
                     }
                 }
+                var removed = true;
+                while (removed) {
+                    removed = false;
+                    for (var i = 0; !removed && i < this.collapsedGroupFilterDescriptors.length; i++) {
+                        for (var j = 0; !removed && j < this.collapsedGroupFilterDescriptors[i].children.length; j++) {
+                            if (this.collapsedGroupFilterDescriptors[i].children[j].path == path) {
+                                this.collapsedGroupFilterDescriptors.splice(i, 1);
+                                removed = true;
+                            }
+                        }
+                    }
+                }
+
                 this.refreshHeader();
                 this.refreshBody();
             };
@@ -698,27 +695,6 @@ var TesserisPro;
 
             Grid.prototype.hideFilterPopup = function () {
                 hideElement(this.filterPopUp);
-            };
-
-            Grid.prototype.setFilter = function (column, filter) {
-                for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                    if (this.options.filterDescriptors[i].path == column.filterMemberPath) {
-                        this.options.filterDescriptors.splice(i, 1);
-                    }
-                }
-
-                this.options.filterDescriptors.push(filter);
-                this.refreshBody();
-            };
-
-            Grid.prototype.clearFilter = function (column) {
-                for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                    if (this.options.filterDescriptors[i].path == column.filterMemberPath) {
-                        this.options.filterDescriptors.splice(i, 1);
-                    }
-                }
-
-                this.refreshBody();
             };
 
             Grid.prototype.sortBy = function (name) {
@@ -744,7 +720,7 @@ var TesserisPro;
                     this.options.sortDescriptor.path = name;
                     this.options.sortDescriptor.asc = asc;
                 } else {
-                    this.options.sortDescriptor = new TGrid.SortDescriptor(null, null);
+                    this.options.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
                 }
                 this.refreshHeader();
                 this.refreshBody();
@@ -754,7 +730,10 @@ var TesserisPro;
                 this.options.currentPage = page;
                 this.refreshHeader();
                 this.refreshBody();
+
+                //if (this.options.tableFooterTemplate == null) {
                 this.refreshFooter();
+                //}
             };
 
             Grid.prototype.selectItem = function (item, multi) {
@@ -763,7 +742,7 @@ var TesserisPro;
                     oldSelection.push(this.options.selection[i]);
                 }
 
-                if (this.options.selectionMode == TGrid.SelectionMode.Multi) {
+                if (this.options.selectionMode == 2 /* Multi */) {
                     if (multi) {
                         if (this.options.isSelected(item.item)) {
                             this.options.selection.splice(i, 1);
@@ -773,7 +752,7 @@ var TesserisPro;
                     } else {
                         this.options.selection = [item.item];
                     }
-                } else if (this.options.selectionMode == TGrid.SelectionMode.Single) {
+                } else if (this.options.selectionMode == 1 /* Single */) {
                     if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
                         this.options.shouldAddDetailsOnSelection = false;
                     } else {
@@ -786,11 +765,11 @@ var TesserisPro;
 
                 if (this.options.openDetailsOnSelection) {
                     if (this.options.selection.length == 1) {
-                        this.options.showDetailFor = new TGrid.ShowDetail();
+                        this.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
                         this.options.showDetailFor.item = this.options.selection[0];
                     }
                 } else {
-                    this.options.showDetailFor = new TGrid.ShowDetail();
+                    this.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
                 }
 
                 for (var i = 0; i < oldSelection.length; i++) {
@@ -852,66 +831,64 @@ var TesserisPro;
                     isGroupHeader.push(false);
                 }
 
+                var collapsed = false;
+                var colapsedGroupLevel = this.options.groupBySortDescriptors.length;
                 for (var i = 0; i < items.length; i++) {
-                    var collapsed = false;
-                    for (var j = 0; j < this.options.groupBySortDescriptors.length; j++) {
+                    for (var j = 0; j < colapsedGroupLevel; j++) {
                         var columnValue = getMemberValue(items[i], this.options.groupBySortDescriptors[j].path);
+
+                        // New group found
                         if (currentGroupNames[j] !== columnValue) {
                             currentGroupNames[j] = columnValue;
-                            var filterDescriptor = new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[0].path, currentGroupNames[0], TGrid.FilterCondition.NotEquals);
-                            for (var k = 1; k <= j; k++) {
-                                filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], TGrid.FilterCondition.NotEquals));
-                            }
-                            collapsed = this.isFilterInCollapsed(filterDescriptor);
+                            collapsed = false;
+                            colapsedGroupLevel = this.options.groupBySortDescriptors.length;
 
-                            itemModels.push(new TGrid.ItemViewModel(this.options.parentViewModel, new TGrid.GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor), this, true));
+                            var filterDescriptor = new TesserisPro.TGrid.FilterDescriptor("", "", 0 /* None */, 0 /* And */, 0 /* And */);
+
+                            for (var k = 0; k <= j; k++) {
+                                filterDescriptor.children.push(new TesserisPro.TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], 1 /* Equals */));
+                            }
+
+                            collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
+
+                            itemModels.push(new TesserisPro.TGrid.ItemViewModel(this.options.parentViewModel, new TesserisPro.TGrid.GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor), this, true));
 
                             for (var k = j + 1; k < this.options.groupBySortDescriptors.length; k++) {
                                 currentGroupNames[k] = "";
                             }
 
                             if (collapsed) {
-                                j = this.options.groupBySortDescriptors.length;
+                                colapsedGroupLevel = j + 1;
+                                break;
                             }
                         }
                     }
                     if (!collapsed) {
-                        itemModels.push(new TGrid.ItemViewModel(this.options.parentViewModel, items[i], this, false));
+                        itemModels.push(new TesserisPro.TGrid.ItemViewModel(this.options.parentViewModel, items[i], this, false));
                     }
                 }
                 return itemModels;
             };
 
-            Grid.prototype.isFiltersEquals = function (filter, deeperFilter) {
-                if (filter.path == deeperFilter.path && filter.value == deeperFilter.value && filter.children.length <= deeperFilter.children.length) {
-                    var count = 0;
-                    for (var i = 0; i < filter.children.length; i++) {
-                        if (filter.children[i].path == deeperFilter.children[i].path && filter.children[i].value == deeperFilter.children[i].value) {
-                            count++;
+            Grid.prototype.isEqualOrDeeperThanCollapsedFilter = function (collapsedFilter, filter) {
+                if (filter.children.length >= collapsedFilter.children.length) {
+                    for (var i = 0; i < collapsedFilter.children.length; i++) {
+                        if (filter.children[i].path !== collapsedFilter.children[i].path || filter.children[i].value !== collapsedFilter.children[i].value) {
+                            return false;
                         }
                     }
-                    if (count == filter.children.length) {
-                        return true;
-                    }
+                    return true;
                 }
                 return false;
             };
 
-            Grid.prototype.isFilterInCollapsed = function (filterDescriptor) {
-                for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
-                    if (this.isFiltersEquals(filterDescriptor, this.collapsedFilterGroup[filterDescriptor.children.length][i])) {
+            Grid.prototype.isGroupCollapsedOrInsideCollapsed = function (filterDescriptor) {
+                for (var i = 0; i < this.collapsedGroupFilterDescriptors.length; i++) {
+                    if (this.isEqualOrDeeperThanCollapsedFilter(this.collapsedGroupFilterDescriptors[i], filterDescriptor)) {
                         return true;
                     }
                 }
-
                 return false;
-            };
-
-            Grid.prototype.filterDescriptorToArray = function (filterDescriptor) {
-                var arr = new Array();
-                arr = arr.concat(filterDescriptor.children);
-                arr.push(new TGrid.FilterDescriptor(filterDescriptor.path, filterDescriptor.value, filterDescriptor.condition));
-                return arr;
             };
 
             Grid.prototype.updateVisibleItems = function () {
@@ -929,12 +906,12 @@ var TesserisPro;
             };
 
             Grid.prototype.getHtmlProvider = function (options) {
-                if (options.framework == TGrid.Framework.Knockout) {
-                    return new TGrid.KnockoutHtmlProvider();
+                if (options.framework == 0 /* Knockout */) {
+                    return new TesserisPro.TGrid.KnockoutHtmlProvider();
                 }
 
-                if (options.framework == TGrid.Framework.Angular) {
-                    return new TGrid.AngularHtmlProvider();
+                if (options.framework == 1 /* Angular */) {
+                    return new TesserisPro.TGrid.AngularHtmlProvider();
                 }
             };
 
@@ -1019,7 +996,6 @@ var TesserisPro;
             };
 
             Grid.prototype.refreshFooter = function () {
-                this.tableFooter.innerHTML = "";
                 this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount, this.footerViewModel);
             };
 
@@ -1047,57 +1023,27 @@ var TesserisPro;
             };
 
             Grid.prototype.setCollapsedFilters = function (filterDescriptor) {
-                this.collapsedFilterGroup[filterDescriptor.children.length].push(filterDescriptor);
+                this.collapsedGroupFilterDescriptors.push(filterDescriptor);
                 this.refreshBody();
             };
 
             Grid.prototype.removeCollapsedFilters = function (filterDescriptor) {
-                for (var i = 0; i < this.collapsedFilterGroup[filterDescriptor.children.length].length; i++) {
-                    if (this.isFiltersEquals(this.collapsedFilterGroup[filterDescriptor.children.length][i], filterDescriptor)) {
-                        this.collapsedFilterGroup[filterDescriptor.children.length].splice(i, 1);
+                for (var i = 0; i < this.collapsedGroupFilterDescriptors.length; i++) {
+                    if (this.isEqualOrDeeperThanCollapsedFilter(this.collapsedGroupFilterDescriptors[i], filterDescriptor)) {
+                        this.collapsedGroupFilterDescriptors.splice(i, 1);
                     }
                 }
+
                 this.refreshBody();
             };
 
-            Grid.prototype.removeCollapsedFiltersOnGroupByCancel = function (groupByNumber) {
-                this.collapsedFilterGroup[groupByNumber].length = 0;
-                this.refreshBody();
-            };
-
-            Grid.prototype.setFilters = function (filterDescriptor, filterPath) {
-                this.removeFilters(filterPath, false);
-                this.options.filterDescriptors.push(filterDescriptor);
+            Grid.prototype.applyFilters = function () {
                 this.refreshHeader();
                 this.refreshBody();
             };
 
-            Grid.prototype.removeFilters = function (filterPath, isRefresh) {
-                if (typeof isRefresh === "undefined") { isRefresh = true; }
-                for (var i = 0; i < this.options.filterDescriptors.length; i++) {
-                    if (this.options.filterDescriptors[i].path == filterPath) {
-                        this.options.filterDescriptors.splice(i, 1);
-                    }
-                }
-                if (isRefresh) {
-                    this.refreshHeader();
-                    this.refreshBody();
-                }
-            };
-
             Grid.prototype.refreshMobileHeader = function () {
                 this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
-            };
-
-            Grid.prototype.setDefaultFilterPopUpValues = function () {
-                for (var i = 0; i < this.filterPopUp.getElementsByTagName('input').length; i++) {
-                    if (this.filterPopUp.getElementsByTagName('input')[i].type == 'text') {
-                        this.filterPopUp.getElementsByTagName('input')[i].value = '';
-                    }
-                }
-                for (var i = 0; i < this.filterPopUp.getElementsByTagName('select').length; i++) {
-                    this.filterPopUp.getElementsByTagName("select")[i].selectedIndex = TGrid.FilterCondition.None;
-                }
             };
             return Grid;
         })();

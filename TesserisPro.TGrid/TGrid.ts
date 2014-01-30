@@ -240,8 +240,8 @@ module TesserisPro.TGrid {
         }
 
         public columnsResized(c: ColumnInfo) {
-            if (parseInt(c.width) < 5) {
-                c.width = "5";
+            if (parseInt(c.width) < this.options.columnMinWidth) {
+                c.width = this.options.columnMinWidth.toString();
             }
             this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);
         }
@@ -783,7 +783,9 @@ module TesserisPro.TGrid {
             this.options.currentPage = page;
             this.refreshHeader();
             this.refreshBody();
-            this.refreshFooter();
+            //if (this.options.tableFooterTemplate == null) {
+                this.refreshFooter();
+            //}
         }
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
@@ -1081,7 +1083,6 @@ module TesserisPro.TGrid {
         }
 
         private refreshFooter() {
-            this.tableFooter.innerHTML = "";
             this.htmlProvider.updateTableFooterElement(this.options, this.tableFooter, this.totalItemsCount, this.footerViewModel);
         }
 

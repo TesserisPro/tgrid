@@ -1,17 +1,17 @@
-﻿var TesserisPro;
+﻿//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
+var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -49,11 +49,11 @@
             FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
-        (function (FilterOperation) {
-            FilterOperation[FilterOperation["And"] = 0] = "And";
-            FilterOperation[FilterOperation["Or"] = 1] = "Or";
-        })(TGrid.FilterOperation || (TGrid.FilterOperation = {}));
-        var FilterOperation = TGrid.FilterOperation;
+        (function (LogicalOperator) {
+            LogicalOperator[LogicalOperator["And"] = 0] = "And";
+            LogicalOperator[LogicalOperator["Or"] = 1] = "Or";
+        })(TGrid.LogicalOperator || (TGrid.LogicalOperator = {}));
+        var LogicalOperator = TGrid.LogicalOperator;
         ;
 
         var ColumnInfo = (function () {
@@ -92,8 +92,9 @@
                 this.firstLoadSize = 10;
                 this.currentPage = 0;
                 this.groupBySortDescriptors = [];
-                this.filterDescriptors = [];
+                this.filterDescriptor = TesserisPro.TGrid.FilterDescriptor.getEmpty();
                 this.selection = [];
+                this.columnMinWidth = 5;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();

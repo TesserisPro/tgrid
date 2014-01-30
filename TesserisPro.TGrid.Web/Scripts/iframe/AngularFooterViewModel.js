@@ -1,17 +1,17 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -48,45 +48,55 @@ var TesserisPro;
                 this.$scope.currentPage = this.currentPage;
                 this.$scope.totalPages = this.totalPages;
                 this.$scope.grid = this.grid;
-                this.$scope.viewPageNumber = "";
                 this.$scope.changePage = function (pageNumber) {
                     return _this.changePage(pageNumber);
                 };
             };
 
             AngularFooterViewModel.prototype.setTotalCount = function (totalCount) {
+                var _this = this;
                 this.totalCount = totalCount;
                 if (this.$scope != null) {
-                    this.$scope.$apply(function (totalCount) {
-                        this.$scope.totalCount = totalCount;
-                    });
+                    this.$scope.totalCount = totalCount;
+                    var self = this;
+                    setTimeout(function () {
+                        return _this.$scope.$apply();
+                    }, 1);
                 }
             };
 
             AngularFooterViewModel.prototype.setSelectedItem = function (selectedItem) {
+                var _this = this;
                 this.selectedItem = selectedItem;
                 if (this.$scope != null) {
-                    this.$scope.$apply(function (selectedItem) {
-                        this.$scope.selectedItem = selectedItem;
-                    });
+                    this.$scope.selectedItem = selectedItem;
+                    setTimeout(function () {
+                        return _this.$scope.$apply();
+                    }, 1);
                 }
             };
 
             AngularFooterViewModel.prototype.setCurrentPage = function (currentPage) {
-                this.totalPages = currentPage;
+                var _this = this;
+                this.currentPage = currentPage;
                 if (this.$scope != null) {
-                    this.$scope.$apply(function (currentPage) {
-                        this.$scope.currentPage = currentPage;
-                    });
+                    this.$scope.currentPage = currentPage;
+                    var self = this;
+                    setTimeout(function () {
+                        return _this.$scope.$apply();
+                    }, 1);
                 }
             };
 
             AngularFooterViewModel.prototype.setTotalPages = function (totalPages) {
+                var _this = this;
                 this.totalPages = totalPages;
                 if (this.$scope != null) {
-                    this.$scope.$apply(function (totalPages) {
-                        this.$scope.totalPages = totalPages;
-                    });
+                    this.$scope.totalPages = totalPages;
+                    var self = this;
+                    setTimeout(function () {
+                        return _this.$scope.$apply();
+                    }, 1);
                 }
             };
 
@@ -98,6 +108,13 @@ var TesserisPro;
                 } else {
                     this.grid.selectPage(viewPageNumber - 1);
                 }
+            };
+
+            AngularFooterViewModel.prototype.apply = function () {
+                var _this = this;
+                setTimeout(function () {
+                    return _this.$scope.$apply();
+                }, 1);
             };
             return AngularFooterViewModel;
         })();

@@ -43,7 +43,6 @@ module TesserisPro.TGrid {
         private currentPage: number = 1;
         private totalPages: number = 1;
         private grid: any;
-        private viewPageNumber;
 
         public angularModuleName: string;
 
@@ -58,7 +57,6 @@ module TesserisPro.TGrid {
             this.$scope.currentPage = this.currentPage;
             this.$scope.totalPages = this.totalPages;
             this.$scope.grid = this.grid;
-            this.$scope.viewPageNumber = "";
             this.$scope.changePage = (pageNumber) => this.changePage(pageNumber);
         }
 
@@ -66,7 +64,8 @@ module TesserisPro.TGrid {
             this.totalCount = totalCount;
             if (this.$scope != null) {
                 this.$scope.totalCount = totalCount;
-                this.$scope.$apply();
+                var self = this;
+                setTimeout(() => this.$scope.$apply(), 1);
             }
         }
 
@@ -74,7 +73,7 @@ module TesserisPro.TGrid {
             this.selectedItem = selectedItem;
             if (this.$scope != null) {
                 this.$scope.selectedItem = selectedItem;
-                this.$scope.$apply();
+                setTimeout(() => this.$scope.$apply(), 1);
             }
         }
 
@@ -82,7 +81,8 @@ module TesserisPro.TGrid {
             this.currentPage = currentPage;
             if (this.$scope != null) {
                 this.$scope.currentPage = currentPage;
-                this.$scope.$apply();
+                var self = this;
+                setTimeout(() => this.$scope.$apply(), 1);
             }
         }
 
@@ -90,7 +90,8 @@ module TesserisPro.TGrid {
             this.totalPages = totalPages;
             if (this.$scope != null) {
                 this.$scope.totalPages = totalPages;
-                this.$scope.$apply();
+                var self = this;
+                setTimeout(() => this.$scope.$apply(), 1);
             }
         }
 
@@ -102,6 +103,11 @@ module TesserisPro.TGrid {
             } else {
                 this.grid.selectPage(viewPageNumber - 1);
             }
+        }
+
+        public apply()
+        {
+            setTimeout(() => this.$scope.$apply(), 1);
         }
     }
 }

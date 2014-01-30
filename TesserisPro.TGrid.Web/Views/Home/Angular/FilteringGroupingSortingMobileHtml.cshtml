@@ -3,24 +3,22 @@
 <pre class="brush: html">
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" enableFiltering ="true" enableGrouping="true" enableSorting ="true">
+            <t-grid id="test-angular" provider="dataProvider" enablefiltering="true" enablegrouping="true" enablesorting="true">
                 <script type="text/html">
-                    <column data-g-member ="CompanyId" data-g-filter-member ="CompanyId" data-g-group-member ="CompanyId" data-g-sort-member ="CompanyId">
+                    <column data-g-member="Name" data-g-filter-member="Name" data-g-group-member="Name" data-g-sort-member="Name">
                     </column>
-                    <column data-g-member ="Country" data-g-filter-member ="Country" data-g-group-member ="Country" data-g-sort-member ="Country">
+                    <column data-g-member="Surname" data-g-filter-member="Surname" data-g-group-member="Surname" data-g-sort-member="Surname">
                     </column>
-                    <column data-g-member ="City" data-g-filter-member ="City"  data-g-group-member ="City"  data-g-sort-member ="City">
+                    <column data-g-member="Age" data-g-filter-member="Age" data-g-group-member="Age" data-g-sort-member="Age">
                     </column>
-                    <column data-g-member ="Street" data-g-filter-member ="Street" data-g-group-member ="Street" data-g-sort-member ="Street">
-                    </column>
-                        <filterpopup>
-                            <div><span>{{path}}</span></div>
+                    <filterpopup>
+                        <div><span>{{path}}</span></div>
                         <select>
                             <option value="0">None</option>
                             <option value="1">Equals</option>
                             <option value="2">Not Equals</option>
                         </select>
-                        <input type="text"  value=""><br>
+                        <input type="text" value=""><br>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">OK</div>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClose()">Cancel</div>
                     </filterpopup>

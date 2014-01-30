@@ -1,41 +1,34 @@
 ﻿ <!-- Start the highlighter. -->
 
 <pre class="brush: html">
-   <div ng-app="TGrid"> 
+    <div ng-app="TGrid">
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" >
-                    <script type="text/html">
-                         <column data-g-member ="CompanyId">
-                        </column>
-                        <column data-g-member ="Country">
-                            <cell>
-                               <span style="font-weight:700;">{{item.Country}}</span>
-                            </cell>
-                        </column>
-                        <column data-g-member ="City">
-                             <cell>
-                               <span style="color:red;">{{item.City}}</span>
-                            </cell>
-                        </column>
-                        <column data-g-member ="Street">
-                             <cell>
-                                <span style="font-style: italic;">{{item.Street}}</span>
-                            </cell>
-                        </column>
-                        <mobile>
+            <t-grid id="test-angular" provider="dataProvider">
+                <script type="text/html">
+                    <column data-g-member="Name">
+                        <cell>
+                            <span style="color: red;">{{item.Name}}</span>
+                        </cell>
+                    </column>
+                    <column data-g-member="Surname">
+                    </column>
+                    <column data-g-member="Age">
+                        <cell>
+                            <span style="color:red;">{{item.Age}}</span>
+                        </cell>
+                    </column>
+                    <mobile>
                         <div>
-                            <span>Company Id: </span>
-                            <span>{{item.CompanyId}}</span>
+                            <span>First Name: </span>
+                            <span style="font-weight:700;">{{item.Name}}</span>
                             <br />
-                            <span>Country: </span>
-                            <span style="font-weight:700;">{{item.Country}}</span>
+                            <span>Last Name: </span>
+                            <span style="color:red;">{{item.Surname}}</span>
                             <br />
-                            <span>City: </span>
-                            <span style="color:red;">{{item.City}}</span>
+                            <span style="font-style: italic;">Age: </span>
+                            <span style="font-style: italic;">{{item.Age}}</span>
                             <br />
-                            <span style="font-style: italic;">Street: </span>
-                            <span style="font-style: italic;">{{item.Street}}</span>
-                        </div>       
+                        </div>
                     </mobile>
                 </script>
             </t-grid>

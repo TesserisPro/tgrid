@@ -440,6 +440,9 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PreBuildEvent>copy /Y "$(SolutionDir)TesserisPro.TGrid\bin\*.js" "$(ProjectDir)Scripts\iframe\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\*.js" "$(ProjectDir)Scripts\iframe\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\angular\*.js" "$(ProjectDir)Scripts\iframe\"
+copy /Y "$(SolutionDir)TesserisPro.TGrid\knockout\*.js" "$(ProjectDir)Scripts\iframe\"
 </PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
