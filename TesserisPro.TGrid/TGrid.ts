@@ -228,6 +228,9 @@ module TesserisPro.TGrid {
         }
 
         public static getGridObject(element: HTMLElement): Grid {
+            if (element == null) {
+                return null;
+            }
             if (element.grid == undefined || element.grid == null) {
                 if (element.parentElement == document.body) {
                     return null;

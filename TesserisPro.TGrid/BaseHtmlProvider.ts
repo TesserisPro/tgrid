@@ -411,7 +411,12 @@ module TesserisPro.TGrid {
                         } else {
                             Grid.getGridObject(eventTarget).hideFilterPopup();
                         }
-                        self.doOnClickOutside(filterPopupContainer, () => Grid.getGridObject(eventTarget).hideFilterPopup());
+                        self.doOnClickOutside(filterPopupContainer, () => {
+                                var grid = Grid.getGridObject(eventTarget);
+                                if (grid != null) {
+                                    grid.hideFilterPopup()
+                                }
+                            });
                         e.cancelBubble = true;
                     };
                 })(culumnNumber);
