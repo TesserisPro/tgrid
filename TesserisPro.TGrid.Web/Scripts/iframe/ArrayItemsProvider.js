@@ -1,36 +1,38 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
+//
+// 1. The above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software.
+//
+// 2. Any software that fully or partially contains or uses materials covered by
+//    this license shall notify users about this notice and above copyright.The
+//    notification can be made in "About box" and / or site main web - page footer.The
+//    notification shall contain name of Tesseris Pro company and name of the Software
+//    covered by current license.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+// PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//=====================================================================================
+//
+/// <reference path="SortDescriptor.ts" />
+/// <reference path="FilterDescriptor.ts" />
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
-    // 1. The above copyright notice and this permission notice shall be included in all
-    //    copies or substantial portions of the Software.
-    //
-    // 2. Any software that fully or partially contains or uses materials covered by
-    //    this license shall notify users about this notice and above copyright.The
-    //    notification can be made in "About box" and / or site main web - page footer.The
-    //    notification shall contain name of Tesseris Pro company and name of the Software
-    //    covered by current license.
-    //
-    // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-    // PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-    // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-    // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    //
-    //=====================================================================================
-    /// <reference path="SortDescriptor.ts" />
-    /// <reference path="FilterDescriptor.ts" />
     (function (TGrid) {
         var ArrayItemsProvider = (function () {
             function ArrayItemsProvider(items) {
@@ -56,18 +58,18 @@ var TesserisPro;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
                     var self = this;
                     this.items.sort(function (a, b) {
-                        return self.sortingRecursive(a, b, sortDescriptors, 0);
+                        return self.compareRecursive(a, b, sortDescriptors, 0);
                     });
                 }
             };
 
-            ArrayItemsProvider.prototype.sortingRecursive = function (a, b, sortDescriptors, i) {
+            ArrayItemsProvider.prototype.compareRecursive = function (a, b, sortDescriptors, i) {
                 if (i != sortDescriptors.length - 1) {
                     if (getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path))
                         return this.sortingOrder(sortDescriptors[i]);
                     if (getMemberValue(b, sortDescriptors[i].path) > getMemberValue(a, sortDescriptors[i].path))
                         return this.sortingOrderDesc(sortDescriptors[i]);
-                    return this.sortingRecursive(a, b, sortDescriptors, i + 1);
+                    return this.compareRecursive(a, b, sortDescriptors, i + 1);
                 } else {
                     return getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path) ? this.sortingOrder(sortDescriptors[i]) : this.sortingOrderDesc(sortDescriptors[i]);
                 }
@@ -116,6 +118,7 @@ var TesserisPro;
                         }
                     }
 
+                    //add fake item for creating collapsing group
                     if (isFiltered == 0 && !isCollapsedFiltered) {
                         filteredItems.push(this.items[j]);
                     } else {

@@ -1,17 +1,15 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-   <div ng-app="TGrid"> 
+    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" enableGrouping="true">
+            <t-grid id="test-angular" provider="dataProvider" enablegrouping="true">
                 <script type="text/html">
-                    <column data-g-member="CompanyId" data-g-group-member="CompanyId">
+                    <column data-g-member="Name" data-g-group-member="Name">
                     </column>
-                    <column data-g-member="Country" data-g-group-member="Country">
+                    <column data-g-member="Surname" data-g-group-member="Surname">
                     </column>
-                    <column data-g-member="City" data-g-group-member="City">
-                    </column>
-                    <column data-g-member="Street" data-g-group-member="Street">
+                    <column data-g-member="Age" data-g-group-member="Age">
                     </column>
                 </script>
             </t-grid>

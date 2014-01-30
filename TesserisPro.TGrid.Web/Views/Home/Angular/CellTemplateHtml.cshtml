@@ -3,26 +3,21 @@
 <pre class="brush: html">
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" >
+            <t-grid id="test-angular" provider="dataProvider">
                 <script type="text/html">
-                    <column data-g-member ="CompanyId">
+                    <column data-g-member="Name">
                         <cell>
-                            <span style="color: red;">{{item.CompanyId}}</span>
+                            <span style="color: red;">{{item.Name}}</span>
                         </cell>
                     </column>
-                    <column data-g-member ="Country">
+                    <column data-g-member="Surname">
                         <cell>
-                            <span style="font-weight:600;">{{item.Country}}</span>
+                            <span>{{item.Surname}}</span>
                         </cell>
                     </column>
-                    <column data-g-member ="City">
+                    <column data-g-member="Age">
                         <cell>
-                            <span>{{item.City}}</span>
-                        </cell>
-                    </column>
-                    <column data-g-member ="Street">
-                        <cell>
-                            <span style="font-size: smaller;">{{item.Street}}</span>
+                            <span style="color: red;">{{item.Age}}</span>
                         </cell>
                     </column>
                 </script>

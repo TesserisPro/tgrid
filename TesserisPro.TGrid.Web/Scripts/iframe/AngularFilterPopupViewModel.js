@@ -1,17 +1,17 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -54,14 +54,14 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onApply = function () {
-                this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
-                if (this.condition != TGrid.FilterCondition.None) {
-                    this.value = (this.container.getElementsByTagName("input")[0]).value;
-                    var filterDescriptor = new TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition);
-                    var grid = TGrid.Grid.getGridObject(this.container);
+                this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
+                if (this.condition != 0 /* None */) {
+                    this.value = this.container.getElementsByTagName("input")[0].value;
+                    var filterDescriptor = new TesserisPro.TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition);
+                    var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
                     grid.setFilters(filterDescriptor, this.$scope.path);
                 } else {
-                    TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
+                    TesserisPro.TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
                 }
 
                 hideElement(this.container);
@@ -69,7 +69,7 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
-                TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
+                TesserisPro.TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
                 hideElement(this.container);
                 this.onCloseFilterPopup();
             };
@@ -80,13 +80,13 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onOpen = function (options, column) {
-                TGrid.Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
+                TesserisPro.TGrid.Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
                 this.$scope.path = column.filterMemberPath;
                 this.columnInfo = column;
                 for (var i = 0; i < options.filterDescriptors.length; i++) {
                     if (options.filterDescriptors[i].path == column.filterMemberPath) {
-                        (this.container.getElementsByTagName("input")[0]).value = options.filterDescriptors[i].value;
-                        (this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptors[i].condition;
+                        this.container.getElementsByTagName("input")[0].value = options.filterDescriptors[i].value;
+                        this.container.getElementsByTagName("select")[0].selectedIndex = options.filterDescriptors[i].condition;
                     }
                 }
                 this.$scope.$apply();

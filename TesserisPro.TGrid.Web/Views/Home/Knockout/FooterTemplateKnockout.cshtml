@@ -38,9 +38,9 @@
                                 <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 1); }, clickBubble: false, css: { hidden: (currentPage() + 1) > totalPages() }" >...</span>
                             </div>
                             <span style="float:right; position:absolute; right:3px">
-                                To page <input class="tgrid-choose-page-input" data-bind="value: currentPage"/>
+                                To page <input class="tgrid-choose-page-input" data-bind="value: $root.page"/>
                                 of <span data-bind="text: totalPages"> </span>
-                                <span class="tgrid-change-page-button" data-bind="click: function () { changePage(currentPage()); }, clickBubble: false">
+                                <span class="tgrid-change-page-button" data-bind="click: function() {changePage($root.page);} , clickBubble: false">
                                     Go
                                 </span>
                             </span>
@@ -73,8 +73,7 @@
 
                 function vm() {
                     var self = this;
-                    self.nameColumnTitle = "First Name";
-
+                    self.page = ko.observable("");
                     self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                 };
 

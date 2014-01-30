@@ -279,12 +279,12 @@ module TesserisPro.TGrid {
             if (option.tableFooterTemplate == null && option.enablePaging) {
                 this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
-                var footerContainer = document.createElement("div");
-                option.tableFooterTemplate.applyTemplate(footerContainer);
-                ko.applyBindings(footerModel, footerContainer);
-
-                footer.appendChild(footerContainer);
-
+                if (!footer.hasChildNodes()) {
+                    var footerContainer = document.createElement("div");
+                    option.tableFooterTemplate.applyTemplate(footerContainer);
+                    ko.applyBindings(footerModel, footerContainer);
+                    footer.appendChild(footerContainer);
+                }
             }
         }
 

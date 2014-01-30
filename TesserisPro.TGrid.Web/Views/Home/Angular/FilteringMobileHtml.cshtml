@@ -3,15 +3,13 @@
 <pre class="brush: html">
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" enableFiltering="true">
+            <t-grid id="test-angular" provider="dataProvider" enablefiltering="true">
                 <script type="text/html">
-                    <column data-g-member="CompanyId" data-g-filter-member="CompanyId">
+                    <column data-g-member="Name" data-g-filter-member="Name">
                     </column>
-                    <column data-g-member="Country" data-g-filter-member="Country">
+                    <column data-g-member="Surname" data-g-filter-member="Surname">
                     </column>
-                    <column data-g-member="City" data-g-filter-member="City">
-                    </column>
-                    <column data-g-member="Street" data-g-filter-member="Street">
+                    <column data-g-member="Age" data-g-filter-member="Age">
                     </column>
                     <filterpopup>
                         <div><span>{{path}}</span></div>
@@ -20,7 +18,7 @@
                             <option value="1">Equals</option>
                             <option value="2">Not Equals</option>
                         </select>
-                        <input type="text" value=""><br>
+                        <input type="text" style="width:150px" value=""><br>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">OK</div>
                         <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClose()">Cancel</div>
                     </filterpopup>
@@ -33,4 +31,3 @@
 <script type="text/javascript">
     SyntaxHighlighter.highlight();
 </script>
-

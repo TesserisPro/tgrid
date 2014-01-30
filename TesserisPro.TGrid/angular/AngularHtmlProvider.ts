@@ -314,14 +314,19 @@ module TesserisPro.TGrid {
             if (option.tableFooterTemplate == null && option.enablePaging) {
                 this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
             } else if (option.tableFooterTemplate != null) {
-                var footerContainer = document.createElement("div");
-                footerContainer.className = "tgrid-footer-container";
-                footerContainer.setAttribute("ng-controller", "tgrid-footer-controller"); 
-                option.tableFooterTemplate.applyTemplate(footerContainer);
-                footer.innerHTML = "";
+                if (!footer.hasChildNodes()) {
+                    var footerContainer = document.createElement("div");
+                    footerContainer.className = "tgrid-footer-container";
+                    footerContainer.setAttribute("ng-controller", "tgrid-footer-controller");
+                    option.tableFooterTemplate.applyTemplate(footerContainer);
 
-                angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
-                footer.appendChild(footerContainer);
+                    angular.bootstrap(footerContainer, [(<AngularFooterViewModel>footerModel).angularModuleName]);
+                    footer.appendChild(footerContainer);
+                }
+                else
+                {
+                    (<AngularFooterViewModel>footerModel).apply();
+                }
             }
         }
 

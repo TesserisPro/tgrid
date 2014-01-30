@@ -3,43 +3,43 @@
 <pre class="brush: html">
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true" selectionMode="single">
+            <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true" selectionmode="single">
                 <script type="text/html">
-                    <column data-g-member ="CompanyId">
+                    <column data-g-member="Name">
                         <cell>
-                        <span>{{item.CompanyId}}</span>
-                        <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
-                    </cell>
+                            <span>{{item.Name}}</span>
+                            <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
+                        </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Company}}</div>
+                                <div style="color: #444;">{{item.detail_Name}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-member ="Country">
+                    <column data-g-member="Surname">
                         <cell>
-                            <span>{{item.Country}}</span>
+                            <span>{{item.Surname}}</span>
                             <a href ng-click="toggleDetailsForCell(1); $event.stopPropagation();">...</a> 
                         </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Country}}</div>
+                                <div style="color: #444;">{{item.detail_Surname}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-member ="City">
+                    <column data-g-member="Age">
                     </column>
-                    <column data-g-member ="Street">
-                    </column>
-                        <details>
+                    <details>
                         <div>
-                            <div>This is a sample of row details: </div>
-                            <div style="color: #444;">{{item.detail}}</div>                    
-                            <div><span>Company detail : </span><span style="color: #444;">{{item.detail_Company}} </span></div>         
-                        </div>
-                    </details>
+                            <div>This is a sample of table row details:  </div>
+                            <div style="color: #444;">{{item.detail}}</div>
+                            <div><span>First Name: </span><span style="color: #444;">{{item.Name}}</span></div>
+                            <div><span>Last Name: </span><span style="color: #444;">{{item.Surname}}</span></div>
+                            <div><span>Age: </span><span style="color: #444;">{{item.Age}}</span></div>
+                            </div>
+                        </details>
                 </script>
             </t-grid>
         </div>

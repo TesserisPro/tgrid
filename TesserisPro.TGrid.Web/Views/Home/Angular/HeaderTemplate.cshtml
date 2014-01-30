@@ -23,69 +23,60 @@
             <div ng-controller="ctrl">
                 <t-grid id="test-angular" provider="dataProvider" >
                      <script type="text/html">
-                         <column data-g-member ="CompanyId">
-                            <header>
-                                <span style="font-weight:600; font-size: smaller;">Company Id </span>
-                            </header>
-                        </column>
-                        <column  data-g-member ="Country">
-                            <header>
-                                <span style="font-size: large; color: green;">Country</span>
-                            </header>
-                        </column>
-                        <column data-g-member ="City">
-                            <header>
-                                <span style="font-size: large;">City</span>
-                            </header>
-                        </column>
-                        <column data-g-member ="Street">
-                            <header>
-                                <span style="font-size: large; color:#333;">Street</span>
-                            </header>
-                        </column>
+                         <column data-g-member="Name">
+                             <header>
+                                 <span>First Name</span>
+                             </header>
+                         </column>
+                         <column data-g-member="Surname">
+                             <header>Last Name</header>
+                         </column>
+                         <column data-g-member="Age">
+                             <header>
+                                 <span style="color: green;">Age</span>
+                             </header>
+                         </column>
                     </script>
                 </t-grid>
             </div>
         </div>
        <script type="text/javascript">
            var items = [
-                   { CompanyId: "1", Country: "Great Britain", City: "Boston", Street: "Cottage St", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, Boston, Cottage St" },
-                   { CompanyId: "2", Country: "France", City: "Nantes", Street: "Talensac", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Talensac" },
-                   { CompanyId: "3", Country: "Italy", City: "Rome", Street: "Labicana", detail_Company: "Company name: Rome Tour", detail: "Address: Italy, Rome, Labicana" },
-                   { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Ferrara", detail_Company: "Company name: Naples Fish", detail: "Address: Italy, Naples, Ferrara" },
-                   { CompanyId: "5", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Danshtain", detail: "Address: Germany, Frankfurt, Dreieich" },
-                   { CompanyId: "8", Country: "USA", City: "New York", Street: "Franklin", detail_Company: "Company name: McSandersAndCo", detail: "Address: USA, New York, Franklin" },
-                   { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail: "Address: Rome, Italy, Cavour" },
-                   { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                   { CompanyId: "7", Country: "Germany", City: "Hamburg", Street: "Bramfeld", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Hamburg, Bramfeld" },
-                   { CompanyId: "2", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Saget" },
-                   { CompanyId: "4", Country: "Italy", City: "Naples", Street: "Miano", detail_Company: "Company name: Naples Fish", detail: "Address: Italy, Naples, Miano" },
-                   { CompanyId: "1", Country: "Great Britain", City: "London", Street: "New Oxford", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, London, New Oxford" },
-                   { CompanyId: "1", Country: "Great Britain", City: "London", Street: "Wigmore", detail_Company: "Company name: Flowers Delivery", detail: "Address: Great Britain, London, Wigmore" },
-                   { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                   { CompanyId: "8", Country: "USA", City: "New York", Street: "Melrose Avenue", detail_Company: "Company name: McSandersAndCo", detail: "Address: USA, New York, Melrose Avenue" },
-                   { CompanyId: "9", Country: "USA", City: "Little Rock", Street: "Boone", detail_Company: "Company name: Target", detail: "Address: USA, Little Rock, Boone" },
-                   { CompanyId: "10", Country: "Great Britain", City: "Birmingham", Street: "Alumn Rock", detail_Company: "Company name: Mars, Inc", detail: "Address: Great Britain, Birmingham, Alumn Rock" },
-                   { CompanyId: "10", Country: "Great Britain", City: "Bristol", Street: "Barton Hill", detail_Company: "Company name: Mars, Inc", detail: "Address: Great Britain, Bristol, Barton Hill" },
-                   { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Picanya", detail_Company: "Company name: Mars, Inc", detail: "Address: Spain, Valencia, Picanya" },
-                   { CompanyId: "10", Country: "Spain", City: "Valencia", Street: "Rocafort", detail_Company: "Company name: Mars, Inc", detail: "Address: Spain, Valencia, Rocafort" },
-                   { CompanyId: "11", Country: "Germany", City: "Munich", Street: "Lieberweg", detail_Company: "Company name: TEKsystems", detail: "Address: Germany, Munich, Lieberweg" },
-                   { CompanyId: "11", Country: "Denmark", City: "Odense", Street: "Bellinge", detail_Company: "Company name: TEKsystems", detail: "Address: Denmark, Odense, Bellinge" },
-                   { CompanyId: "6", Country: "Italy", City: "Rome", Street: "Cavour", detail_Company: "Company name: Zingaly", detail: "Address: Rome, Italy, Cavour" },
-                   { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                   { CompanyId: "13", Country: "Germany", City: "Munich", Street: "Ottostrabe", detail_Company: "Company name: Grainger", detail: "Address: Germany, Munich, Ottostrabe" },
-                   { CompanyId: "13", Country: "France", City: "Nantes", Street: "Saget", detail_Company: "Company name: BHF", detail: "Address: France, Nantes, Saget" },
-                   { CompanyId: "14", Country: "Italy", City: "Turin", Street: "Cenicia", detail_Company: "Company name: Mariott Intarnational, Inc", detail: "Address: Italy, Turin, Cenicia" },
-                   { CompanyId: "15", Country: "Denmark", City: "Odense", Street: "Assensvej", detail_Company: "Company name: Hasbro, Inc", detail: "Address: Denmark, Odense, Assensvej" },
-                   { CompanyId: "16", Country: "Great Britain", City: "Boston", Street: "Frampton", detail_Company: "Company name: Balfour Beatty Construction", detail: "Address: Great Britain, Boston, Frampton" },
-                   { CompanyId: "7", Country: "Germany", City: "Frankfurt", Street: "Dreieich", detail_Company: "Company name: Lastwagen", detail: "Address: Germany, Frankfurt, Dreieich" },
-                   { CompanyId: "17", Country: "Italy", City: "Turin", Street: "Santa Rita", detail_Company: "Company name: Deloitte", detail: "Address: Italy, Turin, Santa Rita" },
-                   { CompanyId: "9", Country: "USA", City: "Madison", Street: "Fitchburg", detail_Company: "Company name: Target", detail: "Address: USA, Madison, Fitchburg" }
+                { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+                { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+                { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+                { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+                { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+                { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+                { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella" },
+                { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella" },
+                { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson" },
+                { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda" },
+                { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin" },
+                { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush" },
+                { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt" },
+                { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "First name: Rob", detail_Surname: "Last name: Premo" },
+                { Name: "Larry", Surname: "Figgins", Age: "20", detail: "Person details: Larry Figgins, 20 years, accounter", detail_Name: "First name:  Larry", detail_Surname: "Last name: Figgins" },
+                { Name: "Tina", Surname: "Ham", Age: "43", detail: "Person details: Tina Ham, 43 years, loan officer", detail_Name: "First name: Tina", detail_Surname: "Last name: Ham" },
+                { Name: "Nelson", Surname: "Seidel", Age: "31", detail: "Person details: Nelson Seidel, 31 years, sales manager", detail_Name: "First name: Nelson", detail_Surname: "Last name: Seidel" },
+                { Name: "Ashley", Surname: "Stevens", Age: "22", detail: "Person details: Ashley Stevens, 22 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Stevens" },
+                { Name: "Ashley", Surname: "Gardella", Age: "21", detail: "Person details: item Ashley Gardella, 21 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Gardella" },
+                { Name: "Cathrine", Surname: "Swanson", Age: "23", detail: "Person details: Cathrine Swanson,23 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                { Name: "Maya", Surname: "Lewis", Age: "25", detail: "Person details: Maya Lewis, 25 years, sales manager", detail_Name: "First name: Maya", detail_Surname: "Last name: Lewis" },
+                { Name: "Ted", Surname: "Lewis", Age: "20", detail: "Person details: Ted Lewis, 20 years, retailer", detail_Name: "First name: Ted", detail_Surname: "Last name: Lewis" },
+                { Name: "William", Surname: "Swanson", Age: "25", detail: "Person details: William Swanson, 25 years, HR officer", detail_Name: "First name: William ", detail_Surname: "Last name: Swanson" },
+                { Name: "Alison", Surname: "Lewis", Age: "32", detail: "Person details:Alison Lewis, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Lewis" },
+                { Name: "Nicole", Surname: "Turner", Age: "20", detail: "Person details: Nicole Turner, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Turner" },
+                { Name: "Theron", Surname: "Carter", Age: "25", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
+                { Name: "George", Surname: "Collins", Age: "39", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
+                { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
            ];
 
            var TGrid = angular.module('TGrid', [])
                .controller("ctrl", function ctrl($scope) {
                    $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+                   $scope.nameColumnTitle = "First Name";
                })
                .directive('tGrid', TGrid.Angular.Directive);
 

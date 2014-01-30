@@ -5,24 +5,17 @@
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" >
                 <script type="text/html">
-                    <column data-g-member ="CompanyId">
+                    <column data-g-member="Name">
                         <header>
-                            <span style="font-weight:600; font-size: smaller;">Company Id </span>
+                            <span>First Name</span>
                         </header>
                     </column>
-                    <column  data-g-member ="Country">
-                        <header>
-                            <span style="font-size: large; color: green;">Country</span>
-                        </header>
+                    <column data-g-member="Surname">
+                        <header>Last Name</header>
                     </column>
-                    <column data-g-member ="City">
+                    <column data-g-member="Age">
                         <header>
-                            <span style="font-size: large;">City</span>
-                        </header>
-                    </column>
-                    <column data-g-member ="Street">
-                        <header>
-                            <span style="font-size: large; color:#333;">Street</span>
+                            <span style="color: green;">Age</span>
                         </header>
                     </column>
                 </script>

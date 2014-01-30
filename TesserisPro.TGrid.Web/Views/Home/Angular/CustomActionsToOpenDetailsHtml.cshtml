@@ -3,50 +3,50 @@
 <pre class="brush: html">
     <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" selectionMode="single" showDetailsOnSelection="false">
-                    <script type="text/html">
-                        <column data-g-width="100" data-g-member ="CompanyId">
-                            <cell>
-                            <span>{{item.CompanyId}}</span>
+            <t-grid id="test-angular" provider="dataProvider" selectionmode="single" showdetailsonselection="false">
+                <script type="text/html">
+                    <column data-g-width="150" data-g-member="Name">
+                        <cell>
+                            <span>{{item.Name}}</span>
                             <a href ng-mouseover="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
                         </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Company}}</div>
+                                <div style="color: #444;">{{item.detail_Name}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="195" data-g-member ="Country">
+                    <column data-g-width="180" data-g-member="Surname">
                         <cell>
-                            <span>{{item.Country}}</span>
-                            <div ng-click="toggleDetailsForCell(1); $event.stopPropagation();" class ="tgrid-custom-details-button" style="float:right">Toggle Details</div>
-                        </cell>
+                            <span>{{item.Surname}}</span>
+                            <div ng-click="toggleDetailsForCell(1); $event.stopPropagation();" class="tgrid-custom-details-button" style="float:right">Toggle Details</div>
+                            </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Country}}</div>
+                                <div style="color: #444;">{{item.detail_Surname}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-width="100" data-g-member ="City">
-                    </column>
-                    <column data-g-width="100" data-g-member ="Street">
+                        <column data-g-width="150" data-g-member="Age">
                     </column>
                     <column data-g-width="116">
                         <header>
                             <span>Details for row</span>
                         </header>
                         <cell>
-                            <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="openDetailsForCell(-1); $event.stopPropagation();">Open</div>
-                            <div class ="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="closeDetailsForCell(-1); $event.stopPropagation();">Close</div>
+                            <div class="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="openDetailsForCell(-1); $event.stopPropagation();">Open</div>
+                            <div class="tgrid-custom-details-button" style="color: #444; width:50px" ng-click="closeDetailsForCell(-1); $event.stopPropagation();">Close</div>
                         </cell>
                     </column>
                     <details>
                         <div>
-                            <div>This is a sample of row details: </div>
-                            <div style="color: #444;">{{item.detail}}</div>                    
-                            <div><span>Company detail : </span><span style="color: #444;">{{item.detail_Company}} </span></div>         
+                            <div>This is a sample of table row details:  </div>
+                            <div style="color: #444;">{{item.detail}}</div>
+                            <div><span>First Name: </span><span style="color: #444;">{{item.Name}}</span></div>
+                            <div><span>Last Name: </span><span style="color: #444;">{{item.Surname}}</span></div>
+                            <div><span>Age: </span><span style="color: #444;">{{item.Age}}</span></div>  
                         </div>
                     </details>
                 </script>

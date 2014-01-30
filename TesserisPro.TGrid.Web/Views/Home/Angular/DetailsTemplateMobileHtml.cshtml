@@ -1,45 +1,43 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-     <div ng-app="TGrid"> 
+    <div ng-app="TGrid"> 
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true">
+            <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true">
                 <script type="text/html">
-                    <column data-g-member="CompanyId"> 
+                    <column data-g-member="Name"> 
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;"> {{item.detail_Company}}</div>
+                                <div style="color: #444;"> {{item.detail_Name}}</div>
                             </div>
                         </celldetail>
                     </column>
-                    <column data-g-member="Country">
+                    <column data-g-member="Surname">
                     </column>
-                    <column data-g-member="City">
-                    </column>
-                    <column data-g-member="Street">
+                    <column data-g-member="Age">
                     </column>
                     <mobile>
                         <div>
-                            <span>Company Id: </span>
-                            <span>{{item.CompanyId}}</span>
+                            <span>First Name: </span>
+                            <span>{{item.Name}}</span>
                             <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a>
                             <br />
-                            <span>Country: </span>
-                            <span>{{item.Country}}</span>
+                            <span>Last Name: </span>
+                            <span>{{item.Surname}}</span>
                             <br />
-                            <span>City: </span>
-                            <span>{{item.City}}</span>
+                            <span>Age: </span>
+                            <span>{{item.Age}}</span>
                             <br />
-                            <span>Street: </span>
-                            <span>{{item.Street}}</span>
                         </div>       
                     </mobile>
                     <details>
                         <div>
-                            <div>This is a sample of row details: </div>
-                            <div style="color: #444;">{{item.detail}}</div>                    
-                            <div><span>Company detail : </span><span style="color: #444;">{{item.detail_Company}}</span></div>         
+                            <div>This is a sample of table row details:  </div>
+                            <div style="color: #444;">{{item.detail}}</div>
+                            <div><span>First Name : </span><span style="color: #444;">{{item.Name}}</span></div>
+                            <div><span>Last Name : </span><span style="color: #444;">{{item.Surname}}</span></div>
+                            <div><span>Age : </span><span style="color: #444;">{{item.Age}}</span></div>
                         </div>
                     </details>
                 </script>

@@ -1,17 +1,17 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -114,9 +114,9 @@ var TesserisPro;
                         break;
                     }
 
-                    (headers.item(i + option.columns.length)).style.width = option.columns[columnNumber].width.toString() + "px";
-                    var headerContainer = (headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
-                    (headerContainer).style.width = option.columns[columnNumber].width.toString() + "px";
+                    headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
+                    var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
+                    headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
                     columnNumber++;
                 }
 
@@ -129,7 +129,7 @@ var TesserisPro;
                             var columns = dataRow.getElementsByTagName("td");
                             columnNumber = 0;
                             for (var j = 0; j < columns.length - 1; j++) {
-                                if ((columns.item(j)).classList.contains("tgrid-table-indent-cell")) {
+                                if (columns.item(j).classList.contains("tgrid-table-indent-cell")) {
                                     continue;
                                 }
 
@@ -142,9 +142,9 @@ var TesserisPro;
                                     break;
                                 }
 
-                                (columns.item(j)).style.width = option.columns[columnNumber].width.toString() + "px";
-                                var cellContainer = (columns.item(j)).firstChild;
-                                (cellContainer).style.width = option.columns[columnNumber].width.toString() + "px";
+                                columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
+                                var cellContainer = columns.item(j).firstChild;
+                                cellContainer.style.width = option.columns[columnNumber].width.toString() + "px";
                                 columnNumber++;
                             }
                         }
@@ -256,6 +256,7 @@ var TesserisPro;
                     hideElement(cells[i]);
                 }
 
+                //check that number of existing indent-cells is not more than number of needed indent-cells
                 if (cells.length < level) {
                     visibleIndentsNumber = cells.length;
                 }
@@ -293,8 +294,8 @@ var TesserisPro;
                                 deleteGroupButton["data-delete-group-by-number"] = i;
                                 deleteGroupButton.onclick = function (e) {
                                     e.cancelBubble = true;
-                                    TGrid.Grid.getGridObject(e.target).removeCollapsedFiltersOnGroupByCancel(e.target["data-delete-group-by-number"]);
-                                    TGrid.Grid.getGridObject(e.target).removeGroupDescriptor((e.target["data-delete-group-by"]).path);
+                                    TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFiltersOnGroupByCancel(e.target["data-delete-group-by-number"]);
+                                    TesserisPro.TGrid.Grid.getGridObject(e.target).removeGroupDescriptor(e.target["data-delete-group-by"].path);
                                 };
 
                                 buttonsContainer.appendChild(deleteGroupButton);
@@ -328,7 +329,7 @@ var TesserisPro;
                                 groupMenuItem.appendChild(columnHeader);
                                 groupMenuItem.onclick = function (e) {
                                     hideElement(menu);
-                                    TGrid.Grid.getGridObject(e.target).addGroupDescriptor(e.currentTarget["data-group-by-path"], true);
+                                    TesserisPro.TGrid.Grid.getGridObject(e.target).addGroupDescriptor(e.currentTarget["data-group-by-path"], true);
                                 };
 
                                 menu.appendChild(groupMenuItem);
@@ -393,15 +394,15 @@ var TesserisPro;
                             var headerBottomY = header.getBoundingClientRect().bottom;
                             var eventTargetLeftX = eventTarget.getBoundingClientRect().left;
                             if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
-                                TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX, headerBottomY, true);
+                                TesserisPro.TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX, headerBottomY, true);
                                 if ((eventTargetLeftX + filterPopupContainer.offsetWidth) > header.getBoundingClientRect().right) {
-                                    TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX - filterPopupContainer.offsetWidth, headerBottomY, true);
+                                    TesserisPro.TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX - filterPopupContainer.offsetWidth, headerBottomY, true);
                                 }
                             } else {
-                                TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
+                                TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
                             }
                             self.doOnClickOutside(filterPopupContainer, function () {
-                                return TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
+                                return TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
                             });
                             e.cancelBubble = true;
                         };
@@ -484,7 +485,7 @@ var TesserisPro;
                             sortButton.onclick = function (e) {
                                 e.cancelBubble = true;
                                 hideElement(menu);
-                                TGrid.Grid.getGridObject(e.target).sortBy(e.target["data-g-path"]);
+                                TesserisPro.TGrid.Grid.getGridObject(e.target).sortBy(e.target["data-g-path"]);
                             };
                         }
                         if (option.enableFiltering && column.filterMemberPath != null) {
@@ -512,7 +513,7 @@ var TesserisPro;
                                 self.doOnClickOutside(filterPopUp, function () {
                                     hideElement(filterPopUp);
                                 });
-                                TGrid.Grid.getGridObject(e.target).showFilterPopup(e.target["data-g-column"], e.pageX, e.pageY, false);
+                                TesserisPro.TGrid.Grid.getGridObject(e.target).showFilterPopup(e.target["data-g-column"], e.pageX, e.pageY, false);
                             };
                         }
                         if (option.enableGrouping && column.groupMemberPath != null) {
@@ -536,7 +537,7 @@ var TesserisPro;
                             groupButton.onclick = function (e) {
                                 e.cancelBubble = true;
                                 hideElement(menu);
-                                var grid = TGrid.Grid.getGridObject(e.target);
+                                var grid = TesserisPro.TGrid.Grid.getGridObject(e.target);
                                 grid.toggleGroupDescriptor(e.target["data-g-path"]);
                             };
                         }

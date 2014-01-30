@@ -42,6 +42,7 @@
 
 .tgrid-mobile-header {
      border-bottom: 1px solid #BEBEBE;
+     background:white;
 }
 
 .tgrid-header-cell-container{
@@ -278,7 +279,7 @@ td a {
     padding: 3px;
     z-index:1;
     border: 1px solid #BEBEBE;
-    width: 160px;
+    width: 162px;
 }
 
 .tgrid-filter-popup-container>select, .tgrid-filter-popup-container>button, .tgrid-filter-popup-container>input {
@@ -460,6 +461,7 @@ th.tgrid-placeholder {
 .tgrid-mobile-group-header {
     height: 33px;
     border-top: 1px solid #BEBEBE;
+    color: #555;
 }
 
 .tgrid-mobile-group-header .tgrid-mobile-group-indent-div
