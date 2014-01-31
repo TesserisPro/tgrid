@@ -49,11 +49,11 @@ var TesserisPro;
             FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
-        (function (FilterOperation) {
-            FilterOperation[FilterOperation["And"] = 0] = "And";
-            FilterOperation[FilterOperation["Or"] = 1] = "Or";
-        })(TGrid.FilterOperation || (TGrid.FilterOperation = {}));
-        var FilterOperation = TGrid.FilterOperation;
+        (function (LogicalOperator) {
+            LogicalOperator[LogicalOperator["And"] = 0] = "And";
+            LogicalOperator[LogicalOperator["Or"] = 1] = "Or";
+        })(TGrid.LogicalOperator || (TGrid.LogicalOperator = {}));
+        var LogicalOperator = TGrid.LogicalOperator;
         ;
 
         var ColumnInfo = (function () {
@@ -92,7 +92,7 @@ var TesserisPro;
                 this.firstLoadSize = 10;
                 this.currentPage = 0;
                 this.groupBySortDescriptors = [];
-                this.filterDescriptors = [];
+                this.filterDescriptor = TesserisPro.TGrid.FilterDescriptor.getEmpty();
                 this.selection = [];
                 this.columnMinWidth = 5;
                 this.target = element;

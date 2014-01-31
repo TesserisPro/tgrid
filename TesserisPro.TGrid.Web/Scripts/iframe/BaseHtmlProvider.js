@@ -294,7 +294,6 @@ var TesserisPro;
                                 deleteGroupButton["data-delete-group-by-number"] = i;
                                 deleteGroupButton.onclick = function (e) {
                                     e.cancelBubble = true;
-                                    TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFiltersOnGroupByCancel(e.target["data-delete-group-by-number"]);
                                     TesserisPro.TGrid.Grid.getGridObject(e.target).removeGroupDescriptor(e.target["data-delete-group-by"].path);
                                 };
 
@@ -402,7 +401,10 @@ var TesserisPro;
                                 TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
                             }
                             self.doOnClickOutside(filterPopupContainer, function () {
-                                return TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
+                                var grid = TesserisPro.TGrid.Grid.getGridObject(eventTarget);
+                                if (grid != null) {
+                                    grid.hideFilterPopup();
+                                }
                             });
                             e.cancelBubble = true;
                         };
@@ -492,8 +494,8 @@ var TesserisPro;
                             var filterButton = document.createElement("div");
                             var isFiltered = false;
 
-                            for (var j = 0; j < option.filterDescriptors.length; j++) {
-                                if (option.filterDescriptors[j].path == column.filterMemberPath) {
+                            for (var j = 0; j < option.filterDescriptor.children.length; j++) {
+                                if (option.filterDescriptor.children[j].path == column.filterMemberPath) {
                                     filterButton.className = "tgrid-mobile-filter-button-active";
                                     isFiltered = true;
                                     break;
@@ -549,19 +551,20 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.doOnClickOutside = function (target, action) {
-                BaseHtmlProvider.oldOnClick = document.onclick;
-                document.onclick = function (e) {
+                var eventListener = function (e) {
                     var currentElement = e.target;
-                    while (currentElement.tagName != 'BODY') {
+
+                    while (currentElement != null && currentElement.tagName != 'BODY') {
                         if (currentElement == target) {
                             return;
                         }
-
                         currentElement = currentElement.parentElement;
                     }
-                    document.onclick = BaseHtmlProvider.oldOnClick;
+                    document.removeEventListener("click", eventListener);
                     action();
                 };
+
+                document.addEventListener("click", eventListener);
             };
 
             BaseHtmlProvider.prototype.appendIndent = function (target, level, isHeader) {
@@ -603,7 +606,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
-                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptors.length > 0) {
+                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0 /* None */) {
                     return true;
                 } else {
                     return false;

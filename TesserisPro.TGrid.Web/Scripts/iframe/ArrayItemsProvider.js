@@ -36,29 +36,36 @@ var TesserisPro;
     (function (TGrid) {
         var ArrayItemsProvider = (function () {
             function ArrayItemsProvider(items) {
-                this.items = items;
+                this.sourceItems = items;
             }
-            ArrayItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
-                var oldItems = new Array();
-                oldItems = oldItems.concat(this.items);
-                this.sort(sortDescriptors);
-                var self = this;
+            ArrayItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptor, collapsedFilterDescriptors, callback) {
+                // Copy items
+                var items = new Array();
+                items = items.concat(this.sourceItems);
 
-                callback(self.onFiltering(filterDescriptors, collapsedFilterDescriptors).slice(firstItem, firstItem + itemsNumber), firstItem, itemsNumber);
+                // SortItems
+                this.sort(items, sortDescriptors);
 
-                this.items = new Array();
-                this.items = this.items.concat(oldItems);
+                // FilterItems
+                items = this.filter(items, filterDescriptor, collapsedFilterDescriptors);
+
+                // Apply paging
+                items = items.slice(firstItem, firstItem + itemsNumber);
+
+                // Return result
+                callback(items, firstItem, itemsNumber);
             };
 
-            ArrayItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
-                callback(this.onFiltering(filterDescriptors, null).length);
+            ArrayItemsProvider.prototype.getTotalItemsCount = function (filterDescriptor, callback) {
+                // For items count we just need to apply filter
+                callback(this.filter(this.sourceItems, filterDescriptor, null).length);
             };
 
-            ArrayItemsProvider.prototype.sort = function (sortDescriptors) {
+            ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {
+                var _this = this;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
-                    var self = this;
-                    this.items.sort(function (a, b) {
-                        return self.compareRecursive(a, b, sortDescriptors, 0);
+                    items.sort(function (a, b) {
+                        return _this.compareRecursive(a, b, sortDescriptors, 0);
                     });
                 }
             };
@@ -83,92 +90,93 @@ var TesserisPro;
                 return sortDescriptor.asc ? -1 : 1;
             };
 
-            ArrayItemsProvider.prototype.onFiltering = function (filterDescriptors, collapsedFilterDescriptors) {
-                if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
-                    return this.items;
+            ArrayItemsProvider.prototype.filter = function (items, filterDescriptor, collapsedFilterDescriptors) {
+                if (filterDescriptor == null && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
+                    return items;
                 }
 
                 if (collapsedFilterDescriptors == undefined) {
                     collapsedFilterDescriptors = [];
                 }
 
-                var isCollapsedItem = [];
+                var collapsedFilterUsed = [];
                 for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
-                    isCollapsedItem.push(false);
+                    collapsedFilterUsed.push(false);
                 }
 
                 var filteredItems = [];
-                for (var j = 0; j < this.items.length; j++) {
-                    // filtering common filters
-                    var isFiltered = 0;
-                    for (var i = 0; i < filterDescriptors.length; i++) {
-                        if (this.filter(this.items[j], filterDescriptors[i])) {
-                            isFiltered++;
-                        }
+                for (var j = 0; j < items.length; j++) {
+                    if (!this.isFilterSatisfied(items[j], filterDescriptor)) {
+                        continue;
                     }
 
-                    // filtering collapsed filter
-                    var isCollapsedFiltered = false;
-                    var numberfilter = -1;
+                    var isFilteredOut = false;
                     for (var i = 0; i < collapsedFilterDescriptors.length; i++) {
-                        if (this.filter(this.items[j], collapsedFilterDescriptors[i])) {
-                            isCollapsedFiltered = true;
-                            numberfilter = i;
-                            i = collapsedFilterDescriptors.length;
+                        if (this.isFilterSatisfied(items[j], collapsedFilterDescriptors[i])) {
+                            if (!collapsedFilterUsed[i]) {
+                                collapsedFilterUsed[i] = true;
+                            } else {
+                                isFilteredOut = true;
+                            }
+                            break;
                         }
                     }
 
-                    //add fake item for creating collapsing group
-                    if (isFiltered == 0 && !isCollapsedFiltered) {
-                        filteredItems.push(this.items[j]);
-                    } else {
-                        if (isFiltered == 0) {
-                            if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
-                                var fakeItem = {};
-
-                                //fakeItem["isFakeItem"] = true;
-                                fakeItem[collapsedFilterDescriptors[numberfilter].path] = collapsedFilterDescriptors[numberfilter].value;
-                                for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
-                                    fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
-                                }
-                                filteredItems.push(fakeItem);
-                                isCollapsedItem[numberfilter] = true;
-                            }
-                        }
+                    if (!isFilteredOut) {
+                        filteredItems.push(items[j]);
                     }
                 }
 
                 return filteredItems;
             };
 
-            ArrayItemsProvider.prototype.filter = function (item, filterDescriptor) {
-                if (!this.isFiltering(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
-                    if (filterDescriptor.children.length == 0) {
+            ArrayItemsProvider.prototype.isFilterSatisfied = function (item, filterDescriptor) {
+                if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+                    if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1 /* Or */) {
                         return true;
                     } else {
-                        var result = 0;
-                        for (var i = 0; i < filterDescriptor.children.length; i++) {
-                            if (!this.isFiltering(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
-                                result++;
-                            }
-                        }
-                        if (result == filterDescriptor.children.length) {
+                        return this.isChildFiltersSatisfied(item, filterDescriptor);
+                    }
+                } else {
+                    if (filterDescriptor.parentChildUnionOperator == 0 /* And */) {
+                        return false;
+                    } else {
+                        return this.isChildFiltersSatisfied(item, filterDescriptor);
+                    }
+                }
+            };
+
+            ArrayItemsProvider.prototype.isChildFiltersSatisfied = function (item, filterDescriptor) {
+                if (filterDescriptor.childrenUnionOperator == 1 /* Or */) {
+                    for (var i = 0; i < filterDescriptor.children.length; i++) {
+                        if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
                             return true;
                         }
                     }
-                }
 
-                return false;
+                    return false;
+                } else {
+                    for (var i = 0; i < filterDescriptor.children.length; i++) {
+                        if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             };
 
-            ArrayItemsProvider.prototype.isFiltering = function (item, value, condition) {
+            ArrayItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, condition) {
                 switch (condition) {
-                    case 1:
+                    case 0 /* None */:
+                        return true;
+                    case 1 /* Equals */:
                         return (item == value);
-                    case 2:
+                    case 2 /* NotEquals */:
                         return (item != value);
+                    default:
+                        return false;
                 }
-                return false;
             };
             return ArrayItemsProvider;
         })();

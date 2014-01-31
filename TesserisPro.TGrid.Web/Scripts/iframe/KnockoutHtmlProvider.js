@@ -127,8 +127,8 @@ var TesserisPro;
                         for (var headerElementNumber = indendsQuantity, j = 0; headerElementNumber < headerElementsQuantity, j < columnsQuantity; headerElementNumber, j++) {
                             if (option.columns[j].device.indexOf("desktop") != -1) {
                                 var isFilterApplied = false;
-                                for (var i = 0; i < option.filterDescriptors.length; i++) {
-                                    if (option.filterDescriptors[i].path == option.columns[j].filterMemberPath && option.columns[j].filterMemberPath != null) {
+                                for (var i = 0; i < option.filterDescriptor.children.length; i++) {
+                                    if (option.filterDescriptor.children[i].path == option.columns[j].filterMemberPath && option.columns[j].filterMemberPath != null) {
                                         isFilterApplied = true;
                                         break;
                                     }
@@ -200,7 +200,6 @@ var TesserisPro;
                                     var position = 0;
                                     columnResize.onmousedown = function (e) {
                                         e.stopImmediatePropagation();
-                                        console.log("test");
                                         position = e.screenX;
                                         documentMouseMove = document.onmousemove;
                                         document.onmousemove = function (m) {

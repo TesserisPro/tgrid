@@ -55,21 +55,24 @@ var TesserisPro;
 
             AngularFilterPopupViewModel.prototype.onApply = function () {
                 this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
+                var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
+
+                grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
                 if (this.condition != 0 /* None */) {
                     this.value = this.container.getElementsByTagName("input")[0].value;
-                    var filterDescriptor = new TesserisPro.TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition);
-                    var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
-                    grid.setFilters(filterDescriptor, this.$scope.path);
-                } else {
-                    TesserisPro.TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
+                    grid.options.filterDescriptor.addChild(new TesserisPro.TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition));
                 }
+                grid.applyFilters();
 
                 hideElement(this.container);
                 this.onCloseFilterPopup();
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
-                TesserisPro.TGrid.Grid.getGridObject(this.container).removeFilters(this.$scope.path);
+                var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
+                grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
+                grid.applyFilters();
+
                 hideElement(this.container);
                 this.onCloseFilterPopup();
             };
@@ -80,15 +83,19 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onOpen = function (options, column) {
-                TesserisPro.TGrid.Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
-                this.$scope.path = column.filterMemberPath;
                 this.columnInfo = column;
-                for (var i = 0; i < options.filterDescriptors.length; i++) {
-                    if (options.filterDescriptors[i].path == column.filterMemberPath) {
-                        this.container.getElementsByTagName("input")[0].value = options.filterDescriptors[i].value;
-                        this.container.getElementsByTagName("select")[0].selectedIndex = options.filterDescriptors[i].condition;
+                this.$scope.path = column.filterMemberPath;
+                for (var i = 0; i < options.filterDescriptor.children.length; i++) {
+                    if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
+                        this.container.getElementsByTagName("input")[0].value = options.filterDescriptor.children[i].value;
+                        this.container.getElementsByTagName("select")[0].selectedIndex = options.filterDescriptor.children[i].condition;
+                        this.$scope.$apply();
+                        return;
                     }
                 }
+
+                this.container.getElementsByTagName("input")[0].value = '';
+                this.container.getElementsByTagName("select")[0].selectedIndex = 0 /* None */;
                 this.$scope.$apply();
             };
 

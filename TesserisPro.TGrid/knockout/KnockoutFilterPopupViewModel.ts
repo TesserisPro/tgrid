@@ -52,20 +52,24 @@ module TesserisPro.TGrid {
 
         public onApply() {
             this.condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
+            var grid = Grid.getGridObject(this.container);
+
+            grid.options.filterDescriptor.removeChildByPath(this.path());
             if (this.condition != FilterCondition.None) {
                 this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-                var filterDescriptor = new FilterDescriptor(this.path(), this.value, this.condition);
-                var grid = Grid.getGridObject(this.container);
-                grid.setFilters(filterDescriptor, this.path());
-            } else {
-                Grid.getGridObject(this.container).removeFilters(this.path());
+                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.path(), this.value, this.condition));
             }
+            grid.applyFilters();
+
             hideElement(this.container);
             this.onCloseFilterPopup();
         }
 
         public onClear() {
-            Grid.getGridObject(this.container).removeFilters(this.path());
+            var grid = Grid.getGridObject(this.container);
+            grid.options.filterDescriptor.removeChildByPath(this.path());
+            grid.applyFilters();
+
             hideElement(this.container);
             this.onCloseFilterPopup();
         }
@@ -76,15 +80,18 @@ module TesserisPro.TGrid {
         }
 
         public onOpen(options: Options, column: ColumnInfo) {
-            Grid.getGridObject(this.container).setDefaultFilterPopUpValues();
             this.columnInfo = column;
             this.path(column.filterMemberPath);
-            for (var i = 0; i < options.filterDescriptors.length; i++) {
-                if (options.filterDescriptors[i].path == column.filterMemberPath) {
-                    (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = options.filterDescriptors[i].value;
-                    (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptors[i].condition;
+            for (var i = 0; i < options.filterDescriptor.children.length; i++) {
+                if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
+                    (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
+                    (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
+                    return;
                 }
             }
+
+            (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = '';
+            (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
         }
 
         public getColumnInfo(): ColumnInfo {

@@ -31,13 +31,30 @@ var TesserisPro;
     //=====================================================================================
     (function (TGrid) {
         var FilterDescriptor = (function () {
-            function FilterDescriptor(path, values, condition, operation, children) {
+            function FilterDescriptor(path, values, condition, parentChildOperator, childOperator, children) {
                 this.path = path;
                 this.value = values;
                 this.condition = condition;
                 this.children = children != undefined ? children : new Array();
-                this.operation = operation != undefined ? operation : 0 /* And */;
+                this.childrenUnionOperator = childOperator != undefined ? childOperator : 0 /* And */;
+                this.parentChildUnionOperator = parentChildOperator != undefined ? parentChildOperator : 0 /* And */;
             }
+            FilterDescriptor.prototype.addChild = function (filter) {
+                this.children.push(filter);
+            };
+
+            FilterDescriptor.prototype.removeChildByPath = function (path) {
+                for (var i = 0; i < this.children.length; i++) {
+                    if (this.children[i].path == path) {
+                        this.children.splice(i, 1);
+                        return;
+                    }
+                }
+            };
+
+            FilterDescriptor.getEmpty = function () {
+                return new FilterDescriptor("", "", 0 /* None */);
+            };
             return FilterDescriptor;
         })();
         TGrid.FilterDescriptor = FilterDescriptor;
