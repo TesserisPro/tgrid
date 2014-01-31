@@ -678,6 +678,7 @@ module TesserisPro.TGrid {
                 this.nextPage = null;
                 this.previousPage = null;
                 this.enablePreload = true;
+                this.rootElement.focus();
             }
         }
 
