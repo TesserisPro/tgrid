@@ -131,7 +131,7 @@ module TesserisPro.TGrid {
             var dataRow: HTMLElement;
 
             for (var i = 0; i < tableRows.length; i++) {
-                if (tableRows.item(i).classList.contains("table-body-row")) {
+                if (tableRows.item(i).classList.contains("tgrid-table-body-row")) {
                     dataRow = tableRows.item(i);
                     if (dataRow != undefined) {
                         var columns = dataRow.getElementsByTagName("td");

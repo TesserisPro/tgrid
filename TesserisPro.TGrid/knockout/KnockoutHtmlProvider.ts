@@ -319,7 +319,7 @@ module TesserisPro.TGrid {
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
-            row.classList.add("table-body-row");
+            row.classList.add("tgrid-table-body-row");
 
             if (option.isSelected(item.item)) {
                 row.classList.add("selected");

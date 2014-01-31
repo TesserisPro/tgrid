@@ -123,7 +123,7 @@ var TesserisPro;
                 var dataRow;
 
                 for (var i = 0; i < tableRows.length; i++) {
-                    if (tableRows.item(i).classList.contains("table-body-row")) {
+                    if (tableRows.item(i).classList.contains("tgrid-table-body-row")) {
                         dataRow = tableRows.item(i);
                         if (dataRow != undefined) {
                             var columns = dataRow.getElementsByTagName("td");
@@ -401,7 +401,10 @@ var TesserisPro;
                                 TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
                             }
                             self.doOnClickOutside(filterPopupContainer, function () {
-                                return TesserisPro.TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
+                                var grid = TesserisPro.TGrid.Grid.getGridObject(eventTarget);
+                                if (grid != null) {
+                                    grid.hideFilterPopup();
+                                }
                             });
                             e.cancelBubble = true;
                         };

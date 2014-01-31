@@ -142,9 +142,10 @@ th.tgrid-table-indent-cell-content
     background-color: #dbdbde !important;
 }
 
-.table-body-row .tgrid-cell-content span
+.tgrid-table-body-row .tgrid-cell-content span
 {
     padding-left: 2px;
+    height: 26px;
 }
 
 .tgrid-tablebodycontainer {

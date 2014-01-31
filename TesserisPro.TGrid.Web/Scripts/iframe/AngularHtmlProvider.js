@@ -358,7 +358,7 @@ var TesserisPro;
 
             AngularHtmlProvider.prototype.buildRowElement = function (option, item, container, selected, angularModuleName, angularModule) {
                 var row = document.createElement("tr");
-                row.classList.add("table-body-row");
+                row.classList.add("tgrid-table-body-row");
 
                 if (option.isSelected(item.item)) {
                     row.classList.add("selected");

@@ -196,6 +196,9 @@ var TesserisPro;
                 this.hideBuisyIndicator();
             }
             Grid.getGridObject = function (element) {
+                if (element == null) {
+                    return null;
+                }
                 if (element.grid == undefined || element.grid == null) {
                     if (element.parentElement == document.body) {
                         return null;
