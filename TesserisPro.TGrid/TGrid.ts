@@ -873,7 +873,7 @@ module TesserisPro.TGrid {
 
             var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
             
-            this.scrollTableContainer(scrollTo);
+            this.tableBodyContainer.scrollTop = scrollTo;
         }
 
         public updateRow(item: any, shouldAddDetails: boolean): void {
