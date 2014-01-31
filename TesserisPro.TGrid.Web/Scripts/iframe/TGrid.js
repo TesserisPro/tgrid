@@ -622,6 +622,7 @@ var TesserisPro;
                     this.nextPage = null;
                     this.previousPage = null;
                     this.enablePreload = true;
+                    this.rootElement.focus();
                 }
             };
 
@@ -816,7 +817,7 @@ var TesserisPro;
 
                 var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
 
-                this.scrollTableContainer(scrollTo);
+                this.tableBodyContainer.scrollTop = scrollTo;
             };
 
             Grid.prototype.updateRow = function (item, shouldAddDetails) {
