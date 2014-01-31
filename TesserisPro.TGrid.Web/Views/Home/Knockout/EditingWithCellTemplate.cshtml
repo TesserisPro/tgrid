@@ -16,9 +16,28 @@
         <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
         <script src="~/Scripts/iframe/knockout.mapping-latest.js"></script>
 
-        <script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/ItemViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IItemProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IHtmlProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IFooterViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IFilterPopupViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/Options.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/TGrid.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/ArrayItemsProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutFilterPopupViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutFooterViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutHtmlProvider.js" type="text/javascript"></script>
+        @*<script src="~/Scripts/iframe/AngularItemViewModel.js" type="text/javascript"></script>*@
+        <script src="~/Scripts/iframe/TGridBinding.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/SortDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>
+
+        @*<script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
         <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>*@
         <style>
             .tgrid-table tbody tr td span {
                 display: block;
@@ -32,19 +51,19 @@
                 <script type="text/html">
                     <column data-g-member="Name">
                         <cell>
-                            <span style="color: green;" data-bind="text: item.Name, event: { click: model.toggleActive(item.Name) }, css: { hidden: model.editingItem() == item.Name}"></span>                                     
+                            <span style="color: green;" data-bind="text: item.Name, event: { click: function(){model.toggleActive(item.Name)} }, css: { hidden: model.editingItem() == item.Name}"></span>                                     
                             <input class="tgrid-edit-input hidden" style="color: green;" data-bind="value: item.Name, css: { visible: model.editingItem() == item.Name}"></input>                    
                         </cell>
                     </column>
                     <column data-g-member="Surname"> 
                         <cell>
-                            <span data-bind="text: item.Surname, event: { click: model.toggleActive(item.Surname) }, css: { hidden: model.editingItem() == item.Surname}"></span>
+                            <span data-bind="text: item.Surname, event: { click: function(){model.toggleActive(item.Surname)}}, css: { hidden: model.editingItem() == item.Surname}"></span>
                             <input class="tgrid-edit-input hidden" data-bind="value: item.Surname, css: { visible: model.editingItem() == item.Surname }"></input>
                         </cell>
                     </column>
                     <column data-g-member="Age">            
                         <cell>
-                            <span style="color: red;" data-bind="text: item.Age, event: { click: model.toggleActive(item.Age) }, css: { hidden: model.editingItem() == item.Age}"></span>
+                            <span style="color: red;" data-bind="text: item.Age, event: { click:function(){ model.toggleActive(item.Age)}}, css: { hidden: model.editingItem() == item.Age}"></span>
                             <input class="tgrid-edit-input hidden" style="color: red;" data-bind="value: item.Age, css: { visible: model.editingItem() == item.Age}"></input>
                         </cell>
                     </column>
@@ -85,13 +104,11 @@
                 function vm() {
                     var self = this;
                     self.editingItem = ko.observable(null);
-                    self.editingItem.extend({notify: 'always'});
 
                     self.toggleActive = function (item) {
                         self.editingItem(item);
-                    }        
-                    self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);       
-                
+                    }
+                    self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                 };
 
                 $(function () {
