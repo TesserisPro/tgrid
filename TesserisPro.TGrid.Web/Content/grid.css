@@ -677,6 +677,9 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
         top: 30%;
         margin-left: -140px;        
     }
+    .tgrid-scroll {
+        display: none;
+    }
 }
 
 /* Desktop */
