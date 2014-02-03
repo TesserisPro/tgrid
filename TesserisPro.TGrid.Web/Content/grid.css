@@ -643,7 +643,14 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     margin: 2px;
     cursor: default;
 }
+
+.tgrid-table-group-header td div:hover {
+    cursor: default;
+}
  
+.tgrid-table-group-header.collapsing td div:hover {
+    cursor: pointer;
+}
 /* Mobile */
 @media (max-width: 480px) {
     .desktop {

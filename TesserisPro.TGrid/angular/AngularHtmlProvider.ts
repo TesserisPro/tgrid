@@ -479,6 +479,7 @@ module TesserisPro.TGrid {
             }
             
             if (option.enableCollapsing) {
+                headerTr.classList.add("collapsing");
                 headerTd.onclick = (e) => {
                     if (groupHeaderDescriptor.collapse) {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);

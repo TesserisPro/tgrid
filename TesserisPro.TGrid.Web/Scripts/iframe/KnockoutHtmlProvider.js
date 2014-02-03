@@ -395,6 +395,7 @@ var TesserisPro;
                 headerTd.classList.add("tgrid-table-group-header");
                 headerTr.classList.add("tgrid-table-group-header");
                 if (option.enableCollapsing) {
+                    headerTr.classList.add("collapsing");
                     if (!groupHeaderDescriptor.collapse) {
                         headerTd.onclick = function (e) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);

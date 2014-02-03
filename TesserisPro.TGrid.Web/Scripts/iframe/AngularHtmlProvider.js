@@ -468,6 +468,7 @@ var TesserisPro;
                 }
 
                 if (option.enableCollapsing) {
+                    headerTr.classList.add("collapsing");
                     headerTd.onclick = function (e) {
                         if (groupHeaderDescriptor.collapse) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
