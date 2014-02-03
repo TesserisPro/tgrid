@@ -651,6 +651,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 .tgrid-table-group-header.collapsing td div:hover {
     cursor: pointer;
 }
+
+.tgrid-mobile-group-header.collapsing:hover {
+    cursor: pointer;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
     .desktop {
