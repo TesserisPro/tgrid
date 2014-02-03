@@ -51,6 +51,18 @@ var TesserisPro;
                 this.$scope.changePage = function (pageNumber) {
                     return _this.changePage(pageNumber);
                 };
+                this.$scope.goToPreviousPagesBlock = function () {
+                    return _this.goToPreviousPagesBlock();
+                };
+                this.$scope.goToNextPagesBlock = function () {
+                    return _this.goToNextPagesBlock();
+                };
+                this.$scope.goToFirstPage = function () {
+                    return _this.goToFirstPage();
+                };
+                this.$scope.goToLastPage = function () {
+                    return _this.goToLastPage();
+                };
             };
 
             AngularFooterViewModel.prototype.setTotalCount = function (totalCount) {
@@ -115,6 +127,32 @@ var TesserisPro;
                 setTimeout(function () {
                     return _this.$scope.$apply();
                 }, 1);
+            };
+
+            AngularFooterViewModel.prototype.goToPreviousPagesBlock = function () {
+                var previousBlockPage = this.$scope.currentPage - this.grid.options.pageSlide - 1;
+                if (previousBlockPage > 0 && previousBlockPage != null && previousBlockPage != undefined) {
+                    this.grid.selectPage(previousBlockPage);
+                } else {
+                    this.grid.selectPage(0);
+                }
+            };
+
+            AngularFooterViewModel.prototype.goToNextPagesBlock = function () {
+                var nextBlockPage = this.$scope.currentPage + this.grid.options.pageSlide - 1;
+                if (nextBlockPage < this.$scope.totalPages && nextBlockPage != null && nextBlockPage != undefined) {
+                    this.grid.selectPage(nextBlockPage);
+                } else {
+                    this.grid.selectPage(this.$scope.totalPages - 1);
+                }
+            };
+
+            AngularFooterViewModel.prototype.goToFirstPage = function () {
+                this.grid.selectPage(0);
+            };
+
+            AngularFooterViewModel.prototype.goToLastPage = function () {
+                this.grid.selectPage(this.$scope.totalPages - 1);
             };
             return AngularFooterViewModel;
         })();

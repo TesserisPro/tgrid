@@ -67,6 +67,32 @@ var TesserisPro;
                     }
                 })();
             };
+
+            KnockoutFooterViewModel.prototype.goToPreviousPagesBlock = function () {
+                var previousBlockPage = this.currentPage() - this.grid.options.pageSlide - 1;
+                if (previousBlockPage > 0 && previousBlockPage != null && previousBlockPage != undefined) {
+                    this.grid.selectPage(previousBlockPage);
+                } else {
+                    this.grid.selectPage(0);
+                }
+            };
+
+            KnockoutFooterViewModel.prototype.goToNextPagesBlock = function () {
+                var nextBlockPage = this.currentPage() + this.grid.options.pageSlide - 1;
+                if (nextBlockPage < this.totalPages() && nextBlockPage != null && nextBlockPage != undefined) {
+                    this.grid.selectPage(nextBlockPage);
+                } else {
+                    this.grid.selectPage(this.totalPages() - 1);
+                }
+            };
+
+            KnockoutFooterViewModel.prototype.goToFirstPage = function () {
+                this.grid.selectPage(0);
+            };
+
+            KnockoutFooterViewModel.prototype.goToLastPage = function () {
+                this.grid.selectPage(this.totalPages() - 1);
+            };
             return KnockoutFooterViewModel;
         })();
         TGrid.KnockoutFooterViewModel = KnockoutFooterViewModel;

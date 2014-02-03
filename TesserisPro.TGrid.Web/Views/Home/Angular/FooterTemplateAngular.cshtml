@@ -40,7 +40,7 @@
     <body>
         <div ng-app="TGrid"> 
             <div ng-controller="ctrl">
-                <t-grid id="test-angular" provider="dataProvider" pagesize="15" pageslide="4" enablepaging="true">
+                <t-grid id="test-angular" provider="dataProvider" pagesize="15" pageslide="3" enablepaging="true">
                     <script type="text/html">
                         <column data-g-member="Name">
                         </column>
@@ -50,12 +50,18 @@
                         </column>
                         <footer>
                             <div class ="footer" style="font-size:14px;">
-                                <div class="tgrid-pagination" style="display:inline-block">
-                                    <span class='tgrid-page-number' ng-click="changePage(currentPage - 1);" ng-hide="(currentPage - 1) <= 0">...</span>
+                                <div class="tgrid-pagination" style="display:inline-block; float: left;">
+                                    <span class='tgrid-page-number' ng-click="goToFirstPage()" ng-hide="(currentPage - 4) <= 0">1</span>
+                                    <span class='tgrid-page-number' ng-click="goToPreviousPagesBlock();" ng-hide="(currentPage - 4) <= 0">...</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage - 3);" ng-hide="(currentPage - 3) <= 0">{{currentPage - 3}}</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage - 2);" ng-hide="(currentPage - 2) <= 0">{{currentPage - 2}}</span>
                                     <span class='tgrid-page-number' ng-click="changePage(currentPage - 1);" ng-hide="(currentPage - 1) <= 0">{{currentPage - 1}}</span>
                                     <span class='tgrid-page-current' >{{currentPage}}</span>
                                     <span class='tgrid-page-number' ng-click="changePage(currentPage + 1);" ng-hide="(currentPage + 1) > totalPages">{{currentPage+1}}</span>
-                                    <span class='tgrid-page-number' ng-click="changePage(currentPage + 1);" ng-hide="(currentPage + 1) > totalPages" >...</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage + 2);" ng-hide="(currentPage + 2) > totalPages">{{currentPage+2}}</span>
+                                    <span class='tgrid-page-number' ng-click="changePage(currentPage + 3);" ng-hide="(currentPage + 3) > totalPages">{{currentPage+3}}</span>
+                                    <span class='tgrid-page-number' ng-click="goToNextPagesBlock()" ng-hide="(currentPage + 4) > totalPages" >...</span>
+                                    <span class='tgrid-page-number' ng-click="goToLastPage();" ng-hide="(currentPage + 4) > totalPages">{{totalPages}}</span>
                                 </div>
                                 <span style="float:right; position:absolute; right:3px">
                                     To page: <input class="tgrid-choose-page-input" ng-model="$parent.page" /> 

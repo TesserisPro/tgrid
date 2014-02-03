@@ -42,11 +42,11 @@ module TesserisPro.TGrid {
         private selectedItem: any = null;
         private currentPage: number = 1;
         private totalPages: number = 1;
-        private grid: any;
+        private grid: Grid;
 
         public angularModuleName: string;
 
-        constructor(grid: any) {
+        constructor(grid: Grid) {
             this.grid = grid;
         }
 
@@ -58,6 +58,10 @@ module TesserisPro.TGrid {
             this.$scope.totalPages = this.totalPages;
             this.$scope.grid = this.grid;
             this.$scope.changePage = (pageNumber) => this.changePage(pageNumber);
+            this.$scope.goToPreviousPagesBlock = () => this.goToPreviousPagesBlock();
+            this.$scope.goToNextPagesBlock = () => this.goToNextPagesBlock();
+            this.$scope.goToFirstPage = () => this.goToFirstPage();
+            this.$scope.goToLastPage = () => this.goToLastPage();
         }
 
         public setTotalCount(totalCount: number) { 
@@ -108,6 +112,33 @@ module TesserisPro.TGrid {
         public apply()
         {
             setTimeout(() => this.$scope.$apply(), 1);
+        }
+
+        public goToPreviousPagesBlock() {
+            var previousBlockPage = this.$scope.currentPage - this.grid.options.pageSlide -1;
+            if (previousBlockPage > 0 && previousBlockPage != null && previousBlockPage != undefined) {
+                this.grid.selectPage(previousBlockPage);
+            } else {
+                this.grid.selectPage(0);
+            }
+
+        }
+
+        public goToNextPagesBlock() {
+            var nextBlockPage = this.$scope.currentPage + this.grid.options.pageSlide - 1;
+            if (nextBlockPage < this.$scope.totalPages && nextBlockPage != null && nextBlockPage != undefined) {
+                this.grid.selectPage(nextBlockPage);
+            } else {
+                this.grid.selectPage(this.$scope.totalPages - 1);
+            }
+        }
+
+        public goToFirstPage() {
+            this.grid.selectPage(0);
+        }
+
+        public goToLastPage() {
+            this.grid.selectPage(this.$scope.totalPages - 1);
         }
     }
 }

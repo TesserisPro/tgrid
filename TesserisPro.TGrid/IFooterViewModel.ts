@@ -38,6 +38,10 @@ module TesserisPro.TGrid {
         setCurrentPage(currentPage: number);
         setTotalPages(totalPages: number);
         changePage(pageNumber: number);
+        goToPreviousPagesBlock();
+        goToNextPagesBlock();
+        goToFirstPage();
+        goToLastPage();
     }
 
 }

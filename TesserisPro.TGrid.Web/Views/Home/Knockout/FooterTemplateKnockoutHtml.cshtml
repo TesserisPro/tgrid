@@ -9,19 +9,25 @@
             </column>
             <column data-g-member="Age">   
             </column>
-                <footer>
+            <footer>
                 <div class ="footer">
-                    <div class="tgrid-pagination" style="display:inline-block">
-                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() - 1); }, clickBubble: false, css: { hidden: (currentPage() - 1) <= 0 }">...</span>
-                        <span class='tgrid-page-number'  data-bind="click: function () { changePage(currentPage() - 1); }, clickBubble: false, text: currentPage() - 1, css: { hidden: (currentPage() - 1) <= 0 }"></span>
+                    <div class="tgrid-pagination" style="display:inline-block; float: left;">
+                        <span class='tgrid-page-number' data-bind="click: function () { goToFirstPage(); }, clickBubble: false, css: { hidden: (currentPage() - 5)<= 0 }">1</span>
+                        <span class='tgrid-page-number' data-bind="click: function () { goToPreviousPagesBlock(); }, clickBubble: false, css: { hidden: (currentPage() - 5)<= 0 }">...</span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() - 3); }, clickBubble: false, text: currentPage() - 4, css: { hidden: (currentPage() - 3) <= 0 }"></span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() - 2); }, clickBubble: false, text: currentPage() - 3, css: { hidden: (currentPage() - 2) <= 0 }"></span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() - 1); }, clickBubble: false, text: currentPage() - 2, css: { hidden: (currentPage() - 1) <= 0 }"></span>
                         <span class='tgrid-page-current' data-bind="text: currentPage"></span>
-                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 1); }, clickBubble: false, text: currentPage() + 1, css: { hidden: (currentPage() + 1) > totalPages() }"></span>
-                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 1); }, clickBubble: false, css: { hidden: (currentPage() + 1) > totalPages() }" >...</span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 1); }, clickBubble: false, text: currentPage(), css: { hidden: (currentPage() + 1) > totalPages() }"></span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 2); }, clickBubble: false, text: currentPage() + 1, css: { hidden: (currentPage() + 2) > totalPages() }"></span>
+                        <span class='tgrid-page-number' data-bind="click: function () { changePage(currentPage() + 3); }, clickBubble: false, text: currentPage() + 2, css: { hidden: (currentPage() + 3) > totalPages() }"></span>
+                        <span class='tgrid-page-number' data-bind="click: function () { goToNextPagesBlock(); }, clickBubble: false, css: { hidden: (currentPage() + 3) > totalPages() }">...</span>
+                        <span class='tgrid-page-number' data-bind="text:totalPages, click: function () { goToLastPage(); }, clickBubble: false, css: { hidden: (currentPage() + 3)> totalPages() }"></span>
                     </div>
                     <span style="float:right; position:absolute; right:3px">
-                        To page <input class="tgrid-choose-page-input" data-bind="value: currentPage"/>
+                        To page <input class="tgrid-choose-page-input" data-bind="value: $root.page" />
                         of <span data-bind="text: totalPages"> </span>
-                        <span class="tgrid-change-page-button" data-bind="click: function () { changePage(currentPage()); }, clickBubble: false">
+                        <span class="tgrid-change-page-button" data-bind="click: function() {changePage($root.page);} , clickBubble: false">
                             Go
                         </span>
                     </span>

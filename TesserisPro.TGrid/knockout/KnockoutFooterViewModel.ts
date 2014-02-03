@@ -40,10 +40,10 @@ module TesserisPro.TGrid {
         public selectedItem: KnockoutObservable<any>;
         public currentPage: KnockoutObservable<number>;
         public totalPages: KnockoutObservable<number>;
-        public grid: any
+        public grid: Grid
 
 
-        constructor(totalCount: number, selectedItem: any, currentPage: number, totalPages: number, grid: any) {
+        constructor(totalCount: number, selectedItem: any, currentPage: number, totalPages: number, grid: Grid) {
             this.totalCount = ko.observable(totalCount);
             this.selectedItem = ko.observable(selectedItem);
             this.currentPage = ko.observable(currentPage);
@@ -77,6 +77,33 @@ module TesserisPro.TGrid {
                     this.grid.selectPage(viewPageNumber - 1);
                 }
             })();
+        }
+
+        public goToPreviousPagesBlock() {
+            var previousBlockPage = this.currentPage() - this.grid.options.pageSlide -1;
+            if (previousBlockPage > 0 && previousBlockPage != null && previousBlockPage != undefined) {
+                this.grid.selectPage(previousBlockPage);
+            } else {
+                this.grid.selectPage(0);
+            }
+
+        }
+
+        public goToNextPagesBlock() {
+            var nextBlockPage = this.currentPage() + this.grid.options.pageSlide -1;
+            if (nextBlockPage < this.totalPages() && nextBlockPage != null && nextBlockPage != undefined) {
+                this.grid.selectPage(nextBlockPage);
+            } else {
+                this.grid.selectPage(this.totalPages()-1);
+            }
+        }
+
+        public goToFirstPage() {
+            this.grid.selectPage(0);
+        }
+
+        public goToLastPage() {
+            this.grid.selectPage(this.totalPages() - 1);
         }
     }
 }
