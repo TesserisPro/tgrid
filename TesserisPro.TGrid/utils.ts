@@ -103,4 +103,40 @@ function unhideElement(target: HTMLElement): void {
     target.style.display = "";
 }
 
+function addClass(target: HTMLElement, className: string) {
+    var classBefore = target.getAttribute("class");
+    var classAfter;
+    if (classBefore != null && classBefore.length > 0) {
+        classAfter = classBefore.concat(" ").concat(className);
+    } else {
+        classAfter = className;
+    }
+    target.setAttribute("class", classAfter);
+}
+
+function removeClass(target: HTMLElement, className: string) {
+    var classBefore = target.getAttribute("class");
+    var classAfter;
+    if (classBefore != null && classBefore.length > 0) {
+        var classesArray = classBefore.split(" ");
+        var indexOfClass;
+        for (var i = 0; i > classesArray.length; i++) {
+            if (classesArray[i] == className) {
+                classesArray.splice(i, 1);
+                i--;
+            }
+        }
+        classAfter = classesArray.join();
+        target.setAttribute("class", classAfter);
+    } 
+}
+function containsClass(target: HTMLElement, className: string): boolean {
+    var currentClasses = target.getAttribute("class");
+    if (currentClasses != null && currentClasses.indexOf(className) != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 //#endregion

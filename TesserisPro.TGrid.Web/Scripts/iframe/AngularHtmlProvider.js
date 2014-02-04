@@ -238,7 +238,7 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    placeholderColumn.classList.add("tgrid-placeholder");
+                    addClass(placeholderColumn, "tgrid-placeholder");
                     head.appendChild(placeholderColumn);
 
                     header.appendChild(head);
@@ -284,9 +284,9 @@ var TesserisPro;
 
                 if (targetRow != null) {
                     if (options.isSelected(item)) {
-                        targetRow.classList.add("selected");
+                        addClass(targetRow, "selected");
                     } else {
-                        targetRow.classList.remove("selected");
+                        removeClass(targetRow, "selected");
                     }
 
                     if (isDetailsAdded) {
@@ -358,10 +358,10 @@ var TesserisPro;
 
             AngularHtmlProvider.prototype.buildRowElement = function (option, item, container, selected, angularModuleName, angularModule) {
                 var row = document.createElement("tr");
-                row.classList.add("tgrid-table-body-row");
+                addClass(row, "tgrid-table-body-row");
 
                 if (option.isSelected(item.item)) {
-                    row.classList.add("selected");
+                    addClass(row, "selected");
                 }
                 var angularItemViewModel = new TesserisPro.TGrid.AngularItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
                 angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
@@ -414,7 +414,7 @@ var TesserisPro;
                 row["dataContext"] = item.item;
 
                 var placeholderColumn = document.createElement("td");
-                placeholderColumn.classList.add("tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-placeholder");
                 row.appendChild(placeholderColumn);
 
                 (function (item) {
@@ -434,7 +434,7 @@ var TesserisPro;
 
                 this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-                detailTr.classList.add("tgrid-details");
+                addClass(detailTd, "tgrid-details");
                 detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
                 template.applyTemplate(detailTd);
 
@@ -459,8 +459,8 @@ var TesserisPro;
 
                 var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
                 headerTd.setAttribute("colspan", colspan.toString());
-                headerTd.classList.add("tgrid-table-group-header");
-                headerTr.classList.add("tgrid-table-group-header");
+                addClass(headerTd, "tgrid-table-group-header");
+                addClass(headerTr, "tgrid-table-group-header");
                 if (option.groupHeaderTemplate != null) {
                     option.groupHeaderTemplate.applyTemplate(headerTd);
                 } else {
@@ -468,7 +468,7 @@ var TesserisPro;
                 }
 
                 if (option.enableCollapsing) {
-                    headerTr.classList.add("collapsing");
+                    addClass(headerTd, "collapsing");
                     headerTd.onclick = function (e) {
                         if (groupHeaderDescriptor.collapse) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -498,12 +498,12 @@ var TesserisPro;
             AngularHtmlProvider.prototype.addArrows = function (sortArrowContainer, option, columnNumber) {
                 if (option.sortDescriptor.asc) {
                     var up = document.createElement("div");
-                    up.classList.add("tgrid-arrow-up");
+                    addClass(up, "tgrid-arrow-up");
                     sortArrowContainer.appendChild(up);
                 }
                 if (!option.sortDescriptor.asc) {
                     var down = document.createElement("div");
-                    down.classList.add("tgrid-arrow-down");
+                    addClass(down, "tgrid-arrow-down");
                     sortArrowContainer.appendChild(down);
                 }
                 return sortArrowContainer;
@@ -571,9 +571,9 @@ var TesserisPro;
 
                 if (targetRow != null) {
                     if (options.isSelected(item)) {
-                        targetRow.classList.add("selected");
+                        addClass(targetRow, "selected");
                     } else {
-                        targetRow.classList.remove("selected");
+                        removeClass(targetRow, "selected");
                     }
 
                     if (shouldAddDetails) {
@@ -603,10 +603,10 @@ var TesserisPro;
 
             AngularHtmlProvider.prototype.buildMobileRowElement = function (option, item, container, selected) {
                 var row = document.createElement("div");
-                row.classList.add("tgrid-mobile-row");
+                addClass(row, "tgrid-mobile-row");
 
                 if (option.isSelected(item.item)) {
-                    row.classList.add("selected");
+                    addClass(row, "selected");
                 }
 
                 for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
@@ -614,7 +614,7 @@ var TesserisPro;
                 }
 
                 var rowTemplate = document.createElement("div");
-                rowTemplate.classList.add('tgrid-mobile-div');
+                addClass(rowTemplate, 'tgrid-mobile-div');
 
                 if (option.mobileTemplateHtml != null) {
                     option.mobileTemplateHtml.applyTemplate(rowTemplate);
@@ -659,7 +659,7 @@ var TesserisPro;
             AngularHtmlProvider.prototype.buildMobileDetailsRow = function (option, item, template) {
                 var detailDiv = document.createElement("div");
 
-                detailDiv.classList.add("tgrid-mobile-details");
+                addClass(detailDiv, "tgrid-mobile-details");
 
                 template.applyTemplate(detailDiv);
 

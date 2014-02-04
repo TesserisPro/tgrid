@@ -85,6 +85,11 @@
                         if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                             return items;
                         }
+
+                        if (collapsedFilterDescriptors == undefined) {
+                            collapsedFilterDescriptors = [];
+                        }
+
                         var isCollapsedItem = [];
                         for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
                             isCollapsedItem.push(false);

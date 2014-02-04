@@ -224,7 +224,7 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    placeholderColumn.classList.add("tgrid-placeholder");
+                    addClass(placeholderColumn, "tgrid-placeholder");
                     head.appendChild(placeholderColumn);
 
                     header.appendChild(head);
@@ -238,7 +238,7 @@ var TesserisPro;
                 }
 
                 //Hide table on mobile devices
-                container.classList.add("desktop");
+                addClass(container, "desktop");
             };
 
             KnockoutHtmlProvider.prototype.updateTableDetailRow = function (options, container, item, shouldAddDetails) {
@@ -258,9 +258,9 @@ var TesserisPro;
 
                 if (targetRow != null) {
                     if (options.isSelected(item)) {
-                        targetRow.classList.add("selected");
+                        addClass(targetRow, "selected");
                     } else {
-                        targetRow.classList.remove("selected");
+                        removeClass(targetRow, "selected");
                     }
 
                     if (shouldAddDetails) {
@@ -321,10 +321,10 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.buildRowElement = function (option, item, container, selected) {
                 var row = document.createElement("tr");
-                row.classList.add("tgrid-table-body-row");
+                addClass(row, "tgrid-table-body-row");
 
                 if (option.isSelected(item.item)) {
-                    row.classList.add("selected");
+                    addClass(row, "selected");
                 }
 
                 this.appendIndent(row, option.groupBySortDescriptors.length, false);
@@ -349,7 +349,7 @@ var TesserisPro;
                 }
 
                 var placeholderColumn = document.createElement("td");
-                placeholderColumn.classList.add("tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-placeholder");
 
                 row.appendChild(placeholderColumn);
 
@@ -374,7 +374,7 @@ var TesserisPro;
 
                 this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-                detailTr.classList.add("tgrid-details");
+                addClass(detailTr, "tgrid-details");
                 detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
 
                 template.applyTemplate(detailTd);
@@ -392,10 +392,10 @@ var TesserisPro;
 
                 var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
                 headerTd.setAttribute("colspan", colspan.toString());
-                headerTd.classList.add("tgrid-table-group-header");
-                headerTr.classList.add("tgrid-table-group-header");
+                addClass(headerTd, "tgrid-table-group-header");
+                addClass(headerTr, "tgrid-table-group-header");
                 if (option.enableCollapsing) {
-                    headerTr.classList.add("collapsing");
+                    addClass(headerTr, "collapsing");
                     if (!groupHeaderDescriptor.collapse) {
                         headerTd.onclick = function (e) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -420,12 +420,12 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.addArrows = function (sortArrowContainer, option, columnNumber) {
                 if (option.sortDescriptor.asc) {
                     var up = document.createElement("div");
-                    up.classList.add("tgrid-arrow-up");
+                    addClass(up, "tgrid-arrow-up");
                     sortArrowContainer.appendChild(up);
                 }
                 if (!option.sortDescriptor.asc) {
                     var down = document.createElement("div");
-                    down.classList.add("tgrid-arrow-down");
+                    addClass(down, "tgrid-arrow-down");
                     sortArrowContainer.appendChild(down);
                 }
                 return sortArrowContainer;
@@ -492,9 +492,9 @@ var TesserisPro;
 
                 if (targetRow != null) {
                     if (options.isSelected(item)) {
-                        targetRow.classList.add("selected");
+                        addClass(targetRow, "selected");
                     } else {
-                        targetRow.classList.remove("selected");
+                        removeClass(targetRow, "selected");
                     }
 
                     if (shouldAddDetails) {
@@ -527,10 +527,10 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.buildMobileRowElement = function (option, item, container, selected) {
                 var row = document.createElement("div");
-                row.classList.add("tgrid-mobile-row");
+                addClass(row, "tgrid-mobile-row");
 
                 if (option.isSelected(item.item)) {
-                    row.classList.add("selected");
+                    addClass(row, "selected");
                 }
 
                 for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
@@ -538,7 +538,7 @@ var TesserisPro;
                 }
 
                 var rowTemplate = document.createElement("div");
-                rowTemplate.classList.add('tgrid-mobile-div');
+                addClass(rowTemplate, 'tgrid-mobile-div');
                 if (option.mobileTemplateHtml != null) {
                     option.mobileTemplateHtml.applyTemplate(rowTemplate);
                 } else {
@@ -560,7 +560,7 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.buildMobileDetailsRow = function (option, template) {
                 var detailDiv = document.createElement("div");
-                detailDiv.classList.add("tgrid-mobile-details");
+                addClass(detailDiv, "tgrid-mobile-details");
                 template.applyTemplate(detailDiv);
                 return detailDiv;
             };

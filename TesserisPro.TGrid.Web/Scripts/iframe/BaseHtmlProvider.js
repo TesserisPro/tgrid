@@ -123,13 +123,13 @@ var TesserisPro;
                 var dataRow;
 
                 for (var i = 0; i < tableRows.length; i++) {
-                    if (tableRows.item(i).classList.contains("tgrid-table-body-row")) {
+                    if (containsClass(tableRows.item(i), "tgrid-table-body-row")) {
                         dataRow = tableRows.item(i);
                         if (dataRow != undefined) {
                             var columns = dataRow.getElementsByTagName("td");
                             columnNumber = 0;
                             for (var j = 0; j < columns.length - 1; j++) {
-                                if (columns.item(j).classList.contains("tgrid-table-indent-cell")) {
+                                if (containsClass(columns.item(j), "tgrid-table-indent-cell")) {
                                     continue;
                                 }
 
@@ -342,13 +342,13 @@ var TesserisPro;
                 var headerContainer = document.createElement("div");
                 var headerDiv = document.createElement("div");
 
-                headerContainer.classList.add("tgrid-mobile-group-header");
+                addClass(headerContainer, "tgrid-mobile-group-header");
                 for (var i = 0; i < groupHeaderDescriptor.level; i++) {
                     headerContainer.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>";
                 }
 
                 if (option.enableCollapsing) {
-                    headerContainer.classList.add("collapsing");
+                    addClass(headerContainer, "collapsing");
                     if (!groupHeaderDescriptor.collapse) {
                         headerContainer.onclick = function (e) {
                             TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -366,7 +366,7 @@ var TesserisPro;
                     this.createDefaultGroupHeader(headerDiv);
                 }
 
-                headerDiv.classList.add('tgrid-mobile-group-header-container');
+                addClass(headerDiv, 'tgrid-mobile-group-header-container');
                 this.bindMobileGroupHeader(headerContainer, groupHeaderDescriptor.value, headerDiv);
 
                 return headerContainer;
@@ -383,9 +383,9 @@ var TesserisPro;
                 if (option.enableFiltering) {
                     var filter = document.createElement("div");
                     if (isActive) {
-                        filter.classList.add("tgrid-filter-button-active");
+                        addClass(filter, "tgrid-filter-button-active");
                     } else {
-                        filter.classList.add("tgrid-filter-button");
+                        addClass(filter, "tgrid-filter-button");
                     }
                     var self = this;
                     (function (columnNumber) {

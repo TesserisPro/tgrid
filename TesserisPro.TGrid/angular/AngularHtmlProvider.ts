@@ -241,7 +241,7 @@ module TesserisPro.TGrid {
                     }
                 }
                 var placeholderColumn = document.createElement("th");
-                placeholderColumn.classList.add("tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-placeholder");
                 head.appendChild(placeholderColumn);
 
                 header.appendChild(head);
@@ -290,10 +290,10 @@ module TesserisPro.TGrid {
 
             if (targetRow != null) {
                 if (options.isSelected(item)) {
-                    targetRow.classList.add("selected");
+                    addClass(targetRow,"selected");
                 }
                 else {
-                    targetRow.classList.remove("selected");
+                    removeClass(targetRow, "selected");
                 }
 
                 if (isDetailsAdded) {
@@ -367,10 +367,10 @@ module TesserisPro.TGrid {
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, angularModuleName: string, angularModule: any): HTMLElement {
             var row = document.createElement("tr");
-            row.classList.add("tgrid-table-body-row");
+            addClass(row,"tgrid-table-body-row");
 
             if (option.isSelected(item.item)) {
-                row.classList.add("selected");
+                addClass(row,"selected");
             }
             var angularItemViewModel = new AngularItemViewModel(item.model, item.item, item.grid, item.isGroupHeader);
             angularItemViewModel.angularControllerName = 'tgrid-row-controller' + AngularHtmlProvider.controllerItemCounter++;
@@ -423,7 +423,7 @@ module TesserisPro.TGrid {
             row["dataContext"] = item.item;
 
             var placeholderColumn = document.createElement("td");
-            placeholderColumn.classList.add("tgrid-placeholder");
+            addClass(placeholderColumn, "tgrid-placeholder");
             row.appendChild(placeholderColumn);
 
             (function (item) {
@@ -443,7 +443,7 @@ module TesserisPro.TGrid {
 
             this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-            detailTr.classList.add("tgrid-details");
+            addClass(detailTd, "tgrid-details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             template.applyTemplate(detailTd);
 
@@ -470,8 +470,8 @@ module TesserisPro.TGrid {
 
             var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
             headerTd.setAttribute("colspan", colspan.toString());
-            headerTd.classList.add("tgrid-table-group-header");
-            headerTr.classList.add("tgrid-table-group-header");
+            addClass(headerTd, "tgrid-table-group-header");
+            addClass(headerTr, "tgrid-table-group-header");
             if (option.groupHeaderTemplate != null) {
                 option.groupHeaderTemplate.applyTemplate(headerTd);
             } else {
@@ -479,7 +479,7 @@ module TesserisPro.TGrid {
             }
             
             if (option.enableCollapsing) {
-                headerTr.classList.add("collapsing");
+                addClass(headerTd, "collapsing");
                 headerTd.onclick = (e) => {
                     if (groupHeaderDescriptor.collapse) {
                         TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(groupHeaderDescriptor.filterDescriptor);
@@ -511,12 +511,12 @@ module TesserisPro.TGrid {
         private addArrows(sortArrowContainer: Node, option: Options, columnNumber: number): Node {
             if (option.sortDescriptor.asc) {
                 var up = document.createElement("div");
-                up.classList.add("tgrid-arrow-up");
+                addClass(up,"tgrid-arrow-up");
                 sortArrowContainer.appendChild(up);
             }
             if (!option.sortDescriptor.asc) {
                 var down = document.createElement("div");
-                down.classList.add("tgrid-arrow-down");
+                addClass(down, "tgrid-arrow-down");
                 sortArrowContainer.appendChild(down);
             }
             return sortArrowContainer;
@@ -586,10 +586,10 @@ module TesserisPro.TGrid {
 
             if (targetRow != null) {
                 if (options.isSelected(item)) {
-                    targetRow.classList.add("selected");
+                    addClass(targetRow, "selected");
                 }
                 else {
-                    targetRow.classList.remove("selected");
+                    removeClass(targetRow, "selected");
                 }
 
                 if (shouldAddDetails) {
@@ -621,10 +621,10 @@ module TesserisPro.TGrid {
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
 
             var row = document.createElement("div");
-            row.classList.add("tgrid-mobile-row");
+            addClass(row, "tgrid-mobile-row");
 
             if (option.isSelected(item.item)) {
-                row.classList.add("selected");
+                addClass(row,"selected");
             }
 
             for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
@@ -632,7 +632,7 @@ module TesserisPro.TGrid {
             }
 
             var rowTemplate = document.createElement("div");
-            rowTemplate.classList.add('tgrid-mobile-div');
+            addClass(rowTemplate,'tgrid-mobile-div');
 
             if (option.mobileTemplateHtml != null) {
                 option.mobileTemplateHtml.applyTemplate(rowTemplate);
@@ -678,7 +678,7 @@ module TesserisPro.TGrid {
         private buildMobileDetailsRow(option: Options, item: ItemViewModel, template: Template): HTMLElement {
             var detailDiv = document.createElement("div");
 
-            detailDiv.classList.add("tgrid-mobile-details");
+            addClass(detailDiv,"tgrid-mobile-details");
 
             template.applyTemplate(detailDiv);
 
