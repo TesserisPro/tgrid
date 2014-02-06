@@ -644,7 +644,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
     cursor: default;
 }
 
-.tgrid-table-group-header td div:hover {
+.tgrid-table-group-header td div:hover, .tgrid-mobile-group-header {
     cursor: default;
 }
  

@@ -64,15 +64,15 @@ module TesserisPro.TGrid {
             var children = container.children;
             var visibleItemsSize = 0;
             for (var i = 0; i < children.length; i++) {
-                var child = children.item(i);
-                size += child.clientHeight;
+                var child = <HTMLElement>children.item(i);
+                size += child.offsetHeight;
 
                 if (size > scrollTop) {
                     visibleItemsCount++;
-                    visibleItemsSize += child.clientHeight;
+                    visibleItemsSize += child.offsetHeight;
                 }
 
-                if (visibleItemsSize >= view.clientHeight) {
+                if (visibleItemsSize >= view.offsetHeight) {
                     break;
                 }
             }

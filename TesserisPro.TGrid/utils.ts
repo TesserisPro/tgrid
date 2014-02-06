@@ -116,17 +116,16 @@ function addClass(target: HTMLElement, className: string) {
 
 function removeClass(target: HTMLElement, className: string) {
     var classBefore = target.getAttribute("class");
-    var classAfter;
     if (classBefore != null && classBefore.length > 0) {
         var classesArray = classBefore.split(" ");
         var indexOfClass;
-        for (var i = 0; i > classesArray.length; i++) {
+        for (var i = 0; i < classesArray.length; i++) {
             if (classesArray[i] == className) {
                 classesArray.splice(i, 1);
                 i--;
             }
         }
-        classAfter = classesArray.join();
+        var classAfter = classesArray.join(" ");
         target.setAttribute("class", classAfter);
     } 
 }

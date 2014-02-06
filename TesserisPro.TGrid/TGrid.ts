@@ -124,7 +124,7 @@ module TesserisPro.TGrid {
             // filter popup
             if (this.options.enableFiltering) {
                 this.filterPopUp = document.createElement("div");
-                this.filterPopUp.setAttribute("class", "tgrid-filter-popup"); 
+                this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.filterPopUp.style.display = "none";
                 this.targetElement.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
@@ -517,7 +517,7 @@ module TesserisPro.TGrid {
                             this.updateVisibleItems();
                             this.hideBuisyIndicator();
                             if (scrollBottom) {
-                                this.silentScrollTableContainer(this.tableBody.clientHeight - this.tableBodyContainer.clientHeight);
+                                this.silentScrollTableContainer(this.tableBody.offsetHeight - this.tableBodyContainer.clientHeight);
                             }
                         });
                 },
@@ -1043,20 +1043,24 @@ module TesserisPro.TGrid {
 
                                 }
 
-                                if (this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.tableBody, null) < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
-                                    this.options.firstLoadSize *= 2;
-                                    if (this.options.firstLoadSize > this.totalItemsCount) {
-                                        this.options.firstLoadSize = this.totalItemsCount;
+                                //to avoid infinite loop.
+                                var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElemntsSize(this.tableBody, null) : this.htmlProvider.getElemntsSize(this.mobileContainer, null);
+                                if (elementsSize > 0 && this.options.firstLoadSize > 0 && isNotNoU(this.options.firstLoadSize)) {
+                                    if (this.isDesktopMode() && elementsSize < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                        this.options.firstLoadSize *= 2;
+                                        if (this.options.firstLoadSize > this.totalItemsCount) {
+                                            this.options.firstLoadSize = this.totalItemsCount;
+                                        }
+                                        this.refreshBody();
                                     }
-                                    this.refreshBody();
-                                }
 
-                                if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
-                                    this.options.firstLoadSize *= 2;
-                                    if (this.options.firstLoadSize > this.totalItemsCount) {
-                                        this.options.firstLoadSize = this.totalItemsCount;
+                                    if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                        this.options.firstLoadSize *= 2;
+                                        if (this.options.firstLoadSize > this.totalItemsCount) {
+                                            this.options.firstLoadSize = this.totalItemsCount;
+                                        }
+                                        this.refreshBody();
                                     }
-                                    this.refreshBody();
                                 }
                             })
                     });

@@ -49,16 +49,16 @@ module TesserisPro.TGrid {
             var children = container.children;
             if (items == null) {
                 for (var i = 0; i < children.length; i++) {
-                    var child = children.item(i);
-                    size += child.clientHeight;
+                    var child = <HTMLElement>children.item(i);
+                    size += child.offsetHeight;
                 }
             } else {
                 for (var i = 0; i < children.length; i++) {
-                    var child = children.item(i);
+                    var child = <HTMLElement>children.item(i);
                     var viewModel = <ItemViewModel>(items[i]);
 
                     if (viewModel != null && items.indexOf(viewModel) > 0) {
-                        size += child.clientHeight;
+                        size += child.offsetHeight;
                     }
                 }
             }
@@ -73,10 +73,10 @@ module TesserisPro.TGrid {
                 if (size > scrollTop) {
                     return viewModel;
                 }
-                var child = children.item(i);
+                var child = <HTMLElement>children.item(i);
                 var viewModel = <ItemViewModel>(items[i]);
                 if (viewModel != null && items.indexOf(viewModel) >= 0) {
-                    size += child.clientHeight;
+                    size += child.offsetHeight;
                 }
             }
 

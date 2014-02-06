@@ -480,7 +480,7 @@ var TesserisPro;
                         _this.updateVisibleItems();
                         _this.hideBuisyIndicator();
                         if (scrollBottom) {
-                            _this.silentScrollTableContainer(_this.tableBody.clientHeight - _this.tableBodyContainer.clientHeight);
+                            _this.silentScrollTableContainer(_this.tableBody.offsetHeight - _this.tableBodyContainer.clientHeight);
                         }
                     });
                 }, 400);
@@ -965,20 +965,24 @@ var TesserisPro;
                                 _this.hideBuisyIndicator();
                             }
 
-                            if (_this.isDesktopMode() && _this.htmlProvider.getElemntsSize(_this.tableBody, null) < (_this.tableBodyContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
-                                _this.options.firstLoadSize *= 2;
-                                if (_this.options.firstLoadSize > _this.totalItemsCount) {
-                                    _this.options.firstLoadSize = _this.totalItemsCount;
+                            //to avoid infinite loop.
+                            var elementsSize = _this.isDesktopMode() ? _this.htmlProvider.getElemntsSize(_this.tableBody, null) : _this.htmlProvider.getElemntsSize(_this.mobileContainer, null);
+                            if (elementsSize > 0 && _this.options.firstLoadSize > 0 && isNotNoU(_this.options.firstLoadSize)) {
+                                if (_this.isDesktopMode() && elementsSize < (_this.tableBodyContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
+                                    _this.options.firstLoadSize *= 2;
+                                    if (_this.options.firstLoadSize > _this.totalItemsCount) {
+                                        _this.options.firstLoadSize = _this.totalItemsCount;
+                                    }
+                                    _this.refreshBody();
                                 }
-                                _this.refreshBody();
-                            }
 
-                            if (!_this.isDesktopMode() && _this.htmlProvider.getElemntsSize(_this.mobileContainer, null) < (_this.mobileContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
-                                _this.options.firstLoadSize *= 2;
-                                if (_this.options.firstLoadSize > _this.totalItemsCount) {
-                                    _this.options.firstLoadSize = _this.totalItemsCount;
+                                if (!_this.isDesktopMode() && _this.htmlProvider.getElemntsSize(_this.mobileContainer, null) < (_this.mobileContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
+                                    _this.options.firstLoadSize *= 2;
+                                    if (_this.options.firstLoadSize > _this.totalItemsCount) {
+                                        _this.options.firstLoadSize = _this.totalItemsCount;
+                                    }
+                                    _this.refreshBody();
                                 }
-                                _this.refreshBody();
                             }
                         });
                     });

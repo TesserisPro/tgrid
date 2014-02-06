@@ -64,7 +64,7 @@ var TesserisPro;
                     var viewModel = (ko.contextFor(child).$root);
 
                     if (viewModel != null && (items == null || items.indexOf(viewModel) > 0)) {
-                        size += child.clientHeight;
+                        size += child.offsetHeight;
                     }
                 }
 
@@ -78,7 +78,7 @@ var TesserisPro;
                     var child = children.item(i);
                     var viewModel = (ko.contextFor(child).$root);
                     if (viewModel != null && items.indexOf(viewModel) >= 0) {
-                        size += child.clientHeight;
+                        size += child.offsetHeight;
                     }
                     if (size > scrollTop) {
                         return viewModel;

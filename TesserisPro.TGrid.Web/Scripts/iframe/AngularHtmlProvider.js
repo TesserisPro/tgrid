@@ -55,7 +55,7 @@ var TesserisPro;
                 if (items == null) {
                     for (var i = 0; i < children.length; i++) {
                         var child = children.item(i);
-                        size += child.clientHeight;
+                        size += child.offsetHeight;
                     }
                 } else {
                     for (var i = 0; i < children.length; i++) {
@@ -63,7 +63,7 @@ var TesserisPro;
                         var viewModel = (items[i]);
 
                         if (viewModel != null && items.indexOf(viewModel) > 0) {
-                            size += child.clientHeight;
+                            size += child.offsetHeight;
                         }
                     }
                 }
@@ -81,7 +81,7 @@ var TesserisPro;
                     var child = children.item(i);
                     var viewModel = (items[i]);
                     if (viewModel != null && items.indexOf(viewModel) >= 0) {
-                        size += child.clientHeight;
+                        size += child.offsetHeight;
                     }
                 }
 
