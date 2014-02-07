@@ -77,12 +77,12 @@ var TesserisPro;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
                     var viewModel = (items[i]);
-                    if (size > scrollTop) {
-                        return viewModel;
-                    }
-
                     if (viewModel != null && items.indexOf(viewModel) >= 0) {
                         size += child.offsetHeight;
+                    }
+
+                    if (size > scrollTop) {
+                        return viewModel;
                     }
                 }
 
