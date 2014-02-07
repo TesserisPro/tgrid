@@ -15,7 +15,7 @@
     <AssemblyName>TesserisPro.TGrid.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -229,6 +229,7 @@
     <Content Include="Scripts\iframe\IHtmlProvider.js" />
     <Content Include="Scripts\iframe\IItemProvider.js" />
     <Content Include="Scripts\iframe\ItemViewModel.js" />
+    <Content Include="Scripts\iframe\jquery-1.11.0.min.js" />
     <Content Include="Scripts\iframe\knockout-3.0.0.js" />
     <Content Include="Scripts\iframe\knockout.mapping-latest.js" />
     <Content Include="Scripts\iframe\KnockoutFilterPopupViewModel.js" />
@@ -239,6 +240,7 @@
     <Content Include="Scripts\iframe\tgrid-knockout-min.js" />
     <Content Include="Scripts\iframe\tgrid-min.js" />
     <Content Include="Scripts\iframe\tgrid-server-items-provider-min.js" />
+    <Content Include="Scripts\jquery-1.11.0.min.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Views\Home\Knockout\CellTemplateHtml.cshtml" />
@@ -428,7 +430,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55247</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55247/</IISUrl>
+          <IISUrl>http://localhost/tgrid</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
