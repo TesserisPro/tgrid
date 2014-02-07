@@ -49,7 +49,7 @@ var TesserisPro;
                 _super.apply(this, arguments);
             }
             // Table Methods
-            AngularHtmlProvider.prototype.getElemntsSize = function (container, items) {
+            AngularHtmlProvider.prototype.getElementsSize = function (container, items) {
                 var size = 0;
                 var children = container.children;
                 if (items == null) {
@@ -75,11 +75,12 @@ var TesserisPro;
                 var size = 0;
                 var children = container.children;
                 for (var i = 0; i < children.length; i++) {
+                    var child = children.item(i);
+                    var viewModel = (items[i]);
                     if (size > scrollTop) {
                         return viewModel;
                     }
-                    var child = children.item(i);
-                    var viewModel = (items[i]);
+
                     if (viewModel != null && items.indexOf(viewModel) >= 0) {
                         size += child.offsetHeight;
                     }
@@ -434,7 +435,7 @@ var TesserisPro;
 
                 this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-                addClass(detailTd, "tgrid-details");
+                addClass(detailTr, "tgrid-details");
                 detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
                 template.applyTemplate(detailTd);
 

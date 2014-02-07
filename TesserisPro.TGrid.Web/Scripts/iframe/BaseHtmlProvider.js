@@ -46,7 +46,7 @@ var TesserisPro;
             BaseHtmlProvider.prototype.bindData = function (option, elementForBinding) {
             };
 
-            BaseHtmlProvider.prototype.getElemntsSize = function (container, items) {
+            BaseHtmlProvider.prototype.getElementsSize = function (container, items) {
                 return 0;
             };
 
@@ -54,7 +54,7 @@ var TesserisPro;
                 return null;
             };
 
-            BaseHtmlProvider.prototype.getVisibleitemsCount = function (container, view, items, scrollTop) {
+            BaseHtmlProvider.prototype.getVisibleItemsCount = function (container, view, items, scrollTop) {
                 var size = 0;
                 var visibleItemsCount = 0;
                 var children = container.children;
@@ -68,7 +68,7 @@ var TesserisPro;
                         visibleItemsSize += child.offsetHeight;
                     }
 
-                    if (visibleItemsSize >= view.offsetHeight) {
+                    if (visibleItemsSize >= view.clientHeight) {
                         break;
                     }
                 }

@@ -50,7 +50,7 @@ module TesserisPro.TGrid {
 
         }
 
-        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+        public getElementsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
             return 0;
         }
 
@@ -58,7 +58,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public getVisibleitemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number {
+        public getVisibleItemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number {
             var size = 0;
             var visibleItemsCount = 0;
             var children = container.children;
@@ -72,7 +72,7 @@ module TesserisPro.TGrid {
                     visibleItemsSize += child.offsetHeight;
                 }
 
-                if (visibleItemsSize >= view.offsetHeight) {
+                if (visibleItemsSize >= view.clientHeight) {
                     break;
                 }
             }

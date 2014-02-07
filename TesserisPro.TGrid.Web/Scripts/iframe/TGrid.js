@@ -402,7 +402,7 @@ var TesserisPro;
                     }
 
                     this.scrollBar.onscroll = null;
-                    var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+                    var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
                     var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
                     this.scrollBar.onscroll = function () {
                         _this.scrollBar.onscroll = function () {
@@ -431,7 +431,7 @@ var TesserisPro;
                     }
 
                     this.scrollBar.onscroll = null;
-                    var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
+                    var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
                     var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
                     this.scrollBar.onscroll = function () {
                         _this.scrollBar.onscroll = function () {
@@ -452,9 +452,9 @@ var TesserisPro;
                     _this.manualScrollTimeoutToken = null;
                     var visibleItemsCount;
                     if (_this.isDesktopMode()) {
-                        visibleItemsCount = _this.htmlProvider.getVisibleitemsCount(_this.tableBody, _this.tableBodyContainer, _this.visibleViewModels, _this.tableBodyContainer.scrollTop);
+                        visibleItemsCount = _this.htmlProvider.getVisibleItemsCount(_this.tableBody, _this.tableBodyContainer, _this.visibleViewModels, _this.tableBodyContainer.scrollTop);
                     } else {
-                        visibleItemsCount = _this.htmlProvider.getVisibleitemsCount(_this.mobileContainer, _this.mobileContainer, _this.visibleViewModels, _this.mobileContainer.scrollTop);
+                        visibleItemsCount = _this.htmlProvider.getVisibleItemsCount(_this.mobileContainer, _this.mobileContainer, _this.visibleViewModels, _this.mobileContainer.scrollTop);
                     }
                     var itemSize = (_this.scrollBar.scrollHeight - _this.scrollBar.clientHeight) / (_this.totalItemsCount - visibleItemsCount);
                     var itemNumber = _this.scrollBar.scrollTop / itemSize;
@@ -547,7 +547,7 @@ var TesserisPro;
                         }
                     }
 
-                    var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+                    var skipSize = this.htmlProvider.getElementsSize(this.tableBody, skipItems);
 
                     this.scrollTableContainer(skipSize);
                     this.previousPage = null;
@@ -616,7 +616,7 @@ var TesserisPro;
                         }
                     }
 
-                    var skipSize = this.isDesktopMode() ? this.htmlProvider.getElemntsSize(this.tableBody, skipItems) : this.htmlProvider.getElemntsSize(this.mobileContainer, skipItems);
+                    var skipSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, skipItems) : this.htmlProvider.getElementsSize(this.mobileContainer, skipItems);
 
                     this.scrollTableContainer(skipSize);
                     this.nextPage = null;
@@ -790,7 +790,7 @@ var TesserisPro;
 
             Grid.prototype.scrollIntoView = function (item) {
                 var viewModels = new Array();
-                var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+                var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
                 var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
@@ -815,7 +815,7 @@ var TesserisPro;
                     viewModels.push(this.visibleViewModels[i]);
                 }
 
-                var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
+                var scrollTo = this.htmlProvider.getElementsSize(this.tableBody, viewModels);
 
                 this.tableBodyContainer.scrollTop = scrollTo;
             };
@@ -966,7 +966,7 @@ var TesserisPro;
                             }
 
                             //to avoid infinite loop.
-                            var elementsSize = _this.isDesktopMode() ? _this.htmlProvider.getElemntsSize(_this.tableBody, null) : _this.htmlProvider.getElemntsSize(_this.mobileContainer, null);
+                            var elementsSize = _this.isDesktopMode() ? _this.htmlProvider.getElementsSize(_this.tableBody, null) : _this.htmlProvider.getElementsSize(_this.mobileContainer, null);
                             if (elementsSize > 0 && _this.options.firstLoadSize > 0 && isNotNoU(_this.options.firstLoadSize)) {
                                 if (_this.isDesktopMode() && elementsSize < (_this.tableBodyContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
                                     _this.options.firstLoadSize *= 2;
@@ -976,7 +976,7 @@ var TesserisPro;
                                     _this.refreshBody();
                                 }
 
-                                if (!_this.isDesktopMode() && _this.htmlProvider.getElemntsSize(_this.mobileContainer, null) < (_this.mobileContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
+                                if (!_this.isDesktopMode() && _this.htmlProvider.getElementsSize(_this.mobileContainer, null) < (_this.mobileContainer.clientHeight + 100) && (_this.options.firstLoadSize < _this.totalItemsCount)) {
                                     _this.options.firstLoadSize *= 2;
                                     if (_this.options.firstLoadSize > _this.totalItemsCount) {
                                         _this.options.firstLoadSize = _this.totalItemsCount;

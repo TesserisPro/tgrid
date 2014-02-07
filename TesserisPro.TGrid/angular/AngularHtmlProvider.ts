@@ -44,7 +44,7 @@ module TesserisPro.TGrid {
 
         // Table Methods
 
-        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+        public getElementsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
             var size = 0;
             var children = container.children;
             if (items == null) {
@@ -70,11 +70,12 @@ module TesserisPro.TGrid {
             var size = 0;
             var children = container.children;
             for (var i = 0; i < children.length; i++) {
+                var child = <HTMLElement>children.item(i);
+                var viewModel = <ItemViewModel>(items[i]);
                 if (size > scrollTop) {
                     return viewModel;
                 }
-                var child = <HTMLElement>children.item(i);
-                var viewModel = <ItemViewModel>(items[i]);
+                
                 if (viewModel != null && items.indexOf(viewModel) >= 0) {
                     size += child.offsetHeight;
                 }
@@ -443,7 +444,7 @@ module TesserisPro.TGrid {
 
             this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-            addClass(detailTd, "tgrid-details");
+            addClass(detailTr, "tgrid-details");
             detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
             template.applyTemplate(detailTd);
 

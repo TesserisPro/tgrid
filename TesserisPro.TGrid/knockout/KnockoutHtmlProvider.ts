@@ -52,7 +52,7 @@ module TesserisPro.TGrid {
             return table;
         }
 
-        public getElemntsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
+        public getElementsSize (container: HTMLElement, items: Array<ItemViewModel>): number {
             var size = 0;
             var children = container.children;
             for (var i = 0; i < children.length; i++) {

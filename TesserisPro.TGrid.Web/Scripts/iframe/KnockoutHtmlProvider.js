@@ -56,7 +56,7 @@ var TesserisPro;
                 return table;
             };
 
-            KnockoutHtmlProvider.prototype.getElemntsSize = function (container, items) {
+            KnockoutHtmlProvider.prototype.getElementsSize = function (container, items) {
                 var size = 0;
                 var children = container.children;
                 for (var i = 0; i < children.length; i++) {

@@ -439,7 +439,7 @@ module TesserisPro.TGrid {
                 }
                 
                 this.scrollBar.onscroll = null;
-                var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+                var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
                 var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
                 this.scrollBar.onscroll = () => { this.scrollBar.onscroll = () => this.onManualScroll(); };
                 this.scrollBar.scrollTop = scrollPosition;
@@ -465,7 +465,7 @@ module TesserisPro.TGrid {
                 }
 
                 this.scrollBar.onscroll = null;
-                var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
+                var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
                 var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
                 this.scrollBar.onscroll = () => { this.scrollBar.onscroll = () => this.onManualScroll(); };
                 this.scrollBar.scrollTop = scrollPosition;
@@ -481,10 +481,10 @@ module TesserisPro.TGrid {
                 this.manualScrollTimeoutToken = null;
                 var visibleItemsCount
                 if (this.isDesktopMode()) {
-                        visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+                        visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
                     }
                     else {
-                        visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
+                        visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.mobileContainer, this.mobileContainer, this.visibleViewModels, this.mobileContainer.scrollTop);
                     }
                     var itemSize = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount);
                     var itemNumber = this.scrollBar.scrollTop / itemSize;
@@ -598,7 +598,7 @@ module TesserisPro.TGrid {
                     }
                 }
 
-                var skipSize = this.htmlProvider.getElemntsSize(this.tableBody, skipItems);
+                var skipSize = this.htmlProvider.getElementsSize(this.tableBody, skipItems);
 
                 this.scrollTableContainer(skipSize);
                 this.previousPage = null;
@@ -672,7 +672,7 @@ module TesserisPro.TGrid {
                     }
                 }
 
-                var skipSize = this.isDesktopMode() ? this.htmlProvider.getElemntsSize(this.tableBody, skipItems) : this.htmlProvider.getElemntsSize(this.mobileContainer, skipItems);
+                var skipSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, skipItems) : this.htmlProvider.getElementsSize(this.mobileContainer, skipItems);
 
                 this.scrollTableContainer(skipSize);
                 this.nextPage = null;
@@ -846,7 +846,7 @@ module TesserisPro.TGrid {
 
         public scrollIntoView(item: any): void {
             var viewModels: Array<ItemViewModel> = new Array<ItemViewModel>();
-            var visibleItemsCount = this.htmlProvider.getVisibleitemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
+            var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
             var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
@@ -871,7 +871,7 @@ module TesserisPro.TGrid {
                 viewModels.push(this.visibleViewModels[i]);
             }
 
-            var scrollTo = this.htmlProvider.getElemntsSize(this.tableBody, viewModels);
+            var scrollTo = this.htmlProvider.getElementsSize(this.tableBody, viewModels);
             
             this.tableBodyContainer.scrollTop = scrollTo;
         }
@@ -1044,7 +1044,7 @@ module TesserisPro.TGrid {
                                 }
 
                                 //to avoid infinite loop.
-                                var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElemntsSize(this.tableBody, null) : this.htmlProvider.getElemntsSize(this.mobileContainer, null);
+                                var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, null) : this.htmlProvider.getElementsSize(this.mobileContainer, null);
                                 if (elementsSize > 0 && this.options.firstLoadSize > 0 && isNotNoU(this.options.firstLoadSize)) {
                                     if (this.isDesktopMode() && elementsSize < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
                                         this.options.firstLoadSize *= 2;
@@ -1054,7 +1054,7 @@ module TesserisPro.TGrid {
                                         this.refreshBody();
                                     }
 
-                                    if (!this.isDesktopMode() && this.htmlProvider.getElemntsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                    if (!this.isDesktopMode() && this.htmlProvider.getElementsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
                                         this.options.firstLoadSize *= 2;
                                         if (this.options.firstLoadSize > this.totalItemsCount) {
                                             this.options.firstLoadSize = this.totalItemsCount;
