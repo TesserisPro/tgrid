@@ -7,38 +7,54 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width" />
-        <title>Header template knockout</title>
+        <title>Options binding knockout</title>
         <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
         <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
-   
+
         <script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
         <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
 
-        <script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/BaseHtmlProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/ItemViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IItemProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IHtmlProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IFooterViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/IFilterPopupViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/FilterDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/GroupHeaderDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/Options.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/TGrid.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/ArrayItemsProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutFilterPopupViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutFooterViewModel.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/KnockoutHtmlProvider.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/TGridBinding.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/SortDescriptor.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/utils.js" type="text/javascript"></script>
+
+        @*<script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
+            <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+            <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>*@
     </head>
-    <body>    
-        <div>
-            <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
-                <script type="text/html">
-                    <column data-g-member="Name">
-                        <header>
-                            <span data-bind="text: nameColumnTitle"></span>
-                        </header>
-                    </column>
-                    <column  data-g-member="Surname">
-                        <header>Last Name</header>
-                    </column>
-                    <column data-g-member="Age">
-                        <header>
-                            <span style="color: green;">Age</span>
-                        </header>
-                    </column>
-                </script>
-            </div>
-           <script type="text/javascript">
-               var items = [
+<body>
+    <div>
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions }">
+            <script type="text/html">
+                <column data-g-member="Name">
+                </column>
+                <column data-g-member="Surname">
+                </column>
+                <column data-g-member="Age">
+                </column>
+                <column data-g-member="Name">
+                    <cell>
+                        <div class="tgrid-custom-details-button" style="width: auto" data-bind=" click: function () { model.action() }, clickBubble: false">Change columns order</div>
+                    </cell>
+                </column>
+            </script>
+        </div>
+        <script type="text/javascript">
+            var items = [
                     { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
                     { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
                     { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
@@ -68,18 +84,26 @@
                     { Name: "Theron", Surname: "Carter", Age: "25", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
                     { Name: "George", Surname: "Collins", Age: "39", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
                     { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
-               ];
+            ];
 
-               function vm() {
-                   var self = this;
-                   self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
-                   self.nameColumnTitle = "First Name";
-               };
+            function vm() {
+                var self = this;
+                self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+                self.gridOptions = ko.observable();
 
-               $(function () {
-                   ko.applyBindings(new vm());
-               });
-            </script>
-        </div>
-    </body>
+                self.action = function () {
+                    self.gridOptions().columns[0].member = "Age";
+                    self.gridOptions().columns[2].member = "Name";
+                    self.gridOptions().apply();
+                }
+            };
+
+            $(function () {
+                ko.applyBindings(new vm());
+            });
+        </script>
+    </div>
+</body>
+
 </html>
+

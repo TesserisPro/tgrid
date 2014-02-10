@@ -40,6 +40,18 @@ namespace TesserisPro.TGrid.Web
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
             listOfDemosDesktop.Add(new UIModel
             {
+                title = "Options Binding",
+                url = "Knockout/OptionsBinding",
+                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/OptionsBinding",
+                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
                 title = "Simple grid without paging",
                 url = "Knockout/SimpleGridWithoutPaging",
                 htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",

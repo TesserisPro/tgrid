@@ -112,7 +112,8 @@ module TesserisPro.TGrid {
 
         public parentViewModel: any;
         public filterPopupForColumn: ColumnInfo;
-        public columnMinWidth:number = 5;
+        public columnMinWidth: number = 5;
+        public apply: () => void;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
@@ -192,6 +193,8 @@ module TesserisPro.TGrid {
             }
             this.filterPopupForColumn = new ColumnInfo();
         }
+
+     
       
     }
 }

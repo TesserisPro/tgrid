@@ -117,6 +117,12 @@ var TGrid;
                 }
 
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
+                if (attrs["options"] != undefined) {
+                    options.apply = function () {
+                        grid.afterOptionsChange();
+                    };
+                    scope[attrs["options"]] = options;
+                }
             };
 
             return directive;
