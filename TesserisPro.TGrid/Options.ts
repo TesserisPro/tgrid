@@ -72,6 +72,10 @@ module TesserisPro.TGrid {
         public applyTemplate(element: HTMLElement) {
             element.innerHTML = this.content != null ? this.content : "";
         }
+
+        public getContent(): string {
+            return this.content;
+        }
     }
 		   
     export class Options {

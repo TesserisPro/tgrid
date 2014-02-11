@@ -563,10 +563,6 @@ ul.tgrid-mobile-menu li {
     color:green;
 }
 
-.tgrid-table tbody tr td input{
-    display:none;
-}
-
 tr:nth-child(even), .tgrid-mobile-row:nth-child(even) {
   background-color: whitesmoke;
 }
@@ -609,6 +605,7 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-edit-input {
      width: 85%;
+     display: none;
 }    
 
 .tgrid-choose-page-input {

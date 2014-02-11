@@ -10,6 +10,7 @@
     <title>Options binding angular</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
     <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/optionsBinding.css">
 
     <script src="~/Scripts/iframe/angular.js"></script>
     <script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
@@ -40,21 +41,75 @@
 <body>
     <div ng-app="TGrid">
         <div ng-controller="ctrl">
+            <div class="bordedHeader">Grid options</div>
+            <table class="tgrid-table" id="tableOptionChanges">
+                <thead class="tgrid-table-header">
+                    <tr>
+                        <th style="width:150px">
+                            Column header
+                        </th>
+                        <th>
+                            Column actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width:150px">
+                            <span ng-hide="editingHeader[0]">{{headers[0]}}</span>
+                            <input ng-show="editingHeader[0]" ng-model="headers[0]" />
+                        </td>
+                        <td>
+                            <div class="tgrid-custom-details-button" ng-click="switchToEditingHeader(0)" ng-hide="editingHeader[0]" style="width:70px">Edit</div>
+                            <div class="tgrid-custom-details-button" ng-click="changeColumnHeader('Name', 0)" ng-show="editingHeader[0]" style="width:70px">Save</div>
+                            <div class="tgrid-custom-details-button" ng-click="removeColumn('Name', 0)" style="width:70px">Remove</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px">
+                            <span ng-hide="editingHeader[1]">{{headers[1]}}</span>
+                            <input ng-show="editingHeader[1]" ng-model="headers[1]" />
+                        </td>
+                        <td>
+                            <div class="tgrid-custom-details-button" ng-click="switchToEditingHeader(1)" ng-hide="editingHeader[1]" style="width:70px">Edit</div>
+                            <div class="tgrid-custom-details-button" ng-click="changeColumnHeader('Surname', 1)" ng-show="editingHeader[1]" style="width:70px">Save</div>
+                            <div class="tgrid-custom-details-button" ng-click="removeColumn('Surname', 1)" style="width:70px">Remove</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px">
+                            <span ng-hide="editingHeader[2]">{{headers[2]}}</span>
+                            <input ng-show="editingHeader[2]" ng-model="headers[2]" />
+                        </td>
+                        <td>
+                            <div class="tgrid-custom-details-button" ng-click="switchToEditingHeader(2)" ng-hide="editingHeader[2]" style="width:70px">Edit</div>
+                            <div class="tgrid-custom-details-button" ng-click="changeColumnHeader('Age', 2)" ng-show="editingHeader[2]" style="width:70px">Save</div>
+                            <div class="tgrid-custom-details-button" ng-click="removeColumn('Age', 2)" style="width:70px">Remove</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="changeOptionsCheckboxes">
+                <span><input type="checkbox" ng-click="toggleSorting()" /> Enable Sorting</span>
+                <span><input type="checkbox" ng-click="toggleGrouping()" /> Enable Grouping</span>
+            </div>
+            <div class="bordedHeader">Grid</div>
             <t-grid id="test-angular" provider="dataProvider" options ="gridOptions">
                 <script type="text/html">
                     <column data-g-member="Name">
+                        <header>
+                            First Name
+                        </header>
                     </column>
                     <column data-g-member="Surname">
-                    </column>
-                    <column data-g-member="Age">
+                        <header>
+                            Last Name
+                        </header>
                     </column>
                     <column data-g-member="Age">
                         <header>
-                            <span> </span>
+                            Age
                         </header>
-                        <cell>
-                            <div ng-click="model.action(); $event.stopPropagation();" class="tgrid-custom-details-button" style="width: auto;">Delete 1st column</div>
-                        </cell>
                     </column>
                 </script>
             </t-grid>
@@ -97,11 +152,58 @@
             .controller("ctrl", function ctrl($scope) {
                 $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                 $scope.gridOptions;
-                $scope.action = function () {
-                    if ($scope.gridOptions.columns.length > 3) {
-                        $scope.gridOptions.columns.splice(0, 1);
+                
+                $scope.headers = new Array("First name", "Last name", "Age");
+                $scope.editingHeader = new Array(false, false, false);
+
+                $scope.switchToEditingHeader = function (headersNumber) {
+                    if ($scope.editingHeader[headersNumber] != null) {
+                        $scope.editingHeader[headersNumber] = true;
+                    }
+                }
+                
+                $scope.changeColumnHeader = function (columnMember, headersNumber) {
+                    var columnNumber = null;
+                    for (var i = 0; i < $scope.gridOptions.columns.length; i++) {
+                        if (columnMember == $scope.gridOptions.columns[i].member) {
+                            columnNumber = i;
+                            break;
+                        }
+                    }
+                    if (columnNumber != null && $scope.gridOptions.columns[columnNumber] != undefined) {
+                        var headerNew = document.createElement("div");
+                        headerNew.innerHtml = $scope.headers[headersNumber];
+                        headerNew.textContent = $scope.headers[headersNumber];
+                        $scope.gridOptions.columns[columnNumber].header = new TesserisPro.TGrid.Template(headerNew);
+                        $scope.editingHeader[headersNumber] = false;
                         $scope.gridOptions.apply();
                     }
+                }
+                $scope.toggleSorting = function () {
+                    if (!$scope.gridOptions.enableSorting) {
+                        $scope.gridOptions.enableSorting = true;
+                    } else {
+                        $scope.gridOptions.enableSorting = false;
+                    }
+                    $scope.gridOptions.apply();
+                }
+                $scope.toggleGrouping = function () {
+                    if (!$scope.gridOptions.enableGrouping) {
+                        $scope.gridOptions.enableGrouping = true;
+                    } else {
+                        $scope.gridOptions.enableGrouping = false;
+                    }
+                    $scope.gridOptions.apply();
+                }
+                $scope.removeColumn = function (columnMember, headersNumber) {
+                    for (var i = 0; i < $scope.gridOptions.columns.length; i++){
+                        if (columnMember == $scope.gridOptions.columns[i].member) {
+                            $scope.gridOptions.columns.splice(i, 1);
+                            $scope.headers[headersNumber] = null;
+                            $scope.editingHeader[headersNumber] = null;
+                        }
+                    }
+                    $scope.gridOptions.apply();
                 }
             })
             .directive('tGrid', TGrid.Angular.Directive);

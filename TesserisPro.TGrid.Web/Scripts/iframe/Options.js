@@ -80,6 +80,10 @@ var TesserisPro;
             Template.prototype.applyTemplate = function (element) {
                 element.innerHTML = this.content != null ? this.content : "";
             };
+
+            Template.prototype.getContent = function () {
+                return this.content;
+            };
             return Template;
         })();
         TGrid.Template = Template;
