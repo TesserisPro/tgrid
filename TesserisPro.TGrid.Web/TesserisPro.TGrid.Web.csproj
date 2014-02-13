@@ -15,7 +15,7 @@
     <AssemblyName>TesserisPro.TGrid.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -122,8 +122,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Content Include="Content\overview.html">
+      <DependentUpon>overview.md</DependentUpon>
+    </Content>
+    <Content Include="Content\overview.md" />
+    <Content Include="Content\overview.min.html">
+      <DependentUpon>overview.html</DependentUpon>
+    </Content>
+    <Content Include="Content\TGrid-0.1.2.zip" />
+    <Content Include="Content\TGrid-0.2.1.zip" />
     <None Include="Content\TGridColumnPropertiesDescription.md" />
     <None Include="Content\TGridPropertiesDescription.md" />
+    <None Include="Content\release.md" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,6 +224,12 @@
     <Content Include="Content\monitorwithgrid.png" />
     <Content Include="Content\phonewithgrid.png" />
     <Content Include="Content\purchaseStyle.css" />
+    <Content Include="Content\release.html">
+      <DependentUpon>release.md</DependentUpon>
+    </Content>
+    <Content Include="Content\release.min.html">
+      <DependentUpon>release.html</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -438,7 +454,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55247</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/tgrid</IISUrl>
+          <IISUrl>http://localhost:55247/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

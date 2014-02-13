@@ -1,0 +1,71 @@
+<h1>TGrid</h1><p><em>Grid for your HTML5 applications</em></p><p><strong>Developed by <a href="http://www.tesseris.com">Tesseris Pro LLC</a></strong></p><p>TypeScript, Angular and Knockout compatible, fully customizable grid with rich functionality.</p><p>TGrid can work on any device and any screen resolution. It dynamically adjusts content for screen and even changes the layout. TGrid grid supports any (really any) number of rows that can be loaded dynamically when user scrolls or selects page.</p><p><a href="http://grid.tesseris.com">Project site</a> | <a href="http://grid.tesseris.com/Home/Demo">Demo page</a></p><h3>Supported browsers:</h3><ul><li>Iternet Explorer 9+</li><li>Mozilla Firefox</li><li>Google Chrome</li><li>Safari</li><li>iPhone/iPad</li><li>Android 4+</li><li>Windows Phone are supprorted.</li></ul><h2>Features</h2><ul><li>Knockout.js and Angular support.</li><li>No dependcy on JQuery or any other libraries.</li><li>Angular or Knockout.JS support are atteched as modules.</li><li>Posibility to implement adapter for another technology.</li><li>TypeScript compatible. TGrid is developed on TypeScript.</li><li>Fully customizable. Header, Cell, Details, Footer are fully customizable with templates.</li><li>Custom user actions support.</li><li>Paging.</li><li>Virtualization/lazy loading.</li><li>Predefined set of item providers and possiblity to create custom provider. Custom item provider should only support sorting and filtering.</li><li>Filtering, grouping and sorting.</li><li>Grouping and group collapsing with virtualization and paging.</li><li>Editing with cell template.</li><li>Automatic swtich to mobile mode depending on @media.</li><li>Fully customizable with CSS. No hardcoded styles.</li><li>Free and open source.</li></ul><h2>Usage</h2><p>Please see all samples with code at <a href="http://grid.tesseris.com/Home/Demo">Demo page</a></p><p><strong>If this overview and demo page with code samples are not enogth, please submit an issue</strong></p><h3>Simple TGrid usage scenerio:</h3><p>Grid rows in JavaScript:</p><pre><code>var items = [
+    { Name: "John", Surname: "Doe", Age: "33" }
+    //... more items
+];
+</code></pre><p>Simple knockout view model in JavaScript:</p><pre><code>function vm() {
+    var self = this;
+    self.nameColumnTitle = "First Name";
+    self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+};
+</code></pre><p>Apply view-model binding (see <a href="http://knockoutjs.com/">Knockout.js</a> for details):</p><pre><code>$(function () {
+    ko.applyBindings(new vm());
+});
+</code></pre><p>Grid marckup in HTML:</p><pre><code>&lt;div data-bind="tgrid: {provider: itemsProvider}"&gt;
+   &lt;script type="text/html"&gt;  
+       &lt;column data-g-member="Name"&gt;  
+       &lt;/column&gt;  
+       &lt;column data-g-member="Surname"&gt;  
+       &lt;/column&gt;  
+       &lt;column data-g-member="Age"&gt;  
+       &lt;/column&gt;  
+   &lt;/script&gt;  
+&lt;/div&gt;
+</code></pre><h3>Custom templates:</h3><p>Grid marckup with custom cell template:</p><pre><code>&lt;div data-bind="tgrid: { provider: itemsProvider }"&gt;
+     &lt;script type="text/html"&gt;
+         &lt;column data-g-member="Name"&gt;
+             &lt;cell&gt;
+                 &lt;span style="color: red;" data-bind="text: item.Name"&gt;&lt;/span&gt;               
+             &lt;/cell&gt;
+         &lt;/column&gt;
+         &lt;column data-g-member="Surname"&gt;
+             &lt;cell&gt;
+                 // Simple Knockout binding in template
+                 &lt;span data-bind="text: item.Surname"&gt;&lt;/span&gt;
+             &lt;/cell&gt;
+         &lt;/column&gt;
+         &lt;column data-g-member="Age"&gt;           
+             &lt;cell&gt;
+                 &lt;span style="color: red;" data-bind="text: item.Age"&gt;&lt;/span&gt;
+             &lt;/cell&gt;
+         &lt;/column&gt;
+     &lt;/script&gt;
+ &lt;/div&gt;
+</code></pre><p>Grid cell is bound to following datacontext (TypeScript code):</p><pre><code>export class ItemViewModel {
+    public model: any;
+    public item: any;
+    public grid: TGrid;
+    public isGroupHeader: boolean;
+}
+</code></pre><p>Editing with templates:</p><pre><code>&lt;div data-bind="tgrid: { provider: itemsProvider }"&gt;
+    &lt;script type="text/html"&gt;
+        &lt;column data-g-member="name"&gt;
+            &lt;cell&gt;
+                &lt;span style="color: green;" data-bind="text: item.Name, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"&gt;&lt;/span&gt;                                    
+                &lt;input class="hidden" style="color: red;" data-bind="value: item.Name, css: { visible: model.editingItem() == item} "&gt;&lt;/input&gt;                   
+            &lt;/cell&gt;
+        &lt;/column&gt;
+        &lt;column data-g-member="key"&gt;
+            &lt;cell&gt;
+                &lt;span data-bind="text: item.Surname, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item } "&gt;&lt;/span&gt;
+                &lt;input class="hidden" data-bind="value: item.Surname, css: { visible: model.editingItem() == item }"&gt;&lt;/input&gt;
+            &lt;/cell&gt;
+        &lt;/column&gt;
+        &lt;column data-g-member="Age"&gt;           
+            &lt;cell&gt;
+                &lt;span style="color: red;" data-bind="text: item.Age, event: { click: model.toggleActive }, css: { hidden: model.editingItem() == item }"&gt;&lt;/span&gt;
+                &lt;input class="hidden" style="color: red;" data-bind="value: item.Age, css: { visible: model.editingItem() == item }"&gt;&lt;/input&gt;
+            &lt;/cell&gt;
+        &lt;/column&gt;
+    &lt;/script&gt;
+&lt;/div&gt;
+</code></pre><p>See more at <a href="http://grid.tesseris.com/Home/Demo">Demo page</a></p>
