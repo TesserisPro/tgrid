@@ -1,0 +1,105 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+	<div ng-app="TGrid">
+        <div ng-controller="ctrl">
+            <fieldset>
+                <legend>Grid options</legend>
+                <div id="changeOptionsCheckboxes">
+                    <span>
+                        <input type="checkbox" ng-click="toggleSorting()" /> Enable Sorting
+                    </span>
+                    <span>
+                        <input type="checkbox" ng-click="toggleGrouping()" /> Enable Grouping
+                    </span>
+                </div>
+                <div>Actions with grid columns</div>
+                <table class="tgrid-table" id="tableColumnActionsHeader">
+                    <thead class="tgrid-table-header">
+                        <tr>
+                            <th style="width:90px">
+                                Member
+                            </th>
+                            <th style="width:120px">
+                                Header
+                            </th>
+                            <th style="width:390px">
+                                Cell template
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tableContainer">
+                    <table class="tgrid-table" id="tableColumnDeleteBody">
+                        <tbody>
+                            <tr ng-repeat="column in availableColumns">
+                                <td style="width:90px">
+                                    <span>{{column.member}}</span>
+                                </td>
+                                <td style="width:120px">
+                                    <span>{{column.header}}</span>
+                                </td>
+                                <td style="width:390px">
+                                    <span>{{column.cell}}</span>
+                                </td>
+                                <td>
+                                    <div class="grid-delete-button" ng-click="delete(column)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table class="tgrid-table" id="tableColumnAddBody">
+                    <tbody>
+                        <tr style=" height: 50px;">
+                            <td style="width:90px">
+                                <select style="width:85px" ng-model="columnForAdding.member">
+                                    <option ng-selected="columnForAdding.member==member" ng-repeat="member in membersOfColumnsForAdding " ng-model="member">{{member}}</option>
+                                </select>
+                            </td>
+                            <td style="width:120px">
+                                <input type="text" ng-model="columnForAdding.header" />
+                            </td>
+                            <td style="width:390px">
+                                <input type="text" ng-model="columnForAdding.cell" style="margin: 0 0 0 3px; width: 380px;" placeholder="<span>Name</span>"/>
+                            </td>
+                            <td>
+                                <div class="grid-add-button" ng-click="add(columnForAdding)">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <t-grid id="test-angular" provider="dataProvider" options="gridOptions">
+                <script type="text/html">
+                    <column data-g-member="Name">
+                        <header>
+                            First Name
+                        </header>
+                        <cell>
+                            <span style='color: #259631'>{{item.Name}}</span>
+                        </cell>
+                    </column>
+                    <column data-g-member="Surname">
+                        <header>
+                            Last Name
+                        </header>
+                    </column>
+                    <column data-g-member="Age">
+                        <header>
+                            Age
+                        </header>
+                    </column>
+                </script>
+            </t-grid>
+        </div>
+    </div>
+</pre>
+
+<script type="text/javascript">
+	SyntaxHighlighter.highlight();
+</script>
