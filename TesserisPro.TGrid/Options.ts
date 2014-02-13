@@ -41,16 +41,16 @@ module TesserisPro.TGrid {
     export enum LogicalOperator { And, Or };
 
     export class ColumnInfo {
-        public header: Template;
-        public cell: Template;
-        public cellDetail: Template;
-        public width: string;
-        public device: string;
-        public sortMemberPath: string;
-        public groupMemberPath: string;
-        public member: string;
-        public resizable: boolean;
-        public filterMemberPath: string;
+        public header: Template = null;
+        public cell: Template = null;
+        public cellDetail: Template = null;
+        public width: string = "150";
+        public device: string = "mobile,desktop";
+        public sortMemberPath: string = null;
+        public groupMemberPath: string = null;
+        public member: string = null;
+        public resizable: boolean = true;
+        public filterMemberPath: string = null;
     }
 
     export class ShowDetail {
@@ -198,7 +198,22 @@ module TesserisPro.TGrid {
             this.filterPopupForColumn = new ColumnInfo();
         }
 
-     
+        public applyHandler() {
+            for (var i = 0; i < this.columns.length; i++) {
+                if (isNotNoU(this.columns[i].member)) {
+                    if (isNoU(this.columns[i].groupMemberPath)) {
+                        this.columns[i].groupMemberPath = this.columns[i].member;
+                    }
+                    if (isNoU(this.columns[i].sortMemberPath)) {
+                        this.columns[i].sortMemberPath = this.columns[i].member;
+                    }
+                    if (isNoU(this.columns[i].filterMemberPath)) {
+                        this.columns[i].sortMemberPath = this.columns[i].member;
+                    }
+                }
+            }
+            this.apply();
+        }
       
     }
 }

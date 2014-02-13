@@ -40,18 +40,6 @@ namespace TesserisPro.TGrid.Web
             List<UIModel> listOfDemosDesktop = new List<UIModel>();
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Options Binding",
-                url = "Knockout/OptionsBinding",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
-                cssUrl = "Knockout/StyleCss",
-                jsUrl = "Knockout/scriptjs",
-                angularUrl = "Angular/OptionsBinding",
-                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
-                angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
-            });
-            listOfDemosDesktop.Add(new UIModel
-            {
                 title = "Simple grid without paging",
                 url = "Knockout/SimpleGridWithoutPaging",
                 htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
@@ -121,6 +109,18 @@ namespace TesserisPro.TGrid.Web
                 angularHtmlUrl = "Angular/PagingHtml",
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Dynamic Reconfiguration",
+                url = "Knockout/DynamicReconfiguration",
+                htmlUrl = "Knockout/DynamicReconfigurationHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/jsDynamicReconfiguration",
+                angularUrl = "Angular/DynamicReconfiguration",
+                angularHtmlUrl = "Angular/DynamicReconfigurationHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/jsDynamicReconfiguration"
             });
             listOfDemosDesktop.Add(new UIModel
             {

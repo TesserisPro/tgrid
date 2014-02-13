@@ -1,0 +1,89 @@
+﻿<script type="text/javascript">
+	SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+	var items = [
+             { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" }
+            //... add your items here
+        ];
+	function vm() {
+        var self = this;
+        self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+        self.gridOptions = ko.observable();
+
+        self.availableColumns = ko.observableArray([
+            { member: "Name", header: "First Name", cell: "<span style='color: #259631;' data-bind='text: item.Name'></span>" },
+            { member: "Surname", header: "Second Name", cell: "" },
+            { member: "Age", header: "", cell: "" }
+        ]);
+        self.columnForAddingMember = ko.observable("");
+        self.columnForAddingHeader = ko.observable("");
+        self.columnForAddingCell = ko.observable("");
+        self.membersOfColumnsForAdding = ko.observableArray(new Array());
+
+        self.deleteColumn = function (column) {
+            for (var i = 0; i < self.gridOptions().columns.length; i++) {
+                if (column.member == self.gridOptions().columns[i].member) {
+                    self.membersOfColumnsForAdding.push(self.gridOptions().columns[i].member);
+                    self.availableColumns.splice(i, 1);
+                    self.gridOptions().columns.splice(i, 1);
+                    self.gridOptions().applyHandler();
+                    break;
+                }
+            }
+        }
+        self.addColumn = function () {
+            if (self.columnForAddingMember() != undefined && self.columnForAddingMember() != "") {
+                self.gridOptions().columns.push(new TesserisPro.TGrid.ColumnInfo());
+                var lastColumnIndex = self.gridOptions().columns.length - 1;
+
+                self.gridOptions().columns[lastColumnIndex].member = self.columnForAddingMember();
+
+                if (self.columnForAddingHeader() != undefined && self.columnForAddingHeader() != "") {
+                    var headerNew = document.createElement("div");
+                    headerNew.innerHTML = self.columnForAddingHeader();
+                    self.gridOptions().columns[lastColumnIndex].header = new TesserisPro.TGrid.Template(headerNew);
+                }
+
+                if (self.columnForAddingCell() != undefined && self.columnForAddingHeader() != "") {
+                    var cellNew = document.createElement("div");
+                    cellNew.innerHTML = self.columnForAddingCell();
+                    self.gridOptions().columns[lastColumnIndex].cell = new TesserisPro.TGrid.Template(cellNew);
+                }
+                self.availableColumns.push({ member: self.columnForAddingMember(), header: self.columnForAddingHeader(), cell: self.columnForAddingCell()});
+
+                for (var i = 0; i < self.membersOfColumnsForAdding().length; i++) {
+                    if (self.columnForAddingMember() == self.membersOfColumnsForAdding()[i]) {
+                        self.membersOfColumnsForAdding.splice(i, 1);
+                        break;
+                    }
+                }
+                self.gridOptions().applyHandler();
+            }
+            self.columnForAddingHeader("");
+            self.columnForAddingMember("");
+            self.columnForAddingCell("");
+        }
+        self.toggleSorting = function () {
+            if (!self.gridOptions().enableSorting) {
+                self.gridOptions().enableSorting = true;
+            } else {
+                self.gridOptions().enableSorting = false;
+            }
+            self.gridOptions().applyHandler();
+        }
+        self.toggleGrouping = function () {
+            if (!self.gridOptions().enableGrouping) {
+                self.gridOptions().enableGrouping = true;
+            } else {
+                self.gridOptions().enableGrouping = false;
+            }
+            self.gridOptions().applyHandler();
+        }
+    };
+
+    $(function () {
+        ko.applyBindings(new vm());
+    });
+</pre>

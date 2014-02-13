@@ -58,6 +58,16 @@ var TesserisPro;
 
         var ColumnInfo = (function () {
             function ColumnInfo() {
+                this.header = null;
+                this.cell = null;
+                this.cellDetail = null;
+                this.width = "150";
+                this.device = "mobile,desktop";
+                this.sortMemberPath = null;
+                this.groupMemberPath = null;
+                this.member = null;
+                this.resizable = true;
+                this.filterMemberPath = null;
             }
             return ColumnInfo;
         })();
@@ -174,6 +184,23 @@ var TesserisPro;
                     this.tableFooterTemplate = null;
                 }
                 this.filterPopupForColumn = new ColumnInfo();
+            };
+
+            Options.prototype.applyHandler = function () {
+                for (var i = 0; i < this.columns.length; i++) {
+                    if (isNotNoU(this.columns[i].member)) {
+                        if (isNoU(this.columns[i].groupMemberPath)) {
+                            this.columns[i].groupMemberPath = this.columns[i].member;
+                        }
+                        if (isNoU(this.columns[i].sortMemberPath)) {
+                            this.columns[i].sortMemberPath = this.columns[i].member;
+                        }
+                        if (isNoU(this.columns[i].filterMemberPath)) {
+                            this.columns[i].sortMemberPath = this.columns[i].member;
+                        }
+                    }
+                }
+                this.apply();
             };
             return Options;
         })();
