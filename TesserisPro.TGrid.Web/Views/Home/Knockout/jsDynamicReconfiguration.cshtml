@@ -46,7 +46,7 @@
                     self.gridOptions().columns[lastColumnIndex].header = new TesserisPro.TGrid.Template(headerNew);
                 }
 
-                if (self.columnForAddingCell() != undefined && self.columnForAddingHeader() != "") {
+                if (self.columnForAddingCell() != undefined && self.columnForAddingCell() != "") {
                     var cellNew = document.createElement("div");
                     cellNew.innerHTML = self.columnForAddingCell();
                     self.gridOptions().columns[lastColumnIndex].cell = new TesserisPro.TGrid.Template(cellNew);
