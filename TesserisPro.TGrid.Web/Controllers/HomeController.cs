@@ -112,6 +112,18 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
+                title = "Dynamic Reconfiguration",
+                url = "Knockout/DynamicReconfiguration",
+                htmlUrl = "Knockout/DynamicReconfigurationHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/jsDynamicReconfiguration",
+                angularUrl = "Angular/DynamicReconfiguration",
+                angularHtmlUrl = "Angular/DynamicReconfigurationHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/jsDynamicReconfiguration"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
                 title = "Virtualization/lazy loading",
                 url = "Knockout/lazyLoading",
                 htmlUrl = "Knockout/lazyLoadingHtmlKnock",

@@ -41,6 +41,12 @@ var TGridBindingHandler = (function () {
         // Create grid after all other bindings are ready
         setTimeout(function () {
             var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+            if (valueAccessor().options != undefined) {
+                options.apply = function () {
+                    grid.afterOptionsChange();
+                };
+                valueAccessor().options(options);
+            }
         }, 1);
     };
 

@@ -379,10 +379,16 @@ var TesserisPro;
             BaseHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
             };
 
-            BaseHtmlProvider.prototype.addFilterButton = function (option, header, filterPopupContainer, headerButtons, culumnNumber, isActive) {
+            BaseHtmlProvider.prototype.addFilterButton = function (option, header, filterPopupContainer, headerButtons, culumnNumber) {
                 if (option.enableFiltering) {
                     var filter = document.createElement("div");
-                    if (isActive) {
+                    var isActiveFilter = false;
+                    for (var j = 0; j < option.filterDescriptor.children.length; j++) {
+                        if (option.filterDescriptor.children[j].path == option.columns[culumnNumber].filterMemberPath) {
+                            isActiveFilter = true;
+                        }
+                    }
+                    if (isActiveFilter) {
                         addClass(filter, "tgrid-filter-button-active");
                     } else {
                         addClass(filter, "tgrid-filter-button");

@@ -42,7 +42,15 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
     public init(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {
         var options = TGridBindingHandler.getOptions(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
         // Create grid after all other bindings are ready
-        setTimeout(function () { var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider); }, 1);
+      
+        setTimeout(function () {
+            var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+            if (valueAccessor().options != undefined) {
+                options.apply = function () { grid.afterOptionsChange(); };
+                valueAccessor().options(options);
+            }
+        }, 1);
+       
     }
 
     public update(element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext): void {

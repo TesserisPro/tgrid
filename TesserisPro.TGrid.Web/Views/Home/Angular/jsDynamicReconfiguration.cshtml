@@ -1,0 +1,86 @@
+﻿<script type="text/javascript">
+	SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+	 var items = [
+             { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" }
+            //... add your items here
+        ];
+
+    var TGrid = angular.module('TGrid', [])
+        .controller("ctrl", function ctrl($scope) {
+            $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+            $scope.gridOptions;
+                
+            $scope.availableColumns = [
+                { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.Name}}</span>" },
+                { member: "Surname", header: "Second Name", cell: "" },
+                { member: "Age", header: "Age", cell: "" }
+            ];
+
+            $scope.columnForAdding = { member: "", header: "", cell: "" };
+                
+            $scope.membersOfColumnsForAdding = new Array();
+
+            $scope.delete = function (column) {
+                for (var i = 0; i < $scope.gridOptions.columns.length; i++) {
+                    if (column.member == $scope.gridOptions.columns[i].member) {
+                        $scope.membersOfColumnsForAdding.push($scope.gridOptions.columns[i].member);
+                        $scope.availableColumns.splice(i, 1);
+                        $scope.gridOptions.columns.splice(i, 1);
+                        $scope.gridOptions.applyHandler();
+                        break;
+                    }
+                }
+            }
+            $scope.add = function (column) {
+                if (column.member != "") {
+                    $scope.gridOptions.columns.push(new TesserisPro.TGrid.ColumnInfo());
+                    var lastColumnIndex = $scope.gridOptions.columns.length - 1;
+
+                    $scope.gridOptions.columns[lastColumnIndex].member = column.member;
+
+                    var headerNew = document.createElement("div");
+                    headerNew.innerHTML = column.header;
+                    $scope.gridOptions.columns[lastColumnIndex].header = new TesserisPro.TGrid.Template(headerNew);
+
+                    if (column.cell != "") {
+                        var cellNew = document.createElement("div");
+                        cellNew.innerHTML = column.cell;
+                        $scope.gridOptions.columns[lastColumnIndex].cell = new TesserisPro.TGrid.Template(cellNew);
+                    }
+                    $scope.availableColumns.push({ member: column.member, header: column.header, cell: column.cell });
+
+                    for (var i = 0; i < $scope.membersOfColumnsForAdding.length; i++) {
+                        if (column.member == $scope.membersOfColumnsForAdding[i]) {
+                            $scope.membersOfColumnsForAdding.splice(i, 1);
+                            break;
+                        }
+                    }
+                    $scope.gridOptions.applyHandler();
+                }
+                $scope.columnForAdding = { member: "", header: "", cell: "" };
+            }
+            $scope.toggleSorting = function () {
+                if (!$scope.gridOptions.enableSorting) {
+                    $scope.gridOptions.enableSorting = true;
+                } else {
+                    $scope.gridOptions.enableSorting = false;
+                }
+                $scope.gridOptions.apply();
+            }
+            $scope.toggleGrouping = function () {
+                if (!$scope.gridOptions.enableGrouping) {
+                    $scope.gridOptions.enableGrouping = true;
+                } else {
+                    $scope.gridOptions.enableGrouping = false;
+                }
+                $scope.gridOptions.applyHandler();
+            }
+        })
+        .directive('tGrid', TGrid.Angular.Directive);
+
+    $(function () {
+    })
+</pre>

@@ -1141,5 +1141,12 @@ module TesserisPro.TGrid {
         private refreshMobileHeader() {
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
         }
+
+        public afterOptionsChange() {
+            this.refreshHeader();
+            this.refreshBody();
+            this.refreshFooter();
+        }
+        
     }
 }

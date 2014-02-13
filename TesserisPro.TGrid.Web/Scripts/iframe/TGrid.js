@@ -1053,6 +1053,12 @@ var TesserisPro;
             Grid.prototype.refreshMobileHeader = function () {
                 this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
             };
+
+            Grid.prototype.afterOptionsChange = function () {
+                this.refreshHeader();
+                this.refreshBody();
+                this.refreshFooter();
+            };
             return Grid;
         })();
         TGrid.Grid = Grid;

@@ -390,10 +390,16 @@ module TesserisPro.TGrid {
         public createDefaultGroupHeader(tableRowElement: any) {
         }
 
-        public addFilterButton(option: Options, header:HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number, isActive: boolean) {
+        public addFilterButton(option: Options, header:HTMLElement, filterPopupContainer: HTMLElement, headerButtons: HTMLElement, culumnNumber: number) {
             if (option.enableFiltering) {
                 var filter = document.createElement("div");
-                if (isActive) {
+                var isActiveFilter = false;
+                for (var j = 0; j < option.filterDescriptor.children.length; j++){
+                    if (option.filterDescriptor.children[j].path == option.columns[culumnNumber].filterMemberPath) {
+                        isActiveFilter = true;
+                    }
+                }
+                if (isActiveFilter) {
                     addClass(filter,"tgrid-filter-button-active");
                 } else {
                     addClass(filter,"tgrid-filter-button");

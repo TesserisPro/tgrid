@@ -1,0 +1,96 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <fieldset>
+        <legend>Grid options</legend>
+        <div id="changeOptionsCheckboxes">
+            <span>
+                <input type="checkbox" data-bind="event:{change: function(){toggleSorting();}}" /> Enable Sorting
+            </span>
+            <span>
+                <input type="checkbox" data-bind="event:{change: function(){toggleGrouping();}}" /> Enable Grouping
+            </span>
+        </div>
+        <div>Actions with grid columns</div>
+        <table class="tgrid-table" id="tableColumnActionsHeader">
+            <thead class="tgrid-table-header">
+                <tr>
+                    <th style="width:90px">
+                        Member
+                    </th>
+                    <th style="width:120px">
+                        Header
+                    </th>
+                    <th style="width:390px">
+                        Cell template
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <div id="tableContainer">
+            <table class="tgrid-table" id="tableColumnDeleteBody" style="border:none;">
+                <tbody data-bind="foreach: {data: availableColumns, as: 'column'}">
+                    <tr>
+                        <td style="width:90px">
+                            <span data-bind="text: member"></span>
+                        </td>
+                        <td style="width:120px">
+                            <span data-bind="text: header"></span>
+                        </td>
+                        <td style="width:390px">
+                            <span data-bind="text: cell"></span>
+                        </td>
+                        <td style="">
+                            <div class="grid-delete-button" data-bind="click: function(){$parent.deleteColumn(column)}">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <table class="tgrid-table" id="tableColumnAddBody">
+            <tbody>
+                <tr style="height: 50px;">
+                    <td style="width:90px">
+                        <select style="width:85px" data-bind="options: membersOfColumnsForAdding, value: columnForAddingMember"></select>
+                    </td>
+                    <td style="width:120px">
+                        <input type="text" data-bind="value: columnForAddingHeader" />
+                    </td>
+                    <td style="width:390px">
+                        <input type="text" data-bind="value: columnForAddingCell" style="margin: 0 0 0 3px; width: 380px;" placeholder="<span data-bind='text: item.Name'></span>" />
+                    </td>
+                    <td style=" ">
+                        <div class="grid-add-button" data-bind="click: function(){addColumn();}">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
+        <script type="text/html">
+            <column data-g-member="Name">
+                <header>
+                    First Name
+                </header>
+                <cell>
+                    <span style="color: #259631;" data-bind="text: item.Name"></span>
+                </cell>
+            </column>
+            <column data-g-member="Surname">
+                <header>
+                    Second Name
+                </header>
+            </column>
+            <column data-g-member="Age">
+            </column>
+        </script>
+    </div>
+</pre>
+
+<script type="text/javascript">
+	SyntaxHighlighter.highlight();
+</script>

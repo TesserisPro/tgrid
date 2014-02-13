@@ -144,6 +144,14 @@
     <Compile Include="Models\TGridModels\SortDescriptor.cs" />
     <Compile Include="Models\UIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\images\add.png" />
+    <Content Include="Content\dynamicReconfiguration.css" />
+    <Content Include="Views\Home\Knockout\DynamicReconfiguration.cshtml" />
+    <Content Include="Views\Home\Angular\DynamicReconfiguration.cshtml" />
+    <Content Include="Views\Home\Angular\DynamicReconfigurationHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\DynamicReconfigurationHtml.cshtml" />
+    <Content Include="Views\Home\Angular\jsDynamicReconfiguration.cshtml" />
+    <Content Include="Views\Home\Knockout\jsDynamicReconfiguration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

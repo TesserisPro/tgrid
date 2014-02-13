@@ -1,0 +1,88 @@
+﻿.tgrid-tablebodycontainer {
+    height: 130px;
+}
+
+#tableColumnActionsHeader{
+    margin: 0;
+    border: 1px solid #BEBEBE;
+    width: 670px;
+}
+
+#tableColumnDeleteBody{
+    width: 651px;
+    border: none;
+}
+
+#tableColumnAddBody {
+    border-top: none;
+    border: 1px solid #BEBEBE;
+    margin: 0 0 10px 0;
+    width: 670px;
+}
+
+#changeOptionsCheckboxes{
+    display: inline-block;
+    color: #555;
+}
+
+.bordedHeader{
+    color: #555;
+    border: 1px solid #BEBEBE;
+    width: 145px;
+    height: 25px;
+    padding: 5px 5px 1px 2px;
+    margin: 5px 0;
+}
+
+fieldset{
+    color: grey;
+    margin: 0 0 10px 0;
+    border: 1px solid #BEBEBE;
+    height: 270px;
+}
+
+#tableContainer{
+    max-height: 130px; 
+    overflow-y: scroll;
+    width: 668px;
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+}
+
+#tableColumnAddBody input{
+    width:110px;
+    color: #555;
+    border: 1px solid #9F9F9F;
+}
+
+#tableColumnAddBody select{
+    color:#555;
+}
+
+#tableColumnDeleteBody tr td{
+    line-height: normal;
+}
+
+.grid-add-button, .grid-delete-button {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border: 1px solid #969696;
+    text-align: center;
+    margin: 2px;
+    cursor: default;
+}
+
+.grid-delete-button{
+     background: url(images/delete.png) no-repeat;
+    
+}
+
+.grid-add-button{
+    background: url(images/add.png) no-repeat;
+    margin: 8px 0 0 2px;
+}
+
+legend{
+    color: grey;
+}
