@@ -277,8 +277,25 @@ module TesserisPro.TGrid {
                 var item = this.options.selection[this.options.selection.length - 1];
                 for (var i = 0; i < this.visibleViewModels.length; i++) {
                     if (this.visibleViewModels[i].item == item) {
-                        selectedItem = i < (this.visibleItems.length - 1) ? this.visibleViewModels[i + 1] : this.visibleViewModels[i];
-                        break;
+                        while (i < this.visibleViewModels.length-1 && this.visibleViewModels[i+1].isGroupHeader) {
+                            i++;
+                        }
+                        if (i < this.visibleViewModels.length-1 && !this.visibleViewModels[i+1].isGroupHeader) {
+                            selectedItem = this.visibleViewModels[i + 1];
+                            break;
+                        }
+                        if (i == this.visibleViewModels.length - 1) {
+                            if (!this.visibleViewModels[i].isGroupHeader) {
+                                selectedItem = this.visibleViewModels[i];
+                                break;
+                            } else {
+                                while(i >= 0 && this.visibleViewModels[i].isGroupHeader) {
+                                    i--;
+                                }
+                                selectedItem = this.visibleViewModels[i];
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -294,10 +311,28 @@ module TesserisPro.TGrid {
             var selectedItem: ItemViewModel;
             if (this.options.selection.length > 0) {
                 var item = this.options.selection[this.options.selection.length - 1];
-                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                for (var i = this.visibleViewModels.length-1; i >= 0; i--) {
                     if (this.visibleViewModels[i].item == item) {
-                        selectedItem = i > 0 ? this.visibleViewModels[i - 1] : this.visibleViewModels[i];
-                        break;
+                        while (i > 0 && this.visibleViewModels[i - 1].isGroupHeader) {
+                            i--;
+                        }
+                        if (i > 0 && !this.visibleViewModels[i - 1].isGroupHeader) {
+                            selectedItem = this.visibleViewModels[i - 1];
+                            break;
+                        }
+                        if (i == 0) {
+                            if (!this.visibleViewModels[i].isGroupHeader) {
+                                selectedItem = this.visibleViewModels[i];
+                                break;
+                            } else {
+                                while (i < this.visibleViewModels.length - 1 && this.visibleViewModels[i].isGroupHeader) {
+                                    this.scrollIntoView(this.visibleViewModels[i].item);
+                                    i++;
+                                }
+                                selectedItem = this.visibleViewModels[i];
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -1136,6 +1171,7 @@ module TesserisPro.TGrid {
         public applyFilters() {
             this.refreshHeader();
             this.refreshBody();
+            this.refreshFooter();
         }
 
         private refreshMobileHeader() {
