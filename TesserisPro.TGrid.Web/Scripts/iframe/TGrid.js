@@ -438,7 +438,7 @@ var TesserisPro;
 
                     this.scrollBar.onscroll = null;
                     var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
-                    var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
+                    var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex + 10;
                     this.scrollBar.onscroll = function () {
                         _this.scrollBar.onscroll = function () {
                             return _this.onManualScroll();
@@ -829,10 +829,12 @@ var TesserisPro;
 
                 var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
+                visibleItemsCount--;
+
                 var visibleItemsArea = false;
 
                 for (var i = 0; i < this.visibleViewModels.length; i++) {
-                    if (firstVisibleItem == this.visibleViewModels[i]) {
+                    if (i > 0 && firstVisibleItem == this.visibleViewModels[i - 1]) {
                         visibleItemsArea = true;
                     }
                     if (visibleItemsArea) {

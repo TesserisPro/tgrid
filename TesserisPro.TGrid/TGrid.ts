@@ -475,7 +475,7 @@ module TesserisPro.TGrid {
                 
                 this.scrollBar.onscroll = null;
                 var visibleItemsCount = this.htmlProvider.getVisibleItemsCount(this.tableBody, this.tableBodyContainer, this.visibleViewModels, this.tableBodyContainer.scrollTop);
-                var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex;
+                var scrollPosition = (this.scrollBar.scrollHeight - this.scrollBar.clientHeight) / (this.totalItemsCount - visibleItemsCount) * visibleItemIndex+10;
                 this.scrollBar.onscroll = () => { this.scrollBar.onscroll = () => this.onManualScroll(); };
                 this.scrollBar.scrollTop = scrollPosition;
             }
@@ -885,10 +885,12 @@ module TesserisPro.TGrid {
 
             var firstVisibleItem = this.htmlProvider.getFirstVisibleItem(this.tableBody, this.visibleViewModels, this.tableBodyContainer.scrollTop);
 
-            var visibleItemsArea: boolean = false;
+            visibleItemsCount--;
 
+            var visibleItemsArea: boolean = false;
+            
             for (var i = 0; i < this.visibleViewModels.length; i++){
-                if (firstVisibleItem == this.visibleViewModels[i]) {
+                if (i > 0 && firstVisibleItem == this.visibleViewModels[i-1]) {
                     visibleItemsArea = true;
                 }
                 if (visibleItemsArea) {
