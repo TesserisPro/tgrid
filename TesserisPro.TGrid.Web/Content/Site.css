@@ -767,3 +767,6 @@ footer .centered-content {
     text-align: center;
 }
 
+#mobileImage{
+    display: none;
+}
