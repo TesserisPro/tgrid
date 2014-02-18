@@ -21,7 +21,7 @@
     <body>
         <div>
             <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableFiltering: true, enableSorting: true, enableGrouping:true }">
-                @*<script type="text/html">
+                <script type="text/html">
                     <column  data-g-member="Name" data-g-filter-member="Name" data-g-group-member="Name" data-g-sort-member ="Name"> 
                     </column>
                     <column data-g-member="Surname" data-g-filter-member="Surname" data-g-group-member="Surname" data-g-sort-member ="Surname">
@@ -39,7 +39,7 @@
                        <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">OK</div>
                         <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Cancel</div>
                     </filterpopup>
-                </script>*@
+                </script>
             </div>
             <script type="text/javascript">
                 var items = ko.observableArray([
