@@ -19,12 +19,10 @@
         <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
     </head>
     <body>
-        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider }">
+        <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true }">
             <script type="text/html">
-                <column data-g-member="Name">
-                    <cell>
-                        <span style="color: red;" data-bind="text:item.Name"></span>                
-                    </cell>
+                <column data-g-member="Name" data-g-resizable="false" data-g-group-member="Surname" data-g-width="250" data-g-sort-member="Surname" data-g-views="mobile">
+                  
                 </column>
                 <column data-g-member="Surname"> 
                     <cell>

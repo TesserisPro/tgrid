@@ -101,12 +101,18 @@ var TesserisPro;
         var Options = (function () {
             function Options(element, framework) {
                 this.columns = [];
+                this.mobileTemplateHtml = null;
+                this.detailsTemplateHtml = null;
+                this.groupHeaderTemplate = null;
+                this.filterPopup = null;
                 this.pageSize = 10;
                 this.batchSize = 5;
                 this.firstLoadSize = 10;
                 this.currentPage = 0;
                 this.groupBySortDescriptors = [];
+                this.selectionMode = 1 /* Single */;
                 this.filterDescriptor = TesserisPro.TGrid.FilterDescriptor.getEmpty();
+                this.tableFooterTemplate = null;
                 this.selection = [];
                 this.columnMinWidth = 5;
                 this.target = element;
@@ -123,66 +129,75 @@ var TesserisPro;
             };
 
             Options.prototype.initialize = function () {
-                var text = this.target.getElementsByTagName("script")[0].innerHTML;
-                var optionsElement = document.createElement("div");
-                optionsElement.innerHTML = text;
+                if (this.target.getElementsByTagName("script").length > 0) {
+                    var text = this.target.getElementsByTagName("script")[0].innerHTML;
 
-                var headers = optionsElement.getElementsByTagName("header");
-                var cells = optionsElement.getElementsByTagName("cell");
-                var cellDetails = optionsElement.getElementsByTagName("celldetail");
-                var columns = optionsElement.getElementsByTagName("column");
+                    var optionsElement = document.createElement("div");
+                    optionsElement.innerHTML = text;
 
-                for (var i = 0; i < columns.length; i++) {
-                    var columnElement = $(columns[i]);
-                    var header = columnElement.find("header");
-                    var cell = columnElement.find("cell");
+                    var headers = optionsElement.getElementsByTagName("header");
+                    var cells = optionsElement.getElementsByTagName("cell");
+                    var cellDetails = optionsElement.getElementsByTagName("celldetail");
+                    var columns = optionsElement.getElementsByTagName("column");
 
-                    var column = new ColumnInfo();
-                    column.member = columns[i].attributes['data-g-member'] != undefined ? columns[i].attributes['data-g-member'].nodeValue : null;
+                    for (var i = 0; i < columns.length; i++) {
+                        var column = new ColumnInfo();
+                        if (columns[i].attributes['data-g-member'] != undefined) {
+                            column.member = columns[i].attributes['data-g-member'].nodeValue;
+                        }
+                        var header = columns[i].getElementsByTagName("header");
+                        if (header.length > 0) {
+                            column.header = new Template(header[0]);
+                        }
+                        var cell = columns[i].getElementsByTagName("cell");
+                        if (cell.length > 0) {
+                            column.cell = new Template(cell[0]);
+                        }
+                        var cellDetail = columns[i].getElementsByTagName("celldetail");
+                        if (cellDetail.length == 1) {
+                            column.cellDetail = new Template(cellDetail[0]);
+                        }
+                        if (columns[i].attributes['data-g-width'] != null) {
+                            column.width = columns[i].attributes['data-g-width'].nodeValue;
+                        }
+                        if (columns[i].attributes['data-g-views'] != null) {
+                            column.device = columns[i].attributes['data-g-views'].nodeValue;
+                        }
+                        if (columns[i].attributes['data-g-resizable'] != undefined) {
+                            column.resizable = columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true;
+                        }
 
-                    column.header = header.length > 0 ? new Template(header[0]) : null;
-                    column.cell = cell.length > 0 ? new Template(cell[0]) : null;
+                        column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;
+                        column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;
+                        column.filterMemberPath = columns[i].attributes['data-g-filter-member'] != undefined ? columns[i].attributes['data-g-filter-member'].nodeValue : column.member;
 
-                    var cellDetail = columnElement.find("celldetail");
-                    column.cellDetail = cellDetail.length == 1 ? new Template(cellDetail[0]) : null;
+                        this.columns.push(column);
+                    }
 
-                    column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;
-                    column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;
-                    column.width = columns[i].attributes['data-g-width'] != null ? columns[i].attributes['data-g-width'].nodeValue : 150;
-                    column.device = columns[i].attributes['data-g-views'] != null ? columns[i].attributes['data-g-views'].nodeValue : "mobile,desktop";
-                    column.resizable = columns[i].attributes['data-g-resizable'] != undefined ? (columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true) : true;
-                    column.filterMemberPath = columns[i].attributes['data-g-filter-member'] != undefined ? columns[i].attributes['data-g-filter-member'].nodeValue : column.member;
-
-                    this.columns.push(column);
+                    var filterPopup = optionsElement.getElementsByTagName("filterpopup");
+                    if (filterPopup.length == 1) {
+                        this.filterPopup = new Template(filterPopup[0]);
+                    }
+                    var mobileTemplate = optionsElement.getElementsByTagName("mobile");
+                    if (mobileTemplate.length == 1) {
+                        this.mobileTemplateHtml = new Template(mobileTemplate[0]);
+                    }
+                    var groupHeaderTemplate = optionsElement.getElementsByTagName("groupheader");
+                    if (groupHeaderTemplate.length == 1) {
+                        this.groupHeaderTemplate = new Template(groupHeaderTemplate[0]);
+                    }
+                    var detailsTemplate = optionsElement.getElementsByTagName("details");
+                    if (detailsTemplate.length == 1) {
+                        this.detailsTemplateHtml = new Template(detailsTemplate[0]);
+                    }
+                    var footer = optionsElement.getElementsByTagName("footer");
+                    if (footer.length != 0) {
+                        this.tableFooterTemplate = new Template(footer[0]);
+                    }
                 }
-
                 this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
-
-                var filterPopup = optionsElement.getElementsByTagName("filterpopup");
-                this.filterPopup = filterPopup.length == 1 ? new Template(filterPopup[0]) : null;
-
-                var mobileTemplate = optionsElement.getElementsByTagName("mobile");
-
-                this.mobileTemplateHtml = mobileTemplate.length == 1 ? new Template(mobileTemplate[0]) : null;
-
-                var groupHeaderTemplate = optionsElement.getElementsByTagName("groupheader");
-
-                this.groupHeaderTemplate = groupHeaderTemplate.length == 1 ? new Template(groupHeaderTemplate[0]) : null;
-
-                var detailsTemplate = optionsElement.getElementsByTagName("details");
-                this.detailsTemplateHtml = detailsTemplate.length == 1 ? new Template(detailsTemplate[0]) : null;
-
                 this.showDetailFor = new ShowDetail();
                 this.showCustomDetailFor = new ShowDetail();
-
-                var footer = optionsElement.getElementsByTagName("footer");
-                this.tableFooterTemplate = footer.length > 0 ? new Template(footer[0]) : null;
-
-                if (footer.length != 0) {
-                    this.tableFooterTemplate = new Template(footer[0]);
-                } else {
-                    this.tableFooterTemplate = null;
-                }
                 this.filterPopupForColumn = new ColumnInfo();
             };
 

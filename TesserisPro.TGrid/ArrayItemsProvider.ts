@@ -38,7 +38,11 @@ module TesserisPro.TGrid {
         private sourceItems: Array<any>;
 
         constructor(items: Array<any>) {
-            this.sourceItems = items;
+            if (isObservable(items)) {
+                this.sourceItems = ko.unwrap(items);
+            } else {
+                this.sourceItems = items;
+            }
         }
 
         public getItems(firstItem: number,

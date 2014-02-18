@@ -145,7 +145,10 @@ th.tgrid-table-indent-cell-content
 .tgrid-table-body-row .tgrid-cell-content span
 {
     padding-left: 2px;
-    height: 26px;
+}
+
+.tgrid-table-body-row{
+     height: 26px;
 }
 
 .tgrid-tablebodycontainer {

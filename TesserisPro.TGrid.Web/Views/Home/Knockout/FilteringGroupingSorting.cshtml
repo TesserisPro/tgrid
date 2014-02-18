@@ -21,7 +21,7 @@
     <body>
         <div>
             <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableFiltering: true, enableSorting: true, enableGrouping:true }">
-                <script type="text/html">
+                @*<script type="text/html">
                     <column  data-g-member="Name" data-g-filter-member="Name" data-g-group-member="Name" data-g-sort-member ="Name"> 
                     </column>
                     <column data-g-member="Surname" data-g-filter-member="Surname" data-g-group-member="Surname" data-g-sort-member ="Surname">
@@ -39,10 +39,10 @@
                        <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onApply(); }">OK</div>
                         <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: function () { onClose(); }">Cancel</div>
                     </filterpopup>
-                </script>
+                </script>*@
             </div>
             <script type="text/javascript">
-                var items = [
+                var items = ko.observableArray([
                         { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
                         { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
                         { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
@@ -72,7 +72,7 @@
                         { Name: "Theron", Surname: "Carter", Age: "28", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
                         { Name: "George", Surname: "Collins", Age: "28", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
                         { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
-                ];
+                ]);
                 function vm() {
                     var self = this;
                     self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);

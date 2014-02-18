@@ -36,7 +36,11 @@ var TesserisPro;
     (function (TGrid) {
         var ArrayItemsProvider = (function () {
             function ArrayItemsProvider(items) {
-                this.sourceItems = items;
+                if (isObservable(items)) {
+                    this.sourceItems = ko.unwrap(items);
+                } else {
+                    this.sourceItems = items;
+                }
             }
             ArrayItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptor, collapsedFilterDescriptors, callback) {
                 // Copy items
