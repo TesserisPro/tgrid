@@ -1,0 +1,34 @@
+﻿<script type="text/javascript">
+	SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+	var items = [
+			{ Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+			{ Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+			{ Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+			{ Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+			{ Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+			{ Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+		];
+
+	var TGrid = angular.module('TGrid', [])
+		.controller("ctrl", function ctrl($scope) {
+			$scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+			$scope.itemToAdd = { Name: "", Surname: "", Age: "" };
+			$scope.addItem = function (itemToAdd) {
+				var item = {};
+				item.Name = itemToAdd.Name;
+				item.Surname = itemToAdd.Surname;
+				item.Age = itemToAdd.Age;
+				$scope.dataProvider.addItem(item);
+			}
+			$scope.deleteItem = function (item) {
+				$scope.dataProvider.deleteItem(item);
+			}
+		})
+		.directive('tGrid', TGrid.Angular.Directive);
+
+	$(function () {
+	})
+</pre>

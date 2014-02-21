@@ -153,8 +153,12 @@
     <Content Include="Views\Home\Knockout\DynamicReconfigurationHtml.cshtml" />
     <Content Include="Views\Home\Angular\jsDynamicReconfiguration.cshtml" />
     <Content Include="Views\Home\Knockout\jsDynamicReconfiguration.cshtml" />
-    <Content Include="Views\Home\Knockout\ItemsOperations.cshtml" />
-    <Content Include="Views\Home\Angular\ItemsOperations.cshtml" />
+    <Content Include="Views\Home\Knockout\AddRemoveItemsWithItemsProvider.cshtml" />
+    <Content Include="Views\Home\Angular\AddRemoveItemsWithItemsProvider.cshtml" />
+    <Content Include="Views\Home\Angular\AddRemoveItemsWithItemsProviderHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\AddRemoveItemsWithItemsProviderHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\jsAddRemoveItemsWithItemsProvider.cshtml" />
+    <Content Include="Views\Home\Angular\jsAddRemoveItemsWithItemsProvider.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

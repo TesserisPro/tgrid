@@ -1,0 +1,66 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+	<div id="addItem">
+		<table class="tgrid-table" id="tableItemsActionsHeader">
+			<thead class="tgrid-table-header">
+				<tr>
+					<th style="width:150px">
+						Name
+					</th>
+					<th style="width:150px">
+						Surname
+					</th>
+					<th style="width:150px">
+						Age
+					</th>
+					<th style="width:80px">
+					</th>
+					<th>
+					</th>
+				</tr>
+			</thead>
+		</table>
+		<table class="tgrid-table" id="tableAddItemBody">
+			<tbody>
+				<tr>
+					<td style="width:150px">
+						<input type="text" data-bind="value: itemToAdd().Name" />
+								
+					</td>
+					<td style="width:150px">
+						<input type="text" data-bind="value: itemToAdd().Surname"/>
+					</td>
+					<td style="width:150px">
+						<input type="text" data-bind="value: itemToAdd().Age"/>
+					</td>
+					<td style="width:80px">
+						<div class="addButton" data-bind="click: function(){addItem(itemToAdd);}"> Add
+						</div>
+					</td>
+					<td>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
+		<script type="text/html">
+			<column data-g-member="Name">
+			</column>
+			<column data-g-member="Surname">
+			</column>
+			<column data-g-member="Age">
+			</column>
+			<column data-g-width="80">
+				<cell>
+					<span class="addButton" data-bind="click: function() {model.deleteItem(item)}"> Delete</span>
+				</cell>
+			</column>
+		</script>
+	</div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

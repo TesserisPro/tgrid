@@ -1,0 +1,67 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+	<div ng-app="TGrid">
+		<div ng-controller="ctrl">
+			<div id="addItem">
+				<table class="tgrid-table" id="tableItemsActionsHeader">
+					<thead class="tgrid-table-header">
+						<tr>
+							<th style="width:150px">
+								Name
+							</th>
+							<th style="width:150px">
+								Surname
+							</th>
+							<th style="width:150px">
+								Age
+							</th>
+							<th>
+							</th>
+						</tr>
+					</thead>
+				</table>
+				<table class="tgrid-table" id="tableAddItemBody">
+					<tbody>
+						<tr>
+							<td style="width:150px">
+								<input type="text" ng-model="itemToAdd.Name" />
+								
+							</td>
+							<td style="width:150px">
+								<input type="text" ng-model="itemToAdd.Surname"/>
+							</td>
+							<td style="width:150px">
+								<input type="text" ng-model="itemToAdd.Age"/>
+							</td>
+							<td style="width:80px">
+								<div class="addButton" ng-click="addItem(itemToAdd)">Add</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<t-grid id="test-angular" provider="dataProvider">
+				<script type="text/html">
+					<column data-g-member="Name">
+					</column>
+					<column data-g-member="Surname">
+					</column>
+					<column data-g-member="Age">
+					</column>
+					<column data-g-width="80">
+						<cell>
+							<span class="addButton" ng-click="model.deleteItem(item)">Delete</span>
+						</cell>
+					</column>
+				</script>
+			</t-grid>
+		</div>
+	</div>
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
