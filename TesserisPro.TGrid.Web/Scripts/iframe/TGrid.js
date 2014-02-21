@@ -61,6 +61,19 @@ var TesserisPro;
                 //    this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
                 //}
                 this.itemProvider = provider;
+                var self = this;
+                this.itemProvider.actionAfterAddingItem = function () {
+                    if (!self.options.enableVirtualScroll) {
+                        self.options.firstLoadSize++;
+                    }
+                    self.refreshBody();
+                };
+                this.itemProvider.actionAfterDeletingItem = function () {
+                    if (!self.options.enableVirtualScroll) {
+                        self.options.firstLoadSize--;
+                    }
+                    self.refreshBody();
+                };
                 this.htmlProvider = this.getHtmlProvider(this.options);
 
                 this.footerViewModel = this.htmlProvider.getFooterViewModel(this);

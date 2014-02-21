@@ -40,6 +40,8 @@ module TesserisPro.TGrid {
         private urlGetTotalNumber: string;
         private items: Array<any>;
         private path: string;
+        public actionAfterAddingItem: () => void;
+        public actionAfterDeletingItem: () => void;
 
         constructor(urlGetItems: string, urlGetTotalNumber: string, path: string) {
             this.urlGetItems = urlGetItems;
@@ -80,6 +82,14 @@ module TesserisPro.TGrid {
             xmlhttp.setRequestHeader("Content-type", "application/json");
             xmlhttp.setRequestHeader("Accept", "application/json");
             xmlhttp.send(JSON.stringify(filterDescriptors));
+        }
+
+        public deleteItem(item: any) {
+            this.actionAfterDeletingItem();
+        }
+
+        public addItem(item: any) {
+            this.actionAfterAddingItem();
         }
     }
 }

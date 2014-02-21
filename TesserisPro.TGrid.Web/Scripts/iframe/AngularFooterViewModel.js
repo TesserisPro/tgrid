@@ -115,7 +115,7 @@ var TesserisPro;
             AngularFooterViewModel.prototype.changePage = function (viewPageNumber) {
                 if (this.$scope.totalPages != undefined && this.$scope.totalPages != null && this.$scope.totalPages < viewPageNumber) {
                     this.grid.selectPage(this.$scope.totalPages - 1);
-                } else if (viewPageNumber < 1) {
+                } else if (viewPageNumber == undefined || viewPageNumber < 1) {
                     this.grid.selectPage(0);
                 } else {
                     this.grid.selectPage(viewPageNumber - 1);

@@ -67,6 +67,14 @@ var TesserisPro;
                 xmlhttp.setRequestHeader("Accept", "application/json");
                 xmlhttp.send(JSON.stringify(filterDescriptors));
             };
+
+            ServerItemsProvider.prototype.deleteItem = function (item) {
+                this.actionAfterDeletingItem();
+            };
+
+            ServerItemsProvider.prototype.addItem = function (item) {
+                this.actionAfterAddingItem();
+            };
             return ServerItemsProvider;
         })();
         TGrid.ServerItemsProvider = ServerItemsProvider;

@@ -1,0 +1,113 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<title>Add and delete items with items provider knockout</title>
+		<link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
+		<link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
+		<link rel="stylesheet" type="text/css" href="~/Content/itemsOperations.css">
+
+		<script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
+		<script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
+
+
+		<script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
+		<script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+		<script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="addItem">
+			<table class="tgrid-table" id="tableItemsActionsHeader">
+				<thead class="tgrid-table-header">
+					<tr>
+						<th style="width:150px">
+							Name
+						</th>
+						<th style="width:150px">
+							Surname
+						</th>
+						<th style="width:150px">
+							Age
+						</th>
+						<th style="width:80px">
+						</th>
+						<th>
+						</th>
+					</tr>
+				</thead>
+			</table>
+			<table class="tgrid-table" id="tableAddItemBody">
+				<tbody>
+					<tr>
+						<td style="width:150px">
+							<input type="text" data-bind="value: itemToAdd().Name" />
+								
+						</td>
+						<td style="width:150px">
+							<input type="text" data-bind="value: itemToAdd().Surname"/>
+						</td>
+						<td style="width:150px">
+							<input type="text" data-bind="value: itemToAdd().Age"/>
+						</td>
+						<td style="width:80px">
+							<div class="addButton" data-bind="click: function(){addItem(itemToAdd);}"> Add
+							</div>
+						</td>
+						<td>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
+			<script type="text/html">
+				<column data-g-member="Name">
+				</column>
+				<column data-g-member="Surname">
+				</column>
+				<column data-g-member="Age">
+				</column>
+				<column data-g-width="80">
+					<cell>
+						<span class="addButton" data-bind="click: function() {model.deleteItem(item)}"> Delete</span>
+					</cell>
+				</column>
+			</script>
+		</div>
+		<script type="text/javascript">
+			var items = [
+					{ Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+					{ Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+					{ Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+					{ Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+					{ Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+					{ Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+				];
+
+			function vm() {
+				var self = this;
+				self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+				self.itemToAdd = ko.observable({ Name: "", Surname: "", Age: "" });
+				self.addItem = function () {
+					var item = new Object();
+					item.Name = self.itemToAdd().Name;
+					item.Surname = self.itemToAdd().Surname;
+					item.Age = self.itemToAdd().Age;
+					self.itemsProvider.addItem(item);
+				}
+				self.deleteItem = function (item) {
+					self.itemsProvider.deleteItem(item);
+				}
+			};
+
+			$(function () {
+				ko.applyBindings(new vm());
+			});
+		</script>
+	</body>
+</html>

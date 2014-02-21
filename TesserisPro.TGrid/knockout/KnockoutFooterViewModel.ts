@@ -71,7 +71,7 @@ module TesserisPro.TGrid {
             (() => {
                 if (this.totalPages() != undefined && this.totalPages() != null && this.totalPages() < viewPageNumber) {
                     this.grid.selectPage(this.totalPages() - 1);
-                } else if (viewPageNumber < 1) {
+                } else if (viewPageNumber == undefined || viewPageNumber < 1) {
                     this.grid.selectPage(0);
                 } else {
                     this.grid.selectPage(viewPageNumber - 1);

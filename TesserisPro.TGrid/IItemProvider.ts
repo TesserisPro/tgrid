@@ -33,7 +33,8 @@
 module TesserisPro.TGrid {
 
     export interface IItemProvider {
-
+        actionAfterAddingItem: () => void;
+        actionAfterDeletingItem: () => void;
         getItems(
             skip: number,
             take: number,
@@ -41,7 +42,13 @@ module TesserisPro.TGrid {
             filter: FilterDescriptor,
             collapsedGroupFilters: Array<FilterDescriptor>,
             callback: (items: Array<any>, firstItem: number, itemsNumber: number) => void): void;
-        
+
         getTotalItemsCount(filter: FilterDescriptor, callback: (total: number) => void): void;
+       
+        deleteItem(item: any);
+
+        addItem(item: any);
     }
+
+    
 }

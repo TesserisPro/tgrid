@@ -60,7 +60,7 @@ var TesserisPro;
                 (function () {
                     if (_this.totalPages() != undefined && _this.totalPages() != null && _this.totalPages() < viewPageNumber) {
                         _this.grid.selectPage(_this.totalPages() - 1);
-                    } else if (viewPageNumber < 1) {
+                    } else if (viewPageNumber == undefined || viewPageNumber < 1) {
                         _this.grid.selectPage(0);
                     } else {
                         _this.grid.selectPage(viewPageNumber - 1);

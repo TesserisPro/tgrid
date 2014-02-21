@@ -80,7 +80,7 @@
                             <input type="text" data-bind="value: columnForAddingHeader" />
                         </td>
                         <td style="width:390px">
-                            <input type="text" data-bind="value: columnForAddingCell" style="margin: 0 0 0 3px; width: 380px;" placeholder="<span data-bind='text: item.Name'></span>"/>
+                            <input type="text" data-bind="value: columnForAddingCell" style="margin: 0 0 0 3px; width: 380px;"/>
                         </td>
                         <td style=" ">
                             <div class="grid-add-button" data-bind="click: function(){addColumn();}">
@@ -154,7 +154,7 @@
                 ]);
                 self.columnForAddingMember = ko.observable("");
                 self.columnForAddingHeader = ko.observable("");
-                self.columnForAddingCell = ko.observable("");
+                self.columnForAddingCell = ko.observable("<span style='color: #259631;' data-bind='text: item.Name'></span");
                 self.membersOfColumnsForAdding = ko.observableArray(new Array());
 
                 self.deleteColumn = function (column) {
@@ -198,7 +198,7 @@
                     }
                     self.columnForAddingHeader("");
                     self.columnForAddingMember("");
-                    self.columnForAddingCell("");
+                    self.columnForAddingCell("<span style='color: #259631;' data-bind='text: item.Name'></span>");
                 }
                 self.toggleSorting = function () {
                     if (!self.gridOptions().enableSorting) {

@@ -124,6 +124,18 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
+                title = "Add and remove items with items provider",
+                url = "Knockout/ItemsOperations",
+                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/ItemsOperations",
+                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
                 title = "Virtualization/lazy loading",
                 url = "Knockout/lazyLoading",
                 htmlUrl = "Knockout/lazyLoadingHtmlKnock",

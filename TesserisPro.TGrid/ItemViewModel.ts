@@ -73,6 +73,12 @@ module TesserisPro.TGrid {
             this.item = item;
         }
         
+        public addItem(item: any): void {
+            this.grid.addItem(item);
+        }
+        public deleteItem(item: any): void {
+            this.grid.deleteItem(item);
+        }
     }
 
 }

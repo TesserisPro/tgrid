@@ -1,0 +1,48 @@
+﻿.tgrid-tablebodycontainer {
+    max-height: 370px;
+}
+
+#tableAddItemBody table-body tr td{
+    display: inline-block;
+    width: 150px;
+    margin: 0 4px;
+}
+
+#tableAddItemBody input{
+    width: 120px;
+    border: 1px solid #9F9F9F;
+    color: #555;
+    margin: 0 5px;
+    font-family: "Times New Roman",serif;
+    font-size: 16px;
+}
+
+#addItem{
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.addButton {
+    width: 70px;
+    height: 17px;
+    display: inline-block;
+    border: 1px solid #BEBEBE;
+    text-align: center;
+    background: #d7d7d7;
+    padding-bottom: 6px;
+    margin: 2px;
+    cursor: default;
+}
+
+#tableItemsActionsHeader{
+    margin: 0;
+    border: 1px solid #BEBEBE;
+
+}
+
+#tableAddItemBody {
+    border-top: none;
+    border: 1px solid #BEBEBE;
+    margin: 0 0 10px 0;
+}
+

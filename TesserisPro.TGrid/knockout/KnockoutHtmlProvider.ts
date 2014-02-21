@@ -186,7 +186,7 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-
+           
             for (var i = 0; i < items.length; i++) {
                 this.appendTableElement(option, container, items[i], 0, selected);
             }

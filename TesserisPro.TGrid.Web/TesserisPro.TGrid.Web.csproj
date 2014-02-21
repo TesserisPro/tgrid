@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
       <DependentUpon>overview.md</DependentUpon>
     </Content>
@@ -152,6 +153,8 @@
     <Content Include="Views\Home\Knockout\DynamicReconfigurationHtml.cshtml" />
     <Content Include="Views\Home\Angular\jsDynamicReconfiguration.cshtml" />
     <Content Include="Views\Home\Knockout\jsDynamicReconfiguration.cshtml" />
+    <Content Include="Views\Home\Knockout\ItemsOperations.cshtml" />
+    <Content Include="Views\Home\Angular\ItemsOperations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

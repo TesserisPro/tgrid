@@ -65,6 +65,21 @@ var TesserisPro;
                 callback(this.filter(this.sourceItems, filterDescriptor, null).length);
             };
 
+            ArrayItemsProvider.prototype.addItem = function (item) {
+                this.sourceItems.push(item);
+                this.actionAfterAddingItem();
+            };
+
+            ArrayItemsProvider.prototype.deleteItem = function (item) {
+                for (var i = 0; i < this.sourceItems.length; i++) {
+                    if (this.sourceItems[i] == item) {
+                        this.sourceItems.splice(i, 1);
+                        break;
+                    }
+                }
+                this.actionAfterDeletingItem();
+            };
+
             ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {
                 var _this = this;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {

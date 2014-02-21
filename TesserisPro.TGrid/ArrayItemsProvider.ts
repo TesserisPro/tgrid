@@ -36,6 +36,8 @@ module TesserisPro.TGrid {
 
     export class ArrayItemsProvider implements IItemProvider {
         private sourceItems: Array<any>;
+        public actionAfterAddingItem: () => void;
+        public actionAfterDeletingItem: () => void;
 
         constructor(items: Array<any>) {
             if (isObservable(items)) {
@@ -72,6 +74,21 @@ module TesserisPro.TGrid {
         public getTotalItemsCount(filterDescriptor: FilterDescriptor, callback: (total: number) => void): void {
             // For items count we just need to apply filter
             callback(this.filter(this.sourceItems, filterDescriptor, null).length);
+        }
+
+        public addItem(item: any) {
+            this.sourceItems.push(item);
+            this.actionAfterAddingItem();
+        }
+
+        public deleteItem(item: any) {
+            for (var i = 0; i < this.sourceItems.length; i++){
+                if (this.sourceItems[i] == item) {
+                    this.sourceItems.splice(i, 1);
+                    break;
+                }
+            }
+            this.actionAfterDeletingItem();
         }
 
         private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {
