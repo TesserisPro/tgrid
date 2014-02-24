@@ -697,7 +697,7 @@ footer .centered-content {
 
 .editor-container div{
     width: 700px;
-    height: 530px;
+    height: 520px;
 }
 
 .syntaxhighlighter .toolbar{
@@ -769,4 +769,9 @@ footer .centered-content {
 
 #mobileImage{
     display: none;
+}
+
+#versionNote{
+    margin: 20px 0 0 22px;
+    font-size: 12px;
 }
