@@ -109,7 +109,11 @@ function addClass(target, className) {
     var classBefore = target.getAttribute("class");
     var classAfter;
     if (classBefore != null && classBefore.length > 0) {
-        classAfter = classBefore.concat(" ").concat(className);
+        if (classBefore.indexOf(className) == -1) {
+            classAfter = classBefore.concat(" ").concat(className);
+        } else {
+            classAfter = classBefore;
+        }
     } else {
         classAfter = className;
     }

@@ -28,7 +28,7 @@
     background: whitesmoke; /* Old browsers */
     border-bottom: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
-    color:#555;
+    color:#555;    
 }
 
 .tgrid-table thead tr th,
@@ -152,7 +152,7 @@ th.tgrid-table-indent-cell-content
 }
 
 .tgrid-tablebodycontainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: auto;
     height: auto;
     max-height:420px;
