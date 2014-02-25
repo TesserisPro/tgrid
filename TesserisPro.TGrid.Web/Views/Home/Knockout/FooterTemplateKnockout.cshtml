@@ -44,7 +44,7 @@
                                 <span class='tgrid-page-number' data-bind="text:totalPages, click: function () { goToLastPage(); }, clickBubble: false, css: { hidden: (currentPage() + 4)> totalPages() }"></span>
                             </div>
                             <span style="float:right; position:absolute; right:3px">
-                                To page <input class="tgrid-choose-page-input" data-bind="value: $root.page"/>
+                                To page: <input class="tgrid-choose-page-input" data-bind="value: $root.page"/>
                                 of <span data-bind="text: totalPages"> </span>
                                 <span class="tgrid-change-page-button" data-bind="click: function() {changePage($root.page);} , clickBubble: false">
                                     Go
