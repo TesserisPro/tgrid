@@ -220,8 +220,6 @@ declare module TesserisPro.TGrid {
         public getTableElement(option: TGrid.Options): HTMLElement;
         public getElementsSize(container: HTMLElement, items: TGrid.ItemViewModel[]): number;
         public getFirstVisibleItem(container: HTMLElement, items: TGrid.ItemViewModel[], scrollTop: number): TGrid.ItemViewModel;
-        public getFooterViewModel(grid: any): TGrid.KnockoutFooterViewModel;
-        public getFilterPopupViewModel(container: HTMLElement): TGrid.KnockoutFilterPopupViewModel;
         public updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): void;
         public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
         public updateTableDetailRow(options: TGrid.Options, container: HTMLElement, item: TGrid.ItemViewModel, shouldAddDetails: boolean): void;
