@@ -67,9 +67,9 @@ var TesserisPro;
 
             AngularFooterViewModel.prototype.setTotalCount = function (totalCount) {
                 var _this = this;
-                this.totalCount = totalCount;
+                this.totalCount = Math.floor(totalCount);
                 if (this.$scope != null) {
-                    this.$scope.totalCount = totalCount;
+                    this.$scope.totalCount = Math.floor(totalCount);
                     var self = this;
                     setTimeout(function () {
                         return _this.$scope.$apply();
@@ -90,9 +90,9 @@ var TesserisPro;
 
             AngularFooterViewModel.prototype.setCurrentPage = function (currentPage) {
                 var _this = this;
-                this.currentPage = currentPage;
+                this.currentPage = Math.floor(currentPage);
                 if (this.$scope != null) {
-                    this.$scope.currentPage = currentPage;
+                    this.$scope.currentPage = Math.floor(currentPage);
                     var self = this;
                     setTimeout(function () {
                         return _this.$scope.$apply();
@@ -102,9 +102,9 @@ var TesserisPro;
 
             AngularFooterViewModel.prototype.setTotalPages = function (totalPages) {
                 var _this = this;
-                this.totalPages = totalPages;
+                this.totalPages = Math.floor(totalPages);
                 if (this.$scope != null) {
-                    this.$scope.totalPages = totalPages;
+                    this.$scope.totalPages = Math.floor(totalPages);
                     var self = this;
                     setTimeout(function () {
                         return _this.$scope.$apply();
@@ -113,12 +113,18 @@ var TesserisPro;
             };
 
             AngularFooterViewModel.prototype.changePage = function (viewPageNumber) {
+                var pageNumber = parseInt(viewPageNumber);
+                if (isNaN(pageNumber)) {
+                    return;
+                }
                 if (this.$scope.totalPages != undefined && this.$scope.totalPages != null && this.$scope.totalPages < viewPageNumber) {
                     this.grid.selectPage(this.$scope.totalPages - 1);
-                } else if (viewPageNumber == undefined || viewPageNumber < 1) {
+                    return;
+                }
+                if (pageNumber < 1) {
                     this.grid.selectPage(0);
                 } else {
-                    this.grid.selectPage(viewPageNumber - 1);
+                    this.grid.selectPage(pageNumber - 1);
                 }
             };
 

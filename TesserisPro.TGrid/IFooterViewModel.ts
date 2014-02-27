@@ -37,7 +37,7 @@ module TesserisPro.TGrid {
         setSelectedItem(selectedItem: any);
         setCurrentPage(currentPage: number);
         setTotalPages(totalPages: number);
-        changePage(pageNumber: number);
+        changePage(pageNumber: string);
         goToPreviousPagesBlock();
         goToNextPagesBlock();
         goToFirstPage();

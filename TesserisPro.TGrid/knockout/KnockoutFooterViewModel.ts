@@ -52,7 +52,7 @@ module TesserisPro.TGrid {
         }
 
         public setTotalCount(totalCount: number) {
-            this.totalCount(totalCount);
+            this.totalCount(Math.floor(totalCount));
         }
 
         public setSelectedItem(selectedItem: any) {
@@ -60,21 +60,27 @@ module TesserisPro.TGrid {
         }
 
         public setCurrentPage(currentPage: number) {
-            this.currentPage(currentPage);
+            this.currentPage(Math.floor(currentPage));
         }
 
         public setTotalPages(totalPages: number) {
-            this.totalPages(totalPages);
+            this.totalPages(Math.floor(totalPages));
         }
 
-        public changePage(viewPageNumber: number) {
+        public changePage(viewPageNumber: string) {
             (() => {
-                if (this.totalPages() != undefined && this.totalPages() != null && this.totalPages() < viewPageNumber) {
+                var pageNumber = parseInt(viewPageNumber);
+                if (isNaN(pageNumber)) {
+                    return;
+                }
+                if (this.totalPages() != undefined && this.totalPages() != null && pageNumber > this.totalPages()) {
                     this.grid.selectPage(this.totalPages() - 1);
-                } else if (viewPageNumber == undefined || viewPageNumber < 1) {
+                    return;
+                }
+                if (pageNumber < 1) {
                     this.grid.selectPage(0);
                 } else {
-                    this.grid.selectPage(viewPageNumber - 1);
+                    this.grid.selectPage(pageNumber - 1);
                 }
             })();
         }
