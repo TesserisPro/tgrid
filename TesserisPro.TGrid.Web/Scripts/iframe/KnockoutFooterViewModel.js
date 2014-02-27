@@ -40,7 +40,7 @@ var TesserisPro;
                 this.grid = grid;
             }
             KnockoutFooterViewModel.prototype.setTotalCount = function (totalCount) {
-                this.totalCount(totalCount);
+                this.totalCount(Math.ceil(totalCount));
             };
 
             KnockoutFooterViewModel.prototype.setSelectedItem = function (selectedItem) {
@@ -48,11 +48,11 @@ var TesserisPro;
             };
 
             KnockoutFooterViewModel.prototype.setCurrentPage = function (currentPage) {
-                this.currentPage(currentPage);
+                this.currentPage(Math.ceil(currentPage));
             };
 
             KnockoutFooterViewModel.prototype.setTotalPages = function (totalPages) {
-                this.totalPages(totalPages);
+                this.totalPages(Math.ceil(totalPages));
             };
 
             KnockoutFooterViewModel.prototype.changePage = function (viewPageNumber) {
@@ -63,7 +63,7 @@ var TesserisPro;
                     } else if (viewPageNumber == undefined || viewPageNumber < 1) {
                         _this.grid.selectPage(0);
                     } else {
-                        _this.grid.selectPage(viewPageNumber - 1);
+                        _this.grid.selectPage(Math.ceil(viewPageNumber) - 1);
                     }
                 })();
             };

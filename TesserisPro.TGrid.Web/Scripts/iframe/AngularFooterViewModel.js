@@ -90,9 +90,9 @@ var TesserisPro;
 
             AngularFooterViewModel.prototype.setCurrentPage = function (currentPage) {
                 var _this = this;
-                this.currentPage = currentPage;
+                this.currentPage = Math.ceil(currentPage);
                 if (this.$scope != null) {
-                    this.$scope.currentPage = currentPage;
+                    this.$scope.currentPage = Math.ceil(currentPage);
                     var self = this;
                     setTimeout(function () {
                         return _this.$scope.$apply();
@@ -102,9 +102,9 @@ var TesserisPro;
 
             AngularFooterViewModel.prototype.setTotalPages = function (totalPages) {
                 var _this = this;
-                this.totalPages = totalPages;
+                this.totalPages = Math.ceil(totalPages);
                 if (this.$scope != null) {
-                    this.$scope.totalPages = totalPages;
+                    this.$scope.totalPages = Math.ceil(totalPages);
                     var self = this;
                     setTimeout(function () {
                         return _this.$scope.$apply();
@@ -118,7 +118,7 @@ var TesserisPro;
                 } else if (viewPageNumber == undefined || viewPageNumber < 1) {
                     this.grid.selectPage(0);
                 } else {
-                    this.grid.selectPage(viewPageNumber - 1);
+                    this.grid.selectPage(Math.ceil(viewPageNumber) - 1);
                 }
             };
 
