@@ -116,6 +116,11 @@ var TesserisPro;
             };
 
             AngularHtmlProvider.prototype.updateTableHeadElement = function (option, header, groupByContainer, filterPopupContainer, columnsResized) {
+                if (option.columns.length <= 0) {
+                    var grid = TesserisPro.TGrid.Grid.getGridObject(header);
+                    grid.setColumnsFromItemsProvider();
+                }
+
                 this.updateGroupByPanel(option, groupByContainer);
 
                 // Create table header

@@ -67,17 +67,25 @@ var TesserisPro;
 
             ArrayItemsProvider.prototype.addItem = function (item) {
                 this.sourceItems.push(item);
-                this.actionAfterAddingItem();
+                this.onAdd();
             };
 
-            ArrayItemsProvider.prototype.deleteItem = function (item) {
+            ArrayItemsProvider.prototype.removeItem = function (item) {
                 for (var i = 0; i < this.sourceItems.length; i++) {
                     if (this.sourceItems[i] == item) {
                         this.sourceItems.splice(i, 1);
                         break;
                     }
                 }
-                this.actionAfterDeletingItem();
+                this.onRemove();
+            };
+
+            ArrayItemsProvider.prototype.getFirstItem = function () {
+                if (this.sourceItems.length > 0) {
+                    return this.sourceItems[0];
+                } else {
+                    return null;
+                }
             };
 
             ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {

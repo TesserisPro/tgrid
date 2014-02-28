@@ -64,13 +64,6 @@ var TesserisPro;
             ItemViewModel.prototype.setItemValue = function (item) {
                 this.item = item;
             };
-
-            ItemViewModel.prototype.addItem = function (item) {
-                this.grid.addItem(item);
-            };
-            ItemViewModel.prototype.deleteItem = function (item) {
-                this.grid.deleteItem(item);
-            };
             return ItemViewModel;
         })();
         TGrid.ItemViewModel = ItemViewModel;

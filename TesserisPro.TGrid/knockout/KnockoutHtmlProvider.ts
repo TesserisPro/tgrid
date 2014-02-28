@@ -95,87 +95,93 @@ module TesserisPro.TGrid {
         }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: ColumnInfo) => void) {
+            if (option.columns.length <= 0) {
+                var grid = TesserisPro.TGrid.Grid.getGridObject(header);
+                grid.setColumnsFromItemsProvider();
+            }
             this.updateGroupByPanel(option, groupByContainer);
 
             // Create table header
             var head = document.createElement("tr");
             this.appendIndent(head, option.columns.length, true);
             this.showNeededIndents(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
+            
+            if (option.columns.length > 0) {
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].device.indexOf("desktop") != -1) {
+                        var headerCell = document.createElement("th");
+                        headerCell.className = "tgrid-header-cell";
+                        headerCell.draggable = false;
+                        var headerMainContainer = document.createElement("div");
+                        headerMainContainer.className = "tgrid-header-cell-container";
+                        var headerContent = document.createElement("div");
+                        headerContent.style.overflow = "hidden";
+                        var headerButtons = document.createElement("div");
+                        headerContent.className = "tgrid-header-cell-content";
+                        headerButtons.className = "tgrid-header-cell-buttons";
+                        headerMainContainer.appendChild(headerContent);
+                        headerMainContainer.appendChild(headerButtons);
+                        headerCell.appendChild(headerMainContainer);
 
-            for (var i = 0; i < option.columns.length; i++) {
-                if (option.columns[i].device.indexOf("desktop") != -1) {
-                    var headerCell = document.createElement("th");
-                    headerCell.className = "tgrid-header-cell";
-                    headerCell.draggable = false;
-                    var headerMainContainer = document.createElement("div");
-                    headerMainContainer.className = "tgrid-header-cell-container";
-                    var headerContent = document.createElement("div");
-                    headerContent.style.overflow = "hidden";
-                    var headerButtons = document.createElement("div");
-                    headerContent.className = "tgrid-header-cell-content";
-                    headerButtons.className = "tgrid-header-cell-buttons";
-                    headerMainContainer.appendChild(headerContent);
-                    headerMainContainer.appendChild(headerButtons);
-                    headerCell.appendChild(headerMainContainer);
+                        headerCell.style.width = option.columns[i].width.toString() + "px";
 
-                    headerCell.style.width = option.columns[i].width.toString() + "px";
-
-                    if (option.columns[i].header != null) {
-                        option.columns[i].header.applyTemplate(headerContent);
-                    } else {
-                        var headerText = option.columns[i].member != null ? option.columns[i].member : "";
-                        this.buildDefaultHeader(headerContent, headerText);
-                    }
-
-                    // Arrows
-                    if (option.enableSorting) {
-                        // Method changing sorting
-                        (function (i) {
-                            headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
-                        })(i);
-                        if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
-                            this.addArrows(headerButtons, option, i);
+                        if (option.columns[i].header != null) {
+                            option.columns[i].header.applyTemplate(headerContent);
+                        } else {
+                            var headerText = option.columns[i].member != null ? option.columns[i].member : "";
+                            this.buildDefaultHeader(headerContent, headerText);
                         }
-                    }
 
-                    // Filter
-                    this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
-
-                    if (option.columns[i].resizable) {
-                        var columnResize = document.createElement("div");
-                        columnResize.className = "tgrid-header-column-resize";
-
-                        columnResize.onclick = e => e.stopImmediatePropagation();
-
-                        (function (i, headerCell, columnResize) {
-                            var documentMouseMove = null;
-                            var position = 0;
-                            columnResize.onmousedown = e => {
-                                e.stopImmediatePropagation();
-                                position = e.screenX;
-                                documentMouseMove = document.onmousemove;
-                                document.onmousemove = m => {
-                                    if (position != 0) {
-                                        option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
-                                        position = m.screenX;
-                                        columnsResized(option.columns[i]);
-                                    }
-                                };
-                            };
-
-                            document.onmouseup = e => {
-                                document.onmousemove = documentMouseMove;
-                                position = 0;
+                        // Arrows
+                        if (option.enableSorting) {
+                            // Method changing sorting
+                            (function (i) {
+                                headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
+                            })(i);
+                            if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
+                                this.addArrows(headerButtons, option, i);
                             }
+                        }
+
+                        // Filter
+                        this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+
+                        if (option.columns[i].resizable) {
+                            var columnResize = document.createElement("div");
+                            columnResize.className = "tgrid-header-column-resize";
+
+                            columnResize.onclick = e => e.stopImmediatePropagation();
+
+                            (function (i, headerCell, columnResize) {
+                                var documentMouseMove = null;
+                                var position = 0;
+                                columnResize.onmousedown = e => {
+                                    e.stopImmediatePropagation();
+                                    position = e.screenX;
+                                    documentMouseMove = document.onmousemove;
+                                    document.onmousemove = m => {
+                                        if (position != 0) {
+                                            option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                            position = m.screenX;
+                                            columnsResized(option.columns[i]);
+                                        }
+                                    };
+                                };
+
+                                document.onmouseup = e => {
+                                    document.onmousemove = documentMouseMove;
+                                    position = 0;
+                                }
                     })(i, headerCell, columnResize);
 
 
-                        headerButtons.appendChild(columnResize);
-                    }
+                            headerButtons.appendChild(columnResize);
+                        }
 
-                    head.appendChild(headerCell);
+                        head.appendChild(headerCell);
+                    }
                 }
-            }
+            } 
             var placeholderColumn = document.createElement("th");
             addClass(placeholderColumn, "tgrid-placeholder");
             head.appendChild(placeholderColumn);

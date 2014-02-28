@@ -35,7 +35,7 @@
 						<input type="text" data-bind="value: itemToAdd().Age"/>
 					</td>
 					<td style="width:80px">
-						<div class="addButton" data-bind="click: function(){addItem(itemToAdd);}"> Add
+						<div class="addButton" data-bind="click: function(){addItem(itemToAdd);}">Add
 						</div>
 					</td>
 					<td>
@@ -54,7 +54,7 @@
 			</column>
 			<column data-g-width="80">
 				<cell>
-					<span class="addButton" data-bind="click: function() {model.deleteItem(item)}"> Delete</span>
+					<span class="addButton" data-bind="click: function() {model.removeItem(item)}">Remove</span>
 				</cell>
 			</column>
 		</script>

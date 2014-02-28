@@ -200,7 +200,7 @@ module TesserisPro.TGrid {
                 if (footer.length != 0) {
                     this.tableFooterTemplate = new Template(footer[0]);
                 }
-            }
+            } 
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
             this.showDetailFor = new ShowDetail();
             this.showCustomDetailFor = new ShowDetail();

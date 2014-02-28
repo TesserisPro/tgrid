@@ -120,6 +120,11 @@ module TesserisPro.TGrid {
         }
 
         public updateTableHeadElement(option: Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: ColumnInfo) => void) {
+            if (option.columns.length <= 0) {
+                var grid = TesserisPro.TGrid.Grid.getGridObject(header);
+                grid.setColumnsFromItemsProvider();
+            }
+
             this.updateGroupByPanel(option, groupByContainer);
             // Create table header
             var head = document.createElement("tr");

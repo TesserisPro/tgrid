@@ -74,7 +74,7 @@
 				</column>
 				<column data-g-width="80">
 					<cell>
-						<span class="addButton" data-bind="click: function() {model.deleteItem(item)}"> Delete</span>
+						<span class="addButton" data-bind="click: function() {model.removeItem(item)}">Remove</span>
 					</cell>
 				</column>
 			</script>
@@ -100,8 +100,8 @@
 					item.Age = self.itemToAdd().Age;
 					self.itemsProvider.addItem(item);
 				}
-				self.deleteItem = function (item) {
-					self.itemsProvider.deleteItem(item);
+				self.removeItem = function (item) {
+					self.itemsProvider.removeItem(item);
 				}
 			};
 

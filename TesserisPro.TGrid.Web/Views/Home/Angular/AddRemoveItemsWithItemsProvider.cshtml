@@ -74,7 +74,7 @@
 					</column>
 					<column data-g-width="80">
 						<cell>
-							<span class="addButton" ng-click="model.deleteItem(item)">Delete</span>
+							<span class="addButton" ng-click="model.removeItem(item)">Remove</span>
 						</cell>
 					</column>
 				</script>
@@ -102,8 +102,8 @@
 					item.Age = itemToAdd.Age;
 					$scope.dataProvider.addItem(item);
 				}
-				$scope.deleteItem = function (item) {
-					$scope.dataProvider.deleteItem(item);
+				$scope.removeItem = function (item) {
+					$scope.dataProvider.removeItem(item);
 				}
 			})
 			.directive('tGrid', TGrid.Angular.Directive);

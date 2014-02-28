@@ -36,8 +36,8 @@ module TesserisPro.TGrid {
 
     export class ArrayItemsProvider implements IItemProvider {
         private sourceItems: Array<any>;
-        public actionAfterAddingItem: () => void;
-        public actionAfterDeletingItem: () => void;
+        public onAdd: () => void;
+        public onRemove: () => void;
 
         constructor(items: Array<any>) {
             if (isObservable(items)) {
@@ -78,17 +78,25 @@ module TesserisPro.TGrid {
 
         public addItem(item: any) {
             this.sourceItems.push(item);
-            this.actionAfterAddingItem();
+            this.onAdd();
         }
 
-        public deleteItem(item: any) {
+        public removeItem(item: any) {
             for (var i = 0; i < this.sourceItems.length; i++){
                 if (this.sourceItems[i] == item) {
                     this.sourceItems.splice(i, 1);
                     break;
                 }
             }
-            this.actionAfterDeletingItem();
+            this.onRemove();
+        }
+
+        public getFirstItem(): any{
+            if (this.sourceItems.length > 0) {
+                return this.sourceItems[0];
+            } else {
+                return null;
+            }
         }
 
         private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {

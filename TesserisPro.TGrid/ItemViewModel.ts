@@ -72,13 +72,6 @@ module TesserisPro.TGrid {
         public setItemValue(item: any): void {
             this.item = item;
         }
-        
-        public addItem(item: any): void {
-            this.grid.addItem(item);
-        }
-        public deleteItem(item: any): void {
-            this.grid.deleteItem(item);
-        }
     }
 
 }

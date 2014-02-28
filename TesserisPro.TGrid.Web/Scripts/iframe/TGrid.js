@@ -62,13 +62,13 @@ var TesserisPro;
                 //}
                 this.itemProvider = provider;
                 var self = this;
-                this.itemProvider.actionAfterAddingItem = function () {
+                this.itemProvider.onAdd = function () {
                     if (!self.options.enableVirtualScroll) {
                         self.options.firstLoadSize++;
                     }
                     self.refreshBody();
                 };
-                this.itemProvider.actionAfterDeletingItem = function () {
+                this.itemProvider.onRemove = function () {
                     if (!self.options.enableVirtualScroll) {
                         self.options.firstLoadSize--;
                     }
@@ -1109,6 +1109,20 @@ var TesserisPro;
                 this.refreshHeader();
                 this.refreshBody();
                 this.refreshFooter();
+            };
+
+            Grid.prototype.setColumnsFromItemsProvider = function () {
+                var item = this.itemProvider.getFirstItem();
+                if (item != null) {
+                    for (var name in item) {
+                        var column = new TesserisPro.TGrid.ColumnInfo();
+                        column.member = name;
+                        column.sortMemberPath = name;
+                        column.groupMemberPath = name;
+                        column.filterMemberPath = name;
+                        this.options.columns.push(column);
+                    }
+                }
             };
             return Grid;
         })();
