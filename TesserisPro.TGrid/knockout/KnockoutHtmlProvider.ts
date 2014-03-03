@@ -105,7 +105,8 @@ module TesserisPro.TGrid {
             var head = document.createElement("tr");
             this.appendIndent(head, option.columns.length, true);
             this.showNeededIndents(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
-            
+
+            var hasNotSizedColumn = false;
             if (option.columns.length > 0) {
                 for (var i = 0; i < option.columns.length; i++) {
                     if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -123,7 +124,12 @@ module TesserisPro.TGrid {
                         headerMainContainer.appendChild(headerButtons);
                         headerCell.appendChild(headerMainContainer);
 
-                        headerCell.style.width = option.columns[i].width.toString() + "px";
+                        if (!option.columns[i].notSized) {
+                            headerCell.style.width = option.columns[i].width.toString() + "px";
+                        } else {
+                            option.columns[i].resizable = false;
+                            hasNotSizedColumn = true;
+                        }
 
                         if (option.columns[i].header != null) {
                             option.columns[i].header.applyTemplate(headerContent);
@@ -177,14 +183,23 @@ module TesserisPro.TGrid {
 
                             headerButtons.appendChild(columnResize);
                         }
-
+                        if (hasNotSizedColumn) {
+                            header.parentElement.style.tableLayout = "fixed";
+                        }
                         head.appendChild(headerCell);
                     }
                 }
-            } 
-            var placeholderColumn = document.createElement("th");
-            addClass(placeholderColumn, "tgrid-placeholder");
-            head.appendChild(placeholderColumn);
+            }
+
+            if (!hasNotSizedColumn || hasNotSizedColumn && !option.enablePaging) {
+                var placeholderColumn = document.createElement("th");
+                addClass(placeholderColumn, "tgrid-placeholder");
+                if (hasNotSizedColumn) {
+                    placeholderColumn.style.width = "12px";
+                }
+                head.appendChild(placeholderColumn);
+            }
+            
             header.innerHTML = "";
             header.appendChild(head);
             ko.applyBindings(option.parentViewModel, head);
@@ -196,7 +211,7 @@ module TesserisPro.TGrid {
             for (var i = 0; i < items.length; i++) {
                 this.appendTableElement(option, container, items[i], 0, selected);
             }
-
+            
             //Hide table on mobile devices
             addClass(container,"desktop");
         }
@@ -290,9 +305,12 @@ module TesserisPro.TGrid {
             }
 
             this.appendIndent(row, option.groupBySortDescriptors.length, false);
-
+            var hasNotSizedColumn = false;
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].device.indexOf("desktop") != -1) {
+                    if (option.columns[i].notSized) {
+                        hasNotSizedColumn = true;
+                    }
                     var cell = document.createElement("td");
                     var cellContent = document.createElement("div");
                     cellContent.className = "tgrid-cell-content";
@@ -309,11 +327,14 @@ module TesserisPro.TGrid {
                     row.appendChild(cell);
                 }
             }
+            if (hasNotSizedColumn) {
+                container.parentElement.style.tableLayout = "fixed";
+            } else {
+                var placeholderColumn = document.createElement("td");
+                addClass(placeholderColumn, "tgrid-placeholder");
 
-            var placeholderColumn = document.createElement("td");
-            addClass(placeholderColumn,"tgrid-placeholder");
-           
-            row.appendChild(placeholderColumn);
+                row.appendChild(placeholderColumn);
+            }
 
             (function (item) {
                 row.onclick = function (e) {

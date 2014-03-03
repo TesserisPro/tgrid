@@ -68,6 +68,7 @@ var TesserisPro;
                 this.member = null;
                 this.resizable = true;
                 this.filterMemberPath = null;
+                this.notSized = false;
             }
             return ColumnInfo;
         })();
@@ -165,6 +166,9 @@ var TesserisPro;
                         }
                         if (columns[i].attributes['data-g-resizable'] != undefined) {
                             column.resizable = columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true;
+                        }
+                        if (columns[i].attributes['data-g-not-sized'] != undefined) {
+                            column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
                         }
 
                         column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

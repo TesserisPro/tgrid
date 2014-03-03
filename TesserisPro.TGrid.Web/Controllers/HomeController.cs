@@ -266,6 +266,18 @@ namespace TesserisPro.TGrid.Web
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/jsFooterTemplateAngular"
             });
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Grid with not sized column",
+                url = "Knockout/SimpleGridNotSizedColumns",
+                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/SimpleGridNotSizedColumns",
+                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
 
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel

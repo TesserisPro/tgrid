@@ -51,6 +51,7 @@ module TesserisPro.TGrid {
         public member: string = null;
         public resizable: boolean = true;
         public filterMemberPath: string = null;
+        public notSized: boolean = false;
     }
 
     export class ShowDetail {
@@ -171,6 +172,9 @@ module TesserisPro.TGrid {
                     }
                     if (columns[i].attributes['data-g-resizable'] != undefined) {
                         column.resizable = columns[i].attributes['data-g-resizable'].nodeValue == 'false' ? false : true;
+                    }
+                    if (columns[i].attributes['data-g-not-sized'] != undefined) {
+                        column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
                     }
 
                     column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

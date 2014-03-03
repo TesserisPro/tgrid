@@ -160,6 +160,8 @@
     <Content Include="Views\Home\Knockout\AddRemoveItemsWithItemsProviderHtml.cshtml" />
     <Content Include="Views\Home\Knockout\jsAddRemoveItemsWithItemsProvider.cshtml" />
     <Content Include="Views\Home\Angular\jsAddRemoveItemsWithItemsProvider.cshtml" />
+    <Content Include="Views\Home\Angular\SimpleGridNotSizedColumns.cshtml" />
+    <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

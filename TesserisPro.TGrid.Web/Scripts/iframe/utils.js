@@ -136,11 +136,13 @@ function removeClass(target, className) {
     }
 }
 function containsClass(target, className) {
-    var currentClasses = target.getAttribute("class");
-    if (currentClasses != null && currentClasses.indexOf(className) != -1) {
-        return true;
-    } else {
-        return false;
+    if (target != null) {
+        var currentClasses = target.getAttribute("class");
+        if (currentClasses != null && currentClasses.indexOf(className) != -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 //# sourceMappingURL=utils.js.map

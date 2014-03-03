@@ -98,13 +98,19 @@ var TesserisPro;
                 var headers = header.getElementsByTagName("th");
 
                 var tableRows = body.getElementsByTagName("tr");
-
+                var hasNotSizedColumn = false;
+                for (var i = 0; i < option.columns.length; i++) {
+                    if (option.columns[i].notSized && !option.enablePaging) {
+                        hasNotSizedColumn = true;
+                    }
+                }
+                var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
                 var columnNumber = 0;
                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                     columnNumber++;
                 }
 
-                for (var i = 0; i < headers.length - 1; i++) {
+                for (var i = 0; i < columnsCount; i++) {
                     while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                         columnNumber++;
                     }
@@ -114,9 +120,11 @@ var TesserisPro;
                         break;
                     }
 
-                    headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
-                    var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
-                    headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                    if (!option.columns[columnNumber].notSized) {
+                        headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
+                        var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
+                        headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                    }
                     columnNumber++;
                 }
 
@@ -128,7 +136,7 @@ var TesserisPro;
                         if (dataRow != undefined) {
                             var columns = dataRow.getElementsByTagName("td");
                             columnNumber = 0;
-                            for (var j = 0; j < columns.length - 1; j++) {
+                            for (var j = 0; j < columnsCount; j++) {
                                 if (containsClass(columns.item(j), "tgrid-table-indent-cell")) {
                                     continue;
                                 }
@@ -142,9 +150,11 @@ var TesserisPro;
                                     break;
                                 }
 
-                                columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
-                                var cellContainer = columns.item(j).firstChild;
-                                cellContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                                if (!option.columns[columnNumber].notSized) {
+                                    columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
+                                    var cellContainer = columns.item(j).firstChild;
+                                    cellContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                                }
                                 columnNumber++;
                             }
                         }

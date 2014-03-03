@@ -87,7 +87,7 @@ Javascript array of items.
 
 ###data-g-resizable
 
-Defines if column is resizable. 
+Defines if column is resizable. If property **data-g-not-sized** value is set to true, column will not be resizable.
 
 **Value:** *false* or *true*.
 
@@ -110,3 +110,17 @@ Defines column width in pixels.
 **Value:** Any positive value.
 
 **Default value:** *150*
+
+###data-g-not-sized
+
+Defines if column has width. If is set to *true*:
+
++ column doesn't have width
+
++ column becomes not resizable
+
++ table css property *table-layout* is set to *fixed*
+
++ width of all not-sized columns becomes the same and depends on table width.
+
+ 

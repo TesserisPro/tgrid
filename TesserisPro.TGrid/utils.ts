@@ -134,11 +134,13 @@ function removeClass(target: HTMLElement, className: string) {
     } 
 }
 function containsClass(target: HTMLElement, className: string): boolean {
-    var currentClasses = target.getAttribute("class");
-    if (currentClasses != null && currentClasses.indexOf(className) != -1) {
-        return true;
-    } else {
-        return false;
+    if (target != null) {
+        var currentClasses = target.getAttribute("class");
+        if (currentClasses != null && currentClasses.indexOf(className) != -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
