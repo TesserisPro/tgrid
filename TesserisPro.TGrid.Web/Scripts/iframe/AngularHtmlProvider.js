@@ -213,15 +213,17 @@ var TesserisPro;
                             }
                             if (hasNotSizedColumn) {
                                 header.parentElement.style.tableLayout = "fixed";
-                                header.parentElement.parentElement.style.overflowY = "scroll";
                             }
                             head.appendChild(headerCell);
                         }
                     }
                 }
-                if (!hasNotSizedColumn) {
+                if (!hasNotSizedColumn || hasNotSizedColumn && !option.enablePaging) {
                     var placeholderColumn = document.createElement("th");
                     addClass(placeholderColumn, "tgrid-placeholder");
+                    if (hasNotSizedColumn) {
+                        placeholderColumn.style.width = "12px";
+                    }
                     head.appendChild(placeholderColumn);
                 }
                 header.innerHTML = "";

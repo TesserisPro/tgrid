@@ -213,7 +213,6 @@ module TesserisPro.TGrid {
                         }
                         if (hasNotSizedColumn) {
                             header.parentElement.style.tableLayout = "fixed";
-                            header.parentElement.parentElement.style.overflowY = "scroll";
                         }
                         head.appendChild(headerCell);
                     }
