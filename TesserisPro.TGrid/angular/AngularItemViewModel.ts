@@ -29,7 +29,8 @@
 //
 //=====================================================================================
 
-
+/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="../ItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 

@@ -35,6 +35,8 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
+    /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+    /// <reference path="../ItemViewModel.ts" />
     (function (TGrid) {
         var AngularItemViewModel = (function (_super) {
             __extends(AngularItemViewModel, _super);

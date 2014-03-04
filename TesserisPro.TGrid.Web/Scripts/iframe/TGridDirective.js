@@ -29,6 +29,8 @@ var TGrid;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
+    /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+    /// <reference path="../Options.ts"/>
     (function (Angular) {
         function Directive() {
             var directive = {};

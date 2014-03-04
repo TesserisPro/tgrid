@@ -29,6 +29,7 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
+    /// <reference path="../IFooterViewModel.ts" />
     (function (TGrid) {
         var KnockoutFooterViewModel = (function () {
             function KnockoutFooterViewModel(totalCount, selectedItem, currentPage, totalPages, grid) {

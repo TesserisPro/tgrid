@@ -30,6 +30,9 @@
 //=====================================================================================
 
 
+/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="../Options.ts"/>
+
 module TGrid.Angular {
     export function Directive(): any {
         var directive: any = {};

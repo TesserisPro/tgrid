@@ -35,6 +35,14 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
+    /// <reference path="../TGrid.ts" />
+    /// <reference path="../IHtmlProvider.ts" />
+    /// <reference path="../BaseHtmlProvider.ts" />
+    /// <reference path="../ItemViewModel.ts" />
+    /// <reference path="../utils.ts" />
+    /// <reference path="../IFooterViewModel.ts" />
+    /// <reference path="KnockoutFilterPopupViewModel.ts" />
+    /// <reference path="KnockoutFooterViewModel.ts" />
     (function (TGrid) {
         var KnockoutHtmlProvider = (function (_super) {
             __extends(KnockoutHtmlProvider, _super);

@@ -30,7 +30,7 @@
 //=====================================================================================
 
 
-
+/// <reference path="../IFooterViewModel.ts" />
 
 
 module TesserisPro.TGrid {

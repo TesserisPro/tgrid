@@ -30,6 +30,9 @@
 //=====================================================================================
 
 
+/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="../IFooterViewModel.ts" />
+
 module TesserisPro.TGrid {
 
     export class AngularFooterViewModel implements IFooterViewModel  {

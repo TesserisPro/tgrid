@@ -27,7 +27,11 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //=====================================================================================
+/// <reference path="../Scripts/typings/knockout/knockout.d.ts" />
+/// <reference path="../Scripts/typings/knockout.mapping/knockout.mapping.d.ts" />
+/// <reference path="../Scripts/typings/extenders.d.ts" />
 /// <reference path="../TGrid.ts" />
+/// <reference path="../SortDescriptor.ts" />
 var TGridBindingHandler = (function () {
     function TGridBindingHandler() {
     }
