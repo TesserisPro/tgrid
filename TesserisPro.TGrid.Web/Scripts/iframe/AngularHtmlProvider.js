@@ -35,13 +35,6 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
-    /// <reference path="../TGrid.ts" />
-    /// <reference path="../IHtmlProvider.ts" />
-    /// <reference path="../BaseHtmlProvider.ts" />
-    /// <reference path="../ItemViewModel.ts" />
-    /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
-    /// <reference path="AngularFooterViewModel.ts" />
-    /// <reference path="AngularItemViewModel.ts" />
     (function (TGrid) {
         var AngularHtmlProvider = (function (_super) {
             __extends(AngularHtmlProvider, _super);

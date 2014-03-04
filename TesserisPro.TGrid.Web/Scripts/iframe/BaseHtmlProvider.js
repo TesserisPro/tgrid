@@ -29,10 +29,6 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
-    /// <reference path="IHtmlProvider.ts" />
-    /// <reference path="ItemViewModel.ts" />
-    /// <reference path="IFooterViewModel.ts"/>
-    /// <reference path="IFilterPopupViewModel.ts" />
     (function (TGrid) {
         var BaseHtmlProvider = (function () {
             function BaseHtmlProvider() {

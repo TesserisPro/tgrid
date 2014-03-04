@@ -30,14 +30,6 @@
 //=====================================================================================
 
 
-/// <reference path="../TGrid.ts" />
-/// <reference path="../IHtmlProvider.ts" />
-/// <reference path="../BaseHtmlProvider.ts" />
-/// <reference path="../ItemViewModel.ts" />
-/// <reference path="../utils.ts" />
-/// <reference path="../IFooterViewModel.ts" />
-/// <reference path="KnockoutFilterPopupViewModel.ts" />
-/// <reference path="KnockoutFooterViewModel.ts" />
 
 
 module TesserisPro.TGrid {

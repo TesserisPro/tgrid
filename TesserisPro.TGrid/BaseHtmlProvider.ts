@@ -29,10 +29,7 @@
 //
 //=====================================================================================
 
-/// <reference path="IHtmlProvider.ts" />
-/// <reference path="ItemViewModel.ts" />
-/// <reference path="IFooterViewModel.ts"/>
-/// <reference path="IFilterPopupViewModel.ts" />
+
 
 module TesserisPro.TGrid {
 

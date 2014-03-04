@@ -30,13 +30,6 @@
 //=====================================================================================
 
 
-/// <reference path="../TGrid.ts" />
-/// <reference path="../IHtmlProvider.ts" />
-/// <reference path="../BaseHtmlProvider.ts" />
-/// <reference path="../ItemViewModel.ts" />
-/// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
-/// <reference path="AngularFooterViewModel.ts" />
-/// <reference path="AngularItemViewModel.ts" />
 
 module TesserisPro.TGrid {
 
