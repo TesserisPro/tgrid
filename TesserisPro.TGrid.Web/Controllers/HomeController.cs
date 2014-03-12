@@ -270,11 +270,11 @@ namespace TesserisPro.TGrid.Web
             {
                 title = "Grid with not sized column",
                 url = "Knockout/SimpleGridNotSizedColumns",
-                htmlUrl = "Knockout/SimpleGridWithoutPagingHtml",
+                htmlUrl = "Knockout/SimpleGridNotSizedColumnsHtml",
                 cssUrl = "Knockout/StyleCss",
                 jsUrl = "Knockout/scriptjs",
                 angularUrl = "Angular/SimpleGridNotSizedColumns",
-                angularHtmlUrl = "Angular/SimpleGridWithoutPagingHtml",
+                angularHtmlUrl = "Angular/SimpleGridNotSizedColumnsHtml",
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
             });

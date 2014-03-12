@@ -92,7 +92,7 @@
     text-overflow: ellipsis;
     color: #555;
     border-right: 1px solid #BEBEBE;
-    border-top: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;
 }
 
 .tgrid-table-group-header {

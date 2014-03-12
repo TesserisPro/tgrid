@@ -198,14 +198,12 @@ var TesserisPro;
                     }
                 }
 
-                if (!hasNotSizedColumn || hasNotSizedColumn && !option.enablePaging) {
-                    var placeholderColumn = document.createElement("th");
-                    addClass(placeholderColumn, "tgrid-placeholder");
-                    if (hasNotSizedColumn) {
-                        placeholderColumn.style.width = "12px";
-                    }
-                    head.appendChild(placeholderColumn);
+                var placeholderColumn = document.createElement("th");
+                addClass(placeholderColumn, "tgrid-placeholder");
+                if (hasNotSizedColumn) {
+                    placeholderColumn.style.width = "12px";
                 }
+                head.appendChild(placeholderColumn);
 
                 header.innerHTML = "";
                 header.appendChild(head);
@@ -332,6 +330,7 @@ var TesserisPro;
                 }
                 if (hasNotSizedColumn) {
                     container.parentElement.style.tableLayout = "fixed";
+                    container.parentElement.parentElement.style.overflowY = "scroll";
                 } else {
                     var placeholderColumn = document.createElement("td");
                     addClass(placeholderColumn, "tgrid-placeholder");
