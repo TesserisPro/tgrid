@@ -20,7 +20,7 @@
     <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
 </head>
 <body>
-    <div ng-app="TGrid">
+    <div ng-app="SampleModule">
         <div ng-controller="ctrl">
             <fieldset>
                 <legend>Grid options</legend>
@@ -100,7 +100,7 @@
                             First Name
                         </header>
                         <cell>
-                            <span style='color: #259631'>{{item.Name}}</span>
+                            <span style='color: #259631'>{{item.item.Name}}</span>
                         </cell>
                     </column>
                     <column data-g-member="Surname">
@@ -150,18 +150,18 @@
              { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
         ];
 
-        var TGrid = angular.module('TGrid', [])
+        var sampleModule = angular.module("SampleModule", ['TGrid'])
             .controller("ctrl", function ctrl($scope) {
                 $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                 $scope.gridOptions;
                 
                 $scope.availableColumns = [
-                    { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.Name}}</span>" },
+                    { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" },
                     { member: "Surname", header: "Second Name", cell: "" },
                     { member: "Age", header: "Age", cell: "" }
                 ];
 
-                $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.Name}}</span>" };
+                $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" };
                 
                 $scope.membersOfColumnsForAdding = new Array();
 
@@ -203,7 +203,7 @@
                         }
                         $scope.gridOptions.applyHandler();
                     }
-                    $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.Name}}</span>" };
+                    $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" };
                 }
                 $scope.toggleSorting = function () {
                     if (!$scope.gridOptions.enableSorting) {
@@ -222,7 +222,6 @@
                     $scope.gridOptions.applyHandler();
                 }
             })
-            .directive('tGrid', TGrid.Angular.Directive);
 
         $(function () {
         })

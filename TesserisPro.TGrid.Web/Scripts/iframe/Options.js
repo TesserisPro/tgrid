@@ -116,6 +116,7 @@ var TesserisPro;
                 this.tableFooterTemplate = null;
                 this.selection = [];
                 this.columnMinWidth = 5;
+                this.hasAnyNotSizedColumn = false;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();
@@ -169,6 +170,7 @@ var TesserisPro;
                         }
                         if (columns[i].attributes['data-g-not-sized'] != undefined) {
                             column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
+                            this.hasAnyNotSizedColumn = true;
                         }
 
                         column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

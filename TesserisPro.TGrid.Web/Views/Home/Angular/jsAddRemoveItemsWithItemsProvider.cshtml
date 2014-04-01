@@ -12,7 +12,7 @@
 			{ Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
 		];
 
-	var TGrid = angular.module('TGrid', [])
+	var sampleModule = angular.module("SampleModule", ['TGrid'])
 		.controller("ctrl", function ctrl($scope) {
 			$scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
 			$scope.itemToAdd = { Name: "", Surname: "", Age: "" };
@@ -27,7 +27,6 @@
 				$scope.dataProvider.removeItem(item);
 			}
 		})
-		.directive('tGrid', TGrid.Angular.Directive);
 
 	$(function () {
 	})

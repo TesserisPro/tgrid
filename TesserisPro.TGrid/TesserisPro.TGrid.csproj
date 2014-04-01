@@ -18,6 +18,7 @@
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="angular\AngularItemsViewModel.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
     <TypeScriptCompile Include="BaseHtmlProvider.ts" />
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />
@@ -27,6 +28,7 @@
     <TypeScriptCompile Include="angular\AngularFilterPopupViewModel.ts" />
     <TypeScriptCompile Include="angular\AngularItemViewModel.ts" />
     <TypeScriptCompile Include="ArrayItemsProvider.ts" />
+    <Content Include="angular\AngularModuleTGrid.js" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <TypeScriptCompile Include="IFilterPopupViewModel.ts" />
     <Content Include="IHtmlProvider.ts" />
@@ -76,6 +78,7 @@
     <Content Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\extenders.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\tgrid-angular-extension.d.ts" />
     <TypeScriptCompile Include="SortDescriptor.ts" />
     <TypeScriptCompile Include="ServerItemsProvider.ts" />
     <Content Include="Styles\grid.css" />

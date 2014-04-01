@@ -8,7 +8,7 @@
         //... add your items here
     ];
 
-    var TGrid = angular.module('TGrid', [])
+    var sampleModule = angular.module("SampleModule", ['TGrid'])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
             $scope.editingItem = null;
@@ -27,7 +27,6 @@
                 return $scope.valueForSaving;
             }
         })
-        .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {
     })

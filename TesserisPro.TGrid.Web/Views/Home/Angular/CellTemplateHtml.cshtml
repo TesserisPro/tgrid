@@ -1,23 +1,23 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div ng-app="TGrid"> 
+    <div ng-app="SampleModule"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider">
                 <script type="text/html">
-                    <column data-g-member="Name">
+                    <column data-g-member ="Name">
                         <cell>
-                            <span style="color: red;">{{item.Name}}</span>
+                            <span style="color: red;">{{item.item.Name}}</span>
                         </cell>
                     </column>
-                    <column data-g-member="Surname">
+                    <column data-g-member ="Surname">
                         <cell>
-                            <span>{{item.Surname}}</span>
+                            <span>{{item.item.Surname}}</span>
                         </cell>
                     </column>
-                    <column data-g-member="Age">
+                    <column data-g-member ="Age">
                         <cell>
-                            <span style="color: red;">{{item.Age}}</span>
+                            <span style="color: red;">{{item.item.Age}}</span>
                         </cell>
                     </column>
                 </script>

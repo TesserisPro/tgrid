@@ -19,23 +19,23 @@
         <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     </head>
     <body> 
-        <div ng-app="TGrid"> 
+        <div ng-app="SampleModule"> 
             <div ng-controller="ctrl">
                 <t-grid id="test-angular" provider="dataProvider" >
                      <script type="text/html">
                          <column data-g-member ="Name">
                             <cell>
-                                <span style="color: red;">{{item.Name}}</span>
+                                <span style="color: red;">{{item.item.Name}}</span>
                             </cell>
                         </column>
                         <column data-g-member ="Surname">
                             <cell>
-                                <span>{{item.Surname}}</span>
+                                <span>{{item.item.Surname}}</span>
                             </cell>
                         </column>
                         <column data-g-member ="Age">
                             <cell>
-                                <span style="color: red;">{{item.Age}}</span>
+                                <span style="color: red;">{{item.item.Age}}</span>
                             </cell>
                         </column>
                     </script>
@@ -75,11 +75,10 @@
                 { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
             ];
 
-            var TGrid = angular.module('TGrid', [])
+            var sampleModule = angular.module("SampleModule", ['TGrid'])
                 .controller("ctrl", function ctrl($scope) {
                     $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                 })
-                .directive('tGrid', TGrid.Angular.Directive);
 
             $(function () {
             })

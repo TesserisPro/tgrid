@@ -19,46 +19,46 @@
         <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     </head>
     <body> 
-        <div ng-app="TGrid"> 
+        <div ng-app="SampleModule"> 
             <div ng-controller="ctrl">
                 <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true" selectionmode="single">
-                     <script type="text/html">
-                         <column data-g-member ="Name">
-                             <cell>
-                                <span>{{item.Name}}</span>
-                                <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
-                            </cell>
-                             <celldetail>
-                                <div>
-                                    <div>This is a sample of cell details: </div>
-                                    <div style="color: #444;">{{item.detail_Name}}</div>
-                                </div>
-                            </celldetail>
-                        </column>
-                        <column data-g-member ="Surname">
-                            <cell>
-                                <span>{{item.Surname}}</span>
-                                <a href ng-click="toggleDetailsForCell(1); $event.stopPropagation();">...</a> 
-                            </cell>
-                            <celldetail>
-                                <div>
-                                    <div>This is a sample of cell details: </div>
-                                    <div style="color: #444;">{{item.detail_Surname}}</div>
-                                </div>
-                            </celldetail>
-                        </column>
-                        <column data-g-member ="Age">
-                        </column>
-                         <details>
-                             <div>
-                                 <div>This is a sample of table row details:  </div>
-                                 <div style="color: #444;">{{item.detail}}</div>
-                                 <div><span>First Name: </span><span style="color: #444;">{{item.Name}}</span></div>
-                                 <div><span>Last Name: </span><span style="color: #444;">{{item.Surname}}</span></div>
-                                 <div><span>Age: </span><span style="color: #444;">{{item.Age}}</span></div>
-                             </div>
-                         </details>
-                    </script>
+                    <script type="text/html">
+						<column data-g-member="Name">
+							<cell>
+								<span>{{item.item.Name}}</span>
+								<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">...</a> 
+							</cell>
+							<celldetail>
+								<div>
+									<div>This is a sample of cell details: </div>
+									<div style="color: #444;">{{item.item.detail_Name}}</div>
+								</div>
+							</celldetail>
+						</column>
+						<column data-g-member="Surname">
+							<cell>
+								<span>{{item.item.Surname}}</span>
+								<a href ng-click="item.toggleDetailsForCell(1, item, items); $event.stopPropagation();">...</a> 
+							</cell>
+							<celldetail>
+								<div>
+									<div>This is a sample of cell details: </div>
+									<div style="color: #444;">{{item.item.detail_Surname}}</div>
+								</div>
+							</celldetail>
+						</column>
+						<column data-g-member="Age">
+						</column>
+						<details>
+                        <div>
+                            <div>This is a sample of table row details:  </div>
+                            <div style="color: #444;">{{item.item.detail}}</div>
+                            <div><span>First Name: </span><span style="color: #444;">{{item.item.Name}}</span></div>
+                            <div><span>Last Name: </span><span style="color: #444;">{{item.item.Surname}}</span></div>
+                            <div><span>Age: </span><span style="color: #444;">{{item.item.Age}}</span></div>
+                            </div>
+                        </details>
+					</script>
                 </t-grid>
             </div>
         </div>
@@ -95,11 +95,10 @@
                 { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
             ];
 
-             var TGrid = angular.module('TGrid', [])
+            var sampleModule = angular.module("SampleModule", ['TGrid'])
                  .controller("ctrl", function ctrl($scope) {
                      $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
                  })
-                 .directive('tGrid', TGrid.Angular.Directive);
 
              $(function () {
              })

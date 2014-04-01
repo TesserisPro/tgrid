@@ -3,12 +3,11 @@
 </script>
 
 <pre class="brush: js">
-    var TGrid = angular.module('TGrid', [])
+    var sampleModule = angular.module("SampleModule", ['TGrid'])
         .controller("ctrl", function ctrl($scope) {
             $scope.url = '@@Url.Content("~")'.concat("Content/images/picturesForGrid/");
             $scope.dataProvider = new TesserisPro.TGrid.ServerItemsProvider('@@Url.Content("~/Home/GetItems")', '@@Url.Content("~/Home/GetTotalItemsCount")', '@@Url.Content("~")');
         })
-        .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {
     })

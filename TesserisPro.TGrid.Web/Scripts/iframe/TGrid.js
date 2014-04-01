@@ -948,7 +948,7 @@ var TesserisPro;
             Grid.prototype.updateVisibleItems = function () {
                 var _this = this;
                 this.tableBody.innerHTML = "";
-                this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, this.visibleViewModels, function (x, m) {
+                this.tableBody = this.htmlProvider.updateTableBodyElement(this.options, this.tableBody, this.visibleViewModels, function (x, m) {
                     return _this.selectItem(x, m);
                 });
                 this.htmlProvider.updateColumnWidth(this.options, this.tableHeader, this.tableBody, this.tableFooter);

@@ -1,7 +1,7 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-	<div ng-app="TGrid">
+	<div ng-app="SampleModule">
         <div ng-controller="ctrl">
             <fieldset>
                 <legend>Grid options</legend>
@@ -81,7 +81,7 @@
                             First Name
                         </header>
                         <cell>
-                            <span style='color: #259631'>{{item.Name}}</span>
+                            <span style='color: #259631'>{{item.item.Name}}</span>
                         </cell>
                     </column>
                     <column data-g-member="Surname">

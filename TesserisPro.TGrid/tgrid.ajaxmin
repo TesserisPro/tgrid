@@ -23,6 +23,8 @@
     <input path="angular/AngularFooterViewModel.js"/>
     <input path="angular/AngularFilterPopupViewModel.js"/>
     <input path="angular/AngularItemViewModel.js"/>
+    <input path="angular/AngularItemsViewModel.js"/>
+    <input path="angular/AngularModuleTGrid.js"/>
   </output>
 
   <output path="bin/tgrid-knockout-min.js">

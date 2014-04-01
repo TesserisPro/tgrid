@@ -86,6 +86,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
+                return container;
             };
 
             BaseHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {

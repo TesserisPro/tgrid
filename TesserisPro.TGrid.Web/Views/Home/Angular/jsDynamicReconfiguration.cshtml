@@ -8,13 +8,13 @@
             //... add your items here
         ];
 
-    var TGrid = angular.module('TGrid', [])
+    var sampleModule = angular.module("SampleModule", ['TGrid'])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
             $scope.gridOptions;
                 
             $scope.availableColumns = [
-                { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.Name}}</span>" },
+                { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" },
                 { member: "Surname", header: "Second Name", cell: "" },
                 { member: "Age", header: "Age", cell: "" }
             ];
@@ -79,7 +79,6 @@
                 $scope.gridOptions.applyHandler();
             }
         })
-        .directive('tGrid', TGrid.Angular.Directive);
 
     $(function () {
     })

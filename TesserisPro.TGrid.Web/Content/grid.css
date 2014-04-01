@@ -93,6 +93,7 @@
     color: #555;
     border-right: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
+    border-top: 1px solid #BEBEBE;
 }
 
 .tgrid-table-group-header {
@@ -111,6 +112,7 @@
 
 td.tgrid-table-group-header {
     border-top: 1px solid #BEBEBE;
+    border-bottom: none !important;
 }
 
 
@@ -119,7 +121,8 @@ td.tgrid-table-indent-cell,
 td.tgrid-table-indent-cell-content
 {
     width: 24px;
-    border-top: none !important;
+    border-bottom: none !important;
+     border-top: none !important;
     background-color: #d7d7d7 !important;
 }
 
@@ -254,11 +257,20 @@ th.tgrid-table-indent-cell-content
     display: inline-block;
 }
 
-.tgrid-mobile-row .tgrid-mobile-group-indent-div, 
-.tgrid-mobile-div
-{
-    display: table-cell !important;
+.tgrid-mobile-row-indent-div,
+.tgrid-mobile-div {
+    display: table-cell;
     color: grey;
+}
+
+.tgrid-mobile-row-indent-div{
+    height: 33px;
+    vertical-align: top;
+    border-right: 1px solid #BEBEBE;
+    width: 24px;
+    border-bottom: none !important;
+    border-top: none !important;
+    background-color: #d7d7d7 !important;
 }
 
 .details:hover, .details:focus{
@@ -480,6 +492,11 @@ th.tgrid-placeholder {
     border-right: 1px solid #BEBEBE;
 }
 
+.tgrid-mobile-row .tgrid-mobile-group-indent-div
+{
+    display: table-cell;
+}
+
 .tgrid-mobile-group-header-container
 {
     height: 33px;
@@ -573,6 +590,15 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
   background-color: white;
 }
 
+.tgrid-mobile-row.ng-scope:nth-child(4n-1) {
+  background-color: whitesmoke;
+}
+
+.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
+  background-color: white;
+}
+
+
 .tgrid-mobile-menu-li-column-header-container {
     width: 150px;
     height: 38px;
@@ -653,6 +679,9 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
 
 .tgrid-mobile-group-header.collapsing:hover {
     cursor: pointer;
+}
+.tgrid-table-indent-cell{
+    border-bottom: none;
 }
 
 /* Mobile */

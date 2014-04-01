@@ -119,6 +119,7 @@ module TesserisPro.TGrid {
         public filterPopupForColumn: ColumnInfo;
         public columnMinWidth: number = 5;
         public apply: () => void;
+        public hasAnyNotSizedColumn: boolean = false;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
@@ -175,6 +176,7 @@ module TesserisPro.TGrid {
                     }
                     if (columns[i].attributes['data-g-not-sized'] != undefined) {
                         column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
+                        this.hasAnyNotSizedColumn = true;
                     }
 
                     column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

@@ -201,6 +201,7 @@ module TesserisPro.TGrid {
 
             }
 
+            
             this.bodyAndHeaderContainer.appendChild(this.tableBodyContainer);
             this.bodyAndHeaderContainer.appendChild(this.mobileContainer);
             this.rootElement.appendChild(this.bodyAndHeaderContainer);
@@ -1016,7 +1017,7 @@ module TesserisPro.TGrid {
         private updateVisibleItems(): void {
 
             this.tableBody.innerHTML = "";
-            this.htmlProvider.updateTableBodyElement(
+            this.tableBody = this.htmlProvider.updateTableBodyElement(
                 this.options,
                 this.tableBody,
                 this.visibleViewModels,

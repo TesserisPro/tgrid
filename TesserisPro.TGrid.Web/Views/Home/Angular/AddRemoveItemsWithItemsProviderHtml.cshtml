@@ -1,7 +1,7 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-	<div ng-app="TGrid">
+	<div ng-app="SampleModule">
 		<div ng-controller="ctrl">
 			<div id="addItem">
 				<table class="tgrid-table" id="tableItemsActionsHeader">
@@ -53,7 +53,7 @@
 					</column>
 					<column data-g-width="80">
 						<cell>
-							<span class="addButton" ng-click="model.removeItem(item)">Delete</span>
+							<span class="addButton" ng-click="model.removeItem(item.item)">Remove</span>
 						</cell>
 					</column>
 				</script>

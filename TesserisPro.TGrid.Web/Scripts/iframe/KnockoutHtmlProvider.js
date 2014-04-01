@@ -217,6 +217,7 @@ var TesserisPro;
 
                 //Hide table on mobile devices
                 addClass(container, "desktop");
+                return container;
             };
 
             KnockoutHtmlProvider.prototype.updateTableDetailRow = function (options, container, item, shouldAddDetails) {

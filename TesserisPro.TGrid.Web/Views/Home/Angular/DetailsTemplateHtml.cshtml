@@ -1,31 +1,31 @@
 ﻿<!-- Start the highlighter. -->
 
 <pre class="brush: html">
-    <div ng-app="TGrid"> 
+    <div ng-app="SampleModule"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true" selectionmode="single">
                 <script type="text/html">
                     <column data-g-member="Name">
                         <cell>
-                            <span>{{item.Name}}</span>
-                            <a href ng-click="toggleDetailsForCell(0); $event.stopPropagation();">...</a> 
+                            <span>{{item.item.Name}}</span>
+                            <a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">...</a> 
                         </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Name}}</div>
+                                <div style="color: #444;">{{item.item.detail_Name}}</div>
                             </div>
                         </celldetail>
                     </column>
                     <column data-g-member="Surname">
                         <cell>
-                            <span>{{item.Surname}}</span>
-                            <a href ng-click="toggleDetailsForCell(1); $event.stopPropagation();">...</a> 
+                            <span>{{item.item.Surname}}</span>
+                            <a href ng-click="item.toggleDetailsForCell(1, item, items); $event.stopPropagation();">...</a> 
                         </cell>
                         <celldetail>
                             <div>
                                 <div>This is a sample of cell details: </div>
-                                <div style="color: #444;">{{item.detail_Surname}}</div>
+                                <div style="color: #444;">{{item.item.detail_Surname}}</div>
                             </div>
                         </celldetail>
                     </column>
@@ -34,10 +34,10 @@
                     <details>
                         <div>
                             <div>This is a sample of table row details:  </div>
-                            <div style="color: #444;">{{item.detail}}</div>
-                            <div><span>First Name: </span><span style="color: #444;">{{item.Name}}</span></div>
-                            <div><span>Last Name: </span><span style="color: #444;">{{item.Surname}}</span></div>
-                            <div><span>Age: </span><span style="color: #444;">{{item.Age}}</span></div>
+                            <div style="color: #444;">{{item.item.detail}}</div>
+                            <div><span>First Name: </span><span style="color: #444;">{{item.item.Name}}</span></div>
+                            <div><span>Last Name: </span><span style="color: #444;">{{item.item.Surname}}</span></div>
+                            <div><span>Age: </span><span style="color: #444;">{{item.item.Age}}</span></div>
                             </div>
                         </details>
                 </script>

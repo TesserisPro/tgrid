@@ -127,11 +127,10 @@
         }
         return SimpleItemsProviderAngular;
     })();
-    var TGrid = angular.module('TGrid', [])
+    var sampleModule = angular.module("SampleModule", ['TGrid'])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();
         })
-        .directive('tGrid', TGrid.Angular.Directive);
     $(function () {
     })
 </pre>

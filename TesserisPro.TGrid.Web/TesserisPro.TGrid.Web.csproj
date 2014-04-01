@@ -149,6 +149,7 @@
     <Content Include="Content\images\add.png" />
     <Content Include="Content\dynamicReconfiguration.css" />
     <Content Include="Scripts\iframe\AngularItemsViewModel.js" />
+    <Content Include="Scripts\iframe\AngularModuleTGrid.js" />
     <Content Include="Views\Home\Knockout\DynamicReconfiguration.cshtml" />
     <Content Include="Views\Home\Angular\DynamicReconfiguration.cshtml" />
     <Content Include="Views\Home\Angular\DynamicReconfigurationHtml.cshtml" />

@@ -90,8 +90,8 @@ module TesserisPro.TGrid {
 
         }
 
-        public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-
+        public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+            return container;
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel) {
@@ -223,7 +223,7 @@ module TesserisPro.TGrid {
 
             return option.columns[option.showDetailFor.column].cellDetail;
         }
-
+ 
         public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
 
         }

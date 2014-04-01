@@ -33,8 +33,10 @@ var TesserisPro;
     /// <reference path="../ItemViewModel.ts" />
     (function (TGrid) {
         var AngularItemsViewModel = (function () {
-            function AngularItemsViewModel(items) {
+            function AngularItemsViewModel(items, options, selected) {
                 this.items = items;
+                this.options = options;
+                this.selected = selected;
             }
             AngularItemsViewModel.prototype.setScope = function (scope) {
                 var _this = this;
@@ -45,17 +47,95 @@ var TesserisPro;
                     this.$scope.items[i].item = this.items[i].item;
                     this.$scope.items[i].grid = this.items[i].grid;
                     this.$scope.items[i].isGroupHeader = this.items[i].isGroupHeader;
-                    this.$scope.items[i].openDetailsForCell = function (columnIndex) {
-                        return _this.items[i].openDetailsForCell(columnIndex);
-                    };
-                    this.$scope.items[i].closeDetailsForCell = function (columnIndex) {
-                        return _this.items[i].closeDetailsForCell(columnIndex);
-                    };
-                    this.$scope.items[i].toggleDetailsForCell = function (columnIndex) {
-                        return _this.items[i].toggleDetailsForCell(columnIndex);
-                    };
                     this.$scope.items[i].setItemValue = function (item) {
                         return _this.items[i].setItemValue(item);
+                    };
+                    this.$scope.items[i].colspan = this.options.columns.length + 1 + this.options.groupBySortDescriptors.length - this.items[i].item.level;
+                    this.$scope.items[i].detailsColspan = this.options.hasAnyNotSizedColumn ? this.options.columns.length : this.options.columns.length + 1;
+                    this.$scope.items[i].isSelected = this.options.isSelected(this.items[i].item);
+                    this.$scope.items[i].showDetail = false;
+                    this.$scope.items[i].toggleGroupCollapsing = function (e, item) {
+                        if (item.item.collapse) {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(item.item.filterDescriptor);
+                            item.item.collapse = false;
+                        } else {
+                            TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(item.item.filterDescriptor);
+                            item.item.collapse = true;
+                        }
+                    };
+                    this.$scope.items[i].showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                    this.$scope.items[i].toggleDetailsForCell = function (columnIndex, item, items) {
+                        if (_this.options.showCustomDetailFor.item != item || _this.options.showCustomDetailFor.item == item && _this.options.showDetailFor.column != columnIndex) {
+                            item.openDetailsForCell(columnIndex, item, items);
+                        } else {
+                            item.closeDetailsForCell(columnIndex, item);
+                        }
+                    };
+                    this.$scope.items[i].openDetailsForCell = function (columnIndex, item, items) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].showDetail) {
+                                if (items[i] != item) {
+                                    items[i].showDetail = false;
+                                }
+                            }
+                        }
+                        _this.options.showDetailFor.column = columnIndex;
+                        _this.options.showDetailFor.item = item;
+                        item.showDetailFor.item = item;
+                        item.showDetailFor.column = columnIndex;
+                        item.showDetail = true;
+                        _this.options.showCustomDetailFor.item = item;
+                        _this.options.showCustomDetailFor.column = columnIndex;
+                        _this.options.shouldAddDetailsOnSelection = false;
+                    };
+                    this.$scope.items[i].closeDetailsForCell = function (columnIndex, item) {
+                        item.showDetail = false;
+                        item.showDetailsFor = new TesserisPro.TGrid.ShowDetail();
+                        _this.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                    };
+                    this.$scope.items[i].select = function (e, item, items) {
+                        if (_this.options.selectionMode != 0 /* None */) {
+                            if (_this.options.selectionMode == 2 /* Multi */) {
+                                if (!e.ctrlKey) {
+                                    for (var i = 0; i < items.length; i++) {
+                                        if (items[i].isSelected) {
+                                            items[i].isSelected = false;
+                                        }
+                                    }
+                                }
+                            } else if (_this.options.selectionMode == 1 /* Single */) {
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i].isSelected) {
+                                        items[i].isSelected = false;
+                                    }
+                                    if (items[i].showDetail) {
+                                        if (items[i] != item || items[i] == item && item.showDetailFor.column != -1) {
+                                            items[i].showDetail = false;
+                                        }
+                                    }
+                                }
+
+                                if (_this.options.openDetailsOnSelection) {
+                                    _this.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                                    _this.options.showDetailFor.item = item;
+                                    item.showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                                    item.showDetailFor.item = item;
+
+                                    if (item.showDetail) {
+                                        item.showDetail = false;
+                                    } else {
+                                        item.showDetail = true;
+                                    }
+                                } else {
+                                    _this.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                                }
+                            }
+                            if (item.isSelected) {
+                                item.isSelected = false;
+                            } else {
+                                item.isSelected = true;
+                            }
+                        }
                     };
                 }
             };
