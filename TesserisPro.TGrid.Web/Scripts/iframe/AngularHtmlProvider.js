@@ -74,15 +74,18 @@ var TesserisPro;
             AngularHtmlProvider.prototype.getFirstVisibleItem = function (container, items, scrollTop) {
                 var size = 0;
                 var children = container.children;
-                for (var i = 0; i < children.length; i++) {
-                    var child = children.item(i);
-                    var viewModel = (items[i]);
-                    if (viewModel != null && items.indexOf(viewModel) >= 0) {
-                        size += child.offsetHeight;
-                    }
+                for (var i = 0, j = 0; i < children.length; i++) {
+                    if (!containsClass(children[i], "ng-hide")) {
+                        var child = children.item(i);
+                        var viewModel = (items[j]);
+                        if (viewModel != null && items.indexOf(viewModel) >= 0) {
+                            size += child.offsetHeight;
+                        }
 
-                    if (size > scrollTop) {
-                        return viewModel;
+                        if (size > scrollTop) {
+                            return viewModel;
+                        }
+                        j++;
                     }
                 }
 
@@ -335,23 +338,23 @@ var TesserisPro;
                 }
             };
 
-            AngularHtmlProvider.prototype.buildGroupHeaderRow = function (option, groupHeaderDescriptor, headerTr) {
-                this.appendIndentGroupHeader(headerTr, option.columns.length);
-                var headerTd = document.createElement("td");
-                headerTd.setAttribute("colspan", "{{item.colspan}}");
-                addClass(headerTd, "tgrid-table-group-header");
-                headerTd.setAttribute("ng-hide", "!item.isGroupHeader");
+            AngularHtmlProvider.prototype.buildGroupHeaderRow = function (option, groupHeaderDescriptor, groupHeaderTr) {
+                this.appendIndentGroupHeader(groupHeaderTr, option.columns.length);
+                var groupHeaderTd = document.createElement("td");
+                groupHeaderTd.setAttribute("colspan", "{{item.colspan}}");
+                addClass(groupHeaderTd, "tgrid-table-group-header");
+                groupHeaderTd.setAttribute("ng-hide", "!item.isGroupHeader");
                 if (option.groupHeaderTemplate != null) {
-                    option.groupHeaderTemplate.applyTemplate(headerTd);
+                    option.groupHeaderTemplate.applyTemplate(groupHeaderTd);
                 } else {
-                    headerTd = this.createDefaultGroupHeader(headerTd);
+                    groupHeaderTd = this.createDefaultGroupHeader(groupHeaderTd);
                 }
 
                 if (option.enableCollapsing) {
-                    addClass(headerTd, "collapsing");
-                    headerTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
+                    addClass(groupHeaderTd, "collapsing");
+                    groupHeaderTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
                 }
-                headerTr.appendChild(headerTd);
+                groupHeaderTr.appendChild(groupHeaderTd);
             };
 
             AngularHtmlProvider.prototype.buildDetailsRow = function (option) {

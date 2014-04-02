@@ -104,8 +104,6 @@ var TesserisPro;
             };
 
             ArrayItemsProvider.prototype.addArray = function (array) {
-                var arrayToAdd = new Array();
-                arrayToAdd = arrayToAdd.concat(array);
                 this.sourceItems = this.sourceItems.concat(array);
                 this.onAddArray();
             };

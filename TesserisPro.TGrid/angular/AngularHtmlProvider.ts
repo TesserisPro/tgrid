@@ -68,15 +68,19 @@ module TesserisPro.TGrid {
         public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
             var size = 0;
             var children = container.children;
-            for (var i = 0; i < children.length; i++) {
-                var child = <HTMLElement>children.item(i);
-                var viewModel = <ItemViewModel>(items[i]);
-                if (viewModel != null && items.indexOf(viewModel) >= 0) {
-                    size += child.offsetHeight;
-                }
+            for (var i = 0, j = 0; i < children.length; i++) {
+                if (!containsClass(<HTMLElement>children[i], "ng-hide")) {
+                    
+                    var child = <HTMLElement>children.item(i);
+                    var viewModel = <ItemViewModel>(items[j]);
+                    if (viewModel != null && items.indexOf(viewModel) >= 0) {
+                        size += child.offsetHeight;
+                    }
 
-                if (size > scrollTop) {
-                    return viewModel;
+                    if (size > scrollTop) {
+                        return viewModel;
+                    }
+                    j++;
                 }
             }
 
@@ -102,7 +106,7 @@ module TesserisPro.TGrid {
             return angularFooterViewModel;
         }
          
-        public getFilterPopupViewModel(container: HTMLElement): AngularFooterViewModel {
+        public getFilterPopupViewModel(container: HTMLElement): AngularFilterPopupViewModel {
             var angularFilterPopupViewModel = new AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
             angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
             var angularFilterModule= angular
