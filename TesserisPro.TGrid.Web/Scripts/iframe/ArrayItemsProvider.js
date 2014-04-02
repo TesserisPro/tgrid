@@ -103,6 +103,13 @@ var TesserisPro;
                 }
             };
 
+            ArrayItemsProvider.prototype.addArray = function (array) {
+                var arrayToAdd = new Array();
+                arrayToAdd = arrayToAdd.concat(array);
+                this.sourceItems = this.sourceItems.concat(array);
+                this.onAddArray();
+            };
+
             ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {
                 var _this = this;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {

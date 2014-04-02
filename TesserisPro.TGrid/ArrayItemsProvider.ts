@@ -38,6 +38,7 @@ module TesserisPro.TGrid {
         private sourceItems: Array<any>;
         public onAdd: () => void;
         public onRemove: () => void;
+        public onAddArray: () => void;
 
         constructor(items: Array<any>) {
             if (isObservable(items)) {
@@ -111,6 +112,11 @@ module TesserisPro.TGrid {
             } else {
                 return null;
             }
+        }
+
+        public addArray(array: Array<any>): void{
+            this.sourceItems = this.sourceItems.concat(array)
+            this.onAddArray();
         }
 
         private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {

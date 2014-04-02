@@ -42,6 +42,7 @@ module TesserisPro.TGrid {
         private path: string;
         public onAdd: () => void;
         public onRemove: () => void;
+        public onAddArray: () => void;
 
         constructor(urlGetItems: string, urlGetTotalNumber: string, path: string) {
             this.urlGetItems = urlGetItems;
@@ -84,11 +85,12 @@ module TesserisPro.TGrid {
             xmlhttp.send(JSON.stringify(filterDescriptors));
         }
 
-        //this methods need to be implemented
+        //this method need to be implemented
         public removeItem(item: any) {
             this.onRemove();
         }
 
+         //this method need to be implemented
         public addItem(item: any) {
             this.onAdd();
         }
@@ -96,6 +98,12 @@ module TesserisPro.TGrid {
         public getFirstItem(): any {
             var item = "";
             return item;
+        }
+
+         //this method need to be implemented
+        public addArray(array: Array<any>): void {
+            this.items.concat(array);
+            this.onAddArray();
         }
     }
 }

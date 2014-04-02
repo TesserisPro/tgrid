@@ -68,6 +68,14 @@ var TesserisPro;
                     }
                     self.refreshBody();
                 };
+                this.itemProvider.onAddArray = function () {
+                    if (!self.options.enableVirtualScroll) {
+                        self.itemProvider.getTotalItemsCount(options.filterDescriptor, function (total) {
+                            self.options.firstLoadSize = total;
+                        });
+                    }
+                    self.refreshBody();
+                };
                 this.itemProvider.onRemove = function () {
                     if (!self.options.enableVirtualScroll) {
                         self.options.firstLoadSize--;

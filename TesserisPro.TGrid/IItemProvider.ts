@@ -35,6 +35,7 @@ module TesserisPro.TGrid {
     export interface IItemProvider {
         onAdd: () => void;
         onRemove: () => void;
+        onAddArray: () => void;
         getItems(
             skip: number,
             take: number,
@@ -50,6 +51,8 @@ module TesserisPro.TGrid {
         addItem(item: any);
 
         getFirstItem(): any;
+
+        addArray(array: Array<any>): void;
     }
 
     

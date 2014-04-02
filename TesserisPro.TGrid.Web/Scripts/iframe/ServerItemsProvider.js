@@ -68,11 +68,12 @@ var TesserisPro;
                 xmlhttp.send(JSON.stringify(filterDescriptors));
             };
 
-            //this methods need to be implemented
+            //this method need to be implemented
             ServerItemsProvider.prototype.removeItem = function (item) {
                 this.onRemove();
             };
 
+            //this method need to be implemented
             ServerItemsProvider.prototype.addItem = function (item) {
                 this.onAdd();
             };
@@ -80,6 +81,12 @@ var TesserisPro;
             ServerItemsProvider.prototype.getFirstItem = function () {
                 var item = "";
                 return item;
+            };
+
+            //this method need to be implemented
+            ServerItemsProvider.prototype.addArray = function (array) {
+                this.items.concat(array);
+                this.onAddArray();
             };
             return ServerItemsProvider;
         })();
