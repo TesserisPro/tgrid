@@ -118,6 +118,12 @@ var TGrid;
                     options.enableFiltering = attrs["enablefiltering"] == "true" ? true : false;
                 }
 
+                if (attrs["rowclick"] == undefined || attrs["rowclick"] == null) {
+                    options.rowClick = null;
+                } else {
+                    options.rowClick = attrs["rowclick"];
+                }
+
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
                 if (attrs["options"] != undefined) {
                     options.apply = function () {

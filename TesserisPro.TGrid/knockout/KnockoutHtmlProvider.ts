@@ -301,6 +301,9 @@ module TesserisPro.TGrid {
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
+            if (isNotNull(option.rowClick)) {
+                row.setAttribute("data-bind", "click:function(){model.".concat(option.rowClick).concat("(item, event);}"));
+            }
             addClass(row,"tgrid-table-body-row");
 
             if (option.isSelected(item.item)) {
@@ -340,19 +343,20 @@ module TesserisPro.TGrid {
                 row.appendChild(placeholderColumn);
             }
 
-            (function (item) {
-                row.onclick = function (e) {
-                    if (option.selectionMode != SelectionMode.None) {
-                        var wasSelected = false;
-                        if (option.shouldAddDetailsOnSelection == item.item) {
-                            wasSelected = true;
+            if (isNull(option.rowClick)) {
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (option.selectionMode != SelectionMode.None) {
+                            var wasSelected = false;
+                            if (option.shouldAddDetailsOnSelection == item.item) {
+                                wasSelected = true;
+                            }
+                            selected(item, e.ctrlKey, wasSelected);
+
                         }
-                        selected(item, e.ctrlKey, wasSelected);
-
-                    }
-                };
-            })(item);
-
+                    };
+                })(item);
+            }
             return row;
         }
 

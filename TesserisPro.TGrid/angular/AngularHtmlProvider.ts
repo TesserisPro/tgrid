@@ -257,7 +257,13 @@ module TesserisPro.TGrid {
             var row = this.appendTableElement(option, container, items, 0, selected);
             row.setAttribute("ng-repeat-start", "item in items");
             row.setAttribute("ng-class", "{'tgrid-table-body-row' : !item.isGroupHeader, 'tgrid-table-group-header':  item.isGroupHeader,'tgrid-table-body-row selected': !item.isGroupHeader && item.isSelected }");
-            row.setAttribute("ng-click", "item.select($event, item, $parent.items)")
+            var action = "";
+            if (isNull(option.rowClick)) {
+                action = "item.select($event, item, $parent.items)";
+            } else {
+                action = "item.model.".concat(option.rowClick).concat("(item.item ,$event);");
+            }
+            row.setAttribute("ng-click", action);
             
             var detailsRow = this.buildDetailsRow(option);
            
@@ -348,6 +354,7 @@ module TesserisPro.TGrid {
             var detailTr = document.createElement("tr");
             detailTr.setAttribute("ng-repeat-end", "");
             detailTr.setAttribute("ng-hide", "!item.showDetail");
+            
             var indentsAreAppended = false;
             if (isNotNull(option.detailsTemplateHtml)) {
                 var detailTd = document.createElement("td");

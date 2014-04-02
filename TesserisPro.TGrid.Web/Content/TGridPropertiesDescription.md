@@ -74,9 +74,19 @@ Sets how many pages should be visible (to the left and to the right from current
 
 **Default value:** *10*.
 
+####rowClick.
+
+Sets row click handler function name, which can be used in your sample view model to set your action on row click. Handler function has 2 parameters: *item* and *event*. *Item* is an element of your itemsProvider array, binded to clicked row. *Event* is mouse event click.
+
+If rowClick is defined, then **selectionMode** is set to 'none' and **showDetailsOnSelection** is set to 'false'.
+
+**Value:** any string.
+
+**Default value:** null.
+
 ####selectionMode
 
-Defines how many items can be selected in TGrid.
+Defines how many items can be selected in TGrid. If **rowClick** is defined, is set to  *'none'*.
 
 **Value:**
 + "none" - you can't select any item,
@@ -89,10 +99,11 @@ Defines how many items can be selected in TGrid.
 
 ####showDetailsOnSelection.
 
-Enables or disables details on selection. 
+Enables or disables details on selection. If **rowClick** is defined, is set to *false*.
 
 **Value:** *true* or *false*.
 
 **Default value:** *false*.
     
 To make details working on selection you should define html details template in TGrid description.
+

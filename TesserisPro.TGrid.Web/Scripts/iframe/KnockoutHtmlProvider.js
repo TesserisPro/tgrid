@@ -302,6 +302,9 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.buildRowElement = function (option, item, container, selected) {
                 var row = document.createElement("tr");
+                if (isNotNull(option.rowClick)) {
+                    row.setAttribute("data-bind", "click:function(){model.".concat(option.rowClick).concat("(item, event);}"));
+                }
                 addClass(row, "tgrid-table-body-row");
 
                 if (option.isSelected(item.item)) {
@@ -341,18 +344,19 @@ var TesserisPro;
                     row.appendChild(placeholderColumn);
                 }
 
-                (function (item) {
-                    row.onclick = function (e) {
-                        if (option.selectionMode != 0 /* None */) {
-                            var wasSelected = false;
-                            if (option.shouldAddDetailsOnSelection == item.item) {
-                                wasSelected = true;
+                if (isNull(option.rowClick)) {
+                    (function (item) {
+                        row.onclick = function (e) {
+                            if (option.selectionMode != 0 /* None */) {
+                                var wasSelected = false;
+                                if (option.shouldAddDetailsOnSelection == item.item) {
+                                    wasSelected = true;
+                                }
+                                selected(item, e.ctrlKey, wasSelected);
                             }
-                            selected(item, e.ctrlKey, wasSelected);
-                        }
-                    };
-                })(item);
-
+                        };
+                    })(item);
+                }
                 return row;
             };
 

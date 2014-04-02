@@ -120,6 +120,7 @@ module TesserisPro.TGrid {
         public columnMinWidth: number = 5;
         public apply: () => void;
         public hasAnyNotSizedColumn: boolean = false;
+        public rowClick: string;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
