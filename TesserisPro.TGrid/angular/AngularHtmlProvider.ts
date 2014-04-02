@@ -399,6 +399,8 @@ module TesserisPro.TGrid {
                 {
                     (<AngularFooterViewModel>footerModel).apply();
                 }
+            } else {
+                footer.innerHTML = "";
             }
         }
 

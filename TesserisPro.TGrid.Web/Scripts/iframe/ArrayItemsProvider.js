@@ -53,6 +53,21 @@ var TesserisPro;
                 // FilterItems
                 items = this.filter(items, filterDescriptor, collapsedFilterDescriptors);
 
+                if (typeof firstItem == "string" || isNaN(firstItem)) {
+                    if (!isNaN(+firstItem)) {
+                        firstItem = +firstItem;
+                    } else {
+                        firstItem = 0;
+                    }
+                }
+                if (typeof itemsNumber == "string" || isNaN(itemsNumber)) {
+                    if (!isNaN(+itemsNumber)) {
+                        itemsNumber = +itemsNumber;
+                    } else {
+                        itemsNumber = items.length;
+                    }
+                }
+
                 // Apply paging
                 items = items.slice(firstItem, firstItem + itemsNumber);
 

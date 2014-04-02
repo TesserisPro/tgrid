@@ -266,6 +266,8 @@ var TesserisPro;
                         ko.applyBindings(footerModel, footerContainer);
                         footer.appendChild(footerContainer);
                     }
+                } else {
+                    footer.innerHTML = "";
                 }
             };
 

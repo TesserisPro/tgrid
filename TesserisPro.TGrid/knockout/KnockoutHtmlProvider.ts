@@ -264,6 +264,8 @@ module TesserisPro.TGrid {
                     ko.applyBindings(footerModel, footerContainer);
                     footer.appendChild(footerContainer);
                 }
+            } else {
+                footer.innerHTML = "";
             }
         }
 

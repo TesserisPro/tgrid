@@ -400,6 +400,8 @@ var TesserisPro;
                     } else {
                         footerModel.apply();
                     }
+                } else {
+                    footer.innerHTML = "";
                 }
             };
 

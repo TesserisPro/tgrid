@@ -62,9 +62,11 @@ var TGrid;
                 }
 
                 var pageSlideAttr = attrs["pageslide"];
-                options.pageSlide = parseInt(pageSlideAttr);
-                if (this.isEnablePaging) {
-                    options.pageSlide = (isNaN(this.pageSlide) || this.pageSlide < 1) ? 1 : this.pageSlide;
+                if (pageSlideAttr != undefined) {
+                    options.pageSlide = parseInt(pageSlideAttr);
+                    if (this.isEnablePaging) {
+                        options.pageSlide = (isNaN(this.pageSlide) || this.pageSlide < 1) ? 1 : this.pageSlide;
+                    }
                 }
 
                 var selectionModeAtt = attrs["selectionmode"];

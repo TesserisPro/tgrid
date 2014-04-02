@@ -1195,8 +1195,49 @@ module TesserisPro.TGrid {
         }
 
         public afterOptionsChange() {
+            
+            if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                this.filterPopUp = document.createElement("div");
+                this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
+                this.filterPopUp.style.display = "none";
+                this.targetElement.appendChild(this.filterPopUp);
+                this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
+                this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
+            }
+            if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+
+            }
+
+            if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
+                this.scrollBar = document.createElement("div");
+                this.scrollBar.className = "tgrid-scroll";
+                this.scrollBar.style.overflowX = "hidden";
+                this.scrollBar.style.overflowY = "scroll";
+
+                var scrollContent = document.createElement("div");
+                scrollContent.style.height = "10000px";
+                scrollContent.style.width = "1px";
+                this.scrollBar.appendChild(scrollContent);
+                this.bodyAndHeaderContainer.appendChild(this.scrollBar);
+
+                this.scrollBar.onscroll = () => this.onManualScroll();
+                this.tableBodyContainer.onscroll = () => this.scrollTable();
+                this.mobileContainer.onscroll = () => this.scrollTable();
+
+            } 
+
+            if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
+                this.rootElement.getElementsByClassName("tgrid-scroll")[0].parentNode.removeChild(this.rootElement.getElementsByClassName("tgrid-scroll")[0]);
+                //this.bodyAndHeaderContainer.removeChild(<Node>this.scrollBar);
+               
+                this.tableBodyContainer.onscroll =null;
+                this.mobileContainer.onscroll = null;
+              
+                this.itemProvider.getTotalItemsCount(this.options.filterDescriptor, (total) => { this.options.firstLoadSize = total; });
+                
+            } 
             this.refreshHeader();
-            this.refreshBody();
+            this.refreshBody(this.options.enableVirtualScroll);
             this.refreshFooter();
         }
 

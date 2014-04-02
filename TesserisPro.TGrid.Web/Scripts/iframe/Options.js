@@ -107,6 +107,7 @@ var TesserisPro;
                 this.groupHeaderTemplate = null;
                 this.filterPopup = null;
                 this.pageSize = 10;
+                this.pageSlide = 1;
                 this.batchSize = 5;
                 this.firstLoadSize = 10;
                 this.currentPage = 0;

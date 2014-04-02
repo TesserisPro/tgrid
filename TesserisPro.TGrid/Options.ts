@@ -98,7 +98,7 @@ module TesserisPro.TGrid {
         public framework: Framework;
         public target: HTMLElement;
         public pageSize: number = 10;
-        public pageSlide: number;
+        public pageSlide: number = 1;
         public batchSize: number = 5;
         public firstLoadSize: number = 10;
         public currentPage: number = 0;
