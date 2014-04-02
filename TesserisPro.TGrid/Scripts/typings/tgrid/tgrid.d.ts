@@ -49,6 +49,7 @@ declare module TesserisPro.TGrid {
         public member: string;
         public resizable: boolean;
         public filterMemberPath: string;
+        public notSized: boolean;
     }
     class ShowDetail {
         public item: any;
@@ -95,10 +96,12 @@ declare module TesserisPro.TGrid {
         public filterPopupForColumn: ColumnInfo;
         public columnMinWidth: number;
         public apply: () => void;
+        public hasAnyNotSizedColumn: boolean;
+        public rowClick: string;
         constructor(element: HTMLElement, framework: Framework);
         public isSelected(item: any): boolean;
         private initialize();
-        public applyHandler(): void;
+        public applyHandler();
     }
 }
 declare module TGrid.Angular {
@@ -116,8 +119,6 @@ declare module TesserisPro.TGrid {
         public openDetailsForCell(columnIndex: any): void;
         public closeDetailsForCell(columnIndex: any): void;
         public setItemValue(item: any): void;
-        public addItem(item: any): void;
-        public deleteItem(item: any): void;
     }
 }
 declare module TesserisPro.TGrid {
@@ -126,7 +127,7 @@ declare module TesserisPro.TGrid {
         setSelectedItem(selectedItem: any): any;
         setCurrentPage(currentPage: number): any;
         setTotalPages(totalPages: number): any;
-        changePage(pageNumber: number): any;
+        changePage(pageNumber: string): any;
         goToPreviousPagesBlock(): any;
         goToNextPagesBlock(): any;
         goToFirstPage(): any;
@@ -142,7 +143,7 @@ declare module TesserisPro.TGrid {
         getFilterPopupViewModel(container: HTMLElement): any;
         getTableElement(option: TGrid.Options): HTMLElement;
         updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): any;
-        updateTableBodyElement(option: TGrid.Options, body: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
+        updateTableBodyElement(option: TGrid.Options, body: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): HTMLElement;
         updateTableFooterElement(option: TGrid.Options, footer: HTMLElement, totalItemsCount: number, footerModel: TGrid.IFooterViewModel): void;
         updateMobileItemsList(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
         updateMobileHeadElement(option: TGrid.Options, mobileHeader: HTMLElement, filterPopupContainer: HTMLElement): void;
@@ -173,7 +174,7 @@ declare module TesserisPro.TGrid {
         public getFooterViewModel(grid: any): void;
         public getFilterPopupViewModel(container: HTMLElement): void;
         public updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): void;
-        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
+        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): HTMLElement;
         public updateTableFooterElement(option: TGrid.Options, footer: HTMLElement, totalItemsCount: number, footerModel: TGrid.IFooterViewModel): void;
         public updateGroupedTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
         public updateColumnWidth(option: TGrid.Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void;
@@ -206,12 +207,15 @@ declare module TesserisPro.TGrid {
 }
 declare module TesserisPro.TGrid {
     interface IItemProvider {
-        actionAfterAddingItem: () => void;
-        actionAfterDeletingItem: () => void;
+        onAdd: () => void;
+        onRemove: () => void;
+        onAddArray: () => void;
         getItems(skip: number, take: number, sort: TGrid.SortDescriptor[], filter: TGrid.FilterDescriptor, collapsedGroupFilters: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         getTotalItemsCount(filter: TGrid.FilterDescriptor, callback: (total: number) => void): void;
-        deleteItem(item: any): any;
+        removeItem(item: any): any;
         addItem(item: any): any;
+        getFirstItem(): any;
+        addArray(array: Array<any>): void;
     }
 }
 
@@ -220,8 +224,10 @@ declare module TesserisPro.TGrid {
         public getTableElement(option: TGrid.Options): HTMLElement;
         public getElementsSize(container: HTMLElement, items: TGrid.ItemViewModel[]): number;
         public getFirstVisibleItem(container: HTMLElement, items: TGrid.ItemViewModel[], scrollTop: number): TGrid.ItemViewModel;
-        public updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): void;
-        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
+        public getFooterViewModel(grid: any);
+        public getFilterPopupViewModel(container: HTMLElement)
+        public updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): HTMLElement;
+        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): HTMLElement;
         public updateTableDetailRow(options: TGrid.Options, container: HTMLElement, item: TGrid.ItemViewModel, shouldAddDetails: boolean): void;
         public updateTableFooterElement(option: TGrid.Options, footer: HTMLElement, totalItemsCount: number, footerModel: TGrid.IFooterViewModel): void;
         public updateFilteringPopUp(option: TGrid.Options, filterPopup: HTMLElement, filterPopupModel: TGrid.IFilterPopupViewModel): void;
@@ -267,6 +273,19 @@ declare module TesserisPro.TGrid {
     class AngularItemViewModel extends TGrid.ItemViewModel {
         private $scope;
         public angularControllerName: string;
+        public setScope(scope: any): void;
+    }
+}
+declare module TesserisPro.TGrid {
+    class AngularItemsViewModel {
+        private $scope;
+        private items;
+        private options;
+        private selected;
+
+        public angularControllerName: string;
+
+        constructor(items: Array<any>, options: Options, selected: (item: ItemViewModel, multi: boolean) => boolean);
         public setScope(scope: any): void;
     }
 }
@@ -368,6 +387,7 @@ declare module TesserisPro.TGrid {
         public applyFilters(): void;
         private refreshMobileHeader();
         public afterOptionsChange(): void;
+        public setColumnsFromItemsProvider(): void;
     }
 }
 declare module TesserisPro.TGrid {
@@ -385,7 +405,7 @@ declare module TesserisPro.TGrid {
         public setSelectedItem(selectedItem: any): void;
         public setCurrentPage(currentPage: number): void;
         public setTotalPages(totalPages: number): void;
-        public changePage(viewPageNumber: number): void;
+        public changePage(viewPageNumber: string): void;
         public apply(): void;
         public goToPreviousPagesBlock(): void;
         public goToNextPagesBlock(): void;
@@ -399,46 +419,49 @@ declare module TesserisPro.TGrid {
         public getFirstVisibleItem(container: HTMLElement, items: TGrid.ItemViewModel[], scrollTop: number): TGrid.ItemViewModel;
         public getTableElement(option: TGrid.Options): HTMLElement;
         static moduleFooterCounter: number;
-        static controllerItemCounter: number;
-        static angularModuleName: string;
-        static angularGroupModuleName: string;
         public getFooterViewModel(grid: any): TGrid.AngularFooterViewModel;
         public getFilterPopupViewModel(container: HTMLElement): TGrid.AngularFilterPopupViewModel;
         public updateTableHeadElement(option: TGrid.Options, header: HTMLElement, groupByContainer: HTMLElement, filterPopupContainer: HTMLElement, columnsResized: (c: TGrid.ColumnInfo) => void): void;
-        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
-        public addDetailRow(option: TGrid.Options, container: HTMLElement): void;
+        public updateTableBodyElement(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): HTMLElement;
+        private appendTableElement(option, container, items, groupLevel, selected, row);
+        private buildRowElement(option, item, container, selected, row);
+        private buildGroupHeaderRow(option, groupHeaderDescriptor, groupHeaderTr);
+        private buildDetailsRow(option);
         public updateTableDetailRow(options: TGrid.Options, container: HTMLElement, item: TGrid.ItemViewModel, isDetailsAdded: boolean): void;
         public updateTableFooterElement(option: TGrid.Options, footer: HTMLElement, totalItemsCount: number, footerModel: TGrid.IFooterViewModel): void;
         public updateFilteringPopUp(option: TGrid.Options, filterPopup: HTMLElement, filterPopupModel: TGrid.IFilterPopupViewModel): void;
-        private appendTableElement(option, container, item, groupLevel, selected, angularModuleName, angularModule);
-        private buildRowElement(option, item, container, selected, angularModuleName, angularModule);
-        private buildDetailsRow(option, item, template);
-        private buildGroupHeaderRow(option, groupHeaderDescriptor);
         private addArrows(sortArrowContainer, option, columnNumber);
         private removeArrows(htmlNode);
         private removeFilterButtons(container);
         public updateMobileItemsList(option: TGrid.Options, container: HTMLElement, items: TGrid.ItemViewModel[], selected: (item: TGrid.ItemViewModel, multi: boolean) => boolean): void;
-        public updateMobileDetailRow(options: TGrid.Options, container: HTMLElement, item: TGrid.ItemViewModel, shouldAddDetails: boolean): void;
-        private appendMobileElement(option, container, item, groupLevel, selected);
-        private buildMobileRowElement(option, item, container, selected);
+        private appendMobileTableElement(option, container, item, groupLevel, selected);
+        private buildMobileGroupHeaderRow(option, item, mobileRow);
+        private appendIndentMobileGroupHeader(target, level);
+        private buildMobileRowElement(option, item, container, selected, mobileRow);
+        private appendIndentMobileRow(target, level);
+        private buildMobileDetailsRow(option);
         public createDefaultGroupHeader(tableRowElement: any): any;
-        private buildMobileDetailsRow(option, item, template);
-        public bindMobileGroupHeader(headerContainer: HTMLElement, item: any, headerDiv: HTMLElement): void;
         private createDefaultCell(cell, defaultCellBindingName);
         private createDefaultMobileTemplate(rowTemplate, option);
         private buildDefaultFilteringPopUp(option, filterPopupContainer);
+        private appendIndentRow(target, level);
+        private appendIndentGroupHeader(target, level);
+
     }
 }
 declare module TesserisPro.TGrid {
     class ArrayItemsProvider implements TGrid.IItemProvider {
         private sourceItems;
-        public actionAfterAddingItem: () => void;
-        public actionAfterDeletingItem: () => void;
+        public onAdd: () => void;
+        public onRemove: () => void;
+        public onAddArray: () => void;
         constructor(items: any[]);
         public getItems(firstItem: number, itemsNumber: number, sortDescriptors: TGrid.SortDescriptor[], filterDescriptor: TGrid.FilterDescriptor, collapsedFilterDescriptors: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         public getTotalItemsCount(filterDescriptor: TGrid.FilterDescriptor, callback: (total: number) => void): void;
         public addItem(item: any): void;
-        public deleteItem(item: any): void;
+        public removeItem(item: any): void;
+        public getFirstItem(): any;
+        public addArray(array: Array<any>): void;
         private sort(items, sortDescriptors);
         private compareRecursive(a, b, sortDescriptors, i);
         private sortingOrder(sortDescriptor);
@@ -455,12 +478,15 @@ declare module TesserisPro.TGrid {
         private urlGetTotalNumber;
         private items;
         private path;
-        public actionAfterAddingItem: () => void;
-        public actionAfterDeletingItem: () => void;
+        public onAdd: () => void;
+        public onRemove: () => void;
+        public onAddArray: () => void;
         constructor(urlGetItems: string, urlGetTotalNumber: string, path: string);
         public getItems(firstItem: number, itemsNumber: number, sortDescriptors: TGrid.SortDescriptor[], filterDescriptors: TGrid.FilterDescriptor, collapsedFilterDescriptors: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         public getTotalItemsCount(filterDescriptors: TGrid.FilterDescriptor, callback: (total: number) => void): void;
-        public deleteItem(item: any): void;
+        public removeItem(item: any): void;
         public addItem(item: any): void;
+        public getFirstItem(): any;
+        public addArray(array: Array<any>): void;
     }
 }

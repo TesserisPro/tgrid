@@ -102,7 +102,7 @@ module TesserisPro.TGrid {
             return angularFooterViewModel;
         }
          
-        public getFilterPopupViewModel(container: HTMLElement) {
+        public getFilterPopupViewModel(container: HTMLElement): AngularFooterViewModel {
             var angularFilterPopupViewModel = new AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
             angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
             var angularFilterModule= angular
@@ -277,7 +277,7 @@ module TesserisPro.TGrid {
             return rowsContainer;
         }
 
-        public appendTableElement(option: Options, container: HTMLElement, items:Array<ItemViewModel>, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean):HTMLTableRowElement {
+        private appendTableElement(option: Options, container: HTMLElement, items:Array<ItemViewModel>, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean):HTMLTableRowElement {
             var row = document.createElement('tr');
             if (items.length > 0) {
                 if (option.enableGrouping) {
@@ -331,23 +331,23 @@ module TesserisPro.TGrid {
             }
         }
 
-        private buildGroupHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor, headerTr: HTMLTableRowElement) {
-            this.appendIndentGroupHeader(headerTr, option.columns.length);
-            var headerTd = document.createElement("td");
-            headerTd.setAttribute("colspan", "{{item.colspan}}");
-            addClass(headerTd, "tgrid-table-group-header");
-            headerTd.setAttribute("ng-hide", "!item.isGroupHeader");
+        private buildGroupHeaderRow(option: Options, groupHeaderDescriptor: GroupHeaderDescriptor, groupHeaderTr: HTMLTableRowElement) {
+            this.appendIndentGroupHeader(groupHeaderTr, option.columns.length);
+            var groupHeaderTd = document.createElement("td");
+            groupHeaderTd.setAttribute("colspan", "{{item.colspan}}");
+            addClass(groupHeaderTd, "tgrid-table-group-header");
+            groupHeaderTd.setAttribute("ng-hide", "!item.isGroupHeader");
             if (option.groupHeaderTemplate != null) {
-                option.groupHeaderTemplate.applyTemplate(headerTd);
+                option.groupHeaderTemplate.applyTemplate(groupHeaderTd);
             } else {
-                headerTd = this.createDefaultGroupHeader(headerTd);
+                groupHeaderTd = this.createDefaultGroupHeader(groupHeaderTd);
             }
 
             if (option.enableCollapsing) {
-                addClass(headerTd, "collapsing");
-                headerTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
+                addClass(groupHeaderTd, "collapsing");
+                groupHeaderTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
             }
-            headerTr.appendChild(headerTd);
+            groupHeaderTr.appendChild(groupHeaderTd);
         }
 
         private buildDetailsRow(option: Options): HTMLTableRowElement {
@@ -548,7 +548,7 @@ module TesserisPro.TGrid {
             addClass(headerDiv, 'tgrid-mobile-group-header-container');
             mobileRow.appendChild(headerDiv);
         }
-        public appendIndentMobileGroupHeader(target: HTMLElement, level: number) {
+        private appendIndentMobileGroupHeader(target: HTMLElement, level: number) {
             for (var i = 0; i < level; i++) {
                 var indentDiv = document.createElement("div");
                 indentDiv.className = "tgrid-mobile-group-indent-div";
