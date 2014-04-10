@@ -43,6 +43,7 @@ module TesserisPro.TGrid {
         public onAdd: () => void;
         public onRemove: () => void;
         public onAddArray: () => void;
+        public onClear: () => void;
 
         constructor(urlGetItems: string, urlGetTotalNumber: string, path: string) {
             this.urlGetItems = urlGetItems;
@@ -104,6 +105,12 @@ module TesserisPro.TGrid {
         public addArray(array: Array<any>): void {
             this.items.concat(array);
             this.onAddArray();
+        }
+
+         //this method need to be implemented
+        public clear(): void {
+            this.items = new Array();
+            this.onClear();
         }
     }
 }

@@ -590,11 +590,11 @@ tr:nth-child(odd), .tgrid-mobile-row:nth-child(odd) {
   background-color: white;
 }
 
-.tgrid-mobile-row.ng-scope:nth-child(4n-1) {
+tr.ng-scope:nth-child(4n-1),.tgrid-mobile-row.ng-scope:nth-child(4n-1) {
   background-color: whitesmoke;
 }
 
-.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
+tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
   background-color: white;
 }
 

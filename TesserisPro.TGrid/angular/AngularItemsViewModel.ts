@@ -35,119 +35,75 @@
 module TesserisPro.TGrid {
 
     export class AngularItemsViewModel {
-        private $scope: any;
-        private items: Array<any>;
+        private $scope: ng.IScope;
+        private itemsModels: Array<ItemViewModel>;
         private options: Options;
-        private selected : (item: ItemViewModel, multi: boolean) => boolean;
+        private selected: (item: ItemViewModel, multi: boolean) => boolean;
 
         public angularControllerName: string;
 
-        constructor(items: Array<any>, options: Options, selected: (item: ItemViewModel, multi: boolean) => boolean) {
-            this.items = items;
+        constructor(items: Array<ItemViewModel>, options: Options, selected: (item: ItemViewModel, multi: boolean) => boolean) {
+            this.itemsModels = items;
             this.options = options;
             this.selected = selected;
         }
         public setScope(scope: any) {
             this.$scope = scope;
-            this.$scope.items = this.items;
-            for (var i = 0; i < this.items.length; i++) {
-                this.$scope.items[i].model = this.items[i].model;
-                this.$scope.items[i].item = this.items[i].item;
-                this.$scope.items[i].grid = this.items[i].grid;
-                this.$scope.items[i].isGroupHeader = this.items[i].isGroupHeader;
-                this.$scope.items[i].setItemValue = (item) => this.items[i].setItemValue(item);
-                this.$scope.items[i].colspan = this.options.columns.length + 1 + this.options.groupBySortDescriptors.length - this.items[i].item.level;
+            this.$scope.options = this.options;
+            this.$scope.items = new Array<AngularItemViewModel>();
+            for (var i = 0; i < this.itemsModels.length; i++) {
+                this.$scope.items[i] = new AngularItemViewModel(this.itemsModels[i].model,
+                    this.itemsModels[i].item,
+                    this.itemsModels[i].grid,
+                    this.itemsModels[i].isGroupHeader);
+                this.$scope.items[i].originalModel = this.itemsModels[i];
+                this.$scope.items[i].colspan = this.options.columns.length + 1 + this.options.groupBySortDescriptors.length - this.itemsModels[i].item.level;
                 this.$scope.items[i].detailsColspan = this.options.hasAnyNotSizedColumn ? this.options.columns.length : this.options.columns.length + 1;
-                this.$scope.items[i].isSelected = this.options.isSelected(this.items[i].item);
+                this.$scope.items[i].isSelected = this.options.isSelected(this.itemsModels[i].item);
                 this.$scope.items[i].showDetail = false;
+                this.$scope.items[i].showDetailsFor = new ShowDetail();
+                if (this.$scope.options.showDetailFor.item == this.$scope.items[i].item) {
+                    this.$scope.items[i].showDetail = true;
+                }
                 this.$scope.items[i].toggleGroupCollapsing = (e, item) => {
                     if (item.item.collapse) {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).removeCollapsedFilters(item.item.filterDescriptor);
+                       item.grid.removeCollapsedFilters(item.item.filterDescriptor);
                         item.item.collapse = false;
                     }
                     else {
-                        TesserisPro.TGrid.Grid.getGridObject(<HTMLElement>e.target).setCollapsedFilters(item.item.filterDescriptor);
+                        item.grid.setCollapsedFilters(item.item.filterDescriptor);
                         item.item.collapse = true;
                     }
-
                 }
-                this.$scope.items[i].showDetailFor = new ShowDetail();
-                this.$scope.items[i].toggleDetailsForCell = (columnIndex, item, items) => {
-                    if (this.options.showCustomDetailFor.item != item || this.options.showCustomDetailFor.item == item && this.options.showDetailFor.column != columnIndex) {
-                        item.openDetailsForCell(columnIndex, item, items);
-                    } else {
-                        item.closeDetailsForCell(columnIndex, item);
-                    }
+                this.$scope.items[i].toggleDetailForCell = (columnIndex: number, item: AngularItemViewModel) => {
+                    item.toggleDetailsForCell(columnIndex);
                 };
-                this.$scope.items[i].openDetailsForCell = (columnIndex, item, items) => {
-                    for (var i = 0; i < items.length; i++) {
-                        if (items[i].showDetail) {
-                            if (items[i] != item) {
-                                items[i].showDetail = false;
-                            }
-                        }
-                    }
-                    this.options.showDetailFor.column = columnIndex;
-                    this.options.showDetailFor.item = item;
-                    item.showDetailFor.item = item;
-                    item.showDetailFor.column = columnIndex;
-                    item.showDetail = true;
-                    this.options.showCustomDetailFor.item = item;
-                    this.options.showCustomDetailFor.column = columnIndex;
-                    this.options.shouldAddDetailsOnSelection = false;
+                   
+                this.$scope.items[i].openDetailForCell = (columnIndex: number, item: AngularItemViewModel) => {
+                   item.openDetailsForCell(columnIndex);
                 };
-                this.$scope.items[i].closeDetailsForCell = (columnIndex, item) => {
-                    item.showDetail = false;
-                    item.showDetailsFor = new ShowDetail();
-                    this.options.showDetailFor = new ShowDetail();
+                this.$scope.items[i].closeDetailForCell = (columnIndex: number, item: AngularItemViewModel)=> {
+                    item.closeDetailsForCell(columnIndex);
                 }
-                this.$scope.items[i].select = (e, item, items) => {
-                    if (this.options.selectionMode != SelectionMode.None) {
-                        if (this.options.selectionMode == SelectionMode.Multi) {
-                            if (!e.ctrlKey) {
-                                for (var i = 0; i < items.length; i++) {
-                                    if (items[i].isSelected) {
-                                        items[i].isSelected = false;
-                                    }
-                                }
-                            }
-                        } else if (this.options.selectionMode == SelectionMode.Single) {
-                            for (var i = 0; i < items.length; i++) {
-                                if (items[i].isSelected) {
-                                    items[i].isSelected = false;
-                                    
-                                }
-                                if (items[i].showDetail) {
-                                    if (items[i] != item || items[i] == item && item.showDetailFor.column != -1) {
-                                        items[i].showDetail = false;
-                                    }
-                                }
-                            }
+                this.$scope.items[i].select = (e: KeyboardEvent, item: ItemViewModel, items) => {
+                    this.selected(item, e.ctrlKey);
+                }
+            }
 
-                            if (this.options.openDetailsOnSelection) {
-                                this.options.showDetailFor = new ShowDetail();
-                                this.options.showDetailFor.item = item;
-                                item.showDetailFor = new ShowDetail();
-                                item.showDetailFor.item = item;
-                                
-                                if (item.showDetail) {
-                                    item.showDetail = false;
-                                } else {
-                                    item.showDetail = true;
-                                }
-                            } else {
-                                this.options.showDetailFor = new ShowDetail();
-                            }
-                        }
-                        if (item.isSelected) {
-                            item.isSelected = false;
-                        } else {
-                            item.isSelected = true;
-                        }
-                        
+        }
+        public setItemSelection(item: ItemViewModel, isSelected: boolean, isAddedDetails: boolean) {
+            for (var i = 0; i < this.itemsModels.length; i++) {
+                this.$scope.items[i].showDetail = false;
+                if (this.itemsModels[i].item == item) {
+                    this.$scope.items[i].isSelected = isSelected;
+                    if (isAddedDetails) {
+                        this.$scope.items[i].showDetail = true;
                     }
+                    this.$scope.options.showDetailFor = this.options.showDetailFor;
+                    setTimeout(() => { this.$scope.$apply(); }, 10);
                 }
             }
         }
+
     }
 } 

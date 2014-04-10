@@ -210,12 +210,14 @@ declare module TesserisPro.TGrid {
         onAdd: () => void;
         onRemove: () => void;
         onAddArray: () => void;
+        onClear: () => void;
         getItems(skip: number, take: number, sort: TGrid.SortDescriptor[], filter: TGrid.FilterDescriptor, collapsedGroupFilters: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         getTotalItemsCount(filter: TGrid.FilterDescriptor, callback: (total: number) => void): void;
         removeItem(item: any): any;
         addItem(item: any): any;
         getFirstItem(): any;
         addArray(array: Array<any>): void;
+        clear(): void;
     }
 }
 
@@ -455,6 +457,7 @@ declare module TesserisPro.TGrid {
         public onAdd: () => void;
         public onRemove: () => void;
         public onAddArray: () => void;
+        public onClear: () => void;
         constructor(items: any[]);
         public getItems(firstItem: number, itemsNumber: number, sortDescriptors: TGrid.SortDescriptor[], filterDescriptor: TGrid.FilterDescriptor, collapsedFilterDescriptors: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         public getTotalItemsCount(filterDescriptor: TGrid.FilterDescriptor, callback: (total: number) => void): void;
@@ -462,6 +465,7 @@ declare module TesserisPro.TGrid {
         public removeItem(item: any): void;
         public getFirstItem(): any;
         public addArray(array: Array<any>): void;
+        public clear(): void;
         private sort(items, sortDescriptors);
         private compareRecursive(a, b, sortDescriptors, i);
         private sortingOrder(sortDescriptor);
@@ -481,6 +485,7 @@ declare module TesserisPro.TGrid {
         public onAdd: () => void;
         public onRemove: () => void;
         public onAddArray: () => void;
+        public onClear: () => void;
         constructor(urlGetItems: string, urlGetTotalNumber: string, path: string);
         public getItems(firstItem: number, itemsNumber: number, sortDescriptors: TGrid.SortDescriptor[], filterDescriptors: TGrid.FilterDescriptor, collapsedFilterDescriptors: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         public getTotalItemsCount(filterDescriptors: TGrid.FilterDescriptor, callback: (total: number) => void): void;
@@ -488,5 +493,6 @@ declare module TesserisPro.TGrid {
         public addItem(item: any): void;
         public getFirstItem(): any;
         public addArray(array: Array<any>): void;
+        public clear(): void;
     }
 }

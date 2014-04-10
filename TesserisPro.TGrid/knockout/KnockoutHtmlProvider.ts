@@ -59,7 +59,7 @@ module TesserisPro.TGrid {
                 var child = <HTMLElement>children.item(i);
                 var viewModel = <ItemViewModel>(ko.contextFor(child).$root);
 
-                if (viewModel != null && (items == null || items.indexOf(viewModel) > 0)) {
+                if (viewModel != null && (items == null || items.indexOf(viewModel) >= 0)) {
                     size += child.offsetHeight;
                 }
             }

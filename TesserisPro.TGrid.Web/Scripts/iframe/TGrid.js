@@ -82,6 +82,9 @@ var TesserisPro;
                     }
                     self.refreshBody();
                 };
+                this.itemProvider.onClear = function () {
+                    self.refreshBody();
+                };
                 this.htmlProvider = this.getHtmlProvider(this.options);
 
                 this.footerViewModel = this.htmlProvider.getFooterViewModel(this);
@@ -199,15 +202,19 @@ var TesserisPro;
                 this.buisyIndicator.className = "tgrid-buisy-indicator";
                 this.rootElement.appendChild(this.buisyIndicator);
 
-                this.rootElement.onmousewheel = function (e) {
-                    return _this.mouseWheel(e);
-                };
+                if (this.options.captureScroll) {
+                    this.rootElement.onmousewheel = function (e) {
+                        return _this.mouseWheel(e);
+                    };
+                }
 
+                //if(this.options.framework != Framework.Angular){
                 this.rootElement.tabIndex = 0;
                 this.rootElement.onkeydown = function (e) {
                     return _this.keyPress(e);
                 };
 
+                // }
                 this.tableBodyContainer.onmousedown = function (e) {
                     if (e.button == 1) {
                         e.preventDefault();
@@ -595,10 +602,9 @@ var TesserisPro;
                     this.updateVisibleItems();
 
                     var skipItems = new Array();
-                    for (var i = 0; i < this.visibleViewModels.length - 1; i++) {
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
                         skipItems.push(this.visibleViewModels[i]);
                         if (this.visibleViewModels[i].item == firstNewItem) {
-                            skipItems.push(this.visibleViewModels[i + 1]);
                             break;
                         }
                     }
@@ -609,6 +615,7 @@ var TesserisPro;
                     this.previousPage = null;
                     this.nextPage = null;
                     this.enablePreload = true;
+                    this.rootElement.focus();
                 }
             };
 
@@ -861,7 +868,7 @@ var TesserisPro;
                     if (visibleItemsArea) {
                         visibleItemsCount--;
                     }
-                    if (visibleItemsCount < 0) {
+                    if (visibleItemsCount <= 0) {
                         visibleItemsArea = false;
                     }
                     if (this.visibleViewModels[i].item == item) {
@@ -1115,6 +1122,14 @@ var TesserisPro;
 
             Grid.prototype.afterOptionsChange = function () {
                 var _this = this;
+                if (!this.options.captureScroll) {
+                    this.rootElement.onmousewheel = function (e) {
+                        return _this.mouseWheel(e);
+                    };
+                } else {
+                    this.rootElement.onmousewheel = undefined;
+                }
+
                 if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");

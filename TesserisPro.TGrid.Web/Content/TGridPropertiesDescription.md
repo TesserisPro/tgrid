@@ -2,6 +2,15 @@
 
 Some of TGrid properties has default values and are not required to be defined in template.
 
+####captureScroll
+    
+Enables or disables scroll capturing
+
+**Value:** *true* or *false*
+
+**Default value:** *true*
+
+
 ####itemsProvider
     
 Defines item provider for grid.
@@ -74,11 +83,21 @@ Sets how many pages should be visible (to the left and to the right from current
 
 **Default value:** *10*.
 
-####rowClick.
+####ready
+
+Sets grid after loading handler function, which will be used in your sample view model to set actions after grid loading. Handler function has 1 parameter: *options*. *options* is an object of TesserisPro.TGrid.Options type with initialized TGrid options inside.
+
+In case Knockout: If **ready** is defined, you should add function in your sample view model, with name, which is the same as **ready** value. If you don't do this, the exception "Unable to process binding" occurs. 
+
+**Value:** any acceptable for function name.
+
+**Default value:** don't have default value.
+
+####rowClick
 
 Sets row click handler function name, which can be used in your sample view model to set your action on row click. Handler function has 2 parameters: *item* and *event*. *Item* is an element of your itemsProvider array, binded to clicked row. *Event* is mouse event click.
 
-If rowClick is defined, then **selectionMode** is set to 'none' and **showDetailsOnSelection** is set to 'false'.
+If **rowClick** is defined, then **selectionMode** is set to 'none' and **showDetailsOnSelection** is set to 'false'.
 
 **Value:** any string.
 

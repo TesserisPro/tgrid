@@ -47,6 +47,9 @@ var TGridBindingHandler = (function () {
                 };
                 valueAccessor().options(options);
             }
+            if (valueAccessor().ready != undefined && typeof valueAccessor().ready == 'function') {
+                valueAccessor().ready(options);
+            }
         }, 1);
     };
 
@@ -216,6 +219,20 @@ var TGridBindingHandler = (function () {
             options.rowClick = valueAccessor().rowClick;
         }
         options.rowClick = isNoU(options.rowClick) ? null : options.rowClick;
+
+        if (isObservable(valueAccessor().captureScroll)) {
+            if (typeof valueAccessor().captureScroll() == "boolean") {
+                options.captureScroll = valueAccessor().captureScroll();
+            } else {
+                options.captureScroll = valueAccessor().captureScroll == "false" ? false : true;
+            }
+        } else {
+            if (typeof valueAccessor().captureScroll == "boolean") {
+                options.captureScroll = valueAccessor().captureScroll;
+            } else {
+                options.captureScroll = valueAccessor().captureScroll == "false" ? false : true;
+            }
+        }
 
         return options;
     };

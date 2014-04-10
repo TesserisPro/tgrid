@@ -63,7 +63,7 @@ var TesserisPro;
                     var child = children.item(i);
                     var viewModel = (ko.contextFor(child).$root);
 
-                    if (viewModel != null && (items == null || items.indexOf(viewModel) > 0)) {
+                    if (viewModel != null && (items == null || items.indexOf(viewModel) >= 0)) {
                         size += child.offsetHeight;
                     }
                 }

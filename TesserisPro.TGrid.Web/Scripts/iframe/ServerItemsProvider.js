@@ -88,6 +88,12 @@ var TesserisPro;
                 this.items.concat(array);
                 this.onAddArray();
             };
+
+            //this method need to be implemented
+            ServerItemsProvider.prototype.clear = function () {
+                this.items = new Array();
+                this.onClear();
+            };
             return ServerItemsProvider;
         })();
         TGrid.ServerItemsProvider = ServerItemsProvider;

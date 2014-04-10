@@ -64,6 +64,7 @@ module TesserisPro.TGrid {
 
         public closeDetailsForCell(columnIndex: any): void {
             if (this.grid.options.showCustomDetailFor.item == this.item) {
+                this.grid.options.showDetailFor = new ShowDetail();
                 this.grid.updateRow(this.item, false);
                 this.grid.options.showCustomDetailFor = new ShowDetail();
             }

@@ -107,7 +107,10 @@ var TesserisPro;
                 this.sourceItems = this.sourceItems.concat(array);
                 this.onAddArray();
             };
-
+            ArrayItemsProvider.prototype.clear = function () {
+                this.sourceItems = new Array();
+                this.onClear();
+            };
             ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {
                 var _this = this;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {

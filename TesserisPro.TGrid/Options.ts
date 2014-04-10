@@ -121,6 +121,7 @@ module TesserisPro.TGrid {
         public apply: () => void;
         public hasAnyNotSizedColumn: boolean = false;
         public rowClick: string;
+        public captureScroll: boolean = true;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;

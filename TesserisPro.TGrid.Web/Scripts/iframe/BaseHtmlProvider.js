@@ -61,11 +61,14 @@ var TesserisPro;
                 var visibleItemsSize = 0;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
-                    size += child.offsetHeight;
+                    if (child.style.display != "none" && child.style.visibility != "hidden") {
+                        size += child.offsetHeight;
 
-                    if (size > scrollTop) {
-                        visibleItemsCount++;
-                        visibleItemsSize += child.offsetHeight;
+                        if (size > scrollTop) {
+                            visibleItemsCount++;
+
+                            visibleItemsSize += child.offsetHeight;
+                        }
                     }
 
                     if (visibleItemsSize >= view.clientHeight) {

@@ -39,6 +39,7 @@ module TesserisPro.TGrid {
         public onAdd: () => void;
         public onRemove: () => void;
         public onAddArray: () => void;
+        public onClear: () => void;
 
         constructor(items: Array<any>) {
             if (isObservable(items)) {
@@ -118,7 +119,10 @@ module TesserisPro.TGrid {
             this.sourceItems = this.sourceItems.concat(array)
             this.onAddArray();
         }
-
+        public clear(): void{
+            this.sourceItems = new Array();
+            this.onClear();
+        }
         private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {
             if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
                 items.sort((a, b) => this.compareRecursive(a, b, sortDescriptors, 0));
@@ -232,7 +236,6 @@ module TesserisPro.TGrid {
             }
         }
         
-
         private isFilterConditionSatisfied(item: any, value: any, condition: FilterCondition): boolean {
             switch (condition) {
                 case FilterCondition.None:

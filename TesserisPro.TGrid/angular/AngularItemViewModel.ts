@@ -35,20 +35,21 @@
 module TesserisPro.TGrid {
 
     export class AngularItemViewModel extends ItemViewModel {
-        private $scope: any;
+        public colspan: number;
+        public detailsColspan: number;
+        public isSelected: boolean;
+        public showDetail: boolean;
+        public showDetailsFor: ShowDetail;
+        public originalModel: ItemViewModel;
 
-        public angularControllerName: string;
-
-        public setScope(scope: any) {
-            this.$scope = scope;
-            this.$scope.model = this.model;
-            this.$scope.item = this.item;
-            this.$scope.grid = this.grid;
-            this.$scope.isGroupHeader = this.isGroupHeader;
-            this.$scope.openDetailsForCell = (columnIndex) => this.openDetailsForCell(columnIndex);
-            this.$scope.closeDetailsForCell = (columnIndex) => this.closeDetailsForCell(columnIndex);
-            this.$scope.toggleDetailsForCell = (columnIndex) => this.toggleDetailsForCell(columnIndex);
-            this.$scope.setItemValue = (item) => this.setItemValue(item);
+        constructor(model: any, item: any, grid: any, isGroupHeader: boolean) {
+            super(model, item, grid, isGroupHeader);
         }
+
+        public toggleGroupCollapsing: (e: Event, item: AngularItemViewModel) => void;
+        public select: (e: KeyboardEvent, item: ItemViewModel, items) => void; 
+        public toggleDetailForCell: (columnIndex: number, item: AngularItemViewModel) => void;
+        public openDetailForCell: (columnIndex: number, item: AngularItemViewModel) => void;
+        public closeDetailForCell: (columnIndex: number, item: AngularItemViewModel) => void;
     }
 }

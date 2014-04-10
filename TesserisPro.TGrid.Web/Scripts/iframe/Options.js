@@ -118,6 +118,7 @@ var TesserisPro;
                 this.selection = [];
                 this.columnMinWidth = 5;
                 this.hasAnyNotSizedColumn = false;
+                this.captureScroll = true;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();

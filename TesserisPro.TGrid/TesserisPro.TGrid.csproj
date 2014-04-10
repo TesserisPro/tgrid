@@ -81,6 +81,7 @@
     <TypeScriptCompile Include="Scripts\typings\tgrid-angular-extension.d.ts" />
     <TypeScriptCompile Include="SortDescriptor.ts" />
     <TypeScriptCompile Include="ServerItemsProvider.ts" />
+    <Content Include="Scripts\angular-ui-keypress.js" />
     <Content Include="Styles\grid.css" />
     <Content Include="TGrid.js">
       <DependentUpon>TGrid.ts</DependentUpon>
