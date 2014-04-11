@@ -206,13 +206,11 @@ var TesserisPro;
                     };
                 }
 
-                //if(this.options.framework != Framework.Angular){
                 this.rootElement.tabIndex = 0;
                 this.rootElement.onkeydown = function (e) {
                     return _this.keyPress(e);
                 };
 
-                // }
                 this.tableBodyContainer.onmousedown = function (e) {
                     if (e.button == 1) {
                         e.preventDefault();
@@ -220,6 +218,9 @@ var TesserisPro;
                 };
 
                 this.hideBuisyIndicator();
+                if (this.options.ready) {
+                    this.options.ready(this.options);
+                }
             }
             Grid.getGridObject = function (element) {
                 if (element == null) {

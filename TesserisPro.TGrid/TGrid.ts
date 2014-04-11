@@ -205,7 +205,6 @@ module TesserisPro.TGrid {
                 this.bodyAndHeaderContainer.appendChild(this.scrollBar);
 
                 this.scrollBar.onscroll = () => this.onManualScroll();
-
             }
 
             
@@ -238,12 +237,9 @@ module TesserisPro.TGrid {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
             }
 
-            //if(this.options.framework != Framework.Angular){
-                this.rootElement.tabIndex = 0;
-                this.rootElement.onkeydown = e => this.keyPress(e);
-           // }
-            
-            
+            this.rootElement.tabIndex = 0;
+            this.rootElement.onkeydown = e => this.keyPress(e);
+
             this.tableBodyContainer.onmousedown = e => {
                 if (e.button == 1) {
                     e.preventDefault();
@@ -251,6 +247,9 @@ module TesserisPro.TGrid {
             }
 
             this.hideBuisyIndicator();
+            if (this.options.ready) {
+                this.options.ready(this.options);
+            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -1102,7 +1101,6 @@ module TesserisPro.TGrid {
                                 this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
-
                                 }
 
                                 //to avoid infinite loop.

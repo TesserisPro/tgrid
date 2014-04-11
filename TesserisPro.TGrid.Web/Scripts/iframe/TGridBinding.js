@@ -41,14 +41,12 @@ var TGridBindingHandler = (function () {
         // Create grid after all other bindings are ready
         setTimeout(function () {
             var grid = new TesserisPro.TGrid.Grid(element, options, valueAccessor().provider);
+
             if (valueAccessor().options != undefined) {
                 options.apply = function () {
                     grid.afterOptionsChange();
                 };
                 valueAccessor().options(options);
-            }
-            if (valueAccessor().ready != undefined && typeof valueAccessor().ready == 'function') {
-                valueAccessor().ready(options);
             }
         }, 1);
     };
@@ -232,6 +230,10 @@ var TGridBindingHandler = (function () {
             } else {
                 options.captureScroll = valueAccessor().captureScroll == "false" ? false : true;
             }
+        }
+
+        if (valueAccessor().ready != undefined && typeof valueAccessor().ready == 'function') {
+            options.ready = valueAccessor().ready;
         }
 
         return options;
