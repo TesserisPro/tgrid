@@ -33,10 +33,10 @@
 module TesserisPro.TGrid {
 
     export interface IItemProvider {
-        onAdd: () => void;
-        onRemove: () => void;
-        onAddArray: () => void;
-        onClear: () => void;
+        onAdd: (item: any) => void;
+        onRemove: (item: any) => void;
+        onReset: () => void;
+
         getItems(
             skip: number,
             take: number,

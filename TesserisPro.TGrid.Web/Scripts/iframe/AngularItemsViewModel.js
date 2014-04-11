@@ -44,13 +44,13 @@ var TesserisPro;
                 this.$scope.options = this.options;
                 this.$scope.items = new Array();
                 for (var i = 0; i < this.itemsModels.length; i++) {
-                    this.$scope.items[i] = new TesserisPro.TGrid.AngularItemViewModel(this.itemsModels[i].model, this.itemsModels[i].item, this.itemsModels[i].grid, this.itemsModels[i].isGroupHeader);
+                    this.$scope.items[i] = new TGrid.AngularItemViewModel(this.itemsModels[i].model, this.itemsModels[i].item, this.itemsModels[i].grid, this.itemsModels[i].isGroupHeader);
                     this.$scope.items[i].originalModel = this.itemsModels[i];
                     this.$scope.items[i].colspan = this.options.columns.length + 1 + this.options.groupBySortDescriptors.length - this.itemsModels[i].item.level;
                     this.$scope.items[i].detailsColspan = this.options.hasAnyNotSizedColumn ? this.options.columns.length : this.options.columns.length + 1;
                     this.$scope.items[i].isSelected = this.options.isSelected(this.itemsModels[i].item);
                     this.$scope.items[i].showDetail = false;
-                    this.$scope.items[i].showDetailsFor = new TesserisPro.TGrid.ShowDetail();
+                    this.$scope.items[i].showDetailsFor = new TGrid.ShowDetail();
                     if (this.$scope.options.showDetailFor.item == this.$scope.items[i].item) {
                         this.$scope.items[i].showDetail = true;
                     }

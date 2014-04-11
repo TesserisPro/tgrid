@@ -41,12 +41,12 @@ var TesserisPro;
 
             KnockoutFilterPopupViewModel.prototype.onApply = function () {
                 this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
-                var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
+                var grid = TGrid.Grid.getGridObject(this.container);
 
                 grid.options.filterDescriptor.removeChildByPath(this.path());
                 if (this.condition != 0 /* None */) {
                     this.value = this.container.getElementsByTagName("input")[0].value;
-                    grid.options.filterDescriptor.addChild(new TesserisPro.TGrid.FilterDescriptor(this.path(), this.value, this.condition));
+                    grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.path(), this.value, this.condition));
                 }
                 grid.applyFilters();
 
@@ -55,7 +55,7 @@ var TesserisPro;
             };
 
             KnockoutFilterPopupViewModel.prototype.onClear = function () {
-                var grid = TesserisPro.TGrid.Grid.getGridObject(this.container);
+                var grid = TGrid.Grid.getGridObject(this.container);
                 grid.options.filterDescriptor.removeChildByPath(this.path());
                 grid.applyFilters();
 

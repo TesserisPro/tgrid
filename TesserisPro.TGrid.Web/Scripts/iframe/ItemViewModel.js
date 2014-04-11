@@ -56,9 +56,9 @@ var TesserisPro;
 
             ItemViewModel.prototype.closeDetailsForCell = function (columnIndex) {
                 if (this.grid.options.showCustomDetailFor.item == this.item) {
-                    this.grid.options.showDetailFor = new TesserisPro.TGrid.ShowDetail();
+                    this.grid.options.showDetailFor = new TGrid.ShowDetail();
                     this.grid.updateRow(this.item, false);
-                    this.grid.options.showCustomDetailFor = new TesserisPro.TGrid.ShowDetail();
+                    this.grid.options.showCustomDetailFor = new TGrid.ShowDetail();
                 }
             };
 

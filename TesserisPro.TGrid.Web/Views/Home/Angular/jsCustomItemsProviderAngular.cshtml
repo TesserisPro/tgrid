@@ -3,14 +3,14 @@
 </script>
 
 <pre class="brush: js">
-    var SimpleItemsProviderAngular = (function () {
+        var SimpleItemsProvider = (function () {
         var items = [
-            { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
-            //...add your items here
-        ];
-        function SimpleItemsProviderAngular() {
+            { Name: "John", Surname: "Figgins", Age: "20" },
+            // Another items here ... ];
+        function SimpleItemsProvider() {
+            
         }
-        SimpleItemsProviderAngular.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
+        SimpleItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
             var oldItems = new Array();
             oldItems = oldItems.concat(items);
             sort(sortDescriptors);
@@ -20,45 +20,38 @@
                 items = items.concat(oldItems);
             }, 200);
         };
-        SimpleItemsProviderAngular.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+        SimpleItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
             callback(onFiltering(filterDescriptors).length);
         };
-        function sort(sortDescriptor) {
-            if (sortDescriptor != null && sortDescriptor.length > 0 && isNotNull(sortDescriptor[0].path)) {
-                items.sort(function (a, b) {
-                    return sortingRecursive(a, b, sortDescriptor, 0);
-                });
-            }
+        ArrayItemsProvider.prototype.addItem = function (item) {
+            this.items.push(item);
+            if (this.onAdd)
+                this.onAdd(item);
         };
-        function sortingRecursive(a, b, sortDescriptor, i) {
-            if (i != sortDescriptor.length - 1) {
-                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
-                    return sortingOrder(sortDescriptor[i]);
-                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
-                    return sortingOrderDesc(sortDescriptor[i]);
-                return sortingRecursive(a, b, sortDescriptor, i + 1)
-            } else {
-                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+        ArrayItemsProvider.prototype.removeItem = function (item) {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i] == item) {
+                    this.items.splice(i, 1);
+                    break;
+                }
             }
-        }
-        function sortingOrder(sortDescriptor) {
-            return sortDescriptor.asc ? 1 : -1;
-        }
-        function sortingOrderDesc(sortDescriptor) {
-            return sortDescriptor.asc ? -1 : 1;
-        }
+            if (this.onRemove)
+                this.onRemove(item);
+        };
+        ArrayItemsProvider.prototype.clear = function () {
+                this.sourceItems = new Array();
+                if (this.onReset)
+                    this.onReset();
+        };
         function onFiltering(filterDescriptors, collapsedFilterDescriptors) {
             if ((filterDescriptors == null || filterDescriptors.length == 0) && (collapsedFilterDescriptors == null || collapsedFilterDescriptors.length == 0)) {
                 return items;
-            }
-            if (collapsedFilterDescriptors == undefined) {
-                collapsedFilterDescriptors = [];
             }
             var isCollapsedItem = [];
             for (var c = 0; c < collapsedFilterDescriptors.length; c++) {
                 isCollapsedItem.push(false);
             }
-            var filteredItems = [];
+            var filterdItems = [];
             for (var j = 0; j < items.length; j++) {
                 // filtering common filters
                 var isFiltered = 0;
@@ -77,9 +70,8 @@
                         i = collapsedFilterDescriptors.length;
                     }
                 }
-                //add fake item for creating collapsing group
                 if (isFiltered == 0 && !isCollapsedFiltered) {
-                    filteredItems.push(items[j]);
+                    filterdItems.push(items[j]);
                 } else {
                     if (isFiltered == 0) {
                         if (isCollapsedFiltered && !isCollapsedItem[numberfilter]) {
@@ -89,22 +81,22 @@
                             for (var i = 0; i < collapsedFilterDescriptors[numberfilter].children.length; i++) {
                                 fakeItem[collapsedFilterDescriptors[numberfilter].children[i].path] = collapsedFilterDescriptors[numberfilter].children[i].value;
                             }
-                            filteredItems.push(fakeItem);
+                            filterdItems.push(fakeItem);
                             isCollapsedItem[numberfilter] = true;
                         }
                     }
                 }
             }
-            return filteredItems;
+            return filterdItems;
         }
         function filter(item, filterDescriptors) {
-            if (!isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
+            if (isFiltering(item[filterDescriptors.path], filterDescriptors.value, filterDescriptors.condition)) {
                 if (filterDescriptors.children.length == 0) {
                     return true;
                 } else {
                     var result = 0
                     for (var i = 0; i < filterDescriptors.children.length; i++) {
-                        if (!isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
+                        if (isFiltering(item[filterDescriptors.children[i].path], filterDescriptors.children[i].value, filterDescriptors.children[i].condition)) {
                             result++;
                         }
                     }
@@ -116,7 +108,7 @@
             return false;
         }
         function isFiltering(item, value, condition) {
-            // on false push to filtered items
+            // on true push to filtered items
             switch (condition) {
                 case 1://equal
                     return (item == value);
@@ -125,8 +117,41 @@
             }
             return false;
         }
-        return SimpleItemsProviderAngular;
+        function sort(sortDescriptor) {
+            if (sortDescriptor != null && sortDescriptor.length > 0) {
+                items.sort(function (a, b) {
+                    return sortingRecursive(a, b, sortDescriptor, 0);
+                });
+            }
+        };
+        function sortingRecursive(a, b, sortDescriptor, i) {
+            if (i != sortDescriptor.length - 1) {
+                if (getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path))
+                    return sortingOrder(sortDescriptor[i]);
+                if (getMemberValue(b, sortDescriptor[i].path) > getMemberValue(a, sortDescriptor[i].path))
+                    return sortingOrderDesc(sortDescriptor[i]);
+                return sortingRecursive(a, b, sortDescriptor, i + 1)
+            } else {
+                return getMemberValue(a, sortDescriptor[i].path) > getMemberValue(b, sortDescriptor[i].path) ? sortingOrder(sortDescriptor[i]) : sortingOrderDesc(sortDescriptor[i]);
+            }
+        }
+        function sortingOrder(sortDescriptor) {
+            return sortDescriptor.asc ? -1 : 1;
+        }
+        function sortingOrderDesc(sortDescriptor) {
+            return sortDescriptor.asc ? 1 : -1;
+        }
+        function compareItems(item1, item2, columns) {
+            for (var i = 0; i < columns.length; i++) {
+                if (item1[columns[i]] != item2[columns[i]]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return SimpleItemsProvider;
     })();
+
     var sampleModule = angular.module("SampleModule", ['TGrid'])
         .controller("ctrl", function ctrl($scope) {
             $scope.dataProvider = new SimpleItemsProviderAngular();

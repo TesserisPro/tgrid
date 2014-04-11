@@ -110,7 +110,7 @@ module TesserisPro.TGrid {
                 }
                 self.refreshBody();
             }
-            this.itemProvider.onAddArray = function () {
+            this.itemProvider.onReset = function () {
                 if (!self.options.enableVirtualScroll) {
                     self.itemProvider.getTotalItemsCount(options.filterDescriptor, (total) => { self.options.firstLoadSize = total; });
                 }
@@ -122,9 +122,7 @@ module TesserisPro.TGrid {
                 }
                 self.refreshBody();
             }
-            this.itemProvider.onClear = function () {
-                self.refreshBody();
-            }
+
             this.htmlProvider = this.getHtmlProvider(this.options);
 
             this.footerViewModel = this.htmlProvider.getFooterViewModel(this);

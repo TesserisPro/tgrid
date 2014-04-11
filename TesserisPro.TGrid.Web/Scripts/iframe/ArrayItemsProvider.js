@@ -82,7 +82,8 @@ var TesserisPro;
 
             ArrayItemsProvider.prototype.addItem = function (item) {
                 this.sourceItems.push(item);
-                this.onAdd();
+                if (this.onAdd)
+                    this.onAdd(item);
             };
 
             ArrayItemsProvider.prototype.removeItem = function (item) {
@@ -92,7 +93,9 @@ var TesserisPro;
                         break;
                     }
                 }
-                this.onRemove();
+
+                if (this.onRemove)
+                    this.onRemove(item);
             };
 
             ArrayItemsProvider.prototype.getFirstItem = function () {
@@ -105,12 +108,16 @@ var TesserisPro;
 
             ArrayItemsProvider.prototype.addArray = function (array) {
                 this.sourceItems = this.sourceItems.concat(array);
-                this.onAddArray();
+                if (this.onReset)
+                    this.onReset();
             };
+
             ArrayItemsProvider.prototype.clear = function () {
                 this.sourceItems = new Array();
-                this.onClear();
+                if (this.onReset)
+                    this.onReset();
             };
+
             ArrayItemsProvider.prototype.sort = function (items, sortDescriptors) {
                 var _this = this;
                 if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
