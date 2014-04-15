@@ -123,6 +123,8 @@ module TesserisPro.TGrid {
         public rowClick: string;
         public captureScroll: boolean = true;
 
+        public ready: (options: Options) => void;
+
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;

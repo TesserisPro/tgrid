@@ -36,10 +36,10 @@ module TesserisPro.TGrid {
 
     export class ArrayItemsProvider implements IItemProvider {
         private sourceItems: Array<any>;
-        public onAdd: () => void;
-        public onRemove: () => void;
-        public onAddArray: () => void;
-        public onClear: () => void;
+        public onAdd: (item: any) => void;
+        public onRemove: (item: any) => void;
+        public onReset: () => void;
+
 
         constructor(items: Array<any>) {
             if (isObservable(items)) {
@@ -94,7 +94,8 @@ module TesserisPro.TGrid {
 
         public addItem(item: any) {
             this.sourceItems.push(item);
-            this.onAdd();
+            if (this.onAdd)
+                this.onAdd(item);
         }
 
         public removeItem(item: any) {
@@ -104,7 +105,9 @@ module TesserisPro.TGrid {
                     break;
                 }
             }
-            this.onRemove();
+
+            if (this.onRemove)
+                this.onRemove(item);
         }
 
         public getFirstItem(): any{
@@ -117,12 +120,16 @@ module TesserisPro.TGrid {
 
         public addArray(array: Array<any>): void{
             this.sourceItems = this.sourceItems.concat(array)
-            this.onAddArray();
+            if (this.onReset)
+                this.onReset();
         }
+
         public clear(): void{
             this.sourceItems = new Array();
-            this.onClear();
+            if (this.onReset)
+                this.onReset();
         }
+
         private sort(items: Array<any>, sortDescriptors: Array<SortDescriptor>) {
             if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
                 items.sort((a, b) => this.compareRecursive(a, b, sortDescriptors, 0));

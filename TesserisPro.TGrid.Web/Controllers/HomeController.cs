@@ -124,7 +124,7 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
-                title = "Add and remove items with items provider",
+                title = "Add/remove items with items provider",
                 url = "Knockout/AddRemoveItemsWithItemsProvider",
                 htmlUrl = "Knockout/AddRemoveItemsWithItemsProviderHtml",
                 cssUrl = "Knockout/StyleCss",

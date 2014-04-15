@@ -110,7 +110,7 @@ module TesserisPro.TGrid {
                 }
                 self.refreshBody();
             }
-            this.itemProvider.onAddArray = function () {
+            this.itemProvider.onReset = function () {
                 if (!self.options.enableVirtualScroll) {
                     self.itemProvider.getTotalItemsCount(options.filterDescriptor, (total) => { self.options.firstLoadSize = total; });
                 }
@@ -122,9 +122,7 @@ module TesserisPro.TGrid {
                 }
                 self.refreshBody();
             }
-            this.itemProvider.onClear = function () {
-                self.refreshBody();
-            }
+
             this.htmlProvider = this.getHtmlProvider(this.options);
 
             this.footerViewModel = this.htmlProvider.getFooterViewModel(this);
@@ -207,7 +205,6 @@ module TesserisPro.TGrid {
                 this.bodyAndHeaderContainer.appendChild(this.scrollBar);
 
                 this.scrollBar.onscroll = () => this.onManualScroll();
-
             }
 
             
@@ -240,12 +237,9 @@ module TesserisPro.TGrid {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
             }
 
-            //if(this.options.framework != Framework.Angular){
-                this.rootElement.tabIndex = 0;
-                this.rootElement.onkeydown = e => this.keyPress(e);
-           // }
-            
-            
+            this.rootElement.tabIndex = 0;
+            this.rootElement.onkeydown = e => this.keyPress(e);
+
             this.tableBodyContainer.onmousedown = e => {
                 if (e.button == 1) {
                     e.preventDefault();
@@ -253,6 +247,9 @@ module TesserisPro.TGrid {
             }
 
             this.hideBuisyIndicator();
+            if (this.options.ready) {
+                this.options.ready(this.options);
+            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -1104,7 +1101,6 @@ module TesserisPro.TGrid {
                                 this.updateFooterViewModel();
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
-
                                 }
 
                                 //to avoid infinite loop.

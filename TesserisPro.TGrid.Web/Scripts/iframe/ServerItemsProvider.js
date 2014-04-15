@@ -70,12 +70,14 @@ var TesserisPro;
 
             //this method need to be implemented
             ServerItemsProvider.prototype.removeItem = function (item) {
-                this.onRemove();
+                if (this.onRemove)
+                    this.onRemove(item);
             };
 
             //this method need to be implemented
             ServerItemsProvider.prototype.addItem = function (item) {
-                this.onAdd();
+                if (this.onAdd)
+                    this.onAdd(item);
             };
 
             ServerItemsProvider.prototype.getFirstItem = function () {
@@ -86,13 +88,15 @@ var TesserisPro;
             //this method need to be implemented
             ServerItemsProvider.prototype.addArray = function (array) {
                 this.items.concat(array);
-                this.onAddArray();
+                if (this.onReset)
+                    this.onReset();
             };
 
             //this method need to be implemented
             ServerItemsProvider.prototype.clear = function () {
                 this.items = new Array();
-                this.onClear();
+                if (this.onReset)
+                    this.onReset();
             };
             return ServerItemsProvider;
         })();

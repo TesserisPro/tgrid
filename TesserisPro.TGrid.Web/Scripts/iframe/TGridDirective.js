@@ -130,16 +130,17 @@ var TGrid;
                     options.captureScroll = attrs["capturescroll"] == "false" ? false : true;
                 }
 
+                var ready = attrs["ready"];
+                if (ready != undefined && typeof scope[ready] == 'function') {
+                    options.ready = scope[ready];
+                }
+
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
                 if (attrs["options"] != undefined) {
                     options.apply = function () {
                         grid.afterOptionsChange();
                     };
                     scope[attrs["options"]] = options;
-                }
-                var ready = attrs["ready"];
-                if (ready != undefined && typeof scope[ready] == 'function') {
-                    scope[ready](options);
                 }
             };
 
