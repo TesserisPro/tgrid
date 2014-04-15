@@ -145,13 +145,9 @@ module TesserisPro.TGrid {
                 if (containsClass(tableRows.item(i),"tgrid-table-body-row")) {
                     dataRow = tableRows.item(i);
                     if (dataRow != undefined) {
-                        var columns = dataRow.getElementsByTagName("td");
+                        var columns = dataRow.getElementsByClassName("tgrid-table-data-cell");
                         columnNumber = 0;
                         for (var j = 0; j < columnsCount; j++) {
-
-                            if (containsClass((<HTMLElement>columns.item(j)), "tgrid-table-indent-cell")) {
-                                continue;
-                            }
 
                             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                                 columnNumber++;

@@ -440,6 +440,9 @@ th.tgrid-placeholder {
     min-width: 14px;
 }
 
+th.tgrid-placeholder-width{
+    width: 14px;
+}
 
 .tgrid-group-by-element {
     margin: 4px;

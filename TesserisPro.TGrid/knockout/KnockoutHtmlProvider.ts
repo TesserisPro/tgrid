@@ -195,7 +195,7 @@ module TesserisPro.TGrid {
             var placeholderColumn = document.createElement("th");
             addClass(placeholderColumn, "tgrid-placeholder");
             if (hasNotSizedColumn) {
-                placeholderColumn.style.width = "12px";
+                addClass(placeholderColumn, "tgrid-placeholder-width");
             }
             head.appendChild(placeholderColumn);
             
@@ -318,6 +318,7 @@ module TesserisPro.TGrid {
                         hasNotSizedColumn = true;
                     }
                     var cell = document.createElement("td");
+                    addClass(cell, "tgrid-table-data-cell");
                     var cellContent = document.createElement("div");
                     cellContent.className = "tgrid-cell-content";
                     cellContent.style.overflow = "hidden";
@@ -339,6 +340,7 @@ module TesserisPro.TGrid {
             } else {
                 var placeholderColumn = document.createElement("td");
                 addClass(placeholderColumn, "tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-table-data-cell");
 
                 row.appendChild(placeholderColumn);
             }

@@ -255,7 +255,7 @@ module TesserisPro.TGrid {
             var placeholderColumn = document.createElement("th");
             addClass(placeholderColumn, "tgrid-placeholder");
             if (hasNotSizedColumn) {
-                placeholderColumn.style.width = "12px";
+                addClass(placeholderColumn, "tgrid-placeholder-width");
             }
             head.appendChild(placeholderColumn);
             
@@ -330,7 +330,7 @@ module TesserisPro.TGrid {
         }
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, row: HTMLTableRowElement) {
-            this.appendIndentRow(row, option.groupBySortDescriptors.length);
+            this.appendIndentRow(row, option.columns.length);
             var hasNotSizedColumn = false;
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -339,6 +339,7 @@ module TesserisPro.TGrid {
                     }
                     var cell = document.createElement("td");
                     cell.setAttribute("ng-hide", "item.isGroupHeader");
+                    cell.className = "tgrid-table-data-cell";
 
                     var cellContent = document.createElement("div");
                     cellContent.className = "tgrid-cell-content";
@@ -365,11 +366,8 @@ module TesserisPro.TGrid {
             if (!hasNotSizedColumn) {
                 var placeholderColumn = document.createElement("td");
                 addClass(placeholderColumn, "tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-table-data-cell");
                 placeholderColumn.setAttribute("ng-hide", "item.isGroupHeader");
-                //var input = document.createElement("input");
-                //input.setAttribute("type", "text");
-                //input.setAttribute("ui-keydown", "{38:'item.keyPress($event, item, items)'}");
-                //placeholderColumn.appendChild(input);
                 row.appendChild(placeholderColumn);
             }
         }
@@ -776,7 +774,7 @@ module TesserisPro.TGrid {
             for (var i = 0; i < level; i++) {
                 var cell = document.createElement("td");
                 cell.className = "tgrid-table-indent-cell";
-                cell.setAttribute("ng-hide", "item.isGroupHeader");
+                cell.setAttribute("ng-hide", "item.isGroupHeader || $parent.options.groupBySortDescriptors.length <=".concat(i.toString()));
                 var indentContent = document.createElement("div");
                 indentContent.className = "tgrid-table-indent-cell-content";
                 cell.appendChild(indentContent);
@@ -787,14 +785,12 @@ module TesserisPro.TGrid {
             for (var i = 0; i < level; i++) {
                 var cell = document.createElement("td");
                 cell.className = "tgrid-table-indent-cell";
-                cell.setAttribute("ng-hide", "!item.isGroupHeader || ".concat(i.toString()).concat(" >= item.item.level"));
+                cell.setAttribute("ng-hide", "!item.isGroupHeader || item.item.level <= ".concat(i.toString()));
                 var indentContent = document.createElement("div");
                 indentContent.className = "tgrid-table-indent-cell-content";
                 cell.appendChild(indentContent);
                 target.appendChild(cell);
             }
         }
-
-    
     }
 }
