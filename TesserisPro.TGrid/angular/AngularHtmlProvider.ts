@@ -386,7 +386,7 @@ module TesserisPro.TGrid {
 
             if (option.enableCollapsing) {
                 addClass(groupHeaderTd, "collapsing");
-                groupHeaderTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
+                groupHeaderTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item); $event.stopPropagation();");
             }
             groupHeaderTr.appendChild(groupHeaderTd);
         }
