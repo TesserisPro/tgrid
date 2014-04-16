@@ -92,6 +92,8 @@ module TesserisPro.TGrid {
 
         private isBuisy: boolean = false;
 
+        private isFirstRefresh = true; 
+
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
             this.targetElement = element;
@@ -247,9 +249,6 @@ module TesserisPro.TGrid {
             }
 
             this.hideBuisyIndicator();
-            if (this.options.ready) {
-                this.options.ready(this.options);
-            }
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -1102,7 +1101,7 @@ module TesserisPro.TGrid {
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
                                 }
-
+                                
                                 //to avoid infinite loop.
                                 var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, null) : this.htmlProvider.getElementsSize(this.mobileContainer, null);
                                 if (elementsSize > 0 && this.options.firstLoadSize > 0 && isNotNoU(this.options.firstLoadSize)) {
@@ -1110,17 +1109,22 @@ module TesserisPro.TGrid {
                                         this.options.firstLoadSize *= 2;
                                         if (this.options.firstLoadSize > this.totalItemsCount) {
                                             this.options.firstLoadSize = this.totalItemsCount;
-                                        }
+                                        } 
                                         this.refreshBody();
                                     }
-
-                                    if (!this.isDesktopMode() && this.htmlProvider.getElementsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                    else if (!this.isDesktopMode() && this.htmlProvider.getElementsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
                                         this.options.firstLoadSize *= 2;
                                         if (this.options.firstLoadSize > this.totalItemsCount) {
                                             this.options.firstLoadSize = this.totalItemsCount;
                                         }
                                         this.refreshBody();
                                     }
+                                    else {
+                                        this.onReady();
+                                    }
+                                }
+                                else {
+                                    this.onReady();
                                 }
                             })
                     });
@@ -1144,9 +1148,19 @@ module TesserisPro.TGrid {
                                 if (withBuisy) {
                                     this.hideBuisyIndicator();
                                 }
+                                this.onReady();
                             })
                         }
                     );
+            }
+        }
+
+        private onReady() {
+            if (this.isFirstRefresh) {
+                if (isNotNoU(this.options.ready)) {
+                    this.options.ready(this.options);
+                }
+                this.isFirstRefresh = false;
             }
         }
 

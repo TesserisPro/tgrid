@@ -584,10 +584,6 @@ module TesserisPro.TGrid {
 
             var headerDiv = document.createElement("div");
             headerDiv.setAttribute("ng-hide", "!item.isGroupHeader");
-            if (option.enableCollapsing) {
-                addClass(headerDiv, "collapsing");
-                headerDiv.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
-            }
 
             if (option.groupHeaderTemplate != null) {
                 option.groupHeaderTemplate.applyTemplate(headerDiv);
@@ -596,6 +592,11 @@ module TesserisPro.TGrid {
             }
 
             addClass(headerDiv, 'tgrid-mobile-group-header-container');
+
+            if (option.enableCollapsing) {
+                addClass(mobileRow, "collapsing");
+                mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
+            }
             mobileRow.appendChild(headerDiv);
         }
         private appendIndentMobileGroupHeader(target: HTMLElement, level: number) {

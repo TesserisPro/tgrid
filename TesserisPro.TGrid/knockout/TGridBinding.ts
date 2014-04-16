@@ -50,7 +50,10 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
                 options.apply = function () { grid.afterOptionsChange(); };
                 valueAccessor().options(options);
             }
-           
+            if (valueAccessor().bindingReady != undefined && typeof valueAccessor().bindingReady == 'function') {
+                valueAccessor().bindingReady(options);
+            }
+
         }, 1);
        
     }

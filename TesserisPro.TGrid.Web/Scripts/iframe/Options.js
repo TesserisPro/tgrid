@@ -113,7 +113,7 @@ var TesserisPro;
                 this.currentPage = 0;
                 this.groupBySortDescriptors = [];
                 this.selectionMode = 1 /* Single */;
-                this.filterDescriptor = TGrid.FilterDescriptor.getEmpty();
+                this.filterDescriptor = TesserisPro.TGrid.FilterDescriptor.getEmpty();
                 this.tableFooterTemplate = null;
                 this.selection = [];
                 this.columnMinWidth = 5;

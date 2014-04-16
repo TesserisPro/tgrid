@@ -132,7 +132,7 @@ var TesserisPro;
             };
 
             AngularHtmlProvider.prototype.getFooterViewModel = function (grid) {
-                var angularFooterViewModel = new TGrid.AngularFooterViewModel(grid);
+                var angularFooterViewModel = new TesserisPro.TGrid.AngularFooterViewModel(grid);
                 angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
                 angular.module(angularFooterViewModel.angularModuleName, []).controller('tgrid-footer-controller', [
                     '$scope', function ($scope) {
@@ -142,7 +142,7 @@ var TesserisPro;
             };
 
             AngularHtmlProvider.prototype.getFilterPopupViewModel = function (container) {
-                var angularFilterPopupViewModel = new TGrid.AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
+                var angularFilterPopupViewModel = new TesserisPro.TGrid.AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
                 angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
                 var angularFilterModule = angular.module(angularFilterPopupViewModel.angularModuleName, []).controller('tgrid-filter-popup-controller', [
                     '$scope', function ($scope) {
@@ -163,7 +163,7 @@ var TesserisPro;
                 var head = document.createElement("tr");
 
                 this.appendIndent(head, option.columns.length, true);
-                this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
+                this.showNeededIndents(head, option.groupBySortDescriptors.length, TesserisPro.TGrid.Grid.getGridObject(header));
 
                 var hasNotSizedColumn = false;
                 if (option.columns.length > 0) {
@@ -202,7 +202,7 @@ var TesserisPro;
                                 // Method changing sorting
                                 (function (i) {
                                     headerCell.onclick = function (e) {
-                                        return TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
+                                        return TesserisPro.TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
                                     };
                                 })(i);
 
@@ -583,10 +583,6 @@ var TesserisPro;
 
                 var headerDiv = document.createElement("div");
                 headerDiv.setAttribute("ng-hide", "!item.isGroupHeader");
-                if (option.enableCollapsing) {
-                    addClass(headerDiv, "collapsing");
-                    headerDiv.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
-                }
 
                 if (option.groupHeaderTemplate != null) {
                     option.groupHeaderTemplate.applyTemplate(headerDiv);
@@ -595,6 +591,11 @@ var TesserisPro;
                 }
 
                 addClass(headerDiv, 'tgrid-mobile-group-header-container');
+
+                if (option.enableCollapsing) {
+                    addClass(mobileRow, "collapsing");
+                    mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
+                }
                 mobileRow.appendChild(headerDiv);
             };
             AngularHtmlProvider.prototype.appendIndentMobileGroupHeader = function (target, level) {
@@ -752,7 +753,7 @@ var TesserisPro;
                 applyButton.className = "tgrid-filter-popup-button";
                 applyButton.style.width = '70px';
                 applyButton.onclick = function (e) {
-                    var grid = TGrid.Grid.getGridObject(e.target);
+                    var grid = TesserisPro.TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onApply();
                 };
                 applyButton.innerHTML = "OK";
@@ -762,7 +763,7 @@ var TesserisPro;
                 clearButton.className = 'tgrid-filter-popup-button';
                 clearButton.style.width = '70px';
                 clearButton.onclick = function (e) {
-                    var grid = TGrid.Grid.getGridObject(e.target);
+                    var grid = TesserisPro.TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onClose();
                     filterText.setAttribute("value", "");
                 };
@@ -794,7 +795,7 @@ var TesserisPro;
             };
             AngularHtmlProvider.moduleFooterCounter = 0;
             return AngularHtmlProvider;
-        })(TGrid.BaseHtmlProvider);
+        })(TesserisPro.TGrid.BaseHtmlProvider);
         TGrid.AngularHtmlProvider = AngularHtmlProvider;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;

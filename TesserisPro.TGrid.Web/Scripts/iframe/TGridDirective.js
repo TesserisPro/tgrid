@@ -142,6 +142,11 @@ var TGrid;
                     };
                     scope[attrs["options"]] = options;
                 }
+
+                var bindingReady = attrs["bindingready"];
+                if (ready != undefined && typeof scope[bindingReady] == 'function') {
+                    scope[bindingReady](options);
+                }
             };
 
             return directive;

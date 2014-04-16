@@ -44,7 +44,7 @@ var TesserisPro;
                 _super.call(this, model, item, grid, isGroupHeader);
             }
             return AngularItemViewModel;
-        })(TGrid.ItemViewModel);
+        })(TesserisPro.TGrid.ItemViewModel);
         TGrid.AngularItemViewModel = AngularItemViewModel;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;

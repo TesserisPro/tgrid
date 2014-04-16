@@ -48,6 +48,9 @@ var TGridBindingHandler = (function () {
                 };
                 valueAccessor().options(options);
             }
+            if (valueAccessor().bindingReady != undefined && typeof valueAccessor().bindingReady == 'function') {
+                valueAccessor().bindingReady(options);
+            }
         }, 1);
     };
 

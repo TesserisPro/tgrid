@@ -162,6 +162,7 @@ th.tgrid-table-indent-cell-content
     border-right: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
     border-left:1px solid #BEBEBE;
+    margin-top:auto;
 }
 
 .tgrid-tableheadercontainer {
@@ -637,7 +638,12 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
 .tgrid-edit-input {
      width: 85%;
      display: none;
-}    
+}
+
+.tgrid-edit-span{
+    min-height: 20px;
+    overflow: hidden;
+} 
 
 .tgrid-choose-page-input {
     width: 25px;
