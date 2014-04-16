@@ -549,7 +549,7 @@ module TesserisPro.TGrid {
             if (isNotNull(option.rowClick)) {
                 action = "item.model.".concat(option.rowClick).concat("(item.item ,$event);");
             }
-            mobileContainer.setAttribute("ng-click", action);
+            mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? ".concat(action).concat(" : item.toggleGroupCollapsing($event, item)"));
             rowsContainer.appendChild(mobileContainer);
             var detailsRow = this.buildMobileDetailsRow(option);
             rowsContainer.appendChild(detailsRow);
@@ -595,7 +595,6 @@ module TesserisPro.TGrid {
 
             if (option.enableCollapsing) {
                 addClass(mobileRow, "collapsing");
-                mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item)");
             }
             mobileRow.appendChild(headerDiv);
         }

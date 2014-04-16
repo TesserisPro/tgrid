@@ -85,7 +85,7 @@ module TesserisPro.TGrid {
                 this.$scope.items[i].closeDetailForCell = (columnIndex: number, item: AngularItemViewModel)=> {
                     item.closeDetailsForCell(columnIndex);
                 }
-                this.$scope.items[i].select = (e: KeyboardEvent, item: ItemViewModel, items) => {
+                this.$scope.items[i].select = (e: KeyboardEvent, item: AngularItemViewModel, items) => {
                     this.selected(item, e.ctrlKey);
                 }
             }
