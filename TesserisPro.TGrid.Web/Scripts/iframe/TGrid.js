@@ -108,7 +108,7 @@ var TesserisPro;
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                     this.filterPopUp.style.display = "none";
-                    this.targetElement.appendChild(this.filterPopUp);
+                    this.rootElement.appendChild(this.filterPopUp);
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 }
@@ -221,6 +221,10 @@ var TesserisPro;
 
                 this.hideBuisyIndicator();
             }
+            Grid.prototype.GetRootElement = function () {
+                return this.rootElement;
+            };
+
             Grid.getGridObject = function (element) {
                 if (element == null) {
                     return null;

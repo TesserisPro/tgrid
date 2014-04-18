@@ -406,15 +406,17 @@ var TesserisPro;
                 (function (columnNumber) {
                     filter.onclick = function (e) {
                         var eventTarget = e.target;
-                        var headerBottomY = header.getBoundingClientRect().bottom;
-                        var eventTargetLeftX = eventTarget.getBoundingClientRect().left;
+                        var grid = TGrid.Grid.getGridObject(eventTarget);
+                        var popupTop = header.getBoundingClientRect().bottom - grid.GetRootElement().getBoundingClientRect().top;
+                        var poupLeft = eventTarget.getBoundingClientRect().left - grid.GetRootElement().getBoundingClientRect().left;
+
                         if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
-                            TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX, headerBottomY, true);
-                            if ((eventTargetLeftX + filterPopupContainer.offsetWidth) > header.getBoundingClientRect().right) {
-                                TGrid.Grid.getGridObject(eventTarget).showFilterPopup(option.columns[columnNumber], eventTargetLeftX - filterPopupContainer.offsetWidth, headerBottomY, true);
+                            grid.showFilterPopup(option.columns[columnNumber], poupLeft, popupTop, true);
+                            if ((poupLeft + filterPopupContainer.offsetWidth) > (header.getBoundingClientRect().right - grid.GetRootElement().getBoundingClientRect().left)) {
+                                grid.showFilterPopup(option.columns[columnNumber], poupLeft - filterPopupContainer.offsetWidth + eventTarget.offsetWidth, popupTop, true);
                             }
                         } else {
-                            TGrid.Grid.getGridObject(eventTarget).hideFilterPopup();
+                            grid.hideFilterPopup();
                         }
                         self.doOnClickOutside(filterPopupContainer, function () {
                             var grid = TGrid.Grid.getGridObject(eventTarget);
