@@ -24,6 +24,14 @@
 
         self.deleteColumn = function (column) {
             for (var i = 0; i < self.gridOptions().columns.length; i++) {
+				for (j = 0; j < self.gridOptions().groupBySortDescriptors.length; j++) {
+                    if (self.gridOptions().groupBySortDescriptors[j].path == self.gridOptions().columns[i].member) {
+                    	self.gridOptions().groupBySortDescriptors.splice(j, 1);
+                    }
+                }
+                if (self.gridOptions().sortDescriptor.path == self.gridOptions().columns[i].member) {
+                    self.gridOptions().sortDescriptor = new TesserisPro.TGrid.SortDescriptor();
+                }
                 if (column.member == self.gridOptions().columns[i].member) {
                     self.membersOfColumnsForAdding.push(self.gridOptions().columns[i].member);
                     self.availableColumns.splice(i, 1);

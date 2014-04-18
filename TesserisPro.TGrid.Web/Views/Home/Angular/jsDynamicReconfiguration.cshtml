@@ -25,6 +25,14 @@
 
             $scope.delete = function (column) {
                 for (var i = 0; i < $scope.gridOptions.columns.length; i++) {
+					for (j = 0; j < $scope.gridOptions.groupBySortDescriptors.length; j++) {
+                		if ($scope.gridOptions.groupBySortDescriptors[j].path == $scope.gridOptions.columns[i].member) {
+                			$scope.gridOptions.groupBySortDescriptors.splice(j, 1);
+                		}
+                	}
+                	if ($scope.gridOptions.sortDescriptor.path == $scope.gridOptions.columns[i].member) {
+                		$scope.gridOptions.sortDescriptor = new TesserisPro.TGrid.SortDescriptor();
+                	}
                     if (column.member == $scope.gridOptions.columns[i].member) {
                         $scope.membersOfColumnsForAdding.push($scope.gridOptions.columns[i].member);
                         $scope.availableColumns.splice(i, 1);

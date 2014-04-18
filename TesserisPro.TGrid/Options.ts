@@ -52,6 +52,9 @@ module TesserisPro.TGrid {
         public resizable: boolean = true;
         public filterMemberPath: string = null;
         public notSized: boolean = false;
+        public enableFiltering: boolean = true;
+        public enableSorting: boolean = true;
+        public enableGrouping: boolean = true;
     }
 
     export class ShowDetail {
@@ -181,6 +184,15 @@ module TesserisPro.TGrid {
                     if (columns[i].attributes['data-g-not-sized'] != undefined) {
                         column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
                         this.hasAnyNotSizedColumn = true;
+                    }
+                    if (columns[i].attributes['data-g-enable-filtering'] != undefined) {
+                        column.enableFiltering = columns[i].attributes['data-g-enable-filtering'].nodeValue == 'false' ? false : true;
+                    }
+                    if (columns[i].attributes['data-g-enable-sorting'] != undefined) {
+                        column.enableSorting = columns[i].attributes['data-g-enable-sorting'].nodeValue == 'false' ? false : true;
+                    }
+                    if (columns[i].attributes['data-g-enable-grouping'] != undefined) {
+                        column.enableGrouping = columns[i].attributes['data-g-enable-grouping'].nodeValue == 'false' ? false : true;
                     }
 
                     column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

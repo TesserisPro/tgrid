@@ -139,7 +139,7 @@ module TesserisPro.TGrid {
                         }
 
                         // Arrows
-                        if (option.enableSorting) {
+                        if (option.enableSorting && option.columns[i].enableSorting) {
                             // Method changing sorting
                             (function (i) {
                                 headerCell.onclick = (e) => Grid.getGridObject(<HTMLElement>e.target).sortBy(option.columns[i].sortMemberPath);
@@ -148,9 +148,10 @@ module TesserisPro.TGrid {
                                 this.addArrows(headerButtons, option, i);
                             }
                         }
-
-                        // Filter
-                        this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+                        if (option.enableFiltering && option.columns[i].enableFiltering) {
+                            // Filter
+                            this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+                        }
 
                         if (option.columns[i].resizable) {
                             var columnResize = document.createElement("div");

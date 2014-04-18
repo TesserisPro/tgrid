@@ -69,6 +69,9 @@ var TesserisPro;
                 this.resizable = true;
                 this.filterMemberPath = null;
                 this.notSized = false;
+                this.enableFiltering = true;
+                this.enableSorting = true;
+                this.enableGrouping = true;
             }
             return ColumnInfo;
         })();
@@ -113,7 +116,7 @@ var TesserisPro;
                 this.currentPage = 0;
                 this.groupBySortDescriptors = [];
                 this.selectionMode = 1 /* Single */;
-                this.filterDescriptor = TesserisPro.TGrid.FilterDescriptor.getEmpty();
+                this.filterDescriptor = TGrid.FilterDescriptor.getEmpty();
                 this.tableFooterTemplate = null;
                 this.selection = [];
                 this.columnMinWidth = 5;
@@ -173,6 +176,15 @@ var TesserisPro;
                         if (columns[i].attributes['data-g-not-sized'] != undefined) {
                             column.notSized = columns[i].attributes['data-g-not-sized'].nodeValue == 'true' ? true : false;
                             this.hasAnyNotSizedColumn = true;
+                        }
+                        if (columns[i].attributes['data-g-enable-filtering'] != undefined) {
+                            column.enableFiltering = columns[i].attributes['data-g-enable-filtering'].nodeValue == 'false' ? false : true;
+                        }
+                        if (columns[i].attributes['data-g-enable-sorting'] != undefined) {
+                            column.enableSorting = columns[i].attributes['data-g-enable-sorting'].nodeValue == 'false' ? false : true;
+                        }
+                        if (columns[i].attributes['data-g-enable-grouping'] != undefined) {
+                            column.enableGrouping = columns[i].attributes['data-g-enable-grouping'].nodeValue == 'false' ? false : true;
                         }
 
                         column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

@@ -86,7 +86,6 @@
 }
 
 .tgrid-table tbody tr td {
-    overflow: hidden;
     line-height: 1.6em;
     vertical-align: middle;
     text-overflow: ellipsis;
@@ -97,7 +96,6 @@
 }
 
 .tgrid-table-group-header {
-    overflow: hidden;
     line-height: 1.6em;
     vertical-align: middle;
     text-overflow: ellipsis;
@@ -168,7 +166,9 @@ th.tgrid-table-indent-cell-content
 .tgrid-tableheadercontainer {
     border: 1px solid #BEBEBE;
     border-bottom: none;
+    overflow-x: hidden;
 }
+
 
 .tgrid-pagination {
     padding-top: 3px;
@@ -293,7 +293,7 @@ td a {
     position: absolute;
     top: 16px;
     padding: 3px;
-    z-index:1;
+    z-index: 1;
     border: 1px solid #BEBEBE;
     width: 162px;
 }
@@ -309,7 +309,7 @@ td a {
     margin: 4px 0;
 }
 
-.tgrid-filter-popup > input, .tgrid-filter-popup-container>input {
+.tgrid-filter-popup> input, .tgrid-filter-popup-container>input {
     width: 155px;
     height:20px;
 }
@@ -333,7 +333,7 @@ td a {
     right: 2px;
 }
 
-.tgrid-mobile-filter-button, .tgrid-mobile-filter-button-active {
+.tgrid-mobile-filter-button, .tgrid-mobile-filter-button-active, .tgrid-mobile-filter-button-inactive {
     display: inline-block;
     text-align: right;    
     height: 32px;
@@ -358,6 +358,9 @@ td a {
 .tgrid-mobile-filter-button-active{
     background: url(images/filter_mobile_active.png) no-repeat;
 }
+.tgrid-mobile-filter-button-inactive{
+    background: url(images/filter_mobile_inactive.png) no-repeat;
+}
 
 .tgrid-group-button-active{
     background: url(images/group_mobile_active.png) no-repeat center;
@@ -367,8 +370,11 @@ td a {
     background: url(images/group_mobile.png) no-repeat center;
    /*background-color: #BEBEBE;*/
 }
+.tgrid-mobile-group-button-inactive{
+    background: url(images/group_mobile_inactive.png) no-repeat center;
+}
 
-.tgrid-group-button, .tgrid-group-button-active {
+.tgrid-group-button, .tgrid-group-button-active, .tgrid-mobile-group-button-inactive{
     display: inline-block;
     text-align: right;    
     height: 32px;
@@ -400,7 +406,7 @@ td a {
     right: 44px;
 }
 
-.tgrid-sort-button, .tgrid-sort-button-asc, .tgrid-sort-button-desc {
+.tgrid-sort-button, .tgrid-sort-button-asc, .tgrid-sort-button-desc, .tgrid-mobile-sort-button-inactive {
     display: inline-block;
     text-align: right;    
     height: 32px;
@@ -412,7 +418,9 @@ td a {
 .tgrid-sort-button {
     background: url(images/no_sort_mobile.png) no-repeat center;
 }
-
+.tgrid-mobile-sort-button-inactive{
+    background: url(images/sort_mobile_inactive.png) no-repeat center;
+}
 .tgrid-sort-button-asc{
     background: url(images/arrow_up_mobile.png) no-repeat center;
 }
@@ -434,6 +442,12 @@ td a {
 .tgrid-sort-button,.tgrid-sort-button-asc, .tgrid-sort-button-desc {
     background-color: whitesmoke;
     border: 1px solid #A39A9A;
+    border-radius: 2px;
+}
+
+.tgrid-mobile-filter-button-inactive, .tgrid-mobile-group-button-inactive, .tgrid-mobile-sort-button-inactive{
+    background-color: whitesmoke;
+    border: 1px solid #BEBEBE;
     border-radius: 2px;
 }
 

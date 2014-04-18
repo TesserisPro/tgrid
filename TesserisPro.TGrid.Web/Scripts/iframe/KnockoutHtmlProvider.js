@@ -89,12 +89,12 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.getFooterViewModel = function (grid) {
-                var knockoutFooterViewModel = new TesserisPro.TGrid.KnockoutFooterViewModel(0, 0, 0, 0, grid);
+                var knockoutFooterViewModel = new TGrid.KnockoutFooterViewModel(0, 0, 0, 0, grid);
                 return knockoutFooterViewModel;
             };
 
             KnockoutHtmlProvider.prototype.getFilterPopupViewModel = function (container) {
-                var filterPopupViewModel = new TesserisPro.TGrid.KnockoutFilterPopupViewModel(container, this.onCloseFilterPopup);
+                var filterPopupViewModel = new TGrid.KnockoutFilterPopupViewModel(container, this.onCloseFilterPopup);
                 return filterPopupViewModel;
             };
 
@@ -108,7 +108,7 @@ var TesserisPro;
                 // Create table header
                 var head = document.createElement("tr");
                 this.appendIndent(head, option.columns.length, true);
-                this.showNeededIndents(head, option.groupBySortDescriptors.length, TesserisPro.TGrid.Grid.getGridObject(header));
+                this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
 
                 var hasNotSizedColumn = false;
                 if (option.columns.length > 0) {
@@ -143,20 +143,21 @@ var TesserisPro;
                             }
 
                             // Arrows
-                            if (option.enableSorting) {
+                            if (option.enableSorting && option.columns[i].enableSorting) {
                                 // Method changing sorting
                                 (function (i) {
                                     headerCell.onclick = function (e) {
-                                        return TesserisPro.TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
+                                        return TGrid.Grid.getGridObject(e.target).sortBy(option.columns[i].sortMemberPath);
                                     };
                                 })(i);
                                 if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
                                     this.addArrows(headerButtons, option, i);
                                 }
                             }
-
-                            // Filter
-                            this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+                            if (option.enableFiltering && option.columns[i].enableFiltering) {
+                                // Filter
+                                this.addFilterButton(option, header, filterPopupContainer, headerButtons, i);
+                            }
 
                             if (option.columns[i].resizable) {
                                 var columnResize = document.createElement("div");
@@ -653,7 +654,7 @@ var TesserisPro;
                 applyButton.className = "tgrid-filter-popup-button";
                 applyButton.style.width = '70px';
                 applyButton.onclick = function (e) {
-                    var grid = TesserisPro.TGrid.Grid.getGridObject(e.target);
+                    var grid = TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onApply();
                 };
                 applyButton.innerHTML = "OK";
@@ -663,7 +664,7 @@ var TesserisPro;
                 clearButton.className = 'tgrid-filter-popup-button';
                 clearButton.style.width = '70px';
                 clearButton.onclick = function (e) {
-                    var grid = TesserisPro.TGrid.Grid.getGridObject(e.target);
+                    var grid = TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onClose();
                     filterText.setAttribute("value", "");
                 };
@@ -671,7 +672,7 @@ var TesserisPro;
                 filterPopupContainer.appendChild(clearButton);
             };
             return KnockoutHtmlProvider;
-        })(TesserisPro.TGrid.BaseHtmlProvider);
+        })(TGrid.BaseHtmlProvider);
         TGrid.KnockoutHtmlProvider = KnockoutHtmlProvider;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;

@@ -136,12 +136,16 @@ module TesserisPro.TGrid {
             this.groupByElement.className = "tgrid-group-by-panel desktop";
             this.rootElement.appendChild(this.groupByElement);
 
+           
+          
             this.headerContainer = document.createElement("div");
             this.headerContainer.className = "tgrid-tableheadercontainer desktop";
-            this.headerContainer.style.overflowX = "hidden";
+            
+            //this.headerContainer.style.overflowX = "hidden";
             var headerTable = document.createElement("table");
             headerTable.className = "tgrid-table";
             this.headerContainer.appendChild(headerTable);
+           
             
             // filter popup
             if (this.options.enableFiltering) {
