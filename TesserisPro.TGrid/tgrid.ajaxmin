@@ -2,7 +2,58 @@
 
 <root>
   
+  <output path="bin/tgrid.js">
+	<arguments>-minify:false -braces:source -line:multiple</arguments>
+    <input path="license.js"/>
+	<input path="BaseHtmlProvider.js"/>
+    <input path="FilterDescriptor.js"/>
+    <input path="IFooterViewModel.js"/>
+    <input path="IFilterPopupViewModel.js"/>
+    <input path="GroupHeaderDescriptor.js"/>
+    <input path="IHtmlProvider.js"/>
+    <input path="IItemProvider.js"/>
+    <input path="ItemViewModel.js"/>
+    <input path="Options.js"/>
+    <input path="SortDescriptor.js"/>
+    <input path="TGrid.js"/>
+    <input path="utils.js"/>
+  </output>
+  
+  <output path="bin/tgrid-angular.js">
+	<arguments>-minify:false -braces:source -line:multiple</arguments>
+	<input path="license.js"/>	
+    <input path="angular/AngularHtmlProvider.js"/>
+    <input path="angular/TGridDirective.js"/>
+    <input path="angular/AngularFooterViewModel.js"/>
+    <input path="angular/AngularFilterPopupViewModel.js"/>
+    <input path="angular/AngularItemViewModel.js"/>
+    <input path="angular/AngularItemsViewModel.js"/>
+    <input path="angular/AngularModuleTGrid.js"/>
+  </output>
+  
+  <output path="bin/tgrid-knockout.js">
+	<arguments>-minify:false -braces:source -line:multiple</arguments>
+    <input path="license.js"/>	
+	<input path="knockout/KnockoutHtmlProvider.js"/>
+    <input path="knockout/TGridBinding.js"/>
+    <input path="knockout/KnockoutFooterViewModel.js"/>
+    <input path="knockout/KnockoutFilterPopupViewModel.js"/>
+  </output>
+  
+  <output path="bin/tgrid-array-items-provider.js">
+	<arguments>-minify:false -braces:source -line:multiple</arguments>
+    <input path="license.js"/>	
+	<input path="ArrayItemsProvider.js"/>
+  </output>
+
+  <output path="bin/tgrid-server-items-provider.js">
+	<arguments>-minify:false -braces:source -line:multiple</arguments>
+    <input path="license.js"/>	
+	<input path="ServerItemsProvider.js"/>
+  </output>
+  
   <output path="bin/tgrid-min.js">
+	<input path="license.js"/>
     <input path="BaseHtmlProvider.js"/>
     <input path="FilterDescriptor.js"/>
     <input path="IFooterViewModel.js"/>
@@ -18,6 +69,7 @@
   </output>
 
   <output path="bin/tgrid-angular-min.js">
+	<input path="license.js"/>	
     <input path="angular/AngularHtmlProvider.js"/>
     <input path="angular/TGridDirective.js"/>
     <input path="angular/AngularFooterViewModel.js"/>
@@ -28,18 +80,21 @@
   </output>
 
   <output path="bin/tgrid-knockout-min.js">
-    <input path="knockout/KnockoutHtmlProvider.js"/>
+    <input path="license.js"/>	
+	<input path="knockout/KnockoutHtmlProvider.js"/>
     <input path="knockout/TGridBinding.js"/>
     <input path="knockout/KnockoutFooterViewModel.js"/>
     <input path="knockout/KnockoutFilterPopupViewModel.js"/>
   </output>
 
   <output path="bin/tgrid-array-items-provider-min.js">
-    <input path="ArrayItemsProvider.js"/>
+    <input path="license.js"/>	
+	<input path="ArrayItemsProvider.js"/>
   </output>
 
   <output path="bin/tgrid-server-items-provider-min.js">
-    <input path="ServerItemsProvider.js"/>
+    <input path="license.js"/>	
+	<input path="ServerItemsProvider.js"/>
   </output>
   
 </root>

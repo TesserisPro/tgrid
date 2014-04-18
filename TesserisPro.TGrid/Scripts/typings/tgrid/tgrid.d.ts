@@ -50,6 +50,9 @@ declare module TesserisPro.TGrid {
         public resizable: boolean;
         public filterMemberPath: string;
         public notSized: boolean;
+        public enableFiltering: boolean;
+        public enableSorting: boolean;
+        public enableGrouping: boolean;
     }
     class ShowDetail {
         public item: any;
