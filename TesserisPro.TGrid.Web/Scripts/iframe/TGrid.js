@@ -1077,6 +1077,7 @@ var TesserisPro;
             Grid.prototype.onReady = function () {
                 if (this.isFirstRefresh) {
                     if (isNotNoU(this.options.ready)) {
+                        this.isFirstRefresh = false;
                         this.options.ready(this.options);
                     }
                     this.isFirstRefresh = false;
@@ -1149,13 +1150,10 @@ var TesserisPro;
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                     this.filterPopUp.style.display = "none";
-                    this.targetElement.appendChild(this.filterPopUp);
+                    this.rootElement.appendChild(this.filterPopUp);
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 }
-                if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
-                }
-
                 if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.scrollBar = document.createElement("div");
                     this.scrollBar.className = "tgrid-scroll";

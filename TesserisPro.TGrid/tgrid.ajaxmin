@@ -2,7 +2,7 @@
 
 <root>
   
-  <output path="bin/tgrid.js">
+  <output path="bin/tgrid-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
     <input path="license.js"/>
 	<input path="BaseHtmlProvider.js"/>
@@ -19,7 +19,7 @@
     <input path="utils.js"/>
   </output>
   
-  <output path="bin/tgrid-angular.js">
+  <output path="bin/tgrid-angular-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
 	<input path="license.js"/>	
     <input path="angular/AngularHtmlProvider.js"/>
@@ -31,7 +31,7 @@
     <input path="angular/AngularModuleTGrid.js"/>
   </output>
   
-  <output path="bin/tgrid-knockout.js">
+  <output path="bin/tgrid-knockout-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
     <input path="license.js"/>	
 	<input path="knockout/KnockoutHtmlProvider.js"/>
@@ -40,13 +40,13 @@
     <input path="knockout/KnockoutFilterPopupViewModel.js"/>
   </output>
   
-  <output path="bin/tgrid-array-items-provider.js">
+  <output path="bin/tgrid-array-items-provider-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
     <input path="license.js"/>	
 	<input path="ArrayItemsProvider.js"/>
   </output>
 
-  <output path="bin/tgrid-server-items-provider.js">
+  <output path="bin/tgrid-server-items-provider-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
     <input path="license.js"/>	
 	<input path="ServerItemsProvider.js"/>

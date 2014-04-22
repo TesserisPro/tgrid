@@ -212,8 +212,8 @@ declare module TesserisPro.TGrid {
 }
 declare module TesserisPro.TGrid {
     interface IItemProvider {
-        onAdd: () => void;
-        onRemove: () => void;
+        onAdd: (item:any) => void;
+        onRemove: (item:any) => void;
         onReset: () => void;
         getItems(skip: number, take: number, sort: TGrid.SortDescriptor[], filter: TGrid.FilterDescriptor, collapsedGroupFilters: TGrid.FilterDescriptor[], callback: (items: any[], firstItem: number, itemsNumber: number) => void): void;
         getTotalItemsCount(filter: TGrid.FilterDescriptor, callback: (total: number) => void): void;
