@@ -126,12 +126,15 @@ module TesserisPro.TGrid {
         public rowClick: string;
         public captureScroll: boolean = true;
 
+        public minItemsCountForVirtualization: number;
+
         public ready: (options: Options) => void;
 
         constructor(element: HTMLElement, framework: Framework) {
             this.target = element;
             this.framework = framework;
             this.initialize();
+            this.minItemsCountForVirtualization = 100;
         }
 
         public isSelected(item: any): boolean {

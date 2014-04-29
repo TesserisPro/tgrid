@@ -58,19 +58,21 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public getVisibleItemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number {
+        public getVisibleItemsCount(container: HTMLElement, view: HTMLElement, scrollTop: number, skipGroupHeaders: boolean): number {
             var size = 0;
             var visibleItemsCount = 0;
             var children = container.children;
             var visibleItemsSize = 0;
             for (var i = 0; i < children.length; i++) {
                 var child = <HTMLElement>children.item(i);
+               
                 if (child.style.display != "none" && child.style.visibility != "hidden") {
                     size += child.offsetHeight;
 
                     if (size > scrollTop) {
-                        visibleItemsCount++;
-
+                        if (!skipGroupHeaders || !containsClass(child, "tgrid-table-group-header")) {
+                            visibleItemsCount++;
+                        }
                         visibleItemsSize += child.offsetHeight;
                     }
                 }

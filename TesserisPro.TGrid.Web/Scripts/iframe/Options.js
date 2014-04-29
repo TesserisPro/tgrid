@@ -125,6 +125,7 @@ var TesserisPro;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();
+                this.minItemsCountForVirtualization = 100;
             }
             Options.prototype.isSelected = function (item) {
                 for (var i = 0; i < this.selection.length; i++) {

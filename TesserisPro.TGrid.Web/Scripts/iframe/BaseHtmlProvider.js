@@ -54,19 +54,21 @@ var TesserisPro;
                 return null;
             };
 
-            BaseHtmlProvider.prototype.getVisibleItemsCount = function (container, view, items, scrollTop) {
+            BaseHtmlProvider.prototype.getVisibleItemsCount = function (container, view, scrollTop, skipGroupHeaders) {
                 var size = 0;
                 var visibleItemsCount = 0;
                 var children = container.children;
                 var visibleItemsSize = 0;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
+
                     if (child.style.display != "none" && child.style.visibility != "hidden") {
                         size += child.offsetHeight;
 
                         if (size > scrollTop) {
-                            visibleItemsCount++;
-
+                            if (!skipGroupHeaders || !containsClass(child, "tgrid-table-group-header")) {
+                                visibleItemsCount++;
+                            }
                             visibleItemsSize += child.offsetHeight;
                         }
                     }

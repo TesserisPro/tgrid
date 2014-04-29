@@ -85,6 +85,17 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
                 options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true));
             }
         }
+
+        if (isObservable(valueAccessor().minItemsCountForVirtualization)) {
+            if (valueAccessor().minItemsCountForVirtualization() > 0) {
+                options.minItemsCountForVirtualization = valueAccessor().minItemsCountForVirtualization();
+            } 
+        } else {
+            if (valueAccessor().minItemsCountForVirtualization != null && valueAccessor().minItemsCountForVirtualization > 0) {
+                options.enablePaging = valueAccessor().minItemsCountForVirtualization;
+            }
+        }
+
         if (isObservable(valueAccessor().enablePaging)) {
             if (typeof valueAccessor().enablePaging() == "boolean") {
                 options.enablePaging = valueAccessor().enablePaging();

@@ -39,7 +39,7 @@ module TesserisPro.TGrid {
     export interface IHtmlProvider {
         getElementsSize(container: HTMLElement, items: Array<any>): number;
         getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel;
-        getVisibleItemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number;
+        getVisibleItemsCount(container: HTMLElement, view: HTMLElement, scrollTop: number, skipGroupHeaders: boolean): number;
         getFooterViewModel(grid:any);
         getFilterPopupViewModel(container: HTMLElement);
         getTableElement(option: Options): HTMLElement;

@@ -47,6 +47,10 @@ var TGrid;
                     }
                 }
 
+                if (attrs["minItemsCountForVirtualization"] != undefined) {
+                    options.minItemsCountForVirtualization = parseInt(attrs["minItemsCountForVirtualization"]);
+                }
+
                 if (attrs["enablepaging"] == undefined) {
                     options.enablePaging = false;
                 } else {

@@ -92,7 +92,7 @@ module TesserisPro.TGrid {
             return null;
         }
 
-        public getVisibleItemsCount(container: HTMLElement, view: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): number {
+        public getVisibleItemsCount(container: HTMLElement, view: HTMLElement, scrollTop: number, skipGroupHeaders: boolean): number {
             var size = 0;
             var visibleItemsCount = 0;
             var children = container.children;
@@ -102,15 +102,15 @@ module TesserisPro.TGrid {
             var visibleItemsSize = 0;
             for (var i = 0; i < children.length; i++) {
                 var child = <HTMLElement>children.item(i);
+                                
                 if (!containsClass(child, "ng-hide")) {
-                    var viewModel = <any>angular.element(child).scope() != undefined ? (<any>angular.element(child).scope()).item.originalModel : null;
-                    if (isNotNoU(viewModel) && items.indexOf(viewModel) >= 0) {
-                        size += child.offsetHeight;
+                    size += child.offsetHeight;
 
-                        if (size > scrollTop) {
+                    if (size > scrollTop) {
+                        if (!skipGroupHeaders || !containsClass(child, "tgrid-table-group-header")) {
                             visibleItemsCount++;
-                            visibleItemsSize += child.offsetHeight;
                         }
+                        visibleItemsSize += child.offsetHeight;
                     }
                 }
 

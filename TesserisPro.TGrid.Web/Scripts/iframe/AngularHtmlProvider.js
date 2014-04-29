@@ -95,7 +95,7 @@ var TesserisPro;
                 return null;
             };
 
-            AngularHtmlProvider.prototype.getVisibleItemsCount = function (container, view, items, scrollTop) {
+            AngularHtmlProvider.prototype.getVisibleItemsCount = function (container, view, scrollTop, skipGroupHeaders) {
                 var size = 0;
                 var visibleItemsCount = 0;
                 var children = container.children;
@@ -105,15 +105,15 @@ var TesserisPro;
                 var visibleItemsSize = 0;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
-                    if (!containsClass(child, "ng-hide")) {
-                        var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope().item.originalModel : null;
-                        if (isNotNoU(viewModel) && items.indexOf(viewModel) >= 0) {
-                            size += child.offsetHeight;
 
-                            if (size > scrollTop) {
+                    if (!containsClass(child, "ng-hide")) {
+                        size += child.offsetHeight;
+
+                        if (size > scrollTop) {
+                            if (!skipGroupHeaders || !containsClass(child, "tgrid-table-group-header")) {
                                 visibleItemsCount++;
-                                visibleItemsSize += child.offsetHeight;
                             }
+                            visibleItemsSize += child.offsetHeight;
                         }
                     }
 
