@@ -621,11 +621,11 @@ module TesserisPro.TGrid {
         }
 
         private buildDefaultFilteringPopUp(option: Options, filterPopupContainer: HTMLElement) {
-            var columnNameContainer = document.createElement("div");
-            var columnName = document.createElement("span");
-            columnName.setAttribute("data-bind", "text:path");
-            columnNameContainer.appendChild(columnName);
-            filterPopupContainer.appendChild(columnNameContainer);
+            //var columnNameContainer = document.createElement("div");
+            //var columnName = document.createElement("span");
+            //columnName.setAttribute("data-bind", "text:path");
+            //columnNameContainer.appendChild(columnName);
+            //filterPopupContainer.appendChild(columnNameContainer);
 
             var filterCondition = document.createElement("select");
             // append filter conditions

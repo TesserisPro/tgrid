@@ -711,12 +711,11 @@ var TesserisPro;
                 return rowTemplate;
             };
             AngularHtmlProvider.prototype.buildDefaultFilteringPopUp = function (option, filterPopupContainer) {
-                var columnNameContainer = document.createElement("div");
-                var columnName = document.createElement("span");
-                columnName.innerHTML = "{{path}}";
-                columnNameContainer.appendChild(columnName);
-                filterPopupContainer.appendChild(columnNameContainer);
-
+                //var columnNameContainer = document.createElement("div");
+                //var columnName = document.createElement("span");
+                //columnName.innerHTML = "{{path}}";
+                //columnNameContainer.appendChild(columnName);
+                //filterPopupContainer.appendChild(columnNameContainer);
                 var filterCondition = document.createElement("select");
 
                 // append filter conditions
