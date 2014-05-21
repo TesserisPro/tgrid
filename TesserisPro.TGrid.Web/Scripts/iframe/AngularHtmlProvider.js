@@ -302,7 +302,7 @@ var TesserisPro;
                 if (isNull(option.rowClick)) {
                     action = "item.select($event, item, $parent.items)";
                 } else {
-                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event);");
+                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
                 }
                 row.setAttribute("ng-click", action);
                 var detailsRow = this.buildDetailsRow(option);
@@ -546,9 +546,11 @@ var TesserisPro;
                 mobileContainer.setAttribute("ng-class", "{'tgrid-mobile-row' : !item.isGroupHeader, 'tgrid-mobile-group-header':  item.isGroupHeader,'tgrid-mobile-row selected': !item.isGroupHeader && item.isSelected }");
                 var action = "item.select($event, item, $parent.items)";
                 if (isNotNull(option.rowClick)) {
-                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event);");
+                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
                 }
-                mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? ".concat(action).concat(" : item.toggleGroupCollapsing($event, item)"));
+                mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
+
+                //mobileContainer.setAttribute("ng-click", action);
                 rowsContainer.appendChild(mobileContainer);
                 var detailsRow = this.buildMobileDetailsRow(option);
                 rowsContainer.appendChild(detailsRow);

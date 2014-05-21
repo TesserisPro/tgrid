@@ -1,0 +1,21 @@
+﻿<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+    var items = ko.mapping.fromJS([
+            { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" }
+            //... add your items here
+            ])();
+	function vm() {
+        var self = this;
+        self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+        self.rowClick = function (item, event) {
+            alert("You just have clicked on row");
+        };
+    };
+
+    $(function () {
+        ko.applyBindings(new vm());
+    });
+</pre>

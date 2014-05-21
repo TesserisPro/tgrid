@@ -226,7 +226,7 @@ var TGridBindingHandler = (function () {
         options.pageSlide = (isNaN(options.pageSlide) || options.pageSlide < 1) ? 1 : options.pageSlide;
 
         if (isObservable(valueAccessor().rowClick)) {
-            options.rowClick = valueAccessor().rowClick();
+            options.rowClick = valueAccessor().rowClick;
         } else {
             options.rowClick = valueAccessor().rowClick;
         }

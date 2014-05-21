@@ -278,7 +278,19 @@ namespace TesserisPro.TGrid.Web
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/scriptjs"
             });
-
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Custom actions on row click",
+                url = "Knockout/CustomActionsOnRowClick",
+                htmlUrl = "Knockout/CustomActionsOnRowClickHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/jsCustomActionsOnRowClick",
+                angularUrl = "Angular/CustomActionsOnRowClick",
+                angularHtmlUrl = "Angular/CustomActionsOnRowClickHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/jsCustomActionsOnRowClick"
+            });
+       
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel
             {
