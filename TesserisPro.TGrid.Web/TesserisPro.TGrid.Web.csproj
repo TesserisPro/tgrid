@@ -167,6 +167,12 @@
     <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumns.cshtml" />
     <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumnsHtml.cshtml" />
     <Content Include="Views\Home\Angular\SimpleGridNotSizedColumnsHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\CustomActionsOnRowClick.cshtml" />
+    <Content Include="Views\Home\Angular\CustomActionsOnRowClick.cshtml" />
+    <Content Include="Views\Home\Angular\CustomActionsOnRowClickHtml.cshtml" />
+    <Content Include="Views\Home\Angular\jsCustomActionsOnRowClick.cshtml" />
+    <Content Include="Views\Home\Knockout\CustomActionsOnRowClickHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\jsCustomActionsOnRowClick.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -293,7 +299,6 @@
     <Content Include="Scripts\iframe\KnockoutHtmlProvider.js" />
     <Content Include="Scripts\iframe\Options.js" />
     <Content Include="Scripts\iframe\SortDescriptor.js" />
-    <Content Include="Scripts\iframe\TGrid.js" />
     <Content Include="Scripts\iframe\TGridBinding.js" />
     <Content Include="Scripts\iframe\TGridDirective.js" />
     <Content Include="Scripts\iframe\utils.js" />
