@@ -304,7 +304,7 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.buildRowElement = function (option, item, container, selected) {
                 var row = document.createElement("tr");
                 if (isNotNull(option.rowClick)) {
-                    row.setAttribute("data-bind", "click:function(){model.".concat(option.rowClick).concat("(item, event);}"));
+                    row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
                 }
                 addClass(row, "tgrid-table-body-row");
 
@@ -523,6 +523,9 @@ var TesserisPro;
             KnockoutHtmlProvider.prototype.buildMobileRowElement = function (option, item, container, selected) {
                 var row = document.createElement("div");
                 addClass(row, "tgrid-mobile-row");
+                if (isNotNull(option.rowClick)) {
+                    row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
+                }
 
                 if (option.isSelected(item.item)) {
                     addClass(row, "selected");
@@ -540,15 +543,16 @@ var TesserisPro;
                     rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
                 }
                 row.appendChild(rowTemplate);
-
-                (function (item) {
-                    row.onclick = function (e) {
-                        if (option.selectionMode != 0 /* None */) {
-                            var s = container;
-                            selected(item, e.ctrlKey);
-                        }
-                    };
-                })(item);
+                if (isNull(option.rowClick)) {
+                    (function (item) {
+                        row.onclick = function (e) {
+                            if (option.selectionMode != 0 /* None */) {
+                                var s = container;
+                                selected(item, e.ctrlKey);
+                            }
+                        };
+                    })(item);
+                }
 
                 return row;
             };

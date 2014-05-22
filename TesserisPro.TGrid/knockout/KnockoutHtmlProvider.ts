@@ -303,7 +303,7 @@ module TesserisPro.TGrid {
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
             if (isNotNull(option.rowClick)) {
-                row.setAttribute("data-bind", "click:function(){model.".concat(option.rowClick).concat("(item, event);}"));
+                row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
             }
             addClass(row,"tgrid-table-body-row");
 
@@ -531,6 +531,9 @@ module TesserisPro.TGrid {
         private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("div");
             addClass(row, "tgrid-mobile-row");
+            if (isNotNull(option.rowClick)) {
+                row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
+            }
 
             if (option.isSelected(item.item)) {
                 addClass(row, "selected");
@@ -548,15 +551,16 @@ module TesserisPro.TGrid {
                 rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
             }
             row.appendChild(rowTemplate);
-                        
-            (function (item) {
-                row.onclick = function (e) {
-                    if (option.selectionMode != SelectionMode.None) {
-                        var s = container;
-                        selected(item, e.ctrlKey);
-                    }
-                };
-            })(item);
+            if (isNull(option.rowClick)) {
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (option.selectionMode != SelectionMode.None) {
+                            var s = container;
+                            selected(item, e.ctrlKey);
+                        }
+                    };
+                })(item);
+            }
 
             return row;
         }

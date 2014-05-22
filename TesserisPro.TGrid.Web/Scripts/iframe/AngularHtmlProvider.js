@@ -549,8 +549,6 @@ var TesserisPro;
                     action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
                 }
                 mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
-
-                //mobileContainer.setAttribute("ng-click", action);
                 rowsContainer.appendChild(mobileContainer);
                 var detailsRow = this.buildMobileDetailsRow(option);
                 rowsContainer.appendChild(detailsRow);
