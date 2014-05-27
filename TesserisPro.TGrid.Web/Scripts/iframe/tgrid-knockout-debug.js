@@ -818,6 +818,22 @@ var TGridBindingHandler = (function() {
             if (valueAccessor().ready != undefined && typeof valueAccessor().ready == 'function') {
                 options.ready = valueAccessor().ready
             }
+            if (isObservable(valueAccessor().hideHeader)) {
+                if (typeof valueAccessor().hideHeader() == "boolean") {
+                    options.hideHeader = valueAccessor().hideHeader()
+                }
+                else {
+                    options.hideHeader = valueAccessor().hideHeader == "true" ? true : false
+                }
+            }
+            else {
+                if (typeof valueAccessor().hideHeader == "boolean") {
+                    options.hideHeader = valueAccessor().hideHeader
+                }
+                else {
+                    options.hideHeader = valueAccessor().hideHeader == "true" ? true : false
+                }
+            }
             return options
         };
         return TGridBindingHandler

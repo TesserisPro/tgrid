@@ -90,6 +90,7 @@ module TesserisPro.TGrid {
         public enableSorting: boolean;
         public enableGrouping: boolean;
         public enableFiltering: boolean;
+        public hideHeader: boolean;
 
         public filterPath: string;
 

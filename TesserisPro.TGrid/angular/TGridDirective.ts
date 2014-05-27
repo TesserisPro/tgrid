@@ -153,6 +153,13 @@ module TGrid.Angular {
             if (ready != undefined && typeof scope[bindingReady] == 'function') {
                 scope[bindingReady](options);
             }
+
+            var hideHeader = attrs["hideheader"];
+            if (hideHeader == undefined) {
+                options.hideHeader = false;
+            } else {
+                options.hideHeader = hideHeader == "true" ? true : false;
+            }
             
         };
 

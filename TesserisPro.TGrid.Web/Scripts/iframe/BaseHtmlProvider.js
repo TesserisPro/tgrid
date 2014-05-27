@@ -101,46 +101,48 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.updateColumnWidth = function (option, header, body, footer) {
-                var headers = header.getElementsByTagName("th");
+                if (!option.hideHeader) {
+                    var headers = header.getElementsByTagName("th");
 
-                var tableRows = body.getElementsByTagName("tr");
-                var hasNotSizedColumn = false;
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].notSized && !option.enablePaging) {
-                        hasNotSizedColumn = true;
+                    var hasNotSizedColumn = false;
+                    for (var i = 0; i < option.columns.length; i++) {
+                        if (option.columns[i].notSized && !option.enablePaging) {
+                            hasNotSizedColumn = true;
+                        }
                     }
-                }
-                var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
-                var columnNumber = 0;
-                while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                    columnNumber++;
-                }
-
-                for (var i = 0; i < columnsCount; i++) {
+                    var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
+                    var columnNumber = 0;
                     while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                         columnNumber++;
                     }
 
-                    if (columnNumber >= option.columns.length) {
-                        columnNumber = option.columns.length - 1;
-                        break;
-                    }
+                    for (var i = 0; i < columnsCount; i++) {
+                        while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                            columnNumber++;
+                        }
 
-                    if (!option.columns[columnNumber].notSized) {
-                        headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
-                        var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
-                        headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                        if (columnNumber >= option.columns.length) {
+                            columnNumber = option.columns.length - 1;
+                            break;
+                        }
+
+                        if (!option.columns[columnNumber].notSized) {
+                            headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
+                            var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
+                            headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                        }
+                        columnNumber++;
                     }
-                    columnNumber++;
                 }
 
                 var dataRow;
-
+                var tableRows = body.getElementsByTagName("tr");
                 for (var i = 0; i < tableRows.length; i++) {
                     if (containsClass(tableRows.item(i), "tgrid-table-body-row")) {
                         dataRow = tableRows.item(i);
                         if (dataRow != undefined) {
                             var columns = dataRow.getElementsByClassName("tgrid-table-data-cell");
+                            var columnsCount = hasNotSizedColumn ? columns.length - 1 : columns.length;
                             columnNumber = 0;
                             for (var j = 0; j < columnsCount; j++) {
                                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {

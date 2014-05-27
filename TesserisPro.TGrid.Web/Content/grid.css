@@ -26,7 +26,6 @@
 .tgrid-table thead tr th
 {
     background: whitesmoke; /* Old browsers */
-    border-bottom: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
     color:#555;    
 }
@@ -161,6 +160,7 @@ th.tgrid-table-indent-cell-content
     border-bottom: 1px solid #BEBEBE;
     border-left:1px solid #BEBEBE;
     margin-top:auto;
+    border-top: 1px solid #BEBEBE;
 }
 
 .tgrid-tableheadercontainer {
@@ -252,6 +252,10 @@ th.tgrid-table-indent-cell-content
     top: 32px;
     bottom: 2px;
     width:32px;
+}
+
+.tgrid-scroll.noheader{
+    top: 2px;
 }
 
 .tgrid-scroll div {

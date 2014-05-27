@@ -255,6 +255,20 @@ class TGridBindingHandler implements KnockoutBindingHandler  {
             options.ready = valueAccessor().ready;
         }
 
+        if (isObservable(valueAccessor().hideHeader)) {
+            if (typeof valueAccessor().hideHeader() == "boolean") {
+                options.hideHeader = valueAccessor().hideHeader();
+            } else {
+                options.hideHeader = valueAccessor().hideHeader == "true" ? true : false;
+            }
+        } else {
+            if (typeof valueAccessor().hideHeader == "boolean") {
+                options.hideHeader = valueAccessor().hideHeader;
+            } else {
+                options.hideHeader = valueAccessor().hideHeader == "true" ? true : false;
+            }
+        }
+
         return options;
     }    
 }

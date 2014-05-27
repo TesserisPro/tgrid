@@ -104,17 +104,18 @@ var TesserisPro;
                 this.rootElement = document.createElement("div");
                 this.rootElement.className = "tgrid-root";
 
-                this.groupByElement = document.createElement("div");
-                this.groupByElement.className = "tgrid-group-by-panel desktop";
-                this.rootElement.appendChild(this.groupByElement);
+                if (!this.options.hideHeader) {
+                    this.groupByElement = document.createElement("div");
+                    this.groupByElement.className = "tgrid-group-by-panel desktop";
+                    this.rootElement.appendChild(this.groupByElement);
 
-                this.headerContainer = document.createElement("div");
-                this.headerContainer.className = "tgrid-tableheadercontainer desktop";
+                    this.headerContainer = document.createElement("div");
+                    this.headerContainer.className = "tgrid-tableheadercontainer desktop";
 
-                //this.headerContainer.style.overflowX = "hidden";
-                var headerTable = document.createElement("table");
-                headerTable.className = "tgrid-table";
-                this.headerContainer.appendChild(headerTable);
+                    var headerTable = document.createElement("table");
+                    headerTable.className = "tgrid-table";
+                    this.headerContainer.appendChild(headerTable);
+                }
 
                 // filter popup
                 if (this.options.enableFiltering) {
@@ -132,23 +133,33 @@ var TesserisPro;
                 this.bodyAndHeaderContainer.style.overflowX = "auto";
                 this.bodyAndHeaderContainer.style.width = "100%";
 
-                // Header
-                this.mobileHeader = document.createElement("div");
-                this.mobileHeader.className = "tgrid-mobile-header mobile";
-                this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
+                if (!this.options.hideHeader) {
+                    // Header
+                    this.mobileHeader = document.createElement("div");
+                    this.mobileHeader.className = "tgrid-mobile-header mobile";
+                    this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
 
-                this.tableHeader = document.createElement("thead");
-                this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
-                headerTable.appendChild(this.tableHeader);
-                this.bodyAndHeaderContainer.appendChild(this.headerContainer);
+                    this.tableHeader = document.createElement("thead");
+                    this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
+                    headerTable.appendChild(this.tableHeader);
+
+                    this.bodyAndHeaderContainer.appendChild(this.headerContainer);
+                }
 
                 // Body
                 this.tableBodyContainer = document.createElement("div");
                 this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
                 this.tableBodyContainer.style.overflowX = "auto";
-                this.tableBodyContainer.onscroll = function () {
-                    return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft;
-                };
+
+                if (!this.options.hideHeader) {
+                    this.tableBodyContainer.onscroll = function () {
+                        return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft;
+                    };
+                } else {
+                    this.tableBodyContainer.onscroll = function () {
+                        return _this.tableBodyContainer.scrollLeft;
+                    };
+                }
 
                 this.mobileContainer = document.createElement("div");
                 this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
@@ -176,7 +187,11 @@ var TesserisPro;
 
                 if (this.options.enableVirtualScroll) {
                     this.scrollBar = document.createElement("div");
-                    this.scrollBar.className = "tgrid-scroll";
+                    if (!this.options.hideHeader) {
+                        this.scrollBar.className = "tgrid-scroll";
+                    } else {
+                        this.scrollBar.className = "tgrid-scroll noheader";
+                    }
                     this.scrollBar.style.overflowX = "hidden";
                     this.scrollBar.style.overflowY = "scroll";
 
@@ -427,7 +442,7 @@ var TesserisPro;
             };
 
             Grid.prototype.scrollTable = function () {
-                if (this.isDesktopMode) {
+                if (this.isDesktopMode && !this.options.hideHeader) {
                     this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft;
                 }
                 var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
@@ -1039,16 +1054,18 @@ var TesserisPro;
 
             Grid.prototype.refreshHeader = function () {
                 var _this = this;
-                if (this.options.enableGrouping) {
-                    unhideElement(this.groupByElement);
-                } else {
-                    hideElement(this.groupByElement);
-                }
+                if (!this.options.hideHeader) {
+                    if (this.options.enableGrouping) {
+                        unhideElement(this.groupByElement);
+                    } else {
+                        hideElement(this.groupByElement);
+                    }
 
-                this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function (c) {
-                    return _this.columnsResized(c);
-                });
-                this.refreshMobileHeader();
+                    this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function (c) {
+                        return _this.columnsResized(c);
+                    });
+                    this.refreshMobileHeader();
+                }
             };
 
             Grid.prototype.updateBody = function () {
@@ -1198,7 +1215,11 @@ var TesserisPro;
                 }
                 if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.scrollBar = document.createElement("div");
-                    this.scrollBar.className = "tgrid-scroll";
+                    if (!this.options.hideHeader) {
+                        this.scrollBar.className = "tgrid-scroll";
+                    } else {
+                        this.scrollBar.className = "tgrid-scroll noheader";
+                    }
                     this.scrollBar.style.overflowX = "hidden";
                     this.scrollBar.style.overflowY = "scroll";
 
@@ -1222,7 +1243,6 @@ var TesserisPro;
                 if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.rootElement.getElementsByClassName("tgrid-scroll")[0].parentNode.removeChild(this.rootElement.getElementsByClassName("tgrid-scroll")[0]);
 
-                    //this.bodyAndHeaderContainer.removeChild(<Node>this.scrollBar);
                     this.tableBodyContainer.onscroll = null;
                     this.mobileContainer.onscroll = null;
 

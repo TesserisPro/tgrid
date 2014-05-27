@@ -77,40 +77,43 @@ var TesserisPro;
                 BaseHtmlProvider.prototype.updateTableFooterElement = function(option, footer, totalItemsCount, footerModel){};
                 BaseHtmlProvider.prototype.updateGroupedTableBodyElement = function(option, container, items, selected){};
                 BaseHtmlProvider.prototype.updateColumnWidth = function(option, header, body, footer) {
-                    var headers = header.getElementsByTagName("th");
-                    var tableRows = body.getElementsByTagName("tr");
-                    var hasNotSizedColumn = false;
-                    for (var i = 0; i < option.columns.length; i++) {
-                        if (option.columns[i].notSized && !option.enablePaging) {
-                            hasNotSizedColumn = true
+                    if (!option.hideHeader) {
+                        var headers = header.getElementsByTagName("th");
+                        var hasNotSizedColumn = false;
+                        for (var i = 0; i < option.columns.length; i++) {
+                            if (option.columns[i].notSized && !option.enablePaging) {
+                                hasNotSizedColumn = true
+                            }
                         }
-                    }
-                    var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
-                    var columnNumber = 0;
-                    while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
-                        columnNumber++
-                    }
-                    for (var i = 0; i < columnsCount; i++) {
+                        var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
+                        var columnNumber = 0;
                         while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                             columnNumber++
                         }
-                        if (columnNumber >= option.columns.length) {
-                            columnNumber = option.columns.length - 1;
-                            break
+                        for (var i = 0; i < columnsCount; i++) {
+                            while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
+                                columnNumber++
+                            }
+                            if (columnNumber >= option.columns.length) {
+                                columnNumber = option.columns.length - 1;
+                                break
+                            }
+                            if (!option.columns[columnNumber].notSized) {
+                                headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
+                                var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
+                                headerContainer.style.width = option.columns[columnNumber].width.toString() + "px"
+                            }
+                            columnNumber++
                         }
-                        if (!option.columns[columnNumber].notSized) {
-                            headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
-                            var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
-                            headerContainer.style.width = option.columns[columnNumber].width.toString() + "px"
-                        }
-                        columnNumber++
                     }
                     var dataRow;
+                    var tableRows = body.getElementsByTagName("tr");
                     for (var i = 0; i < tableRows.length; i++) {
                         if (containsClass(tableRows.item(i), "tgrid-table-body-row")) {
                             dataRow = tableRows.item(i);
                             if (dataRow != undefined) {
                                 var columns = dataRow.getElementsByClassName("tgrid-table-data-cell");
+                                var columnsCount = hasNotSizedColumn ? columns.length - 1 : columns.length;
                                 columnNumber = 0;
                                 for (var j = 0; j < columnsCount; j++) {
                                     while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
@@ -922,14 +925,16 @@ var TesserisPro;
                     this.footerViewModel = this.htmlProvider.getFooterViewModel(this);
                     this.rootElement = document.createElement("div");
                     this.rootElement.className = "tgrid-root";
-                    this.groupByElement = document.createElement("div");
-                    this.groupByElement.className = "tgrid-group-by-panel desktop";
-                    this.rootElement.appendChild(this.groupByElement);
-                    this.headerContainer = document.createElement("div");
-                    this.headerContainer.className = "tgrid-tableheadercontainer desktop";
-                    var headerTable = document.createElement("table");
-                    headerTable.className = "tgrid-table";
-                    this.headerContainer.appendChild(headerTable);
+                    if (!this.options.hideHeader) {
+                        this.groupByElement = document.createElement("div");
+                        this.groupByElement.className = "tgrid-group-by-panel desktop";
+                        this.rootElement.appendChild(this.groupByElement);
+                        this.headerContainer = document.createElement("div");
+                        this.headerContainer.className = "tgrid-tableheadercontainer desktop";
+                        var headerTable = document.createElement("table");
+                        headerTable.className = "tgrid-table";
+                        this.headerContainer.appendChild(headerTable)
+                    }
                     if (this.options.enableFiltering) {
                         this.filterPopUp = document.createElement("div");
                         this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
@@ -943,19 +948,28 @@ var TesserisPro;
                     this.bodyAndHeaderContainer.style.position = "relative";
                     this.bodyAndHeaderContainer.style.overflowX = "auto";
                     this.bodyAndHeaderContainer.style.width = "100%";
-                    this.mobileHeader = document.createElement("div");
-                    this.mobileHeader.className = "tgrid-mobile-header mobile";
-                    this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
-                    this.tableHeader = document.createElement("thead");
-                    this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
-                    headerTable.appendChild(this.tableHeader);
-                    this.bodyAndHeaderContainer.appendChild(this.headerContainer);
+                    if (!this.options.hideHeader) {
+                        this.mobileHeader = document.createElement("div");
+                        this.mobileHeader.className = "tgrid-mobile-header mobile";
+                        this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
+                        this.tableHeader = document.createElement("thead");
+                        this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
+                        headerTable.appendChild(this.tableHeader);
+                        this.bodyAndHeaderContainer.appendChild(this.headerContainer)
+                    }
                     this.tableBodyContainer = document.createElement("div");
                     this.tableBodyContainer.className = "tgrid-tablebodycontainer desktop";
                     this.tableBodyContainer.style.overflowX = "auto";
-                    this.tableBodyContainer.onscroll = function() {
-                        return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft
-                    };
+                    if (!this.options.hideHeader) {
+                        this.tableBodyContainer.onscroll = function() {
+                            return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft
+                        }
+                    }
+                    else {
+                        this.tableBodyContainer.onscroll = function() {
+                            return _this.tableBodyContainer.scrollLeft
+                        }
+                    }
                     this.mobileContainer = document.createElement("div");
                     this.mobileContainer.setAttribute("class", "tgrid-mobile-container mobile");
                     if (this.options.enableVirtualScroll) {
@@ -978,7 +992,12 @@ var TesserisPro;
                     bodyTable.appendChild(this.tableBody);
                     if (this.options.enableVirtualScroll) {
                         this.scrollBar = document.createElement("div");
-                        this.scrollBar.className = "tgrid-scroll";
+                        if (!this.options.hideHeader) {
+                            this.scrollBar.className = "tgrid-scroll"
+                        }
+                        else {
+                            this.scrollBar.className = "tgrid-scroll noheader"
+                        }
                         this.scrollBar.style.overflowX = "hidden";
                         this.scrollBar.style.overflowY = "scroll";
                         var scrollContent = document.createElement("div");
@@ -1196,7 +1215,7 @@ var TesserisPro;
                     return this.collapsedGroupFilterDescriptors
                 };
                 Grid.prototype.scrollTable = function() {
-                    if (this.isDesktopMode) {
+                    if (this.isDesktopMode && !this.options.hideHeader) {
                         this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft
                     }
                     var container = this.isDesktopMode() ? this.tableBodyContainer : this.mobileContainer;
@@ -1730,16 +1749,18 @@ var TesserisPro;
                 };
                 Grid.prototype.refreshHeader = function() {
                     var _this = this;
-                    if (this.options.enableGrouping) {
-                        unhideElement(this.groupByElement)
+                    if (!this.options.hideHeader) {
+                        if (this.options.enableGrouping) {
+                            unhideElement(this.groupByElement)
+                        }
+                        else {
+                            hideElement(this.groupByElement)
+                        }
+                        this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function(c) {
+                            return _this.columnsResized(c)
+                        });
+                        this.refreshMobileHeader()
                     }
-                    else {
-                        hideElement(this.groupByElement)
-                    }
-                    this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function(c) {
-                        return _this.columnsResized(c)
-                    });
-                    this.refreshMobileHeader()
                 };
                 Grid.prototype.updateBody = function() {
                     this.refreshBody()
@@ -1880,7 +1901,12 @@ var TesserisPro;
                     }
                     if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                         this.scrollBar = document.createElement("div");
-                        this.scrollBar.className = "tgrid-scroll";
+                        if (!this.options.hideHeader) {
+                            this.scrollBar.className = "tgrid-scroll"
+                        }
+                        else {
+                            this.scrollBar.className = "tgrid-scroll noheader"
+                        }
                         this.scrollBar.style.overflowX = "hidden";
                         this.scrollBar.style.overflowY = "scroll";
                         var scrollContent = document.createElement("div");

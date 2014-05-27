@@ -20,6 +20,14 @@ Enables or disables scroll capturing
 
 **Default value:** *true*
 
+####hideHeader
+
+You can choose do not render grid header. If is set to *true*, grid header isn't rendered.
+
+**Value:** *true* or *false*
+
+**Default value:** *false*
+
 ####enableCollapsing
 
 Enables or disables groups collapsing.

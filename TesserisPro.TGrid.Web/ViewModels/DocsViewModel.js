@@ -66,6 +66,10 @@ var sections = [
                 file: "enableVirtualScroll"
             },
             {
+                name: "hideHeader",
+                file:"hideHeader"
+            },
+            {
                 name: "options",
                 file: "options"
             },
