@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Content Include="Content\images\minus.png" />
     <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
       <DependentUpon>overview.md</DependentUpon>
@@ -160,7 +161,6 @@
     <Content Include="Markdown\dataGEnableGrouping.md" />
     <Content Include="Markdown\dataGEnableFiltering.md" />
     <Content Include="Markdown\dataGEnableSorting.md" />
-    <None Include="Markdown\itemsProvider.md" />
     <None Include="Markdown\captureScroll.md" />
     <None Include="Markdown\dataGFilterMember.md" />
     <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
@@ -327,6 +327,7 @@
     <Content Include="Markdown\showDetailsOnSelection.md" />
     <Content Include="Markdown\options.md" />
     <Content Include="Markdown\tableProperties.md" />
+    <Content Include="Markdown\itemsProvider.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
