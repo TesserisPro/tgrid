@@ -161,8 +161,8 @@
     <Content Include="Markdown\dataGEnableGrouping.md" />
     <Content Include="Markdown\dataGEnableFiltering.md" />
     <Content Include="Markdown\dataGEnableSorting.md" />
-    <None Include="Markdown\captureScroll.md" />
-    <None Include="Markdown\dataGFilterMember.md" />
+    <Content Include="Markdown\captureScroll.md" />
+    <Content Include="Markdown\dataGFilterMember.md" />
     <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
     <Compile Include="Models\TGridModels\Item.cs" />
     <Compile Include="Models\TGridModels\CustomServerItemsProvider.cs" />
