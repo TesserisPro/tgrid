@@ -42,7 +42,7 @@
 <script src="@Url.Content("~/Scripts/navrouter-1.0.1.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/ViewModels/DocsViewModel.js")" type="text/javascript"></script>
 <script type="text/javascript">
-	var rootUrl = "@Url.Content("~")";
+	var rootUrl = "@HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~")";
 	var router = new routing.Router("help-content-holder", { enableLogging: true });
 	routing.knockout.setCurrentRouter(router);
 	ko.applyBindings(new DocsViewModel());

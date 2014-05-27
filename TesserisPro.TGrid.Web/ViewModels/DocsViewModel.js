@@ -9,7 +9,7 @@
         var currentSection = self.sections()[i];
         for (var j = 0; j < currentSection.nodes.length; j++) {
             var currentNode = currentSection.nodes[j];
-            routes.push(new routing.routes.NavigationRoute(currentNode.name, rootUrl + "/" + currentNode.file + ".md", { cacheView: true, isDefault: j == 0 ? true: false }));
+            routes.push(new routing.routes.NavigationRoute(currentNode.name, rootUrl + currentNode.file + ".md", { cacheView: true, isDefault: j == 0 ? true: false }));
         }
 
         sectionRoutes.push(new routing.routes.VirtualRoute(currentSection.path, routes, { isDefault: i == 0 ? true : false }));
