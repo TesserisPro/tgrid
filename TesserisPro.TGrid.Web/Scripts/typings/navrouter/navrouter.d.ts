@@ -1,3 +1,4 @@
+///<reference path="knockout.d.ts"/>
 declare module routing {
     class HashService {
         private prevHash;
