@@ -26,7 +26,31 @@ Javascript array of items, where every array element is javascript object with "
         //... more items
 	];
 
-   
+####data-g-enable-filtering
+
+This property is used to disable filtering for this column.
+
+**Value:** *true* or *false*.
+
+**Default value:** *true*.
+
+
+####data-g-enable-grouping
+
+This property is used to disable sorting for this column.
+
+**Value:** *true* or *false*.
+
+**Default value:** *true*.
+
+
+####data-g-enable-sorting
+
+This property is used to disable sorting for this column.
+
+**Value:** *true* or *false*.
+
+**Default value:** *true*.
 
 
 ###data-g-filter-member
@@ -34,6 +58,7 @@ Javascript array of items, where every array element is javascript object with "
 This property is used to define item's property for filtering.
 		
 **Value:** Defines item's  property name, which value will be used for filtering this grid.
+
 **Default value:** property **data-g-member**.
 
 **Example:**
@@ -67,6 +92,26 @@ Javascript array of items.
         //... more items
 	];
 
+###data-g-not-sized
+
+Defines if column has width. If is set to *true*:
+
++ column doesn't have width
+
++ column becomes not resizable
+
++ table css property *table-layout* is set to *fixed*
+
++ width of all not-sized columns becomes the same and depends on table width.
+
+###data-g-resizable
+
+Defines if column is resizable. If property **data-g-not-sized** value is set to true, column will not be resizable.
+
+**Value:** *false* or *true*.
+
+**Default value:** *true*.
+
 ###data-g-sort-member
 
 Defines item's property for sorting.
@@ -84,16 +129,6 @@ Javascript array of items.
 		{ ProductId: "#1/1", ProductName: "Bread", ProductIdSort: "11"}
         //... more items
 	];
-
-###data-g-resizable
-
-Defines if column is resizable. If property **data-g-not-sized** value is set to true, column will not be resizable.
-
-**Value:** *false* or *true*.
-
-**Default value:** *true*.
-
-
     
 ###data-g-views
 
@@ -111,16 +146,5 @@ Defines column width in pixels.
 
 **Default value:** *150*
 
-###data-g-not-sized
-
-Defines if column has width. If is set to *true*:
-
-+ column doesn't have width
-
-+ column becomes not resizable
-
-+ table css property *table-layout* is set to *fixed*
-
-+ width of all not-sized columns becomes the same and depends on table width.
 
  

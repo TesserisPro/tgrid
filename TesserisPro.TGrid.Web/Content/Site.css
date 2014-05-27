@@ -775,3 +775,72 @@ footer .centered-content {
     margin: 20px 0 0 22px;
     font-size: 12px;
 }
+.documentation-content{
+    display:inline-block; 
+    margin-left: 275px;
+}
+
+#listDocs{
+    display: inline-block;
+    width:260px;
+    height:auto;
+    margin: 12px 0 40px 0;
+    position:absolute;
+}
+#listDocs ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+    margin-bottom:20px;
+}
+#listDocs ul a {
+    display: inline-block;
+    padding: 3px 4px 3px 4px;
+    color: #4e4e4e;
+    line-height: 1.5;
+}
+#listDocs .device{   
+    padding: 3px;
+    font-size: 24px;
+    color: #4e4e4e;
+    line-height: 1.5;
+    display:inline-block;
+}
+
+#listDocs ul a:hover, #listDocs ul a:focus {
+    color:red;
+}
+
+#listDocs ul li a.active {
+background: gray;
+color: white;
+}
+
+.secondLevel{
+    margin: 0 30px;
+}
+
+.sectionContainer{
+    display: inline;
+}
+
+div.icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    text-align: center;
+    margin: 2px;
+    cursor: default;
+    background: url(images/add.png) no-repeat;
+}
+
+.activeSection div.icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    text-align: center;
+    margin: 2px;
+    cursor: default;
+    background: url(images/minus.png) no-repeat;
+}

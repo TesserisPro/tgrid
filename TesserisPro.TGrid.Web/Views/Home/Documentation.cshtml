@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "TGrid by Tesseris Pro - Docs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section featured {
+    <div class="header-content">
+        <div class="small-header-content">
+
+            <span class="general-description" style="font-size: 24px;">
+                Documentation
+            </span> 
+			@Html.ActionLink("Demo", "Demo", null, new { @class = "button dimmed" })
+            @Html.ActionLink("Download", "Download", null, new { @class = "button dimmed" })
+        </div>
+    </div>
+}
+<body>
+    <div>
+		<div id="listDocs">
+			<ul data-bind="foreach: sections">
+				<li>
+					<div class="sectionContainer" data-bind="navigate: path, activeClass: 'activeSection'">
+						<div class="icon"></div>
+						<a class="device" data-bind="text: $data.path"></a>
+					</div>
+					<div data-bind="visible: $root.currentSectionPath() == $data.path">
+						<ul data-bind="foreach: nodes">
+							<li class="secondLevel">
+								<a data-bind="navigate: $parent.path + '/' + $data.name, text: name, activeClass: 'active'"></a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div id="help-content-holder" class="documentation-content">
+		</div>
+    </div>
+</body>
+
+<script src="@Url.Content("~/Scripts/navrouter-1.0.1.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/ViewModels/DocsViewModel.js")" type="text/javascript"></script>
+<script type="text/javascript">
+	var rootUrl = "@Url.Content("~")";
+	var router = new routing.Router("help-content-holder", { enableLogging: true });
+	routing.knockout.setCurrentRouter(router);
+	ko.applyBindings(new DocsViewModel());
+	router.run();
+</script>
+

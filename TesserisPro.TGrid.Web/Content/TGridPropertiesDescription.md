@@ -1,6 +1,16 @@
 ﻿##TGrid properties
 
-Some of TGrid properties has default values and are not required to be defined in template.
+Some of TGrid properties has default values and this is not required to define them in template.
+
+
+####itemsProvider
+    
+Defines item provider for grid.
+
+**Value:** JavaScript object that contains item provider functions.
+
+**Default value:** there isn't any default value.
+
 
 ####captureScroll
     
@@ -9,15 +19,6 @@ Enables or disables scroll capturing
 **Value:** *true* or *false*
 
 **Default value:** *true*
-
-
-####itemsProvider
-    
-Defines item provider for grid.
-
-**Value:** JavaScript object that contains item provide functions.
-
-**Default value:** there is **no default value**
 
 ####enableCollapsing
 
@@ -66,6 +67,14 @@ Enables or disables virtual scrolling.
 **Value:** *true* or *false*.
 
 **Default value:** *false*.
+
+####options
+
+Defines variable name for accessing grid options from knockout/angular view model. TGrid properties and TGrid column properties can be changed dynamically, TGrid columns can be changed, added/removed.
+
+**Value:** any acceptable name for variable.
+
+**Default value:** don't have default value.
 
 ####pageSize.
 

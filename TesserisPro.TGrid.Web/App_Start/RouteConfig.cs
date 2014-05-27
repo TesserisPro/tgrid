@@ -12,6 +12,8 @@ namespace TesserisPro.TGrid.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.md");
+
 
             routes.MapRoute(
                 name: "Default",

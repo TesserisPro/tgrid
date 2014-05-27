@@ -84,7 +84,7 @@ var TesserisPro;
                     }
                     return null
                 };
-                AngularHtmlProvider.prototype.getVisibleItemsCount = function(container, view, items, scrollTop) {
+                AngularHtmlProvider.prototype.getVisibleItemsCount = function(container, view, scrollTop, skipGroupHeaders) {
                     var size = 0;
                     var visibleItemsCount = 0;
                     var children = container.children;
@@ -95,13 +95,12 @@ var TesserisPro;
                     for (var i = 0; i < children.length; i++) {
                         var child = children.item(i);
                         if (!containsClass(child, "ng-hide")) {
-                            var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope().item.originalModel : null;
-                            if (isNotNoU(viewModel) && items.indexOf(viewModel) >= 0) {
-                                size += child.offsetHeight;
-                                if (size > scrollTop) {
-                                    visibleItemsCount++;
-                                    visibleItemsSize += child.offsetHeight
+                            size += child.offsetHeight;
+                            if (size > scrollTop) {
+                                if (!skipGroupHeaders || !containsClass(child, "tgrid-table-group-header")) {
+                                    visibleItemsCount++
                                 }
+                                visibleItemsSize += child.offsetHeight
                             }
                         }
                         if (visibleItemsSize >= view.clientHeight) {
@@ -632,11 +631,6 @@ var TesserisPro;
                     return rowTemplate
                 };
                 AngularHtmlProvider.prototype.buildDefaultFilteringPopUp = function(option, filterPopupContainer) {
-                    var columnNameContainer = document.createElement("div");
-                    var columnName = document.createElement("span");
-                    columnName.innerHTML = "{{path}}";
-                    columnNameContainer.appendChild(columnName);
-                    filterPopupContainer.appendChild(columnNameContainer);
                     var filterCondition = document.createElement("select");
                     var selectOption = document.createElement("option");
                     selectOption.value = 0..toString();
@@ -725,6 +719,9 @@ var TGrid;
                             options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBy[i], true))
                         }
                     }
+                }
+                if (attrs["minItemsCountForVirtualization"] != undefined) {
+                    options.minItemsCountForVirtualization = parseInt(attrs["minItemsCountForVirtualization"])
                 }
                 if (attrs["enablepaging"] == undefined) {
                     options.enablePaging = false

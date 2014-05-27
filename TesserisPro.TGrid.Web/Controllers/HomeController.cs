@@ -30,6 +30,12 @@ namespace TesserisPro.TGrid.Web
             return View(demo);
         }
 
+        public ActionResult Documentation()
+        {
+           
+            return View();
+        }
+
         public ActionResult Code(string code)
         {
             return PartialView(code);

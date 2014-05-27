@@ -548,11 +548,6 @@ var TesserisPro;
                     ko.applyBindings(viewModel, elementForBinding)
                 };
                 KnockoutHtmlProvider.prototype.buildDefaultFilteringPopUp = function(option, filterPopupContainer) {
-                    var columnNameContainer = document.createElement("div");
-                    var columnName = document.createElement("span");
-                    columnName.setAttribute("data-bind", "text:path");
-                    columnNameContainer.appendChild(columnName);
-                    filterPopupContainer.appendChild(columnNameContainer);
                     var filterCondition = document.createElement("select");
                     var selectOption = document.createElement("option");
                     selectOption.value = 0..toString();
@@ -640,6 +635,16 @@ var TGridBindingHandler = (function() {
             if (groupBySortDescriptor != undefined) {
                 for (var i = 0; i < groupBySortDescriptor.length; i++) {
                     options.groupBySortDescriptors.push(new TesserisPro.TGrid.SortDescriptor(groupBySortDescriptor[i], true))
+                }
+            }
+            if (isObservable(valueAccessor().minItemsCountForVirtualization)) {
+                if (valueAccessor().minItemsCountForVirtualization() > 0) {
+                    options.minItemsCountForVirtualization = valueAccessor().minItemsCountForVirtualization()
+                }
+            }
+            else {
+                if (valueAccessor().minItemsCountForVirtualization != null && valueAccessor().minItemsCountForVirtualization > 0) {
+                    options.enablePaging = valueAccessor().minItemsCountForVirtualization
                 }
             }
             if (isObservable(valueAccessor().enablePaging)) {
