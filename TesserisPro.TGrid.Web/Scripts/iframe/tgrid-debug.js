@@ -99,10 +99,11 @@ var TesserisPro;
                                 break
                             }
                             if (!option.columns[columnNumber].notSized) {
-                                if (option.columns[columnNumber].widthPercent != null) {
-                                    var percentWidth = parseInt(option.columns[columnNumber].widthPercent) > 0 ? parseInt(option.columns[columnNumber].widthPercent) : 1;
-                                    option.columns[columnNumber].width = (header.offsetWidth * percentWidth / 100).toString();
-                                    option.columns[columnNumber].widthPercent = null
+                                var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
+                                if (indexOfPercentSymbol != -1) {
+                                    var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                                    var percentWidth = intWidth > 0 ? intWidth : 1;
+                                    option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString()
                                 }
                                 headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
                                 var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
@@ -118,7 +119,7 @@ var TesserisPro;
                             dataRow = tableRows.item(i);
                             if (dataRow != undefined) {
                                 var columns = dataRow.getElementsByClassName("tgrid-table-data-cell");
-                                var columnsCount = hasNotSizedColumn ? columns.length - 1 : columns.length;
+                                var columnsCount = columns.length;
                                 columnNumber = 0;
                                 for (var j = 0; j < columnsCount; j++) {
                                     while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
@@ -129,10 +130,11 @@ var TesserisPro;
                                         break
                                     }
                                     if (!option.columns[columnNumber].notSized) {
-                                        if (option.columns[columnNumber].widthPercent != null) {
-                                            var percentWidth = parseInt(option.columns[columnNumber].widthPercent) > 0 ? parseInt(option.columns[columnNumber].widthPercent) : 1;
-                                            option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
-                                            option.columns[columnNumber].widthPercent = null
+                                        var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
+                                        if (indexOfPercentSymbol != -1) {
+                                            var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                                            var percentWidth = intWidth > 0 ? intWidth : 1;
+                                            option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString()
                                         }
                                         columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
                                         var cellContainer = columns.item(j).firstChild;
@@ -704,8 +706,7 @@ var TesserisPro;
                     this.notSized = false;
                     this.enableFiltering = true;
                     this.enableSorting = true;
-                    this.enableGrouping = true;
-                    this.widthPercent = null
+                    this.enableGrouping = true
                 }
                 return ColumnInfo
             })();
@@ -812,9 +813,6 @@ var TesserisPro;
                             }
                             if (columns[i].attributes['data-g-enable-grouping'] != undefined) {
                                 column.enableGrouping = columns[i].attributes['data-g-enable-grouping'].nodeValue == 'false' ? false : true
-                            }
-                            if (columns[i].attributes['data-g-width-percent'] != undefined) {
-                                column.widthPercent = columns[i].attributes['data-g-width-percent'].nodeValue
                             }
                             column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;
                             column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;

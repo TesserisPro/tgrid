@@ -146,10 +146,6 @@ var sections = [
             {
                 name: "data-g-width",
                 file: "dataGWidth"
-            },
-            {
-                name: "data-g-width-percent",
-                file: "dataGWidthPercent"
             }
         ]
     }
