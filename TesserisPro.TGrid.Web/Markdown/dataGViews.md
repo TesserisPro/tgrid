@@ -1,6 +1,6 @@
 ﻿###data-g-views
 
-Defines when to display column in mobile, deskotp or all modes. 
+Defines when to display column in mobile, desktop or all modes. 
 
 **Value:** *mobile* or *desktop* or *mobile,desktop*.
 

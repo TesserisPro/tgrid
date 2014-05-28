@@ -72,6 +72,7 @@ var TesserisPro;
                 this.enableFiltering = true;
                 this.enableSorting = true;
                 this.enableGrouping = true;
+                this.widthPercent = null;
             }
             return ColumnInfo;
         })();
@@ -186,6 +187,9 @@ var TesserisPro;
                         }
                         if (columns[i].attributes['data-g-enable-grouping'] != undefined) {
                             column.enableGrouping = columns[i].attributes['data-g-enable-grouping'].nodeValue == 'false' ? false : true;
+                        }
+                        if (columns[i].attributes['data-g-width-percent'] != undefined) {
+                            column.widthPercent = columns[i].attributes['data-g-width-percent'].nodeValue;
                         }
 
                         column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;

@@ -107,7 +107,6 @@ module TesserisPro.TGrid {
         }
 
         public updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
-
           
             if (!option.hideHeader) {
                 var headers = header.getElementsByTagName("th");
@@ -136,6 +135,11 @@ module TesserisPro.TGrid {
                     }
 
                     if (!option.columns[columnNumber].notSized) {
+                        if (option.columns[columnNumber].widthPercent != null) {
+                            var percentWidth = parseInt(option.columns[columnNumber].widthPercent) > 0 ? parseInt(option.columns[columnNumber].widthPercent) : 1;
+                            option.columns[columnNumber].width = (header.offsetWidth * percentWidth / 100).toString();
+                            option.columns[columnNumber].widthPercent = null;
+                        }
                         (<HTMLElement>headers.item(i + option.columns.length)).style.width = option.columns[columnNumber].width.toString() + "px";
                         var headerContainer = (<HTMLElement>headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
                         (<HTMLElement>headerContainer).style.width = option.columns[columnNumber].width.toString() + "px";
@@ -166,6 +170,11 @@ module TesserisPro.TGrid {
                             }
 
                             if (!option.columns[columnNumber].notSized) {
+                                if (option.columns[columnNumber].widthPercent != null) {
+                                    var percentWidth = parseInt(option.columns[columnNumber].widthPercent) > 0 ? parseInt(option.columns[columnNumber].widthPercent) : 1;
+                                    option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
+                                    option.columns[columnNumber].widthPercent = null;
+                                }
                                 (<HTMLElement>columns.item(j)).style.width = option.columns[columnNumber].width.toString() + "px";
                                 var cellContainer = (<HTMLElement>columns.item(j)).firstChild;
                                 (<HTMLElement>cellContainer).style.width = option.columns[columnNumber].width.toString() + "px";

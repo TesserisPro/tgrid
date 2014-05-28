@@ -132,7 +132,7 @@ Javascript array of items.
     
 ###data-g-views
 
-Defines when to display column in mobile, deskotp or all modes. 
+Defines when to display column in mobile, desktop or all modes. 
 
 **Value:** *mobile* or *desktop* or *mobile,desktop*.
 
@@ -145,6 +145,14 @@ Defines column width in pixels.
 **Value:** Any positive value.
 
 **Default value:** *150*
+
+###data-g-width-percent
+
+Defines column width in percent. Defines column width in percent. If **data-g-width-percent** is set, and **data-g-width** property is set, then **data-g-width-percent** is used to determine column width.
+
+**Value:** From 1 to 100.
+
+**Default value:** *null*
 
 
  
