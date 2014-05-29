@@ -178,7 +178,6 @@ var TesserisPro;
                             var headerContent = document.createElement("div");
                             var headerButtons = document.createElement("div");
                             headerContent.className = "tgrid-header-cell-content";
-                            headerContent.style.overflow = "hidden";
                             headerButtons.className = "tgrid-header-cell-buttons";
                             headerMainContainer.appendChild(headerContent);
                             headerMainContainer.appendChild(headerButtons);
@@ -344,7 +343,6 @@ var TesserisPro;
 
                         var cellContent = document.createElement("div");
                         cellContent.className = "tgrid-cell-content";
-                        cellContent.style.overflow = "hidden";
                         cell.appendChild(cellContent);
 
                         if (option.columns[i].cell != null) {

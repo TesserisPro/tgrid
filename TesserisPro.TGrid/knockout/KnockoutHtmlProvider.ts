@@ -116,7 +116,6 @@ module TesserisPro.TGrid {
                         var headerMainContainer = document.createElement("div");
                         headerMainContainer.className = "tgrid-header-cell-container";
                         var headerContent = document.createElement("div");
-                        headerContent.style.overflow = "hidden";
                         var headerButtons = document.createElement("div");
                         headerContent.className = "tgrid-header-cell-content";
                         headerButtons.className = "tgrid-header-cell-buttons";
@@ -322,7 +321,6 @@ module TesserisPro.TGrid {
                     addClass(cell, "tgrid-table-data-cell");
                     var cellContent = document.createElement("div");
                     cellContent.className = "tgrid-cell-content";
-                    cellContent.style.overflow = "hidden";
                     cell.appendChild(cellContent);
 
                     if (option.columns[i].cell != null) {

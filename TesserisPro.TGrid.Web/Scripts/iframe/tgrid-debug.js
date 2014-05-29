@@ -1010,8 +1010,6 @@ var TesserisPro;
                         else {
                             this.scrollBar.className = "tgrid-scroll noheader"
                         }
-                        this.scrollBar.style.overflowX = "hidden";
-                        this.scrollBar.style.overflowY = "scroll";
                         var scrollContent = document.createElement("div");
                         scrollContent.style.height = "10000px";
                         scrollContent.style.width = "1px";
@@ -1919,8 +1917,6 @@ var TesserisPro;
                         else {
                             this.scrollBar.className = "tgrid-scroll noheader"
                         }
-                        this.scrollBar.style.overflowX = "hidden";
-                        this.scrollBar.style.overflowY = "scroll";
                         var scrollContent = document.createElement("div");
                         scrollContent.style.height = "10000px";
                         scrollContent.style.width = "1px";

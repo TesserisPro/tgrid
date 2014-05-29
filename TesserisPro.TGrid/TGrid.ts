@@ -227,8 +227,6 @@ module TesserisPro.TGrid {
                 } else {
                     this.scrollBar.className = "tgrid-scroll noheader";
                 }
-                this.scrollBar.style.overflowX = "hidden";
-                this.scrollBar.style.overflowY = "scroll";
 
                 var scrollContent = document.createElement("div");
                 scrollContent.style.height = "10000px";
@@ -1274,7 +1272,6 @@ module TesserisPro.TGrid {
         }
 
         public afterOptionsChange() {
-
             if (!this.options.captureScroll) {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
             } else {
@@ -1296,8 +1293,6 @@ module TesserisPro.TGrid {
                 } else {
                     this.scrollBar.className = "tgrid-scroll noheader";
                 }
-                this.scrollBar.style.overflowX = "hidden";
-                this.scrollBar.style.overflowY = "scroll";
 
                 var scrollContent = document.createElement("div");
                 scrollContent.style.height = "10000px";
@@ -1308,7 +1303,6 @@ module TesserisPro.TGrid {
                 this.scrollBar.onscroll = () => this.onManualScroll();
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
                 this.mobileContainer.onscroll = () => this.scrollTable();
-
             }
 
             if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {

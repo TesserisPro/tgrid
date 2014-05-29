@@ -60,6 +60,7 @@
     right: 0;
     top: 3px;
     bottom: 0;
+    overflow: hidden;
 }
 
 .tgrid-header-cell-buttons {
@@ -246,6 +247,8 @@ th.tgrid-table-indent-cell-content
 }
 
 .tgrid-scroll {
+    overflow-x: hidden;
+    overflow-y:scroll;
     display: inline-block;
     position: absolute;
     right: 1px;
@@ -709,6 +712,9 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
 }
 .tgrid-table-indent-cell{
     border-bottom: none;
+}
+.tgrid-cell-content{
+    overflow: hidden;
 }
 
 /* Mobile */
