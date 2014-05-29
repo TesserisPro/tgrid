@@ -744,8 +744,6 @@ module TesserisPro.TGrid {
             filterText.style.width = '150px';
             filterPopupContainer.appendChild(filterText);
 
-            filterPopupContainer.innerHTML += "<br>";
-
             var applyButton = document.createElement("div");
             applyButton.className = "tgrid-filter-popup-button";
             applyButton.style.width = '70px';

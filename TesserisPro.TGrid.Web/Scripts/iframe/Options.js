@@ -188,9 +188,6 @@ var TesserisPro;
                             column.enableGrouping = columns[i].attributes['data-g-enable-grouping'].nodeValue == 'false' ? false : true;
                         }
 
-                        //if (columns[i].attributes['data-g-width-percent'] != undefined) {
-                        //    column.widthPercent = columns[i].attributes['data-g-width-percent'].nodeValue;
-                        //}
                         column.sortMemberPath = columns[i].attributes['data-g-sort-member'] != undefined ? columns[i].attributes['data-g-sort-member'].nodeValue : column.member;
                         column.groupMemberPath = columns[i].attributes['data-g-group-member'] !== undefined ? columns[i].attributes['data-g-group-member'].nodeValue : column.member;
                         column.filterMemberPath = columns[i].attributes['data-g-filter-member'] != undefined ? columns[i].attributes['data-g-filter-member'].nodeValue : column.member;
