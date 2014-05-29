@@ -139,9 +139,7 @@ th.tgrid-table-indent-cell-content
 
 }
 
-.tgrid-mobile-container .selected {
-    background-color: #dbdbde !important;
-}
+
 
 .tgrid-table-body-row .tgrid-cell-content span
 {
@@ -623,6 +621,9 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
   background-color: white;
 }
 
+.tgrid-mobile-row.ng-scope.selected,.tgrid-mobile-row.selected{
+    background-color: #dbdbde;
+}
 
 .tgrid-mobile-menu-li-column-header-container {
     width: 150px;
