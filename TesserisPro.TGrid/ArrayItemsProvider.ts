@@ -198,7 +198,7 @@ module TesserisPro.TGrid {
         }
 
         private isFilterSatisfied(item, filterDescriptor: FilterDescriptor) {
-            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+            if (this.isFilterConditionSatisfied(this.getItemPropertyByPath(item, filterDescriptor.path), filterDescriptor.value, filterDescriptor.condition)) {
                 if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == LogicalOperator.Or) {
                     return true;
                 } else {
@@ -209,8 +209,7 @@ module TesserisPro.TGrid {
                 if (filterDescriptor.parentChildUnionOperator == LogicalOperator.And) {
                     return false;
                 }
-                else
-                {
+                else {
                     return this.isChildFiltersSatisfied(item, filterDescriptor);
                 }
             }
@@ -220,9 +219,9 @@ module TesserisPro.TGrid {
             if (filterDescriptor.childrenUnionOperator == LogicalOperator.Or) {
                 for (var i = 0; i < filterDescriptor.children.length; i++) {
                     if (this.isFilterConditionSatisfied(
-                                        item[filterDescriptor.children[i].path],
-                                        filterDescriptor.children[i].value,
-                                        filterDescriptor.children[i].condition)) {
+                        this.getItemPropertyByPath(item, filterDescriptor.children[i].path),
+                        filterDescriptor.children[i].value,
+                        filterDescriptor.children[i].condition)) {
                         return true;
                     }
                 }
@@ -232,15 +231,30 @@ module TesserisPro.TGrid {
             else {
                 for (var i = 0; i < filterDescriptor.children.length; i++) {
                     if (!this.isFilterConditionSatisfied(
-                                        item[filterDescriptor.children[i].path],
-                                        filterDescriptor.children[i].value,
-                                        filterDescriptor.children[i].condition)) {
+                        this.getItemPropertyByPath(item, filterDescriptor.children[i].path),
+                        filterDescriptor.children[i].value,
+                        filterDescriptor.children[i].condition)) {
                         return false;
                     }
                 }
 
                 return true;
             }
+        }
+
+        private getItemPropertyByPath(item: any, path: string): any
+        {
+            if (path.match(/\./gi)) {
+                var pathParts = path.split(/\./);
+                var currentProperty = item[pathParts[0]];
+                for (var i = 1; i < pathParts.length; i++) {
+                    currentProperty = currentProperty[pathParts[i]];
+                }
+
+                return currentProperty;
+            }
+
+            return item[path];
         }
         
         private isFilterConditionSatisfied(item: any, value: any, condition: FilterCondition): boolean {
