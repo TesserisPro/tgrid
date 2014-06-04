@@ -1195,7 +1195,7 @@ var TesserisPro;
 
             Grid.prototype.afterOptionsChange = function () {
                 var _this = this;
-                if (!this.options.captureScroll) {
+                if (this.options.captureScroll) {
                     this.rootElement.onmousewheel = function (e) {
                         return _this.mouseWheel(e);
                     };

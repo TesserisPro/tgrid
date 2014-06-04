@@ -1272,7 +1272,7 @@ module TesserisPro.TGrid {
         }
 
         public afterOptionsChange() {
-            if (!this.options.captureScroll) {
+            if (this.options.captureScroll) {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
             } else {
                 this.rootElement.onmousewheel = undefined;
