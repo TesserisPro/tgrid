@@ -9,3 +9,13 @@ Defines if column has width. If is set to *true*:
 + table css property *table-layout* is set to *fixed*
 
 + width of all not-sized columns becomes the same and depends on table width.
+
+**Example**
+<!--Start the highlighter-->
+<pre class="brush: html">
+	<column data-g-member="Name" data-g-not-sized = "true"> </column>
+</pre>
+##### 
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

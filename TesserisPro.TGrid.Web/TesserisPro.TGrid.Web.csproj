@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Content Include="Content\images\imagesForDocs\ColumnGeneral.png" />
     <Content Include="Content\images\minus.png" />
     <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
@@ -329,9 +330,13 @@
     <Content Include="Markdown\selectionMode.md" />
     <Content Include="Markdown\showDetailsOnSelection.md" />
     <Content Include="Markdown\options.md" />
-    <Content Include="Markdown\tableProperties.md" />
+    <Content Include="Markdown\gridSettings.md" />
     <Content Include="Markdown\itemsProvider.md" />
     <Content Include="Markdown\hideHeader.md" />
+    <Content Include="Markdown\columnsGeneral.md" />
+    <Content Include="Markdown\general.md" />
+    <Content Include="Markdown\generalOptions.md" />
+    <Content Include="Markdown\columns.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />

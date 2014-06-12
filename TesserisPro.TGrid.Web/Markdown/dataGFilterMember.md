@@ -7,12 +7,19 @@ This property is used to define item's property for filtering.
 **Default value:** property **data-g-member**.
 
 **Example:**
-
+<!--Start the highlighter-->
+<pre class="brush: html">
 	<column data-g-member="Name" data-g-filter-member = "NameLowCase"> </column>
-    
+</pre>
+##### 
 Data source. 
-
+<pre class="brush: js">
 	var items = [
         { Name: "John", Surname: "Doe", Age: "33", NameLowCase: "john" }
         //... more items
 	];
+</pre>
+#####
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

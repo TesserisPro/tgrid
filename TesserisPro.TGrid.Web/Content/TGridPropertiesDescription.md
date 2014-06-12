@@ -96,9 +96,9 @@ Defines how many items are displayed on 1 page.
 
 Sets how many pages should be visible (to the left and to the right from current) in pager.
 
-**Value:** number from 1 to  total items count.
+**Value:** number from 1 to  total pages count.
 
-**Default value:** *10*.
+**Default value:** *1*.
 
 ####ready
 

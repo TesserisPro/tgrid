@@ -844,3 +844,7 @@ div.icon {
     cursor: default;
     background: url(images/minus.png) no-repeat;
 }
+
+#help-content-holder{
+    width: 722px;
+}

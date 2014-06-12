@@ -11,3 +11,25 @@ Defines how many items can be selected in TGrid. If **rowClick** is defined, is 
 + "multi" - you can select more, then one item. For selecting more then one item, press key 'Ctrl'.
 
 **Default value:** *single*.
+
+**Example:**
+
+#####For Knockout
+<!--Start the highlighter-->
+<pre class="brush: html">
+	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, selectionMode: 'multi'}">
+	</div>
+</pre>
+
+#####For Angular
+
+<pre class="brush: html">
+	<t-grid id="test-angular" provider="itemsProvider" selectionMode="multi">
+	</t-grid>
+</pre>
+
+#####
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>

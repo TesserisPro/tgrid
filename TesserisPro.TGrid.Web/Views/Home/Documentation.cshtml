@@ -3,6 +3,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shCore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushXml.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushCss.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushJScript.js")"></script>
+
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
+
 @section featured {
     <div class="header-content">
         <div class="small-header-content">
@@ -22,12 +30,12 @@
 				<li>
 					<div class="sectionContainer" data-bind="navigate: path, activeClass: 'activeSection'">
 						<div class="icon"></div>
-						<a class="device" data-bind="text: $data.path"></a>
+						<a class="device" data-bind="text: $data.name"></a>
 					</div>
 					<div data-bind="visible: $root.currentSectionPath() == $data.path">
 						<ul data-bind="foreach: nodes">
 							<li class="secondLevel">
-								<a data-bind="navigate: $parent.path + '/' + $data.name, text: name, activeClass: 'active'"></a>
+								<a data-bind="navigate: $parent.path + '/' + $data.routeName, text: name, activeClass: 'active'"></a>
 							</li>
 						</ul>
 					</div>
@@ -35,6 +43,8 @@
 			</ul>
 		</div>
 		<div id="help-content-holder" class="documentation-content">
+			
+
 		</div>
     </div>
 </body>
@@ -48,4 +58,5 @@
 	ko.applyBindings(new DocsViewModel());
 	router.run();
 </script>
+
 
