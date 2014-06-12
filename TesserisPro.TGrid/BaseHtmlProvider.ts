@@ -28,7 +28,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //=====================================================================================
-
+//
 /// <reference path="IHtmlProvider.ts" />
 /// <reference path="ItemViewModel.ts" />
 /// <reference path="IFooterViewModel.ts"/>
@@ -435,12 +435,12 @@ module TesserisPro.TGrid {
                 filter.onclick = (e) => {
                     var eventTarget = <HTMLElement>e.target;
                     var grid = Grid.getGridObject(eventTarget);
-                    var popupTop = header.getBoundingClientRect().bottom - grid.GetRootElement().getBoundingClientRect().top;
-                    var poupLeft = eventTarget.getBoundingClientRect().left - grid.GetRootElement().getBoundingClientRect().left;
+                    var popupTop = (header.getBoundingClientRect().top + header.getBoundingClientRect().height) + document.body.scrollTop;
+                    var poupLeft = eventTarget.getBoundingClientRect().left + document.body.scrollLeft;
                     
                     if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
                         grid.showFilterPopup(option.columns[columnNumber], poupLeft, popupTop, true);
-                        if ((poupLeft + filterPopupContainer.offsetWidth) > (header.getBoundingClientRect().right - grid.GetRootElement().getBoundingClientRect().left)) {
+                        if ((poupLeft + filterPopupContainer.offsetWidth) > (grid.GetRootElement().getBoundingClientRect().left + grid.GetRootElement().getBoundingClientRect().width)) {
                             grid.showFilterPopup(option.columns[columnNumber], poupLeft - filterPopupContainer.offsetWidth + eventTarget.offsetWidth, popupTop, true);
                         }
                     } else {

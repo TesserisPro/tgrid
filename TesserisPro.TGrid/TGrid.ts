@@ -166,7 +166,8 @@ module TesserisPro.TGrid {
                 this.filterPopUp = document.createElement("div");
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.filterPopUp.style.display = "none";
-                this.rootElement.appendChild(this.filterPopUp);
+                this.filterPopUp.grid = this;
+                document.body.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
@@ -1279,10 +1280,14 @@ module TesserisPro.TGrid {
             }
 
             if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                if (this.filterPopUp != null) {
+                    document.body.removeChild(this.filterPopUp);
+                }
                 this.filterPopUp = document.createElement("div");
                 this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                 this.filterPopUp.style.display = "none";
-                this.rootElement.appendChild(this.filterPopUp);
+                this.filterPopUp.grid = this;
+                document.body.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
