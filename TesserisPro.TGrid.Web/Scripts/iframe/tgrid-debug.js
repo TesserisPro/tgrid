@@ -344,11 +344,11 @@ var TesserisPro;
                         filter.onclick = function(e) {
                             var eventTarget = e.target;
                             var grid = TGrid.Grid.getGridObject(eventTarget);
-                            var popupTop = header.getBoundingClientRect().bottom - grid.GetRootElement().getBoundingClientRect().top;
-                            var poupLeft = eventTarget.getBoundingClientRect().left - grid.GetRootElement().getBoundingClientRect().left;
+                            var popupTop = (header.getBoundingClientRect().top + header.getBoundingClientRect().height) + document.body.scrollTop;
+                            var poupLeft = eventTarget.getBoundingClientRect().left + document.body.scrollLeft;
                             if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
                                 grid.showFilterPopup(option.columns[columnNumber], poupLeft, popupTop, true);
-                                if ((poupLeft + filterPopupContainer.offsetWidth) > (header.getBoundingClientRect().right - grid.GetRootElement().getBoundingClientRect().left)) {
+                                if ((poupLeft + filterPopupContainer.offsetWidth) > (grid.GetRootElement().getBoundingClientRect().left + grid.GetRootElement().getBoundingClientRect().width)) {
                                     grid.showFilterPopup(option.columns[columnNumber], poupLeft - filterPopupContainer.offsetWidth + eventTarget.offsetWidth, popupTop, true)
                                 }
                             }
@@ -951,7 +951,8 @@ var TesserisPro;
                         this.filterPopUp = document.createElement("div");
                         this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                         this.filterPopUp.style.display = "none";
-                        this.rootElement.appendChild(this.filterPopUp);
+                        this.filterPopUp.grid = this;
+                        document.body.appendChild(this.filterPopUp);
                         this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                         this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel)
                     }
@@ -1902,10 +1903,14 @@ var TesserisPro;
                         this.rootElement.onmousewheel = undefined
                     }
                     if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                        if (this.filterPopUp != null) {
+                            document.body.removeChild(this.filterPopUp)
+                        }
                         this.filterPopUp = document.createElement("div");
                         this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
                         this.filterPopUp.style.display = "none";
-                        this.rootElement.appendChild(this.filterPopUp);
+                        this.filterPopUp.grid = this;
+                        document.body.appendChild(this.filterPopUp);
                         this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                         this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel)
                     }

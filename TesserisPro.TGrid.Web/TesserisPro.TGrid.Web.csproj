@@ -123,7 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Content Include="Content\images\imagesForDocs\ColumnGeneral.png" />
+    <Content Include="Content\images\imagesForDocs\columnCellDetailsTemplate.jpg" />
+    <Content Include="Content\images\imagesForDocs\columnCellTemplate.jpg" />
+    <Content Include="Content\images\imagesForDocs\columnGeneral.jpg" />
+    <Content Include="Content\images\imagesForDocs\columnHeaderTemplate.jpg" />
     <Content Include="Content\images\minus.png" />
     <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
