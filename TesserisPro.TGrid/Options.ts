@@ -92,8 +92,6 @@ module TesserisPro.TGrid {
         public enableFiltering: boolean;
         public hideHeader: boolean;
 
-        public filterPath: string;
-
         public mobileTemplateHtml: Template = null;
         public detailsTemplateHtml: Template = null;
         public groupHeaderTemplate: Template = null;

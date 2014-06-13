@@ -1,22 +1,14 @@
-﻿####options
+﻿####enableSorting
 
-Defines variable name for accessing grid options from knockout/angular view model. TGrid properties and TGrid column properties can be changed dynamically, TGrid columns can be changed, added/removed.
-After changing you should call applyHandler() for options.
-#####For Knockout
-<!--Start the highlighter-->
-<pre class="brush:js">
-    self.gridOptions().applyHandler();
-</pre>
-#####For Angular
-<pre class="brush:js">
-    $scope.gridOptions.applyHandler();
-</pre>
+Enables or disables Sorting. 
 
-**Value:** any acceptable name for variable.
+**Value:** *true* or *false*.
 
-**Default value:** don't have default value.
+**Default value:** *false*.
 
-**Example:**
+[enableSorting in Grid Settings](#!/GridSettings/enableSorting)
+
+Example of dynamic change **enableSorting** grid setting:
 
 #####For Knockout
 In HTML define **options** setting:

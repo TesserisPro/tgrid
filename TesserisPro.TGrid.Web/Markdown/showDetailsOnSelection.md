@@ -13,14 +13,14 @@ To make details working on selection you should define html details template in 
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
+	<div data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
 	</div>
 </pre>
 #####
 Example of grid with details settings and details template:
 
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
+	<div data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
 		  <script type="text/html">
 			<column data-g-member="Name">
 			</column>

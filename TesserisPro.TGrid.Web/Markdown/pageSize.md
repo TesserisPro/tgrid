@@ -11,14 +11,14 @@ Defines how many items are displayed on 1 page.
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSize: 5}">
+	<div data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSize: 5}">
 	</div>
 </pre>
 
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" enablePaging="true" pageSize="5">
+	<t-grid provider="itemsProvider" enablePaging="true" pageSize="5">
 	</t-grid>
 </pre>
 

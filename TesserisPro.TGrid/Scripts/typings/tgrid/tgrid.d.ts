@@ -73,7 +73,7 @@ declare module TesserisPro.TGrid {
         public enableSorting: boolean;
         public enableGrouping: boolean;
         public enableFiltering: boolean;
-        public filterPath: string;
+        public hideHeader: boolean;
         public mobileTemplateHtml: Template;
         public detailsTemplateHtml: Template;
         public groupHeaderTemplate: Template;

@@ -167,6 +167,7 @@
     <Content Include="Markdown\dataGEnableSorting.md" />
     <Content Include="Markdown\captureScroll.md" />
     <Content Include="Markdown\dataGFilterMember.md" />
+    <None Include="Markdown\enableVirtualScrollOptions.md" />
     <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
     <Compile Include="Models\TGridModels\Item.cs" />
     <Compile Include="Models\TGridModels\CustomServerItemsProvider.cs" />
@@ -300,7 +301,6 @@
     <Content Include="Scripts\iframe\ArrayItemsProvider.js" />
     <Content Include="Scripts\iframe\BaseHtmlProvider.js" />
     <Content Include="Scripts\iframe\FilterDescriptor.js" />
-    <Content Include="Scripts\iframe\FilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\GroupHeaderDescriptor.js" />
     <Content Include="Scripts\iframe\IFilterPopupViewModel.js" />
     <Content Include="Scripts\iframe\IFooterViewModel.js" />
@@ -339,7 +339,16 @@
     <Content Include="Markdown\columnsGeneral.md" />
     <Content Include="Markdown\general.md" />
     <Content Include="Markdown\generalOptions.md" />
-    <Content Include="Markdown\columns.md" />
+    <Content Include="Markdown\optionsColumns.md" />
+    <Content Include="Markdown\enableCollapsingOptions.md" />
+    <Content Include="Markdown\enableFilteringOptions.md" />
+    <Content Include="Markdown\enableGroupingOptions.md" />
+    <Content Include="Markdown\enablePagingOptions.md" />
+    <Content Include="Markdown\enableSortingOptions.md" />
+    <Content Include="Markdown\detailsTemplateHtmlOptions.md" />
+    <Content Include="Markdown\mobileTemplateHtmlOptions.md" />
+    <Content Include="Markdown\groupHeaderTemplateOptions.md" />
+    <Content Include="Markdown\filterPopup.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />

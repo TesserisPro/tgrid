@@ -1,22 +1,14 @@
-﻿####options
+﻿####enableGrouping
 
-Defines variable name for accessing grid options from knockout/angular view model. TGrid properties and TGrid column properties can be changed dynamically, TGrid columns can be changed, added/removed.
-After changing you should call applyHandler() for options.
-#####For Knockout
-<!--Start the highlighter-->
-<pre class="brush:js">
-    self.gridOptions().applyHandler();
-</pre>
-#####For Angular
-<pre class="brush:js">
-    $scope.gridOptions.applyHandler();
-</pre>
+Enables or disables Grouping for grid. 
 
-**Value:** any acceptable name for variable.
+**Value:** *true* or *false*.
 
-**Default value:** don't have default value.
+**Default value:** *false*.
 
-**Example:**
+[enableGrouping in Grid Settings](#!/GridSettings/enableGrouping)
+
+Example of dynamic change **enableGrouping** grid setting:
 
 #####For Knockout
 In HTML define **options** setting:
@@ -27,8 +19,8 @@ In HTML define **options** setting:
 </pre>
 #####
 In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableSorting**
-can be changed using function 'enableSorting'.
+You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
+can be changed using function 'enableGrouping'.
 
 <pre class="brush: js">
  function vm() {
@@ -36,8 +28,8 @@ can be changed using function 'enableSorting'.
     self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
     self.gridOptions = ko.observable();
 
-    self.enableSorting = function () {
-        self.gridOptions().enableSorting = true;
+    self.enableGrouping = function () {
+        self.gridOptions().enableGrouping = true;
         self.gridOptions().applyHandler();
 	}
 }
@@ -51,16 +43,16 @@ In HTML define **options** setting:
 </pre>
 #####
 In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableSorting**
-can be changed using function 'enableSorting'.
+You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
+can be changed using function 'enableGrouping'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])
     .controller("ctrl", function ctrl($scope) {
         $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
         $scope.gridOptions;
-		$scope.enableSorting = function () {
-            $scope.gridOptions.enableSorting = true;
+		$scope.enableGrouping = function () {
+            $scope.gridOptions.enableGrouping = true;
             $scope.gridOptions.applyHandler();
 		}
 	}

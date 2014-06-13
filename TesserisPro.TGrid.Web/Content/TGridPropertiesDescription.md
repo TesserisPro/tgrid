@@ -30,7 +30,8 @@ You can choose do not render grid header. If is set to *true*, grid header isn't
 
 ####enableCollapsing
 
-Enables or disables groups collapsing.
+Enables or disables groups collapsing by click on group header. 
+To enable groups collapsing **enableCollapsing** should be set to *true* and **enableGrouping** should be set to true. 
 
 **Value:** *true* or *false*. 
 
@@ -54,7 +55,7 @@ Enables or disables grouping
 
 ####enablePaging
 
-Enables or disables paging.
+Enables or disables paging. Only one  of two grid setting: **enablePaging** and **enableVirtualScroll** should be set to *true* at the same time.
 
 **Value:** *true* or *false*.
 
@@ -70,7 +71,8 @@ Enables or disables sorting.
 
 ####enableVirtualScroll
 
-Enables or disables virtual scrolling.
+Enables or disables virtual scrolling. Is enabled only if rows count is more then 100. 
+Only one  of two grid setting: **enablePaging** and **enableVirtualScroll** should be set to *true* at the same time.
 
 **Value:** *true* or *false*.
 

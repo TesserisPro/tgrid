@@ -1,6 +1,7 @@
 ﻿####enableCollapsing
 
-Enables or disables groups collapsing.
+Enables or disables groups collapsing by click on group header. 
+To enable groups collapsing **enableCollapsing** should be set to *true* and **enableGrouping** should be set to true. 
 
 **Value:** *true* or *false*. 
 
@@ -11,14 +12,14 @@ Enables or disables groups collapsing.
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableCollapsing: true}">
+	<div data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableCollapsing: true}">
 	</div>
 </pre>
 
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" enableGrouping="true" enableCollapsing="true">
+	<t-grid provider="itemsProvider" enableGrouping="true" enableCollapsing="true">
 	</t-grid>
 </pre>
 

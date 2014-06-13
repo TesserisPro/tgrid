@@ -192,5 +192,142 @@ var sections = [
                 file: "dataGWidth"
             }
         ]
+    },
+    {
+        name:"Options",
+        path:"options",
+        nodes: [
+            {
+                name: "general",
+                routeName: "general_options",
+                file: "generalOptions"
+            },
+            {
+                name:"columns",
+                routeName:"options_columns",
+                file:"optionsColumns"
+            },
+            {
+                name: "enableCollapsing",
+                routeName: "enableCollapsingOptions",
+                file: "enableCollapsingOptions"
+            },
+            {
+                name:"enableFiltering",
+                routeName: "enableFilteringOptions",
+                file: "enableFilteringOptions"
+            },
+            {
+                name: "enableGrouping",
+                routeName: "enableGroupingOptions",
+                file: "enableGroupingOptions"
+            },
+            {
+                name: "enablePaging",
+                routeName: "enablePagingOptions",
+                file: "enablePagingOptions"
+            },
+            {
+                name: "enableSorting",
+                routeName: "enableSortingOptions",
+                file: "enableSortingOptions"
+            },
+            {
+                name:"enableVirtualScroll",
+                routeName:"enableVirtualScrollOptiions",
+                file: "enableVirtualScrollOptions"
+            },
+            {
+                name: "mobileTemplateHtml",
+                routeName: "mobileTemplateHtmlOptions",
+                file: "mobileTemplateHtmlOptions"
+            },
+            {
+                name: "detailsTemplateHtml",
+                routeName: "detailsTemplateHtmlOptions",
+                file: "detailsTemplateHtmlOptions"
+            },
+            {
+                name: "groupHeaderTemplate",
+                routeName: "groupHeaderTemplateOptions",
+                file: "groupHeaderTemplateOptions"
+            },
+            {
+                name: "filterPopup",
+                routeName: "filterPopupOptions",
+                file: "filterPopupOptions"
+            },
+            {
+                name: "framework",
+                routeName: "frameworkOptions",
+                file: "frameworkOptions"
+            },
+            {
+                name: "target",
+                routeName: "targetOptions",
+                file: "targetOptions"
+            },
+            {
+                name: "framework",
+                routeName: "frameworkOptions",
+                file: "frameworkOptions"
+            },
+            {
+                name: "hideHeader",
+                routeName: "enableVirtualScrollOptions",
+                file: "enableVirtualScrollOptions"
+            },
+            {
+                name: "pageSize",
+                routeName: "enableVirtualScrollOptions",
+                file: "enableVirtualScrollOptions"
+            },
+            {
+                name: "pageSlide",
+                routeName: "enableVirtualScrollOptions",
+                file: "enableVirtualScrollOptions"
+            },
+            {
+                name: "batchSize",
+                routeName: "batchSizeOptions",
+                file: "batchSizeOptions"
+            },
+            {
+                name: "firstLoadSize",
+                routeName: "firstLoadSizeOptions",
+                file: "firstLoadSizeOptions"
+            },
+            {
+                name: "currentPage",
+                routeName: "currentPageOptions",
+                file: "currentPageOptions"
+            },
+            {
+                name: "sortDescriptor",
+                routeName: "sortDescriptorOptions",
+                file: "sortDescriptorOptions"
+            },
+            {
+                name: "groupBySortDescriptor",
+                routeName: "groupBySortDescriptorOptions",
+                file: "groupBySortDescriptorrOptions"
+            },
+            {
+                name: "rowClick",
+                routeName: "rowClickOptions",
+                file: "rowClickOptions"
+            },
+            {
+                name: "selectionMode",
+                routeName: "enableVirtualScrollOptions",
+                file: "enableVirtualScrollOptions"
+            },
+            {
+                name: "showDetailsOnSelection",
+                routeName: "enableVirtualScrollOptions",
+                file: "enableVirtualScrollOptions"
+            }
+
+        ]
     }
 ];

@@ -11,14 +11,14 @@ Sets how many pages should be visible (to the left and to the right from current
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSlide: 3}">
+	<div data-bind="tgrid: { provider: itemsProvider, enablePaging: true, pageSlide: 3}">
 	</div>
 </pre>
 
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" enablePaging="true" pageSlide="3">
+	<t-grid provider="itemsProvider" enablePaging="true" pageSlide="3">
 	</t-grid>
 </pre>
 

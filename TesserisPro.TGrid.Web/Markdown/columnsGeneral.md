@@ -1,5 +1,6 @@
-﻿
-### Columns usage scenario:
+﻿## Columns
+
+###Columns usage scenario:
 
 First, you need  values for grid. For example, you have grid rows in JavaScript:
 
@@ -77,7 +78,9 @@ Result:
     <column data-g-member="Name">
         <cell>
             <span style="display: inline-block;" data-bind="text: item.Name">...</span>
-            <a href data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">...</a>
+            <a href data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">
+			...
+			</a>
         </cell>
         <celldetail>
             <div>
@@ -94,7 +97,9 @@ Result:
     <column data-g-member="Name">
         <cell>
 			<span>{{item.item.Name}}</span>
-			<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">...</a> 
+			<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">
+			...
+			</a> 
 		</cell>
 		<celldetail>
 			<div>
