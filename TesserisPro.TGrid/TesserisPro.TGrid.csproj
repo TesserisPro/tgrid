@@ -34,24 +34,8 @@
     <Content Include="IHtmlProvider.ts" />
     <Content Include="IItemProvider.ts" />
     <TypeScriptCompile Include="ItemViewModel.ts" />
-    <Content Include="Images\arrow_down_mobile.png" />
-    <Content Include="Images\arrow_up_mobile.png" />
-    <Content Include="Images\delete.png" />
-    <Content Include="Images\arrow_down.png" />
-    <Content Include="Images\arrow_up.png" />
-    <Content Include="Images\filter.png" />
     <TypeScriptCompile Include="knockout\KnockoutFooterViewModel.ts" />
     <TypeScriptCompile Include="knockout\KnockoutFilterPopupViewModel.ts" />
-    <Content Include="Images\filter_active.png" />
-    <Content Include="Images\filter_mobile.png" />
-    <Content Include="Images\filter_mobile_active.png" />
-    <Content Include="Images\group_active.png" />
-    <Content Include="Images\group_menu.png" />
-    <Content Include="Images\group_mobile.png" />
-    <Content Include="Images\group_mobile_active.png" />
-    <Content Include="Images\menu.png" />
-    <Content Include="Images\menu_active3.png" />
-    <Content Include="Images\no_sort_mobile.png" />
     <Content Include="knockout\KnockoutHtmlProvider.ts" />
     <Content Include="knockout\TGridBinding.js">
       <DependentUpon>TGridBinding.ts</DependentUpon>
