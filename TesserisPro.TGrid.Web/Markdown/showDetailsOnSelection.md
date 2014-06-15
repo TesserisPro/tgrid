@@ -25,9 +25,7 @@ Example of grid with details settings and details template:
 			<column data-g-member="Name">
 			</column>
 		    <details>
-                <div>
-                    <div>This is a sample of row details </div>
-                </div>
+                <div>This is a sample of row details </div>
             </details>
         </script>
 	</div>
@@ -49,9 +47,7 @@ Example of grid with details settings and details template, and one column:
 					<column data-g-member="Name">
 					</column>
 					<details>
-						<div>
 						<div>This is a sample of table row details </div>
-						</div>
 					</details>
 				</script>
 			</t-grid>

@@ -68,12 +68,6 @@ class ColumnInfo {
     public enableGrouping: boolean;
 }
 
-class Template {
-    private content;
-    constructor(prototype: HTMLElement);
-    public applyTemplate(element: HTMLElement): void;
-    public getContent(): string;
-}
 </pre>
 
 #####

@@ -169,6 +169,8 @@
     <Content Include="Markdown\dataGEnableSorting.md" />
     <Content Include="Markdown\captureScroll.md" />
     <Content Include="Markdown\dataGFilterMember.md" />
+    <Content Include="Markdown\batchSizeOptions.md" />
+    <Content Include="Markdown\currentPageOptions.md" />
     <None Include="Markdown\enableVirtualScrollOptions.md" />
     <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
     <Compile Include="Models\TGridModels\Item.cs" />
@@ -335,7 +337,12 @@
     <Content Include="Markdown\detailsTemplateHtmlOptions.md" />
     <Content Include="Markdown\mobileTemplateHtmlOptions.md" />
     <Content Include="Markdown\groupHeaderTemplateOptions.md" />
-    <Content Include="Markdown\filterPopup.md" />
+    <Content Include="Markdown\filterPopupOptions.md" />
+    <Content Include="Markdown\hideHeaderOptions.md" />
+    <Content Include="Markdown\pageSizeOptions.md" />
+    <Content Include="Markdown\pageSlideOptions.md" />
+    <Content Include="Markdown\firstLoadSizeOptions.md" />
+    <Content Include="Markdown\sortDescriptorOptions.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />

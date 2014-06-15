@@ -248,44 +248,24 @@ var sections = [
                 file: "detailsTemplateHtmlOptions"
             },
             {
-                name: "groupHeaderTemplate",
-                routeName: "groupHeaderTemplateOptions",
-                file: "groupHeaderTemplateOptions"
-            },
-            {
                 name: "filterPopup",
                 routeName: "filterPopupOptions",
                 file: "filterPopupOptions"
             },
             {
-                name: "framework",
-                routeName: "frameworkOptions",
-                file: "frameworkOptions"
-            },
-            {
-                name: "target",
-                routeName: "targetOptions",
-                file: "targetOptions"
-            },
-            {
-                name: "framework",
-                routeName: "frameworkOptions",
-                file: "frameworkOptions"
-            },
-            {
                 name: "hideHeader",
-                routeName: "enableVirtualScrollOptions",
-                file: "enableVirtualScrollOptions"
+                routeName: "hideHeaderOptions",
+                file: "hideHeaderOptions"
             },
             {
                 name: "pageSize",
-                routeName: "enableVirtualScrollOptions",
-                file: "enableVirtualScrollOptions"
+                routeName: "pageSizeOptions",
+                file: "pageSizeOptions"
             },
             {
                 name: "pageSlide",
-                routeName: "enableVirtualScrollOptions",
-                file: "enableVirtualScrollOptions"
+                routeName: "pageSlideOptions",
+                file: "pageSlideOptions"
             },
             {
                 name: "batchSize",
@@ -308,26 +288,15 @@ var sections = [
                 file: "sortDescriptorOptions"
             },
             {
-                name: "groupBySortDescriptor",
-                routeName: "groupBySortDescriptorOptions",
-                file: "groupBySortDescriptorrOptions"
+                name: "groupBySortDescriptors",
+                routeName: "groupBySortDescriptorsOptions",
+                file: "groupBySortDescriptorsOptions"
             },
             {
                 name: "rowClick",
                 routeName: "rowClickOptions",
                 file: "rowClickOptions"
-            },
-            {
-                name: "selectionMode",
-                routeName: "enableVirtualScrollOptions",
-                file: "enableVirtualScrollOptions"
-            },
-            {
-                name: "showDetailsOnSelection",
-                routeName: "enableVirtualScrollOptions",
-                file: "enableVirtualScrollOptions"
             }
-
         ]
     }
 ];

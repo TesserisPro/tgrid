@@ -183,6 +183,11 @@ To see details you should also define cell details template. Full HTML code is:
 ####
 Javascript:
 <pre class="brush:js">
+  var items = [
+  		{ Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},
+  		{ Name: "Sharilyn", Surname: "Ham", Age: "52", detail_Name: "First name: Sharilyn"}
+  	//... more items
+  ];
   var sampleModule = angular.module("SampleModule", ['TGrid'])
     .controller("ctrl", function ctrl($scope) {
         $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);

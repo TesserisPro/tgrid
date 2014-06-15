@@ -1,14 +1,12 @@
-﻿####enableGrouping
+﻿####pageSlide
 
-Enables or disables Grouping for grid. 
+Sets how many pages should be visible (to the left and to the right from current) in pager in grid footer.
 
-**Value:** *true* or *false*.
+**Value:** number from 1 to  total pages count.
 
-**Default value:** *false*.
+**Default value:** *1*.
 
-[enableGrouping in Grid Settings](#!/GridSettings/enableGrouping)
-
-Example of dynamic change **enableGrouping** grid setting:
+Example of dynamic change **pageSlide** grid setting:
 
 #####For Knockout
 In HTML define **options** setting:
@@ -19,8 +17,8 @@ In HTML define **options** setting:
 </pre>
 #####
 In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
-can be changed using function 'enableGrouping'.
+You can change grid options dynamically after grid loading. In example below grid setting **pageSlide**
+can be changed using function 'pageSlide'.
 
 <pre class="brush: js">
  function vm() {
@@ -28,8 +26,8 @@ can be changed using function 'enableGrouping'.
     self.itemsProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
     self.gridOptions = ko.observable();
 
-    self.enableGrouping = function () {
-        self.gridOptions().enableGrouping = true;
+    self.pageSlide = function () {
+        self.gridOptions().pageSlide = 5;
         self.gridOptions().applyHandler();
 	}
 }
@@ -43,19 +41,19 @@ In HTML define **options** setting:
 </pre>
 #####
 In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
-can be changed using function 'enableGrouping'.
+You can change grid options dynamically after grid loading. In example below grid setting **pageSlide**
+can be changed using function 'pageSlide'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])
     .controller("ctrl", function ctrl($scope) {
         $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
         $scope.gridOptions;
-		$scope.enableGrouping = function () {
-            $scope.gridOptions.enableGrouping = true;
+		$scope.pageSlide = function () {
+            $scope.gridOptions.pageSlide = 5;
             $scope.gridOptions.applyHandler();
 		}
-	})
+	}
 </pre>
 
 #####

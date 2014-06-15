@@ -1,6 +1,7 @@
 ﻿### Options Columns
 
 options.columns is type of TesserisPro.TGrid.ColumnInfo[]
+
 Class TesserisPro.TGrid.ColumnInfo:
 <!--Start the highlighter-->
 <pre class="brush:js">
@@ -21,16 +22,10 @@ class ColumnInfo {
     public enableGrouping: boolean;
 }
 </pre>
-class TesserisPro.TGrid.Template:
+####
 
-<pre class="brush:js">
-class Template {
-    private content;
-    constructor(prototype: HTMLElement);
-    public applyTemplate(element: HTMLElement): void;
-    public getContent(): string;
-}
-</pre>
+Column properties can be changed dynamically after grid loading.
+
 <script type="text/javascript">
     SyntaxHighlighter.highlight();
 </script>
