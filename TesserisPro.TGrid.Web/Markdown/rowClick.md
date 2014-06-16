@@ -33,7 +33,7 @@ In Javascript in knockout view model you should have observable variable with na
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid provider="itemsProvider" rowClick="rowClickHandler">
+	<t-grid provider="dataProvider" rowClick="rowClickHandler">
 	</t-grid>
 </pre>
 #####
@@ -46,7 +46,7 @@ In Javascript in angular controller you should have variable with name equals **
 		$scope.rowClickHandler = function (item, event) {
 			alert("item: " + item);
 		}
-	}
+	})
 </pre>
 
 #####

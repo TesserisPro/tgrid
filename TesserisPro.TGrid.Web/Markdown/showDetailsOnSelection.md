@@ -34,7 +34,7 @@ Example of grid with details settings and details template:
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" showDetailsOnSelection="true">
+	<t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true">
 	</t-grid>
 </pre>
 #####
@@ -42,7 +42,7 @@ Example of grid with details settings and details template, and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">
-			<t-grid id="test-angular" provider="itemsProvider" showDetailsOnSelection="true">
+			<t-grid id="test-angular" provider="dataProvider" showDetailsOnSelection="true">
 				<script type="text/html">
 					<column data-g-member="Name">
 					</column>

@@ -18,7 +18,7 @@ Sets how many pages should be visible (to the left and to the right from current
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid provider="itemsProvider" enablePaging="true" pageSlide="3">
+	<t-grid provider="dataProvider" enablePaging="true" pageSlide="3">
 	</t-grid>
 </pre>
 

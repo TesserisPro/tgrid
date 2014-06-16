@@ -296,6 +296,11 @@ var sections = [
                 name: "rowClick",
                 routeName: "rowClickOptions",
                 file: "rowClickOptions"
+            },
+            {
+                name: "selectionMode",
+                routeName: "selectionModeOptions",
+                file: "selectionModeOptions"
             }
         ]
     }

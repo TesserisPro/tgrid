@@ -195,8 +195,10 @@ var TesserisPro;
                     defaultHeader.appendChild(defaultName);
                     container.appendChild(defaultHeader)
                 };
-                BaseHtmlProvider.prototype.onCloseFilterPopup = function() {
-                    document.onclick = BaseHtmlProvider.oldOnClick
+                BaseHtmlProvider.prototype.onCloseFilterPopup = function(container) {
+                    document.onclick = BaseHtmlProvider.oldOnClick;
+                    container.style.left = "";
+                    container.style.top = ""
                 };
                 BaseHtmlProvider.prototype.updateGroupByPanel = function(option, groupByPanel) {
                     groupByPanel.innerHTML = "";
@@ -358,7 +360,8 @@ var TesserisPro;
                             self.doOnClickOutside(filterPopupContainer, function() {
                                 var grid = TGrid.Grid.getGridObject(eventTarget);
                                 if (grid != null) {
-                                    grid.hideFilterPopup()
+                                    grid.hideFilterPopup();
+                                    self.onCloseFilterPopup(filterPopupContainer)
                                 }
                             });
                             e.cancelBubble = true
@@ -1944,6 +1947,9 @@ var TesserisPro;
                         this.itemProvider.getTotalItemsCount(this.options.filterDescriptor, function(total) {
                             _this.options.firstLoadSize = total
                         })
+                    }
+                    if (!this.options.enablePaging && !this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-pagination")[0])) {
+                        this.options.currentPage = 0
                     }
                     this.refreshHeader();
                     this.refreshBody(this.options.enableVirtualScroll);

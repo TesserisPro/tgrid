@@ -24,7 +24,7 @@ Defines how many items can be selected in TGrid. If **rowClick** is defined, is 
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" selectionMode="multi">
+	<t-grid id="test-angular" provider="dataProvider" selectionMode="multi">
 	</t-grid>
 </pre>
 

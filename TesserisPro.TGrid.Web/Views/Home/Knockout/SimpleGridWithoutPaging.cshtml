@@ -39,7 +39,7 @@
     </head>
     <body>    
         <div>
-            <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableSorting: true}">
+            <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
                 <script type="text/html">
                     <column data-g-member="Name"> 
                     </column>
@@ -50,19 +50,18 @@
                 </script>
             </div>
             <script type="text/javascript">
-                var items = [
-                        { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
-                        { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
-                        { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
-                        { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
-                        { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
-						{ Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
-						{ Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
-						{ Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella" },
-						{ Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella" },
-						{ Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson" },
-						{ Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda" }
-					 ];
+				var items = [
+					  { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+					  { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+					  { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+					  { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+					  { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+					  { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+					  { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+					  { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella" },
+					  { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella" },
+					  { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson" }
+					];
 
                 function vm() {
                     var self = this;

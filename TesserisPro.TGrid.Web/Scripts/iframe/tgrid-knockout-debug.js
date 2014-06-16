@@ -175,9 +175,11 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    addClass(placeholderColumn, "tgrid-placeholder");
                     if (hasNotSizedColumn) {
                         addClass(placeholderColumn, "tgrid-placeholder-width")
+                    }
+                    else {
+                        addClass(placeholderColumn, "tgrid-placeholder")
                     }
                     head.appendChild(placeholderColumn);
                     header.innerHTML = "";
@@ -919,7 +921,7 @@ var TesserisPro;
                     this.onCloseFilterPopup = onCloseFilterPopup;
                     this.path = ko.observable("")
                 }
-                KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function(){};
+                KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function(container){};
                 KnockoutFilterPopupViewModel.prototype.onApply = function() {
                     this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
                     var grid = TGrid.Grid.getGridObject(this.container);
@@ -930,18 +932,18 @@ var TesserisPro;
                     }
                     grid.applyFilters();
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 KnockoutFilterPopupViewModel.prototype.onClear = function() {
                     var grid = TGrid.Grid.getGridObject(this.container);
                     grid.options.filterDescriptor.removeChildByPath(this.path());
                     grid.applyFilters();
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 KnockoutFilterPopupViewModel.prototype.onClose = function() {
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 KnockoutFilterPopupViewModel.prototype.onOpen = function(options, column) {
                     this.columnInfo = column;

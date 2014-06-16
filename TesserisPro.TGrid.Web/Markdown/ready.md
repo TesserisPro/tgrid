@@ -34,7 +34,7 @@ In Javascript in knockout view model you should have observable variable with na
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" ready="gridReady">
+	<t-grid id="test-angular" provider="dataProvider" ready="gridReady">
 	</t-grid>
 </pre>
 #####
@@ -47,7 +47,7 @@ In Javascript in angular controller you should have variable with name equals **
 		$scope.gridReady = function (options) {
 			alert("Grid is ready");
 		}
-	}
+	})
 </pre>
 
 #####

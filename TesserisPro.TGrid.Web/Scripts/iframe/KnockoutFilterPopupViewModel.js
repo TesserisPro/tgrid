@@ -36,7 +36,7 @@ var TesserisPro;
                 this.onCloseFilterPopup = onCloseFilterPopup;
                 this.path = ko.observable("");
             }
-            KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function () {
+            KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function (container) {
             };
 
             KnockoutFilterPopupViewModel.prototype.onApply = function () {
@@ -51,7 +51,7 @@ var TesserisPro;
                 grid.applyFilters();
 
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             KnockoutFilterPopupViewModel.prototype.onClear = function () {
@@ -60,12 +60,12 @@ var TesserisPro;
                 grid.applyFilters();
 
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             KnockoutFilterPopupViewModel.prototype.onClose = function () {
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             KnockoutFilterPopupViewModel.prototype.onOpen = function (options, column) {

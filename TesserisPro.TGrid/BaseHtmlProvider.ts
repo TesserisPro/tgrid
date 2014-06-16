@@ -256,8 +256,10 @@ module TesserisPro.TGrid {
             container.appendChild(defaultHeader);
         }
 
-        public onCloseFilterPopup() {
+        public onCloseFilterPopup(container: HTMLElement) {
             document.onclick = BaseHtmlProvider.oldOnClick;
+            container.style.left = "";
+            container.style.top = "";
         }
 
         public updateGroupByPanel(option: Options, groupByPanel: HTMLElement) {
@@ -449,7 +451,8 @@ module TesserisPro.TGrid {
                     self.doOnClickOutside(filterPopupContainer, () => {
                         var grid = Grid.getGridObject(eventTarget);
                         if (grid != null) {
-                            grid.hideFilterPopup()
+                            grid.hideFilterPopup();
+                            self.onCloseFilterPopup(filterPopupContainer)
                                 }
                     });
                     e.cancelBubble = true;

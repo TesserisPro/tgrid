@@ -30,9 +30,6 @@
                 <span>
                     <input type="checkbox" data-bind="event:{change: function(){toggleGrouping();}}" /> Enable Grouping
                 </span>
-				<span>
-                    <input type="checkbox" data-bind="event:{change: function(){toggleVirtualScrolling();}}" /> Toggle Virtualization
-                </span>
             </div>
             <div>Actions with grid columns</div>
             <table class="tgrid-table" id="tableColumnActionsHeader">
@@ -77,7 +74,7 @@
                 <tbody>
                     <tr style="height: 50px;">
                         <td style="width:90px">
-                            <select style="width:85px" data-bind="options: membersOfColumnsForAdding, value: columnForAddingMember"></select>
+							<select style="width:85px" data-bind="options: membersOfColumnsForAdding, value: columnForAddingMember, disable: membersOfColumnsForAdding().length == 0"></select>
                         </td>
                         <td style="width:120px">
                             <input type="text" data-bind="value: columnForAddingHeader" />
@@ -168,6 +165,9 @@
                 self.columnForAddingHeader = ko.observable("");
                 self.columnForAddingCell = ko.observable("<span style='color: #259631;' data-bind='text: item.Name'></span");
                 self.membersOfColumnsForAdding = ko.observableArray(new Array());
+                //self.enableSelect = ko.computed(function () {
+                //	return self.membersOfColumnsForAdding().length != 0;
+                //});
 
                 self.deleteColumn = function (column) {
                     for (var i = 0; i < self.gridOptions().columns.length; i++) {
@@ -190,33 +190,36 @@
                     }
                 }
                 self.addColumn = function () {
-                    if (self.columnForAddingMember() != undefined && self.columnForAddingMember() != "") {
-                        self.gridOptions().columns.push(new TesserisPro.TGrid.ColumnInfo());
-                        var lastColumnIndex = self.gridOptions().columns.length - 1;
+                	if (self.columnForAddingMember() != undefined && self.columnForAddingMember() != "") {
+                		var columnForAddIndex = -1;
+                		if (self.availableColumns().length <= 0) {
+                			self.gridOptions().columns.length = 0;
+                		}
+                		self.gridOptions().columns.push(new TesserisPro.TGrid.ColumnInfo());
+                		columnForAddIndex = self.gridOptions().columns.length - 1;
+                		self.gridOptions().columns[columnForAddIndex].member = self.columnForAddingMember();
 
-                        self.gridOptions().columns[lastColumnIndex].member = self.columnForAddingMember();
+                		if (self.columnForAddingHeader() != undefined && self.columnForAddingHeader() != "") {
+                			var headerNew = document.createElement("div");
+                			headerNew.innerHTML = self.columnForAddingHeader();
+                			self.gridOptions().columns[columnForAddIndex].header = new TesserisPro.TGrid.Template(headerNew);
+                		}
 
-                        if (self.columnForAddingHeader() != undefined && self.columnForAddingHeader() != "") {
-                            var headerNew = document.createElement("div");
-                            headerNew.innerHTML = self.columnForAddingHeader();
-                            self.gridOptions().columns[lastColumnIndex].header = new TesserisPro.TGrid.Template(headerNew);
-                        }
+                		if (self.columnForAddingCell() != undefined && self.columnForAddingCell() != "") {
+                			var cellNew = document.createElement("div");
+                			cellNew.innerHTML = self.columnForAddingCell();
+                			self.gridOptions().columns[columnForAddIndex].cell = new TesserisPro.TGrid.Template(cellNew);
+                		}
+                		self.availableColumns.push({ member: self.columnForAddingMember(), header: self.columnForAddingHeader(), cell: self.columnForAddingCell() });
 
-                        if (self.columnForAddingCell() != undefined && self.columnForAddingCell() != "") {
-                            var cellNew = document.createElement("div");
-                            cellNew.innerHTML = self.columnForAddingCell();
-                            self.gridOptions().columns[lastColumnIndex].cell = new TesserisPro.TGrid.Template(cellNew);
-                        }
-                        self.availableColumns.push({ member: self.columnForAddingMember(), header: self.columnForAddingHeader(), cell: self.columnForAddingCell()});
-
-                        for (var i = 0; i < self.membersOfColumnsForAdding().length; i++) {
-                            if (self.columnForAddingMember() == self.membersOfColumnsForAdding()[i]) {
-                                self.membersOfColumnsForAdding.splice(i, 1);
-                                break;
-                            }
-                        }
-                        self.gridOptions().applyHandler();
-                    }
+                		for (var i = 0; i < self.membersOfColumnsForAdding().length; i++) {
+                			if (self.columnForAddingMember() == self.membersOfColumnsForAdding()[i]) {
+                				self.membersOfColumnsForAdding.splice(i, 1);
+                				break;
+                			}
+                		}
+                		self.gridOptions().applyHandler();
+                	}
                     self.columnForAddingHeader("");
                     self.columnForAddingMember("");
                     self.columnForAddingCell("<span style='color: #259631;' data-bind='text: item.Name'></span>");

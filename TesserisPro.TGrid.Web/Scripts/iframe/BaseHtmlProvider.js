@@ -244,8 +244,10 @@ var TesserisPro;
                 container.appendChild(defaultHeader);
             };
 
-            BaseHtmlProvider.prototype.onCloseFilterPopup = function () {
+            BaseHtmlProvider.prototype.onCloseFilterPopup = function (container) {
                 document.onclick = BaseHtmlProvider.oldOnClick;
+                container.style.left = "";
+                container.style.top = "";
             };
 
             BaseHtmlProvider.prototype.updateGroupByPanel = function (option, groupByPanel) {
@@ -439,6 +441,7 @@ var TesserisPro;
                             var grid = TGrid.Grid.getGridObject(eventTarget);
                             if (grid != null) {
                                 grid.hideFilterPopup();
+                                self.onCloseFilterPopup(filterPopupContainer);
                             }
                         });
                         e.cancelBubble = true;

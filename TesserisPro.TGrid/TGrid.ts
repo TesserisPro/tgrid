@@ -1319,6 +1319,10 @@ module TesserisPro.TGrid {
                 this.itemProvider.getTotalItemsCount(this.options.filterDescriptor, (total) => { this.options.firstLoadSize = total; });
 
             }
+
+            if (!this.options.enablePaging && !this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-pagination")[0])) {
+                this.options.currentPage = 0;
+            }
             this.refreshHeader();
             this.refreshBody(this.options.enableVirtualScroll);
             this.refreshFooter();

@@ -38,6 +38,6 @@ module TesserisPro.TGrid {
         onClear();
         onClose();
         getColumnInfo(): ColumnInfo;
-        onCloseFilterPopup();
+        onCloseFilterPopup(container: HTMLElement);
     }
 }

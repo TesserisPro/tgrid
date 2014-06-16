@@ -192,10 +192,11 @@ module TesserisPro.TGrid {
             }
 
            
-            var placeholderColumn = document.createElement("th");
-            addClass(placeholderColumn, "tgrid-placeholder");
+            var placeholderColumn = document.createElement("th");            
             if (hasNotSizedColumn) {
                 addClass(placeholderColumn, "tgrid-placeholder-width");
+            } else {
+                addClass(placeholderColumn, "tgrid-placeholder");
             }
             head.appendChild(placeholderColumn);
             

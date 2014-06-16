@@ -41,13 +41,13 @@ module TesserisPro.TGrid {
 
         public angularModuleName: string;
 
-        constructor(container: HTMLElement, onCloseFilterPopup: ()=>void) {
+        constructor(container: HTMLElement, onCloseFilterPopup: (container: HTMLElement)=>void) {
             this.container = container;
             this.onCloseFilterPopup = onCloseFilterPopup;
             this.path = ko.observable("");
         }
 
-        public onCloseFilterPopup() {
+        public onCloseFilterPopup(container: HTMLElement) {
         }
 
         public onApply() {
@@ -62,7 +62,7 @@ module TesserisPro.TGrid {
             grid.applyFilters();
 
             hideElement(this.container);
-            this.onCloseFilterPopup();
+            this.onCloseFilterPopup(this.container);
         }
 
         public onClear() {
@@ -71,12 +71,12 @@ module TesserisPro.TGrid {
             grid.applyFilters();
 
             hideElement(this.container);
-            this.onCloseFilterPopup();
+            this.onCloseFilterPopup(this.container);
         }
 
         public onClose() {
             hideElement(this.container);
-            this.onCloseFilterPopup();
+            this.onCloseFilterPopup(this.container);
         }
 
         public onOpen(options: Options, column: ColumnInfo) {

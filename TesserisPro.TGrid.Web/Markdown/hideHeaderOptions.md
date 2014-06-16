@@ -37,7 +37,7 @@ can be changed using function 'hideHeader'.
 #####For Angular
 In HTML define **options** setting:
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" options="gridOptions">
+	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
@@ -54,7 +54,7 @@ can be changed using function 'hideHeader'.
             $scope.gridOptions.hideHeader = true;
             $scope.gridOptions.applyHandler();
 		}
-	}
+	})
 </pre>
 
 #####

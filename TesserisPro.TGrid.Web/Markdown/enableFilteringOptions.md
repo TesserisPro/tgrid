@@ -38,7 +38,7 @@ can be changed using function 'enableFiltering'.
 #####For Angular
 In HTML define **options** setting:
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" options="gridOptions">
+	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
@@ -55,7 +55,7 @@ can be changed using function 'enableFiltering'.
             $scope.gridOptions.enableFiltering = true;
             $scope.gridOptions.applyHandler();
 		}
-	}
+	})
 </pre>
 
 #####

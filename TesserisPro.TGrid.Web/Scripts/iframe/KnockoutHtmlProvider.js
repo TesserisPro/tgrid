@@ -199,9 +199,10 @@ var TesserisPro;
                 }
 
                 var placeholderColumn = document.createElement("th");
-                addClass(placeholderColumn, "tgrid-placeholder");
                 if (hasNotSizedColumn) {
                     addClass(placeholderColumn, "tgrid-placeholder-width");
+                } else {
+                    addClass(placeholderColumn, "tgrid-placeholder");
                 }
                 head.appendChild(placeholderColumn);
 

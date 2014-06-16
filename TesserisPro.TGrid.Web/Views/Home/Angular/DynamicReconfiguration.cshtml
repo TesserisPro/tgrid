@@ -75,7 +75,7 @@
                     <tbody>
                         <tr style=" height: 50px;">
                             <td style="width:90px">
-                                <select style="width:85px" ng-model="columnForAdding.member">
+                                <select style="width:85px" ng-model="columnForAdding.member" ng-disabled="membersOfColumnsForAdding.length == 0">
                                     <option ng-selected="columnForAdding.member==member" ng-repeat="member in membersOfColumnsForAdding " ng-model="member">{{member}}</option>
                                 </select>
                             </td>
@@ -185,7 +185,10 @@
                     }
                 }
                 $scope.add = function (column) {
-                    if (column.member != "") {
+                	if (column.member != "") {
+                		if ($scope.availableColumns.length <= 0) {
+                			$scope.gridOptions.columns.length = 0;
+                		}
                         $scope.gridOptions.columns.push(new TesserisPro.TGrid.ColumnInfo());
                         var lastColumnIndex = $scope.gridOptions.columns.length - 1;
 

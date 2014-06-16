@@ -100,7 +100,7 @@ can be changed using function 'enableSorting'.
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" options="gridOptions">
+	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
@@ -116,7 +116,7 @@ can be changed using function 'enableSorting'.
 		$scope.enableSorting = function () {
             $scope.gridOptions.enableSorting = true;
             $scope.gridOptions.applyHandler();
-		}
+		})
 </pre>
 
 #####

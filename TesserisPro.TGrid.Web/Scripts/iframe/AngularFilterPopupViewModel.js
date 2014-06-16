@@ -50,7 +50,7 @@ var TesserisPro;
                 };
             };
 
-            AngularFilterPopupViewModel.prototype.onCloseFilterPopup = function () {
+            AngularFilterPopupViewModel.prototype.onCloseFilterPopup = function (container) {
             };
 
             AngularFilterPopupViewModel.prototype.onApply = function () {
@@ -65,7 +65,7 @@ var TesserisPro;
                 grid.applyFilters();
 
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
@@ -74,12 +74,12 @@ var TesserisPro;
                 grid.applyFilters();
 
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             AngularFilterPopupViewModel.prototype.onClose = function () {
                 hideElement(this.container);
-                this.onCloseFilterPopup();
+                this.onCloseFilterPopup(this.container);
             };
 
             AngularFilterPopupViewModel.prototype.onOpen = function (options, column) {

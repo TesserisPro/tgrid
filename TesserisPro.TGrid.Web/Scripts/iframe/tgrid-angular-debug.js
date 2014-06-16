@@ -218,9 +218,11 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    addClass(placeholderColumn, "tgrid-placeholder");
                     if (hasNotSizedColumn) {
                         addClass(placeholderColumn, "tgrid-placeholder-width")
+                    }
+                    else {
+                        addClass(placeholderColumn, "tgrid-placeholder")
                     }
                     head.appendChild(placeholderColumn);
                     header.innerHTML = "";
@@ -983,7 +985,7 @@ var TesserisPro;
                         return _this.onClose()
                     }
                 };
-                AngularFilterPopupViewModel.prototype.onCloseFilterPopup = function(){};
+                AngularFilterPopupViewModel.prototype.onCloseFilterPopup = function(container){};
                 AngularFilterPopupViewModel.prototype.onApply = function() {
                     this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
                     var grid = TGrid.Grid.getGridObject(this.container);
@@ -994,18 +996,18 @@ var TesserisPro;
                     }
                     grid.applyFilters();
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 AngularFilterPopupViewModel.prototype.onClear = function() {
                     var grid = TGrid.Grid.getGridObject(this.container);
                     grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
                     grid.applyFilters();
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 AngularFilterPopupViewModel.prototype.onClose = function() {
                     hideElement(this.container);
-                    this.onCloseFilterPopup()
+                    this.onCloseFilterPopup(this.container)
                 };
                 AngularFilterPopupViewModel.prototype.onOpen = function(options, column) {
                     this.columnInfo = column;
