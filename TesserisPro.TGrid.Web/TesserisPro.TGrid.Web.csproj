@@ -127,6 +127,8 @@
     <Content Include="Content\images\imagesForDocs\columnCellTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\columnGeneral.jpg" />
     <Content Include="Content\images\imagesForDocs\columnHeaderTemplate.jpg" />
+    <Content Include="Content\images\imagesForDocs\detailsTemplate.jpg" />
+    <Content Include="Content\images\imagesForDocs\filterPopupTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\mobileTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\mobileTemplateGrouping.jpg" />
     <Content Include="Content\images\minus.png" />
@@ -343,6 +345,8 @@
     <Content Include="Markdown\pageSlideOptions.md" />
     <Content Include="Markdown\firstLoadSizeOptions.md" />
     <Content Include="Markdown\sortDescriptorOptions.md" />
+    <Content Include="Markdown\groupBySortDescriptorsOptions.md" />
+    <Content Include="Markdown\rowClickOptions.md" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
