@@ -234,7 +234,7 @@ var sections = [
             },
             {
                 name:"enableVirtualScroll",
-                routeName:"enableVirtualScrollOptiions",
+                routeName:"enableVirtualScrollOptions",
                 file: "enableVirtualScrollOptions"
             },
             {

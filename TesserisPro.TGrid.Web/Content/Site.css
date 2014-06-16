@@ -468,6 +468,7 @@ p, address {
     z-index: 4;
     zoom: 1;
     font-size: 14px;
+    min-height: 1000px;
 }
 
 .shade, #content .ty-started {

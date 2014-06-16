@@ -173,7 +173,7 @@
     <Content Include="Markdown\dataGFilterMember.md" />
     <Content Include="Markdown\batchSizeOptions.md" />
     <Content Include="Markdown\currentPageOptions.md" />
-    <None Include="Markdown\enableVirtualScrollOptions.md" />
+    <Content Include="Markdown\enableVirtualScrollOptions.md" />
     <Compile Include="Models\TGridModels\FilterDescriptor.cs" />
     <Compile Include="Models\TGridModels\Item.cs" />
     <Compile Include="Models\TGridModels\CustomServerItemsProvider.cs" />
