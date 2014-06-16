@@ -13,7 +13,7 @@ To create groupBySortDescriptors use following code:
 #####
 where 
 
-*path*  - is type of string, it's value should be [**data-g--member** in columns definitions](#!/ColumnsDefinitions/data-g-member)
+*path*  - is type of string, it's value should be [**data-g-member** in columns definitions](#!/ColumnsDefinitions/data-g-member)
 
 *asc* - is type of boolean, defines ascending or descending sorting. If *true* - ascending, if *false* - descending sorting.
 
@@ -23,13 +23,13 @@ Example of dynamic change **groupBySortDescriptors** grid setting:
 In HTML define **options** setting and button with binding function "setGrouping":
 
 <pre class="brush: html">
-	<input type="button" value="Set Group by" data-bind="click: setGrouping"/>
-	<div data-bind="tgrid:{provider:itemsProvider, options:gridOptions, enableGrouping:true}">
-		<script type="text/html">
-            <column  data-g-member="Name"> 
-            </column>
-		</script>
-	</div>
+<input type="button" value="Set Group by" data-bind="click: setGrouping"/>
+<div data-bind="tgrid:{provider:itemsProvider, options:gridOptions, enableGrouping:true}">
+	<script type="text/html">
+        <column  data-g-member="Name"> 
+        </column>
+	</script>
+</div>
 </pre>
 #####
 In Javascript in knockout view model you should have observable variable with name equals **options** value. 
@@ -56,7 +56,7 @@ In HTML define **options** setting and button with binding function "setGrouping
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">
 	<input type="button" value="Set Group by" ng-click="setGrouping();"/>
-	<t-grid id="test-angular" provider="dataProvider" options="gridOptions" enablegrouping="true">
+	<t-grid provider="dataProvider" options="gridOptions" enablegrouping="true">
 		<script type="text/html">
             <column  data-g-member="Name"> 
             </column>

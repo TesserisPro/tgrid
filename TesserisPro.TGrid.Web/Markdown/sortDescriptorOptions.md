@@ -21,13 +21,13 @@ Example of dynamic change **sortDescriptor** grid setting:
 In HTML define **options** setting and button with binding function "setSortDescriptor":
 
 <pre class="brush: html">
-	<input type="button" value="Set Sort Descriptor" data-bind="click: setSortDescriptor"/>
-	<div data-bind="tgrid:{provider:itemsProvider, options:gridOptions, enableSorting:true}">
-		<script type="text/html">
-            <column  data-g-member="Name"> 
-            </column>
-		</script>
-	</div>
+<input type="button" value="Set Sort Descriptor" data-bind="click: setSortDescriptor"/>
+<div data-bind="tgrid:{provider:itemsProvider, options:gridOptions, enableSorting:true}">
+	<script type="text/html">
+        <column  data-g-member="Name"> 
+        </column>
+	</script>
+</div>
 </pre>
 #####
 In Javascript in knockout view model you should have observable variable with name equals **options** value. 
@@ -53,10 +53,10 @@ In HTML define **options** setting and button with binding function "setSortDesc
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">
 	<input type="button" value="Set Sort Descriptor" ng-click="setSortDescriptor();"/>
-	<t-grid id="test-angular" provider="dataProvider" options="gridOptions" enableSorting="true">
+	<t-grid provider="dataProvider" options="gridOptions" enableSorting="true">
 		<script type="text/html">
-            <column  data-g-member="Name"> 
-            </column>
+           <column  data-g-member="Name"> 
+           </column>
 		</script>
 	</t-grid>
   </div>
@@ -73,7 +73,8 @@ can be changed using function 'setSortDescriptor'.
         $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
         $scope.gridOptions;
 		$scope.setSortDescriptor = function () {
-            $scope.gridOptions.sortDescriptor = new TesserisPro.TGrid.SortDescriptor("Name", true);
+            $scope.gridOptions.sortDescriptor 
+				= new TesserisPro.TGrid.SortDescriptor("Name", true);
             $scope.gridOptions.applyHandler();
 		}
 	})

@@ -78,7 +78,7 @@ Result:
     <column data-g-member="Name">
         <cell>
             <span style="display: inline-block;" data-bind="text: item.Name">...</span>
-            <a href data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">
+            <a href data-bind="click:function(){toggleDetailsForCell(0);}, clickBubble:false">
 			...
 			</a>
         </cell>
@@ -97,7 +97,7 @@ Result:
     <column data-g-member="Name">
         <cell>
 			<span>{{item.item.Name}}</span>
-			<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">
+			<a href ng-click="item.toggleDetailsForCell(0,item,items);$event.stopPropagation();">
 			...
 			</a> 
 		</cell>

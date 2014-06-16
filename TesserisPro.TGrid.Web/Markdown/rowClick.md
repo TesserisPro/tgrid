@@ -14,7 +14,7 @@ If **rowClick** is defined, then **selectionMode** is set to 'none' and **showDe
 In HTML:
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, rowClick: rowClickHandler}">
+	<div data-bind="tgrid: { provider: itemsProvider, rowClick: rowClickHandler}">
 	</div>
 </pre>
 #####
@@ -33,7 +33,7 @@ In Javascript in knockout view model you should have observable variable with na
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" rowClick="rowClickHandler">
+	<t-grid provider="itemsProvider" rowClick="rowClickHandler">
 	</t-grid>
 </pre>
 #####

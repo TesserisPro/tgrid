@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $('#content').css({ "min-height": $(window).height() - ($('footer').height() + $('#wrapper header').height() + $('#tgrid-bar').height()) });
+    //$('#content').css({ "min-height": $(window).height() - ($('footer').height() + $('#wrapper header').height() + $('#tgrid-bar').height()) });
     $('#left').height($('#content').height());
     var left = ($('#wrapper').width() - $('#content').width()) / 2 - $('#left').width();
     $('#left').css({ "left": left });

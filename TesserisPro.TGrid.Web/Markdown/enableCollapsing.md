@@ -12,7 +12,7 @@ To enable groups collapsing **enableCollapsing** should be set to *true* and **e
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableCollapsing: true}">
+	<div data-bind="tgrid:{provider:itemsProvider, enableGrouping:true, enableCollapsing:true}">
 	</div>
 </pre>
 

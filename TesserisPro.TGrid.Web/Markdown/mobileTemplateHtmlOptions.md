@@ -22,32 +22,32 @@ Cell templates, header templates and cell details templates are not inherited an
 ![mobileTemplateHtmlGrouping](../Content/images/imagesForDocs/mobileTemplateGrouping.jpg)
 #####For Knockout
 <pre class="brush: html">
-    <div data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableCollapsing: true }">
-        <script type="text/html">
-            <column data-g-member="Name" data-g-group-member="Name"> 
-            </column>
-            <column data-g-member="Surname" data-g-group-member="Surname">
-            </column>
-            <column data-g-member="Age" data-g-group-member="Age">
-        </script>           
-    </div>
+<div data-bind="tgrid:{provider:itemsProvider,enableGrouping:true,enableCollapsing:true}">
+    <script type="text/html">
+        <column data-g-member="Name" data-g-group-member="Name"> 
+        </column>
+        <column data-g-member="Surname" data-g-group-member="Surname">
+        </column>
+        <column data-g-member="Age" data-g-group-member="Age">
+    </script>           
+</div>
 </pre>
 #####For Angular
 <pre class="brush:html">
-	<div ng-app="SampleModule"> 
-        <div ng-controller="ctrl">
-            <t-grid provider="dataProvider" enablegrouping="true" enablecollapsing="true">
-                <script type="text/html">
-                    <column data-g-member="Name" data-g-group-member="Name">
-                    </column>
-                    <column data-g-member="Surname" data-g-group-member="Surname">
-                    </column>
-                    <column data-g-member="Age" data-g-group-member="Age">
-                    </column>
-                </script>
-            </t-grid>
-        </div>
+<div ng-app="SampleModule"> 
+    <div ng-controller="ctrl">
+        <t-grid provider="dataProvider" enablegrouping="true" enablecollapsing="true">
+            <script type="text/html">
+                <column data-g-member="Name" data-g-group-member="Name">
+                </column>
+                <column data-g-member="Surname" data-g-group-member="Surname">
+                </column>
+                <column data-g-member="Age" data-g-group-member="Age">
+                </column>
+            </script>
+        </t-grid>
     </div>
+</div>
 </pre>
 Example of custom **mobileTemplateHtml** with template for cell details:
 
@@ -56,21 +56,21 @@ Example of custom **mobileTemplateHtml** with template for cell details:
 #####For Knockout
 In HTML TGrid template part that defines **mobileTemplateHtml** is:
 <pre class="brush:html">
-	 <mobile>
-		<div>
-			<span>First name: </span>
-			<span data-bind="text: item.Name"></span>
-			<a href data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">
-			...
-			</a>
-			<br />
-			<span>Last name: </span>
-			<span data-bind="text: item.Surname"></span>
-			<br />
-			<span>Age: </span>
-			<span data-bind="text: item.Age"></span>
-		</div>
-	</mobile>
+<mobile>
+	<div>
+		<span>First name: </span>
+		<span data-bind="text: item.Name"></span>
+		<a href data-bind="click: function(){toggleDetailsForCell(0);},clickBubble:false">
+		...
+		</a>
+		<br />
+		<span>Last name: </span>
+		<span data-bind="text: item.Surname"></span>
+		<br />
+		<span>Age: </span>
+		<span data-bind="text: item.Age"></span>
+	</div>
+</mobile>
 </pre>
 ####
 To see details you should also define cell details template. All HTML code is:
@@ -79,25 +79,25 @@ To see details you should also define cell details template. All HTML code is:
         <script type="text/html">
             <column data-g-member="Name"> 
                 <celldetail>
-                    <div>
-                        <div>This is a sample of cell details: </div>
-                        <div style="color: #444;" data-bind="text: item.detail_Name"></div>
-                    </div>
+                   <div>
+                      <div>This is a sample of cell details: </div>
+                      <div style="color: #444;" data-bind="text: item.detail_Name"></div>
+                   </div>
                 </celldetail>
             </column>
             <mobile>
                 <div>
-                    <span>First name: </span>
-                    <span data-bind="text: item.Name"></span>
-                    <a data-bind="click: function () { toggleDetailsForCell(0); }, clickBubble: false">
-					...
-					</a>
-                    <br />
-                    <span>Last name: </span>
-                    <span data-bind="text: item.Surname"></span>
-                    <br />
-                    <span>Age: </span>
-                    <span data-bind="text: item.Age"></span>
+                  <span>First name: </span>
+                  <span data-bind="text: item.Name"></span>
+                  <a data-bind="click: function(){toggleDetailsForCell(0);},clickBubble:false">
+				     ...
+				  </a>
+                  <br />
+                  <span>Last name: </span>
+                  <span data-bind="text: item.Surname"></span>
+                  <br />
+                  <span>Age: </span>
+                  <span data-bind="text: item.Age"></span>
                 </div>
             </mobile>
         </script>
@@ -123,22 +123,22 @@ $(function () {
 #####For Angular
 In HTML TGrid template part that defines **mobileTemplateHtml** is:
 <pre class="brush:html">
-	<mobile>
-		<div>
-			<span>First Name: </span>
-			<span>{{item.item.Name}}</span>
-			<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">
-				...
-			</a>
-			<br />
-			<span>Last Name: </span>
-			<span>{{item.item.Surname}}</span>
-			<br />
-			<span>Age: </span>
-			<span>{{item.item.Age}}</span>
-			<br />
-		</div>       
-	</mobile>
+<mobile>
+  <div>
+  	<span>First Name: </span>
+  	<span>{{item.item.Name}}</span>
+  	<a href ng-click="item.toggleDetailsForCell(0,item,items);$event.stopPropagation();">
+  		...
+  	</a>
+  	<br />
+  	<span>Last Name: </span>
+  	<span>{{item.item.Surname}}</span>
+  	<br />
+  	<span>Age: </span>
+  	<span>{{item.item.Age}}</span>
+  	<br />
+  </div>       
+</mobile>
 </pre>
 ####
 To see details you should also define cell details template. Full HTML code is:
@@ -162,8 +162,7 @@ To see details you should also define cell details template. Full HTML code is:
           <mobile>
 		   <span>First Name: </span>
 		   <span>{{item.item.Name}}</span>
-		   <a href ng-click="item.toggleDetailsForCell(0, item, items);$event.stopPropagation();">
-		      <div>
+		   <a href ng-click="item.toggleDetailsForCell(0,item,items);$event.stopPropagation();">
 		   	...
 		   </a>
 		   <br />

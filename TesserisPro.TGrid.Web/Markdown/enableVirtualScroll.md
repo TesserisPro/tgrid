@@ -12,14 +12,14 @@ Only one of two grid setting: **enablePaging** and **enableVirtualScroll** shoul
 #####For Knockout
 <!--Start the highlighter-->
 <pre class="brush: html">
-	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableVirtualScroll: true}">
+	<div data-bind="tgrid: { provider: itemsProvider, enableVirtualScroll: true}">
 	</div>
 </pre>
 
 #####For Angular
 
 <pre class="brush: html">
-	<t-grid id="test-angular" provider="itemsProvider" enableVirtualScroll="true">
+	<t-grid provider="itemsProvider" enableVirtualScroll="true">
 	</t-grid>
 </pre>
 
