@@ -270,4 +270,3 @@ var TGridBindingHandler = (function () {
 })();
 
 ko.bindingHandlers.tgrid = new TGridBindingHandler();
-//# sourceMappingURL=TGridBinding.js.map

@@ -105,4 +105,3 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
-//# sourceMappingURL=KnockoutFooterViewModel.js.map

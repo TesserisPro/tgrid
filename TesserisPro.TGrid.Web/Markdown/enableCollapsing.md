@@ -1,7 +1,7 @@
 ﻿####enableCollapsing
 
-Enables or disables groups collapsing by click on group header. 
-To enable groups collapsing **enableCollapsing** should be set to *true* and **enableGrouping** should be set to true. 
+Enables or disables groups collapsing by click on a group header. 
+To enable groups collapsing **enableCollapsing** setting should be set to *true* and **enableGrouping** setting should be set to true. 
 
 **Value:** *true* or *false*. 
 

@@ -701,7 +701,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TGrid;
 (function(TGrid) {
     (function(Angular) {
@@ -831,7 +830,6 @@ var TGrid;
     })(TGrid.Angular || (TGrid.Angular = {}));
     var Angular = TGrid.Angular
 })(TGrid || (TGrid = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -962,7 +960,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -1033,7 +1030,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var __extends = this.__extends || function(d, b) {
         for (var p in b)
             if (b.hasOwnProperty(p))
@@ -1058,7 +1054,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -1130,7 +1125,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 (function() {
     'use strict';
     angular.module('TGrid', []).directive('tGrid', TGrid.Angular.Directive)

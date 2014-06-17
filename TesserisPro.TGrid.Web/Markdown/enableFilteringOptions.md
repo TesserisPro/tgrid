@@ -1,6 +1,6 @@
 ﻿####enableFiltering
 
-Enables or disables filtering for grid. 
+Enables or disables filtering for the grid. 
 
 **Value:** *true* or *false*.
 
@@ -8,19 +8,19 @@ Enables or disables filtering for grid.
 
 [enableFiltering in Grid Settings](#!/GridSettings/enableFiltering)
 
-Example of dynamic change **enableFiltering** grid setting:
+Example of a dynamic change **enableFiltering** grid setting:
 
 #####For Knockout
-In HTML you should define **options** setting:
+In HTML you should define the **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
 	</div>
 </pre>
 #####
-In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableFiltering**
-can be changed using function 'enableFiltering'.
+In Javascript in the knockout view model you should have the observable variable with the name equals the **options** settings value. 
+You can change grid options dynamically after grid loading. In example below, the grid setting **enableFiltering**
+can be changed using the function the 'enableFiltering'.
 
 <pre class="brush: js">
  function vm() {
@@ -36,15 +36,15 @@ can be changed using function 'enableFiltering'.
 </pre>
 
 #####For Angular
-In HTML you should define **options** setting:
+In HTML you should define the **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
-In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableFiltering**
-can be changed using function 'enableFiltering'.
+In Javascript in the angular controller you should have the variable with the name equals the **options**  settings value. 
+You can change grid options dynamically after grid loading. In example below, the grid setting **enableFiltering**
+can be changed using the function the 'enableFiltering'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

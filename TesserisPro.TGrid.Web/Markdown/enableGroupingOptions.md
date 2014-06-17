@@ -1,6 +1,6 @@
 ﻿####enableGrouping
 
-Enables or disables Grouping for grid. 
+Enables or disables grouping for grid. 
 
 **Value:** *true* or *false*.
 
@@ -8,19 +8,19 @@ Enables or disables Grouping for grid.
 
 [enableGrouping in Grid Settings](#!/GridSettings/enableGrouping)
 
-Example of dynamic change **enableGrouping** grid setting:
+Example of a dynamic change **enableGrouping** grid setting:
 
 #####For Knockout
-In HTML you should define **options** setting:
+In HTML you should define the **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
 	</div>
 </pre>
 #####
-In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
-can be changed using function 'enableGrouping'.
+In Javascript in the knockout view model you should have the observable variable with the name equals the **options** settings value. 
+You can change grid options dynamically after grid loading. In example below, the grid setting **enableGrouping**
+can be changed using the function 'enableGrouping'.
 
 <pre class="brush: js">
  function vm() {
@@ -36,15 +36,15 @@ can be changed using function 'enableGrouping'.
 </pre>
 
 #####For Angular
-In HTML you should define **options** setting:
+In HTML you should define the **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
-In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableGrouping**
-can be changed using function 'enableGrouping'.
+In Javascript in the angular controller you should have the variable with the name equals the **options** settings value. 
+You can change grid options dynamically after grid loading. In example below,the grid setting **enableGrouping**
+can be changed using the function 'enableGrouping'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

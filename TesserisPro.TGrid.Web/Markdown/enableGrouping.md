@@ -1,6 +1,6 @@
 ﻿####enableGrouping
 
-Enables or disables grouping
+Enables or disables grouping.
 
 **Value:** *true* or *false*.
 
