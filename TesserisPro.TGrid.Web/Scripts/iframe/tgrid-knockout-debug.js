@@ -595,7 +595,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TGridBindingHandler = (function() {
         function TGridBindingHandler(){}
         TGridBindingHandler.prototype.init = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -838,7 +837,6 @@ var TGridBindingHandler = (function() {
         return TGridBindingHandler
     })();
 ko.bindingHandlers.tgrid = new TGridBindingHandler;
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -911,7 +909,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {

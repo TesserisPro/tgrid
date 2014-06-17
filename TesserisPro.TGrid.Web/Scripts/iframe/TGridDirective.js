@@ -170,4 +170,3 @@ var TGrid;
     })(TGrid.Angular || (TGrid.Angular = {}));
     var Angular = TGrid.Angular;
 })(TGrid || (TGrid = {}));
-//# sourceMappingURL=TGridDirective.js.map

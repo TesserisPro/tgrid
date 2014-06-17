@@ -570,7 +570,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -605,7 +604,6 @@ var TesserisPro;
 })(TesserisPro || (TesserisPro = {}));
 ;
 ;
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -622,7 +620,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 ;
 ;
 var TesserisPro;
@@ -667,7 +664,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -870,7 +866,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -885,7 +880,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -1974,7 +1968,6 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
-;
 function isNull(target) {
     return target == null
 }

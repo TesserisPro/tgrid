@@ -28,4 +28,3 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //=====================================================================================
-//# sourceMappingURL=IFooterViewModel.js.map

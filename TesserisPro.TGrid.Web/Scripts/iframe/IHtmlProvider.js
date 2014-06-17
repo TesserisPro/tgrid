@@ -13,4 +13,3 @@
 /// <reference path="Options.ts" />
 /// <reference path="ItemViewModel.ts" />
 /// <reference path="IFooterViewModel.ts"/>
-//# sourceMappingURL=IHtmlProvider.js.map
