@@ -1,16 +1,16 @@
 ﻿###data-g-not-sized
 
-Defines if column has width. If is set to *true*:
+Defines if the column has a width. If it is set to *true*, then:
 
-+ column doesn't have width
++ the column doesn't have a width
 
-+ column becomes not resizable
++ the column becomes not resizable
 
-+ table css property *table-layout* is set to *fixed*
++ the table css property *table-layout* is set to *fixed*
 
-+ width of all not-sized columns becomes the same and depends on table width.
++ a width of all not-sized columns becomes the same and depends on the table width
 
-**Example**
+**Example**:
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Name" data-g-not-sized = "true"> </column>

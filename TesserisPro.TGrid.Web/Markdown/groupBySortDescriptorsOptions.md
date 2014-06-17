@@ -1,8 +1,8 @@
 ﻿####groupBySortDescriptors
 
-Defines current grouping of grid. Is type of array of SortDescrptors.
+Defines current grouping of grid. It is type of array of SortDescrptors.
 Every element in array sets grouping by column and sorting direction(default direction - ascending). 
-Grid can be grouped by some columns. Needs grid setting **enableGrouping** setted to *true*
+Grid can be grouped by some columns. Needs grid setting **enableGrouping** setted to *true*.
 
 To create groupBySortDescriptors use following code:
 
@@ -13,14 +13,14 @@ To create groupBySortDescriptors use following code:
 #####
 where 
 
-*path*  - is type of string, it's value should be [**data-g-member** in columns definitions](#!/ColumnsDefinitions/data-g-member)
+*path*  - is type of string, it's value should be [**data-g-member** in columns definitions](#!/ColumnsDefinitions/data-g-member),
 
 *asc* - is type of boolean, defines ascending or descending sorting. If *true* - ascending, if *false* - descending sorting.
 
 Example of dynamic change **groupBySortDescriptors** grid setting:
 
 #####For Knockout
-In HTML define **options** setting and button with binding function "setGrouping":
+In HTML you should define **options** setting and button with binded function "setGrouping":
 
 <pre class="brush: html">
 <input type="button" value="Set Group by" data-bind="click: setGrouping"/>
@@ -51,7 +51,7 @@ can be changed using function 'setGrouping'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting and button with binding function "setGrouping":
+In HTML you should define **options** setting and button with binded function "setGrouping":
 <pre class="brush: html">
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">

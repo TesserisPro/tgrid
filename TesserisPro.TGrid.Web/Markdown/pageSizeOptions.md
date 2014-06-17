@@ -9,7 +9,7 @@ Defines how many items are displayed on 1 page.
 Example of dynamic change **pageSize** grid setting:
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
@@ -34,7 +34,7 @@ can be changed to *7* using function 'pageSize'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>

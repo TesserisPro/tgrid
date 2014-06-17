@@ -1,7 +1,7 @@
 ﻿##TGrid settings
 
-Grid setting are defined in knockout binding or in angular directive.
-Some of TGrid settings has default values and this is not required to define them in template. One required setting is **provider**.
+Grid settings are defined in knockout binding or in angular directive.
+Some of TGrid settings have default values and this is not required to define them in template. One required setting is **provider**.
 
 #####For Knockout
 <!--Start the highlighter-->

@@ -4,11 +4,11 @@ Defines how many items can be selected in TGrid. If **rowClick** is defined, is 
 
 **Value:**
 
-+ "none" - you can't select any item,
++ "none" - you can't select any item
  
-+ "single" - you can select only one item, 
++ "single" - you can select only one item 
 
-+ "multi" - you can select more, then one item. For selecting more then one item, press key 'Ctrl'.
++ "multi" - you can select more, then one item. For selecting more then one item, press key 'Ctrl'
 
 **Default value:** *single*.
 
@@ -17,7 +17,7 @@ Defines how many items can be selected in TGrid. If **rowClick** is defined, is 
 Example of dynamic change **selectionMode** grid setting:
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
@@ -42,7 +42,7 @@ can be changed using function 'selectionMode'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>

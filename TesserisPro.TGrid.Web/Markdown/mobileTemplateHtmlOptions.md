@@ -14,8 +14,8 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 
 </pre>
 ####
-For simple grid you don't have to define mobile template in  HTML. 
-Mobile rows are created automatically, for columns, which are defined in HTML template. 
+For simple grid you don't have to define mobile template in HTML. 
+Mobile rows are created automatically for columns, which are defined in HTML template. 
 Column definitions for mobile also are inherited from columns. 
 Cell templates, header templates and cell details templates are not inherited and should be overrided in custom mobile template.  
 

@@ -11,7 +11,7 @@ Enables or disables virtualization/lazy loading.
 Example of dynamic change **enableVirtualScroll** grid setting:
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
@@ -36,7 +36,7 @@ can be changed using function 'enableVirtualScroll'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>

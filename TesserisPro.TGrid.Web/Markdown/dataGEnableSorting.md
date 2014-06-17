@@ -6,7 +6,7 @@ This property is used to disable sorting for this column.
 
 **Default value:** *true*.
 
-**Example**
+**Example**:
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Name" data-g-enable-sorting = "false"> </column>

@@ -1,12 +1,12 @@
 ﻿###data-g-views
 
-Defines when to display column in mobile, desktop or all modes. 
+Defines in which mode display the column: in mobile, desktop or all modes. 
 
 **Value:** *mobile* or *desktop* or *mobile,desktop*.
 
 **Default value:** *mobile,desktop*.
 
-**Example**
+**Example**:
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Name" data-g-views = "mobile,desktop"> </column>

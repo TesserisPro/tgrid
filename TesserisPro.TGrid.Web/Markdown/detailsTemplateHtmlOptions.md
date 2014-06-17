@@ -1,6 +1,6 @@
 ﻿####detailsTemplateHtml
 
-**detailsTemplateHtml** is for internal use. 
+The **detailsTemplateHtml** setting is for internal use. 
 
 Type of this variable is TesserisPro.TGrid.Template. 
 Constructor of TesserisPro.TGrid.Template accepts HTML DOM element. 

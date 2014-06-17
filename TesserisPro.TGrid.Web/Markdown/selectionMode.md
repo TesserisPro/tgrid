@@ -1,14 +1,14 @@
 ﻿####selectionMode
 
-Defines how many items can be selected in TGrid. If **rowClick** is defined, is set to  *'none'*.
+Defines how many items can be selected in TGrid. If the **rowClick** is defined, the **selectionMode** is set to  *'none'*.
 
 **Value:**
 
-+ "none" - you can't select any item,
++ "none" - you can't select any item
  
-+ "single" - you can select only one item, 
++ "single" - you can select only one item
 
-+ "multi" - you can select more, then one item. For selecting more then one item, press key 'Ctrl'.
++ "multi" - you can select more, then one item. For selecting more then one item, press key 'Ctrl'
 
 **Default value:** *single*.
 

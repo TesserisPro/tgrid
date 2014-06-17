@@ -15,7 +15,7 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 </pre>
 ####
 
-Filter popup template isn't required. If there is default filter popup template.
+Filter popup template isn't required. There is default filter popup template. Default filter popup template is used, if filter popup template isn't defined.
 
 **Example:**
 

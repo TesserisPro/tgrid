@@ -1,6 +1,6 @@
 ﻿####hideHeader
 
-You can choose do not render grid header. If is set to *true*, grid header isn't rendered.
+You can choose do not render grid header. If it is set to *true*, grid header isn't rendered.
 
 **Value:** *true* or *false*
 
@@ -8,10 +8,8 @@ You can choose do not render grid header. If is set to *true*, grid header isn't
 
 Example of dynamic change **hideHeader** grid setting:
 
-**Example:**
-
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
 	</div>
@@ -35,7 +33,7 @@ can be changed using function 'hideHeader'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>

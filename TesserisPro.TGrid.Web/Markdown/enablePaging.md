@@ -1,6 +1,6 @@
 ﻿####enablePaging
 
-Enables or disables paging. Only one  of two grid setting: **enablePaging** and **enableVirtualScroll** should be set to *true* at the same time.
+Enables or disables paging. Only one of two grid setting: **enablePaging** or **enableVirtualScroll** should be set to *true* at the same time.
 
 **Value:** *true* or *false*.
 

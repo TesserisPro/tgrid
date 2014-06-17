@@ -1,18 +1,24 @@
 ﻿###data-g-member
 
-Describes what property in data should be displayed in current column and element in items provider.
+Sets the property name of the item in the data source items' array, which value should be displayed in the cell in the current column.
     
-**Value:** item's  property name, which value will be used for this grid column.
+**Value:** The item's property name, which value will be used for this grid column.
 
 **Default value:** there is no default value. 	
 
 **Example:**
+
+In HTML:
+
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Name"> </column>
 </pre>
-#####   
-Javascript array of items, where every array element is javascript object with "Name" filed refferenced in column.
+##### 
+ In Javascript:
+
+A javascript array of items, where the every array element is a javascript object with the "Name" field. 
+The "Name" field value is displayed in grid row in the column where the  **data-g-member** is set to "Name"
 
 <!--Start the highlighter-->
 <pre class="brush: html">
@@ -23,6 +29,9 @@ Javascript array of items, where every array element is javascript object with "
 </pre>
 
 #####
+Result:
+
+![data-g-member](../Content/images/imagesForDocs/dataGMember.jpg) 
 
 <script type="text/javascript">
     SyntaxHighlighter.highlight();

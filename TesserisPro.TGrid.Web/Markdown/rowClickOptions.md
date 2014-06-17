@@ -13,7 +13,7 @@ If **rowClick** is defined, then **selectionMode** is set to 'none' and **showDe
 Example of dynamic change **rowClick** grid setting:
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<input type="button" value="Set Row Click" data-bind="click: rowClick" />
@@ -46,7 +46,7 @@ can be changed using function 'rowClick'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">

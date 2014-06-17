@@ -1,7 +1,7 @@
 ﻿####enableVirtualScroll
 
 Enables or disables virtual scrolling. Is enabled only if rows count is more then 100. 
-Only one of two grid setting: **enablePaging** and **enableVirtualScroll** should be set to *true* at the same time.
+Only one of two grid setting: **enablePaging** or **enableVirtualScroll** should be set to *true* at the same time.
 
 **Value:** *true* or *false*.
 

@@ -11,14 +11,14 @@ To create sortDescriptor use following code:
 #####
 where 
 
-*path* is type of string, it's value should be [**data-g--member** in columns definitions](#!/ColumnsDefinitions/data-g-member)
+*path* is type of string, it's value should be [**data-g-member** in columns definitions](#!/ColumnsDefinitions/data-g-member),
 
 *asc* - is type of boolean, defines ascending or descending sorting. If *true* - ascending, if *false* - descending sorting.
 
 Example of dynamic change **sortDescriptor** grid setting:
 
 #####For Knockout
-In HTML define **options** setting and button with binding function "setSortDescriptor":
+In HTML you should define **options** setting and button with binded function "setSortDescriptor":
 
 <pre class="brush: html">
 <input type="button" value="Set Sort Descriptor" data-bind="click: setSortDescriptor"/>
@@ -48,7 +48,7 @@ can be changed using function 'setSortDescriptor'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting and button with binding function "setSortDescriptor":
+In HTML you should define **options** setting and button with binded function "setSortDescriptor":
 <pre class="brush: html">
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">

@@ -1,6 +1,6 @@
 ﻿####data-g-enable-filtering
 
-This property is used to disable filtering for this column.
+The property is used to disable filtering for the column.
 
 **Value:** *true* or *false*.
 

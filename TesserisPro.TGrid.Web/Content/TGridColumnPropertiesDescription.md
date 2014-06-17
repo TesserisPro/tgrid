@@ -10,16 +10,18 @@ Where *Name* is value of property **data-g-member**
 
 ###data-g-member
 
-Describes what property in data should be displayed in current column and element in items provider.
+Sets the property name of the item in the data source items' array, which value should be displayed in the cell in the current column.
     
-**Value:** item's  property name, which value will be used for this grid column.
+**Value:** The item's property name, which value will be used for this grid column.
+
 **Default value:** there is no default value. 	
 
 **Example:**
 
 	<column data-g-member="Name"> </column>
     
-Javascript array of items, where every array element is javascript object with "Name" filed refferenced in column.
+A javascript array of items, where the every array element is a javascript object with the "Name" field. 
+The "Name" field value is displayed in grid row in the column where the  **data-g-member** is set to "Name"
 
 	var items = [
         { Name: "John", Surname: "Doe", Age: "33" }
@@ -94,19 +96,19 @@ Javascript array of items.
 
 ###data-g-not-sized
 
-Defines if column has width. If is set to *true*:
+Defines if the column has a width. If it is set to *true*, then:
 
-+ column doesn't have width
++ the column doesn't have a width
 
-+ column becomes not resizable
++ the column becomes not resizable
 
-+ table css property *table-layout* is set to *fixed*
++ the table css property *table-layout* is set to *fixed*
 
-+ width of all not-sized columns becomes the same and depends on table width.
++ a width of all not-sized columns becomes the same and depends on the table width
 
 ###data-g-resizable
 
-Defines if column is resizable. If property **data-g-not-sized** value is set to true, column will not be resizable.
+Defines if the column is resizable. If the property **data-g-not-sized** value is set to true, the column will not be resizable.
 
 **Value:** *false* or *true*.
 
@@ -132,7 +134,7 @@ Javascript array of items.
     
 ###data-g-views
 
-Defines when to display column in mobile, desktop or all modes. 
+Defines in which mode display the column: in mobile, desktop or all modes. 
 
 **Value:** *mobile* or *desktop* or *mobile,desktop*.
 
@@ -140,9 +142,9 @@ Defines when to display column in mobile, desktop or all modes.
 
 ###data-g-width
 
-Defines column width in pixels or percents.
+Defines the column width in pixels or percents.
 
-**Value:** Any positive number to define in pixels("150") or positive number with percents sign ("15%").
+**Value:** Any positive number to define the width in pixels("150") or a positive number with a percents sign ("15%").
 
 **Default value:** *150*
 

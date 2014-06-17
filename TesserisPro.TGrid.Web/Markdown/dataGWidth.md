@@ -1,12 +1,12 @@
 ﻿###data-g-width
 
-Defines column width in pixels or percents.
+Defines the column width in pixels or percents.
 
-**Value:** Any positive number to define in pixels("150") or positive number with percents sign ("15%").
+**Value:** Any positive number to define the width in pixels("150") or a positive number with a percents sign ("15%").
 
 **Default value:** *150*
 
-**Example**
+**Example**:
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Name" data-g-width = "55"> </column>

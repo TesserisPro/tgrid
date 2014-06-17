@@ -38,7 +38,7 @@ Example of grid with details settings and details template:
 	</t-grid>
 </pre>
 #####
-Example of grid with details settings and details template, and one column:
+Example of grid with details settings, details template and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">

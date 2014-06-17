@@ -127,6 +127,7 @@
     <Content Include="Content\images\imagesForDocs\columnCellTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\columnGeneral.jpg" />
     <Content Include="Content\images\imagesForDocs\columnHeaderTemplate.jpg" />
+    <Content Include="Content\images\imagesForDocs\dataGMember.jpg" />
     <Content Include="Content\images\imagesForDocs\detailsTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\filterPopupTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\mobileTemplate.jpg" />
@@ -499,7 +500,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

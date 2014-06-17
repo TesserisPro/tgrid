@@ -1,6 +1,6 @@
 ﻿##TGrid column properties
 
-Column properies can be defined in column template to customize column behavior. Below is an example of column property.
+Column properies can be defined in a column template to customize column behavior. Below is an example of column property.
 
 	<column data-g-member="Name"> </column>
 

@@ -2,7 +2,7 @@
 
 ###Columns usage scenario:
 
-First, you need  values for grid. For example, you have grid rows in JavaScript:
+First, you need values for grid. For example, you have grid's rows in JavaScript, which are shown below:
 
 <!--Start the highlighter-->
 <pre class="brush: js">
@@ -13,7 +13,7 @@ First, you need  values for grid. For example, you have grid rows in JavaScript:
     ];
 </pre>
 #####
-Simple columns markup in HTML:
+The simple columns markup in HTML:
 
 <pre class="brush: html">
     <column data-g-member="Name">  
@@ -31,7 +31,7 @@ Result:
 
 ### Custom templates:
 
-Grid markup with custom **cell template**:
+The grid markup with the custom **cell template**:
 
 ##### For Knockout
 <pre class="brush: html">
@@ -56,7 +56,7 @@ Result:
 
 ![Cell template columns markup](../Content/images/imagesForDocs/columnCellTemplate.jpg)
 
-Column **header template**. In header can be used binding or value, you can set custom style options:
+The column **header template**. A binding or a value can be used in the header. You can set custom style options in  the header:
 
 ##### For Knockout and for Angular
 <pre class="brush: html">
@@ -71,7 +71,7 @@ Result:
 
 ![Header template columns markup](../Content/images/imagesForDocs/columnHeaderTemplate.jpg)
 
-**Cell details template**. Code below shows how toggle details on click on grid cell.
+  **Cell details template**. The code below shows how toggle details on click on the grid cell.
 
 ##### For Knockout
 <pre class="brush: html">

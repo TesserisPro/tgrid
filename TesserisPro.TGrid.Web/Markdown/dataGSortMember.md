@@ -1,8 +1,8 @@
 ﻿###data-g-sort-member
 
-Defines item's property for sorting.
+Defines the item's property for sorting.
 	
-**Value:** Defines item's property name, which value will be used for sorting this column.
+**Value:** Defines the item's property name, which value will be used for sorting this column.
 
 **Default value:** property **data-g-member**.
 	
@@ -12,7 +12,7 @@ Defines item's property for sorting.
 	<column data-g-member="ProductId" data-g-sort-member = "ProductIdSort"> </column>
 </pre>
 #####
-Javascript array of items.
+A Javascript array of items.
 <pre class="brush: js">
 	var items = [
         { ProductId: "#1-3", ProductName: "Noodle", ProductIdSort: "13"}

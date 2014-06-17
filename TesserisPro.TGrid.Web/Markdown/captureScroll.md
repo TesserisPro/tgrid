@@ -1,6 +1,6 @@
 ﻿####captureScroll
     
-Enables or disables scroll capturing
+Enables or disables the scroll capturing.
 
 **Value:** *true* or *false*
 

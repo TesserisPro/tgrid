@@ -9,7 +9,7 @@ Sets how many pages should be visible (to the left and to the right from current
 Example of dynamic change **pageSlide** grid setting:
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
@@ -34,7 +34,7 @@ can be changed using function 'pageSlide'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>

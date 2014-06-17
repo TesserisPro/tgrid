@@ -6,7 +6,7 @@ In case Knockout: If **ready** is defined, you should add function in your sampl
 
 **Value:** any acceptable for function name.
 
-**Default value:** don't have default value.
+**Default value:** doesn't have default value.
 
 **Example:**
 

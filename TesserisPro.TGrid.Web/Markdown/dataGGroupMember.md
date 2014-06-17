@@ -1,12 +1,12 @@
 ﻿###data-g-group-member
 
-This property is used to define item's property for grouping. 
+This property is used to define an item's property for grouping. 
 
-**Value:** Defines item's  property name, which value will be used for grouping this grid.
+**Value:** Defines an item's property name, which value will be used for grouping in the grid.
 
 **Default value:** property **data-g-member**.
 		
-Example:
+**Example**:
 <!--Start the highlighter-->
 <pre class="brush: html">
 	<column data-g-member="Age" data-g-group-member = "AgeGroup"> </column>

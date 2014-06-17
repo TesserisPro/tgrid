@@ -14,12 +14,12 @@ After changing you should call applyHandler() for options.
 
 **Value:** any acceptable name for variable.
 
-**Default value:** don't have default value.
+**Default value:** doesn't have default value.
 
 **Example:**
 
 #####For Knockout
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
@@ -44,7 +44,7 @@ can be changed using function 'enableSorting'.
 </pre>
 
 #####For Angular
-In HTML define **options** setting:
+In HTML you should define **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="itemsProvider" options="gridOptions">
 	</t-grid>
