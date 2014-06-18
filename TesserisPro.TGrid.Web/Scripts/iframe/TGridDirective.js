@@ -138,6 +138,12 @@ var TGrid;
                 if (ready != undefined && typeof scope[ready] == 'function') {
                     options.ready = scope[ready];
                 }
+                var hideHeader = attrs["hideheader"];
+                if (hideHeader == undefined) {
+                    options.hideHeader = false;
+                } else {
+                    options.hideHeader = hideHeader == "true" ? true : false;
+                }
 
                 var grid = new TesserisPro.TGrid.Grid(element[0], options, scope[attrs["provider"]]);
                 if (attrs["options"] != undefined) {
@@ -150,13 +156,6 @@ var TGrid;
                 var bindingReady = attrs["bindingready"];
                 if (ready != undefined && typeof scope[bindingReady] == 'function') {
                     scope[bindingReady](options);
-                }
-
-                var hideHeader = attrs["hideheader"];
-                if (hideHeader == undefined) {
-                    options.hideHeader = false;
-                } else {
-                    options.hideHeader = hideHeader == "true" ? true : false;
                 }
             };
 

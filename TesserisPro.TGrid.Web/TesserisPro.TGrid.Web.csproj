@@ -351,8 +351,6 @@
     <Content Include="Markdown\groupBySortDescriptorsOptions.md" />
     <Content Include="Markdown\rowClickOptions.md" />
     <Content Include="Markdown\selectionModeOptions.md" />
-    <None Include="Properties\PublishProfiles\tgridstg - FTP %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\tgridstg - Web Deploy %282%29.pubxml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
