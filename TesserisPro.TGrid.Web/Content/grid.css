@@ -466,6 +466,13 @@ th.tgrid-placeholder-width{
     width: 14px;
 }
 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ ::i-block-chrome, th.tgrid-placeholder-width{ 
+     width: 17px;
+ }
+
+}
+
 .tgrid-group-by-element {
     margin: 4px;
     padding: 2px;
