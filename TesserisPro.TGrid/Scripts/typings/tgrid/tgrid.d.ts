@@ -102,6 +102,7 @@ declare module TesserisPro.TGrid {
         public hasAnyNotSizedColumn: boolean;
         public rowClick: string;
         public captureScroll: boolean;
+        public minItemsCountForVirtualization: number;
         public ready: (options: Options) => void;
         constructor(element: HTMLElement, framework: Framework);
         public isSelected(item: any): boolean;
