@@ -75,8 +75,8 @@
                     <tbody>
                         <tr style=" height: 50px;">
                             <td style="width:90px">
-                                <select style="width:85px" ng-model="columnForAdding.member" ng-disabled="membersOfColumnsForAdding.length == 0">
-                                    <option ng-selected="columnForAdding.member==member" ng-repeat="member in membersOfColumnsForAdding " ng-model="member">{{member}}</option>
+                                <select style="width:85px" ng-model="columnForAdding.member" ng-disabled="membersOfColumnsForAdding.length == 0" ng-options="member for member in membersOfColumnsForAdding">
+									<option value="">Choose...</option>
                                 </select>
                             </td>
                             <td style="width:120px">

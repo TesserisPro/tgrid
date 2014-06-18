@@ -2,8 +2,8 @@
 
 **filterPopup** is for internal use. 
 
-Type of this variable is TesserisPro.TGrid.Template. 
-Constructor of TesserisPro.TGrid.Template accepts HTML DOM element. 
+Type of this variable is a TesserisPro.TGrid.Template. 
+Constructor of a TesserisPro.TGrid.Template accepts a HTML DOM element. 
 This HTML DOM element can contain data-bindins.
 
 To create template use code:
@@ -15,13 +15,13 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 </pre>
 ####
 
-Filter popup template isn't required. There is default filter popup template. Default filter popup template is used, if filter popup template isn't defined.
+A filter popup template isn't required. There is a default filter popup template. A default filter popup template is used, if a filter popup template isn't defined.
 
 **Example:**
 
 ![filterPopupTemplate](../Content/images/imagesForDocs/filterPopupTemplate.jpg)
 #####For Knockout
-Example of grid with details settings and details template:
+Example of a grid with details settings, details template and one column:
 
 <pre class="brush: html">
 <div data-bind="tgrid: { provider: itemsProvider, enableFiltering: true}">
@@ -66,7 +66,7 @@ $(function () {
 
 #####For Angular
 
-Example of grid with details settings and details template, and one column:
+Example of a grid with details settings and details template, and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">

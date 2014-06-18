@@ -2,8 +2,8 @@
 
 The **detailsTemplateHtml** setting is for internal use. 
 
-Type of this variable is TesserisPro.TGrid.Template. 
-Constructor of TesserisPro.TGrid.Template accepts HTML DOM element. 
+Type of the setting is TesserisPro.TGrid.Template. 
+Constructor of a TesserisPro.TGrid.Template accepts a HTML DOM element. 
 This HTML DOM element can contain data-bindins.
 
 To create template use code:
@@ -15,14 +15,14 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 </pre>
 ####
 
-To make details working on selection you should define html details template in TGrid description.
+To make details working on selection you should define an html details template in TGrid description.
 
 **Example:**
 
 ![detailsTemplateHtml](../Content/images/imagesForDocs/detailsTemplate.jpg)
 
 #####For Knockout
-Example of grid with details settings and details template:
+Example of a grid template with a details settings and a details template:
 
 <pre class="brush: html">
 	<div data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
@@ -55,7 +55,7 @@ $(function () {
 
 #####For Angular
 
-Example of grid with details settings and details template, and one column:
+Example of a grid template with details settings and details template, and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">

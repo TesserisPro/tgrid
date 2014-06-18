@@ -119,8 +119,9 @@ td.tgrid-table-indent-cell,
 td.tgrid-table-indent-cell-content
 {
     width: 24px;
+    min-width: 24px;
     border-bottom: none !important;
-     border-top: none !important;
+    border-top: none !important;
     background-color: #d7d7d7 !important;
 }
 
@@ -128,6 +129,7 @@ th.tgrid-table-indent-cell,
 th.tgrid-table-indent-cell-content
 {
    width: 24px;
+   min-width: 24px;
 }
 
 

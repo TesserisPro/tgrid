@@ -59,6 +59,11 @@ fieldset{
     color:#555;
 }
 
+#tableColumnAddBody select:disabled{
+    color:#BEBEBE;
+    border-color: #BEBEBE;
+}
+
 #tableColumnDeleteBody tr td{
     line-height: normal;
 }
