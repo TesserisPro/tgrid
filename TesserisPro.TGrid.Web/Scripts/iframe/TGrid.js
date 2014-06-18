@@ -1255,6 +1255,51 @@ var TesserisPro;
                 if (!this.options.enablePaging && !this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-pagination")[0])) {
                     this.options.currentPage = 0;
                 }
+                var header = this.rootElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
+
+                //enableHeader
+                if (!this.options.hideHeader && isNoU(header)) {
+                    this.groupByElement = document.createElement("div");
+                    this.groupByElement.className = "tgrid-group-by-panel desktop";
+                    this.rootElement.insertBefore(this.groupByElement, this.bodyAndHeaderContainer);
+
+                    this.headerContainer = document.createElement("div");
+                    this.headerContainer.className = "tgrid-tableheadercontainer desktop";
+
+                    var headerTable = document.createElement("table");
+                    headerTable.className = "tgrid-table";
+                    this.headerContainer.appendChild(headerTable);
+                    this.mobileHeader = document.createElement("div");
+                    this.mobileHeader.className = "tgrid-mobile-header mobile";
+                    this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
+
+                    this.tableHeader = document.createElement("thead");
+                    this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
+                    headerTable.appendChild(this.tableHeader);
+
+                    this.bodyAndHeaderContainer.insertBefore(this.headerContainer, this.tableBodyContainer);
+                    this.tableBodyContainer.onscroll = function () {
+                        return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft;
+                    };
+                    if (this.options.enableVirtualScroll) {
+                        this.scrollBar.className = "tgrid-scroll";
+                    }
+                    if (this.isDesktopMode) {
+                        this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft;
+                    }
+                }
+
+                //disableHeader
+                if (this.options.hideHeader && isNotNoU(header)) {
+                    this.bodyAndHeaderContainer.removeChild(header);
+                    var groupByPanel = this.rootElement.getElementsByClassName("tgrid-group-by-panel")[0];
+                    if (isNotNoU(groupByPanel)) {
+                        this.rootElement.removeChild(groupByPanel);
+                    }
+                    this.tableBodyContainer.onscroll = function () {
+                        return _this.tableBodyContainer.scrollLeft;
+                    };
+                }
                 this.refreshHeader();
                 this.refreshBody(this.options.enableVirtualScroll);
                 this.refreshFooter();
