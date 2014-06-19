@@ -246,8 +246,6 @@ var TesserisPro;
 
             BaseHtmlProvider.prototype.onCloseFilterPopup = function (container) {
                 document.onclick = BaseHtmlProvider.oldOnClick;
-                container.style.left = "";
-                container.style.top = "";
             };
 
             BaseHtmlProvider.prototype.updateGroupByPanel = function (option, groupByPanel) {
@@ -555,6 +553,7 @@ var TesserisPro;
                                     self.doOnClickOutside(filterPopUp, function () {
                                         hideElement(filterPopUp);
                                     });
+
                                     TGrid.Grid.getGridObject(e.target).showFilterPopup(e.target["data-g-column"], e.pageX, e.pageY, false);
                                 };
                             }

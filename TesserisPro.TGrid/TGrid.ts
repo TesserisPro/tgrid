@@ -95,6 +95,7 @@ module TesserisPro.TGrid {
         private isFirstRefresh = true;
         private firstRefreshCount = 0;
         private firstRefreshAttemptsCount = 10;
+        private currentModeDesktop: boolean = true;
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -118,7 +119,7 @@ module TesserisPro.TGrid {
         }
 
         private initialize() {
-
+           
             this.collapsedGroupFilterDescriptors = new Array<FilterDescriptor>();
             //for (var i = 0; i < this.options.columns.length; i++) {
             //    this.collapsedFilterGroup.push(new Array<FilterDescriptor>());
@@ -280,6 +281,14 @@ module TesserisPro.TGrid {
             }
 
             this.hideBuisyIndicator();
+           
+            this.currentModeDesktop = this.isDesktopMode();
+            if (this.options.enableFiltering) {
+                var self = this;
+                window.onresize = function (event: UIEvent) {
+                    self.hideFilterPopupOnResize(event);
+                };
+            }
         }
 
         public GetRootElement(): HTMLElement {
@@ -863,6 +872,8 @@ module TesserisPro.TGrid {
 
         public hideFilterPopup() {
             hideElement(this.filterPopUp);
+            this.filterPopUp.style.left = "";
+            this.filterPopUp.style.top = "";
         }
 
         public sortBy(name: string): void {
@@ -1293,6 +1304,14 @@ module TesserisPro.TGrid {
                 document.body.appendChild(this.filterPopUp);
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
+                var self = this;
+                window.onresize = function (event: UIEvent) {
+                    self.hideFilterPopupOnResize(event);
+                };
+            }
+            //on enableFiltering set to false
+            if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                window.onresize = null;
             }
             //on enableVirtualScroll set to true
             if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
@@ -1394,6 +1413,26 @@ module TesserisPro.TGrid {
                 var self = this;
                 setTimeout(function () { self.firstRefreshFooter(); }, 1);
             }
+        }
+        private hideFilterPopupOnResize(e: UIEvent) {
+            var self = this;
+            setTimeout(function () {
+                if (self.options.enableFiltering) {
+                    if (!self.isDesktopMode() && self.currentModeDesktop) {
+                        self.currentModeDesktop = false;
+                        if (self.filterPopUp.style.display != "none") {
+                            self.hideFilterPopup();
+                        }
+                        return;
+                    }
+                    if (self.isDesktopMode() && !self.currentModeDesktop) {
+                        self.currentModeDesktop = true;
+                        if (self.filterPopUp.style.display != "none") {
+                            self.hideFilterPopup();
+                        }
+                    }
+                }
+            }, 100);
         }
     }
 }

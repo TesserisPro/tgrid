@@ -55,6 +55,7 @@ var TesserisPro;
                 this.isFirstRefresh = true;
                 this.firstRefreshCount = 0;
                 this.firstRefreshAttemptsCount = 10;
+                this.currentModeDesktop = true;
                 element.grid = this;
                 this.targetElement = element;
                 this.options = options;
@@ -249,6 +250,14 @@ var TesserisPro;
                 };
 
                 this.hideBuisyIndicator();
+
+                this.currentModeDesktop = this.isDesktopMode();
+                if (this.options.enableFiltering) {
+                    var self = this;
+                    window.onresize = function (event) {
+                        self.hideFilterPopupOnResize(event);
+                    };
+                }
             };
 
             Grid.prototype.GetRootElement = function () {
@@ -823,6 +832,8 @@ var TesserisPro;
 
             Grid.prototype.hideFilterPopup = function () {
                 hideElement(this.filterPopUp);
+                this.filterPopUp.style.left = "";
+                this.filterPopUp.style.top = "";
             };
 
             Grid.prototype.sortBy = function (name) {
@@ -1220,6 +1231,15 @@ var TesserisPro;
                     document.body.appendChild(this.filterPopUp);
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
+                    var self = this;
+                    window.onresize = function (event) {
+                        self.hideFilterPopupOnResize(event);
+                    };
+                }
+
+                //on enableFiltering set to false
+                if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                    window.onresize = null;
                 }
 
                 //on enableVirtualScroll set to true
@@ -1337,6 +1357,26 @@ var TesserisPro;
                         self.firstRefreshFooter();
                     }, 1);
                 }
+            };
+            Grid.prototype.hideFilterPopupOnResize = function (e) {
+                var self = this;
+                setTimeout(function () {
+                    if (self.options.enableFiltering) {
+                        if (!self.isDesktopMode() && self.currentModeDesktop) {
+                            self.currentModeDesktop = false;
+                            if (self.filterPopUp.style.display != "none") {
+                                self.hideFilterPopup();
+                            }
+                            return;
+                        }
+                        if (self.isDesktopMode() && !self.currentModeDesktop) {
+                            self.currentModeDesktop = true;
+                            if (self.filterPopUp.style.display != "none") {
+                                self.hideFilterPopup();
+                            }
+                        }
+                    }
+                }, 100);
             };
             return Grid;
         })();

@@ -105,9 +105,8 @@ module TesserisPro.TGrid {
         public updateGroupedTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
 
         }
-
+      
         public updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
-          
             if (!option.hideHeader) {
                 var headers = header.getElementsByTagName("th");
                
@@ -258,8 +257,6 @@ module TesserisPro.TGrid {
 
         public onCloseFilterPopup(container: HTMLElement) {
             document.onclick = BaseHtmlProvider.oldOnClick;
-            container.style.left = "";
-            container.style.top = "";
         }
 
         public updateGroupByPanel(option: Options, groupByPanel: HTMLElement) {
@@ -563,6 +560,7 @@ module TesserisPro.TGrid {
                                 e.cancelBubble = true;
                                 hideElement(menu);
                                 self.doOnClickOutside(filterPopUp, () => { hideElement(filterPopUp); });
+
                                 Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY, false);
                             };
                         }
