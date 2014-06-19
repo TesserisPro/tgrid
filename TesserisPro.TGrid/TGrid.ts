@@ -93,6 +93,8 @@ module TesserisPro.TGrid {
         private isBuisy: boolean = false;
 
         private isFirstRefresh = true;
+        private firstRefreshCount = 0;
+        private firstRefreshAttemptsCount = 10;
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -258,7 +260,7 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
-            this.refreshFooter();
+            this.firstRefreshFooter();
 
             this.buisyIndicator = document.createElement("div");
             this.buisyIndicator.className = "tgrid-buisy-indicator";
@@ -1271,14 +1273,15 @@ module TesserisPro.TGrid {
         private refreshMobileHeader() {
             this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
         }
-
+        //on dynamic reconfiguration
         public afterOptionsChange() {
+            //on change capture scroll
             if (this.options.captureScroll) {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
             } else {
                 this.rootElement.onmousewheel = undefined;
             }
-
+            //on enableFiltering set to true
             if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
                 if (this.filterPopUp != null) {
                     document.body.removeChild(this.filterPopUp);
@@ -1291,6 +1294,7 @@ module TesserisPro.TGrid {
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
             }
+            //on enableVirtualScroll set to true
             if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                 this.scrollBar = document.createElement("div");
                 if (!this.options.hideHeader) {
@@ -1309,7 +1313,7 @@ module TesserisPro.TGrid {
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
                 this.mobileContainer.onscroll = () => this.scrollTable();
             }
-
+            //on enableVirtualScroll set to false
             if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                 this.rootElement.getElementsByClassName("tgrid-scroll")[0].parentNode.removeChild(this.rootElement.getElementsByClassName("tgrid-scroll")[0]);
 
@@ -1324,7 +1328,7 @@ module TesserisPro.TGrid {
                 this.options.currentPage = 0;
             }
             var header = this.rootElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
-            //enableHeader
+            //on hideHeader set to false
             if (!this.options.hideHeader && isNoU(header) ){
                 this.groupByElement = document.createElement("div");
                 this.groupByElement.className = "tgrid-group-by-panel desktop";
@@ -1354,7 +1358,7 @@ module TesserisPro.TGrid {
                 }
 
             }            
-            //disableHeader
+            //on hideHeader set to true
             if (this.options.hideHeader && isNotNoU(header)) {
                 this.bodyAndHeaderContainer.removeChild(header);
                 var groupByPanel = this.rootElement.getElementsByClassName("tgrid-group-by-panel")[0];
@@ -1382,5 +1386,14 @@ module TesserisPro.TGrid {
             }
         }
 
+        private firstRefreshFooter() {
+            this.firstRefreshCount++;
+            if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
+                this.refreshFooter();
+            } else {
+                var self = this;
+                setTimeout(function () { self.firstRefreshFooter(); }, 1);
+            }
+        }
     }
 }

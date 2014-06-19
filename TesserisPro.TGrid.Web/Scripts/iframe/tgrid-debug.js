@@ -891,6 +891,8 @@ var TesserisPro;
                     this.enablePreload = true;
                     this.isBuisy = false;
                     this.isFirstRefresh = true;
+                    this.firstRefreshCount = 0;
+                    this.firstRefreshAttemptsCount = 10;
                     element.grid = this;
                     this.targetElement = element;
                     this.options = options;
@@ -1032,7 +1034,7 @@ var TesserisPro;
                     else {
                         this.sortBy(this.options.sortDescriptor.path)
                     }
-                    this.refreshFooter();
+                    this.firstRefreshFooter();
                     this.buisyIndicator = document.createElement("div");
                     this.buisyIndicator.className = "tgrid-buisy-indicator";
                     this.rootElement.appendChild(this.buisyIndicator);
@@ -1997,6 +1999,18 @@ var TesserisPro;
                             column.filterMemberPath = name;
                             this.options.columns.push(column)
                         }
+                    }
+                };
+                Grid.prototype.firstRefreshFooter = function() {
+                    this.firstRefreshCount++;
+                    if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
+                        this.refreshFooter()
+                    }
+                    else {
+                        var self = this;
+                        setTimeout(function() {
+                            self.firstRefreshFooter()
+                        }, 1)
                     }
                 };
                 return Grid

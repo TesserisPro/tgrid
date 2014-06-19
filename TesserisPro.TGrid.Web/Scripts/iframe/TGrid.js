@@ -53,6 +53,8 @@ var TesserisPro;
                 this.enablePreload = true;
                 this.isBuisy = false;
                 this.isFirstRefresh = true;
+                this.firstRefreshCount = 0;
+                this.firstRefreshAttemptsCount = 10;
                 element.grid = this;
                 this.targetElement = element;
                 this.options = options;
@@ -223,7 +225,7 @@ var TesserisPro;
                 } else {
                     this.sortBy(this.options.sortDescriptor.path);
                 }
-                this.refreshFooter();
+                this.firstRefreshFooter();
 
                 this.buisyIndicator = document.createElement("div");
                 this.buisyIndicator.className = "tgrid-buisy-indicator";
@@ -1194,8 +1196,10 @@ var TesserisPro;
                 this.htmlProvider.updateMobileHeadElement(this.options, this.mobileHeader, this.filterPopUp);
             };
 
+            //on dynamic reconfiguration
             Grid.prototype.afterOptionsChange = function () {
                 var _this = this;
+                //on change capture scroll
                 if (this.options.captureScroll) {
                     this.rootElement.onmousewheel = function (e) {
                         return _this.mouseWheel(e);
@@ -1204,6 +1208,7 @@ var TesserisPro;
                     this.rootElement.onmousewheel = undefined;
                 }
 
+                //on enableFiltering set to true
                 if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
                     if (this.filterPopUp != null) {
                         document.body.removeChild(this.filterPopUp);
@@ -1216,6 +1221,8 @@ var TesserisPro;
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 }
+
+                //on enableVirtualScroll set to true
                 if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.scrollBar = document.createElement("div");
                     if (!this.options.hideHeader) {
@@ -1241,6 +1248,7 @@ var TesserisPro;
                     };
                 }
 
+                //on enableVirtualScroll set to false
                 if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.rootElement.getElementsByClassName("tgrid-scroll")[0].parentNode.removeChild(this.rootElement.getElementsByClassName("tgrid-scroll")[0]);
 
@@ -1257,7 +1265,7 @@ var TesserisPro;
                 }
                 var header = this.rootElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
 
-                //enableHeader
+                //on hideHeader set to false
                 if (!this.options.hideHeader && isNoU(header)) {
                     this.groupByElement = document.createElement("div");
                     this.groupByElement.className = "tgrid-group-by-panel desktop";
@@ -1289,7 +1297,7 @@ var TesserisPro;
                     }
                 }
 
-                //disableHeader
+                //on hideHeader set to true
                 if (this.options.hideHeader && isNotNoU(header)) {
                     this.bodyAndHeaderContainer.removeChild(header);
                     var groupByPanel = this.rootElement.getElementsByClassName("tgrid-group-by-panel")[0];
@@ -1316,6 +1324,18 @@ var TesserisPro;
                         column.filterMemberPath = name;
                         this.options.columns.push(column);
                     }
+                }
+            };
+
+            Grid.prototype.firstRefreshFooter = function () {
+                this.firstRefreshCount++;
+                if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
+                    this.refreshFooter();
+                } else {
+                    var self = this;
+                    setTimeout(function () {
+                        self.firstRefreshFooter();
+                    }, 1);
                 }
             };
             return Grid;
