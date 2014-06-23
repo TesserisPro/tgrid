@@ -1420,16 +1420,12 @@ module TesserisPro.TGrid {
                 if (self.options.enableFiltering) {
                     if (!self.isDesktopMode() && self.currentModeDesktop) {
                         self.currentModeDesktop = false;
-                        if (self.filterPopUp.style.display != "none") {
-                            self.hideFilterPopup();
-                        }
+                        self.hideFilterPopup();
                         return;
                     }
                     if (self.isDesktopMode() && !self.currentModeDesktop) {
                         self.currentModeDesktop = true;
-                        if (self.filterPopUp.style.display != "none") {
-                            self.hideFilterPopup();
-                        }
+                        self.hideFilterPopup();
                     }
                 }
             }, 100);

@@ -39,6 +39,8 @@ module TesserisPro.TGrid {
     export class BaseHtmlProvider implements IHtmlProvider {
 
         static oldOnClick = document.onclick;
+        static countOldOnClickCalls: number = 0;
+        static mobileMenuHidden = true;
 
         public getTableElement(option: Options): HTMLElement {
             var table = document.createElement("table");
@@ -276,8 +278,12 @@ module TesserisPro.TGrid {
                 groupButton.onclick = (e) => {
                     e.cancelBubble = true;
                     self.updateGroupByMenuContent(option, groupByMenu);
-                    unhideElement(groupByMenu);
-                    self.doOnClickOutside(groupByMenu, () => hideElement(groupByMenu));
+                    if (groupByMenu.style.display == "none") {
+                        unhideElement(groupByMenu);
+                    } else {
+                        hideElement(groupByMenu);
+                    }
+                    self.doOnClickOutside([groupByMenu, groupButton], () => hideElement(groupByMenu));
                 }
                 
                 groupButton.appendChild(groupByMenu);
@@ -445,7 +451,7 @@ module TesserisPro.TGrid {
                     } else {
                         grid.hideFilterPopup();
                     }
-                    self.doOnClickOutside(filterPopupContainer, () => {
+                    self.doOnClickOutside([filterPopupContainer,filter], () => {
                         var grid = Grid.getGridObject(eventTarget);
                         if (grid != null) {
                             grid.hideFilterPopup();
@@ -479,15 +485,27 @@ module TesserisPro.TGrid {
             }
                 
             var self = this;
-            button.onclick = (e) => {
-                var menu = document.createElement("ul");
-                menu.className = "tgrid-mobile-menu";
-                this.addMobileMenuItems(option, menu, filterPopUp);
+            button.onclick = (e) => { 
+                if (BaseHtmlProvider.mobileMenuHidden) {
+                    var menu = document.createElement("ul");
+                    menu.className = "tgrid-mobile-menu";
+                    this.addMobileMenuItems(option, menu, filterPopUp);
 
-                button.innerHTML = "";
-                button.appendChild(menu);                         
-                self.doOnClickOutside(menu, () => { hideElement(menu); });
-                e.cancelBubble = true; 
+                    button.innerHTML = "";
+                    button.appendChild(menu);
+                    self.doOnClickOutside([menu], () => {
+                        hideElement(menu);
+                        BaseHtmlProvider.mobileMenuHidden = true;
+                    });
+                    BaseHtmlProvider.mobileMenuHidden = false;
+                } else {
+                    var mobileMenu = (<HTMLElement>e.target).getElementsByClassName("tgrid-mobile-menu")[0];
+                    hideElement(<HTMLElement>mobileMenu);
+                    BaseHtmlProvider.mobileMenuHidden = true;
+                }
+                
+                e.cancelBubble = true;
+                
             }
 
             mobileHeader.appendChild(button);
@@ -531,6 +549,7 @@ module TesserisPro.TGrid {
                             sortButton.onclick = e => {
                                 e.cancelBubble = true;
                                 hideElement(menu);
+                                BaseHtmlProvider.mobileMenuHidden = true;
                                 Grid.getGridObject(<HTMLElement>e.target).sortBy(<string>e.target["data-g-path"]);
                             };
                         }
@@ -559,7 +578,8 @@ module TesserisPro.TGrid {
                             filterButton.onclick = e => {
                                 e.cancelBubble = true;
                                 hideElement(menu);
-                                self.doOnClickOutside(filterPopUp, () => { hideElement(filterPopUp); });
+                                BaseHtmlProvider.mobileMenuHidden = true;
+                                self.doOnClickOutside([filterPopUp], () => { hideElement(filterPopUp); });
 
                                 Grid.getGridObject(<HTMLElement>e.target).showFilterPopup(<ColumnInfo>e.target["data-g-column"], e.pageX, e.pageY, false);
                             };
@@ -586,6 +606,7 @@ module TesserisPro.TGrid {
                             groupButton.onclick = e => {
                                 e.cancelBubble = true;
                                 hideElement(menu);
+                                BaseHtmlProvider.mobileMenuHidden = true;
                                 var grid = Grid.getGridObject(<HTMLElement>e.target);
                                 grid.toggleGroupDescriptor(<string>e.target["data-g-path"]);
                             };
@@ -600,21 +621,33 @@ module TesserisPro.TGrid {
             }
         }
 
-        public doOnClickOutside(target: HTMLElement, action: () => void) {
+        public doOnClickOutside(targets: Array<HTMLElement>, action: () => void) {
             var eventListener = (e) => {
+                
                 var currentElement = <HTMLElement>e.target;
 
                 while (currentElement != null && currentElement.tagName != 'BODY') {
-                    if (currentElement == target) {
-                        return;
+                    for (var i = 0; i < targets.length; i++) {
+                        if (currentElement == targets[i]) {
+                            return;
+                        }
                     }
                     currentElement = currentElement.parentElement;
                 }
-                document.removeEventListener("click", eventListener);
+                if (BaseHtmlProvider.countOldOnClickCalls < 1) {
+                    BaseHtmlProvider.countOldOnClickCalls++;
+                    if (isNotNull(BaseHtmlProvider.oldOnClick)) {
+                        BaseHtmlProvider.oldOnClick(e);
+                    }
+                } else {
+                    BaseHtmlProvider.countOldOnClickCalls = 0;
+                }
                 action();
+                document.onclick = BaseHtmlProvider.oldOnClick;
             };
-
-            document.addEventListener("click", eventListener);
+            this.hideMenuOrFilter(targets);
+            BaseHtmlProvider.oldOnClick = document.onclick;
+           document.onclick = eventListener;
         }
 
         public appendIndent(target: HTMLElement, level: number, isHeader: boolean) {
@@ -670,6 +703,19 @@ module TesserisPro.TGrid {
             document.onclick = BaseHtmlProvider.oldOnClick;
         }
 
+        private hideMenuOrFilter(targets: Array<HTMLElement>) {
+            for (var i = 0; i < targets.length; i++) {
+                if ((targets[i].className.indexOf("tgrid-mobile-menu") != -1 || targets[i].className.indexOf("tgrid-menu") != -1)
+                    && document.getElementsByClassName("tgrid-filter-popup").length != 0) {
+                    var filterPopUp = (<HTMLElement>document.getElementsByClassName("tgrid-filter-popup")[0]);
+                    Grid.getGridObject(filterPopUp).hideFilterPopup();
+                }
+                if (targets[i].className.indexOf("tgrid-filter-popup") != -1
+                    && document.getElementsByClassName("tgrid-menu").length != 0) {
+                    hideElement(<HTMLElement>document.getElementsByClassName("tgrid-menu")[0]);
+                }
+            }
+        }
        
        
     }

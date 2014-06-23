@@ -264,8 +264,12 @@ var TesserisPro;
                     groupButton.onclick = function (e) {
                         e.cancelBubble = true;
                         self.updateGroupByMenuContent(option, groupByMenu);
-                        unhideElement(groupByMenu);
-                        self.doOnClickOutside(groupByMenu, function () {
+                        if (groupByMenu.style.display == "none") {
+                            unhideElement(groupByMenu);
+                        } else {
+                            hideElement(groupByMenu);
+                        }
+                        self.doOnClickOutside([groupByMenu, groupButton], function () {
                             return hideElement(groupByMenu);
                         });
                     };
@@ -428,6 +432,7 @@ var TesserisPro;
                         var poupLeft = eventTarget.getBoundingClientRect().left + document.body.scrollLeft;
 
                         if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
+                            //if ( option.filterPopupForColumn != option.columns[columnNumber]) {
                             grid.showFilterPopup(option.columns[columnNumber], poupLeft, popupTop, true);
                             if ((poupLeft + filterPopupContainer.offsetWidth) > (grid.GetRootElement().getBoundingClientRect().left + grid.GetRootElement().getBoundingClientRect().width)) {
                                 grid.showFilterPopup(option.columns[columnNumber], poupLeft - filterPopupContainer.offsetWidth + eventTarget.offsetWidth, popupTop, true);
@@ -435,7 +440,7 @@ var TesserisPro;
                         } else {
                             grid.hideFilterPopup();
                         }
-                        self.doOnClickOutside(filterPopupContainer, function () {
+                        self.doOnClickOutside([filterPopupContainer, filter], function () {
                             var grid = TGrid.Grid.getGridObject(eventTarget);
                             if (grid != null) {
                                 grid.hideFilterPopup();
@@ -470,15 +475,24 @@ var TesserisPro;
 
                 var self = this;
                 button.onclick = function (e) {
-                    var menu = document.createElement("ul");
-                    menu.className = "tgrid-mobile-menu";
-                    _this.addMobileMenuItems(option, menu, filterPopUp);
+                    if (BaseHtmlProvider.mobileMenuHidden) {
+                        var menu = document.createElement("ul");
+                        menu.className = "tgrid-mobile-menu";
+                        _this.addMobileMenuItems(option, menu, filterPopUp);
 
-                    button.innerHTML = "";
-                    button.appendChild(menu);
-                    self.doOnClickOutside(menu, function () {
-                        hideElement(menu);
-                    });
+                        button.innerHTML = "";
+                        button.appendChild(menu);
+                        self.doOnClickOutside([menu], function () {
+                            hideElement(menu);
+                            BaseHtmlProvider.mobileMenuHidden = true;
+                        });
+                        BaseHtmlProvider.mobileMenuHidden = false;
+                    } else {
+                        var mobileMenu = e.target.getElementsByClassName("tgrid-mobile-menu")[0];
+                        hideElement(mobileMenu);
+                        BaseHtmlProvider.mobileMenuHidden = true;
+                    }
+
                     e.cancelBubble = true;
                 };
 
@@ -522,6 +536,7 @@ var TesserisPro;
                                 sortButton.onclick = function (e) {
                                     e.cancelBubble = true;
                                     hideElement(menu);
+                                    BaseHtmlProvider.mobileMenuHidden = true;
                                     TGrid.Grid.getGridObject(e.target).sortBy(e.target["data-g-path"]);
                                 };
                             }
@@ -550,7 +565,8 @@ var TesserisPro;
                                 filterButton.onclick = function (e) {
                                     e.cancelBubble = true;
                                     hideElement(menu);
-                                    self.doOnClickOutside(filterPopUp, function () {
+                                    BaseHtmlProvider.mobileMenuHidden = true;
+                                    self.doOnClickOutside([filterPopUp], function () {
                                         hideElement(filterPopUp);
                                     });
 
@@ -579,6 +595,7 @@ var TesserisPro;
                                 groupButton.onclick = function (e) {
                                     e.cancelBubble = true;
                                     hideElement(menu);
+                                    BaseHtmlProvider.mobileMenuHidden = true;
                                     var grid = TGrid.Grid.getGridObject(e.target);
                                     grid.toggleGroupDescriptor(e.target["data-g-path"]);
                                 };
@@ -593,21 +610,32 @@ var TesserisPro;
                 }
             };
 
-            BaseHtmlProvider.prototype.doOnClickOutside = function (target, action) {
+            BaseHtmlProvider.prototype.doOnClickOutside = function (targets, action) {
                 var eventListener = function (e) {
                     var currentElement = e.target;
 
                     while (currentElement != null && currentElement.tagName != 'BODY') {
-                        if (currentElement == target) {
-                            return;
+                        for (var i = 0; i < targets.length; i++) {
+                            if (currentElement == targets[i]) {
+                                return;
+                            }
                         }
                         currentElement = currentElement.parentElement;
                     }
-                    document.removeEventListener("click", eventListener);
+                    if (BaseHtmlProvider.countOldOnClickCalls < 1) {
+                        BaseHtmlProvider.countOldOnClickCalls++;
+                        if (isNotNull(BaseHtmlProvider.oldOnClick)) {
+                            BaseHtmlProvider.oldOnClick(e);
+                        }
+                    } else {
+                        BaseHtmlProvider.countOldOnClickCalls = 0;
+                    }
                     action();
+                    document.onclick = BaseHtmlProvider.oldOnClick;
                 };
-
-                document.addEventListener("click", eventListener);
+                this.hideMenuOrFilter(targets);
+                BaseHtmlProvider.oldOnClick = document.onclick;
+                document.onclick = eventListener;
             };
 
             BaseHtmlProvider.prototype.appendIndent = function (target, level, isHeader) {
@@ -659,7 +687,21 @@ var TesserisPro;
             BaseHtmlProvider.prototype.detachDocumentClickEvent = function () {
                 document.onclick = BaseHtmlProvider.oldOnClick;
             };
+
+            BaseHtmlProvider.prototype.hideMenuOrFilter = function (targets) {
+                for (var i = 0; i < targets.length; i++) {
+                    if ((targets[i].className.indexOf("tgrid-mobile-menu") != -1 || targets[i].className.indexOf("tgrid-menu") != -1) && document.getElementsByClassName("tgrid-filter-popup").length != 0) {
+                        var filterPopUp = document.getElementsByClassName("tgrid-filter-popup")[0];
+                        TGrid.Grid.getGridObject(filterPopUp).hideFilterPopup();
+                    }
+                    if (targets[i].className.indexOf("tgrid-filter-popup") != -1 && document.getElementsByClassName("tgrid-menu").length != 0) {
+                        hideElement(document.getElementsByClassName("tgrid-menu")[0]);
+                    }
+                }
+            };
             BaseHtmlProvider.oldOnClick = document.onclick;
+            BaseHtmlProvider.countOldOnClickCalls = 0;
+            BaseHtmlProvider.mobileMenuHidden = true;
             return BaseHtmlProvider;
         })();
         TGrid.BaseHtmlProvider = BaseHtmlProvider;
