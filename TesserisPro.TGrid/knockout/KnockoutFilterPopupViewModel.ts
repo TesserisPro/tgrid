@@ -35,30 +35,45 @@ module TesserisPro.TGrid {
     export class KnockoutFilterPopupViewModel implements IFilterPopupViewModel {
         container: HTMLElement;
         path: KnockoutObservable<string>;
-        value: string;
-        condition: FilterCondition;
+        value: KnockoutObservable<string>;
+        caseSensetive: KnockoutObservable<boolean>;
+        condition: KnockoutObservable<FilterCondition>;
         columnInfo: ColumnInfo;
+
+        availableConditions: Array<any>;
 
         public angularModuleName: string;
 
-        constructor(container: HTMLElement, onCloseFilterPopup: (container: HTMLElement)=>void) {
+        constructor(container: HTMLElement, onCloseFilterPopup: (container: HTMLElement) => void) {
             this.container = container;
             this.onCloseFilterPopup = onCloseFilterPopup;
             this.path = ko.observable("");
+            this.value = ko.observable("");
+            this.caseSensetive = ko.observable(false);
+            this.condition = ko.observable(FilterCondition.Contains);
+
+            this.availableConditions = [];
+            for (var i in FilterCondition)
+            {
+                if (!isNaN(i))
+                {
+                    continue;
+                }
+
+                this.availableConditions.push({
+                    name: i,
+                    value: FilterCondition[i]
+                });
+            }
         }
 
         public onCloseFilterPopup(container: HTMLElement) {
         }
 
         public onApply() {
-            this.condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
             var grid = Grid.getGridObject(this.container);
-
             grid.options.filterDescriptor.removeChildByPath(this.path());
-            if (this.condition != FilterCondition.None) {
-                this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.path(), this.value, this.condition));
-            }
+            grid.options.filterDescriptor.addChild(new FilterDescriptor(this.path(), this.value(), this.caseSensetive(), this.condition()));
             grid.applyFilters();
 
             hideElement(this.container);
@@ -84,14 +99,16 @@ module TesserisPro.TGrid {
             this.path(column.filterMemberPath);
             for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                 if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                    (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
-                    (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
+                    this.value(options.filterDescriptor.children[i].value);
+                    this.caseSensetive(options.filterDescriptor.children[i].caseSensetive);
+                    this.condition(options.filterDescriptor.children[i].condition);
                     return;
                 }
             }
 
-            (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = '';
-            (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
+            this.value("");
+            this.caseSensetive(false);
+            this.condition(FilterCondition.Contains);
         }
 
         public getColumnInfo(): ColumnInfo {

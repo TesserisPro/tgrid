@@ -623,61 +623,60 @@ module TesserisPro.TGrid {
             ko.applyBindings(viewModel, elementForBinding);
         }
 
-        private buildDefaultFilteringPopUp(option: Options, filterPopupContainer: HTMLElement) {
-            //var columnNameContainer = document.createElement("div");
-            //var columnName = document.createElement("span");
-            //columnName.setAttribute("data-bind", "text:path");
-            //columnNameContainer.appendChild(columnName);
-            //filterPopupContainer.appendChild(columnNameContainer);
-
+        private buildDefaultFilteringPopUp(option: Options, filterPopupContainer: HTMLElement)
+        {
+            // Creating controls
             var filterCondition = document.createElement("select");
-            // append filter conditions
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.None.toString();
-            selectOption.text = "None";
-            filterCondition.appendChild(selectOption);
-
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.Equals.toString();
-            selectOption.text = "Equals";
-            filterCondition.appendChild(selectOption);
-
-            var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.NotEquals.toString();
-            selectOption.text = "Not equals";
-            filterCondition.appendChild(selectOption);
-            // end append filter conditions
-            filterPopupContainer.appendChild(filterCondition);
-            filterCondition.selectedIndex = 1;
+            filterCondition.setAttribute("data-bind", "options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'");
+            filterCondition.className = "grid-filter-popup-options";
 
             var filterText = document.createElement("input");
             filterText.type = "text";
-            filterText.className = 'tgrid-filter-input-text';
-            filterText.setAttribute("value", "");
-            filterText.style.width = '150px';
-            filterPopupContainer.appendChild(filterText);
+            filterText.setAttribute("data-bind", "value: value");
+            filterText.className = "grid-filter-popup-path";
 
-            var applyButton = document.createElement("div");
-            applyButton.className = "tgrid-filter-popup-button";
-            applyButton.style.width = '70px';
-            applyButton.onclick = (e) => {
-                var grid = Grid.getGridObject(<HTMLElement>e.target);
-                grid.filterPopupViewModel.onApply();
-            };
-            (<HTMLElement>applyButton).innerHTML = "OK";
-            filterPopupContainer.appendChild(applyButton);
+            var caseSensetiveInput = document.createElement("input");
+            caseSensetiveInput.type = "checkbox";
+            caseSensetiveInput.setAttribute("data-bind", "checked: caseSensetive");
+            caseSensetiveInput.className = "grid-filter-popup-casesens";
 
+            var caseSensetiveLabel = document.createElement("label");
+            caseSensetiveLabel.className = "grid-filter-popup-casesens-label";
+            caseSensetiveLabel.appendChild(caseSensetiveInput);
+            caseSensetiveLabel.appendChild(document.createTextNode("Case sensetive"));
 
-            var clearButton = document.createElement("div");
+            var buttonsContainer = document.createElement("div");
+            buttonsContainer.className = "tgrid-filter-popup-buttons-container";
+            
+            var clearButton = document.createElement("button");
             clearButton.className = 'tgrid-filter-popup-button';
-            clearButton.style.width = '70px';
-            clearButton.onclick = (e) => {
+            clearButton.onclick = (e) =>
+            {
                 var grid = Grid.getGridObject(<HTMLElement>e.target);
                 grid.filterPopupViewModel.onClose();
                 filterText.setAttribute("value", "");
             };
-            (<HTMLElement>clearButton).innerHTML = 'Cancel';
-            filterPopupContainer.appendChild(clearButton);
+            (<HTMLElement>clearButton).innerHTML = 'Clear';
+
+            var filterButton = document.createElement("button");
+            filterButton.className = "tgrid-filter-popup-button";
+            filterButton.onclick = (e) =>
+            {
+                var grid = Grid.getGridObject(<HTMLElement>e.target);
+                grid.filterPopupViewModel.onApply();
+            };
+            (<HTMLElement>filterButton).innerHTML = "Filter";
+
+
+            // Combining controls
+            filterPopupContainer.appendChild(filterCondition);
+            filterPopupContainer.appendChild(caseSensetiveLabel);
+            filterPopupContainer.appendChild(filterText);
+
+            buttonsContainer.appendChild(clearButton);
+            buttonsContainer.appendChild(filterButton);
+
+            filterPopupContainer.appendChild(buttonsContainer);
         }
     }
 }

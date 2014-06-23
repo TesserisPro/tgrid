@@ -553,7 +553,7 @@ var TesserisPro;
                     return headerElement
                 };
                 BaseHtmlProvider.prototype.anyConditionIsApplied = function(options) {
-                    if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0) {
+                    if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.path) {
                         return true
                     }
                     else {
@@ -570,13 +570,15 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
         var FilterDescriptor = (function() {
-                function FilterDescriptor(path, values, condition, parentChildOperator, childOperator, children) {
+                function FilterDescriptor(path, values, caseSensetive, condition, parentChildOperator, childOperator, children) {
                     this.path = path;
                     this.value = values;
+                    this.caseSensetive = caseSensetive;
                     this.condition = condition;
                     this.children = children != undefined ? children : new Array;
                     this.childrenUnionOperator = childOperator != undefined ? childOperator : 0;
@@ -594,7 +596,7 @@ var TesserisPro;
                     }
                 };
                 FilterDescriptor.getEmpty = function() {
-                    return new FilterDescriptor("", "", 0)
+                    return new FilterDescriptor("", "", false, 0)
                 };
                 return FilterDescriptor
             })();
@@ -602,6 +604,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 ;
 ;
 var TesserisPro;
@@ -620,6 +623,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 ;
 ;
 var TesserisPro;
@@ -664,6 +668,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -679,9 +684,11 @@ var TesserisPro;
         })(TGrid.SelectionMode || (TGrid.SelectionMode = {}));
         var SelectionMode = TGrid.SelectionMode;
         (function(FilterCondition) {
-            FilterCondition[FilterCondition["None"] = 0] = "None";
+            FilterCondition[FilterCondition["Contains"] = 0] = "Contains";
             FilterCondition[FilterCondition["Equals"] = 1] = "Equals";
-            FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals"
+            FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
+            FilterCondition[FilterCondition["StartsFrom"] = 3] = "StartsFrom";
+            FilterCondition[FilterCondition["EndsWith"] = 4] = "EndsWith"
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
         (function(LogicalOperator) {
@@ -866,6 +873,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -880,6 +888,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -1689,9 +1698,9 @@ var TesserisPro;
                                 currentGroupNames[j] = columnValue;
                                 collapsed = false;
                                 colapsedGroupLevel = this.options.groupBySortDescriptors.length;
-                                var filterDescriptor = new TGrid.FilterDescriptor("", "", 0, 0, 0);
+                                var filterDescriptor = new TGrid.FilterDescriptor("", "", false, 0, 0, 0);
                                 for (var k = 0; k <= j; k++) {
-                                    filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], 1))
+                                    filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], false, 1))
                                 }
                                 collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
                                 itemModels.push(new TGrid.ItemViewModel(this.options.parentViewModel, new TGrid.GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor), this, true));
@@ -1968,6 +1977,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 function isNull(target) {
     return target == null
 }

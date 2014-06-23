@@ -198,7 +198,7 @@ module TesserisPro.TGrid {
         }
 
         private isFilterSatisfied(item, filterDescriptor: FilterDescriptor) {
-            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensetive, filterDescriptor.condition)) {
                 if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == LogicalOperator.Or) {
                     return true;
                 } else {
@@ -222,6 +222,7 @@ module TesserisPro.TGrid {
                     if (this.isFilterConditionSatisfied(
                                         item[filterDescriptor.children[i].path],
                                         filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].caseSensetive,
                                         filterDescriptor.children[i].condition)) {
                         return true;
                     }
@@ -234,6 +235,7 @@ module TesserisPro.TGrid {
                     if (!this.isFilterConditionSatisfied(
                                         item[filterDescriptor.children[i].path],
                                         filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].caseSensetive,
                                         filterDescriptor.children[i].condition)) {
                         return false;
                     }
@@ -243,14 +245,28 @@ module TesserisPro.TGrid {
             }
         }
         
-        private isFilterConditionSatisfied(item: any, value: any, condition: FilterCondition): boolean {
+        private isFilterConditionSatisfied(item: any, value: any, caseSensetive: boolean, condition: FilterCondition): boolean
+        {
+            if (!value)
+            {
+                return true;
+            }
+
+            var citem = item;
+            var cvalue = value;
+            if (caseSensetive)
+            {
+                citem = (item || "").toString().toLowerCase();
+                cvalue = (value || "").toString().toLowerCase();
+            }
+
             switch (condition) {
-                case FilterCondition.None:
-                    return true;
+                case FilterCondition.Contains:
+                    return (citem || "").toString().indexOf((cvalue || "").toString()) > -1;
                 case FilterCondition.Equals:
-                    return (item == value);
+                    return (citem == cvalue);
                 case FilterCondition.NotEquals:
-                    return (item != value);
+                    return (citem != cvalue);
                 default:
                     return false;
             }

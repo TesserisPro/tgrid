@@ -31,9 +31,10 @@ var TesserisPro;
     //=====================================================================================
     (function (TGrid) {
         var FilterDescriptor = (function () {
-            function FilterDescriptor(path, values, condition, parentChildOperator, childOperator, children) {
+            function FilterDescriptor(path, values, caseSensetive, condition, parentChildOperator, childOperator, children) {
                 this.path = path;
                 this.value = values;
+                this.caseSensetive = caseSensetive;
                 this.condition = condition;
                 this.children = children != undefined ? children : new Array();
                 this.childrenUnionOperator = childOperator != undefined ? childOperator : 0 /* And */;
@@ -53,7 +54,7 @@ var TesserisPro;
             };
 
             FilterDescriptor.getEmpty = function () {
-                return new FilterDescriptor("", "", 0 /* None */);
+                return new FilterDescriptor("", "", false, 0 /* Contains */);
             };
             return FilterDescriptor;
         })();
@@ -61,3 +62,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=FilterDescriptor.js.map

@@ -719,7 +719,8 @@ var TesserisPro;
 
                 // append filter conditions
                 var selectOption = document.createElement("option");
-                selectOption.value = 0 /* None */.toString();
+
+                //selectOption.value = FilterCondition.None.toString();
                 selectOption.text = "None";
                 filterCondition.appendChild(selectOption);
 
@@ -795,3 +796,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=AngularHtmlProvider.js.map

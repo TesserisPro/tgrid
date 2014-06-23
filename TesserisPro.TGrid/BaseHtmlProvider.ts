@@ -661,7 +661,7 @@ module TesserisPro.TGrid {
             if (options.sortDescriptor.path != null ||
                (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) ||
                 options.filterDescriptor.children.length > 0 ||
-                options.filterDescriptor.condition != FilterCondition.None) {
+                options.filterDescriptor.path) {
                 return true;
             } else {
                 return false;
@@ -671,8 +671,5 @@ module TesserisPro.TGrid {
         private detachDocumentClickEvent() {
             document.onclick = BaseHtmlProvider.oldOnClick;
         }
-
-       
-       
     }
 }

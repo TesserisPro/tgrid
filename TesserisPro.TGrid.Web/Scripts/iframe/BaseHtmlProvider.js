@@ -650,7 +650,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
-                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0 /* None */) {
+                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.path) {
                     return true;
                 } else {
                     return false;
@@ -667,3 +667,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=BaseHtmlProvider.js.map

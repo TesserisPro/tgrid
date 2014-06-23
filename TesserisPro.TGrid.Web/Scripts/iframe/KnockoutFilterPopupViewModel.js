@@ -35,19 +35,29 @@ var TesserisPro;
                 this.container = container;
                 this.onCloseFilterPopup = onCloseFilterPopup;
                 this.path = ko.observable("");
+                this.value = ko.observable("");
+                this.caseSensetive = ko.observable(false);
+                this.condition = ko.observable(0 /* Contains */);
+
+                this.availableConditions = [];
+                for (var i in TGrid.FilterCondition) {
+                    if (!isNaN(i)) {
+                        continue;
+                    }
+
+                    this.availableConditions.push({
+                        name: i,
+                        value: TGrid.FilterCondition[i]
+                    });
+                }
             }
             KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function (container) {
             };
 
             KnockoutFilterPopupViewModel.prototype.onApply = function () {
-                this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
                 var grid = TGrid.Grid.getGridObject(this.container);
-
                 grid.options.filterDescriptor.removeChildByPath(this.path());
-                if (this.condition != 0 /* None */) {
-                    this.value = this.container.getElementsByTagName("input")[0].value;
-                    grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.path(), this.value, this.condition));
-                }
+                grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.path(), this.value(), this.caseSensetive(), this.condition()));
                 grid.applyFilters();
 
                 hideElement(this.container);
@@ -73,14 +83,16 @@ var TesserisPro;
                 this.path(column.filterMemberPath);
                 for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                     if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                        this.container.getElementsByTagName("input")[0].value = options.filterDescriptor.children[i].value;
-                        this.container.getElementsByTagName("select")[0].selectedIndex = options.filterDescriptor.children[i].condition;
+                        this.value(options.filterDescriptor.children[i].value);
+                        this.caseSensetive(options.filterDescriptor.children[i].caseSensetive);
+                        this.condition(options.filterDescriptor.children[i].condition);
                         return;
                     }
                 }
 
-                this.container.getElementsByTagName("input")[0].value = '';
-                this.container.getElementsByTagName("select")[0].selectedIndex = 0 /* None */;
+                this.value("");
+                this.caseSensetive(false);
+                this.condition(0 /* Contains */);
             };
 
             KnockoutFilterPopupViewModel.prototype.getColumnInfo = function () {
@@ -92,3 +104,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=KnockoutFilterPopupViewModel.js.map

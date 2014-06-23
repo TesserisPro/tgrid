@@ -300,6 +300,7 @@ td a {
 
 .tgrid-filter-popup {
     position: absolute;
+    cursor: default;
     top: 16px;
     padding: 3px;
     z-index: 1;
@@ -326,6 +327,10 @@ td a {
 .tgrid-filter-popup > button {
     width: 70px;
     height:auto;
+}
+
+.grid-filter-popup-casesens-label {
+    display: inline-block;
 }
 
 .tgrid-display-none{

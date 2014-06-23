@@ -633,7 +633,6 @@ var TesserisPro;
                 AngularHtmlProvider.prototype.buildDefaultFilteringPopUp = function(option, filterPopupContainer) {
                     var filterCondition = document.createElement("select");
                     var selectOption = document.createElement("option");
-                    selectOption.value = 0..toString();
                     selectOption.text = "None";
                     filterCondition.appendChild(selectOption);
                     var selectOption = document.createElement("option");
@@ -701,6 +700,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TGrid;
 (function(TGrid) {
     (function(Angular) {
@@ -830,6 +830,7 @@ var TGrid;
     })(TGrid.Angular || (TGrid.Angular = {}));
     var Angular = TGrid.Angular
 })(TGrid || (TGrid = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -960,6 +961,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -987,10 +989,6 @@ var TesserisPro;
                     this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
                     var grid = TGrid.Grid.getGridObject(this.container);
                     grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
-                    if (this.condition != 0) {
-                        this.value = this.container.getElementsByTagName("input")[0].value;
-                        grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition))
-                    }
                     grid.applyFilters();
                     hideElement(this.container);
                     this.onCloseFilterPopup(this.container)
@@ -1018,7 +1016,6 @@ var TesserisPro;
                         }
                     }
                     this.container.getElementsByTagName("input")[0].value = '';
-                    this.container.getElementsByTagName("select")[0].selectedIndex = 0;
                     this.$scope.$apply()
                 };
                 AngularFilterPopupViewModel.prototype.getColumnInfo = function() {
@@ -1030,6 +1027,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var __extends = this.__extends || function(d, b) {
         for (var p in b)
             if (b.hasOwnProperty(p))
@@ -1054,6 +1052,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -1125,6 +1124,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 (function() {
     'use strict';
     angular.module('TGrid', []).directive('tGrid', TGrid.Angular.Directive)

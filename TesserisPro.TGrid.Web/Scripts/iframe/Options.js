@@ -44,9 +44,11 @@ var TesserisPro;
         })(TGrid.SelectionMode || (TGrid.SelectionMode = {}));
         var SelectionMode = TGrid.SelectionMode;
         (function (FilterCondition) {
-            FilterCondition[FilterCondition["None"] = 0] = "None";
+            FilterCondition[FilterCondition["Contains"] = 0] = "Contains";
             FilterCondition[FilterCondition["Equals"] = 1] = "Equals";
             FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
+            FilterCondition[FilterCondition["StartsFrom"] = 3] = "StartsFrom";
+            FilterCondition[FilterCondition["EndsWith"] = 4] = "EndsWith";
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
         (function (LogicalOperator) {
@@ -244,3 +246,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=Options.js.map

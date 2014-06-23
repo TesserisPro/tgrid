@@ -971,10 +971,10 @@ var TesserisPro;
                             collapsed = false;
                             colapsedGroupLevel = this.options.groupBySortDescriptors.length;
 
-                            var filterDescriptor = new TGrid.FilterDescriptor("", "", 0 /* None */, 0 /* And */, 0 /* And */);
+                            var filterDescriptor = new TGrid.FilterDescriptor("", "", false, 0 /* Contains */, 0 /* And */, 0 /* And */);
 
                             for (var k = 0; k <= j; k++) {
-                                filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], 1 /* Equals */));
+                                filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], false, 1 /* Equals */));
                             }
 
                             collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
@@ -1279,3 +1279,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=TGrid.js.map

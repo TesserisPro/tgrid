@@ -58,10 +58,11 @@ var TesserisPro;
                 var grid = TGrid.Grid.getGridObject(this.container);
 
                 grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
-                if (this.condition != 0 /* None */) {
-                    this.value = this.container.getElementsByTagName("input")[0].value;
-                    grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.$scope.path, this.value, this.condition));
-                }
+
+                //if (this.condition != FilterCondition.None) {
+                //    this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
+                //    grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.value, false, this.condition));
+                //}
                 grid.applyFilters();
 
                 hideElement(this.container);
@@ -95,7 +96,8 @@ var TesserisPro;
                 }
 
                 this.container.getElementsByTagName("input")[0].value = '';
-                this.container.getElementsByTagName("select")[0].selectedIndex = 0 /* None */;
+
+                //(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
                 this.$scope.$apply();
             };
 
@@ -108,3 +110,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=AngularFilterPopupViewModel.js.map

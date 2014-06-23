@@ -719,7 +719,7 @@ module TesserisPro.TGrid {
             var filterCondition = document.createElement("select");
             // append filter conditions
             var selectOption = document.createElement("option");
-            selectOption.value = FilterCondition.None.toString();
+            //selectOption.value = FilterCondition.None.toString();
             selectOption.text = "None";
             filterCondition.appendChild(selectOption);
 

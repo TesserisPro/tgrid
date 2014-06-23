@@ -65,10 +65,10 @@ module TesserisPro.TGrid {
             var grid = Grid.getGridObject(this.container);
 
             grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
-            if (this.condition != FilterCondition.None) {
-                this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.value, this.condition));
-            }
+            //if (this.condition != FilterCondition.None) {
+            //    this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
+            //    grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.value, false, this.condition));
+            //}
             grid.applyFilters();
 
             hideElement(this.container);
@@ -102,7 +102,7 @@ module TesserisPro.TGrid {
             }
 
             (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = '';
-            (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
+            //(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
             this.$scope.$apply();
         }
 

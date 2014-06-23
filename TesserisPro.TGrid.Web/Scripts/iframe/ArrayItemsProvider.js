@@ -188,7 +188,7 @@ var TesserisPro;
             };
 
             ArrayItemsProvider.prototype.isFilterSatisfied = function (item, filterDescriptor) {
-                if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+                if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensetive, filterDescriptor.condition)) {
                     if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1 /* Or */) {
                         return true;
                     } else {
@@ -206,7 +206,7 @@ var TesserisPro;
             ArrayItemsProvider.prototype.isChildFiltersSatisfied = function (item, filterDescriptor) {
                 if (filterDescriptor.childrenUnionOperator == 1 /* Or */) {
                     for (var i = 0; i < filterDescriptor.children.length; i++) {
-                        if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
+                        if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
                             return true;
                         }
                     }
@@ -214,7 +214,7 @@ var TesserisPro;
                     return false;
                 } else {
                     for (var i = 0; i < filterDescriptor.children.length; i++) {
-                        if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
+                        if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
                             return false;
                         }
                     }
@@ -223,14 +223,25 @@ var TesserisPro;
                 }
             };
 
-            ArrayItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, condition) {
+            ArrayItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, caseSensetive, condition) {
+                if (!value) {
+                    return true;
+                }
+
+                var citem = item;
+                var cvalue = value;
+                if (caseSensetive) {
+                    citem = (item || "").toString().toLowerCase();
+                    cvalue = (value || "").toString().toLowerCase();
+                }
+
                 switch (condition) {
-                    case 0 /* None */:
-                        return true;
+                    case 0 /* Contains */:
+                        return (citem || "").toString().indexOf((cvalue || "").toString()) > -1;
                     case 1 /* Equals */:
-                        return (item == value);
+                        return (citem == cvalue);
                     case 2 /* NotEquals */:
-                        return (item != value);
+                        return (citem != cvalue);
                     default:
                         return false;
                 }
@@ -241,3 +252,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=ArrayItemsProvider.js.map
