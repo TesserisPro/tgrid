@@ -547,7 +547,6 @@ var TesserisPro;
                 if (isNotNull(option.rowClick)) {
                     action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
                 }
-                mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
                 rowsContainer.appendChild(mobileContainer);
                 var detailsRow = this.buildMobileDetailsRow(option);
                 rowsContainer.appendChild(detailsRow);
@@ -593,6 +592,7 @@ var TesserisPro;
 
                 if (option.enableCollapsing) {
                     addClass(mobileRow, "collapsing");
+                    mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item); $event.stopPropagation();");
                 }
                 mobileRow.appendChild(headerDiv);
             };

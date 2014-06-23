@@ -932,8 +932,6 @@ var TesserisPro;
                     this.enablePreload = true;
                     this.isBuisy = false;
                     this.isFirstRefresh = true;
-                    this.firstRefreshCount = 0;
-                    this.firstRefreshAttemptsCount = 10;
                     this.currentModeDesktop = true;
                     element.grid = this;
                     this.targetElement = element;
@@ -1076,7 +1074,6 @@ var TesserisPro;
                     else {
                         this.sortBy(this.options.sortDescriptor.path)
                     }
-                    this.firstRefreshFooter();
                     this.buisyIndicator = document.createElement("div");
                     this.buisyIndicator.className = "tgrid-buisy-indicator";
                     this.rootElement.appendChild(this.buisyIndicator);
@@ -1837,6 +1834,9 @@ var TesserisPro;
                     if (!this.options.enablePaging) {
                         this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), function(totalitemsCount) {
                             _this.totalItemsCount = totalitemsCount;
+                            if (_this.isFirstRefresh) {
+                                _this.refreshFooter()
+                            }
                             _this.itemProvider.getItems(_this.getFirstItemNumber(), _this.options.firstLoadSize, _this.getEffectiveSorting(), _this.getEffectiveFiltering(), _this.getCollapsedGroupFilter(), function(items, first, count) {
                                 _this.firstVisibleItemIndex = first;
                                 _this.visibleItems = items;
@@ -1875,6 +1875,9 @@ var TesserisPro;
                     else {
                         this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), function(totalitemsCount) {
                             _this.totalItemsCount = totalitemsCount;
+                            if (_this.isFirstRefresh) {
+                                _this.refreshFooter()
+                            }
                             _this.itemProvider.getItems(_this.getFirstItemNumber(), _this.getPageSize(), _this.getEffectiveSorting(), _this.getEffectiveFiltering(), _this.getCollapsedGroupFilter(), function(items, first, count) {
                                 _this.firstVisibleItemIndex = first;
                                 _this.visibleItems = items;
@@ -2057,18 +2060,6 @@ var TesserisPro;
                             column.filterMemberPath = name;
                             this.options.columns.push(column)
                         }
-                    }
-                };
-                Grid.prototype.firstRefreshFooter = function() {
-                    this.firstRefreshCount++;
-                    if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
-                        this.refreshFooter()
-                    }
-                    else {
-                        var self = this;
-                        setTimeout(function() {
-                            self.firstRefreshFooter()
-                        }, 1)
                     }
                 };
                 Grid.prototype.hideFilterPopupOnResize = function(e) {

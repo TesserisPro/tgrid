@@ -432,7 +432,6 @@ var TesserisPro;
                         var poupLeft = eventTarget.getBoundingClientRect().left + document.body.scrollLeft;
 
                         if (filterPopupContainer.style.display == "none" || option.filterPopupForColumn != option.columns[columnNumber]) {
-                            //if ( option.filterPopupForColumn != option.columns[columnNumber]) {
                             grid.showFilterPopup(option.columns[columnNumber], poupLeft, popupTop, true);
                             if ((poupLeft + filterPopupContainer.offsetWidth) > (grid.GetRootElement().getBoundingClientRect().left + grid.GetRootElement().getBoundingClientRect().width)) {
                                 grid.showFilterPopup(option.columns[columnNumber], poupLeft - filterPopupContainer.offsetWidth + eventTarget.offsetWidth, popupTop, true);

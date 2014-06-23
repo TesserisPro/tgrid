@@ -93,8 +93,6 @@ module TesserisPro.TGrid {
         private isBuisy: boolean = false;
 
         private isFirstRefresh = true;
-        private firstRefreshCount = 0;
-        private firstRefreshAttemptsCount = 10;
         private currentModeDesktop: boolean = true;
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
@@ -261,7 +259,6 @@ module TesserisPro.TGrid {
             } else {
                 this.sortBy(this.options.sortDescriptor.path);
             }
-            this.firstRefreshFooter();
 
             this.buisyIndicator = document.createElement("div");
             this.buisyIndicator.className = "tgrid-buisy-indicator";
@@ -1153,6 +1150,9 @@ module TesserisPro.TGrid {
                     this.getEffectiveFiltering(),
                     totalitemsCount => {
                         this.totalItemsCount = totalitemsCount;
+                        if (this.isFirstRefresh) {
+                            this.refreshFooter();
+                        }
                         this.itemProvider.getItems(
                             this.getFirstItemNumber(),
                             this.options.firstLoadSize,
@@ -1200,6 +1200,9 @@ module TesserisPro.TGrid {
                     this.getEffectiveFiltering(),
                     totalitemsCount => {
                         this.totalItemsCount = totalitemsCount;
+                        if (this.isFirstRefresh) {
+                            this.refreshFooter();
+                        }
                         this.itemProvider.getItems(
                             this.getFirstItemNumber(),
                             this.getPageSize(),
@@ -1405,15 +1408,6 @@ module TesserisPro.TGrid {
             }
         }
 
-        private firstRefreshFooter() {
-            this.firstRefreshCount++;
-            if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
-                this.refreshFooter();
-            } else {
-                var self = this;
-                setTimeout(function () { self.firstRefreshFooter(); }, 1);
-            }
-        }
         private hideFilterPopupOnResize(e: UIEvent) {
             var self = this;
             setTimeout(function () {
