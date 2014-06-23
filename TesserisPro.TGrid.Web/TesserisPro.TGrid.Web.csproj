@@ -186,8 +186,10 @@
     <Content Include="Scripts\iframe\AngularItemsViewModel.js" />
     <Content Include="Scripts\iframe\AngularModuleTGrid.js" />
     <Content Include="Scripts\iframe\tgrid-angular-debug.js" />
+    <Content Include="Scripts\iframe\tgrid-array-items-provider-debug.js" />
     <Content Include="Scripts\iframe\tgrid-debug.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-debug.js" />
+    <Content Include="Scripts\iframe\tgrid-server-items-provider-debug.js" />
     <Content Include="Scripts\navrouter-1.0.1.js" />
     <Content Include="Scripts\typings\navrouter\knockout.d.ts" />
     <Content Include="ViewModels\DocsViewModel.js" />

@@ -900,6 +900,8 @@ var TesserisPro;
                     this.enablePreload = true;
                     this.isBuisy = false;
                     this.isFirstRefresh = true;
+                    this.firstRefreshCount = 0;
+                    this.firstRefreshAttemptsCount = 10;
                     element.grid = this;
                     this.targetElement = element;
                     this.options = options;
@@ -1041,7 +1043,7 @@ var TesserisPro;
                     else {
                         this.sortBy(this.options.sortDescriptor.path)
                     }
-                    this.refreshFooter();
+                    this.firstRefreshFooter();
                     this.buisyIndicator = document.createElement("div");
                     this.buisyIndicator.className = "tgrid-buisy-indicator";
                     this.rootElement.appendChild(this.buisyIndicator);
@@ -1954,6 +1956,43 @@ var TesserisPro;
                     if (!this.options.enablePaging && !this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-pagination")[0])) {
                         this.options.currentPage = 0
                     }
+                    var header = this.rootElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
+                    if (!this.options.hideHeader && isNoU(header)) {
+                        this.groupByElement = document.createElement("div");
+                        this.groupByElement.className = "tgrid-group-by-panel desktop";
+                        this.rootElement.insertBefore(this.groupByElement, this.bodyAndHeaderContainer);
+                        this.headerContainer = document.createElement("div");
+                        this.headerContainer.className = "tgrid-tableheadercontainer desktop";
+                        var headerTable = document.createElement("table");
+                        headerTable.className = "tgrid-table";
+                        this.headerContainer.appendChild(headerTable);
+                        this.mobileHeader = document.createElement("div");
+                        this.mobileHeader.className = "tgrid-mobile-header mobile";
+                        this.bodyAndHeaderContainer.appendChild(this.mobileHeader);
+                        this.tableHeader = document.createElement("thead");
+                        this.tableHeader.setAttribute("class", "tgrid-table-header desktop");
+                        headerTable.appendChild(this.tableHeader);
+                        this.bodyAndHeaderContainer.insertBefore(this.headerContainer, this.tableBodyContainer);
+                        this.tableBodyContainer.onscroll = function() {
+                            return _this.headerContainer.scrollLeft = _this.tableBodyContainer.scrollLeft
+                        };
+                        if (this.options.enableVirtualScroll) {
+                            this.scrollBar.className = "tgrid-scroll"
+                        }
+                        if (this.isDesktopMode) {
+                            this.headerContainer.scrollLeft = this.tableBodyContainer.scrollLeft
+                        }
+                    }
+                    if (this.options.hideHeader && isNotNoU(header)) {
+                        this.bodyAndHeaderContainer.removeChild(header);
+                        var groupByPanel = this.rootElement.getElementsByClassName("tgrid-group-by-panel")[0];
+                        if (isNotNoU(groupByPanel)) {
+                            this.rootElement.removeChild(groupByPanel)
+                        }
+                        this.tableBodyContainer.onscroll = function() {
+                            return _this.tableBodyContainer.scrollLeft
+                        }
+                    }
                     this.refreshHeader();
                     this.refreshBody(this.options.enableVirtualScroll);
                     this.refreshFooter()
@@ -1969,6 +2008,18 @@ var TesserisPro;
                             column.filterMemberPath = name;
                             this.options.columns.push(column)
                         }
+                    }
+                };
+                Grid.prototype.firstRefreshFooter = function() {
+                    this.firstRefreshCount++;
+                    if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
+                        this.refreshFooter()
+                    }
+                    else {
+                        var self = this;
+                        setTimeout(function() {
+                            self.firstRefreshFooter()
+                        }, 1)
                     }
                 };
                 return Grid

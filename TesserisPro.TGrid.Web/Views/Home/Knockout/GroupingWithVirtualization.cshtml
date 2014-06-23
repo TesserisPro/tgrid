@@ -14,9 +14,9 @@
         <script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
         <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
 
-        <script src="~/Scripts/iframe/tgrid-array-items-provider-debug.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-debug.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-knockout-debug.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
         <style>
             .tgrid-tableheadercontainer {
                 border-bottom: none;
@@ -25,7 +25,7 @@
     </head>
     <body>
        <div>
-            <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableVirtualScroll: true, enableCollapsing: true }">
+            <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, enableGrouping: true, enableVirtualScroll: true}">
                 <script type="text/html">
                     <column data-g-member="Name"  data-g-group-member="Name"> 
                     </column>
@@ -37,26 +37,36 @@
             </div>
            <script type="text/javascript">
 		   	var items = [];
-
-		   	var getRandomInt = function getRandomInt(min, max) {
-		   		return Math.floor(Math.random() * (max - min + 1) + min);
-		   	}
-
-		   	var generateRandomInt = getRandomInt;
-		   	(function (generateRandomInt, items) {
+		   	(function (items) {
 		   		var names = ['Angela', 'Bella', 'Chris', 'Donna', 'Elizabeth', 'Fiona', 'George', 'Henry', 'Inga', 'Julia', 'Ken', 'Laurence', "John", "Sharilyn", "Matthew", "Jasmine", "Ashley", "Christiana",
-				"Cathrine", "Alison", "Nicole", "Theron", "Robert", "Larry", "Tina", "Nelson", "Ted", "William"];
-		   		var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson', "Figgins", "Seidel", "Holz", "Newlin", "Swanson", "Ronan", "Lewis",
-					'Carter', 'Collins', "Thrush", 'Murphy', 'Turner', 'Ham'];
-		   		var path = document.getElementById("url") != null ? document.getElementById("url").value : "/";
-		   		for (var i = 0; i < 100; i++) {
-		   			items.push({
-		   				Name: names[generateRandomInt(0, names.length - 1)],
-		   				Surname: surnames[generateRandomInt(0, surnames.length - 1)],
-		   				Age: generateRandomInt(20, 24)						
-		   			});
+				"Cathrine", "Alison", "Nicole", "Theron", "Robert", "Larry", "Tina", "Nelson", "Ted", "William", "Betty", "Charlie", "Debra", "Erica", "Emmy", "Eston", "Mary", "Patricia", "Linda", "Barbara",
+				"Jennifer", "James", "Michael", "David", "Richard", "Charles", "Joseph", "Thomas", "Daniel", "Paul", "Mark", "Brian", 'Kimberly', 'Donald', 'John'];
+		   		var surnames = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davis', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Johnson', "Figgins", "Seidel", "Holz", "Newlin", "Swanson", "Ronan", "Lewis",
+					'Carter', 'Collins', "Thrush", 'Murphy', 'Turner', 'Ham', 'Miller', 'Moore', 'Anderson', 'Jackson', 'White', 'Harris', 'Martinez', 'Robinson', 'Clark', 'Rodriguez', 'Lee', 'Walker',
+				'Hall', 'Allen', 'King', 'Lopez', 'Hill', 'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Mitchell', 'Phillips', 'Campbell', 'Parker', 'Honzales', 'Johnson', 'Smith'];
+		   		var ages = [18, 19, 20, 21]
+		   		var meshArray = [2, 6, 19, 20, 15, 0, 13, 10, 11, 23, 1, 3, 7, 8, 18, 24, 16, 4, 9, 22, 25, 5, 12, 14, 17];
+		   		for (var i = 1; i < 3; i++) {
+		   			for (var j = 0; j < meshArray.length; j++) {
+		   				ages.push(meshArray[j] * i + 18);
+		   			}
 		   		}
-		   	})(generateRandomInt, items);
+		   		var path = document.getElementById("url") != null ? document.getElementById("url").value : "/";
+		   		for (var k = 0; k < 2; k++) {
+		   			for (var i = 0; i < 23; i++) {
+		   				for (var j = 0; j < 25; j++) {
+		   					var surnameIndex = meshArray[i] + meshArray[j] + k;
+		   					var nameIndex = meshArray[parseInt((j + i) / 2)] + meshArray[j] + k;
+		   					var ageIndex = meshArray[j] + meshArray[j] + k;
+		   					items.push({
+		   						Name: names[nameIndex],
+		   						Surname: surnames[surnameIndex],
+		   						Age: ages[ageIndex]
+		   					});
+		   				}
+		   			}
+		   		}
+		   	})(items);
 
                function vm() {
                    var self = this;

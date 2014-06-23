@@ -86,6 +86,14 @@
                 }
                 $scope.gridOptions.applyHandler();
             }
+			$scope.togglePaging = function () {
+                if (!$scope.gridOptions.enablePaging) {
+                	$scope.gridOptions.enablePaging = true;
+                } else {
+                	$scope.gridOptions.enablePaging = false;
+                }
+                $scope.gridOptions.applyHandler();
+            }
         })
 
     $(function () {

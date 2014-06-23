@@ -30,6 +30,9 @@
                 <span>
                     <input type="checkbox" data-bind="event:{change: function(){toggleGrouping();}}" /> Enable Grouping
                 </span>
+				 <span>
+                    <input type="checkbox" data-bind="event:{change: function(){togglePaging();}}" /> Enable Paging
+                </span>
             </div>
             <div>Actions with grid columns</div>
             <table class="tgrid-table" id="tableColumnActionsHeader">
@@ -74,7 +77,7 @@
                 <tbody>
                     <tr style="height: 50px;">
                         <td style="width:90px">
-							<select style="width:85px" data-bind="options: membersOfColumnsForAdding, value: columnForAddingMember, disable: membersOfColumnsForAdding().length == 0"></select>
+							<select style="width:85px" data-bind="options: membersOfColumnsForAdding, value: columnForAddingMember, optionsCaption: 'Choose...', disable: membersOfColumnsForAdding().length == 0 "></select>
                         </td>
                         <td style="width:120px">
                             <input type="text" data-bind="value: columnForAddingHeader" />
@@ -239,6 +242,14 @@
                         self.gridOptions().enableGrouping = false;
                     }
                     self.gridOptions().applyHandler();
+                }
+                self.togglePaging = function () {
+                	if (!self.gridOptions().enablePaging) {
+                		self.gridOptions().enablePaging = true;
+                	} else {
+                		self.gridOptions().enablePaging = false;
+                	}
+                	self.gridOptions().applyHandler();
                 }
             };
 

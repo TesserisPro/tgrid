@@ -4,11 +4,14 @@
     <fieldset>
         <legend>Grid options</legend>
         <div id="changeOptionsCheckboxes">
-            <span>
+			<span>
                 <input type="checkbox" data-bind="event:{change: function(){toggleSorting();}}" /> Enable Sorting
             </span>
             <span>
                 <input type="checkbox" data-bind="event:{change: function(){toggleGrouping();}}" /> Enable Grouping
+            </span>
+				<span>
+                <input type="checkbox" data-bind="event:{change: function(){togglePaging();}}" /> Enable Paging
             </span>
         </div>
         <div>Actions with grid columns</div>

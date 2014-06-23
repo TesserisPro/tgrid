@@ -89,6 +89,14 @@
             }
             self.gridOptions().applyHandler();
         }
+		self.togglePaging = function () {
+            if (!self.gridOptions().enablePaging) {
+                self.gridOptions().enablePaging = true;
+            } else {
+                self.gridOptions().enablePaging = false;
+            }
+            self.gridOptions().applyHandler();
+        }
     };
 
     $(function () {
