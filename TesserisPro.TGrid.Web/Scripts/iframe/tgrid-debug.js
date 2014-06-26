@@ -187,8 +187,8 @@ var TesserisPro;
                     }
                     return option.columns[option.showDetailFor.column].cellDetail
                 };
-                BaseHtmlProvider.prototype.updateTableDetailRow = function(option, container, item, shouldAddDetails){};
-                BaseHtmlProvider.prototype.updateMobileDetailRow = function(option, container, item, shouldAddDetails){};
+                BaseHtmlProvider.prototype.updateTableDetailRow = function(option, container, item){};
+                BaseHtmlProvider.prototype.updateMobileDetailRow = function(option, container, item){};
                 BaseHtmlProvider.prototype.buildDefaultHeader = function(container, headerName) {
                     var defaultHeader = document.createElement("span");
                     var defaultName = document.createTextNode(headerName);
@@ -674,7 +674,7 @@ var TesserisPro;
                     this.isGroupHeader = isGroupHeader
                 }
                 ItemViewModel.prototype.toggleDetailsForCell = function(columnIndex) {
-                    if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+                    if (this.grid.options.showDetailFor.item != this.item || this.grid.options.showDetailFor.column != columnIndex) {
                         this.openDetailsForCell(columnIndex)
                     }
                     else {
@@ -684,16 +684,12 @@ var TesserisPro;
                 ItemViewModel.prototype.openDetailsForCell = function(columnIndex) {
                     this.grid.options.showDetailFor.column = columnIndex;
                     this.grid.options.showDetailFor.item = this.item;
-                    this.grid.updateRow(this.item, true);
-                    this.grid.options.showCustomDetailFor.item = this.item;
-                    this.grid.options.showCustomDetailFor.column = columnIndex;
-                    this.grid.options.shouldAddDetailsOnSelection = false
+                    this.grid.updateRow(this.item)
                 };
                 ItemViewModel.prototype.closeDetailsForCell = function(columnIndex) {
-                    if (this.grid.options.showCustomDetailFor.item == this.item) {
+                    if (this.grid.options.showDetailFor.column == columnIndex && this.grid.options.showDetailFor.item == this.item) {
                         this.grid.options.showDetailFor = new TGrid.ShowDetail;
-                        this.grid.updateRow(this.item, false);
-                        this.grid.options.showCustomDetailFor = new TGrid.ShowDetail
+                        this.grid.updateRow(this.item)
                     }
                 };
                 ItemViewModel.prototype.setItemValue = function(item) {
@@ -882,7 +878,6 @@ var TesserisPro;
                     }
                     this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
                     this.showDetailFor = new ShowDetail;
-                    this.showCustomDetailFor = new ShowDetail;
                     this.filterPopupForColumn = new ColumnInfo
                 };
                 Options.prototype.applyHandler = function() {
@@ -1661,12 +1656,6 @@ var TesserisPro;
                         }
                     }
                     else if (this.options.selectionMode == 1) {
-                        if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
-                            this.options.shouldAddDetailsOnSelection = false
-                        }
-                        else {
-                            this.options.shouldAddDetailsOnSelection = true
-                        }
                         this.options.selection = [item.item]
                     }
                     else {
@@ -1674,18 +1663,20 @@ var TesserisPro;
                     }
                     if (this.options.openDetailsOnSelection) {
                         if (this.options.selection.length == 1) {
-                            this.options.showDetailFor = new TGrid.ShowDetail;
-                            this.options.showDetailFor.item = this.options.selection[0]
+                            if (this.options.showDetailFor.item != this.options.selection[0] || this.options.showDetailFor.column != -1) {
+                                this.options.showDetailFor = new TGrid.ShowDetail;
+                                this.options.showDetailFor.item = this.options.selection[0]
+                            }
+                            else {
+                                this.options.showDetailFor = new TGrid.ShowDetail
+                            }
                         }
                     }
-                    else {
-                        this.options.showDetailFor = new TGrid.ShowDetail
-                    }
                     for (var i = 0; i < oldSelection.length; i++) {
-                        this.updateRow(oldSelection[i], this.options.shouldAddDetailsOnSelection)
+                        this.updateRow(oldSelection[i])
                     }
                     for (var i = 0; i < this.options.selection.length; i++) {
-                        this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection)
+                        this.updateRow(this.options.selection[i])
                     }
                     this.scrollIntoView(item.item);
                     this.updateFooterViewModel();
@@ -1718,9 +1709,13 @@ var TesserisPro;
                     var scrollTo = this.htmlProvider.getElementsSize(this.tableBody, viewModels);
                     this.tableBodyContainer.scrollTop = scrollTo
                 };
-                Grid.prototype.updateRow = function(item, shouldAddDetails) {
-                    this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
-                    this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails)
+                Grid.prototype.updateRow = function(item) {
+                    for (var i = 0; i < this.visibleViewModels.length; i++) {
+                        if (this.visibleViewModels[i].item == item) {
+                            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.visibleViewModels[i]);
+                            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.visibleViewModels[i])
+                        }
+                    }
                 };
                 Grid.prototype.buildViewModels = function(items) {
                     var itemModels = [];

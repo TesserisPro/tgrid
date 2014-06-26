@@ -231,10 +231,10 @@ var TesserisPro;
                 return option.columns[option.showDetailFor.column].cellDetail;
             };
 
-            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item, shouldAddDetails) {
+            BaseHtmlProvider.prototype.updateTableDetailRow = function (option, container, item) {
             };
 
-            BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item, shouldAddDetails) {
+            BaseHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
             };
 
             BaseHtmlProvider.prototype.buildDefaultHeader = function (container, headerName) {

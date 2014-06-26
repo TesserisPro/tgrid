@@ -242,11 +242,11 @@ module TesserisPro.TGrid {
             return option.columns[option.showDetailFor.column].cellDetail;
         }
  
-        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
+        public updateTableDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
 
         }
 
-        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
 
         }
 

@@ -914,6 +914,7 @@ module TesserisPro.TGrid {
 
         public selectItem(item: ItemViewModel, multi: boolean): boolean {
             var oldSelection = new Array<any>();
+
             for (var i = 0; i < this.options.selection.length; i++) {
                 oldSelection.push(this.options.selection[i]);
             }
@@ -931,11 +932,6 @@ module TesserisPro.TGrid {
                     this.options.selection = [item.item];
                 }
             } else if (this.options.selectionMode == SelectionMode.Single) {
-                if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
-                    this.options.shouldAddDetailsOnSelection = false;
-                } else {
-                    this.options.shouldAddDetailsOnSelection = true;
-                }
                 this.options.selection = [item.item];
             } else {
                 this.options.selection = new Array<any>();
@@ -943,21 +939,24 @@ module TesserisPro.TGrid {
 
             if (this.options.openDetailsOnSelection) {
                 if (this.options.selection.length == 1) {
-                    this.options.showDetailFor = new ShowDetail();
-                    this.options.showDetailFor.item = this.options.selection[0];
+                    if (this.options.showDetailFor.item != this.options.selection[0] || this.options.showDetailFor.column != -1) {
+                        this.options.showDetailFor = new ShowDetail();
+                        this.options.showDetailFor.item = this.options.selection[0];
+                    }
+                    else {
+                        this.options.showDetailFor = new ShowDetail();
+                    }
                 }
-
-            } else {
-                this.options.showDetailFor = new ShowDetail();
             }
 
             for (var i = 0; i < oldSelection.length; i++) {
-                this.updateRow(oldSelection[i], this.options.shouldAddDetailsOnSelection);
+                this.updateRow(oldSelection[i]);
             }
 
             for (var i = 0; i < this.options.selection.length; i++) {
-                this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
+                this.updateRow(this.options.selection[i]);
             }
+
             this.scrollIntoView(item.item);
             this.updateFooterViewModel();
             return true;
@@ -998,9 +997,13 @@ module TesserisPro.TGrid {
             this.tableBodyContainer.scrollTop = scrollTo;
         }
 
-        public updateRow(item: any, shouldAddDetails: boolean): void {
-            this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
-            this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails);
+        public updateRow(item: any): void {
+            for (var i = 0; i < this.visibleViewModels.length; i++) {
+                if (this.visibleViewModels[i].item == item) {
+                    this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.visibleViewModels[i]);
+                    this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.visibleViewModels[i]);
+                }
+            }
         }
 
         private buildViewModels(items: Array<any>): Array<ItemViewModel> {

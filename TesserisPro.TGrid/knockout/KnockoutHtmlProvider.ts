@@ -218,37 +218,42 @@ module TesserisPro.TGrid {
             return container;
         }
 
-        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails:boolean) {
+        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
+             
             var detailRow = container.getElementsByClassName("tgrid-details");
             if (detailRow.length > 0) {
-                detailRow[0].parentNode.removeChild(detailRow[0]);
+                var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
             }
 
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item.item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
             }
 
             if (targetRow != null) {
-                if (options.isSelected(item)) {
+                if (options.isSelected(item.item)) {
                     addClass(targetRow,"selected");
                 }
                 else {
                     removeClass(targetRow,"selected");
                 }
 
-                if (shouldAddDetails) {
+                //var detailRow = container.getElementsByClassName("tgrid-details");
+                if (options.showDetailFor.item == item.item) {
                     var detailsTemplate = this.getActualDetailsTemplate(options);
 
                     // Insert row details after selected item
                     if (detailsTemplate != null) {
                         var details = this.buildDetailsRow(options, detailsTemplate);
                         insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        ko.applyBindings(item, details);
                     }
                 }
             }
@@ -283,7 +288,7 @@ module TesserisPro.TGrid {
             ko.applyBindings(filterPopupModel, filterPopup);
         }
 
-        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): void {
+        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
 
@@ -300,7 +305,7 @@ module TesserisPro.TGrid {
         }
 
 
-        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): HTMLElement {
+        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
             if (isNotNull(option.rowClick)) {
                 row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
@@ -349,12 +354,7 @@ module TesserisPro.TGrid {
                 (function (item) {
                     row.onclick = function (e) {
                         if (option.selectionMode != SelectionMode.None) {
-                            var wasSelected = false;
-                            if (option.shouldAddDetailsOnSelection == item.item) {
-                                wasSelected = true;
-                            }
-                            selected(item, e.ctrlKey, wasSelected);
-
+                            selected(item, e.ctrlKey);
                         }
                     };
                 })(item);
@@ -474,40 +474,45 @@ module TesserisPro.TGrid {
             container.setAttribute("class", bodyClass);
         }
 
-        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
+        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
             
             var detailRow = container.getElementsByClassName("tgrid-mobile-details");
             if (detailRow.length > 0) {
-                detailRow[0].parentNode.removeChild(detailRow[0]);
+                var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
             }
 
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item.item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
             }
 
             if (targetRow != null) {
-                if (options.isSelected(item)) {
+                if (options.isSelected(item.item)) {
                     addClass(targetRow,"selected");
                 }
                 else {
                     removeClass(targetRow,"selected");
                 }
 
-                if (shouldAddDetails) {
+                // if (shouldAddDetails) {
+                if (options.showDetailFor.item == item.item) {
                     var detailsTemplate = this.getActualDetailsTemplate(options);
 
                     // Insert row details after selected item
                     if (detailsTemplate != null) {
                         var details = this.buildMobileDetailsRow(options, detailsTemplate);
                         insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        ko.applyBindings(item, details);
                     }
                 }
+                //}
             }
         }
 

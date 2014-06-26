@@ -373,8 +373,8 @@ var TesserisPro;
                     }
                     return detailTr
                 };
-                AngularHtmlProvider.prototype.updateTableDetailRow = function(options, container, item, isDetailsAdded) {
-                    this.angularItemsViewModel.setItemSelection(item, options.isSelected(item), isDetailsAdded)
+                AngularHtmlProvider.prototype.updateTableDetailRow = function(options, container, item) {
+                    this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item))
                 };
                 AngularHtmlProvider.prototype.updateTableFooterElement = function(option, footer, totalItemsCount, footerModel) {
                     if (option.tableFooterTemplate == null && option.enablePaging) {
@@ -477,13 +477,14 @@ var TesserisPro;
                     var rowsContainer = document.createElement('div');
                     var mobileContainer = document.createElement('div');
                     rowsContainer.setAttribute("ng-controller", "TableCtrl");
-                    mobileContainer = this.appendMobileTableElement(option, container, items, 0, selected);
+                    mobileContainer = this.appendMobileTableElement(option, container, items, 0, action);
                     mobileContainer.setAttribute("ng-repeat-start", "item in items");
                     mobileContainer.setAttribute("ng-class", "{'tgrid-mobile-row' : !item.isGroupHeader, 'tgrid-mobile-group-header':  item.isGroupHeader,'tgrid-mobile-row selected': !item.isGroupHeader && item.isSelected }");
                     var action = "item.select($event, item, $parent.items)";
                     if (isNotNull(option.rowClick)) {
                         action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)")
                     }
+                    mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
                     rowsContainer.appendChild(mobileContainer);
                     var detailsRow = this.buildMobileDetailsRow(option);
                     rowsContainer.appendChild(detailsRow);
@@ -492,7 +493,7 @@ var TesserisPro;
                     addClass(container, "mobile");
                     option.showDetailFor.column = -1
                 };
-                AngularHtmlProvider.prototype.appendMobileTableElement = function(option, container, items, groupLevel, selected) {
+                AngularHtmlProvider.prototype.appendMobileTableElement = function(option, container, items, groupLevel, action) {
                     var mobileRow = document.createElement('div');
                     if (items.length > 0) {
                         if (option.enableGrouping) {
@@ -500,12 +501,12 @@ var TesserisPro;
                                 this.buildMobileGroupHeaderRow(option, items[0].item, mobileRow)
                             }
                         }
-                        this.buildMobileRowElement(option, items[0].item, container, selected, mobileRow)
+                        this.buildMobileRowElement(option, items[0].item, container, action, mobileRow)
                     }
                     return mobileRow
                 };
-                AngularHtmlProvider.prototype.updateMobileDetailRow = function(option, container, item, shouldAddDetails) {
-                    this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item), shouldAddDetails)
+                AngularHtmlProvider.prototype.updateMobileDetailRow = function(option, container, item) {
+                    this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item.item))
                 };
                 AngularHtmlProvider.prototype.buildMobileGroupHeaderRow = function(option, item, mobileRow) {
                     this.appendIndentMobileGroupHeader(mobileRow, option.columns.length);
@@ -519,8 +520,7 @@ var TesserisPro;
                     }
                     addClass(headerDiv, 'tgrid-mobile-group-header-container');
                     if (option.enableCollapsing) {
-                        addClass(mobileRow, "collapsing");
-                        mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item); $event.stopPropagation();")
+                        addClass(mobileRow, "collapsing")
                     }
                     mobileRow.appendChild(headerDiv)
                 };
@@ -532,7 +532,7 @@ var TesserisPro;
                         target.appendChild(indentDiv)
                     }
                 };
-                AngularHtmlProvider.prototype.buildMobileRowElement = function(option, item, container, selected, mobileRow) {
+                AngularHtmlProvider.prototype.buildMobileRowElement = function(option, item, container, action, mobileRow) {
                     this.appendIndentMobileRow(mobileRow, option.groupBySortDescriptors.length);
                     var rowTemplate = document.createElement("div");
                     rowTemplate.setAttribute("ng-hide", "item.isGroupHeader");
@@ -544,6 +544,7 @@ var TesserisPro;
                         rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option)
                     }
                     mobileRow.appendChild(rowTemplate);
+                    mobileRow.setAttribute("ng-click", action);
                     mobileRow["dataContext"] = item.item
                 };
                 AngularHtmlProvider.prototype.appendIndentMobileRow = function(target, level) {
@@ -1080,13 +1081,15 @@ var TesserisPro;
                             this.$scope.items[i].showDetail = true
                         }
                         this.$scope.items[i].toggleGroupCollapsing = function(e, item) {
-                            if (item.item.collapse) {
-                                item.grid.removeCollapsedFilters(item.item.filterDescriptor);
-                                item.item.collapse = false
-                            }
-                            else {
-                                item.grid.setCollapsedFilters(item.item.filterDescriptor);
-                                item.item.collapse = true
+                            if (_this.options.enableCollapsing) {
+                                if (item.item.collapse) {
+                                    item.grid.removeCollapsedFilters(item.item.filterDescriptor);
+                                    item.item.collapse = false
+                                }
+                                else {
+                                    item.grid.setCollapsedFilters(item.item.filterDescriptor);
+                                    item.item.collapse = true
+                                }
                             }
                         };
                         this.$scope.items[i].toggleDetailForCell = function(columnIndex, item) {
@@ -1103,16 +1106,20 @@ var TesserisPro;
                         }
                     }
                 };
-                AngularItemsViewModel.prototype.setItemSelection = function(item, isSelected, isAddedDetails) {
+                AngularItemsViewModel.prototype.setItemSelection = function(item, isSelected) {
                     var _this = this;
                     for (var i = 0; i < this.itemsModels.length; i++) {
-                        this.$scope.items[i].showDetail = false;
-                        if (this.itemsModels[i].item == item) {
-                            this.$scope.items[i].isSelected = isSelected;
-                            if (isAddedDetails) {
-                                this.$scope.items[i].showDetail = true
+                        if (this.$scope.items[i].showDetail) {
+                            if (this.options.showDetailFor.item != this.$scope.items[i].item || this.options.showDetailFor.item == item.item) {
+                                this.$scope.items[i].showDetail = false
                             }
-                            this.$scope.options.showDetailFor = this.options.showDetailFor;
+                        }
+                        if (this.itemsModels[i] == item) {
+                            this.$scope.items[i].isSelected = isSelected;
+                            if (this.options.showDetailFor.item == item.item) {
+                                this.$scope.items[i].showDetail = true;
+                                this.$scope.options.showDetailFor = this.options.showDetailFor
+                            }
                             setTimeout(function() {
                                 _this.$scope.$apply()
                             }, 10)

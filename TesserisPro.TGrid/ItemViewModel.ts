@@ -28,14 +28,14 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //=====================================================================================
-
+/// <reference path="TGrid.ts" />
 
 module TesserisPro.TGrid {
 
     export class ItemViewModel {
         public model: any;
         public item: any;
-        public grid: any;
+        public grid: TesserisPro.TGrid.Grid;
         public isGroupHeader: boolean;
 
         constructor(model: any, item: any, grid: any, isGroupHeader:boolean) {
@@ -46,7 +46,7 @@ module TesserisPro.TGrid {
         }
 
         public toggleDetailsForCell(columnIndex: any) {
-            if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+            if (this.grid.options.showDetailFor.item != this.item || this.grid.options.showDetailFor.column != columnIndex) {
                 this.openDetailsForCell(columnIndex);
             } else {
                 this.closeDetailsForCell(columnIndex);
@@ -56,17 +56,13 @@ module TesserisPro.TGrid {
         public openDetailsForCell(columnIndex: any): void {
             this.grid.options.showDetailFor.column = columnIndex;
             this.grid.options.showDetailFor.item = this.item;
-            this.grid.updateRow(this.item, true);
-            this.grid.options.showCustomDetailFor.item = this.item;
-            this.grid.options.showCustomDetailFor.column = columnIndex;
-            this.grid.options.shouldAddDetailsOnSelection = false;
+            this.grid.updateRow(this.item);
         }
 
         public closeDetailsForCell(columnIndex: any): void {
-            if (this.grid.options.showCustomDetailFor.item == this.item) {
+            if (this.grid.options.showDetailFor.column == columnIndex && this.grid.options.showDetailFor.item == this.item) {
                 this.grid.options.showDetailFor = new ShowDetail();
-                this.grid.updateRow(this.item, false);
-                this.grid.options.showCustomDetailFor = new ShowDetail();
+                this.grid.updateRow(this.item);
             }
         }
 

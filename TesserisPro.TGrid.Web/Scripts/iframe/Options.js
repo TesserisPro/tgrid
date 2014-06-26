@@ -218,7 +218,8 @@ var TesserisPro;
                 }
                 this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
                 this.showDetailFor = new ShowDetail();
-                this.showCustomDetailFor = new ShowDetail();
+
+                // this.showCustomDetailFor = new ShowDetail();
                 this.filterPopupForColumn = new ColumnInfo();
             };
 

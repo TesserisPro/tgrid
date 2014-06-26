@@ -114,8 +114,9 @@ module TesserisPro.TGrid {
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
-        public shouldAddDetailsOnSelection: boolean;
-        public showCustomDetailFor: ShowDetail;
+        
+        //public shouldAddDetailsOnSelection: boolean;
+        //public showCustomDetailFor: ShowDetail;
 
         public parentViewModel: any;
         public filterPopupForColumn: ColumnInfo;
@@ -227,7 +228,7 @@ module TesserisPro.TGrid {
             } 
             this.sortDescriptor = new TesserisPro.TGrid.SortDescriptor(null, null);
             this.showDetailFor = new ShowDetail();
-            this.showCustomDetailFor = new ShowDetail();
+           // this.showCustomDetailFor = new ShowDetail();
             this.filterPopupForColumn = new ColumnInfo();
         }
 

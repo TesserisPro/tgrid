@@ -874,6 +874,7 @@ var TesserisPro;
 
             Grid.prototype.selectItem = function (item, multi) {
                 var oldSelection = new Array();
+
                 for (var i = 0; i < this.options.selection.length; i++) {
                     oldSelection.push(this.options.selection[i]);
                 }
@@ -889,11 +890,6 @@ var TesserisPro;
                         this.options.selection = [item.item];
                     }
                 } else if (this.options.selectionMode == 1 /* Single */) {
-                    if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
-                        this.options.shouldAddDetailsOnSelection = false;
-                    } else {
-                        this.options.shouldAddDetailsOnSelection = true;
-                    }
                     this.options.selection = [item.item];
                 } else {
                     this.options.selection = new Array();
@@ -901,20 +897,23 @@ var TesserisPro;
 
                 if (this.options.openDetailsOnSelection) {
                     if (this.options.selection.length == 1) {
-                        this.options.showDetailFor = new TGrid.ShowDetail();
-                        this.options.showDetailFor.item = this.options.selection[0];
+                        if (this.options.showDetailFor.item != this.options.selection[0] || this.options.showDetailFor.column != -1) {
+                            this.options.showDetailFor = new TGrid.ShowDetail();
+                            this.options.showDetailFor.item = this.options.selection[0];
+                        } else {
+                            this.options.showDetailFor = new TGrid.ShowDetail();
+                        }
                     }
-                } else {
-                    this.options.showDetailFor = new TGrid.ShowDetail();
                 }
 
                 for (var i = 0; i < oldSelection.length; i++) {
-                    this.updateRow(oldSelection[i], this.options.shouldAddDetailsOnSelection);
+                    this.updateRow(oldSelection[i]);
                 }
 
                 for (var i = 0; i < this.options.selection.length; i++) {
-                    this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
+                    this.updateRow(this.options.selection[i]);
                 }
+
                 this.scrollIntoView(item.item);
                 this.updateFooterViewModel();
                 return true;
@@ -954,9 +953,13 @@ var TesserisPro;
                 this.tableBodyContainer.scrollTop = scrollTo;
             };
 
-            Grid.prototype.updateRow = function (item, shouldAddDetails) {
-                this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
-                this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails);
+            Grid.prototype.updateRow = function (item) {
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.visibleViewModels[i]);
+                        this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.visibleViewModels[i]);
+                    }
+                }
             };
 
             Grid.prototype.buildViewModels = function (items) {

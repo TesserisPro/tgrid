@@ -424,8 +424,8 @@ module TesserisPro.TGrid {
             return detailTr;
         }
 
-        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, isDetailsAdded: boolean) {
-            this.angularItemsViewModel.setItemSelection(item, options.isSelected(item), isDetailsAdded);
+        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
+            this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item));
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
@@ -541,13 +541,15 @@ module TesserisPro.TGrid {
             var rowsContainer = document.createElement('div');
             var mobileContainer = document.createElement('div');
             rowsContainer.setAttribute("ng-controller", "TableCtrl");
-            mobileContainer = this.appendMobileTableElement(option, container, items, 0, selected);
+
+            mobileContainer = this.appendMobileTableElement(option, container, items, 0, action);
             mobileContainer.setAttribute("ng-repeat-start", "item in items");
             mobileContainer.setAttribute("ng-class", "{'tgrid-mobile-row' : !item.isGroupHeader, 'tgrid-mobile-group-header':  item.isGroupHeader,'tgrid-mobile-row selected': !item.isGroupHeader && item.isSelected }");
             var action = "item.select($event, item, $parent.items)";
             if (isNotNull(option.rowClick)) {
                 action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
             }
+            mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
             rowsContainer.appendChild(mobileContainer);
             var detailsRow = this.buildMobileDetailsRow(option);
             rowsContainer.appendChild(detailsRow);
@@ -560,7 +562,7 @@ module TesserisPro.TGrid {
             option.showDetailFor.column = -1;
         }
 
-        public appendMobileTableElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLDivElement {
+        public appendMobileTableElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, groupLevel: number, action: string): HTMLDivElement {
             var mobileRow = document.createElement('div');
             if (items.length > 0) {
                 if (option.enableGrouping) {
@@ -568,13 +570,13 @@ module TesserisPro.TGrid {
                         this.buildMobileGroupHeaderRow(option, items[0].item, mobileRow);
                     }
                 }
-                this.buildMobileRowElement(option, items[0].item, container, selected, mobileRow);
+                this.buildMobileRowElement(option, items[0].item, container, action, mobileRow);
             }
             return mobileRow;
         }
 
-        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
-            this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item), shouldAddDetails);
+        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
+            this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item.item));
         }
 
         private buildMobileGroupHeaderRow(option: Options, item: any, mobileRow: HTMLDivElement){
@@ -593,7 +595,6 @@ module TesserisPro.TGrid {
 
             if (option.enableCollapsing) {
                 addClass(mobileRow, "collapsing");
-                mobileRow.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item); $event.stopPropagation();");
             }
             mobileRow.appendChild(headerDiv);
         }
@@ -606,7 +607,7 @@ module TesserisPro.TGrid {
             }
         }
 
-        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, mobileRow: HTMLDivElement) {
+        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, action: string, mobileRow: HTMLDivElement) {
             this.appendIndentMobileRow(mobileRow, option.groupBySortDescriptors.length);
 
             var rowTemplate = document.createElement("div");
@@ -619,6 +620,7 @@ module TesserisPro.TGrid {
                 rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
             }
             mobileRow.appendChild(rowTemplate);
+            mobileRow.setAttribute("ng-click", action);
 
             mobileRow["dataContext"] = item.item;
         }

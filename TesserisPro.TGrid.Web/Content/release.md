@@ -1,4 +1,29 @@
 ﻿# TGrid Releases
+## 0.2.5
+ * Added 'rowclick' handler to customize row click action
+ * Added possibility to hide grid header
+ * Added documentation on site [Documentation page](http://grid.tesseris.com/Home/Documentation)
+ * Replaced images by SVG base64 in CSS
+ * Adding possibility to set column width in percents
+ * Adding restriction for 'enableVirtualScroll'. 'Virtualization/LazyLoading' works only if items count is more, then 100.
+ * Bug 443 - Custom actions to open details Knockout: last row is opened with any actions
+ * Bug 440 - Second click on grouping button doesn't hide grouping menu,second click on mobile menu button doesn't hide mobile menu
+ * Bug 439 - Group collapsing is not enabled by works in Angular in mobile mode
+ * Bug 431 - If grouping and filtering is enabled,filter popup doesn't hide by clicking on the grouping button.
+ * Bug 429 - Grid settings with Grouping: resizing column leads to collapse first column (with group names)
+ * Bug 419 - Incorrect placement of filtering popup
+ * Bug 389 - Removing 'overflow: hidden' in some styles, transfering some styles 'overflow' from inline to css.
+ * Bug 382 - Wrong idea of 'path' displaying in filter popup template
+ * Bug 381 - Filter popup is cutted when grid is at the bottom of the page and has no items
+ * Bug 380 - Changing styles to '.tgrid-mobile-container .selected' doesn't have '!important' flag
+ * Bug 357 - Dynamic reconfiguration demo page: demo shouldn't show detail columns after deleting all columns
+ * Bug 355 - Fix capture scroll after dynamic reconfiguration
+ * Bug 352 - Virtual scroll with grouping doesn't works if rows height is less then grid max-height.
+ * Bug 350 - Dynamic reconfiguration of enablePaging doesn't work properly.
+ * Bug 344 - If option "ShowDetailsOnSelection" is set to false, all details, opened on custom action, can be closed by click on row
+ * Bug 340 - Column borders shifted a little bit, if resize column to get horizontal scroll and scroll to right.
+ * Bug 211 - If ServerItemProvider is used, there isn't '...' after last page of paging block on first load.
+
 ## 0.2.3
  * Added possibility for columns to don't have fixed size
  * Item provider now have 'AddCollection' method
