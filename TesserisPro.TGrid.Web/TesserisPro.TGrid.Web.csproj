@@ -145,6 +145,7 @@
     <Content Include="Content\TGrid-0.2.1.zip" />
     <Content Include="Content\TGrid-0.2.2.zip" />
     <Content Include="Content\TGrid-0.2.3.zip" />
+    <Content Include="Content\TGrid-0.2.5.zip" />
     <None Include="Content\TGridColumnPropertiesDescription.md" />
     <None Include="Content\TGridPropertiesDescription.md" />
     <None Include="Content\release.md" />

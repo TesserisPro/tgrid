@@ -114,9 +114,6 @@ module TesserisPro.TGrid {
 
         public showDetailFor: ShowDetail;
         public selection: Array<any> = [];
-        
-        //public shouldAddDetailsOnSelection: boolean;
-        //public showCustomDetailFor: ShowDetail;
 
         public parentViewModel: any;
         public filterPopupForColumn: ColumnInfo;
