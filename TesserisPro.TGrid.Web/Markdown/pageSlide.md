@@ -1,8 +1,8 @@
 ﻿####pageSlide
 
-Sets how many pages should be visible (to the left and to the right from current) in pager.
+Sets how many pages should be visible (to the left and to the right from current) in a pager.
 
-**Value:** number from 1 to  total pages count.
+**Value:** a number from 1 to  the total pages count.
 
 **Default value:** *1*.
 

@@ -1,6 +1,6 @@
 ﻿####hideHeader
 
-You can choose do not render grid header. If it is set to *true*, grid header isn't rendered.
+You can choose do not render the grid header. If it is set to *true*, the grid header isn't rendered.
 
 **Value:** *true* or *false*
 

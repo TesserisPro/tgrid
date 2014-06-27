@@ -2,6 +2,7 @@
     var self = this;
     self.sections = ko.observableArray(sections);
     self.currentSectionPath = ko.observable("");
+    self.close = ko.observable(false);
   
     var sectionRoutes = [];
     for (var i = 0; i < self.sections().length; i++) {
@@ -18,10 +19,20 @@
     router.registerRoutes(sectionRoutes);
 
     router.currentRoute.subscribe(function (currentRoute) {
-        if(currentRoute && currentRoute.parrentRoute){
+        if (currentRoute && currentRoute.parrentRoute) {
+            if (self.currentSectionPath() != currentRoute.parrentRoute.pattern) {
+                self.close(false);
+            }
             self.currentSectionPath(currentRoute.parrentRoute.pattern);
         }
     });
+    self.toggleSection = function () {
+        if (self.currentSectionPath() == router.currentRoute().parrentRoute.pattern && self.close()) {
+            self.close(false);
+        } else if (self.currentSectionPath() == router.currentRoute().parrentRoute.pattern && !self.close()) {
+            self.close(true);
+        }
+    }
 };
 
 var sections = [
@@ -304,4 +315,5 @@ var sections = [
             }
         ]
     }
+    
 ];

@@ -28,11 +28,11 @@
 		<div id="listDocs">
 			<ul data-bind="foreach: sections">
 				<li>
-					<div class="sectionContainer" data-bind="navigate: path, activeClass: 'activeSection'">
+					<div class="sectionContainer" data-bind="navigate: path, click: function(){ $root.toggleSection();}, attr:{class: $root.currentSectionPath() == $data.path && !$root.close()? 'activeSection': ''}">
 						<div class="icon"></div>
 						<a class="device" data-bind="text: $data.name"></a>
 					</div>
-					<div data-bind="visible: $root.currentSectionPath() == $data.path">
+					<div data-bind="visible: $root.currentSectionPath() == $data.path && !$root.close()">
 						<ul data-bind="foreach: nodes">
 							<li class="secondLevel">
 								<a data-bind="navigate: $parent.path + '/' + $data.routeName, text: name, activeClass: 'active'"></a>

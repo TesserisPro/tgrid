@@ -1,19 +1,22 @@
 ﻿####rowClick
 
-Sets row click handler function name, which can be used in your sample view model to set your action on row click. Handler function has 2 parameters: *item* and *event*. *Item* is an element of your itemsProvider array, binded to clicked row. *Event* is mouse event click.
+Sets a row click handler function name, which can be used in your sample view model to set your action on a row click. 
+The handler function has 2 parameters: an *item* and an *event*. 
+The *item* is an element of your itemsProvider array, binded to the clicked row. 
+The *event* is a mouse event click.
 
-If **rowClick** is defined, then **selectionMode** is set to 'none' and **showDetailsOnSelection** is set to 'false'.
+If the **rowClick** setting is defined, then the **selectionMode** setting is set to 'none' and the **showDetailsOnSelection** setting is set to 'false'.
 
-**Value:** any string.
+**Value:** a string.
 
 **Default value:** null.
 
 [rowClick in Grid Settings](#!/GridSettings/rowClick)
 
-Example of dynamic change **rowClick** grid setting:
+Example of a dynamic change the **rowClick** grid setting:
 
 #####For Knockout
-In HTML you should define **options** setting:
+In HTML you should define an **options** setting:
 
 <pre class="brush: html">
 	<input type="button" value="Set Row Click" data-bind="click: rowClick" />
@@ -25,9 +28,9 @@ In HTML you should define **options** setting:
     </div>
 </pre>
 #####
-In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **rowClick**
-can be changed using function 'rowClick'.
+In Javascript in a knockout view model you should have an observable variable with a name that equals the **options** value. 
+You can change the grid options dynamically after the grid loading. In the example below the grid setting **rowClick**
+can be changed using the function 'rowClick'.
 
 <pre class="brush: js">
  function vm() {
@@ -46,7 +49,7 @@ can be changed using function 'rowClick'.
 </pre>
 
 #####For Angular
-In HTML you should define **options** setting:
+In HTML you should define an **options** setting:
 <pre class="brush: html">
 <div ng-app="SampleModule">
   <div ng-controller="ctrl">
@@ -61,9 +64,9 @@ In HTML you should define **options** setting:
 </div>
 </pre>
 #####
-In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **rowClick**
-can be changed using function 'rowClick'.
+In Javascript in an angular controller you should have a variable with a name that equals the **options** value. 
+You can change the grid options dynamically after the grid loading. In the example below the grid setting **rowClick**
+can be changed using the function 'rowClick'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

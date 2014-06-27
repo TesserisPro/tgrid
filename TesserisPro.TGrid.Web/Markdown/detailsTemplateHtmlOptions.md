@@ -2,11 +2,11 @@
 
 The **detailsTemplateHtml** setting is for internal use. 
 
-Type of the setting is TesserisPro.TGrid.Template. 
-Constructor of a TesserisPro.TGrid.Template accepts a HTML DOM element. 
-This HTML DOM element can contain data-bindins.
+Type of the setting is a TesserisPro.TGrid.Template. 
+Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
+The HTML DOM element can contain data-bindins.
 
-To create template use code:
+To create the template use code:
 <!--Start the highlighter-->
 <pre class="brush: js">
 

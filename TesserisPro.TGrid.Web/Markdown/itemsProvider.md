@@ -1,8 +1,8 @@
 ﻿####itemsProvider
     
-Defines item provider for grid.
+Defines an items provider for the grid.
 
-**Value:** JavaScript object that contains item provider functions.
+**Value:** JavaScript object that contains the items provider function.
 
 **Default value:** there isn't any default value.
 

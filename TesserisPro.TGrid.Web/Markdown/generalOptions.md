@@ -4,7 +4,7 @@ Grid settings and column definitions can be changed dynamically.
 
 Below there are classes Options and ColumnInfo in TypeScript. 
 So you can see types, expected for available options properties, which can be changed.
-Options.columns is type of TesserisPro.TGrid.ColumnInfo[]. 
+The options.columns is type of a TesserisPro.TGrid.ColumnInfo[]. 
 
 <!--Start the highlighter-->
 <pre class="brush: js">
@@ -71,7 +71,7 @@ class ColumnInfo {
 </pre>
 
 #####
-Grid settings and column definitions can be changed dynamically, you can see example below.
+Grid settings and column definitions can be changed dynamically, you can see an example below.
 
 #####For Knockout
 In HTML:
@@ -81,9 +81,9 @@ In HTML:
 	</div>
 </pre>
 #####
-In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableSorting**
-can be changed using function 'enableSorting'.
+In a Javascript in the knockout view model you should have the observable variable with the name equals the **options** settings value. 
+You can change grid options dynamically after grid loading. In an example below, grid setting **enableSorting**
+can be changed using the function 'enableSorting'.
 
 <pre class="brush: js">
  function vm() {
@@ -104,9 +104,9 @@ can be changed using function 'enableSorting'.
 	</t-grid>
 </pre>
 #####
-In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **enableSorting**
-can be changed using function 'enableSorting'.
+In Javascript in the angular controller you should have the variable with the name equals the **options** settings value. 
+You can change the grid options dynamically after grid loading. In an example below the grid setting **enableSorting**
+can be changed using the function 'enableSorting'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

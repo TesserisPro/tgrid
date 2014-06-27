@@ -1,8 +1,8 @@
 ﻿### Options Columns
 
-options.columns is type of TesserisPro.TGrid.ColumnInfo[]
+The options.columns is the type of  the TesserisPro.TGrid.ColumnInfo[]
 
-Class TesserisPro.TGrid.ColumnInfo:
+A class TesserisPro.TGrid.ColumnInfo:
 <!--Start the highlighter-->
 <pre class="brush:js">
 class ColumnInfo {
@@ -24,7 +24,7 @@ class ColumnInfo {
 </pre>
 ####
 
-Column properties can be changed dynamically after grid loading.
+The column's properties can be changed dynamically after the grid loading.
 
 <script type="text/javascript">
     SyntaxHighlighter.highlight();
