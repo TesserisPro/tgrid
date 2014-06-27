@@ -115,3 +115,6 @@ TesserisPro.TGrid.Web/Scripts/iframe/tgrid-min.js
 TesserisPro.TGrid/*.d.ts
 TesserisPro.TGrid/angular/*.d.ts
 TesserisPro.TGrid/knockout/*.d.ts
+TesserisPro.TGrid.Web/Properties/PublishProfiles/grid.pubxml
+TesserisPro.TGrid.Web/Properties/PublishProfiles/tgridstg - FTP.pubxml
+TesserisPro.TGrid.Web/Properties/PublishProfiles/tgridstg - Web Deploy.pubxml
