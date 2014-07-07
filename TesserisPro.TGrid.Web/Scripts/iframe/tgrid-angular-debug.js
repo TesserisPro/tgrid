@@ -139,7 +139,6 @@ var TesserisPro;
                     var head = document.createElement("tr");
                     this.appendIndent(head, option.columns.length, true);
                     this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
-                    var hasNotSizedColumn = false;
                     if (option.columns.length > 0) {
                         for (var i = 0; i < option.columns.length; i++) {
                             if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -159,8 +158,7 @@ var TesserisPro;
                                     headerCell.style.width = option.columns[i].width.toString() + "px"
                                 }
                                 else {
-                                    option.columns[i].resizable = false;
-                                    hasNotSizedColumn = true
+                                    option.columns[i].resizable = false
                                 }
                                 if (option.columns[i].header != null) {
                                     option.columns[i].header.applyTemplate(headerContent)
@@ -210,7 +208,7 @@ var TesserisPro;
                                     })(i, headerCell, columnResize);
                                     headerButtons.appendChild(columnResize)
                                 }
-                                if (hasNotSizedColumn) {
+                                if (option.hasAnyNotSizedColumn) {
                                     header.parentElement.style.tableLayout = "fixed"
                                 }
                                 head.appendChild(headerCell)
@@ -218,7 +216,7 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    if (hasNotSizedColumn) {
+                    if (option.hasAnyNotSizedColumn) {
                         addClass(placeholderColumn, "tgrid-placeholder-width")
                     }
                     else {
@@ -288,12 +286,8 @@ var TesserisPro;
                 };
                 AngularHtmlProvider.prototype.buildRowElement = function(option, item, container, selected, row) {
                     this.appendIndentRow(row, option.columns.length);
-                    var hasNotSizedColumn = false;
                     for (var i = 0; i < option.columns.length; i++) {
                         if (option.columns[i].device.indexOf("desktop") != -1) {
-                            if (option.columns[i].notSized) {
-                                hasNotSizedColumn = true
-                            }
                             var cell = document.createElement("td");
                             cell.setAttribute("ng-hide", "item.isGroupHeader");
                             cell.className = "tgrid-table-data-cell";
@@ -311,12 +305,12 @@ var TesserisPro;
                             row.appendChild(cell)
                         }
                     }
-                    if (hasNotSizedColumn) {
+                    if (option.hasAnyNotSizedColumn) {
                         container.style.tableLayout = "fixed";
                         container.parentElement.style.overflowY = "scroll"
                     }
                     row["dataContext"] = item.item;
-                    if (!hasNotSizedColumn) {
+                    if (!option.hasAnyNotSizedColumn) {
                         var placeholderColumn = document.createElement("td");
                         addClass(placeholderColumn, "tgrid-placeholder");
                         addClass(placeholderColumn, "tgrid-table-data-cell");

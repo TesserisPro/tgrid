@@ -110,7 +110,6 @@ var TesserisPro;
                 this.appendIndent(head, option.columns.length, true);
                 this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
 
-                var hasNotSizedColumn = false;
                 if (option.columns.length > 0) {
                     for (var i = 0; i < option.columns.length; i++) {
                         if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -131,7 +130,6 @@ var TesserisPro;
                                 headerCell.style.width = option.columns[i].width.toString() + "px";
                             } else {
                                 option.columns[i].resizable = false;
-                                hasNotSizedColumn = true;
                             }
 
                             if (option.columns[i].header != null) {
@@ -190,7 +188,7 @@ var TesserisPro;
 
                                 headerButtons.appendChild(columnResize);
                             }
-                            if (hasNotSizedColumn) {
+                            if (option.hasAnyNotSizedColumn) {
                                 header.parentElement.style.tableLayout = "fixed";
                             }
                             head.appendChild(headerCell);
@@ -199,7 +197,7 @@ var TesserisPro;
                 }
 
                 var placeholderColumn = document.createElement("th");
-                if (hasNotSizedColumn) {
+                if (option.hasAnyNotSizedColumn) {
                     addClass(placeholderColumn, "tgrid-placeholder-width");
                 } else {
                     addClass(placeholderColumn, "tgrid-placeholder");
@@ -317,12 +315,8 @@ var TesserisPro;
                 }
 
                 this.appendIndent(row, option.groupBySortDescriptors.length, false);
-                var hasNotSizedColumn = false;
                 for (var i = 0; i < option.columns.length; i++) {
                     if (option.columns[i].device.indexOf("desktop") != -1) {
-                        if (option.columns[i].notSized) {
-                            hasNotSizedColumn = true;
-                        }
                         var cell = document.createElement("td");
                         addClass(cell, "tgrid-table-data-cell");
                         var cellContent = document.createElement("div");
@@ -339,7 +333,7 @@ var TesserisPro;
                         row.appendChild(cell);
                     }
                 }
-                if (hasNotSizedColumn) {
+                if (option.hasAnyNotSizedColumn) {
                     container.parentElement.style.tableLayout = "fixed";
                     container.parentElement.parentElement.style.overflowY = "scroll";
                 } else {
@@ -369,7 +363,8 @@ var TesserisPro;
                 this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
                 addClass(detailTr, "tgrid-details");
-                detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+                var detailsColspan = option.hasAnyNotSizedColumn ? option.columns.length : option.columns.length + 1;
+                detailTd.setAttribute("colspan", detailsColspan.toString());
 
                 template.applyTemplate(detailTd);
 

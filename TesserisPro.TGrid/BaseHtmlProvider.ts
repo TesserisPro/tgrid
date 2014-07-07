@@ -111,14 +111,7 @@ module TesserisPro.TGrid {
         public updateColumnWidth(option: Options, header: HTMLElement, body: HTMLElement, footer: HTMLElement): void {
             if (!option.hideHeader) {
                 var headers = header.getElementsByTagName("th");
-               
-                var hasNotSizedColumn = false;
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (option.columns[i].notSized && !option.enablePaging) {
-                        hasNotSizedColumn = true;
-                    }
-                }
-                var columnsCount = hasNotSizedColumn ? headers.length - 1 : headers.length;
+                var columnsCount = option.hasAnyNotSizedColumn ? headers.length - 1 : headers.length;
                 var columnNumber = 0;
                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                     columnNumber++;

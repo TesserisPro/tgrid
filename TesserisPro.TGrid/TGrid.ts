@@ -1392,6 +1392,13 @@ module TesserisPro.TGrid {
                 }
                 this.tableBodyContainer.onscroll = () => this.tableBodyContainer.scrollLeft;
             }
+
+            for (var i = 0; i < this.options.columns.length; i++) {
+                if (this.options.columns[i].notSized) {
+                    this.options.hasAnyNotSizedColumn = true;
+                    break;
+                }
+            }
             this.refreshHeader();
             this.refreshBody(this.options.enableVirtualScroll);
             this.refreshFooter();
