@@ -1,17 +1,17 @@
-//=====================================================================================
-//
-// The Tesseris Free License
-//
-// Copyright(c) 2014 Tesseris Pro LLC
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this
-// software and associated documentation files(the "Software"), to deal in the Software
-// without restriction, including without limitation the rights to use, copy, modify,
-// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to the following
-// conditions:
 var TesserisPro;
 (function (TesserisPro) {
+    //=====================================================================================
+    //
+    // The Tesseris Free License
+    //
+    // Copyright(c) 2014 Tesseris Pro LLC
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    // software and associated documentation files(the "Software"), to deal in the Software
+    // without restriction, including without limitation the rights to use, copy, modify,
+    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+    // permit persons to whom the Software is furnished to do so, subject to the following
+    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -134,9 +134,9 @@ var TesserisPro;
                                 var percentWidth = intWidth > 0 ? intWidth : 1;
                                 option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
                             }
-                            headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
-                            var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
-                            headerContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                            (headers.item(i + option.columns.length)).style.width = option.columns[columnNumber].width.toString() + "px";
+                            var headerContainer = (headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
+                            (headerContainer).style.width = option.columns[columnNumber].width.toString() + "px";
                         }
                         columnNumber++;
                     }
@@ -168,9 +168,9 @@ var TesserisPro;
                                         var percentWidth = intWidth > 0 ? intWidth : 1;
                                         option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
                                     }
-                                    columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
-                                    var cellContainer = columns.item(j).firstChild;
-                                    cellContainer.style.width = option.columns[columnNumber].width.toString() + "px";
+                                    (columns.item(j)).style.width = option.columns[columnNumber].width.toString() + "px";
+                                    var cellContainer = (columns.item(j)).firstChild;
+                                    (cellContainer).style.width = option.columns[columnNumber].width.toString() + "px";
                                 }
                                 columnNumber++;
                             }
@@ -285,7 +285,6 @@ var TesserisPro;
                     hideElement(cells[i]);
                 }
 
-                //check that number of existing indent-cells is not more than number of needed indent-cells
                 if (cells.length < level) {
                     visibleIndentsNumber = cells.length;
                 }
@@ -323,7 +322,7 @@ var TesserisPro;
                                 deleteGroupButton["data-delete-group-by-number"] = i;
                                 deleteGroupButton.onclick = function (e) {
                                     e.cancelBubble = true;
-                                    TGrid.Grid.getGridObject(e.target).removeGroupDescriptor(e.target["data-delete-group-by"].path);
+                                    TGrid.Grid.getGridObject(e.target).removeGroupDescriptor((e.target["data-delete-group-by"]).path);
                                 };
 
                                 buttonsContainer.appendChild(deleteGroupButton);
@@ -650,7 +649,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
-                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0 /* None */) {
+                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != TGrid.FilterCondition.None) {
                     return true;
                 } else {
                     return false;
@@ -667,3 +666,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=BaseHtmlProvider.js.map

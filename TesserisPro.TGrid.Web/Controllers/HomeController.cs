@@ -30,6 +30,16 @@ namespace TesserisPro.TGrid.Web
             return View(demo);
         }
 
+        public ActionResult DemoAngular(string demo)
+        {
+            if (String.IsNullOrEmpty(demo))
+            {
+                return View();
+            }
+
+            return View(demo);
+        }
+
         public ActionResult Documentation()
         {
            

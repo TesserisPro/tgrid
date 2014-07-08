@@ -1,15 +1,3 @@
-//=====================================================================================
-//
-// The Tesseris Free License
-//
-// Copyright(c) 2014 Tesseris Pro LLC
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this
-// software and associated documentation files(the "Software"), to deal in the Software
-// without restriction, including without limitation the rights to use, copy, modify,
-// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to the following
-// conditions:
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -18,6 +6,18 @@ var __extends = this.__extends || function (d, b) {
 };
 var TesserisPro;
 (function (TesserisPro) {
+    //=====================================================================================
+    //
+    // The Tesseris Free License
+    //
+    // Copyright(c) 2014 Tesseris Pro LLC
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    // software and associated documentation files(the "Software"), to deal in the Software
+    // without restriction, including without limitation the rights to use, copy, modify,
+    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+    // permit persons to whom the Software is furnished to do so, subject to the following
+    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -53,13 +53,13 @@ var TesserisPro;
                 var size = 0;
                 var children = container.children;
                 if (containsClass(container, "mobile")) {
-                    children = container.children[0].children;
+                    children = (container.children[0]).children;
                 }
 
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
                     if (!containsClass(child, "ng-hide")) {
-                        var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope().item.originalModel : null;
+                        var viewModel = angular.element(child).scope() != undefined ? (angular.element(child).scope()).item.originalModel : null;
 
                         if (isNotNoU(viewModel) && (items == null || items.indexOf(viewModel) >= 0)) {
                             size += child.offsetHeight;
@@ -75,13 +75,13 @@ var TesserisPro;
                 var children = container.children;
 
                 if (containsClass(container, "mobile")) {
-                    children = container.children[0].children;
+                    children = (container.children[0]).children;
                 }
 
                 for (var i = 0, j = 0; i < children.length; i++) {
                     var child = children.item(i);
                     if (!containsClass(child, "ng-hide")) {
-                        var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope().item.originalModel : null;
+                        var viewModel = angular.element(child).scope() != undefined ? (angular.element(child).scope()).item.originalModel : null;
                         if (isNotNoU(viewModel) && items.indexOf(viewModel) >= 0) {
                             size += child.offsetHeight;
 
@@ -100,7 +100,7 @@ var TesserisPro;
                 var visibleItemsCount = 0;
                 var children = container.children;
                 if (containsClass(container, "mobile")) {
-                    children = container.children[0].children;
+                    children = (container.children[0]).children;
                 }
                 var visibleItemsSize = 0;
                 for (var i = 0; i < children.length; i++) {
@@ -135,9 +135,11 @@ var TesserisPro;
                 var angularFooterViewModel = new TGrid.AngularFooterViewModel(grid);
                 angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
                 angular.module(angularFooterViewModel.angularModuleName, []).controller('tgrid-footer-controller', [
-                    '$scope', function ($scope) {
+                    '$scope',
+                    function ($scope) {
                         angularFooterViewModel.setScope($scope);
-                    }]);
+                    }
+                ]);
                 return angularFooterViewModel;
             };
 
@@ -145,9 +147,11 @@ var TesserisPro;
                 var angularFilterPopupViewModel = new TGrid.AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
                 angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
                 var angularFilterModule = angular.module(angularFilterPopupViewModel.angularModuleName, []).controller('tgrid-filter-popup-controller', [
-                    '$scope', function ($scope) {
+                    '$scope',
+                    function ($scope) {
                         angularFilterPopupViewModel.setScope($scope);
-                    }]);
+                    }
+                ]);
                 return angularFilterPopupViewModel;
             };
 
@@ -205,7 +209,6 @@ var TesserisPro;
                                     };
                                 })(i);
 
-                                // Arrows
                                 if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
                                     this.addArrows(headerButtons, option, i);
                                 }
@@ -271,9 +274,11 @@ var TesserisPro;
                 this.angularItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
                 var itemsViewModel = this.angularItemsViewModel;
                 appModule.controller("TableCtrl", [
-                    '$scope', function ($scope) {
+                    '$scope',
+                    function ($scope) {
                         itemsViewModel.setScope($scope);
-                    }]).directive('ngShowInFocus', function () {
+                    }
+                ]).directive('ngShowInFocus', function () {
                     return {
                         replace: true,
                         restrict: 'A',
@@ -430,7 +435,6 @@ var TesserisPro;
             };
 
             AngularHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
-                //if there isn't footer template in grid
                 if (option.tableFooterTemplate == null && option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
@@ -440,10 +444,10 @@ var TesserisPro;
                         footerContainer.setAttribute("ng-controller", "tgrid-footer-controller");
                         option.tableFooterTemplate.applyTemplate(footerContainer);
 
-                        angular.bootstrap(footerContainer, [footerModel.angularModuleName]);
+                        angular.bootstrap(footerContainer, [(footerModel).angularModuleName]);
                         footer.appendChild(footerContainer);
                     } else {
-                        footerModel.apply();
+                        (footerModel).apply();
                     }
                 } else {
                     footer.innerHTML = "";
@@ -456,7 +460,7 @@ var TesserisPro;
                     filterPopupContainer.className = "tgrid-filter-popup-container";
                     filterPopupContainer.setAttribute("ng-controller", "tgrid-filter-popup-controller");
                     this.buildDefaultFilteringPopUp(option, filterPopupContainer);
-                    angular.bootstrap(filterPopupContainer, [filterPopupModel.angularModuleName]);
+                    angular.bootstrap(filterPopupContainer, [(filterPopupModel).angularModuleName]);
 
                     filterPopup.appendChild(filterPopupContainer);
                 } else {
@@ -466,7 +470,7 @@ var TesserisPro;
                     option.filterPopup.applyTemplate(filterPopupContainer);
                     filterPopup.innerHTML = "";
 
-                    angular.bootstrap(filterPopupContainer, [filterPopupModel.angularModuleName]);
+                    angular.bootstrap(filterPopupContainer, [(filterPopupModel).angularModuleName]);
 
                     filterPopup.appendChild(filterPopupContainer);
                 }
@@ -519,9 +523,11 @@ var TesserisPro;
                 this.angularMobileItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
                 var itemsViewModel = this.angularMobileItemsViewModel;
                 appModule.controller("TableCtrl", [
-                    '$scope', function ($scope) {
+                    '$scope',
+                    function ($scope) {
                         itemsViewModel.setScope($scope);
-                    }]).directive('ngShowInFocus', function () {
+                    }
+                ]).directive('ngShowInFocus', function () {
                     return {
                         replace: true,
                         restrict: 'A',
@@ -719,17 +725,17 @@ var TesserisPro;
 
                 // append filter conditions
                 var selectOption = document.createElement("option");
-                selectOption.value = 0 /* None */.toString();
+                selectOption.value = TGrid.FilterCondition.None.toString();
                 selectOption.text = "None";
                 filterCondition.appendChild(selectOption);
 
                 var selectOption = document.createElement("option");
-                selectOption.value = 1 /* Equals */.toString();
+                selectOption.value = TGrid.FilterCondition.Equals.toString();
                 selectOption.text = "Equals";
                 filterCondition.appendChild(selectOption);
 
                 var selectOption = document.createElement("option");
-                selectOption.value = 2 /* NotEquals */.toString();
+                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
                 selectOption.text = "Not equals";
                 filterCondition.appendChild(selectOption);
 
@@ -751,7 +757,7 @@ var TesserisPro;
                     var grid = TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onApply();
                 };
-                applyButton.innerHTML = "OK";
+                (applyButton).innerHTML = "OK";
                 filterPopupContainer.appendChild(applyButton);
 
                 var clearButton = document.createElement("div");
@@ -762,7 +768,7 @@ var TesserisPro;
                     grid.filterPopupViewModel.onClose();
                     filterText.setAttribute("value", "");
                 };
-                clearButton.innerHTML = 'Cancel';
+                (clearButton).innerHTML = 'Cancel';
                 filterPopupContainer.appendChild(clearButton);
             };
 
@@ -795,3 +801,4 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
+//# sourceMappingURL=AngularHtmlProvider.js.map

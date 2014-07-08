@@ -310,7 +310,7 @@ var TesserisPro;
                     if (isNull(option.rowClick)) {
                         (function(item) {
                             row.onclick = function(e) {
-                                if (option.selectionMode != 0) {
+                                if (option.selectionMode != TGrid.SelectionMode.None) {
                                     var wasSelected = false;
                                     if (option.shouldAddDetailsOnSelection == item.item) {
                                         wasSelected = true
@@ -481,7 +481,7 @@ var TesserisPro;
                     if (isNull(option.rowClick)) {
                         (function(item) {
                             row.onclick = function(e) {
-                                if (option.selectionMode != 0) {
+                                if (option.selectionMode != TGrid.SelectionMode.None) {
                                     var s = container;
                                     selected(item, e.ctrlKey)
                                 }
@@ -550,15 +550,15 @@ var TesserisPro;
                 KnockoutHtmlProvider.prototype.buildDefaultFilteringPopUp = function(option, filterPopupContainer) {
                     var filterCondition = document.createElement("select");
                     var selectOption = document.createElement("option");
-                    selectOption.value = 0..toString();
+                    selectOption.value = TGrid.FilterCondition.None.toString();
                     selectOption.text = "None";
                     filterCondition.appendChild(selectOption);
                     var selectOption = document.createElement("option");
-                    selectOption.value = 1..toString();
+                    selectOption.value = TGrid.FilterCondition.Equals.toString();
                     selectOption.text = "Equals";
                     filterCondition.appendChild(selectOption);
                     var selectOption = document.createElement("option");
-                    selectOption.value = 2..toString();
+                    selectOption.value = TGrid.FilterCondition.NotEquals.toString();
                     selectOption.text = "Not equals";
                     filterCondition.appendChild(selectOption);
                     filterPopupContainer.appendChild(filterCondition);
@@ -576,7 +576,7 @@ var TesserisPro;
                         var grid = TGrid.Grid.getGridObject(e.target);
                         grid.filterPopupViewModel.onApply()
                     };
-                    applyButton.innerHTML = "OK";
+                    (applyButton).innerHTML = "OK";
                     filterPopupContainer.appendChild(applyButton);
                     var clearButton = document.createElement("div");
                     clearButton.className = 'tgrid-filter-popup-button';
@@ -586,7 +586,7 @@ var TesserisPro;
                         grid.filterPopupViewModel.onClose();
                         filterText.setAttribute("value", "")
                     };
-                    clearButton.innerHTML = 'Cancel';
+                    (clearButton).innerHTML = 'Cancel';
                     filterPopupContainer.appendChild(clearButton)
                 };
                 return KnockoutHtmlProvider
@@ -595,6 +595,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TGridBindingHandler = (function() {
         function TGridBindingHandler(){}
         TGridBindingHandler.prototype.init = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -621,7 +622,7 @@ var TGridBindingHandler = (function() {
             }
         };
         TGridBindingHandler.getOptions = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            var options = new TesserisPro.TGrid.Options(element, 0);
+            var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
             options.parentViewModel = viewModel;
             var groupBySortDescriptor = "";
             if (isObservable(valueAccessor().groupBy)) {
@@ -727,13 +728,13 @@ var TGridBindingHandler = (function() {
             }
             var selectionMode = isObservable(valueAccessor().selectionMode) ? valueAccessor().selectionMode() : valueAccessor().selectionMode;
             if (selectionMode == "multi") {
-                options.selectionMode = 2
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi
             }
             if (selectionMode == "single") {
-                options.selectionMode = 1
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.Single
             }
             if (selectionMode == "none") {
-                options.selectionMode = 0
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.None
             }
             if (isObservable(valueAccessor().enableSorting)) {
                 if (typeof valueAccessor().enableSorting() == "boolean") {
@@ -837,6 +838,7 @@ var TGridBindingHandler = (function() {
         return TGridBindingHandler
     })();
 ko.bindingHandlers.tgrid = new TGridBindingHandler;
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -909,6 +911,7 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid
 })(TesserisPro || (TesserisPro = {}));
+;
 var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
@@ -920,11 +923,11 @@ var TesserisPro;
                 }
                 KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function(container){};
                 KnockoutFilterPopupViewModel.prototype.onApply = function() {
-                    this.condition = this.container.getElementsByTagName("select")[0].selectedIndex;
+                    this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
                     var grid = TGrid.Grid.getGridObject(this.container);
                     grid.options.filterDescriptor.removeChildByPath(this.path());
-                    if (this.condition != 0) {
-                        this.value = this.container.getElementsByTagName("input")[0].value;
+                    if (this.condition != TGrid.FilterCondition.None) {
+                        this.value = (this.container.getElementsByTagName("input")[0]).value;
                         grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.path(), this.value, this.condition))
                     }
                     grid.applyFilters();
@@ -947,13 +950,13 @@ var TesserisPro;
                     this.path(column.filterMemberPath);
                     for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                         if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                            this.container.getElementsByTagName("input")[0].value = options.filterDescriptor.children[i].value;
-                            this.container.getElementsByTagName("select")[0].selectedIndex = options.filterDescriptor.children[i].condition;
+                            (this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
+                            (this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
                             return
                         }
                     }
-                    this.container.getElementsByTagName("input")[0].value = '';
-                    this.container.getElementsByTagName("select")[0].selectedIndex = 0
+                    (this.container.getElementsByTagName("input")[0]).value = '';
+                    (this.container.getElementsByTagName("select")[0]).selectedIndex = TGrid.FilterCondition.None
                 };
                 KnockoutFilterPopupViewModel.prototype.getColumnInfo = function() {
                     return this.columnInfo

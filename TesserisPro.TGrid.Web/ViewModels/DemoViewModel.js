@@ -1,4 +1,4 @@
-﻿var DemoViewModel = (function (data) {
+﻿var DemoViewModel = (function (data, framework) {
 
     var self = this;
     var isDesktop = true;
@@ -101,7 +101,7 @@
             }
         }
     }
-    self.knockoutActive = ko.observable(true);
+    self.knockoutActive = framework == "knockout" ? ko.observable(true) : ko.observable(false);
     self.setKnockoutActive = function () {
         if (!self.knockoutActive()) {
             self.knockoutActive(true);
