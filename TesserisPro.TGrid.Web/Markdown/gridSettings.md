@@ -1,7 +1,7 @@
 ﻿##TGrid settings
 
-Grid settings are defined in knockout binding or in angular directive.
-Some of TGrid settings have default values and this is not required to define them in template. One required setting is **provider**.
+Grid settings are defined in a TGrid template, implemented in a knockout binding or in an angular directive 't-grid'.
+Some of TGrid settings have default values and this is not required to define them in the template. One required setting is **provider**.
 
 #####For Knockout
 <!--Start the highlighter-->
@@ -19,9 +19,9 @@ Some of TGrid settings have default values and this is not required to define th
 
 #####
 
-Values of *provider* should be defined in view model in Knockout and in controller in Angular.
+The value of *provider* should be defined in the view model in Knockout and in the controller in Angular.
 
-Simple **Knockout view model** in JavaScript:
+A simple **Knockout view model** in JavaScript:
 
 <pre class="brush: js">
     function vm() {
@@ -30,7 +30,7 @@ Simple **Knockout view model** in JavaScript:
     };
 </pre>
 #####
-In **Angular** you define **main module** with controller, where dataProvider is intantiated.
+In **Angular** you define a **main module** with a controller, where a dataProvider is intantiated.
 
 <pre class="brush: js">
     var sampleModule = angular.module("SampleModule", ['TGrid'])
@@ -39,7 +39,7 @@ In **Angular** you define **main module** with controller, where dataProvider is
 		 })
 </pre>
 #####
-*items* is array in JavaScript:
+The *items* is an array in JavaScript:
 
 <pre class="brush: js">
     var items = [
@@ -49,7 +49,7 @@ In **Angular** you define **main module** with controller, where dataProvider is
 </pre>
 #####
 
-TGrid with many grid settings:
+The TGrid template with many grid settings:
 
 #####For Knockout
 <!--Start the highlighter-->

@@ -1,12 +1,12 @@
 ﻿####showDetailsOnSelection.
 
-Enables or disables details on selection. If **rowClick** is defined, is set to *false*.
+Enables or disables details on selection. If the **rowClick** setting is defined, it is set to *false*.
 
 **Value:** *true* or *false*.
 
 **Default value:** *false*.
     
-To make details working on selection you should define html details template in TGrid description.
+To make details working on selection you should define an html details template in the TGrid description.
 
 **Example:**
 
@@ -17,7 +17,7 @@ To make details working on selection you should define html details template in 
 	</div>
 </pre>
 #####
-Example of grid with details settings and details template:
+Example of the grid with details settings and a details template:
 
 <pre class="brush: html">
 	<div data-bind="tgrid: { provider: itemsProvider, showDetailsOnSelection: true}">
@@ -38,7 +38,7 @@ Example of grid with details settings and details template:
 	</t-grid>
 </pre>
 #####
-Example of grid with details settings, details template and one column:
+Example of the grid with details settings,a details template and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">

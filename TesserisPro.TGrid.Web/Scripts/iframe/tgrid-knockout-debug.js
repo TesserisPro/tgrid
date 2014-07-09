@@ -96,7 +96,6 @@ var TesserisPro;
                     var head = document.createElement("tr");
                     this.appendIndent(head, option.columns.length, true);
                     this.showNeededIndents(head, option.groupBySortDescriptors.length, TGrid.Grid.getGridObject(header));
-                    var hasNotSizedColumn = false;
                     if (option.columns.length > 0) {
                         for (var i = 0; i < option.columns.length; i++) {
                             if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -116,8 +115,7 @@ var TesserisPro;
                                     headerCell.style.width = option.columns[i].width.toString() + "px"
                                 }
                                 else {
-                                    option.columns[i].resizable = false;
-                                    hasNotSizedColumn = true
+                                    option.columns[i].resizable = false
                                 }
                                 if (option.columns[i].header != null) {
                                     option.columns[i].header.applyTemplate(headerContent)
@@ -167,7 +165,7 @@ var TesserisPro;
                                     })(i, headerCell, columnResize);
                                     headerButtons.appendChild(columnResize)
                                 }
-                                if (hasNotSizedColumn) {
+                                if (option.hasAnyNotSizedColumn) {
                                     header.parentElement.style.tableLayout = "fixed"
                                 }
                                 head.appendChild(headerCell)
@@ -175,7 +173,7 @@ var TesserisPro;
                         }
                     }
                     var placeholderColumn = document.createElement("th");
-                    if (hasNotSizedColumn) {
+                    if (option.hasAnyNotSizedColumn) {
                         addClass(placeholderColumn, "tgrid-placeholder-width")
                     }
                     else {
@@ -193,31 +191,34 @@ var TesserisPro;
                     addClass(container, "desktop");
                     return container
                 };
-                KnockoutHtmlProvider.prototype.updateTableDetailRow = function(options, container, item, shouldAddDetails) {
+                KnockoutHtmlProvider.prototype.updateTableDetailRow = function(options, container, item) {
                     var detailRow = container.getElementsByClassName("tgrid-details");
                     if (detailRow.length > 0) {
-                        detailRow[0].parentNode.removeChild(detailRow[0])
+                        var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                        if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                            detailRow[0].parentNode.removeChild(detailRow[0])
+                        }
                     }
                     var targetRow;
                     for (var i = 0; i < container.children.length; i++) {
-                        if (ko.contextFor(container.children.item(i)).$data.item == item) {
+                        if (ko.contextFor(container.children.item(i)).$data.item == item.item) {
                             targetRow = container.children.item(i);
                             break
                         }
                     }
                     if (targetRow != null) {
-                        if (options.isSelected(item)) {
+                        if (options.isSelected(item.item)) {
                             addClass(targetRow, "selected")
                         }
                         else {
                             removeClass(targetRow, "selected")
                         }
-                        if (shouldAddDetails) {
+                        if (options.showDetailFor.item == item.item) {
                             var detailsTemplate = this.getActualDetailsTemplate(options);
                             if (detailsTemplate != null) {
                                 var details = this.buildDetailsRow(options, detailsTemplate);
                                 insertAfter(targetRow, details);
-                                ko.applyBindings(options.showDetailFor, details)
+                                ko.applyBindings(item, details)
                             }
                         }
                     }
@@ -275,12 +276,8 @@ var TesserisPro;
                         addClass(row, "selected")
                     }
                     this.appendIndent(row, option.groupBySortDescriptors.length, false);
-                    var hasNotSizedColumn = false;
                     for (var i = 0; i < option.columns.length; i++) {
                         if (option.columns[i].device.indexOf("desktop") != -1) {
-                            if (option.columns[i].notSized) {
-                                hasNotSizedColumn = true
-                            }
                             var cell = document.createElement("td");
                             addClass(cell, "tgrid-table-data-cell");
                             var cellContent = document.createElement("div");
@@ -297,7 +294,7 @@ var TesserisPro;
                             row.appendChild(cell)
                         }
                     }
-                    if (hasNotSizedColumn) {
+                    if (option.hasAnyNotSizedColumn) {
                         container.parentElement.style.tableLayout = "fixed";
                         container.parentElement.parentElement.style.overflowY = "scroll"
                     }
@@ -311,11 +308,7 @@ var TesserisPro;
                         (function(item) {
                             row.onclick = function(e) {
                                 if (option.selectionMode != TGrid.SelectionMode.None) {
-                                    var wasSelected = false;
-                                    if (option.shouldAddDetailsOnSelection == item.item) {
-                                        wasSelected = true
-                                    }
-                                    selected(item, e.ctrlKey, wasSelected)
+                                    selected(item, e.ctrlKey)
                                 }
                             }
                         })(item)
@@ -327,7 +320,8 @@ var TesserisPro;
                     var detailTd = document.createElement("td");
                     this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
                     addClass(detailTr, "tgrid-details");
-                    detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+                    var detailsColspan = option.hasAnyNotSizedColumn ? option.columns.length : option.columns.length + 1;
+                    detailTd.setAttribute("colspan", detailsColspan.toString());
                     template.applyTemplate(detailTd);
                     detailTr.appendChild(detailTd);
                     return detailTr
@@ -414,31 +408,34 @@ var TesserisPro;
                     }
                     container.setAttribute("class", bodyClass)
                 };
-                KnockoutHtmlProvider.prototype.updateMobileDetailRow = function(options, container, item, shouldAddDetails) {
+                KnockoutHtmlProvider.prototype.updateMobileDetailRow = function(options, container, item) {
                     var detailRow = container.getElementsByClassName("tgrid-mobile-details");
                     if (detailRow.length > 0) {
-                        detailRow[0].parentNode.removeChild(detailRow[0])
+                        var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                        if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                            detailRow[0].parentNode.removeChild(detailRow[0])
+                        }
                     }
                     var targetRow;
                     for (var i = 0; i < container.children.length; i++) {
-                        if (ko.contextFor(container.children.item(i)).$data.item == item) {
+                        if (ko.contextFor(container.children.item(i)).$data.item == item.item) {
                             targetRow = container.children.item(i);
                             break
                         }
                     }
                     if (targetRow != null) {
-                        if (options.isSelected(item)) {
+                        if (options.isSelected(item.item)) {
                             addClass(targetRow, "selected")
                         }
                         else {
                             removeClass(targetRow, "selected")
                         }
-                        if (shouldAddDetails) {
+                        if (options.showDetailFor.item == item.item) {
                             var detailsTemplate = this.getActualDetailsTemplate(options);
                             if (detailsTemplate != null) {
                                 var details = this.buildMobileDetailsRow(options, detailsTemplate);
                                 insertAfter(targetRow, details);
-                                ko.applyBindings(options.showDetailFor, details)
+                                ko.applyBindings(item, details)
                             }
                         }
                     }

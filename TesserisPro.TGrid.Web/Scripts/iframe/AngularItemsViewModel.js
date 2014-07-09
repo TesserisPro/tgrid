@@ -55,12 +55,14 @@ var TesserisPro;
                         this.$scope.items[i].showDetail = true;
                     }
                     this.$scope.items[i].toggleGroupCollapsing = function (e, item) {
-                        if (item.item.collapse) {
-                            item.grid.removeCollapsedFilters(item.item.filterDescriptor);
-                            item.item.collapse = false;
-                        } else {
-                            item.grid.setCollapsedFilters(item.item.filterDescriptor);
-                            item.item.collapse = true;
+                        if (_this.options.enableCollapsing) {
+                            if (item.item.collapse) {
+                                item.grid.removeCollapsedFilters(item.item.filterDescriptor);
+                                item.item.collapse = false;
+                            } else {
+                                item.grid.setCollapsedFilters(item.item.filterDescriptor);
+                                item.item.collapse = true;
+                            }
                         }
                     };
                     this.$scope.items[i].toggleDetailForCell = function (columnIndex, item) {
@@ -78,16 +80,23 @@ var TesserisPro;
                     };
                 }
             };
-            AngularItemsViewModel.prototype.setItemSelection = function (item, isSelected, isAddedDetails) {
+            AngularItemsViewModel.prototype.setItemSelection = function (item, isSelected) {
                 var _this = this;
                 for (var i = 0; i < this.itemsModels.length; i++) {
-                    this.$scope.items[i].showDetail = false;
-                    if (this.itemsModels[i].item == item) {
-                        this.$scope.items[i].isSelected = isSelected;
-                        if (isAddedDetails) {
-                            this.$scope.items[i].showDetail = true;
+                    if (this.$scope.items[i].showDetail) {
+                        if (this.options.showDetailFor.item != this.$scope.items[i].item || this.options.showDetailFor.item == item.item) {
+                            this.$scope.items[i].showDetail = false;
                         }
-                        this.$scope.options.showDetailFor = this.options.showDetailFor;
+                    }
+
+                    if (this.itemsModels[i] == item) {
+                        this.$scope.items[i].isSelected = isSelected;
+
+                        if (this.options.showDetailFor.item == item.item) {
+                            this.$scope.items[i].showDetail = true;
+                            this.$scope.options.showDetailFor = this.options.showDetailFor;
+                        }
+
                         setTimeout(function () {
                             _this.$scope.$apply();
                         }, 10);

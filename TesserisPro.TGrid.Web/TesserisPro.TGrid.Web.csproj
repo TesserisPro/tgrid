@@ -150,6 +150,7 @@
     <Content Include="Content\TGrid-0.2.1.zip" />
     <Content Include="Content\TGrid-0.2.2.zip" />
     <Content Include="Content\TGrid-0.2.3.zip" />
+    <Content Include="Content\TGrid-0.2.5.zip" />
     <None Include="Content\TGridColumnPropertiesDescription.md" />
     <None Include="Content\TGridPropertiesDescription.md" />
     <None Include="Content\release.md" />
@@ -198,6 +199,7 @@
     <Content Include="Scripts\iframe\tgrid-debug.js" />
     <Content Include="Scripts\iframe\tgrid-knockout-debug.js" />
     <Content Include="Scripts\iframe\tgrid-server-items-provider-debug.js" />
+    <Content Include="Scripts\iframe\TGrid.js" />
     <Content Include="Scripts\navrouter-1.0.1.js" />
     <Content Include="Scripts\typings\navrouter\knockout.d.ts" />
     <Content Include="ViewModels\DocsViewModel.js" />
@@ -361,6 +363,7 @@
     <Content Include="Markdown\rowClickOptions.md" />
     <Content Include="Markdown\selectionModeOptions.md" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Markdown\generalStyles.md" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />

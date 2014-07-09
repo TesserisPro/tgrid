@@ -1,4 +1,29 @@
 ﻿# TGrid Releases
+## 0.2.5
+ * Added 'rowclick' handler to customize row click action
+ * Added possibility to hide grid header
+ * Added documentation on site [Documentation page](http://grid.tesseris.com/Home/Documentation)
+ * Replaced images by SVG base64 in CSS
+ * Adding possibility to set column width in percents
+ * Adding restriction for 'enableVirtualScroll'. 'Virtualization/LazyLoading' works only if items count is more, then 100.
+ * Bug - Custom actions to open details Knockout: last row is opened with any actions
+ * Bug - Second click on grouping button doesn't hide grouping menu,second click on mobile menu button doesn't hide mobile menu
+ * Bug - Group collapsing is not enabled by works in Angular in mobile mode
+ * Bug - If grouping and filtering is enabled,filter popup doesn't hide by clicking on the grouping button.
+ * Bug - Grid settings with Grouping: resizing column leads to collapse first column (with group names)
+ * Bug - Incorrect placement of filtering popup
+ * Bug - Removing 'overflow: hidden' in some styles, transfering some styles 'overflow' from inline to css.
+ * Bug - Wrong idea of 'path' displaying in filter popup template
+ * Bug - Filter popup is cutted when grid is at the bottom of the page and has no items
+ * Bug - Changing styles to '.tgrid-mobile-container .selected' doesn't have '!important' flag
+ * Bug - Dynamic reconfiguration demo page: demo shouldn't show detail columns after deleting all columns
+ * Bug - Fix capture scroll after dynamic reconfiguration
+ * Bug - Virtual scroll with grouping doesn't works if rows height is less then grid max-height.
+ * Bug - Dynamic reconfiguration of enablePaging doesn't work properly.
+ * Bug - If option "ShowDetailsOnSelection" is set to false, all details, opened on custom action, can be closed by click on row
+ * Bug - Column borders shifted a little bit, if resize column to get horizontal scroll and scroll to right.
+ * Bug - If ServerItemProvider is used, there isn't '...' after last page of paging block on first load.
+
 ## 0.2.3
  * Added possibility for columns to don't have fixed size
  * Item provider now have 'AddCollection' method

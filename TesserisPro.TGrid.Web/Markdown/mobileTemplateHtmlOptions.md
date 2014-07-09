@@ -2,11 +2,11 @@
 
 **mobileTemplateHtml** is for internal use. 
 
-Type of this variable is TesserisPro.TGrid.Template. 
-Constructor of TesserisPro.TGrid.Template accepts HTML DOM element. 
-This HTML DOM element can contain data-bindins.
+Type of the setting is TesserisPro.TGrid.Template. 
+Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
+The HTML DOM element can contain data-bindins.
 
-To create template use code:
+To create the template use the code below:
 <!--Start the highlighter-->
 <pre class="brush: js">
 
@@ -14,10 +14,10 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 
 </pre>
 ####
-For simple grid you don't have to define mobile template in HTML. 
-Mobile rows are created automatically for columns, which are defined in HTML template. 
-Column definitions for mobile also are inherited from columns. 
-Cell templates, header templates and cell details templates are not inherited and should be overrided in custom mobile template.  
+For a simple grid you don't have to define a mobile template in HTML. 
+Mobile rows are created automatically for columns, which are defined in a HTML template. 
+Column's definitions for the mobile mode also are inherited from columns. 
+A cell template, a header template and a cell details template are not inherited and should be overrided in a custom mobile template.  
 
 ![mobileTemplateHtmlGrouping](../Content/images/imagesForDocs/mobileTemplateGrouping.jpg)
 #####For Knockout
@@ -49,12 +49,12 @@ Cell templates, header templates and cell details templates are not inherited an
     </div>
 </div>
 </pre>
-Example of custom **mobileTemplateHtml** with template for cell details:
+Example of a custom **mobileTemplateHtml** with a template for cell details:
 
 ![mobileTemplateHtml](../Content/images/imagesForDocs/mobileTemplate.jpg)
 
 #####For Knockout
-In HTML TGrid template part that defines **mobileTemplateHtml** is:
+In HTML a TGrid template's part that defines a **mobileTemplateHtml** is:
 <pre class="brush:html">
 <mobile>
 	<div>
@@ -73,7 +73,7 @@ In HTML TGrid template part that defines **mobileTemplateHtml** is:
 </mobile>
 </pre>
 ####
-To see details you should also define cell details template. All HTML code is:
+To see details you should also define a cell details template. All HTML code is:
 <pre class="brush:html">
     <div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
         <script type="text/html">
@@ -141,7 +141,7 @@ In HTML TGrid template part that defines **mobileTemplateHtml** is:
 </mobile>
 </pre>
 ####
-To see details you should also define cell details template. Full HTML code is:
+To see details you should also define a cell details template. Full HTML code is:
 <pre class="brush:html">
 <div ng-app="SampleModule"> 
   <div ng-controller="ctrl">

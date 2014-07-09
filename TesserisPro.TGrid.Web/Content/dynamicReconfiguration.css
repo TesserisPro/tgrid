@@ -61,7 +61,7 @@ fieldset{
 
 #tableColumnAddBody select:disabled{
     color:#BEBEBE;
-    border-color: #BEBEBE;
+    border:1px solid #BEBEBE;
 }
 
 #tableColumnDeleteBody tr td{

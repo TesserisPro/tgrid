@@ -53,8 +53,7 @@ var TesserisPro;
                 this.enablePreload = true;
                 this.isBuisy = false;
                 this.isFirstRefresh = true;
-                this.firstRefreshCount = 0;
-                this.firstRefreshAttemptsCount = 10;
+                this.currentModeDesktop = true;
                 element.grid = this;
                 this.targetElement = element;
                 this.options = options;
@@ -224,7 +223,6 @@ var TesserisPro;
                 } else {
                     this.sortBy(this.options.sortDescriptor.path);
                 }
-                this.firstRefreshFooter();
 
                 this.buisyIndicator = document.createElement("div");
                 this.buisyIndicator.className = "tgrid-buisy-indicator";
@@ -248,6 +246,14 @@ var TesserisPro;
                 };
 
                 this.hideBuisyIndicator();
+
+                this.currentModeDesktop = this.isDesktopMode();
+                if (this.options.enableFiltering) {
+                    var self = this;
+                    window.onresize = function (event) {
+                        self.hideFilterPopupOnResize(event);
+                    };
+                }
             };
 
             Grid.prototype.GetRootElement = function () {
@@ -822,6 +828,8 @@ var TesserisPro;
 
             Grid.prototype.hideFilterPopup = function () {
                 hideElement(this.filterPopUp);
+                this.filterPopUp.style.left = "";
+                this.filterPopUp.style.top = "";
             };
 
             Grid.prototype.sortBy = function (name) {
@@ -865,6 +873,7 @@ var TesserisPro;
 
             Grid.prototype.selectItem = function (item, multi) {
                 var oldSelection = new Array();
+
                 for (var i = 0; i < this.options.selection.length; i++) {
                     oldSelection.push(this.options.selection[i]);
                 }
@@ -880,11 +889,6 @@ var TesserisPro;
                         this.options.selection = [item.item];
                     }
                 } else if (this.options.selectionMode == TGrid.SelectionMode.Single) {
-                    if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
-                        this.options.shouldAddDetailsOnSelection = false;
-                    } else {
-                        this.options.shouldAddDetailsOnSelection = true;
-                    }
                     this.options.selection = [item.item];
                 } else {
                     this.options.selection = new Array();
@@ -892,20 +896,23 @@ var TesserisPro;
 
                 if (this.options.openDetailsOnSelection) {
                     if (this.options.selection.length == 1) {
-                        this.options.showDetailFor = new TGrid.ShowDetail();
-                        this.options.showDetailFor.item = this.options.selection[0];
+                        if (this.options.showDetailFor.item != this.options.selection[0] || this.options.showDetailFor.column != -1) {
+                            this.options.showDetailFor = new TGrid.ShowDetail();
+                            this.options.showDetailFor.item = this.options.selection[0];
+                        } else {
+                            this.options.showDetailFor = new TGrid.ShowDetail();
+                        }
                     }
-                } else {
-                    this.options.showDetailFor = new TGrid.ShowDetail();
                 }
 
                 for (var i = 0; i < oldSelection.length; i++) {
-                    this.updateRow(oldSelection[i], this.options.shouldAddDetailsOnSelection);
+                    this.updateRow(oldSelection[i]);
                 }
 
                 for (var i = 0; i < this.options.selection.length; i++) {
-                    this.updateRow(this.options.selection[i], this.options.shouldAddDetailsOnSelection);
+                    this.updateRow(this.options.selection[i]);
                 }
+
                 this.scrollIntoView(item.item);
                 this.updateFooterViewModel();
                 return true;
@@ -945,9 +952,13 @@ var TesserisPro;
                 this.tableBodyContainer.scrollTop = scrollTo;
             };
 
-            Grid.prototype.updateRow = function (item, shouldAddDetails) {
-                this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], item, shouldAddDetails);
-                this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, item, shouldAddDetails);
+            Grid.prototype.updateRow = function (item) {
+                for (var i = 0; i < this.visibleViewModels.length; i++) {
+                    if (this.visibleViewModels[i].item == item) {
+                        this.htmlProvider.updateTableDetailRow(this.options, this.tableBodyContainer.getElementsByTagName("tbody")[0], this.visibleViewModels[i]);
+                        this.htmlProvider.updateMobileDetailRow(this.options, this.mobileContainer, this.visibleViewModels[i]);
+                    }
+                }
             };
 
             Grid.prototype.buildViewModels = function (items) {
@@ -1081,6 +1092,9 @@ var TesserisPro;
                 if (!this.options.enablePaging) {
                     this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), function (totalitemsCount) {
                         _this.totalItemsCount = totalitemsCount;
+                        if (_this.isFirstRefresh) {
+                            _this.refreshFooter();
+                        }
                         _this.itemProvider.getItems(_this.getFirstItemNumber(), _this.options.firstLoadSize, _this.getEffectiveSorting(), _this.getEffectiveFiltering(), _this.getCollapsedGroupFilter(), function (items, first, count) {
                             _this.firstVisibleItemIndex = first;
                             _this.visibleItems = items;
@@ -1117,6 +1131,9 @@ var TesserisPro;
                 } else {
                     this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), function (totalitemsCount) {
                         _this.totalItemsCount = totalitemsCount;
+                        if (_this.isFirstRefresh) {
+                            _this.refreshFooter();
+                        }
                         _this.itemProvider.getItems(_this.getFirstItemNumber(), _this.getPageSize(), _this.getEffectiveSorting(), _this.getEffectiveFiltering(), _this.getCollapsedGroupFilter(), function (items, first, count) {
                             _this.firstVisibleItemIndex = first;
                             _this.visibleItems = items;
@@ -1216,6 +1233,15 @@ var TesserisPro;
                     document.body.appendChild(this.filterPopUp);
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
+                    var self = this;
+                    window.onresize = function (event) {
+                        self.hideFilterPopupOnResize(event);
+                    };
+                }
+
+                //on enableFiltering set to false
+                if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
+                    window.onresize = null;
                 }
 
                 if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
@@ -1300,6 +1326,13 @@ var TesserisPro;
                         return _this.tableBodyContainer.scrollLeft;
                     };
                 }
+
+                for (var i = 0; i < this.options.columns.length; i++) {
+                    if (this.options.columns[i].notSized) {
+                        this.options.hasAnyNotSizedColumn = true;
+                        break;
+                    }
+                }
                 this.refreshHeader();
                 this.refreshBody(this.options.enableVirtualScroll);
                 this.refreshFooter();
@@ -1319,16 +1352,21 @@ var TesserisPro;
                 }
             };
 
-            Grid.prototype.firstRefreshFooter = function () {
-                this.firstRefreshCount++;
-                if (this.totalItemsCount != undefined || this.firstRefreshCount > this.firstRefreshAttemptsCount) {
-                    this.refreshFooter();
-                } else {
-                    var self = this;
-                    setTimeout(function () {
-                        self.firstRefreshFooter();
-                    }, 1);
-                }
+            Grid.prototype.hideFilterPopupOnResize = function (e) {
+                var self = this;
+                setTimeout(function () {
+                    if (self.options.enableFiltering) {
+                        if (!self.isDesktopMode() && self.currentModeDesktop) {
+                            self.currentModeDesktop = false;
+                            self.hideFilterPopup();
+                            return;
+                        }
+                        if (self.isDesktopMode() && !self.currentModeDesktop) {
+                            self.currentModeDesktop = true;
+                            self.hideFilterPopup();
+                        }
+                    }
+                }, 100);
             };
             return Grid;
         })();

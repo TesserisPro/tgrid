@@ -3,10 +3,10 @@
 **filterPopup** is for internal use. 
 
 Type of this variable is a TesserisPro.TGrid.Template. 
-Constructor of a TesserisPro.TGrid.Template accepts a HTML DOM element. 
+Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
 This HTML DOM element can contain data-bindins.
 
-To create template use code:
+To create the template use code:
 <!--Start the highlighter-->
 <pre class="brush: js">
 
@@ -21,7 +21,7 @@ A filter popup template isn't required. There is a default filter popup template
 
 ![filterPopupTemplate](../Content/images/imagesForDocs/filterPopupTemplate.jpg)
 #####For Knockout
-Example of a grid with details settings, details template and one column:
+Example of a grid with details settings, a details template and one column:
 
 <pre class="brush: html">
 <div data-bind="tgrid: { provider: itemsProvider, enableFiltering: true}">
@@ -66,7 +66,7 @@ $(function () {
 
 #####For Angular
 
-Example of a grid with details settings and details template, and one column:
+Example of a grid with details settings, a details template and one column:
 <pre class="brush: html">
 	<div ng-app="SampleModule"> 
         <div ng-controller="ctrl">

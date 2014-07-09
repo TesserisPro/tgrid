@@ -106,7 +106,6 @@ module TesserisPro.TGrid {
             this.appendIndent(head, option.columns.length, true);
             this.showNeededIndents(head, option.groupBySortDescriptors.length, Grid.getGridObject(header));
 
-            var hasNotSizedColumn = false;
             if (option.columns.length > 0) {
                 for (var i = 0; i < option.columns.length; i++) {
                     if (option.columns[i].device.indexOf("desktop") != -1) {
@@ -127,7 +126,6 @@ module TesserisPro.TGrid {
                             headerCell.style.width = option.columns[i].width.toString() + "px";
                         } else {
                             option.columns[i].resizable = false;
-                            hasNotSizedColumn = true;
                         }
 
                         if (option.columns[i].header != null) {
@@ -183,7 +181,7 @@ module TesserisPro.TGrid {
 
                             headerButtons.appendChild(columnResize);
                         }
-                        if (hasNotSizedColumn) {
+                        if (option.hasAnyNotSizedColumn) {
                             header.parentElement.style.tableLayout = "fixed";
                         }
                         head.appendChild(headerCell);
@@ -193,7 +191,7 @@ module TesserisPro.TGrid {
 
            
             var placeholderColumn = document.createElement("th");            
-            if (hasNotSizedColumn) {
+            if (option.hasAnyNotSizedColumn) {
                 addClass(placeholderColumn, "tgrid-placeholder-width");
             } else {
                 addClass(placeholderColumn, "tgrid-placeholder");
@@ -218,37 +216,42 @@ module TesserisPro.TGrid {
             return container;
         }
 
-        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails:boolean) {
+        public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
+             
             var detailRow = container.getElementsByClassName("tgrid-details");
             if (detailRow.length > 0) {
-                detailRow[0].parentNode.removeChild(detailRow[0]);
+                var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
             }
 
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item.item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
             }
 
             if (targetRow != null) {
-                if (options.isSelected(item)) {
+                if (options.isSelected(item.item)) {
                     addClass(targetRow,"selected");
                 }
                 else {
                     removeClass(targetRow,"selected");
                 }
 
-                if (shouldAddDetails) {
+                //var detailRow = container.getElementsByClassName("tgrid-details");
+                if (options.showDetailFor.item == item.item) {
                     var detailsTemplate = this.getActualDetailsTemplate(options);
 
                     // Insert row details after selected item
                     if (detailsTemplate != null) {
                         var details = this.buildDetailsRow(options, detailsTemplate);
                         insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        ko.applyBindings(item, details);
                     }
                 }
             }
@@ -283,7 +286,7 @@ module TesserisPro.TGrid {
             ko.applyBindings(filterPopupModel, filterPopup);
         }
 
-        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): void {
+        private appendTableElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
             var itemWithDetails: any;
             var rowWithDetail: HTMLElement;
 
@@ -300,7 +303,7 @@ module TesserisPro.TGrid {
         }
 
 
-        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean, isDetailsAdded: boolean) => boolean): HTMLElement {
+        private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             var row = document.createElement("tr");
             if (isNotNull(option.rowClick)) {
                 row.setAttribute("data-bind", "click:function(event){model.".concat(option.rowClick).concat("(item, event);}"));
@@ -312,12 +315,8 @@ module TesserisPro.TGrid {
             }
 
             this.appendIndent(row, option.groupBySortDescriptors.length, false);
-            var hasNotSizedColumn = false;
             for (var i = 0; i < option.columns.length; i++) {
                 if (option.columns[i].device.indexOf("desktop") != -1) {
-                    if (option.columns[i].notSized) {
-                        hasNotSizedColumn = true;
-                    }
                     var cell = document.createElement("td");
                     addClass(cell, "tgrid-table-data-cell");
                     var cellContent = document.createElement("div");
@@ -334,7 +333,7 @@ module TesserisPro.TGrid {
                     row.appendChild(cell);
                 }
             }
-            if (hasNotSizedColumn) {
+            if (option.hasAnyNotSizedColumn) {
                 container.parentElement.style.tableLayout = "fixed";
                 container.parentElement.parentElement.style.overflowY = "scroll";
             } else {
@@ -349,12 +348,7 @@ module TesserisPro.TGrid {
                 (function (item) {
                     row.onclick = function (e) {
                         if (option.selectionMode != SelectionMode.None) {
-                            var wasSelected = false;
-                            if (option.shouldAddDetailsOnSelection == item.item) {
-                                wasSelected = true;
-                            }
-                            selected(item, e.ctrlKey, wasSelected);
-
+                            selected(item, e.ctrlKey);
                         }
                     };
                 })(item);
@@ -368,8 +362,9 @@ module TesserisPro.TGrid {
 
             this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-            addClass(detailTr,"tgrid-details");
-            detailTd.setAttribute("colspan", (option.columns.length + 1).toString());
+            addClass(detailTr, "tgrid-details");
+            var detailsColspan = option.hasAnyNotSizedColumn ? option.columns.length : option.columns.length + 1;
+            detailTd.setAttribute("colspan", detailsColspan.toString());
 
             template.applyTemplate(detailTd)
 
@@ -474,40 +469,45 @@ module TesserisPro.TGrid {
             container.setAttribute("class", bodyClass);
         }
 
-        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel, shouldAddDetails: boolean): void {
+        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
             
             var detailRow = container.getElementsByClassName("tgrid-mobile-details");
             if (detailRow.length > 0) {
-                detailRow[0].parentNode.removeChild(detailRow[0]);
+                var itemWithDetails = ko.contextFor(detailRow[0]).$data;
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
             }
 
             var targetRow: HTMLElement;
 
             for (var i = 0; i < container.children.length; i++) {
-                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item) {
+                if (ko.contextFor(<HTMLElement>container.children.item(i)).$data.item == item.item) {
                     targetRow = <HTMLElement>container.children.item(i);
                     break;
                 }
             }
 
             if (targetRow != null) {
-                if (options.isSelected(item)) {
+                if (options.isSelected(item.item)) {
                     addClass(targetRow,"selected");
                 }
                 else {
                     removeClass(targetRow,"selected");
                 }
 
-                if (shouldAddDetails) {
+                // if (shouldAddDetails) {
+                if (options.showDetailFor.item == item.item) {
                     var detailsTemplate = this.getActualDetailsTemplate(options);
 
                     // Insert row details after selected item
                     if (detailsTemplate != null) {
                         var details = this.buildMobileDetailsRow(options, detailsTemplate);
                         insertAfter(targetRow, details);
-                        ko.applyBindings(options.showDetailFor, details);
+                        ko.applyBindings(item, details);
                     }
                 }
+                //}
             }
         }
 

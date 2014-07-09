@@ -29,6 +29,7 @@ var TesserisPro;
     // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //=====================================================================================
+    /// <reference path="TGrid.ts" />
     (function (TGrid) {
         var ItemViewModel = (function () {
             function ItemViewModel(model, item, grid, isGroupHeader) {
@@ -38,7 +39,7 @@ var TesserisPro;
                 this.isGroupHeader = isGroupHeader;
             }
             ItemViewModel.prototype.toggleDetailsForCell = function (columnIndex) {
-                if (this.grid.options.showCustomDetailFor.item != this.item || this.grid.options.showCustomDetailFor.item == this.item && this.grid.options.showDetailFor.column != columnIndex) {
+                if (this.grid.options.showDetailFor.item != this.item || this.grid.options.showDetailFor.column != columnIndex) {
                     this.openDetailsForCell(columnIndex);
                 } else {
                     this.closeDetailsForCell(columnIndex);
@@ -48,17 +49,13 @@ var TesserisPro;
             ItemViewModel.prototype.openDetailsForCell = function (columnIndex) {
                 this.grid.options.showDetailFor.column = columnIndex;
                 this.grid.options.showDetailFor.item = this.item;
-                this.grid.updateRow(this.item, true);
-                this.grid.options.showCustomDetailFor.item = this.item;
-                this.grid.options.showCustomDetailFor.column = columnIndex;
-                this.grid.options.shouldAddDetailsOnSelection = false;
+                this.grid.updateRow(this.item);
             };
 
             ItemViewModel.prototype.closeDetailsForCell = function (columnIndex) {
-                if (this.grid.options.showCustomDetailFor.item == this.item) {
+                if (this.grid.options.showDetailFor.column == columnIndex && this.grid.options.showDetailFor.item == this.item) {
                     this.grid.options.showDetailFor = new TGrid.ShowDetail();
-                    this.grid.updateRow(this.item, false);
-                    this.grid.options.showCustomDetailFor = new TGrid.ShowDetail();
+                    this.grid.updateRow(this.item);
                 }
             };
 

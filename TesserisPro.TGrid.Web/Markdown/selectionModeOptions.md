@@ -1,6 +1,6 @@
 ﻿####selectionMode
 
-Defines how many items can be selected in TGrid. If **rowClick** is defined, is set to  *'none'*.
+Defines how many items can be selected in the TGrid. If the **rowClick** is defined, it is set to  *'none'*.
 
 **Value:**
 
@@ -14,19 +14,19 @@ Defines how many items can be selected in TGrid. If **rowClick** is defined, is 
 
 [selectionMode in Grid Settings](#!/GridSettings/selectionMode)
 
-Example of dynamic change **selectionMode** grid setting:
+Example of a dynamic change the **selectionMode** grid setting:
 
 #####For Knockout
-In HTML you should define **options** setting:
+In HTML you should define the **options** setting:
 
 <pre class="brush: html">
 	<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider, options: gridOptions}">
 	</div>
 </pre>
 #####
-In Javascript in knockout view model you should have observable variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **selectionMode**
-can be changed using function 'selectionMode'.
+In Javascript in a knockout view model you should have an observable variable with a name that equals the **options** value. 
+You can change the grid options dynamically after the grid loading. In the example below the grid setting **selectionMode**
+can be changed using the function 'selectionMode'.
 
 <pre class="brush: js">
  function vm() {
@@ -42,15 +42,15 @@ can be changed using function 'selectionMode'.
 </pre>
 
 #####For Angular
-In HTML you should define **options** setting:
+In HTML you should define an **options** setting:
 <pre class="brush: html">
 	<t-grid id="test-angular" provider="dataProvider" options="gridOptions">
 	</t-grid>
 </pre>
 #####
-In Javascript in angular controller you should have variable with name equals **options** value. 
-You can change grid options dynamically after grid loading. In example below grid setting **selectionMode**
-can be changed using function 'selectionMode'.
+In Javascript in an angular controller you should have a variable with a name that equals the **options** value. 
+You can change the grid options dynamically after the grid loading. In the example below the grid setting **selectionMode**
+can be changed using the function 'selectionMode'.
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

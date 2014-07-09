@@ -1,6 +1,6 @@
 ﻿####selectionMode
 
-Defines how many items can be selected in TGrid. If the **rowClick** is defined, the **selectionMode** is set to  *'none'*.
+Defines how many items can be selected in the TGrid. If the **rowClick** is defined, the **selectionMode** is set to  *'none'*.
 
 **Value:**
 
