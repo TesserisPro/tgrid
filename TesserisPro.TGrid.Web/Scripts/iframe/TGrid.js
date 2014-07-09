@@ -1,35 +1,35 @@
-//=====================================================================================
-//
-// The Tesseris Free License
-//
-// Copyright(c) 2014 Tesseris Pro LLC
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this
-// software and associated documentation files(the "Software"), to deal in the Software
-// without restriction, including without limitation the rights to use, copy, modify,
-// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to the following
-// conditions:
-//
-// 1. The above copyright notice and this permission notice shall be included in all
-//    copies or substantial portions of the Software.
-//
-// 2. Any software that fully or partially contains or uses materials covered by
-//    this license shall notify users about this notice and above copyright.The
-//    notification can be made in "About box" and / or site main web - page footer.The
-//    notification shall contain name of Tesseris Pro company and name of the Software
-//    covered by current license.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-// PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-//=====================================================================================
 var TesserisPro;
 (function (TesserisPro) {
+    //=====================================================================================
+    //
+    // The Tesseris Free License
+    //
+    // Copyright(c) 2014 Tesseris Pro LLC
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    // software and associated documentation files(the "Software"), to deal in the Software
+    // without restriction, including without limitation the rights to use, copy, modify,
+    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+    // permit persons to whom the Software is furnished to do so, subject to the following
+    // conditions:
+    //
+    // 1. The above copyright notice and this permission notice shall be included in all
+    //    copies or substantial portions of the Software.
+    //
+    // 2. Any software that fully or partially contains or uses materials covered by
+    //    this license shall notify users about this notice and above copyright.The
+    //    notification can be made in "About box" and / or site main web - page footer.The
+    //    notification shall contain name of Tesseris Pro company and name of the Software
+    //    covered by current license.
+    //
+    // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+    // PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+    // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    //
+    //=====================================================================================
     /// <reference path="Scripts/typings/extenders.d.ts" />
     /// <reference path="Options.ts" />
     /// <reference path="IHtmlProvider.ts" />
@@ -119,7 +119,6 @@ var TesserisPro;
                     this.headerContainer.appendChild(headerTable);
                 }
 
-                // filter popup
                 if (this.options.enableFiltering) {
                     this.filterPopUp = document.createElement("div");
                     this.filterPopUp.setAttribute("class", "tgrid-filter-popup");
@@ -870,7 +869,7 @@ var TesserisPro;
                     oldSelection.push(this.options.selection[i]);
                 }
 
-                if (this.options.selectionMode == 2 /* Multi */) {
+                if (this.options.selectionMode == TGrid.SelectionMode.Multi) {
                     if (multi) {
                         if (this.options.isSelected(item.item)) {
                             this.options.selection.splice(i, 1);
@@ -880,7 +879,7 @@ var TesserisPro;
                     } else {
                         this.options.selection = [item.item];
                     }
-                } else if (this.options.selectionMode == 1 /* Single */) {
+                } else if (this.options.selectionMode == TGrid.SelectionMode.Single) {
                     if (this.options.selection[0] == item.item && this.options.shouldAddDetailsOnSelection) {
                         this.options.shouldAddDetailsOnSelection = false;
                     } else {
@@ -967,16 +966,15 @@ var TesserisPro;
                     for (var j = 0; j < colapsedGroupLevel; j++) {
                         var columnValue = getMemberValue(items[i], this.options.groupBySortDescriptors[j].path);
 
-                        // New group found
                         if (currentGroupNames[j] !== columnValue) {
                             currentGroupNames[j] = columnValue;
                             collapsed = false;
                             colapsedGroupLevel = this.options.groupBySortDescriptors.length;
 
-                            var filterDescriptor = new TGrid.FilterDescriptor("", "", false, 0 /* Contains */, 0 /* And */, 0 /* And */);
+                            var filterDescriptor = new TGrid.FilterDescriptor("", "", TGrid.FilterCondition.None, TGrid.LogicalOperator.And, TGrid.LogicalOperator.And);
 
                             for (var k = 0; k <= j; k++) {
-                                filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], false, 1 /* Equals */));
+                                filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], TGrid.FilterCondition.Equals));
                             }
 
                             collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
@@ -1036,11 +1034,11 @@ var TesserisPro;
             };
 
             Grid.prototype.getHtmlProvider = function (options) {
-                if (options.framework == 0 /* Knockout */) {
+                if (options.framework == TGrid.Framework.Knockout) {
                     return new TGrid.KnockoutHtmlProvider();
                 }
 
-                if (options.framework == 1 /* Angular */) {
+                if (options.framework == TGrid.Framework.Angular) {
                     return new TGrid.AngularHtmlProvider();
                 }
             };
@@ -1074,8 +1072,8 @@ var TesserisPro;
             };
 
             Grid.prototype.refreshBody = function (withBuisy) {
-                var _this = this;
                 if (typeof withBuisy === "undefined") { withBuisy = false; }
+                var _this = this;
                 if (withBuisy) {
                     this.showBuisyIndicator();
                 }
@@ -1199,7 +1197,6 @@ var TesserisPro;
             //on dynamic reconfiguration
             Grid.prototype.afterOptionsChange = function () {
                 var _this = this;
-                //on change capture scroll
                 if (this.options.captureScroll) {
                     this.rootElement.onmousewheel = function (e) {
                         return _this.mouseWheel(e);
@@ -1208,7 +1205,6 @@ var TesserisPro;
                     this.rootElement.onmousewheel = undefined;
                 }
 
-                //on enableFiltering set to true
                 if (this.options.enableFiltering && isNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
                     if (this.filterPopUp != null) {
                         document.body.removeChild(this.filterPopUp);
@@ -1222,7 +1218,6 @@ var TesserisPro;
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 }
 
-                //on enableVirtualScroll set to true
                 if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.scrollBar = document.createElement("div");
                     if (!this.options.hideHeader) {
@@ -1248,7 +1243,6 @@ var TesserisPro;
                     };
                 }
 
-                //on enableVirtualScroll set to false
                 if (!this.options.enableVirtualScroll && isNotNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                     this.rootElement.getElementsByClassName("tgrid-scroll")[0].parentNode.removeChild(this.rootElement.getElementsByClassName("tgrid-scroll")[0]);
 
@@ -1265,7 +1259,6 @@ var TesserisPro;
                 }
                 var header = this.rootElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
 
-                //on hideHeader set to false
                 if (!this.options.hideHeader && isNoU(header)) {
                     this.groupByElement = document.createElement("div");
                     this.groupByElement.className = "tgrid-group-by-panel desktop";
@@ -1297,7 +1290,6 @@ var TesserisPro;
                     }
                 }
 
-                //on hideHeader set to true
                 if (this.options.hideHeader && isNotNoU(header)) {
                     this.bodyAndHeaderContainer.removeChild(header);
                     var groupByPanel = this.rootElement.getElementsByClassName("tgrid-group-by-panel")[0];

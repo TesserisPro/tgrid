@@ -37,7 +37,7 @@ The grid markup with the custom **cell template**:
 <pre class="brush: html">
     <column data-g-member="Name">
         <cell>
-            <span style="color: red;" data-bind="text: item.Name"></span>               
+            <span style="color: #b6424e;" data-bind="text: item.Name"></span>               
         </cell>
     </column>
 </pre>
@@ -45,7 +45,7 @@ The grid markup with the custom **cell template**:
 <pre class="brush: html">
     <column data-g-member="Name">
         <cell>
-           <span style="color: red;">{{item.item.Name}}</span>             
+           <span style="color: #b6424e;">{{item.item.Name}}</span>             
         </cell>
     </column>
 </pre>

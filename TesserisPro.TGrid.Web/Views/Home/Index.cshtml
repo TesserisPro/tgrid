@@ -3,29 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section featured {
-    <div class="header-content">
-        <div class="centered-content">
-            <div class="sfContentBlock">
-                <img class="ml50" src="@Url.Content("~/Content/gridonmainpage.png")" />
-                <div class="text">
-                        <h1 class="mb20">Fast grid for desktop and mobile designed for HTML5*</h1>
-                    <p class="general-description">
-                        TypeScript, Angular and Knockout compatible, super-functional and fully customizable grid. TGrid can work on any* device and any screen resolution. It dynamically adjusts content for screen and even changes the layout. TGrid grid supports any (really any) number of rows that can be loaded dynamically when user scrolls or selects page.
-                    </p>
-                    <p class="general-description" style="font-size: 10px;">*Internet Explorer 9+, Mozilla Firefox, Google Chrome, Safari, iPhone/iPad, Android 4+ and Windows Phone are supprorted.</p>
-                    @Html.ActionLink("Demo", "Demo", null, new { @class = "button" })
-                    @Html.ActionLink("Download", "Download", null, new { @class = "button" })
-					@Html.ActionLink("Documentation", "Documentation", null, new { @class = "button" })
-                    <a class="button download" href="https://github.com/TesserisPro/tgrid/issues">Report an issue</a>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
+<div>
 <div id="GeneralBox_Content_C012_Col00" class="sf_colsIn sf_1col_1in_100">
-
     <div class="sfContentBlock scheme1 pt30">
         <div class="fr ml30">
             <img src="@Url.Content("~/Content/monitorwithgrid.png")" />

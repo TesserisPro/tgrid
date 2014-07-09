@@ -1,15 +1,3 @@
-//=====================================================================================
-//
-// The Tesseris Free License
-//
-// Copyright(c) 2014 Tesseris Pro LLC
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this
-// software and associated documentation files(the "Software"), to deal in the Software
-// without restriction, including without limitation the rights to use, copy, modify,
-// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to the following
-// conditions:
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -18,6 +6,18 @@ var __extends = this.__extends || function (d, b) {
 };
 var TesserisPro;
 (function (TesserisPro) {
+    //=====================================================================================
+    //
+    // The Tesseris Free License
+    //
+    // Copyright(c) 2014 Tesseris Pro LLC
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    // software and associated documentation files(the "Software"), to deal in the Software
+    // without restriction, including without limitation the rights to use, copy, modify,
+    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+    // permit persons to whom the Software is furnished to do so, subject to the following
+    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -141,7 +141,6 @@ var TesserisPro;
                                 this.buildDefaultHeader(headerContent, headerText);
                             }
 
-                            // Arrows
                             if (option.enableSorting && option.columns[i].enableSorting) {
                                 // Method changing sorting
                                 (function (i) {
@@ -246,7 +245,6 @@ var TesserisPro;
                     if (shouldAddDetails) {
                         var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                        // Insert row details after selected item
                         if (detailsTemplate != null) {
                             var details = this.buildDetailsRow(options, detailsTemplate);
                             insertAfter(targetRow, details);
@@ -257,7 +255,6 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
-                //if there isn't footer template in grid
                 if (option.tableFooterTemplate == null && option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
@@ -349,7 +346,7 @@ var TesserisPro;
                 if (isNull(option.rowClick)) {
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.selectionMode != 0 /* None */) {
+                            if (option.selectionMode != TGrid.SelectionMode.None) {
                                 var wasSelected = false;
                                 if (option.shouldAddDetailsOnSelection == item.item) {
                                     wasSelected = true;
@@ -401,7 +398,7 @@ var TesserisPro;
                     }
                 }
                 if (option.groupHeaderTemplate != null) {
-                    option.groupHeaderTemplate.applyTemplate(headerTd); //(!groupHeaderDescriptor.collapse ? "close" : "open") +
+                    option.groupHeaderTemplate.applyTemplate(headerTd);
                 } else {
                     this.createDefaultGroupHeader(headerTd);
                 }
@@ -494,7 +491,6 @@ var TesserisPro;
                     if (shouldAddDetails) {
                         var detailsTemplate = this.getActualDetailsTemplate(options);
 
-                        // Insert row details after selected item
                         if (detailsTemplate != null) {
                             var details = this.buildMobileDetailsRow(options, detailsTemplate);
                             insertAfter(targetRow, details);
@@ -545,7 +541,7 @@ var TesserisPro;
                 if (isNull(option.rowClick)) {
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.selectionMode != 0 /* None */) {
+                            if (option.selectionMode != TGrid.SelectionMode.None) {
                                 var s = container;
                                 selected(item, e.ctrlKey);
                             }
@@ -620,6 +616,9 @@ var TesserisPro;
                 var filterCondition = document.createElement("select");
                 filterCondition.setAttribute("data-bind", "options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'");
                 filterCondition.className = "grid-filter-popup-options";
+                selectOption.value = TGrid.FilterCondition.None.toString();
+                selectOption.value = TGrid.FilterCondition.Equals.toString();
+                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
 
                 var filterText = document.createElement("input");
                 filterText.type = "text";
@@ -630,6 +629,7 @@ var TesserisPro;
                 caseSensetiveInput.type = "checkbox";
                 caseSensetiveInput.setAttribute("data-bind", "checked: caseSensetive");
                 caseSensetiveInput.className = "grid-filter-popup-casesens";
+                (applyButton).innerHTML = "OK";
 
                 var caseSensetiveLabel = document.createElement("label");
                 caseSensetiveLabel.className = "grid-filter-popup-casesens-label";
@@ -646,7 +646,7 @@ var TesserisPro;
                     grid.filterPopupViewModel.onClose();
                     filterText.setAttribute("value", "");
                 };
-                clearButton.innerHTML = 'Clear';
+                (clearButton).innerHTML = 'Cancel';
 
                 var filterButton = document.createElement("button");
                 filterButton.className = "tgrid-filter-popup-button";

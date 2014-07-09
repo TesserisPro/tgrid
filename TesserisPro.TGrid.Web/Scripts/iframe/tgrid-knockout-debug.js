@@ -310,7 +310,7 @@ var TesserisPro;
                     if (isNull(option.rowClick)) {
                         (function(item) {
                             row.onclick = function(e) {
-                                if (option.selectionMode != 0) {
+                                if (option.selectionMode != TGrid.SelectionMode.None) {
                                     var wasSelected = false;
                                     if (option.shouldAddDetailsOnSelection == item.item) {
                                         wasSelected = true
@@ -481,7 +481,7 @@ var TesserisPro;
                     if (isNull(option.rowClick)) {
                         (function(item) {
                             row.onclick = function(e) {
-                                if (option.selectionMode != 0) {
+                                if (option.selectionMode != TGrid.SelectionMode.None) {
                                     var s = container;
                                     selected(item, e.ctrlKey)
                                 }
@@ -550,7 +550,9 @@ var TesserisPro;
                 KnockoutHtmlProvider.prototype.buildDefaultFilteringPopUp = function(option, filterPopupContainer) {
                     var filterCondition = document.createElement("select");
                     filterCondition.setAttribute("data-bind", "options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'");
-                    filterCondition.className = "grid-filter-popup-options";
+                    selectOption.value = TGrid.FilterCondition.None.toString();
+                    selectOption.value = TGrid.FilterCondition.Equals.toString();
+                    selectOption.value = TGrid.FilterCondition.NotEquals.toString();
                     var filterText = document.createElement("input");
                     filterText.type = "text";
                     filterText.setAttribute("data-bind", "value: value");
@@ -564,7 +566,7 @@ var TesserisPro;
                     caseSensetiveLabel.appendChild(caseSensetiveInput);
                     caseSensetiveLabel.appendChild(document.createTextNode("Case sensetive"));
                     var buttonsContainer = document.createElement("div");
-                    buttonsContainer.className = "tgrid-filter-popup-buttons-container";
+                    (applyButton).innerHTML = "OK";
                     var clearButton = document.createElement("button");
                     clearButton.className = 'tgrid-filter-popup-button';
                     clearButton.onclick = function(e) {
@@ -572,7 +574,7 @@ var TesserisPro;
                         grid.filterPopupViewModel.onClose();
                         filterText.setAttribute("value", "")
                     };
-                    clearButton.innerHTML = 'Clear';
+                    (clearButton).innerHTML = 'Cancel';
                     var filterButton = document.createElement("button");
                     filterButton.className = "tgrid-filter-popup-button";
                     filterButton.onclick = function(e) {
@@ -620,7 +622,7 @@ var TGridBindingHandler = (function() {
             }
         };
         TGridBindingHandler.getOptions = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            var options = new TesserisPro.TGrid.Options(element, 0);
+            var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
             options.parentViewModel = viewModel;
             var groupBySortDescriptor = "";
             if (isObservable(valueAccessor().groupBy)) {
@@ -726,13 +728,13 @@ var TGridBindingHandler = (function() {
             }
             var selectionMode = isObservable(valueAccessor().selectionMode) ? valueAccessor().selectionMode() : valueAccessor().selectionMode;
             if (selectionMode == "multi") {
-                options.selectionMode = 2
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi
             }
             if (selectionMode == "single") {
-                options.selectionMode = 1
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.Single
             }
             if (selectionMode == "none") {
-                options.selectionMode = 0
+                options.selectionMode = TesserisPro.TGrid.SelectionMode.None
             }
             if (isObservable(valueAccessor().enableSorting)) {
                 if (typeof valueAccessor().enableSorting() == "boolean") {
@@ -933,9 +935,11 @@ var TesserisPro;
                 }
                 KnockoutFilterPopupViewModel.prototype.onCloseFilterPopup = function(container){};
                 KnockoutFilterPopupViewModel.prototype.onApply = function() {
+                    this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
                     var grid = TGrid.Grid.getGridObject(this.container);
                     grid.options.filterDescriptor.removeChildByPath(this.path());
-                    grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.path(), this.value(), this.caseSensetive(), this.condition()));
+                    if (this.condition != TGrid.FilterCondition.None) {
+                        this.value = (this.container.getElementsByTagName("input")[0]).value;
                     grid.applyFilters();
                     hideElement(this.container);
                     this.onCloseFilterPopup(this.container)
@@ -956,14 +960,14 @@ var TesserisPro;
                     this.path(column.filterMemberPath);
                     for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                         if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                            this.value(options.filterDescriptor.children[i].value);
-                            this.caseSensetive(options.filterDescriptor.children[i].caseSensetive);
+                            (this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
+                            (this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
                             this.condition(options.filterDescriptor.children[i].condition);
                             return
                         }
                     }
-                    this.value("");
-                    this.caseSensetive(false);
+                    (this.container.getElementsByTagName("input")[0]).value = '';
+                    (this.container.getElementsByTagName("select")[0]).selectedIndex = TGrid.FilterCondition.None
                     this.condition(0)
                 };
                 KnockoutFilterPopupViewModel.prototype.getColumnInfo = function() {
