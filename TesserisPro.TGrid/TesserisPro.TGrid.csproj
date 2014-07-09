@@ -29,11 +29,6 @@
     <TypeScriptCompile Include="angular\AngularItemViewModel.ts" />
     <TypeScriptCompile Include="ArrayItemsProvider.ts" />
     <Content Include="angular\AngularModuleTGrid.js" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GroupHeaderDescriptor.ts" />
     <TypeScriptCompile Include="IFilterPopupViewModel.ts" />
     <Content Include="IHtmlProvider.ts" />
@@ -46,14 +41,6 @@
       <DependentUpon>TGridBinding.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="knockout\TGridBinding.ts" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="tgrid.ajaxmin">
       <SubType>Designer</SubType>
     </None>
@@ -69,7 +56,6 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
-    <None Include="Scripts\jquery-1.9.1-vsdoc.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
