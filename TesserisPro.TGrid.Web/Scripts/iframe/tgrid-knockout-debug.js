@@ -189,6 +189,20 @@ var TesserisPro;
                         this.appendTableElement(option, container, items[i], 0, selected)
                     }
                     addClass(container, "desktop");
+                    if (!option.hasAnyNotSizedColumn && option.hasAnyPercentageWidthColumn) {
+                        var tableBodyContainer = container.parentElement.parentElement;
+                        if (tableBodyContainer.scrollHeight > tableBodyContainer.clientHeight) {
+                            var scrollWidth = this.getScrollWidth() + 2;
+                            var headerContainer = tableBodyContainer.parentElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
+                            headerContainer.style.width = (tableBodyContainer.offsetWidth - scrollWidth).toString() + "px";
+                            var placeholderColumnScroll = document.createElement("div");
+                            placeholderColumnScroll.className = "tgrid-scroll-placeholder";
+                            placeholderColumnScroll.style.width = (scrollWidth - 4).toString() + "px";
+                            var bodyContainer = tableBodyContainer.parentElement.getElementsByClassName("tgrid-tablebodycontainer")[0];
+                            headerContainer.parentElement.insertBefore(placeholderColumnScroll, bodyContainer);
+                            headerContainer.style.display = "table-cell"
+                        }
+                    }
                     return container
                 };
                 KnockoutHtmlProvider.prototype.updateTableDetailRow = function(options, container, item) {

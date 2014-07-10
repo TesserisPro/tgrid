@@ -122,6 +122,8 @@ module TesserisPro.TGrid {
         public hasAnyNotSizedColumn: boolean = false;
         public rowClick: string;
         public captureScroll: boolean = true;
+        public hasAnyPercentageWidthColumn: boolean = false;
+        public tableWidth: number = 0;
 
         public minItemsCountForVirtualization: number;
 
@@ -174,6 +176,9 @@ module TesserisPro.TGrid {
                     } 
                     if (columns[i].attributes['data-g-width'] != null) {
                         column.width = columns[i].attributes['data-g-width'].nodeValue;
+                        if (columns[i].attributes['data-g-width'].nodeValue.indexOf("%") != -1 && !this.hasAnyPercentageWidthColumn) {
+                            this.hasAnyPercentageWidthColumn = true;
+                        }
                     }
                     if (columns[i].attributes['data-g-views'] != null) {
                         column.device = columns[i].attributes['data-g-views'].nodeValue;

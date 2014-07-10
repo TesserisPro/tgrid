@@ -198,7 +198,6 @@ module TesserisPro.TGrid {
             }
             head.appendChild(placeholderColumn);
             
-            
             header.innerHTML = "";
             header.appendChild(head);
             ko.applyBindings(option.parentViewModel, head);
@@ -213,6 +212,24 @@ module TesserisPro.TGrid {
             
             //Hide table on mobile devices
             addClass(container, "desktop");
+            if (!option.hasAnyNotSizedColumn && option.hasAnyPercentageWidthColumn) {
+                var tableBodyContainer = container.parentElement.parentElement;
+                if (tableBodyContainer.scrollHeight > tableBodyContainer.clientHeight) {
+                    var scrollWidth = this.getScrollWidth() + 2;
+                    var headerContainer = (<HTMLElement>tableBodyContainer.parentElement.getElementsByClassName("tgrid-tableheadercontainer")[0]);
+                    headerContainer.style.width = (tableBodyContainer.offsetWidth - scrollWidth).toString() + "px";
+
+                    var placeholderColumnScroll = document.createElement("div");
+                    placeholderColumnScroll.className = "tgrid-scroll-placeholder";
+                    placeholderColumnScroll.style.width = (scrollWidth - 4).toString() + "px";
+
+                    var bodyContainer = (<HTMLElement>tableBodyContainer.parentElement.getElementsByClassName("tgrid-tablebodycontainer")[0]);
+                    headerContainer.parentElement.insertBefore(placeholderColumnScroll, bodyContainer);
+                    //headerContainer.style.tableLayout = "fixed";
+                    headerContainer.style.display = "table-cell";
+                   // (<HTMLElement>tableBodyContainer.parentElement.getElementsByClassName("tgrid-table-header")[0]).getElementsByTagName('tr')[0].appendChild(placeholderColumnScroll);
+                }
+            }
             return container;
         }
 

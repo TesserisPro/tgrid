@@ -1135,7 +1135,15 @@ module TesserisPro.TGrid {
                 }
 
                 this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, c => this.columnsResized(c));
+                if (this.isFirstRefresh) {
+                    this.options.tableWidth = this.tableHeader.clientWidth;
+                }
                 this.refreshMobileHeader();
+                if (this.isDesktopMode()) {
+                   
+                        this.options.tableWidth = this.tableHeader.clientWidth;
+                   
+                }
             }
         }
 

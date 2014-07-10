@@ -122,6 +122,7 @@ var TesserisPro;
                 this.columnMinWidth = 5;
                 this.hasAnyNotSizedColumn = false;
                 this.captureScroll = true;
+                this.hasAnyPercentageWidthColumn = false;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();
@@ -167,6 +168,9 @@ var TesserisPro;
                         }
                         if (columns[i].attributes['data-g-width'] != null) {
                             column.width = columns[i].attributes['data-g-width'].nodeValue;
+                            if (columns[i].attributes['data-g-width'].nodeValue.indexOf("%") != -1 && !this.hasAnyPercentageWidthColumn) {
+                                this.hasAnyPercentageWidthColumn = true;
+                            }
                         }
                         if (columns[i].attributes['data-g-views'] != null) {
                             column.device = columns[i].attributes['data-g-views'].nodeValue;

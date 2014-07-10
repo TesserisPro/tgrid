@@ -19,14 +19,14 @@
 		<script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
 	</head>
 	<body>
-		<div>
+		<div style="width:500px">
 			<div id="test-knockout" data-bind="tgrid: { provider: itemsProvider}">
 				<script type="text/html">
 					<column data-g-member="Name" data-g-not-sized="true">
 					</column>
 					<column data-g-member="Surname">
 					</column>
-					<column data-g-member="Age" data-g-not-sized="true">
+					<column data-g-member="Age" data-g-width="20%">
 					</column>
 				</script>
 			</div>

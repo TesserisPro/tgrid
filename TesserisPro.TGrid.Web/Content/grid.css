@@ -459,7 +459,7 @@ td a {
 }
 
 th.tgrid-placeholder {
-    min-width: 20px;
+    /*min-width: 20px;*/
 }
 
 th.tgrid-placeholder-width{
@@ -725,6 +725,27 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
 }
 .tgrid-cell-content{
     overflow: hidden;
+}
+
+.tgrid-scrollbar-measure {
+	width: 100px;
+	height: 100px;
+	overflow: scroll;
+	position: absolute;
+	top: -9999px;
+}
+
+.tgrid-body-and-header-container{
+    background: whitesmoke;
+   
+}
+
+.tgrid-scroll-placeholder{
+    background: whitesmoke;
+    display: table-cell;
+    border-top: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+    height: 29px;
 }
 
 /* Mobile */

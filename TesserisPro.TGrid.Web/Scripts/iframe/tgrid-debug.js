@@ -95,13 +95,14 @@ var TesserisPro;
                             if (!option.columns[columnNumber].notSized) {
                                 var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
                                 if (indexOfPercentSymbol != -1) {
-                                    var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                                    var percentWidth = intWidth > 0 ? intWidth : 1;
-                                    option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString()
+                                    var headerColumnElement = headers.item(i + option.columns.length);
+                                    headerColumnElement.style.width = option.columns[columnNumber].width.toString()
                                 }
-                                headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
-                                var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
-                                headerContainer.style.width = option.columns[columnNumber].width.toString() + "px"
+                                else {
+                                    headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
+                                    var headerContainer = headers.item(i + option.columns.length).getElementsByClassName("tgrid-header-cell-container").item(0);
+                                    headerContainer.style.width = option.columns[columnNumber].width.toString() + "px"
+                                }
                             }
                             columnNumber++
                         }
@@ -126,13 +127,13 @@ var TesserisPro;
                                     if (!option.columns[columnNumber].notSized) {
                                         var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
                                         if (indexOfPercentSymbol != -1) {
-                                            var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                                            var percentWidth = intWidth > 0 ? intWidth : 1;
-                                            option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString()
+                                            columns.item(j).style.width = option.columns[columnNumber].width.toString()
                                         }
-                                        columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
-                                        var cellContainer = columns.item(j).firstChild;
-                                        cellContainer.style.width = option.columns[columnNumber].width.toString() + "px"
+                                        else {
+                                            columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
+                                            var cellContainer = columns.item(j).firstChild;
+                                            cellContainer.style.width = option.columns[columnNumber].width.toString() + "px"
+                                        }
                                     }
                                     columnNumber++
                                 }
@@ -550,6 +551,14 @@ var TesserisPro;
                         target.appendChild(cell)
                     }
                 };
+                BaseHtmlProvider.prototype.getScrollWidth = function() {
+                    var scrollMesureDiv = document.createElement("div");
+                    scrollMesureDiv.className = "tgrid-scrollbar-measure";
+                    document.body.appendChild(scrollMesureDiv);
+                    var scrollWidth = scrollMesureDiv.offsetWidth - scrollMesureDiv.clientWidth;
+                    document.body.removeChild(scrollMesureDiv);
+                    return scrollWidth
+                };
                 BaseHtmlProvider.prototype.buildColumnHeader = function(column) {
                     var headerElement = document.createElement("div");
                     headerElement.className = "tgrid-header-cell-content";
@@ -783,6 +792,7 @@ var TesserisPro;
                     this.columnMinWidth = 5;
                     this.hasAnyNotSizedColumn = false;
                     this.captureScroll = true;
+                    this.hasAnyPercentageWidthColumn = false;
                     this.target = element;
                     this.framework = framework;
                     this.initialize();
@@ -823,7 +833,10 @@ var TesserisPro;
                                 column.cellDetail = new Template(cellDetail[0])
                             }
                             if (columns[i].attributes['data-g-width'] != null) {
-                                column.width = columns[i].attributes['data-g-width'].nodeValue
+                                column.width = columns[i].attributes['data-g-width'].nodeValue;
+                                if (columns[i].attributes['data-g-width'].nodeValue.indexOf("%") != -1 && !this.hasAnyPercentageWidthColumn) {
+                                    this.hasAnyPercentageWidthColumn = true
+                                }
                             }
                             if (columns[i].attributes['data-g-views'] != null) {
                                 column.device = columns[i].attributes['data-g-views'].nodeValue
