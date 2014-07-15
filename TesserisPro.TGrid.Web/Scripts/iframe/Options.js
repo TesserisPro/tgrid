@@ -123,6 +123,7 @@ var TesserisPro;
                 this.hasAnyNotSizedColumn = false;
                 this.captureScroll = true;
                 this.hasAnyPercentageWidthColumn = false;
+                this.tableWidth = 0;
                 this.target = element;
                 this.framework = framework;
                 this.initialize();

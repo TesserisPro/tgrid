@@ -157,11 +157,9 @@ th.tgrid-table-indent-cell-content
     overflow-x: auto;
     height: auto;
     max-height:430px;
-    border-right: 1px solid #BEBEBE;
-    border-bottom: 1px solid #BEBEBE;
-    border-left:1px solid #BEBEBE;
+    border: 1px solid #BEBEBE;
     margin-top:auto;
-    border-top: 1px solid #BEBEBE;
+    
 }
 
 .tgrid-tableheadercontainer {
@@ -463,12 +461,12 @@ th.tgrid-placeholder {
 }
 
 th.tgrid-placeholder-width{
-    width: 14px;
+    /*width: 14px;*/
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
  ::i-block-chrome, th.tgrid-placeholder-width{ 
-     width: 17px;
+     /*width: 17px;*/
  }
 
 }

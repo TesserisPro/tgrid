@@ -94,6 +94,9 @@ module TesserisPro.TGrid {
 
         private isFirstRefresh = true;
         private currentModeDesktop: boolean = true;
+       
+        private hidePopUpOnResize: (event: UIEvent) => void;
+        private updateWidthOnResize: () => void;
 
         constructor(element: HTMLElement, options: Options, provider: IItemProvider) {
             element.grid = this;
@@ -278,18 +281,30 @@ module TesserisPro.TGrid {
             }
 
             this.hideBuisyIndicator();
-           
+            var self = this;
+            this.hidePopUpOnResize= function(event: UIEvent) {
+                self.hideFilterPopupOnResize(event);
+            };
+
             this.currentModeDesktop = this.isDesktopMode();
             if (this.options.enableFiltering) {
-                var self = this;
-                window.onresize = function (event: UIEvent) {
-                    self.hideFilterPopupOnResize(event);
-                };
+                addEventListener("resize", this.hidePopUpOnResize);
             }
+            this.options.tableWidth = this.rootElement.clientWidth;
+            this.updateWidthOnResize = function () {
+                if (self.options.tableWidth != self.rootElement.clientWidth) {
+                    self.htmlProvider.updateColumnWidth(self.options, self.tableHeader, self.tableBody, self.tableFooter);
+                }
+            };
+            addEventListener("resize", this.updateWidthOnResize);
         }
 
         public GetRootElement(): HTMLElement {
             return this.rootElement;
+        }
+        public getTargetElementWidth(): number {
+            var headerContainerBorder = this.headerContainer.offsetWidth - this.headerContainer.clientWidth;
+            return this.rootElement.clientWidth - headerContainerBorder*2;
         }
 
         public static getGridObject(element: HTMLElement): Grid {
@@ -1300,6 +1315,7 @@ module TesserisPro.TGrid {
         }
         //on dynamic reconfiguration
         public afterOptionsChange() {
+           
             //on change capture scroll
             if (this.options.captureScroll) {
                 this.rootElement.onmousewheel = e => this.mouseWheel(e);
@@ -1319,13 +1335,15 @@ module TesserisPro.TGrid {
                 this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                 this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                 var self = this;
-                window.onresize = function (event: UIEvent) {
-                    self.hideFilterPopupOnResize(event);
-                };
+                //window.onresize = function (event: UIEvent) {
+                //    self.hideFilterPopupOnResize(event);
+                //};
+                addEventListener("resize", this.hidePopUpOnResize);
             }
             //on enableFiltering set to false
             if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
-                window.onresize = null;
+                removeEventListener("resize", this.hidePopUpOnResize);
+                //window.onresize = null;
             }
             //on enableVirtualScroll set to true
             if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {

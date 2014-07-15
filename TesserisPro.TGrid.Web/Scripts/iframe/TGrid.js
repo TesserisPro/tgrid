@@ -247,18 +247,30 @@ var TesserisPro;
                 };
 
                 this.hideBuisyIndicator();
+                var self = this;
+                this.hidePopUpOnResize = function (event) {
+                    self.hideFilterPopupOnResize(event);
+                };
 
                 this.currentModeDesktop = this.isDesktopMode();
                 if (this.options.enableFiltering) {
-                    var self = this;
-                    window.onresize = function (event) {
-                        self.hideFilterPopupOnResize(event);
-                    };
+                    addEventListener("resize", this.hidePopUpOnResize);
                 }
+                this.options.tableWidth = this.rootElement.clientWidth;
+                this.updateWidthOnResize = function () {
+                    if (self.options.tableWidth != self.rootElement.clientWidth) {
+                        self.htmlProvider.updateColumnWidth(self.options, self.tableHeader, self.tableBody, self.tableFooter);
+                    }
+                };
+                addEventListener("resize", this.updateWidthOnResize);
             };
 
             Grid.prototype.GetRootElement = function () {
                 return this.rootElement;
+            };
+            Grid.prototype.getTargetElementWidth = function () {
+                var headerContainerBorder = this.headerContainer.offsetWidth - this.headerContainer.clientWidth;
+                return this.rootElement.clientWidth - headerContainerBorder * 2;
             };
 
             Grid.getGridObject = function (element) {
@@ -1076,7 +1088,13 @@ var TesserisPro;
                     this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function (c) {
                         return _this.columnsResized(c);
                     });
+                    if (this.isFirstRefresh) {
+                        this.options.tableWidth = this.tableHeader.clientWidth;
+                    }
                     this.refreshMobileHeader();
+                    if (this.isDesktopMode()) {
+                        this.options.tableWidth = this.tableHeader.clientWidth;
+                    }
                 }
             };
 
@@ -1238,14 +1256,17 @@ var TesserisPro;
                     this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                     this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                     var self = this;
-                    window.onresize = function (event) {
-                        self.hideFilterPopupOnResize(event);
-                    };
+
+                    //window.onresize = function (event: UIEvent) {
+                    //    self.hideFilterPopupOnResize(event);
+                    //};
+                    addEventListener("resize", this.hidePopUpOnResize);
                 }
 
                 //on enableFiltering set to false
                 if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
-                    window.onresize = null;
+                    removeEventListener("resize", this.hidePopUpOnResize);
+                    //window.onresize = null;
                 }
 
                 //on enableVirtualScroll set to true

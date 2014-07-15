@@ -124,8 +124,8 @@ module TesserisPro.TGrid {
         public captureScroll: boolean = true;
         public hasAnyPercentageWidthColumn: boolean = false;
         public tableWidth: number = 0;
-
         public minItemsCountForVirtualization: number;
+       
 
         public ready: (options: Options) => void;
 

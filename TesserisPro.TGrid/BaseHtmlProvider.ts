@@ -116,7 +116,7 @@ module TesserisPro.TGrid {
                 while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                     columnNumber++;
                 }
-
+                var gridWidth = this.getGridWidth(<HTMLElement> body);
                 for (var i = 0; i < columnsCount; i++) {
 
                     while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
@@ -130,19 +130,14 @@ module TesserisPro.TGrid {
 
                     if (!option.columns[columnNumber].notSized) {
                         var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
-                        if (indexOfPercentSymbol != - 1) {
-                            //var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                            //var percentWidth = intWidth > 0 ? intWidth : 1;
-                            //option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
+                        if (indexOfPercentSymbol != - 1) {                           
+                            var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                            var percentWidth = intWidth > 0 ? intWidth : 1;
+                            var pixelWidth = (gridWidth * percentWidth / 100).toString();
                             var headerColumnElement = (<HTMLElement>headers.item(i + option.columns.length));
-                            headerColumnElement.style.width = option.columns[columnNumber].width.toString();
-                            //var percentInInt = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                            //var headerColumnWidthInPixels = header.offsetWidth * percentInInt / 100;
-                            //var headerContainer = headerColumnElement.getElementsByClassName("tgrid-header-cell-container").item(0);
-                            //(<HTMLElement>headerContainer).style.width = headerColumnWidthInPixels.toString() + 'px';
-                            //var headerContainer = (<HTMLElement>headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
-                            //(<HTMLElement>headerContainer).style.width = option.columns[columnNumber].width.toString();
-
+                            (<HTMLElement>headerColumnElement).style.width = pixelWidth + 'px';
+                             var headerContainer = headerColumnElement.getElementsByClassName("tgrid-header-cell-container").item(0);
+                            (<HTMLElement>headerContainer).style.width = pixelWidth + 'px';
                         } else {
                             (<HTMLElement>headers.item(i + option.columns.length)).style.width = option.columns[columnNumber].width.toString() + "px";
                             var headerContainer = (<HTMLElement>headers.item(i + option.columns.length)).getElementsByClassName("tgrid-header-cell-container").item(0);
@@ -177,16 +172,12 @@ module TesserisPro.TGrid {
                             if (!option.columns[columnNumber].notSized) {
                                 var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
                                 if (indexOfPercentSymbol != - 1) {
-                                    //var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                                    //var percentWidth = intWidth > 0 ? intWidth : 1;
-                                    //option.columns[columnNumber].width = (body.offsetWidth * percentWidth / 100).toString();
-                                    (<HTMLElement>columns.item(j)).style.width = option.columns[columnNumber].width.toString();
-                                    //(<HTMLElement>columns.item(j)).style.maxWidth = option.columns[columnNumber].width.toString();
-                                    //var percentInInt = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
-                                    //var cellColumnWidthInPixels = body.offsetWidth * percentInInt / 100;
-                                    //var cellContainer = (<HTMLElement>columns.item(j)).firstChild;
-                                    //(<HTMLElement>cellContainer).style.width = cellColumnWidthInPixels.toString() + 'px';
-                                    ////option.columns[columnNumber].width.toString();
+                                    var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                                    var percentWidth = intWidth > 0 ? intWidth : 1;
+                                    var pixelWidth = (gridWidth * percentWidth / 100).toString();
+                                    (<HTMLElement>columns.item(j)).style.width = pixelWidth + 'px';
+                                    var cellContainer = (<HTMLElement>columns.item(j)).firstChild;
+                                    (<HTMLElement>cellContainer).style.width = pixelWidth + 'px';
                                 } else {
                                     (<HTMLElement>columns.item(j)).style.width = option.columns[columnNumber].width.toString() + "px";
                                     var cellContainer = (<HTMLElement>columns.item(j)).firstChild;
@@ -198,6 +189,10 @@ module TesserisPro.TGrid {
                     }
                 }
             }
+        }
+
+        public getGridWidth(element: HTMLElement): number {
+            return Grid.getGridObject(element).getTargetElementWidth() - this.getScrollWidth() - 12;
         }
 
         public buildDefaultTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number): void {

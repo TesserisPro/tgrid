@@ -84,6 +84,7 @@ var TesserisPro;
                         while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                             columnNumber++
                         }
+                        var gridWidth = this.getGridWidth(body);
                         for (var i = 0; i < columnsCount; i++) {
                             while (columnNumber < option.columns.length && option.columns[columnNumber].device.indexOf("desktop") == -1) {
                                 columnNumber++
@@ -95,8 +96,13 @@ var TesserisPro;
                             if (!option.columns[columnNumber].notSized) {
                                 var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
                                 if (indexOfPercentSymbol != -1) {
+                                    var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                                    var percentWidth = intWidth > 0 ? intWidth : 1;
+                                    var pixelWidth = (gridWidth * percentWidth / 100).toString();
                                     var headerColumnElement = headers.item(i + option.columns.length);
-                                    headerColumnElement.style.width = option.columns[columnNumber].width.toString()
+                                    headerColumnElement.style.width = pixelWidth + 'px';
+                                    var headerContainer = headerColumnElement.getElementsByClassName("tgrid-header-cell-container").item(0);
+                                    headerContainer.style.width = pixelWidth + 'px'
                                 }
                                 else {
                                     headers.item(i + option.columns.length).style.width = option.columns[columnNumber].width.toString() + "px";
@@ -127,7 +133,12 @@ var TesserisPro;
                                     if (!option.columns[columnNumber].notSized) {
                                         var indexOfPercentSymbol = option.columns[columnNumber].width.indexOf("%");
                                         if (indexOfPercentSymbol != -1) {
-                                            columns.item(j).style.width = option.columns[columnNumber].width.toString()
+                                            var intWidth = parseInt(option.columns[columnNumber].width.substring(0, indexOfPercentSymbol));
+                                            var percentWidth = intWidth > 0 ? intWidth : 1;
+                                            var pixelWidth = (gridWidth * percentWidth / 100).toString();
+                                            columns.item(j).style.width = pixelWidth + 'px';
+                                            var cellContainer = columns.item(j).firstChild;
+                                            cellContainer.style.width = pixelWidth + 'px'
                                         }
                                         else {
                                             columns.item(j).style.width = option.columns[columnNumber].width.toString() + "px";
@@ -140,6 +151,9 @@ var TesserisPro;
                             }
                         }
                     }
+                };
+                BaseHtmlProvider.prototype.getGridWidth = function(element) {
+                    return TGrid.Grid.getGridObject(element).getTargetElementWidth() - this.getScrollWidth() - 12
                 };
                 BaseHtmlProvider.prototype.buildDefaultTableFooterElement = function(option, footer, totalItemsCount) {
                     var firstVisiblePage = option.currentPage - option.pageSlide;
@@ -793,6 +807,7 @@ var TesserisPro;
                     this.hasAnyNotSizedColumn = false;
                     this.captureScroll = true;
                     this.hasAnyPercentageWidthColumn = false;
+                    this.tableWidth = 0;
                     this.target = element;
                     this.framework = framework;
                     this.initialize();
@@ -1094,16 +1109,28 @@ var TesserisPro;
                         }
                     };
                     this.hideBuisyIndicator();
+                    var self = this;
+                    this.hidePopUpOnResize = function(event) {
+                        self.hideFilterPopupOnResize(event)
+                    };
                     this.currentModeDesktop = this.isDesktopMode();
                     if (this.options.enableFiltering) {
-                        var self = this;
-                        window.onresize = function(event) {
-                            self.hideFilterPopupOnResize(event)
-                        }
+                        addEventListener("resize", this.hidePopUpOnResize)
                     }
+                    this.options.tableWidth = this.rootElement.clientWidth;
+                    this.updateWidthOnResize = function() {
+                        if (self.options.tableWidth != self.rootElement.clientWidth) {
+                            self.htmlProvider.updateColumnWidth(self.options, self.tableHeader, self.tableBody, self.tableFooter)
+                        }
+                    };
+                    addEventListener("resize", this.updateWidthOnResize)
                 };
                 Grid.prototype.GetRootElement = function() {
                     return this.rootElement
+                };
+                Grid.prototype.getTargetElementWidth = function() {
+                    var headerContainerBorder = this.headerContainer.offsetWidth - this.headerContainer.clientWidth;
+                    return this.rootElement.clientWidth - headerContainerBorder * 2
                 };
                 Grid.getGridObject = function(element) {
                     if (element == null) {
@@ -1819,7 +1846,13 @@ var TesserisPro;
                         this.htmlProvider.updateTableHeadElement(this.options, this.tableHeader, this.groupByElement, this.filterPopUp, function(c) {
                             return _this.columnsResized(c)
                         });
-                        this.refreshMobileHeader()
+                        if (this.isFirstRefresh) {
+                            this.options.tableWidth = this.tableHeader.clientWidth
+                        }
+                        this.refreshMobileHeader();
+                        if (this.isDesktopMode()) {
+                            this.options.tableWidth = this.tableHeader.clientWidth
+                        }
                     }
                 };
                 Grid.prototype.updateBody = function() {
@@ -1969,12 +2002,10 @@ var TesserisPro;
                         this.filterPopupViewModel = this.htmlProvider.getFilterPopupViewModel(this.filterPopUp);
                         this.htmlProvider.updateFilteringPopUp(this.options, this.filterPopUp, this.filterPopupViewModel);
                         var self = this;
-                        window.onresize = function(event) {
-                            self.hideFilterPopupOnResize(event)
-                        }
+                        addEventListener("resize", this.hidePopUpOnResize)
                     }
                     if (!this.options.enableFiltering && isNotNoU(this.rootElement.getElementsByClassName("tgrid-filter-popup")[0])) {
-                        window.onresize = null
+                        removeEventListener("resize", this.hidePopUpOnResize)
                     }
                     if (this.options.enableVirtualScroll && isNoU(this.rootElement.getElementsByClassName("tgrid-scroll")[0])) {
                         this.scrollBar = document.createElement("div");

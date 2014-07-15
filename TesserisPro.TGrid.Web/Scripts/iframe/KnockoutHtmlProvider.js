@@ -163,7 +163,7 @@ var TesserisPro;
                                 columnResize.onclick = function (e) {
                                     return e.stopImmediatePropagation();
                                 };
-
+                                var self = this;
                                 (function (i, headerCell, columnResize) {
                                     var documentMouseMove = null;
                                     var position = 0;
@@ -173,7 +173,14 @@ var TesserisPro;
                                         documentMouseMove = document.onmousemove;
                                         document.onmousemove = function (m) {
                                             if (position != 0) {
-                                                option.columns[i].width = (parseInt(option.columns[i].width) + m.screenX - position).toString();
+                                                if (option.columns[i].width.indexOf("%") == -1) {
+                                                    var width = parseInt(option.columns[i].width);
+                                                } else {
+                                                    var gridWidth = self.getGridWidth(header);
+                                                    var percentInt = parseInt(option.columns[i].width.substring(0, option.columns[i].width.indexOf("%")));
+                                                    var width = gridWidth * percentInt / 100;
+                                                }
+                                                option.columns[i].width = (width + m.screenX - position).toString();
                                                 position = m.screenX;
                                                 columnsResized(option.columns[i]);
                                             }
@@ -196,11 +203,14 @@ var TesserisPro;
                     }
                 }
 
+                var scrollWidth = this.getScrollWidth();
                 var placeholderColumn = document.createElement("th");
                 if (option.hasAnyNotSizedColumn) {
                     addClass(placeholderColumn, "tgrid-placeholder-width");
+                    placeholderColumn.style.width = (scrollWidth - 3).toString() + 'px';
                 } else {
                     addClass(placeholderColumn, "tgrid-placeholder");
+                    placeholderColumn.style.minWidth = (scrollWidth).toString() + 'px';
                 }
                 head.appendChild(placeholderColumn);
 
@@ -216,25 +226,6 @@ var TesserisPro;
 
                 //Hide table on mobile devices
                 addClass(container, "desktop");
-                if (!option.hasAnyNotSizedColumn && option.hasAnyPercentageWidthColumn) {
-                    var tableBodyContainer = container.parentElement.parentElement;
-                    if (tableBodyContainer.scrollHeight > tableBodyContainer.clientHeight) {
-                        var scrollWidth = this.getScrollWidth() + 2;
-                        var headerContainer = tableBodyContainer.parentElement.getElementsByClassName("tgrid-tableheadercontainer")[0];
-                        headerContainer.style.width = (tableBodyContainer.offsetWidth - scrollWidth).toString() + "px";
-
-                        var placeholderColumnScroll = document.createElement("div");
-                        placeholderColumnScroll.className = "tgrid-scroll-placeholder";
-                        placeholderColumnScroll.style.width = (scrollWidth - 4).toString() + "px";
-
-                        var bodyContainer = tableBodyContainer.parentElement.getElementsByClassName("tgrid-tablebodycontainer")[0];
-                        headerContainer.parentElement.insertBefore(placeholderColumnScroll, bodyContainer);
-
-                        //headerContainer.style.tableLayout = "fixed";
-                        headerContainer.style.display = "table-cell";
-                        // (<HTMLElement>tableBodyContainer.parentElement.getElementsByClassName("tgrid-table-header")[0]).getElementsByTagName('tr')[0].appendChild(placeholderColumnScroll);
-                    }
-                }
                 return container;
             };
 
