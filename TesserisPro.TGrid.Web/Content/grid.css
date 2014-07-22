@@ -60,7 +60,10 @@
     right: 0;
     top: 3px;
     bottom: 0;
-    overflow: hidden;
+    overflow: hidden;    
+    margin-right: 19px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tgrid-header-cell-buttons {
