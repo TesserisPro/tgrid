@@ -118,6 +118,7 @@ module TesserisPro.TGrid {
                     this.$scope.value=options.filterDescriptor.children[i].value;
                     this.$scope.caseSensitive = options.filterDescriptor.children[i].caseSensitive;
                     this.$scope.condition = options.filterDescriptor.children[i].condition;
+                    this.$scope.$apply();
                     return;
                 }
             }
