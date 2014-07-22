@@ -44,7 +44,30 @@
             alert("Error: " + msg + "\n\nFile: " + url + "\n\nLine: " + line);
             return false;
         };
+        $(function () { 
+            //$('.dropdown-menu li > a').click(function () {               
+            //    $('.dropdown-toggle li >a', this).trigger('mouseleave'); 
+                
+            //    $('.dropdown-menu').each(function () {
+            //        if ($(this).css('display') == 'block') {
+            //            $('.dropdown-menu').css('display', 'none');
+            //        }
+            //    }
+            //   )
+            //});
 
+            ////$('.dropdown-toggle').hover(function () {
+            ////    $(this).children('.dropdown-menu').css('display', 'block');
+            ////});
+
+            ////$('.dropdown-toggle').focus(function () {
+            ////    $(this).children('.dropdown-menu').css('display', 'block');
+            ////});
+
+            //$('.dropdown-toggle').mouseleave(function () {
+            //    $(this).children('.dropdown-menu').css('display', 'none');
+            //});
+        });
     </script>
 
     <div>
@@ -98,16 +121,19 @@
                         <p class="descriptionText">TypeScript, Angular and Knockout compatible, fully customizable grid. TGrid can work on any device and any screen resolution. TGrid grid supports any number of rows that can be loaded dynamically when user scrolls or selects page.</p>                        
                         <ul id="main-menu" class="buttons ">
                             <li class="dropdown-toggle">
-                                <a data-toggle="dropdown">Demo
+                                <a href="~/Home">Home</a>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a class="dropdown-a" data-toggle="dropdown">Demo
                             <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
-                                    <li>@Html.ActionLink("Knockout", "Demo", null, new { @class = "has-child" })</li>
+                                    <li>@Html.ActionLink("Knockout", "DemoKnockout", null, new { @class = "has-child" })</li>
                                     <li>@Html.ActionLink("Angular", "DemoAngular", null, new { @class = "has-child" })</li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
-                                <a data-toggle="dropdown">Documentation
+                                <a class="dropdown-a" data-toggle="dropdown">Documentation
                             <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
@@ -118,7 +144,7 @@
                                 </ul>
                             </li>     
                             <li>@Html.ActionLink("Download", "Download", null, new { @class = "downloadMain" })</li>
-                            <li><a class="download" href="https://github.com/TesserisPro/tgrid/issues">Report an issue</a></li>
+                            <li><a href="https://github.com/TesserisPro/tgrid/issues">Report an issue</a></li>
                         </ul>                       
                     </div>
                 </div>

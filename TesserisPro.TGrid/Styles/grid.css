@@ -316,7 +316,7 @@ td a {
 }
 
 .tgrid-filter-popup-container>select, .tgrid-filter-popup>select {
-    margin: 4px 0;
+    margin: 4px 0;    
 }
 
 .tgrid-filter-popup> input, .tgrid-filter-popup-container>input {
@@ -761,9 +761,3 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
     }
 }
 
-/* Desktop */
-@media (min-width: 481px) {
-    .mobile {
-        display: none;
-    }
-}

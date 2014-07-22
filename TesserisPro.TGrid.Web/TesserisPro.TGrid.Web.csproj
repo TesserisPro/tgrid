@@ -138,6 +138,7 @@
     <Content Include="Content\images\imagesForDocs\mobileTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\mobileTemplateGrouping.jpg" />
     <Content Include="Content\images\minus.png" />
+    <Content Include="Content\images\tgrid.png" />
     <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
       <DependentUpon>overview.md</DependentUpon>
@@ -366,6 +367,8 @@
     <Content Include="Markdown\generalStyles.md" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\tgridstg - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tgridstg - Web Deploy.pubxml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
@@ -446,7 +449,7 @@
     <Content Include="Views\Home\Angular\CustomActionsToOpenDetails.cshtml" />
     <Content Include="Views\Home\Angular\CustomActionsToOpenDetailsHtml.cshtml" />
     <Content Include="Views\Home\Angular\CustomItemsProvider.cshtml" />
-    <Content Include="Views\Home\Demo.cshtml" />
+    <Content Include="Views\Home\DemoKnockout.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplate.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplateHtml.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplateMobile.cshtml" />

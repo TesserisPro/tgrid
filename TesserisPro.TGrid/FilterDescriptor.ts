@@ -33,16 +33,16 @@ module TesserisPro.TGrid {
     export class FilterDescriptor {
         path: string;
         value: string;
-        caseSensetive: boolean;
+        caseSensitive: boolean;
         condition: FilterCondition;
         children: Array<FilterDescriptor>;
         parentChildUnionOperator: LogicalOperator;
         childrenUnionOperator: LogicalOperator;
 
-        constructor(path: string, values: string, caseSensetive: boolean, condition: FilterCondition, parentChildOperator?: LogicalOperator, childOperator?: LogicalOperator, children?: Array<FilterDescriptor>) {
+        constructor(path: string, values: string, caseSensitive: boolean, condition: FilterCondition, parentChildOperator?: LogicalOperator, childOperator?: LogicalOperator, children?: Array<FilterDescriptor>) {
             this.path = path;
             this.value = values;
-            this.caseSensetive = caseSensetive;
+            this.caseSensitive = caseSensitive;
             this.condition = condition;
             this.children = children != undefined ? children : new Array<FilterDescriptor>();
             this.childrenUnionOperator = childOperator != undefined ? childOperator : LogicalOperator.And;

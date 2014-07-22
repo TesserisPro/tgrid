@@ -626,55 +626,70 @@ module TesserisPro.TGrid {
         private buildDefaultFilteringPopUp(option: Options, filterPopupContainer: HTMLElement)
         {
             // Creating controls
+            var filterHeader = document.createElement("div");
+            filterHeader.className = "filterHeader";
+            filterPopupContainer.appendChild(filterHeader);
+
+            var filterName = document.createElement("span");
+            filterName.setAttribute("data-bind", "text: path");
+            filterHeader.appendChild(filterName);
+
+            var closeConteiner = document.createElement("div");
+            closeConteiner.className = "closeConteiner";
+            closeConteiner.onclick = (e) => {
+                var grid = Grid.getGridObject(<HTMLElement>e.target);
+                grid.filterPopupViewModel.onClose();
+            };
+            filterHeader.appendChild(closeConteiner);
+
             var filterCondition = document.createElement("select");
             filterCondition.setAttribute("data-bind", "options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'");
             filterCondition.className = "grid-filter-popup-options";
+            filterPopupContainer.appendChild(filterCondition);   
 
             var filterText = document.createElement("input");
             filterText.type = "text";
             filterText.setAttribute("data-bind", "value: value");
             filterText.className = "grid-filter-popup-path";
+            filterPopupContainer.appendChild(filterText);
 
-            var caseSensetiveInput = document.createElement("input");
-            caseSensetiveInput.type = "checkbox";
-            caseSensetiveInput.setAttribute("data-bind", "checked: caseSensetive");
-            caseSensetiveInput.className = "grid-filter-popup-casesens";
+            var caseSensitiveInput = document.createElement("input");
+            caseSensitiveInput.type = "checkbox";
+            caseSensitiveInput.setAttribute("data-bind", "checked: caseSensitive");
+            caseSensitiveInput.className = "grid-filter-popup-casesens";
 
-            var caseSensetiveLabel = document.createElement("label");
-            caseSensetiveLabel.className = "grid-filter-popup-casesens-label";
-            caseSensetiveLabel.appendChild(caseSensetiveInput);
-            caseSensetiveLabel.appendChild(document.createTextNode("Case sensetive"));
+            var caseSensitiveLabel = document.createElement("label");
+            caseSensitiveLabel.className = "grid-filter-popup-casesens-label";
+            caseSensitiveLabel.appendChild(caseSensitiveInput);
+            caseSensitiveLabel.appendChild(document.createTextNode("Case sensitive"));
+            filterPopupContainer.appendChild(caseSensitiveLabel);
 
             var buttonsContainer = document.createElement("div");
             buttonsContainer.className = "tgrid-filter-popup-buttons-container";
             
-            var clearButton = document.createElement("button");
-            clearButton.className = 'tgrid-filter-popup-button';
-            clearButton.onclick = (e) =>
-            {
-                var grid = Grid.getGridObject(<HTMLElement>e.target);
-                grid.filterPopupViewModel.onClose();
-                filterText.setAttribute("value", "");
-            };
-            (<HTMLElement>clearButton).innerHTML = 'Clear';
-
-            var filterButton = document.createElement("button");
+            var filterButton = document.createElement("div");
             filterButton.className = "tgrid-filter-popup-button";
-            filterButton.onclick = (e) =>
-            {
+            filterButton.style.width = '70px';
+            filterButton.onclick = (e) => {
                 var grid = Grid.getGridObject(<HTMLElement>e.target);
                 grid.filterPopupViewModel.onApply();
+
             };
             (<HTMLElement>filterButton).innerHTML = "Filter";
 
-
-            // Combining controls
-            filterPopupContainer.appendChild(filterCondition);
-            filterPopupContainer.appendChild(caseSensetiveLabel);
-            filterPopupContainer.appendChild(filterText);
-
-            buttonsContainer.appendChild(clearButton);
+            var clearButton = document.createElement("div");
+            clearButton.className = 'tgrid-filter-popup-button';
+            clearButton.style.width = '70px';
+            clearButton.onclick = (e) =>
+            {
+                var grid = Grid.getGridObject(<HTMLElement>e.target);
+                grid.filterPopupViewModel.onClear();
+            };
+            (<HTMLElement>clearButton).innerHTML = 'Clear';            
+            
             buttonsContainer.appendChild(filterButton);
+            buttonsContainer.appendChild(clearButton);
+
 
             filterPopupContainer.appendChild(buttonsContainer);
         }

@@ -20,7 +20,7 @@ namespace TesserisPro.TGrid.Web
             return View();
         }
 
-        public ActionResult Demo(string demo)
+        public ActionResult DemoKnockout(string demo)
         {
             if (String.IsNullOrEmpty(demo))
             {

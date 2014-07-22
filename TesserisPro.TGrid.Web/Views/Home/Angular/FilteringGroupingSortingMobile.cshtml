@@ -35,15 +35,19 @@
                         <column data-g-member ="Age" data-g-filter-member ="Age"  data-g-group-member ="Age"  data-g-sort-member ="Age">
                         </column>
                         <filterpopup>
-                            <div><span>{{path}}</span></div>
-                            <select>
-                                <option value="0">None</option>
-                                <option value="1">Equals</option>
-                                <option value="2">Not Equals</option>
+                            <div class="filterHeader">
+                                <span>{{path}}</span><div class="closeConteiner" ng-click="onClose()"></div>
+                            </div>
+                            <select ng-model ="condition" ng-options="condition.value as condition.name for condition in availableConditions" class="grid-filter-popup-options">                           
                             </select>
-                            <input type="text" value=""><br>
-                            <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">OK</div>
-                            <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClose()">Cancel</div>
+                            <input type="text" ng-model="value"><br>
+                            <label class="grid-filter-popup-casesens-label">
+                                <input type="checkbox" ng-model="caseSensitive" class="grid-filter-popup-casesens" />Case sensitive
+                            </label>
+                            <div class="tgrid-filter-popup-buttons-container">
+                                <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onApply()">Filter</div>
+                                <div class="tgrid-filter-popup-button" style="width:70px" ng-click="onClear()">Clear</div>
+                            </div>
                         </filterpopup>
                     </script>
                 </t-grid>

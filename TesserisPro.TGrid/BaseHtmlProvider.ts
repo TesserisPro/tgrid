@@ -276,7 +276,7 @@ module TesserisPro.TGrid {
                     } else {
                         hideElement(groupByMenu);
                     }
-                    self.doOnClickOutside([groupByMenu, groupButton], () => hideElement(groupByMenu));
+                    self.doOnClickOutside([<HTMLElement>groupByMenu,<HTMLElement> groupButton], () => hideElement(groupByMenu));
                 }
                 
                 groupButton.appendChild(groupByMenu);

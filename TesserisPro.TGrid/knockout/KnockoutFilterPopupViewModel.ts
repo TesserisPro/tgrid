@@ -36,7 +36,7 @@ module TesserisPro.TGrid {
         container: HTMLElement;
         path: KnockoutObservable<string>;
         value: KnockoutObservable<string>;
-        caseSensetive: KnockoutObservable<boolean>;
+        caseSensitive: KnockoutObservable<boolean>;
         condition: KnockoutObservable<FilterCondition>;
         columnInfo: ColumnInfo;
 
@@ -49,7 +49,7 @@ module TesserisPro.TGrid {
             this.onCloseFilterPopup = onCloseFilterPopup;
             this.path = ko.observable("");
             this.value = ko.observable("");
-            this.caseSensetive = ko.observable(false);
+            this.caseSensitive = ko.observable(false);
             this.condition = ko.observable(FilterCondition.Contains);
 
             this.availableConditions = [];
@@ -72,12 +72,16 @@ module TesserisPro.TGrid {
 
         public onApply() {
             var grid = Grid.getGridObject(this.container);
-            grid.options.filterDescriptor.removeChildByPath(this.path());
-            grid.options.filterDescriptor.addChild(new FilterDescriptor(this.path(), this.value(), this.caseSensetive(), this.condition()));
-            grid.applyFilters();
+            if (this.value().toString().trim() != "") {
+                grid.options.filterDescriptor.removeChildByPath(this.path());
+                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.path(), this.value(), this.caseSensitive(), this.condition()));
+                grid.applyFilters();
 
-            hideElement(this.container);
-            this.onCloseFilterPopup(this.container);
+                hideElement(this.container);
+                this.onCloseFilterPopup(this.container);
+            } else {
+                this.onClear();
+            }
         }
 
         public onClear() {
@@ -100,14 +104,14 @@ module TesserisPro.TGrid {
             for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                 if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
                     this.value(options.filterDescriptor.children[i].value);
-                    this.caseSensetive(options.filterDescriptor.children[i].caseSensetive);
+                    this.caseSensitive(options.filterDescriptor.children[i].caseSensitive);
                     this.condition(options.filterDescriptor.children[i].condition);
                     return;
                 }
             }
 
             this.value("");
-            this.caseSensetive(false);
+            this.caseSensitive(false);
             this.condition(FilterCondition.Contains);
         }
 
