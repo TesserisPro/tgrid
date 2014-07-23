@@ -108,7 +108,7 @@ Grid rows in JavaScript:
 
 #####
 
-In **Angular** you define **main module** with controller, where dataProvider is intantiated.
+In **Angular** you define **main module** with controller, where dataProvider is instantiated.
 
 <pre class="brush: js">
     var sampleModule = angular.module("SampleModule", ['TGrid'])

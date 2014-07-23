@@ -30,7 +30,7 @@ A simple **Knockout view model** in JavaScript:
     };
 </pre>
 #####
-In **Angular** you define a **main module** with a controller, where a dataProvider is intantiated.
+In **Angular** you define a **main module** with a controller, where a dataProvider is instantiated.
 
 <pre class="brush: js">
     var sampleModule = angular.module("SampleModule", ['TGrid'])
