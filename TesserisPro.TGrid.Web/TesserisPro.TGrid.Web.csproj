@@ -228,6 +228,14 @@
     <Content Include="Views\Home\Knockout\jsCustomActionsOnRowClick.cshtml" />
     <Content Include="Views\Home\Documentation.cshtml" />
     <Content Include="Views\Home\DemoAngular.cshtml" />
+    <Content Include="Views\Home\Angular\SimpleGridWithPercent.cshtml" />
+    <Content Include="Views\Home\Angular\SimpleGridWithPercentHtml.cshtml" />
+    <Content Include="Views\Home\Angular\SimpleGridNotSizedColumnsWithPercent.cshtml" />
+    <Content Include="Views\Home\Angular\SimpleGridNotSizedColumnsWithPercentHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\SimpleGridWithPercent.cshtml" />
+    <Content Include="Views\Home\Knockout\SimpleGridWithPercentHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumnsWithPercent.cshtml" />
+    <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumnsWithPercentHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

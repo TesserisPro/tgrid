@@ -306,6 +306,30 @@ namespace TesserisPro.TGrid.Web
                 angularCssUrl = "Angular/StyleCss",
                 angularJsUrl = "Angular/jsCustomActionsOnRowClick"
             });
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Grid with width of column in percent",
+                url = "Knockout/SimpleGridWithPercent",
+                htmlUrl = "Knockout/SimpleGridWithPercentHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/SimpleGridWithPercent",
+                angularHtmlUrl = "Angular/SimpleGridWithPercentHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
+                title = "Grid with not sized column and width of column in percent",
+                url = "Knockout/SimpleGridNotSizedColumnsWithPercent",
+                htmlUrl = "Knockout/SimpleGridNotSizedColumnsWithPercentHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/scriptjs",
+                angularUrl = "Angular/SimpleGridNotSizedColumnsWithPercent",
+                angularHtmlUrl = "Angular/SimpleGridNotSizedColumnsWithPercentHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/scriptjs"
+            });
        
             List<UIModel> listOfDemosMobile = new List<UIModel>();
             listOfDemosMobile.Add(new UIModel
