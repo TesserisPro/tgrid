@@ -254,19 +254,21 @@ module TesserisPro.TGrid {
                         head.appendChild(headerCell);
                     }
                 }
-            }
-          
+            }         
+            
+            var scrollWidth = this.getScrollWidth();
             var placeholderColumn = document.createElement("th");
             if (option.hasAnyNotSizedColumn) {
                 addClass(placeholderColumn, "tgrid-placeholder-width");
+                placeholderColumn.style.width = (scrollWidth - 3).toString() + 'px';
             } else {
                 addClass(placeholderColumn, "tgrid-placeholder");
+                placeholderColumn.style.minWidth = (scrollWidth).toString() + 'px';
             }
             head.appendChild(placeholderColumn);
-            
+
             header.innerHTML = "";
             header.appendChild(head);
-           
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
