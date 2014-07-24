@@ -1,6 +1,6 @@
 ﻿###data-g-not-sized
 
-Defines if the column has a width. If it is set to *true*, then:
+Defines whether the column has a width. If it is set to *true*, then:
 
 + the column doesn't have a width
 

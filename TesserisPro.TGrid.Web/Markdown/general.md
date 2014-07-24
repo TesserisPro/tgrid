@@ -108,7 +108,7 @@ Grid rows in JavaScript:
 
 #####
 
-In **Angular** you define **main module** with controller, where dataProvider is intantiated.
+In **Angular** you define **main module** with controller, where dataProvider is instantiated.
 
 <pre class="brush: js">
     var sampleModule = angular.module("SampleModule", ['TGrid'])
@@ -150,7 +150,7 @@ Grid marckup with custom cell template:
          <script type="text/html">
              <column data-g-member="Name">
                  <cell>
-                     <span style="color: red;" data-bind="text: item.Name"></span>               
+                     <span style="color: #b6424e;" data-bind="text: item.Name"></span>               
                  </cell>
              </column>
              <column data-g-member="Surname">
@@ -161,7 +161,7 @@ Grid marckup with custom cell template:
              </column>
              <column data-g-member="Age">           
                  <cell>
-                     <span style="color: red;" data-bind="text: item.Age"></span>
+                     <span style="color: #b6424e;" data-bind="text: item.Age"></span>
                  </cell>
              </column>
          </script>
@@ -177,7 +177,7 @@ Grid marckup with custom cell template:
                 <script type="text/html">
                     <column data-g-member ="Name">
                         <cell>
-                            <span style="color: red;">{{item.item.Name}}</span>
+                            <span style="color: #b6424e;">{{item.item.Name}}</span>
                         </cell>
                     </column>
                     <column data-g-member ="Surname">
@@ -187,7 +187,7 @@ Grid marckup with custom cell template:
                     </column>
                     <column data-g-member ="Age">
                         <cell>
-                            <span style="color: red;">{{item.item.Age}}</span>
+                            <span style="color: #b6424e;">{{item.item.Age}}</span>
                         </cell>
                     </column>
                 </script>

@@ -162,8 +162,9 @@ var TesserisPro;
                     return filteredItems
                 };
                 ArrayItemsProvider.prototype.isFilterSatisfied = function(item, filterDescriptor) {
+                    if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensetive, filterDescriptor.condition)) {
                     if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
-                        if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1) {
+                        if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.Or) {
                             return true
                         }
                         else {
@@ -171,7 +172,7 @@ var TesserisPro;
                         }
                     }
                     else {
-                        if (filterDescriptor.parentChildUnionOperator == 0) {
+                        if (filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.And) {
                             return false
                         }
                         else {
@@ -180,9 +181,9 @@ var TesserisPro;
                     }
                 };
                 ArrayItemsProvider.prototype.isChildFiltersSatisfied = function(item, filterDescriptor) {
-                    if (filterDescriptor.childrenUnionOperator == 1) {
+                    if (filterDescriptor.childrenUnionOperator == TGrid.LogicalOperator.Or) {
                         for (var i = 0; i < filterDescriptor.children.length; i++) {
-                            if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
+                            if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
                                 return true
                             }
                         }
@@ -190,21 +191,30 @@ var TesserisPro;
                     }
                     else {
                         for (var i = 0; i < filterDescriptor.children.length; i++) {
-                            if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].condition)) {
+                            if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
                                 return false
                             }
                         }
                         return true
                     }
                 };
-                ArrayItemsProvider.prototype.isFilterConditionSatisfied = function(item, value, condition) {
+                ArrayItemsProvider.prototype.isFilterConditionSatisfied = function(item, value, caseSensetive, condition) {
+                    if (!value) {
+                        return true
+                    }
+                    var citem = item;
+                    var cvalue = value;
+                    if (caseSensetive) {
+                        citem = (item || "").toString().toLowerCase();
+                        cvalue = (value || "").toString().toLowerCase()
+                    }
                     switch (condition) {
-                        case 0:
-                            return true;
-                        case 1:
-                            return (item == value);
-                        case 2:
-                            return (item != value);
+                        case TGrid.FilterCondition.None:
+                            return (citem || "").toString().indexOf((cvalue || "").toString()) > -1;
+                        case TGrid.FilterCondition.Equals:
+                            return (citem == cvalue);
+                        case TGrid.FilterCondition.NotEquals:
+                            return (citem != cvalue);
                         default:
                             return false
                     }

@@ -300,6 +300,7 @@ td a {
 
 .tgrid-filter-popup {
     position: absolute;
+    cursor: default;
     top: 16px;
     padding: 3px;
     z-index: 1;
@@ -315,7 +316,7 @@ td a {
 }
 
 .tgrid-filter-popup-container>select, .tgrid-filter-popup>select {
-    margin: 4px 0;
+    margin: 4px 0;    
 }
 
 .tgrid-filter-popup> input, .tgrid-filter-popup-container>input {
@@ -326,6 +327,10 @@ td a {
 .tgrid-filter-popup > button {
     width: 70px;
     height:auto;
+}
+
+.grid-filter-popup-casesens-label {
+    display: inline-block;
 }
 
 .tgrid-display-none{
@@ -756,9 +761,3 @@ tr.ng-scope:nth-child(4n+1),.tgrid-mobile-row.ng-scope:nth-child(4n+1) {
     }
 }
 
-/* Desktop */
-@media (min-width: 481px) {
-    .mobile {
-        display: none;
-    }
-}

@@ -35,9 +35,9 @@
 
 module TesserisPro.TGrid {
 
-	export enum Framework { Knockout, Angular }
+    export enum Framework { Knockout, Angular }
     export enum SelectionMode { None, Single, Multi }//0,1,2
-    export enum FilterCondition { None, Equals, NotEquals }
+    export enum FilterCondition { Contains, Equals, NotEquals, StartsFrom, EndsWith }
     export enum LogicalOperator { And, Or };
 
     export class ColumnInfo {
@@ -66,8 +66,8 @@ module TesserisPro.TGrid {
         }
     }
 
-	export class Template {
-		private content: string = "";
+    export class Template {
+        private content: string = "";
 
         constructor(prototype: HTMLElement) {
             this.content = prototype.innerHTML == null ? prototype.innerText : prototype.innerHTML;
@@ -81,7 +81,7 @@ module TesserisPro.TGrid {
             return this.content;
         }
     }
-		   
+           
     export class Options {
         public columns: Array<ColumnInfo> = [];
         public enableVirtualScroll: boolean;  

@@ -1,6 +1,6 @@
 ﻿####data-g-enable-grouping
 
-This property is used to disable sorting for this column.
+This property is used to disable grouping for this column.
 
 **Value:** *true* or *false*.
 

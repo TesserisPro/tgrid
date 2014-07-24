@@ -198,7 +198,7 @@ module TesserisPro.TGrid {
         }
 
         private isFilterSatisfied(item, filterDescriptor: FilterDescriptor) {
-            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
+            if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensitive, filterDescriptor.condition)) {
                 if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == LogicalOperator.Or) {
                     return true;
                 } else {
@@ -222,6 +222,7 @@ module TesserisPro.TGrid {
                     if (this.isFilterConditionSatisfied(
                                         item[filterDescriptor.children[i].path],
                                         filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].caseSensitive,
                                         filterDescriptor.children[i].condition)) {
                         return true;
                     }
@@ -234,6 +235,7 @@ module TesserisPro.TGrid {
                     if (!this.isFilterConditionSatisfied(
                                         item[filterDescriptor.children[i].path],
                                         filterDescriptor.children[i].value,
+                                        filterDescriptor.children[i].caseSensitive,
                                         filterDescriptor.children[i].condition)) {
                         return false;
                     }
@@ -243,14 +245,49 @@ module TesserisPro.TGrid {
             }
         }
         
-        private isFilterConditionSatisfied(item: any, value: any, condition: FilterCondition): boolean {
+        private isFilterConditionSatisfied(item: any, value: any, caseSensitive: boolean, condition: FilterCondition): boolean
+        {
+            if (!value)
+            {
+                return true;
+            }
+
+            var citem = (item || "").toString().trim();
+            var cvalue = (value || "").toString().trim();
+            if (!caseSensitive)
+            {
+                citem = (item || "").toString().trim().toLowerCase();
+                cvalue = (value || "").toString().trim().toLowerCase();
+            }
+
             switch (condition) {
-                case FilterCondition.None:
-                    return true;
+                case FilterCondition.Contains:
+                    return citem.indexOf((cvalue || "").toString()) > -1;
                 case FilterCondition.Equals:
-                    return (item == value);
+                    return (citem == cvalue);
                 case FilterCondition.NotEquals:
-                    return (item != value);
+                    return (citem != cvalue);
+                case FilterCondition.StartsFrom:
+                    var itemLength = cvalue.length;
+                    var valueLength = citem.substring(0, itemLength);
+                    if (cvalue == valueLength) {
+                        return citem
+                    } else {
+                        return false
+                    }             
+                case FilterCondition.EndsWith:
+                    var itemLength = citem.length;
+                    var valueLength = cvalue.length;
+
+                    if (itemLength >= valueLength) {
+                        if (cvalue == citem.substring(itemLength - valueLength, itemLength, citem)) {
+                            return citem;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+
                 default:
                     return false;
             }

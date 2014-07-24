@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "TGrid by Tesseris Pro - Demo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="@Url.Content("~/ViewModels/DemoViewModel.js")" type="text/javascript"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shCore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushXml.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushCss.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Highlighter/shBrushJScript.js")"></script>
+
+
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
+
+
+<script type="text/javascript">
+    $(function () {
+        $.getJSON('Ui', function (data) {
+            //ko.mapping.toJS(data, {}, ko.applyBindings(new DemoViewModel(data)));
+            ko.applyBindings(new DemoViewModel(data,"knockout"));
+            //setKnockoutActive();
+        });
+        $("#main-frame").contents().find('body').css({ "overflow": "hidden" });
+
+    });
+    $("#main-frame").contents().children().css({ "overflow": "hidden" });
+</script>
+
+<div id="list">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title ">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Desktop Knockout</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul data-bind="foreach: demos">
+                        <li>
+                            <a data-bind="text: title, click: $root.openDemo, css: { active: url == $root.currentDemo() || angularUrl == $root.currentDemo() }"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title ">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Mobile Knockout</a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul data-bind="foreach: demosmob">
+                        <li>
+                            <a data-bind="text: title, click: $root.openDemoMob, css: { active: url == $root.currentDemo() || angularUrl == $root.currentDemo() }"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="rightColomn">
+    <div data-bind="if: currentDemoUrl().indexOf('Mobile') != -1">
+        <div class="mobile-phone-wrapper">
+            <div class="cell-phone-img-container">
+                <img id="mobileImage" data-bind="style: { display: currentDemoUrl().indexOf('Mobile') != -1 ? 'inline' : 'none' }" src="@Url.Content("~/Content/images/iphone.png")">
+            </div>
+            <div class="mobile-grid-container">
+                <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }" style="width: 321px; height: 530px; margin-left: 0"></iframe>
+            </div>
+        </div>
+    </div>
+    <div data-bind="if: currentDemoUrl().indexOf('Mobile') == -1">
+        <iframe name="main-frame" id="main-frame" data-bind="attr: { src: currentDemoUrl }"></iframe>
+    </div>
+    <a style="margin-left: 22px; font-weight: bold;" data-bind="attr: { href: currentDemoUrl }">View demo only</a>
+
+    <div id="ace-code">
+        <header style="width: 700px; height: 28px;">
+            <ul class="editor-menu" data-bind="foreach: codes">
+                <li>
+                    <a data-bind="text: name, click: $root.showCode, css: { active: name == $root.currentCodeName() }"></a>
+                </li>
+            </ul>
+        </header>
+        <div class="editor-container">
+            <div data-bind="html: currentCode">
+            </div>
+        </div>
+    </div>
+    <p id="versionNote">Note: Version 3.0.0 of Knockout and version 1.2.6 of AngularJS are used in demos</p>
+</div>
+
+
+  
+
+

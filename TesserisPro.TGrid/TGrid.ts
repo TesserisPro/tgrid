@@ -1047,13 +1047,14 @@ module TesserisPro.TGrid {
                         var filterDescriptor = new FilterDescriptor(
                             "",
                             "",
-                            FilterCondition.None,
+                            false,
+                            FilterCondition.Contains,
                             LogicalOperator.And,
                             LogicalOperator.And);
 
                         for (var k = 0; k <= j; k++) {
                             filterDescriptor.children.push(
-                                new FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], FilterCondition.Equals));
+                                new FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], false, FilterCondition.Equals));
                         }
 
                         collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);

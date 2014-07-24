@@ -10,15 +10,19 @@
             <column  data-g-member="Age" data-g-filter-member="Age" data-g-group-member="Age" data-g-sort-member ="Age">
             </column>
             <filterpopup>
-                <div><span data-bind="text: path"></span></div>
-                <select data-bind="click: function () { }">
-                    <option value="0">None</option>
-                    <option value="1">Equals</option>
-                    <option value="2">Not Equals</option>
+                <div class="filterHeader">
+                    <span data-bind="text: path"></span><div class="closeConteiner" data-bind="click: onClose"></div>
+                </div>
+                <select data-bind="options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'" class="grid-filter-popup-options">
                 </select>
-                <input type='text' value=""/><br>
-                <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: onApply">OK</div>
-                <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: onClose">Cancel</div>
+                <input type='text' data-bind='value: value'/><br>
+                <label class="grid-filter-popup-casesens-label">
+                    <input type="checkbox" data-bind="checked: caseSensitive" class="grid-filter-popup-casesens" />Case sensitive
+                </label>                        
+                <div class="tgrid-filter-popup-buttons-container">                            
+                    <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: onApply">Filter</div>
+                    <div class="tgrid-filter-popup-button" style="width:70px" data-bind="click: onClear">Clear</div>
+                </div>
             </filterpopup>
         </script>
     </div>

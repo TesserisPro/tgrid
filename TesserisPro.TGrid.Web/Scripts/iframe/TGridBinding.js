@@ -65,7 +65,7 @@ var TGridBindingHandler = (function () {
     };
 
     TGridBindingHandler.getOptions = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        var options = new TesserisPro.TGrid.Options(element, 0 /* Knockout */);
+        var options = new TesserisPro.TGrid.Options(element, TesserisPro.TGrid.Framework.Knockout);
 
         options.parentViewModel = viewModel;
 
@@ -165,15 +165,15 @@ var TGridBindingHandler = (function () {
 
         var selectionMode = isObservable(valueAccessor().selectionMode) ? valueAccessor().selectionMode() : valueAccessor().selectionMode;
         if (selectionMode == "multi") {
-            options.selectionMode = 2 /* Multi */;
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Multi;
         }
 
         if (selectionMode == "single") {
-            options.selectionMode = 1 /* Single */;
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.Single;
         }
 
         if (selectionMode == "none") {
-            options.selectionMode = 0 /* None */;
+            options.selectionMode = TesserisPro.TGrid.SelectionMode.None;
         }
 
         if (isObservable(valueAccessor().enableSorting)) {
@@ -270,3 +270,4 @@ var TGridBindingHandler = (function () {
 })();
 
 ko.bindingHandlers.tgrid = new TGridBindingHandler();
+//# sourceMappingURL=TGridBinding.js.map

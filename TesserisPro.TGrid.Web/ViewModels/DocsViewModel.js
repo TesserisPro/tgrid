@@ -39,6 +39,7 @@ var sections = [
     {
         name: "General",
         path: "General",
+        hrefText: "#General",
         nodes: [
             {
                 name: "general",
@@ -50,6 +51,7 @@ var sections = [
     {
         name: "Grid Settings",
         path: "GridSettings",
+        hrefText: "#GridSettings",
         nodes: [
             {
                 name: "general settings",
@@ -141,6 +143,7 @@ var sections = [
     {
         name: "Columns Definitions",
         path: "ColumnsDefinitions",
+        hrefText: "#ColumnsDefinitions",
         nodes: [
             {
                 name: "columns general",
@@ -206,7 +209,8 @@ var sections = [
     },
     {
         name:"Options",
-        path:"options",
+        path: "Options",
+        hrefText: "#Options",
         nodes: [
             {
                 name: "general",

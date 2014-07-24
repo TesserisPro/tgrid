@@ -10,43 +10,46 @@
 
 <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shCoreEclipse.css")" />
 <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/HighlighterStyles/shThemeEclipse.css")" />
-
-@section featured {
-    <div class="header-content">
-        <div class="small-header-content">
-
-            <span class="general-description" style="font-size: 24px;">
-                Documentation
-            </span> 
-			@Html.ActionLink("Demo", "Demo", null, new { @class = "button dimmed" })
-            @Html.ActionLink("Download", "Download", null, new { @class = "button dimmed" })
-        </div>
-    </div>
-}
+<script type="text/javascript">
+    $(function () {
+        $('.collapse').collapse();
+        $(".panel-heading").click(function () {
+            if ($(this).parent().children().last().css('display') == 'none') {
+                $(this).parent().children().last().css('display', 'block');
+            } else {                
+               
+                $(this).parent().children().last().css('display', 'none');
+            }
+            $(".collapse").collapse('toggle');
+            
+        });       
+        
+    });
+</script>
 <body>
     <div>
 		<div id="listDocs">
-			<ul data-bind="foreach: sections">
-				<li>
-					<div class="sectionContainer" data-bind="navigate: path, click: function(){ $root.toggleSection();}, attr:{class: $root.currentSectionPath() == $data.path && !$root.close()? 'activeSection': ''}">
-						<div class="icon"></div>
-						<a class="device" data-bind="text: $data.name"></a>
-					</div>
-					<div data-bind="visible: $root.currentSectionPath() == $data.path && !$root.close()">
-						<ul data-bind="foreach: nodes">
-							<li class="secondLevel">
-								<a data-bind="navigate: $parent.path + '/' + $data.routeName, text: name, activeClass: 'active'"></a>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
+            <div class="panel-group" id="accordion" data-bind="foreach: sections">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title "> 
+                            <a data-bind="navigate: path,  attr: { href: $data.hrefText }, text: $data.name"></a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" data-bind="visible: $root.currentSectionPath() == $data.path, attr: { id: $data.path }">
+                        <div class="panel-body" data-bind="foreach: nodes">
+                                <a data-bind="navigate: $parent.path + '/' + $data.routeName, text: name, activeClass: 'active'" @*style="display:block;*@"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>  
 		</div>
-		<div id="help-content-holder" class="documentation-content">
-			
+		<div id="help-content-holder" class="documentation-content">		
 
 		</div>
     </div>
+
+
 </body>
 
 <script src="@Url.Content("~/Scripts/navrouter-1.0.1.js")" type="text/javascript"></script>

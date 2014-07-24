@@ -13,6 +13,7 @@ namespace TesserisPro.TGrid.Web.Models.TGridModels
     {
         public string path { get; set; }
         public string value { get; set; }
+        public bool caseSensitive { get; set; }
         public Condition condition { get; set; }
         public FilterOperation operation { get; set; }
         public List<FilterDescriptor> children { get; set; }

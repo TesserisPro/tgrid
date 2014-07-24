@@ -16,7 +16,7 @@
     <AssemblyName>TesserisPro.TGrid.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -123,6 +123,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\gears6.png" />
     <Content Include="Content\images\imagesForDocs\columnCellDetailsTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\columnCellTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\columnGeneral.jpg" />
@@ -133,6 +138,7 @@
     <Content Include="Content\images\imagesForDocs\mobileTemplate.jpg" />
     <Content Include="Content\images\imagesForDocs\mobileTemplateGrouping.jpg" />
     <Content Include="Content\images\minus.png" />
+    <Content Include="Content\images\tgrid.png" />
     <Content Include="Content\itemsOperations.css" />
     <Content Include="Content\overview.html">
       <DependentUpon>overview.md</DependentUpon>
@@ -154,6 +160,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HttpHandlers\MarkdownHandler.cs" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Markdown\enableCollapsing.md" />
     <Content Include="Markdown\enableFiltering.md" />
     <Content Include="Markdown\enableGrouping.md" />
@@ -184,6 +191,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\dynamicReconfiguration.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\iframe\AngularItemsViewModel.js" />
     <Content Include="Scripts\iframe\AngularModuleTGrid.js" />
     <Content Include="Scripts\iframe\tgrid-angular-debug.js" />
@@ -218,6 +227,7 @@
     <Content Include="Views\Home\Knockout\CustomActionsOnRowClickHtml.cshtml" />
     <Content Include="Views\Home\Knockout\jsCustomActionsOnRowClick.cshtml" />
     <Content Include="Views\Home\Documentation.cshtml" />
+    <Content Include="Views\Home\DemoAngular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -353,7 +363,12 @@
     <Content Include="Markdown\groupBySortDescriptorsOptions.md" />
     <Content Include="Markdown\rowClickOptions.md" />
     <Content Include="Markdown\selectionModeOptions.md" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Markdown\generalStyles.md" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\tgridstg - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tgridstg - Web Deploy.pubxml" />
     <None Include="Scripts\iframe\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\iframe\jquery-2.0.3.js" />
     <Content Include="Scripts\iframe\KnockoutFooterViewModel.js" />
@@ -434,7 +449,7 @@
     <Content Include="Views\Home\Angular\CustomActionsToOpenDetails.cshtml" />
     <Content Include="Views\Home\Angular\CustomActionsToOpenDetailsHtml.cshtml" />
     <Content Include="Views\Home\Angular\CustomItemsProvider.cshtml" />
-    <Content Include="Views\Home\Demo.cshtml" />
+    <Content Include="Views\Home\DemoKnockout.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplate.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplateHtml.cshtml" />
     <Content Include="Views\Home\Angular\DetailsTemplateMobile.cshtml" />
@@ -527,9 +542,6 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptSourceMap>False</TypeScriptSourceMap>
-  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -544,7 +556,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55247</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55247/</IISUrl>
+          <IISUrl>http://localhost/TGrid</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

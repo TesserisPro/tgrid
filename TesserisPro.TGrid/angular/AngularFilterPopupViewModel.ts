@@ -40,12 +40,18 @@ module TesserisPro.TGrid {
         value: string;
         condition: FilterCondition;
         columnInfo: ColumnInfo;
+        caseSensitive: boolean;
+        availableConditions: Array<any>;
 
         public angularModuleName: string;
 
         public setScope(scope: any) {
             this.$scope = scope;
             this.$scope.path = this.path;
+            this.$scope.value = this.value;
+            this.$scope.condition = this.condition;
+            this.$scope.caseSensitive = this.caseSensitive;
+            this.$scope.availableConditions = this.availableConditions;
             this.$scope.onApply = () => this.onApply();
             this.$scope.onClear = () => this.onClear();
             this.$scope.onClose = () => this.onClose();
@@ -54,6 +60,22 @@ module TesserisPro.TGrid {
         constructor(container: HTMLElement, onCloseFilterPopup:(container:HTMLElement) => void) {
             this.container = container;
             this.onCloseFilterPopup = onCloseFilterPopup;
+            this.path = "";
+            this.value = "";
+            this.caseSensitive = false;
+            this.condition = FilterCondition.Contains;
+
+            this.availableConditions = [];
+            for (var i in FilterCondition) {
+                if (!isNaN(i)) {
+                    continue;
+                }
+
+                this.availableConditions.push({
+                    name: i,
+                    value: FilterCondition[i]
+                });
+            }
         }
 
         public onCloseFilterPopup(container: HTMLElement) {
@@ -61,18 +83,17 @@ module TesserisPro.TGrid {
         }
 
         public onApply() {
-            this.condition = <FilterCondition>(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex;
             var grid = Grid.getGridObject(this.container);
+            if (this.$scope.value.toString().trim() != "") {
+                grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
+                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.$scope.value, this.$scope.caseSensitive, this.$scope.condition));                
+                grid.applyFilters();
 
-            grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
-            if (this.condition != FilterCondition.None) {
-                this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-                grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.value, this.condition));
+                hideElement(this.container);
+                this.onCloseFilterPopup(this.container);
+            } else {
+                this.onClear();
             }
-            grid.applyFilters();
-
-            hideElement(this.container);
-            this.onCloseFilterPopup(this.container);
         }
 
         public onClear() {
@@ -94,15 +115,17 @@ module TesserisPro.TGrid {
             this.$scope.path = column.filterMemberPath;
             for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                 if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                    (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
-                    (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
+                    this.$scope.value=options.filterDescriptor.children[i].value;
+                    this.$scope.caseSensitive = options.filterDescriptor.children[i].caseSensitive;
+                    this.$scope.condition = options.filterDescriptor.children[i].condition;
                     this.$scope.$apply();
                     return;
                 }
             }
 
-            (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value = '';
-            (<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
+            this.$scope.value = "";
+            this.$scope.caseSensitive = false;
+            this.$scope.condition = FilterCondition.Contains;
             this.$scope.$apply();
         }
 

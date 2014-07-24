@@ -289,7 +289,7 @@ module TesserisPro.TGrid {
                     } else {
                         hideElement(groupByMenu);
                     }
-                    self.doOnClickOutside([groupByMenu, groupButton], () => hideElement(groupByMenu));
+                    self.doOnClickOutside([<HTMLElement>groupByMenu,<HTMLElement> groupButton], () => hideElement(groupByMenu));
                 }
                 
                 groupButton.appendChild(groupByMenu);
@@ -707,7 +707,7 @@ module TesserisPro.TGrid {
             if (options.sortDescriptor.path != null ||
                (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) ||
                 options.filterDescriptor.children.length > 0 ||
-                options.filterDescriptor.condition != FilterCondition.None) {
+                options.filterDescriptor.path) {
                 return true;
             } else {
                 return false;
@@ -717,7 +717,6 @@ module TesserisPro.TGrid {
         private detachDocumentClickEvent() {
             document.onclick = BaseHtmlProvider.oldOnClick;
         }
-
         private hideMenuOrFilter(targets: Array<HTMLElement>) {
             for (var i = 0; i < targets.length; i++) {
                 if ((targets[i].className.indexOf("tgrid-mobile-menu") != -1 || targets[i].className.indexOf("tgrid-menu") != -1)
@@ -731,7 +730,5 @@ module TesserisPro.TGrid {
                 }
             }
         }
-       
-       
     }
 }
