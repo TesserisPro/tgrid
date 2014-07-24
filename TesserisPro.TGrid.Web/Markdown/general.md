@@ -16,7 +16,7 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 * Safari
 * iPhone/iPad
 * Android 4+ 
-* Windows Phone are supporrted.
+* Windows Phone are supported.
 
 ## Features
 
@@ -29,11 +29,11 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 * Custom user actions support.
 * Paging.
 * Virtualization/lazy loading.
-* Predefined set of item providers and possiblity to create custom provider. Custom item provider should only support sorting and filtering.
+* Predefined set of item providers and possibility to create custom provider. Custom item provider should only support sorting and filtering.
 * Filtering, grouping and sorting.
 * Grouping and group collapsing with virtualization and paging.
 * Editing with cell template.
-* Automatic swtich to mobile mode depending on @media.
+* Automatic switch to mobile mode depending on @media.
 * Fully customizable with CSS. No hardcoded styles.
 * Free and open source.
 
@@ -41,7 +41,7 @@ TGrid can work on any device and any screen resolution. It dynamically adjusts c
 
 Please see all samples with code at [Demo page](http://grid.tesseris.com/Home/Demo).
 
-**If this overview and demo page with code samples are not enougth, please submit an issue**.
+**If this overview and demo page with code samples are not enough, please submit an issue**.
 
 ### Simple TGrid usage scenario:
 
