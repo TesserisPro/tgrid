@@ -291,6 +291,7 @@ th.tgrid-table-indent-cell-content
 }
 td a {
     text-decoration:none;
+    cursor:pointer;
 }
 
 

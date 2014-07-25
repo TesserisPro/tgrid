@@ -3,7 +3,7 @@
 **groupBySortDescriptors** defines current grouping of the grid. It is for internal use. But you can change it dynamically. 
 It is a type of an array of TesserisPro.Tgrid.SortDescrptors.
 Every element in the array sets the column's grouping by property and the column's sorting direction(default direction - ascending). 
-The grid can be grouped by some columns. **groupBySortDescriptors** can be applyed only if the grid setting **enableGrouping** is setted to *true*.
+The grid can be grouped by some columns. **groupBySortDescriptors** can be applied only if the grid setting **enableGrouping** is set to *true*.
 
 To create the **groupBySortDescriptors** you can use following code:
 
@@ -33,7 +33,7 @@ In HTML you should define an **options** setting and a button with a binded func
 </div>
 </pre>
 #####
-In Javascript in the knockout view model you should have observable variable with the name equals  the **options** setting value. 
+In JavaScript in the knockout view model you should have observable variable with the name equals  the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below  the grid setting **sortDescriptor**
 can be changed using the function 'setGrouping'.
 
@@ -67,7 +67,7 @@ In HTML you should define an **options** setting and a button with a binded func
 </div>
 </pre>
 #####
-In Javascript in the angular controller you should have a variable with the name equals the **options** setting value. 
+In JavaScript in the angular controller you should have a variable with the name equals the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below the grid setting **groupBySortDescriptors**
 can be changed using the function 'setGrouping'.
 

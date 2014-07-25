@@ -1,8 +1,8 @@
 ﻿###data-g-width
 
-Defines the column width in pixels or percents.
+Defines the column width in pixels or percent.
 
-**Value:** Any positive number to define the width in pixels("150") or a positive number with a percents sign ("15%").
+**Value:** Any positive number to define the width in pixels("150") or a positive number with a percent sign ("15%").
 
 **Default value:** *150*
 

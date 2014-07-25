@@ -4,7 +4,7 @@
 
 Type of the setting is TesserisPro.TGrid.Template. 
 Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
-The HTML DOM element can contain data-bindins.
+The HTML DOM element can contain data-bindings.
 
 To create the template use the code below:
 <!--Start the highlighter-->
@@ -17,7 +17,7 @@ var template = new TesserisPro.TGrid.Template(htmlElement);
 For a simple grid you don't have to define a mobile template in HTML. 
 Mobile rows are created automatically for columns, which are defined in a HTML template. 
 Column's definitions for the mobile mode also are inherited from columns. 
-A cell template, a header template and a cell details template are not inherited and should be overrided in a custom mobile template.  
+A cell template, a header template and a cell details template are not inherited and should be overriden in a custom mobile template.  
 
 ![mobileTemplateHtmlGrouping](../Content/images/imagesForDocs/mobileTemplateGrouping.jpg)
 #####For Knockout
@@ -104,7 +104,7 @@ To see details you should also define a cell details template. All HTML code is:
     </div>
 </pre>
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
 var items = [
         { Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},
@@ -180,7 +180,7 @@ To see details you should also define a cell details template. Full HTML code is
 </div>
 </pre>
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
   var items = [
   		{ Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},

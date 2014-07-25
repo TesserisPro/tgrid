@@ -15,9 +15,9 @@ In HTML:
 	<column data-g-member="Name"> </column>
 </pre>
 ##### 
- In Javascript:
+ In JavaScript:
 
-A javascript array of items, where the every array element is a javascript object with the "Name" field. 
+A JavaScript array of items, where the every array element is a JavaScript object with the "Name" field. 
 The "Name" field value is displayed in grid row in the column where the  **data-g-member** is set to "Name"
 
 <!--Start the highlighter-->

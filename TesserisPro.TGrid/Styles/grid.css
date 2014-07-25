@@ -286,10 +286,6 @@ th.tgrid-table-indent-cell-content
 .details:hover, .details:focus{
     opacity: 0.9;
 }
-td a {
-    text-decoration:none;
-}
-
 
 #main{
     width: 567px;

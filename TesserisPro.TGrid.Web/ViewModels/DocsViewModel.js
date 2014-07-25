@@ -49,7 +49,7 @@ var sections = [
         ]
     },
     {
-        name: "Grid Settings",
+        name: "TGrid Settings",
         path: "GridSettings",
         hrefText: "#GridSettings",
         nodes: [

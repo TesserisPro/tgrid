@@ -20,7 +20,7 @@ Sets the property name of the item in the data source items' array, which value 
 
 	<column data-g-member="Name"> </column>
     
-A javascript array of items, where the every array element is a javascript object with the "Name" field. 
+A JavaScript array of items, where the every array element is a JavaScript object with the "Name" field. 
 The "Name" field value is displayed in grid row in the column where the  **data-g-member** is set to "Name"
 
 	var items = [
@@ -86,7 +86,7 @@ This property is used to define item's property for grouping.
 Example:
 
 	<column data-g-member="Age" data-g-group-member = "AgeGroup"> </column>
-Javascript array of items.
+JavaScript array of items.
 
 	var items = [
         { Name: "John", Surname: "Doe", Age: "33 years 6 month", AgeGroup: "33" }
@@ -124,7 +124,7 @@ Defines item's property for sorting.
 **Example:**
 
 	<column data-g-member="ProductId" data-g-sort-member = "ProductIdSort"> </column>
-Javascript array of items.
+JavaScript array of items.
 
 	var items = [
         { ProductId: "#1-3", ProductName: "Noodle", ProductIdSort: "13"}
@@ -142,9 +142,9 @@ Defines in which mode display the column: in mobile, desktop or all modes.
 
 ###data-g-width
 
-Defines the column width in pixels or percents.
+Defines the column width in pixels or percent.
 
-**Value:** Any positive number to define the width in pixels("150") or a positive number with a percents sign ("15%").
+**Value:** Any positive number to define the width in pixels("150") or a positive number with a percent sign ("15%").
 
 **Default value:** *150*
 

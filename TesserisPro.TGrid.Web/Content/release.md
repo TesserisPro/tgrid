@@ -4,7 +4,7 @@
  * Added possibility to hide grid header
  * Added documentation on site [Documentation page](http://grid.tesseris.com/Home/Documentation)
  * Replaced images by SVG base64 in CSS
- * Adding possibility to set column width in percents
+ * Adding possibility to set column width in percent
  * Adding restriction for 'enableVirtualScroll'. 'Virtualization/LazyLoading' works only if items count is more, then 100.
  * Bug - Custom actions to open details Knockout: last row is opened with any actions
  * Bug - Second click on grouping button doesn't hide grouping menu,second click on mobile menu button doesn't hide mobile menu

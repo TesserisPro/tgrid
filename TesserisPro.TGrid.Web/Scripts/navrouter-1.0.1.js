@@ -902,7 +902,7 @@ var routing;
 
         function checkRouter() {
             if (_router == null || _router == undefined) {
-                throw new Error("Router instance do not setted. Please set it usting 'Routing.ko.setCurrentRouter' method.");
+                throw new Error("Router instance is not set. Please set it usting 'Routing.ko.setCurrentRouter' method.");
             }
         }
 

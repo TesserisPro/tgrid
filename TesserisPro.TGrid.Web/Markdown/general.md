@@ -80,7 +80,7 @@ Simple **Knockout view model** in JavaScript:
 
 #####
 
-Grid markup in HTMLfor Knockout:
+Grid markup in HTML for Knockout:
 
 <pre class="brush: html">
     <div data-bind="tgrid: {provider: itemsProvider}">
@@ -141,7 +141,7 @@ Grid markup in HTML for Angular:
 
 ### Custom templates:
 
-Grid marckup with custom cell template:
+Grid markup with custom cell template:
 
 ##### For Knockout
 

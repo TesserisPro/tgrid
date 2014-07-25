@@ -4,7 +4,7 @@
 
 Type of this variable is a TesserisPro.TGrid.Template. 
 Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
-This HTML DOM element can contain data-bindins.
+This HTML DOM element can contain data-bindings.
 
 To create the template use code:
 <!--Start the highlighter-->
@@ -47,7 +47,7 @@ Example of a grid with details settings, a details template and one column:
 </div>
 </pre>
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
 var items = [
         { Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},
@@ -96,7 +96,7 @@ Example of a grid with details settings, a details template and one column:
 </pre>
 
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
   var items = [
   		{ Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},

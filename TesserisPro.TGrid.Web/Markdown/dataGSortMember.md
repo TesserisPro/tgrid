@@ -12,7 +12,7 @@ Defines the item's property for sorting.
 	<column data-g-member="ProductId" data-g-sort-member = "ProductIdSort"> </column>
 </pre>
 #####
-A Javascript array of items.
+A JavaScript array of items.
 <pre class="brush: js">
 	var items = [
         { ProductId: "#1-3", ProductName: "Noodle", ProductIdSort: "13"}

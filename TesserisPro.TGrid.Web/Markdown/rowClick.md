@@ -18,7 +18,7 @@ In HTML:
 	</div>
 </pre>
 #####
-In Javascript in a knockout view model you should have an observable variable with a name that equals the **rowClick** value. 
+In JavaScript in a knockout view model you should have an observable variable with a name that equals the **rowClick** value. 
 
 <pre class="brush: js">
  function vm() {
@@ -37,7 +37,7 @@ In Javascript in a knockout view model you should have an observable variable wi
 	</t-grid>
 </pre>
 #####
-In Javascript in an angular controller you should have a variable with a name that equals the **rowClick** value. 
+In JavaScript in an angular controller you should have a variable with a name that equals the **rowClick** value. 
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

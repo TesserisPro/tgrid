@@ -16,7 +16,7 @@ In HTML you should define an **options** setting:
 	</div>
 </pre>
 #####
-In Javascript in a knockout view model you should have an observable variable with a name that equals the **options** setting value. 
+In JavaScript in a knockout view model you should have an observable variable with a name that equals the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below the grid setting **pageSlide**
 can be changed using the function 'pageSlide'.
 
@@ -40,7 +40,7 @@ In HTML you should define an **options** setting:
 	</t-grid>
 </pre>
 #####
-In Javascript in an angular controller you should have a variable with a name that equals  to the **options** setting value. 
+In JavaScript in an angular controller you should have a variable with a name that equals  to the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below the grid setting **pageSlide**
 can be changed using the function 'pageSlide'.
 

@@ -1,6 +1,6 @@
 ﻿####sortDescriptor
 
-Defines a current sorting of the grid. A column for a sorting and a sorting direction. Needs the grid setting **enableSorting** be setted to *true*
+Defines a current sorting of the grid. A column for a sorting and a sorting direction. Needs the grid setting **enableSorting** be set to *true*
 
 To create a sortDescriptor use following code:
 
@@ -30,7 +30,7 @@ In HTML you should define an **options** setting and a button with a binded func
 </div>
 </pre>
 #####
-In Javascript in a knockout view model you should have an observable variable with a name that equals the **options** setting value. 
+In JavaScript in a knockout view model you should have an observable variable with a name that equals the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below the grid setting **sortDescriptor**
 can be changed using the function 'setSortDescriptor'.
 
@@ -63,7 +63,7 @@ In HTML you should define an **options** setting and a button with a binded func
 </div>
 </pre>
 #####
-In Javascript in an angular controller you should have a variable with a name that equals the **options** setting value. 
+In JavaScript in an angular controller you should have a variable with a name that equals the **options** setting value. 
 You can change the grid options dynamically after the grid loading. In the example below the grid setting **sortDescriptor**
 can be changed using the function 'setSortDescriptor'.
 

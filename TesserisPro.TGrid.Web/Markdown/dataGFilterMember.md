@@ -12,7 +12,7 @@ This property is used to define an item's property for filtering.
 	<column data-g-member="Name" data-g-filter-member = "NameLowCase"> </column>
 </pre>
 ##### 
-A Javascript array of items.
+A JavaScript array of items.
 <pre class="brush: js">
 	var items = [
         { Name: "John", Surname: "Doe", Age: "33", NameLowCase: "john" }

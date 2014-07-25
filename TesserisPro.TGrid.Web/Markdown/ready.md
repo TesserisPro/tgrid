@@ -1,6 +1,6 @@
 ﻿####ready
 
-Sets a grid after loading handler function, which will be used in your sample view model to set actions after grid loading.The handler function has 1 parameter: an *options*.An *options* is an object of the TesserisPro.TGrid.Options type with initialized TGrid options inside.
+Sets a grid after loading handler function, which will be used in your sample view model to set actions after grid loading. The handler function has 1 parameter: an *options*. An *options* is an object of the TesserisPro.TGrid.Options type with initialized TGrid options inside.
 
 In case Knockout: If the **ready** is defined, you should add  a function in your sample view model, with a name, which is the same as the **ready** value. If you don't do this, the exception "Unable to process binding" occurs. 
 
@@ -18,7 +18,7 @@ In HTML:
 	</div>
 </pre>
 #####
-In Javascript in a knockout view model you should have an observable variable with a name that equals the **ready** setting value. 
+In JavaScript in a knockout view model you should have an observable variable with a name that equals the **ready** setting value. 
 
 <pre class="brush: js">
  function vm() {
@@ -38,7 +38,7 @@ In Javascript in a knockout view model you should have an observable variable wi
 	</t-grid>
 </pre>
 #####
-In Javascript in an angular controller you should have a variable with a name that equals the **ready** setting value. 
+In JavaScript in an angular controller you should have a variable with a name that equals the **ready** setting value. 
 
 <pre class="brush:js">
  var sampleModule = angular.module("SampleModule", ['TGrid'])

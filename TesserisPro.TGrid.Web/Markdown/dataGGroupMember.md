@@ -13,7 +13,7 @@ This property is used to define an item's property for grouping.
 </pre>
 #####
 
-Javascript array of items.
+JavaScript array of items.
 <pre class="brush: js">
 	var items = [
         { Name: "John", Surname: "Doe", Age: "33 years 6 month", AgeGroup: "33" }

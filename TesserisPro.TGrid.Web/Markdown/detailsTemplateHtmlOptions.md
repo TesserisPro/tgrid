@@ -4,7 +4,7 @@ The **detailsTemplateHtml** setting is for internal use.
 
 Type of the setting is a TesserisPro.TGrid.Template. 
 Constructor of the TesserisPro.TGrid.Template accepts a HTML DOM element. 
-The HTML DOM element can contain data-bindins.
+The HTML DOM element can contain data-bindings.
 
 To create the template use code:
 <!--Start the highlighter-->
@@ -36,7 +36,7 @@ Example of a grid template with a details settings and a details template:
 	</div>
 </pre>
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
 var items = [
         { Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},
@@ -73,7 +73,7 @@ Example of a grid template with details settings and details template, and one c
 </pre>
 
 ####
-Javascript:
+JavaScript:
 <pre class="brush:js">
   var items = [
   		{ Name: "John", Surname: "Figgins", Age: "20", detail_Name: "First name:  John"},
