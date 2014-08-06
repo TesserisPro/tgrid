@@ -5,7 +5,11 @@
 
     self.demos = ko.observableArray(data.desktop);
     self.currentDemoItem = ko.observable(self.demos()[0]);
-    self.currentDemo = ko.observable(self.demos()[0].url);
+    if (framework == "knockout") {
+        self.currentDemo = ko.observable(self.demos()[0].url);
+    } else {
+        self.currentDemo = ko.observable(self.demos()[0].angularUrl);
+    }
 
     self.demosmob = ko.observableArray(data.mobile);
     self.currentDemoMobItem = ko.observable(self.demosmob()[0]);

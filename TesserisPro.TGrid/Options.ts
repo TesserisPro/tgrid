@@ -101,8 +101,8 @@ module TesserisPro.TGrid {
         public target: HTMLElement;
         public pageSize: number = 10;
         public pageSlide: number = 1;
-        public batchSize: number = 5;
-        public firstLoadSize: number = 10;
+        public batchSize: number = 50;
+        public firstLoadSize: number = 100;
         public currentPage: number = 0;
         public sortDescriptor: SortDescriptor;
         public groupBySortDescriptors: Array<SortDescriptor> = [];

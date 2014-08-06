@@ -34,12 +34,13 @@
 /// <reference path="../Options.ts"/>
 
 module TGrid.Angular {
-    export function Directive(): any {
+    export function Directive($parse, $compile): any {
         var directive: any = {};
         directive.restrict = 'E';
         directive.link = function (scope, element, attrs) {
             var options = new TesserisPro.TGrid.Options(element[0], 1 /* Angular */);
             options.parentViewModel = scope;
+            (<any>options).compile = $compile;
             if (attrs["groupby"] != undefined) {
                 var groupBy = attrs["groupby"].split(' ');
                 if (groupBy.length > 0 && groupBy[0] != "") {
