@@ -272,6 +272,12 @@ module TesserisPro.TGrid {
         }
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
+            container.innerHTML = "";
+            if (option.hasAnyNotSizedColumn) {
+                container.style.tableLayout = "fixed";
+                container.parentElement.style.overflowY = "scroll";
+            }
+
             var appModule = angular.module("TGridTbody", []);
             this.angularItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
             var itemsViewModel = this.angularItemsViewModel;
@@ -304,20 +310,42 @@ module TesserisPro.TGrid {
             
             var scope = option.parentViewModel;
 
+            var rowTemplate = this.buildRowTemplate(option);
+            //var detailsRow = this.buildDetailsRow(option);
+
             //foreach
             for (var i = 0; i < items.length; i++) {
+                // Prepare child scope
                 var childScope = scope.$new(true);
+                angular.extend(childScope, { item: items[i].item, viewModel: items[i] });
 
-                var row = this.appendTableElement(option, container, items[i], 0, selected);
+                var row = <HTMLTableRowElement>rowTemplate(childScope);  //this.appendTableElement(option, container, items[i], 0, selected);
+
+                row["dataContext"] = items[i].item;
                 //row.setAttribute("ng-repeat-start", "item in items");
-                row.setAttribute("ng-class", "{'tgrid-table-body-row' : !item.isGroupHeader, 'tgrid-table-group-header':  item.isGroupHeader,'tgrid-table-body-row selected': !item.isGroupHeader && item.isSelected }");
-                var action = "";
-                if (isNull(option.rowClick)) {
-                    action = "item.select($event, item, $parent.items)";
-                } else {
-                    action = "item.model.".concat(option.rowClick).concat("(item ,$event)");
-                }
-                row.setAttribute("ng-click", action);
+                //row.setAttribute("ng-class", "{'tgrid-table-body-row' : !item.isGroupHeader, 'tgrid-table-group-header':  item.isGroupHeader,'tgrid-table-body-row selected': !item.isGroupHeader && item.isSelected }");
+                //if (!items[i].isGroupHeader) {
+                //    row.setAttribute("ng-class", 'tgrid-table-body-row');
+                //} else {
+                //    row.setAttribute("ng-class", 'tgrid-table-group-header');
+                //}
+
+                //if (!items[i].isGroupHeader /*&& items[i].isSelected*/) {
+                //    row.setAttribute("ng-class", 'tgrid-table-body-row selected');
+                //}
+
+                //if (isNull(option.rowClick)) {
+                //    (function (item) {
+                //        row.onclick = function (e) {
+                //            if (option.selectionMode != SelectionMode.None) {
+                //                selected(item, e.ctrlKey);
+                //            }
+                //        };
+                //    })(item);
+                //}
+
+                // TODO: Add custom clickevent binding
+                
                 //var detailsRow = this.buildDetailsRow(option);
 
                 angular.extend(childScope, { item: items[i].item, viewModel: items[i] });
@@ -326,6 +354,10 @@ module TesserisPro.TGrid {
                     rowsContainer.appendChild(list[j]);
                 }
 
+                //var listDetails = (<any>option).compile(detailsRow.outerHTML)(childScope);
+                //for (var k = 0; k < listDetails.length; k++) {
+                //    container.appendChild(listDetails[k]);
+                //}
                // rowsContainer.appendChild((<any>option).compile(row.innerHTML)(childScope));
                 //rowsContainer.appendChild(row);
 
@@ -337,20 +369,54 @@ module TesserisPro.TGrid {
            
             //Hide table on mobile devices
             addClass(container, "desktop");
-            return rowsContainer;
+            return container;
         }
 
-        private appendTableElement(option: Options, container: HTMLElement, item:ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean):HTMLTableRowElement {
+        //private appendTableElement(option: Options, container: HTMLElement):HTMLTableRowElement {
+        //    var row = document.createElement('tr');
+        //    if (item != null) {
+        //        if (option.enableGrouping) {
+        //            if (item.isGroupHeader) {
+        //                this.buildGroupHeaderRow(option, item.item, row);
+        //            }
+        //        }
+        //        this.buildRowElement(option, item, container, selected, row);
+        //    }
+        //    return row;
+        //}
+
+        private buildRowTemplate(option: Options): any {
             var row = document.createElement('tr');
-            if (item != null) {
-                if (option.enableGrouping) {
-                    if (item.isGroupHeader) {
-                        this.buildGroupHeaderRow(option, item.item, row);
+            this.appendIndentRow(row, option.columns.length);
+            for (var i = 0; i < option.columns.length; i++) {
+                if (option.columns[i].device.indexOf("desktop") != -1) {
+                    var cell = document.createElement("td");
+                    cell.setAttribute("ng-hide", "item.isGroupHeader");
+                    cell.className = "tgrid-table-data-cell";
+                    var cellContent = document.createElement("div");
+                    cellContent.className = "tgrid-cell-content";
+                    cell.appendChild(cellContent);
+
+                    if (option.columns[i].cell != null) {
+                        option.columns[i].cell.applyTemplate(cellContent);
+                    } else {
+                        if (option.columns[i].member != null) {
+                            this.createDefaultCell(cellContent, option.columns[i].member);
+                        }
                     }
+                    row.appendChild(cell);
                 }
-                this.buildRowElement(option, item, container, selected, row);
             }
-            return row;
+            
+            if (!option.hasAnyNotSizedColumn) {
+                var placeholderColumn = document.createElement("td");
+                addClass(placeholderColumn, "tgrid-placeholder");
+                addClass(placeholderColumn, "tgrid-table-data-cell");
+                placeholderColumn.setAttribute("ng-hide", "item.isGroupHeader");
+                row.appendChild(placeholderColumn);
+            }
+
+            return (<any>option).compile(row.outerHTML);
         }
 
         private buildRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, row: HTMLTableRowElement) {
@@ -440,7 +506,8 @@ module TesserisPro.TGrid {
                     detailTr.appendChild(detailTd);
                 }
             }
-            return detailTr;
+            //return detailTr;
+            return (<any>option).compile(detailTr.outerHTML);
         }
 
         public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
