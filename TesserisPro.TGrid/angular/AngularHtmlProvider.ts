@@ -34,6 +34,7 @@
 /// <reference path="../IHtmlProvider.ts" />
 /// <reference path="../BaseHtmlProvider.ts" />
 /// <reference path="../ItemViewModel.ts" />
+/// <reference path="../utils.ts" />
 /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
 /// <reference path="AngularFooterViewModel.ts" />
 /// <reference path="AngularItemViewModel.ts" />
@@ -273,56 +274,29 @@ module TesserisPro.TGrid {
 
         public updateTableBodyElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): HTMLElement {
             container.innerHTML = "";
+
             if (option.hasAnyNotSizedColumn) {
                 container.style.tableLayout = "fixed";
                 container.parentElement.style.overflowY = "scroll";
             }
-
-            var appModule = angular.module("TGridTbody", []);
-            this.angularItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
-            var itemsViewModel = this.angularItemsViewModel;
-            appModule
-                .controller("TableCtrl", ['$scope', function ($scope) {
-                    itemsViewModel.setScope($scope);
-                }])
-                .directive('ngShowInFocus', function () {
-                    return {
-                        replace: true,
-                        restrict: 'A',
-                        link: function (scope, element, attr) {
-                            scope.$watch(attr.ngShowInFocus, function (value) {
-                                if (value) {
-                                    element.css('display', 'block');
-                                    element.focus();
-                                } else {
-                                    element.css('display', 'none');
-                                }
-                            });
-                        }
-                    };
-                });
-            var parentContainer = container.parentElement;
-            parentContainer.innerHTML = "";
-            container = parentContainer;
-            var rowsContainer = document.createElement("tbody");
-            rowsContainer.style.border = "none";
-            rowsContainer.setAttribute("ng-controller", "TableCtrl");
+                                    
+            var scope = angular.element(container).scope();
             
-            var scope = option.parentViewModel;
-
-            var rowTemplate = this.buildRowTemplate(option);
-            //var detailsRow = this.buildDetailsRow(option);
-
             //foreach
             for (var i = 0; i < items.length; i++) {
+                var rowTemplate = this.buildRowTemplate(option, items[i]);
                 // Prepare child scope
-                var childScope = scope.$new(true);
+                var childScope = this.buildRowScope(option, scope, items[i]);
                 angular.extend(childScope, { item: items[i].item, viewModel: items[i] });
-
-                var row = <HTMLTableRowElement>rowTemplate(childScope);  //this.appendTableElement(option, container, items[i], 0, selected);
+                var row = <HTMLTableRowElement>rowTemplate(childScope)[0];  //this.appendTableElement(option, container, items[i], 0, selected);
 
                 row["dataContext"] = items[i].item;
                 //row.setAttribute("ng-repeat-start", "item in items");
+                addClass(row, "tgrid-table-body-row");
+
+                if (option.isSelected(items[i].item)) {
+                    addClass(row, "selected");
+                }               
                 //row.setAttribute("ng-class", "{'tgrid-table-body-row' : !item.isGroupHeader, 'tgrid-table-group-header':  item.isGroupHeader,'tgrid-table-body-row selected': !item.isGroupHeader && item.isSelected }");
                 //if (!items[i].isGroupHeader) {
                 //    row.setAttribute("ng-class", 'tgrid-table-body-row');
@@ -346,14 +320,12 @@ module TesserisPro.TGrid {
 
                 // TODO: Add custom clickevent binding
                 
+
                 //var detailsRow = this.buildDetailsRow(option);
 
-                angular.extend(childScope, { item: items[i].item, viewModel: items[i] });
-                var list = (<any>option).compile(row.outerHTML)(childScope);
-                for (var j = 0; j < list.length; j++) {
-                    rowsContainer.appendChild(list[j]);
-                }
-
+                
+                container.appendChild(row);
+                
                 //var listDetails = (<any>option).compile(detailsRow.outerHTML)(childScope);
                 //for (var k = 0; k < listDetails.length; k++) {
                 //    container.appendChild(listDetails[k]);
@@ -364,12 +336,26 @@ module TesserisPro.TGrid {
                 //rowsContainer.appendChild((<any>option).compile(detailsRow.innerHTML)(childScope));
             }
             //foreach end
-            angular.bootstrap(rowsContainer, ["TGridTbody"]);
-            container.appendChild(rowsContainer);
-           
+            var phase = scope.$$phase;
+            if (phase != '$apply' && phase != '$digest') {
+                scope.$apply();
+            }
             //Hide table on mobile devices
             addClass(container, "desktop");
             return container;
+        }
+
+        private buildRowScope(options: Options, parentScope: any, viewModel: ItemViewModel): any {
+            var childScope = parentScope.$new(true);
+            angular.extend(
+                childScope,
+                {
+                    item: viewModel.item,
+                    viewModel: viewModel,
+                    options: options
+                });
+
+            return childScope;
         }
 
         //private appendTableElement(option: Options, container: HTMLElement):HTMLTableRowElement {
@@ -385,7 +371,7 @@ module TesserisPro.TGrid {
         //    return row;
         //}
 
-        private buildRowTemplate(option: Options): any {
+        private buildRowTemplate(option: Options, item: ItemViewModel): any {
             var row = document.createElement('tr');
             this.appendIndentRow(row, option.columns.length);
             for (var i = 0; i < option.columns.length; i++) {
@@ -475,43 +461,65 @@ module TesserisPro.TGrid {
             groupHeaderTr.appendChild(groupHeaderTd);
         }
 
-        private buildDetailsRow(option: Options): HTMLTableRowElement {
-            var detailTr = document.createElement("tr");
-            detailTr.setAttribute("ng-repeat-end", "");
-            detailTr.setAttribute("ng-hide", "!item.showDetail");
-            
-            var indentsAreAppended = false;
-            if (isNotNull(option.detailsTemplateHtml)) {
-                var detailTd = document.createElement("td");
-                this.appendIndentRow(detailTr, option.groupBySortDescriptors.length);
-                indentsAreAppended = true;
-                addClass(detailTr, "tgrid-details");
-                detailTd.setAttribute("colspan", "{{item.detailsColspan}}");
-                detailTd.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column != -1");
-                option.detailsTemplateHtml.applyTemplate(detailTd);
-                detailTr.appendChild(detailTd);
-            }
-            for (var i = 0; i < option.columns.length; i++) {
-                if (isNotNull(option.columns[i].cellDetail)) {
-                    var detailTd = document.createElement("td");
-                    if (!indentsAreAppended) {
-                        this.appendIndentRow(detailTr, option.groupBySortDescriptors.length);
-                        indentsAreAppended = true;
-                    }
+        private buildDetailsRow(option: Options, template: Template): HTMLTableRowElement {
 
-                    addClass(detailTr, "tgrid-details");
-                    detailTd.setAttribute("colspan", "{{item.detailsColspan}}");
-                    detailTd.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column !=".concat(i.toString()));
-                    option.columns[i].cellDetail.applyTemplate(detailTd);
-                    detailTr.appendChild(detailTd);
-                }
-            }
-            //return detailTr;
-            return (<any>option).compile(detailTr.outerHTML);
+            var detailTr = document.createElement("tr");
+            var detailTd = document.createElement("td");
+
+            this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
+
+            addClass(detailTr, "tgrid-details");
+            var detailsColspan = option.hasAnyNotSizedColumn ? option.columns.length : option.columns.length + 1;
+            detailTd.setAttribute("colspan", detailsColspan.toString());
+
+            template.applyTemplate(detailTd)
+
+            detailTr.appendChild(detailTd);
+                        
+            return detailTr;
         }
 
         public updateTableDetailRow(options: Options, container: HTMLElement, item: ItemViewModel) {
-            this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item));
+            var detailRow = container.getElementsByClassName("tgrid-details");
+            if (detailRow.length > 0) {
+                var itemWithDetails = angular.element(detailRow[0]).scope()["item"];
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
+            }
+
+            var targetRow: HTMLElement;
+
+            for (var i = 0; i < container.children.length; i++) {
+                if (angular.element(<HTMLElement>container.children.item(i)).scope()["item"] == item.item) {
+                    targetRow = <HTMLElement>container.children.item(i);
+                    break;
+                }
+            }
+
+            if (targetRow != null) {
+                if (options.isSelected(item.item)) {
+                    addClass(targetRow, "selected");
+                }
+                else {
+                    removeClass(targetRow, "selected");
+                }
+
+                //var detailRow = container.getElementsByClassName("tgrid-details");
+                if (options.showDetailFor.item == item.item) {
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                    // Insert row details after selected item
+                    if (detailsTemplate != null) {
+                        var details = this.buildDetailsRow(options, detailsTemplate);
+                        var childScope = this.buildRowScope(options, angular.element(container).scope(), item);
+                        insertAfter(targetRow, (<any>options).compile(details.outerHTML)(childScope)[0]);
+                    }
+                }
+            }
+            //
+
+            //this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item));
         }
 
         public updateTableFooterElement(option: Options, footer: HTMLElement, totalItemsCount: number, footerModel: IFooterViewModel): void {
@@ -601,6 +609,7 @@ module TesserisPro.TGrid {
         }
         // Mobile Methods
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
+            return;
             var appModule = angular.module("TGridTbody", []);
             this.angularMobileItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
             var itemsViewModel = this.angularMobileItemsViewModel;
@@ -637,8 +646,8 @@ module TesserisPro.TGrid {
             }
             mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
             rowsContainer.appendChild(mobileContainer);
-            var detailsRow = this.buildMobileDetailsRow(option);
-            rowsContainer.appendChild(detailsRow);
+            //var detailsRow = this.buildMobileDetailsRow(option, rowsContainer);
+            //rowsContainer.appendChild(detailsRow);
 
             angular.bootstrap(rowsContainer, ["TGridTbody"]);
             container.appendChild(rowsContainer);
@@ -661,8 +670,46 @@ module TesserisPro.TGrid {
             return mobileRow;
         }
 
-        public updateMobileDetailRow(option: Options, container: HTMLElement, item: ItemViewModel): void {
-            this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item.item));
+        public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
+            var detailRow = container.getElementsByClassName("tgrid-mobile-details");
+            if (detailRow.length > 0) {
+                var itemWithDetails = angular.element(detailRow[0]).scope()["item"];
+                if (options.showDetailFor.item != itemWithDetails.item || options.showDetailFor.item == item.item) {
+                    detailRow[0].parentNode.removeChild(detailRow[0]);
+                }
+            }
+
+            var targetRow: HTMLElement;
+
+            for (var i = 0; i < container.children.length; i++) {
+                if (angular.element(<HTMLElement>container.children.item(i)).scope()["item"] == item.item) {
+                    targetRow = <HTMLElement>container.children.item(i);
+                    break;
+                }
+            }
+
+            if (targetRow != null) {
+                if (options.isSelected(item.item)) {
+                    addClass(targetRow, "selected");
+                }
+                else {
+                    removeClass(targetRow, "selected");
+                }
+
+                // if (shouldAddDetails) {
+                if (options.showDetailFor.item == item.item) {
+                    var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                    // Insert row details after selected item
+                    if (detailsTemplate != null) {
+                        var details = this.buildMobileDetailsRow(options, detailsTemplate);
+                        insertAfter(targetRow, details);
+                        ko.applyBindings(item, details);
+                    }
+                }
+                //}
+            }
+
         }
 
         private buildMobileGroupHeaderRow(option: Options, item: any, mobileRow: HTMLDivElement){
@@ -720,35 +767,11 @@ module TesserisPro.TGrid {
             }
         }
 
-        private buildMobileDetailsRow(option: Options): HTMLDivElement {
-            var mobileDetailsContainer = document.createElement("div");
-            mobileDetailsContainer.setAttribute("ng-repeat-end", "");
-            mobileDetailsContainer.setAttribute("ng-hide", "!item.showDetail");
-            addClass(mobileDetailsContainer, "tgrid-mobile-details");
-            var indentsAreAppended = false;
-            if (isNotNull(option.detailsTemplateHtml)) {
-                var detailRowMobile = document.createElement("div");
-                this.appendIndentMobileRow(mobileDetailsContainer, option.groupBySortDescriptors.length);
-                indentsAreAppended = true;
-                detailRowMobile.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item || $parent.options.showDetailFor.column != -1");
-                option.detailsTemplateHtml.applyTemplate(detailRowMobile);
-                mobileDetailsContainer.appendChild(detailRowMobile);
-            }
-            for (var i = 0; i < option.columns.length; i++) {
-                if (isNotNull(option.columns[i].cellDetail)) {
-                    var detailCellMobile = document.createElement("div");
-                    if (!indentsAreAppended) {
-                        this.appendIndentMobileRow(mobileDetailsContainer, option.groupBySortDescriptors.length);
-                        indentsAreAppended = true;
-                    }
-
-                    addClass(mobileDetailsContainer, "tgrid-details");
-                    detailCellMobile.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item || $parent.options.showDetailFor.column !=".concat(i.toString()));
-                    option.columns[i].cellDetail.applyTemplate(detailCellMobile);
-                    mobileDetailsContainer.appendChild(detailCellMobile);
-                }
-            }
-            return mobileDetailsContainer;
+        private buildMobileDetailsRow(option: Options, template: Template): HTMLDivElement {
+            var detailDiv = document.createElement("div");
+            addClass(detailDiv, "tgrid-mobile-details");
+            template.applyTemplate(detailDiv);
+            return detailDiv;
         }
 
         public createDefaultGroupHeader(tableRowElement: any) {
@@ -872,8 +895,9 @@ module TesserisPro.TGrid {
             for (var i = 0; i < level; i++) {
                 var cell = document.createElement("td");
                 cell.className = "tgrid-table-indent-cell";
-                cell.setAttribute("ng-hide", "item.isGroupHeader || $parent.options.groupBySortDescriptors.length <=".concat(i.toString()));
+                cell.setAttribute("ng-hide", "item.isGroupHeader || options.groupBySortDescriptors.length <=".concat(i.toString()));
                 var indentContent = document.createElement("div");
+                indentContent.innerHTML = "{{ typoef($parent) }}"
                 indentContent.className = "tgrid-table-indent-cell-content";
                 cell.appendChild(indentContent);
                 target.appendChild(cell);

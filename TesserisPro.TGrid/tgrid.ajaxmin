@@ -5,7 +5,7 @@
   <output path="bin/tgrid-debug.js">
 	<arguments>-minify:false -braces:source -line:multiple</arguments>
     <input path="license.js"/>
-	<input path="BaseHtmlProvider.js"/>
+	  <input path="BaseHtmlProvider.js"/>
     <input path="FilterDescriptor.js"/>
     <input path="IFooterViewModel.js"/>
     <input path="IFilterPopupViewModel.js"/>
