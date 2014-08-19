@@ -700,6 +700,7 @@ module TesserisPro.TGrid {
                 if (!this.isPreloadingPrevious) {
                     this.preloadPreviousPage();
                 }
+                debugger;
                 setTimeout(
                     () => {
                         this.showPreviousPage();
