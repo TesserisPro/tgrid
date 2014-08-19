@@ -18,7 +18,6 @@
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="angular\AngularItemsViewModel.ts" />
     <TypeScriptCompile Include="angular\TGridDirective.ts" />
     <TypeScriptCompile Include="BaseHtmlProvider.ts" />
     <TypeScriptCompile Include="angular\AngularHtmlProvider.ts" />

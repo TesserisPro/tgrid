@@ -42,9 +42,6 @@
 module TesserisPro.TGrid {
 
     export class AngularHtmlProvider extends BaseHtmlProvider {
-
-        private angularItemsViewModel: AngularItemsViewModel;
-        private angularMobileItemsViewModel: AngularItemsViewModel;
         // Table Methods
 
         public getElementsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
@@ -323,19 +320,6 @@ module TesserisPro.TGrid {
             return childScope;
         }
 
-        //private appendTableElement(option: Options, container: HTMLElement):HTMLTableRowElement {
-        //    var row = document.createElement('tr');
-        //    if (item != null) {
-        //        if (option.enableGrouping) {
-        //            if (item.isGroupHeader) {
-        //                this.buildGroupHeaderRow(option, item.item, row);
-        //            }
-        //        }
-        //        this.buildRowElement(option, item, container, selected, row);
-        //    }
-        //    return row;
-        //}
-
         private buildRowTemplate(option: Options, item: ItemViewModel): any {
             var row = document.createElement('tr');
             this.appendIndent(row, option.groupBySortDescriptors.length, false);
@@ -511,33 +495,7 @@ module TesserisPro.TGrid {
             }
             return sortArrowContainer;
         }
-
-        private removeArrows(htmlNode: HTMLElement): void {
-            var element = htmlNode.getElementsByClassName("tgrid-arrow-up");
-            for (var i = 0; i < element.length; i++) {
-                element[i].parentNode.removeChild(element[i]);
-                i--;
-            }
-            var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
-            for (var i = 0; i < element.length; i++) {
-                element[i].parentNode.removeChild(element[i]);
-                i--;
-            }
-        }
-
-        private removeFilterButtons(container: HTMLElement): void {
-            var elements = container.getElementsByClassName("tgrid-filter-button");
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].parentNode.removeChild(elements[i]);
-                i--;
-            }
-            var elements = container.getElementsByClassName("tgrid-filter-button-active");
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].parentNode.removeChild(elements[i]);
-                i--;
-            }
-        }
-
+              
         // Mobile Methods
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
            
@@ -584,6 +542,11 @@ module TesserisPro.TGrid {
         }
                
         public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
+
+            var scope = angular.element(container).scope();
+            var childScope = this.buildRowScope(options, scope, item);
+            angular.extend(childScope, { item: item.item, viewModel: item });
+
             var detailRow = container.getElementsByClassName("tgrid-mobile-details");
             if (detailRow.length > 0) {
                 var itemWithDetails = angular.element(detailRow[0]).scope()["item"];
@@ -615,35 +578,16 @@ module TesserisPro.TGrid {
 
                     // Insert row details after selected item
                     if (detailsTemplate != null) {
-                        var details = this.buildMobileDetailsRow(options, detailsTemplate);
+                        var details = this.buildMobileDetailsRow(options, detailsTemplate, childScope);
                         insertAfter(targetRow, details);
-                        ko.applyBindings(item, details);
+                        angular.element(container).scope().$apply();                        
                     }
                 }
                 //}
             }
 
         }
-
-        private buildMobileGroupHeaderRow(option: Options, item: any, mobileRow: HTMLDivElement){
-            this.appendIndentMobileGroupHeader(mobileRow, option.columns.length);
-
-            var headerDiv = document.createElement("div");
-            headerDiv.setAttribute("ng-hide", "!item.isGroupHeader");
-
-            if (option.groupHeaderTemplate != null) {
-                option.groupHeaderTemplate.applyTemplate(headerDiv);
-            } else {
-                this.createDefaultGroupHeader(headerDiv);
-            }
-
-            addClass(headerDiv, 'tgrid-mobile-group-header-container');
-
-            if (option.enableCollapsing) {
-                addClass(mobileRow, "collapsing");
-            }
-            mobileRow.appendChild(headerDiv);
-        }
+               
         private appendIndentMobileGroupHeader(target: HTMLElement, level: number) {
             for (var i = 0; i < level; i++) {
                 var indentDiv = document.createElement("div");
@@ -701,20 +645,11 @@ module TesserisPro.TGrid {
             return row;
         }
             
-        private appendIndentMobileRow(target: HTMLElement, level: number){
-            for (var i = 0; i < level; i++) {
-                var indentDiv = document.createElement("div");
-                indentDiv.className = "tgrid-mobile-row-indent-div";
-                indentDiv.setAttribute("ng-hide", "item.isGroupHeader || ".concat(i.toString()).concat(" >= item.level"));
-                target.appendChild(indentDiv);
-            }
-        }
-
-        private buildMobileDetailsRow(option: Options, template: Template): HTMLDivElement {
+        private buildMobileDetailsRow(option: Options, template: Template, childScope: any): HTMLDivElement {
             var detailDiv = document.createElement("div");
             addClass(detailDiv, "tgrid-mobile-details");
             template.applyTemplate(detailDiv);
-            return detailDiv;
+            return (<any>option).compile(detailDiv.outerHTML)(childScope)[0];
         }
 
         public createDefaultGroupHeader(tableRowElement: any) {
