@@ -50,10 +50,7 @@ module TesserisPro.TGrid {
         public getElementsSize(container: HTMLElement, items: Array<ItemViewModel>): number {
             var size = 0;
             var children = container.children;
-            if (containsClass(container, "mobile")) {
-                children = (<HTMLElement>container.children[0]).children;
-            }
-            
+
             for (var i = 0; i < children.length; i++) {
                 var child = <HTMLElement>children.item(i);
                 if (!containsClass(child, "ng-hide")) {
@@ -71,10 +68,6 @@ module TesserisPro.TGrid {
         public getFirstVisibleItem(container: HTMLElement, items: Array<ItemViewModel>, scrollTop: number): ItemViewModel {
             var size = 0;
             var children = container.children;
-
-            if (containsClass(container, "mobile")) {
-                children = (<HTMLElement>container.children[0]).children;
-            }
 
             for (var i = 0, j = 0; i < children.length; i++) {
                 var child = <HTMLElement>children.item(i);
@@ -97,9 +90,7 @@ module TesserisPro.TGrid {
             var size = 0;
             var visibleItemsCount = 0;
             var children = container.children;
-            if (containsClass(container, "mobile")) {
-                children = (<HTMLElement>container.children[0]).children;
-            }
+
             var visibleItemsSize = 0;
             for (var i = 0; i < children.length; i++) {
                 var child = <HTMLElement>children.item(i);
@@ -546,69 +537,52 @@ module TesserisPro.TGrid {
                 i--;
             }
         }
+
         // Mobile Methods
         public updateMobileItemsList(option: Options, container: HTMLElement, items: Array<ItemViewModel>, selected: (item: ItemViewModel, multi: boolean) => boolean): void {
-            return;
-            var appModule = angular.module("TGridTbody", []);
-            this.angularMobileItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
-            var itemsViewModel = this.angularMobileItemsViewModel;
-            appModule
-                .controller("TableCtrl", ['$scope', function ($scope) {
-                    itemsViewModel.setScope($scope);
-                }])
-                .directive('ngShowInFocus', function () {
-                    return {
-                        replace: true,
-                        restrict: 'A',
-                        link: function (scope, element, attr) {
-                            scope.$watch(attr.ngShowInFocus, function (value) {
-                                if (value) {
-                                    element.css('display', 'block');
-                                    element.focus();
-                                } else {
-                                    element.css('display', 'none');
-                                }
-                            });
-                        }
-                    };
-                });
-            var rowsContainer = document.createElement('div');
-            var mobileContainer = document.createElement('div');
-            rowsContainer.setAttribute("ng-controller", "TableCtrl");
-
-            mobileContainer = this.appendMobileTableElement(option, container, items, 0, action);
-            mobileContainer.setAttribute("ng-repeat-start", "item in items");
-            mobileContainer.setAttribute("ng-class", "{'tgrid-mobile-row' : !item.isGroupHeader, 'tgrid-mobile-group-header':  item.isGroupHeader,'tgrid-mobile-row selected': !item.isGroupHeader && item.isSelected }");
-            var action = "item.select($event, item, $parent.items)";
-            if (isNotNull(option.rowClick)) {
-                action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
-            }
-            mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
-            rowsContainer.appendChild(mobileContainer);
-            //var detailsRow = this.buildMobileDetailsRow(option, rowsContainer);
-            //rowsContainer.appendChild(detailsRow);
-
-            angular.bootstrap(rowsContainer, ["TGridTbody"]);
-            container.appendChild(rowsContainer);
            
-            //Hide table on mobile devices
-            addClass(container, "mobile");
-            option.showDetailFor.column = -1;
-        }
+            var scope = angular.element(container).scope();
 
-        public appendMobileTableElement(option: Options, container: HTMLElement, items: Array<ItemViewModel>, groupLevel: number, action: string): HTMLDivElement {
-            var mobileRow = document.createElement('div');
-            if (items.length > 0) {
-                if (option.enableGrouping) {
-                    if (items[0].isGroupHeader) {
-                        this.buildMobileGroupHeaderRow(option, items[0].item, mobileRow);
-                    }
-                }
-                this.buildMobileRowElement(option, items[0].item, container, action, mobileRow);
+            for (var i = 0; i < items.length; i++) {
+                this.appendMobileElement(option, container, items[i], 0, selected, scope);
             }
-            return mobileRow;
+
+            //Hide table on mobile devices
+            var bodyClass = container.getAttribute("class");
+            if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                bodyClass = "mobile";
+            }
+            else {
+                if (bodyClass.indexOf("mobile") == -1) {
+                    bodyClass += " mobile";
+                }
+            }
+            container.setAttribute("class", bodyClass);
+
+            var phase = scope.$$phase;
+            if (phase != '$apply' && phase != '$digest') {
+                scope.$apply();
+            }
         }
 
+
+        private appendMobileElement(option: Options, container: HTMLElement, item: ItemViewModel, groupLevel: number, selected: (item: ItemViewModel, multi: boolean) => boolean, scope): void {
+            // Prepare child scope
+            var childScope = this.buildRowScope(option, scope, item);
+            angular.extend(childScope, { item: item.item, viewModel: item });
+
+            var itemWithDetails: any;
+            var rowWithDetail: HTMLElement;
+            if (item.isGroupHeader) {
+                var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
+                var rowTemplate = (<any>option).compile(mobileGroupHeader.outerHTML);
+                container.appendChild(rowTemplate(childScope)[0]);
+            } else {
+                var row = this.buildMobileRowElement(option, item, container, selected, scope);
+                container.appendChild(row);
+            }
+        }
+               
         public updateMobileDetailRow(options: Options, container: HTMLElement, item: ItemViewModel): void {
             var detailRow = container.getElementsByClassName("tgrid-mobile-details");
             if (detailRow.length > 0) {
@@ -679,24 +653,54 @@ module TesserisPro.TGrid {
             }
         }
 
-        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, action: string, mobileRow: HTMLDivElement) {
-            this.appendIndentMobileRow(mobileRow, option.groupBySortDescriptors.length);
+        private buildMobileRowElement(option: Options, item: ItemViewModel, container: HTMLElement, selected: (item: ItemViewModel, multi: boolean) => boolean, scope: any): HTMLElement {
 
-            var rowTemplate = document.createElement("div");
-            rowTemplate.setAttribute("ng-hide", "item.isGroupHeader");
-            rowTemplate.className = "tgrid-mobile-div";
+            // Prepare child scope
+            var childScope = this.buildRowScope(option, scope, item);
+            angular.extend(childScope, { item: item.item, viewModel: item });
 
-            if (option.mobileTemplateHtml != null) {
-                option.mobileTemplateHtml.applyTemplate(rowTemplate);
-            } else {
-                rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
+            var rowElement = document.createElement("div");
+            addClass(rowElement, "tgrid-mobile-row");
+            if (isNotNull(option.rowClick)) {
+                rowElement.setAttribute("ng-click", "$parent.".concat(option.rowClick).concat("(item, $event);"));
             }
-            mobileRow.appendChild(rowTemplate);
-            mobileRow.setAttribute("ng-click", action);
 
-            mobileRow["dataContext"] = item.item;
+            if (option.isSelected(item.item)) {
+                addClass(rowElement, "selected");
+            }
+
+            for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
+                rowElement.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>"
+            }
+
+            var rowContent = document.createElement("div");
+            addClass(rowContent, 'tgrid-mobile-div');
+            if (option.mobileTemplateHtml != null) {
+                option.mobileTemplateHtml.applyTemplate(rowContent);
+            } else {
+                this.createDefaultMobileTemplate(rowContent, option);
+            }
+                        
+            rowElement.appendChild(rowContent);
+
+            var rowTemplate = (<any>option).compile(rowElement.outerHTML);
+
+            var row = rowTemplate(childScope)[0];
+
+            if (isNull(option.rowClick)) {
+                (function (item) {
+                    row.onclick = function (e) {
+                        if (option.selectionMode != SelectionMode.None) {
+                            var s = container;
+                            selected(item, e.ctrlKey);
+                        }
+                    };
+                })(item);
+            }
+
+            return row;
         }
-        
+            
         private appendIndentMobileRow(target: HTMLElement, level: number){
             for (var i = 0; i < level; i++) {
                 var indentDiv = document.createElement("div");
@@ -758,8 +762,8 @@ module TesserisPro.TGrid {
                     rowTemplate.appendChild(mobileColumnContainer);
                 }
             }
-            return rowTemplate;
         }
+
         private buildDefaultFilteringPopUp(option: Options, filterPopupContainer: HTMLElement) {
 
             var filterHeader = document.createElement("div");

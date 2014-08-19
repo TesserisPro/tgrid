@@ -530,7 +530,7 @@ module TesserisPro.TGrid {
                 this.updateGlobalScroll();
             }
             else {
-                //this.updateGlobalScrollMobile();
+                this.updateGlobalScrollMobile();
             }
         }
 
