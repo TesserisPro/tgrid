@@ -1,3 +1,15 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -6,18 +18,6 @@ var __extends = this.__extends || function (d, b) {
 };
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -139,6 +139,7 @@ var TesserisPro;
                                 this.buildDefaultHeader(headerContent, headerText);
                             }
 
+                            // Arrows
                             if (option.enableSorting && option.columns[i].enableSorting) {
                                 // Method changing sorting
                                 (function (i) {
@@ -257,6 +258,7 @@ var TesserisPro;
                     if (options.showDetailFor.item == item.item) {
                         var detailsTemplate = this.getActualDetailsTemplate(options);
 
+                        // Insert row details after selected item
                         if (detailsTemplate != null) {
                             var details = this.buildDetailsRow(options, detailsTemplate);
                             insertAfter(targetRow, details);
@@ -267,6 +269,7 @@ var TesserisPro;
             };
 
             KnockoutHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
+                //if there isn't footer template in grid
                 if (option.tableFooterTemplate == null && option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
@@ -354,7 +357,7 @@ var TesserisPro;
                 if (isNull(option.rowClick)) {
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.selectionMode != TGrid.SelectionMode.None) {
+                            if (option.selectionMode != 0 /* None */) {
                                 selected(item, e.ctrlKey);
                             }
                         };
@@ -403,7 +406,7 @@ var TesserisPro;
                     }
                 }
                 if (option.groupHeaderTemplate != null) {
-                    option.groupHeaderTemplate.applyTemplate(headerTd);
+                    option.groupHeaderTemplate.applyTemplate(headerTd); //(!groupHeaderDescriptor.collapse ? "close" : "open") +
                 } else {
                     this.createDefaultGroupHeader(headerTd);
                 }
@@ -500,6 +503,7 @@ var TesserisPro;
                     if (options.showDetailFor.item == item.item) {
                         var detailsTemplate = this.getActualDetailsTemplate(options);
 
+                        // Insert row details after selected item
                         if (detailsTemplate != null) {
                             var details = this.buildMobileDetailsRow(options, detailsTemplate);
                             insertAfter(targetRow, details);
@@ -551,7 +555,7 @@ var TesserisPro;
                 if (isNull(option.rowClick)) {
                     (function (item) {
                         row.onclick = function (e) {
-                            if (option.selectionMode != TGrid.SelectionMode.None) {
+                            if (option.selectionMode != 0 /* None */) {
                                 var s = container;
                                 selected(item, e.ctrlKey);
                             }
@@ -623,56 +627,67 @@ var TesserisPro;
 
             KnockoutHtmlProvider.prototype.buildDefaultFilteringPopUp = function (option, filterPopupContainer) {
                 // Creating controls
+                var filterHeader = document.createElement("div");
+                filterHeader.className = "filterHeader";
+                filterPopupContainer.appendChild(filterHeader);
+
+                var filterName = document.createElement("span");
+                filterName.setAttribute("data-bind", "text: path");
+                filterHeader.appendChild(filterName);
+
+                var closeConteiner = document.createElement("div");
+                closeConteiner.className = "closeConteiner";
+                closeConteiner.onclick = function (e) {
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onClose();
+                };
+                filterHeader.appendChild(closeConteiner);
+
                 var filterCondition = document.createElement("select");
                 filterCondition.setAttribute("data-bind", "options: availableConditions, value: condition, optionsText: 'name', optionsValue: 'value'");
                 filterCondition.className = "grid-filter-popup-options";
-                selectOption.value = TGrid.FilterCondition.None.toString();
-                selectOption.value = TGrid.FilterCondition.Equals.toString();
-                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
+                filterPopupContainer.appendChild(filterCondition);
 
                 var filterText = document.createElement("input");
                 filterText.type = "text";
                 filterText.setAttribute("data-bind", "value: value");
                 filterText.className = "grid-filter-popup-path";
+                filterPopupContainer.appendChild(filterText);
 
-                var caseSensetiveInput = document.createElement("input");
-                caseSensetiveInput.type = "checkbox";
-                caseSensetiveInput.setAttribute("data-bind", "checked: caseSensetive");
-                caseSensetiveInput.className = "grid-filter-popup-casesens";
-                (applyButton).innerHTML = "OK";
+                var caseSensitiveInput = document.createElement("input");
+                caseSensitiveInput.type = "checkbox";
+                caseSensitiveInput.setAttribute("data-bind", "checked: caseSensitive");
+                caseSensitiveInput.className = "grid-filter-popup-casesens";
 
-                var caseSensetiveLabel = document.createElement("label");
-                caseSensetiveLabel.className = "grid-filter-popup-casesens-label";
-                caseSensetiveLabel.appendChild(caseSensetiveInput);
-                caseSensetiveLabel.appendChild(document.createTextNode("Case sensetive"));
+                var caseSensitiveLabel = document.createElement("label");
+                caseSensitiveLabel.className = "grid-filter-popup-casesens-label";
+                caseSensitiveLabel.appendChild(caseSensitiveInput);
+                caseSensitiveLabel.appendChild(document.createTextNode("Case sensitive"));
+                filterPopupContainer.appendChild(caseSensitiveLabel);
 
                 var buttonsContainer = document.createElement("div");
                 buttonsContainer.className = "tgrid-filter-popup-buttons-container";
 
-                var clearButton = document.createElement("button");
-                clearButton.className = 'tgrid-filter-popup-button';
-                clearButton.onclick = function (e) {
-                    var grid = TGrid.Grid.getGridObject(e.target);
-                    grid.filterPopupViewModel.onClose();
-                    filterText.setAttribute("value", "");
-                };
-                (clearButton).innerHTML = 'Cancel';
-
-                var filterButton = document.createElement("button");
+                var filterButton = document.createElement("div");
                 filterButton.className = "tgrid-filter-popup-button";
+                filterButton.style.width = '70px';
                 filterButton.onclick = function (e) {
                     var grid = TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onApply();
                 };
                 filterButton.innerHTML = "Filter";
 
-                // Combining controls
-                filterPopupContainer.appendChild(filterCondition);
-                filterPopupContainer.appendChild(caseSensetiveLabel);
-                filterPopupContainer.appendChild(filterText);
+                var clearButton = document.createElement("div");
+                clearButton.className = 'tgrid-filter-popup-button';
+                clearButton.style.width = '70px';
+                clearButton.onclick = function (e) {
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onClear();
+                };
+                clearButton.innerHTML = 'Clear';
 
-                buttonsContainer.appendChild(clearButton);
                 buttonsContainer.appendChild(filterButton);
+                buttonsContainer.appendChild(clearButton);
 
                 filterPopupContainer.appendChild(buttonsContainer);
             };
@@ -682,4 +697,3 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
-//# sourceMappingURL=KnockoutHtmlProvider.js.map

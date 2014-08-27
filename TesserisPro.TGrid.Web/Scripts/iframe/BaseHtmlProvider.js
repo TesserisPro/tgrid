@@ -691,7 +691,7 @@ var TesserisPro;
             };
 
             BaseHtmlProvider.prototype.anyConditionIsApplied = function (options) {
-                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0 /* None */) {
+                if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.path) {
                     return true;
                 } else {
                     return false;
@@ -701,7 +701,6 @@ var TesserisPro;
             BaseHtmlProvider.prototype.detachDocumentClickEvent = function () {
                 document.onclick = BaseHtmlProvider.oldOnClick;
             };
-
             BaseHtmlProvider.prototype.hideMenuOrFilter = function (targets) {
                 for (var i = 0; i < targets.length; i++) {
                     if ((targets[i].className.indexOf("tgrid-mobile-menu") != -1 || targets[i].className.indexOf("tgrid-menu") != -1) && document.getElementsByClassName("tgrid-filter-popup").length != 0) {

@@ -162,9 +162,8 @@ var TesserisPro;
                     return filteredItems
                 };
                 ArrayItemsProvider.prototype.isFilterSatisfied = function(item, filterDescriptor) {
-                    if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensetive, filterDescriptor.condition)) {
-                    if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.condition)) {
-                        if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.Or) {
+                    if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensitive, filterDescriptor.condition)) {
+                        if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1) {
                             return true
                         }
                         else {
@@ -172,7 +171,7 @@ var TesserisPro;
                         }
                     }
                     else {
-                        if (filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.And) {
+                        if (filterDescriptor.parentChildUnionOperator == 0) {
                             return false
                         }
                         else {
@@ -181,9 +180,9 @@ var TesserisPro;
                     }
                 };
                 ArrayItemsProvider.prototype.isChildFiltersSatisfied = function(item, filterDescriptor) {
-                    if (filterDescriptor.childrenUnionOperator == TGrid.LogicalOperator.Or) {
+                    if (filterDescriptor.childrenUnionOperator == 1) {
                         for (var i = 0; i < filterDescriptor.children.length; i++) {
-                            if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
+                            if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
                                 return true
                             }
                         }
@@ -191,30 +190,50 @@ var TesserisPro;
                     }
                     else {
                         for (var i = 0; i < filterDescriptor.children.length; i++) {
-                            if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
+                            if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
                                 return false
                             }
                         }
                         return true
                     }
                 };
-                ArrayItemsProvider.prototype.isFilterConditionSatisfied = function(item, value, caseSensetive, condition) {
+                ArrayItemsProvider.prototype.isFilterConditionSatisfied = function(item, value, caseSensitive, condition) {
                     if (!value) {
                         return true
                     }
-                    var citem = item;
-                    var cvalue = value;
-                    if (caseSensetive) {
-                        citem = (item || "").toString().toLowerCase();
-                        cvalue = (value || "").toString().toLowerCase()
+                    var citem = (item || "").toString().trim();
+                    var cvalue = (value || "").toString().trim();
+                    if (!caseSensitive) {
+                        citem = (item || "").toString().trim().toLowerCase();
+                        cvalue = (value || "").toString().trim().toLowerCase()
                     }
                     switch (condition) {
-                        case TGrid.FilterCondition.None:
-                            return (citem || "").toString().indexOf((cvalue || "").toString()) > -1;
-                        case TGrid.FilterCondition.Equals:
+                        case 0:
+                            return citem.indexOf((cvalue || "").toString()) > -1;
+                        case 1:
                             return (citem == cvalue);
-                        case TGrid.FilterCondition.NotEquals:
+                        case 2:
                             return (citem != cvalue);
+                        case 3:
+                            var itemLength = cvalue.length;
+                            var valueLength = citem.substring(0, itemLength);
+                            if (cvalue == valueLength) {
+                                return citem
+                            }
+                            else {
+                                return false
+                            }
+                        case 4:
+                            var itemLength = citem.length;
+                            var valueLength = cvalue.length;
+                            if (itemLength >= valueLength) {
+                                if (cvalue == citem.substring(itemLength - valueLength, itemLength, citem)) {
+                                    return citem
+                                }
+                            }
+                            else {
+                                return false
+                            }
                         default:
                             return false
                     }

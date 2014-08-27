@@ -598,7 +598,7 @@ var TesserisPro;
                     return headerElement
                 };
                 BaseHtmlProvider.prototype.anyConditionIsApplied = function(options) {
-                    if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.condition != 0) {
+                    if (options.sortDescriptor.path != null || (options.groupBySortDescriptors.length > 0 && options.groupBySortDescriptors[0].path != null) || options.filterDescriptor.children.length > 0 || options.filterDescriptor.path) {
                         return true
                     }
                     else {
@@ -632,9 +632,10 @@ var TesserisPro;
 (function(TesserisPro) {
     (function(TGrid) {
         var FilterDescriptor = (function() {
-                function FilterDescriptor(path, values, condition, parentChildOperator, childOperator, children) {
+                function FilterDescriptor(path, values, caseSensitive, condition, parentChildOperator, childOperator, children) {
                     this.path = path;
                     this.value = values;
+                    this.caseSensitive = caseSensitive;
                     this.condition = condition;
                     this.children = children != undefined ? children : new Array;
                     this.childrenUnionOperator = childOperator != undefined ? childOperator : 0;
@@ -652,7 +653,7 @@ var TesserisPro;
                     }
                 };
                 FilterDescriptor.getEmpty = function() {
-                    return new FilterDescriptor("", "", 0)
+                    return new FilterDescriptor("", "", false, 0)
                 };
                 return FilterDescriptor
             })();
@@ -733,9 +734,11 @@ var TesserisPro;
         })(TGrid.SelectionMode || (TGrid.SelectionMode = {}));
         var SelectionMode = TGrid.SelectionMode;
         (function(FilterCondition) {
-            FilterCondition[FilterCondition["None"] = 0] = "None";
+            FilterCondition[FilterCondition["Contains"] = 0] = "Contains";
             FilterCondition[FilterCondition["Equals"] = 1] = "Equals";
-            FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals"
+            FilterCondition[FilterCondition["NotEquals"] = 2] = "NotEquals";
+            FilterCondition[FilterCondition["StartsFrom"] = 3] = "StartsFrom";
+            FilterCondition[FilterCondition["EndsWith"] = 4] = "EndsWith"
         })(TGrid.FilterCondition || (TGrid.FilterCondition = {}));
         var FilterCondition = TGrid.FilterCondition;
         (function(LogicalOperator) {
@@ -795,8 +798,8 @@ var TesserisPro;
                     this.filterPopup = null;
                     this.pageSize = 10;
                     this.pageSlide = 1;
-                    this.batchSize = 5;
-                    this.firstLoadSize = 10;
+                    this.batchSize = 50;
+                    this.firstLoadSize = 100;
                     this.currentPage = 0;
                     this.groupBySortDescriptors = [];
                     this.selectionMode = 1;
@@ -1327,7 +1330,9 @@ var TesserisPro;
                     if (this.isDesktopMode()) {
                         this.updateGlobalScroll()
                     }
-                    else {}
+                    else {
+                        this.updateGlobalScrollMobile()
+                    }
                 };
                 Grid.prototype.updateGlobalScroll = function() {
                     var _this = this;
@@ -1473,6 +1478,7 @@ var TesserisPro;
                         if (!this.isPreloadingPrevious) {
                             this.preloadPreviousPage()
                         }
+                        debugger;
                         setTimeout(function() {
                             _this.showPreviousPage()
                         }, 10)
@@ -1768,9 +1774,9 @@ var TesserisPro;
                                 currentGroupNames[j] = columnValue;
                                 collapsed = false;
                                 colapsedGroupLevel = this.options.groupBySortDescriptors.length;
-                                var filterDescriptor = new TGrid.FilterDescriptor("", "", 0, 0, 0);
+                                var filterDescriptor = new TGrid.FilterDescriptor("", "", false, 0, 0, 0);
                                 for (var k = 0; k <= j; k++) {
-                                    filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], 1))
+                                    filterDescriptor.children.push(new TGrid.FilterDescriptor(this.options.groupBySortDescriptors[k].path, currentGroupNames[k], false, 1))
                                 }
                                 collapsed = this.isGroupCollapsedOrInsideCollapsed(filterDescriptor);
                                 itemModels.push(new TGrid.ItemViewModel(this.options.parentViewModel, new TGrid.GroupHeaderDescriptor(currentGroupNames[j], j, collapsed, filterDescriptor), this, true));

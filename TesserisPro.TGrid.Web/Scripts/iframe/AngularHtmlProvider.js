@@ -1,3 +1,15 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -6,18 +18,6 @@ var __extends = this.__extends || function (d, b) {
 };
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -39,6 +39,7 @@ var TesserisPro;
     /// <reference path="../IHtmlProvider.ts" />
     /// <reference path="../BaseHtmlProvider.ts" />
     /// <reference path="../ItemViewModel.ts" />
+    /// <reference path="../utils.ts" />
     /// <reference path="../scripts/typings/angularjs/angular.d.ts"/>
     /// <reference path="AngularFooterViewModel.ts" />
     /// <reference path="AngularItemViewModel.ts" />
@@ -52,14 +53,11 @@ var TesserisPro;
             AngularHtmlProvider.prototype.getElementsSize = function (container, items) {
                 var size = 0;
                 var children = container.children;
-                if (containsClass(container, "mobile")) {
-                    children = (container.children[0]).children;
-                }
 
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
                     if (!containsClass(child, "ng-hide")) {
-                        var viewModel = angular.element(child).scope() != undefined ? (angular.element(child).scope()).item.originalModel : null;
+                        var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope()["viewModel"] : null;
 
                         if (isNotNoU(viewModel) && (items == null || items.indexOf(viewModel) >= 0)) {
                             size += child.offsetHeight;
@@ -74,14 +72,10 @@ var TesserisPro;
                 var size = 0;
                 var children = container.children;
 
-                if (containsClass(container, "mobile")) {
-                    children = (container.children[0]).children;
-                }
-
                 for (var i = 0, j = 0; i < children.length; i++) {
                     var child = children.item(i);
                     if (!containsClass(child, "ng-hide")) {
-                        var viewModel = angular.element(child).scope() != undefined ? (angular.element(child).scope()).item.originalModel : null;
+                        var viewModel = angular.element(child).scope() != undefined ? angular.element(child).scope().viewModel : null;
                         if (isNotNoU(viewModel) && items.indexOf(viewModel) >= 0) {
                             size += child.offsetHeight;
 
@@ -99,9 +93,7 @@ var TesserisPro;
                 var size = 0;
                 var visibleItemsCount = 0;
                 var children = container.children;
-                if (containsClass(container, "mobile")) {
-                    children = (container.children[0]).children;
-                }
+
                 var visibleItemsSize = 0;
                 for (var i = 0; i < children.length; i++) {
                     var child = children.item(i);
@@ -135,11 +127,9 @@ var TesserisPro;
                 var angularFooterViewModel = new TGrid.AngularFooterViewModel(grid);
                 angularFooterViewModel.angularModuleName = 'tgrid-footer-module' + AngularHtmlProvider.moduleFooterCounter++;
                 angular.module(angularFooterViewModel.angularModuleName, []).controller('tgrid-footer-controller', [
-                    '$scope',
-                    function ($scope) {
+                    '$scope', function ($scope) {
                         angularFooterViewModel.setScope($scope);
-                    }
-                ]);
+                    }]);
                 return angularFooterViewModel;
             };
 
@@ -147,11 +137,9 @@ var TesserisPro;
                 var angularFilterPopupViewModel = new TGrid.AngularFilterPopupViewModel(container, this.onCloseFilterPopup);
                 angularFilterPopupViewModel.angularModuleName = 'tgrid-filter-popup-module';
                 var angularFilterModule = angular.module(angularFilterPopupViewModel.angularModuleName, []).controller('tgrid-filter-popup-controller', [
-                    '$scope',
-                    function ($scope) {
+                    '$scope', function ($scope) {
                         angularFilterPopupViewModel.setScope($scope);
-                    }
-                ]);
+                    }]);
                 return angularFilterPopupViewModel;
             };
 
@@ -207,6 +195,7 @@ var TesserisPro;
                                     };
                                 })(i);
 
+                                // Arrows
                                 if (option.sortDescriptor.path == option.columns[i].sortMemberPath && option.columns[i].sortMemberPath != null) {
                                     this.addArrows(headerButtons, option, i);
                                 }
@@ -262,11 +251,14 @@ var TesserisPro;
                     }
                 }
 
+                var scrollWidth = this.getScrollWidth();
                 var placeholderColumn = document.createElement("th");
                 if (option.hasAnyNotSizedColumn) {
                     addClass(placeholderColumn, "tgrid-placeholder-width");
+                    placeholderColumn.style.width = (scrollWidth - 3).toString() + 'px';
                 } else {
                     addClass(placeholderColumn, "tgrid-placeholder");
+                    placeholderColumn.style.minWidth = (scrollWidth).toString() + 'px';
                 }
                 head.appendChild(placeholderColumn);
 
@@ -275,77 +267,101 @@ var TesserisPro;
             };
 
             AngularHtmlProvider.prototype.updateTableBodyElement = function (option, container, items, selected) {
-                var appModule = angular.module("TGridTbody", []);
-                this.angularItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
-                var itemsViewModel = this.angularItemsViewModel;
-                appModule.controller("TableCtrl", [
-                    '$scope',
-                    function ($scope) {
-                        itemsViewModel.setScope($scope);
-                    }
-                ]).directive('ngShowInFocus', function () {
-                    return {
-                        replace: true,
-                        restrict: 'A',
-                        link: function (scope, element, attr) {
-                            scope.$watch(attr.ngShowInFocus, function (value) {
-                                if (value) {
-                                    element.css('display', 'block');
-                                    element.focus();
-                                } else {
-                                    element.css('display', 'none');
-                                }
-                            });
-                        }
-                    };
-                });
-                var parentContainer = container.parentElement;
-                parentContainer.innerHTML = "";
-                container = parentContainer;
-                var rowsContainer = document.createElement("tbody");
-                rowsContainer.style.border = "none";
-                rowsContainer.setAttribute("ng-controller", "TableCtrl");
-                var row = this.appendTableElement(option, container, items, 0, selected);
-                row.setAttribute("ng-repeat-start", "item in items");
-                row.setAttribute("ng-class", "{'tgrid-table-body-row' : !item.isGroupHeader, 'tgrid-table-group-header':  item.isGroupHeader,'tgrid-table-body-row selected': !item.isGroupHeader && item.isSelected }");
-                var action = "";
-                if (isNull(option.rowClick)) {
-                    action = "item.select($event, item, $parent.items)";
-                } else {
-                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
-                }
-                row.setAttribute("ng-click", action);
-                var detailsRow = this.buildDetailsRow(option);
+                container.innerHTML = "";
 
-                rowsContainer.appendChild(row);
-                rowsContainer.appendChild(detailsRow);
-                angular.bootstrap(rowsContainer, ["TGridTbody"]);
-                container.appendChild(rowsContainer);
+                if (option.hasAnyNotSizedColumn) {
+                    var tgridTableBodyContainer = container.parentElement.parentElement;
+                    var tgridTable = container.parentElement;
+                    tgridTable.style.tableLayout = "fixed";
+                    tgridTableBodyContainer.style.overflowY = "scroll";
+                }
+
+                var scope = angular.element(container).scope();
+
+                for (var i = 0; i < items.length; i++) {
+                    // Prepare child scope
+                    var childScope = this.buildRowScope(option, scope, items[i]);
+                    angular.extend(childScope, { item: items[i].item, viewModel: items[i] });
+
+                    if (items[i].isGroupHeader) {
+                        var rowTemplate = this.buildGroupHeaderRow(option, items[i].item);
+                        var row = rowTemplate(childScope)[0];
+
+                        if (option.enableCollapsing) {
+                            addClass(row, "collapsing");
+                            if (!items[i].item.collapse) {
+                                row.onclick = function (e) {
+                                    var item = angular.element(e.target).scope()["item"];
+                                    TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(item.filterDescriptor);
+                                };
+                            } else {
+                                row.onclick = function (e) {
+                                    var item = angular.element(e.target).scope()["item"];
+                                    TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(item.filterDescriptor);
+                                };
+                            }
+                        }
+
+                        container.appendChild(row);
+                    } else {
+                        var rowTemplate = this.buildRowTemplate(option, items[i]);
+
+                        var row = rowTemplate(childScope)[0];
+
+                        row["dataContext"] = items[i].item;
+
+                        //row.setAttribute("ng-repeat-start", "item in items");
+                        addClass(row, "tgrid-table-body-row");
+
+                        if (option.isSelected(items[i].item)) {
+                            addClass(row, "selected");
+                        }
+
+                        if (isNull(option.rowClick)) {
+                            (function (item) {
+                                row.onclick = function (e) {
+                                    if (option.selectionMode != 0 /* None */) {
+                                        var itemViewModel = angular.element(e.target).scope()["viewModel"];
+                                        selected(itemViewModel, e.ctrlKey);
+                                    }
+                                };
+                            })(items[i].item);
+                        }
+
+                        container.appendChild(row);
+                    }
+                }
+
+                //foreach end
+                var phase = scope.$$phase;
+                if (phase != '$apply' && phase != '$digest') {
+                    scope.$apply();
+                }
 
                 //Hide table on mobile devices
                 addClass(container, "desktop");
-                return rowsContainer;
+                return container;
             };
 
-            AngularHtmlProvider.prototype.appendTableElement = function (option, container, items, groupLevel, selected) {
+            AngularHtmlProvider.prototype.buildRowScope = function (options, parentScope, viewModel) {
+                var childScope = parentScope.$new(true);
+                angular.extend(childScope, {
+                    item: viewModel.item,
+                    viewModel: viewModel,
+                    options: options
+                });
+
+                return childScope;
+            };
+
+            AngularHtmlProvider.prototype.buildRowTemplate = function (option, item) {
                 var row = document.createElement('tr');
-                if (items.length > 0) {
-                    if (option.enableGrouping) {
-                        if (items[0].isGroupHeader) {
-                            this.buildGroupHeaderRow(option, items[0].item, row);
-                        }
-                    }
-                    this.buildRowElement(option, items[0], container, selected, row);
-                }
-                return row;
-            };
-
-            AngularHtmlProvider.prototype.buildRowElement = function (option, item, container, selected, row) {
-                this.appendIndentRow(row, option.columns.length);
+                this.appendIndent(row, option.groupBySortDescriptors.length, false);
                 for (var i = 0; i < option.columns.length; i++) {
                     if (option.columns[i].device.indexOf("desktop") != -1) {
                         var cell = document.createElement("td");
-                        cell.setAttribute("ng-hide", "item.isGroupHeader");
+
+                        //cell.setAttribute("ng-hide", "item.isGroupHeader");
                         cell.className = "tgrid-table-data-cell";
                         var cellContent = document.createElement("div");
                         cellContent.className = "tgrid-cell-content";
@@ -358,15 +374,10 @@ var TesserisPro;
                                 this.createDefaultCell(cellContent, option.columns[i].member);
                             }
                         }
+
                         row.appendChild(cell);
                     }
                 }
-                if (option.hasAnyNotSizedColumn) {
-                    container.style.tableLayout = "fixed";
-                    container.parentElement.style.overflowY = "scroll";
-                }
-
-                row["dataContext"] = item.item;
 
                 if (!option.hasAnyNotSizedColumn) {
                     var placeholderColumn = document.createElement("td");
@@ -375,66 +386,92 @@ var TesserisPro;
                     placeholderColumn.setAttribute("ng-hide", "item.isGroupHeader");
                     row.appendChild(placeholderColumn);
                 }
+
+                if (isNotNull(option.rowClick)) {
+                    row.setAttribute("ng-click", "viewModel.model.".concat(option.rowClick).concat("(item ,$event)"));
+                }
+
+                return option.compile(row.outerHTML);
             };
 
-            AngularHtmlProvider.prototype.buildGroupHeaderRow = function (option, groupHeaderDescriptor, groupHeaderTr) {
-                this.appendIndentGroupHeader(groupHeaderTr, option.columns.length);
-                var groupHeaderTd = document.createElement("td");
-                groupHeaderTd.setAttribute("colspan", "{{item.colspan}}");
-                addClass(groupHeaderTd, "tgrid-table-group-header");
-                groupHeaderTd.setAttribute("ng-hide", "!item.isGroupHeader");
+            AngularHtmlProvider.prototype.buildGroupHeaderRow = function (option, groupHeaderDescriptor) {
+                var groupRow = document.createElement("tr");
+                this.appendIndent(groupRow, groupHeaderDescriptor.level, false);
+                var headerTd = document.createElement("td");
+                var colspan = option.columns.length + 1 + option.groupBySortDescriptors.length - groupHeaderDescriptor.level;
+                headerTd.setAttribute("colspan", colspan.toString());
+                addClass(headerTd, "tgrid-table-group-header");
+                addClass(groupRow, "tgrid-table-group-header");
                 if (option.groupHeaderTemplate != null) {
-                    option.groupHeaderTemplate.applyTemplate(groupHeaderTd);
+                    option.groupHeaderTemplate.applyTemplate(headerTd);
                 } else {
-                    groupHeaderTd = this.createDefaultGroupHeader(groupHeaderTd);
+                    headerTd = this.createDefaultGroupHeader(headerTd);
                 }
 
-                if (option.enableCollapsing) {
-                    addClass(groupHeaderTd, "collapsing");
-                    groupHeaderTd.setAttribute("ng-click", "item.toggleGroupCollapsing($event, item); $event.stopPropagation();");
-                }
-                groupHeaderTr.appendChild(groupHeaderTd);
+                groupRow.appendChild(headerTd);
+                return option.compile(groupRow.outerHTML);
             };
 
-            AngularHtmlProvider.prototype.buildDetailsRow = function (option) {
+            AngularHtmlProvider.prototype.buildDetailsRow = function (option, template) {
                 var detailTr = document.createElement("tr");
-                detailTr.setAttribute("ng-repeat-end", "");
-                detailTr.setAttribute("ng-hide", "!item.showDetail");
+                var detailTd = document.createElement("td");
 
-                var indentsAreAppended = false;
-                if (isNotNull(option.detailsTemplateHtml)) {
-                    var detailTd = document.createElement("td");
-                    this.appendIndentRow(detailTr, option.groupBySortDescriptors.length);
-                    indentsAreAppended = true;
-                    addClass(detailTr, "tgrid-details");
-                    detailTd.setAttribute("colspan", "{{item.detailsColspan}}");
-                    detailTd.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column != -1");
-                    option.detailsTemplateHtml.applyTemplate(detailTd);
-                    detailTr.appendChild(detailTd);
-                }
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (isNotNull(option.columns[i].cellDetail)) {
-                        var detailTd = document.createElement("td");
-                        if (!indentsAreAppended) {
-                            this.appendIndentRow(detailTr, option.groupBySortDescriptors.length);
-                            indentsAreAppended = true;
-                        }
+                this.appendIndent(detailTr, option.groupBySortDescriptors.length, false);
 
-                        addClass(detailTr, "tgrid-details");
-                        detailTd.setAttribute("colspan", "{{item.detailsColspan}}");
-                        detailTd.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column !=".concat(i.toString()));
-                        option.columns[i].cellDetail.applyTemplate(detailTd);
-                        detailTr.appendChild(detailTd);
-                    }
-                }
+                addClass(detailTr, "tgrid-details");
+                var detailsColspan = option.hasAnyNotSizedColumn ? option.columns.length : option.columns.length + 1;
+                detailTd.setAttribute("colspan", detailsColspan.toString());
+
+                template.applyTemplate(detailTd);
+
+                detailTr.appendChild(detailTd);
+
                 return detailTr;
             };
 
             AngularHtmlProvider.prototype.updateTableDetailRow = function (options, container, item) {
-                this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item));
+                var detailRow = container.getElementsByClassName("tgrid-details");
+                if (detailRow.length > 0) {
+                    var itemWithDetails = angular.element(detailRow[0]).scope()["item"];
+                    if (options.showDetailFor.item != itemWithDetails || options.showDetailFor.item == item.item) {
+                        detailRow[0].parentNode.removeChild(detailRow[0]);
+                    }
+                }
+
+                var targetRow;
+
+                for (var i = 0; i < container.children.length; i++) {
+                    if (angular.element(container.children.item(i)).scope()["item"] == item.item) {
+                        targetRow = container.children.item(i);
+                        break;
+                    }
+                }
+
+                if (targetRow != null) {
+                    if (options.isSelected(item.item)) {
+                        addClass(targetRow, "selected");
+                    } else {
+                        removeClass(targetRow, "selected");
+                    }
+
+                    //var detailRow = container.getElementsByClassName("tgrid-details");
+                    if (options.showDetailFor.item == item.item) {
+                        var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                        // Insert row details after selected item
+                        if (detailsTemplate != null) {
+                            var details = this.buildDetailsRow(options, detailsTemplate);
+                            var childScope = this.buildRowScope(options, angular.element(container).scope(), item);
+                            insertAfter(targetRow, options.compile(details.outerHTML)(childScope)[0]);
+                        }
+                    }
+                }
+                //
+                //this.angularItemsViewModel.setItemSelection(item, options.isSelected(item.item));
             };
 
             AngularHtmlProvider.prototype.updateTableFooterElement = function (option, footer, totalItemsCount, footerModel) {
+                //if there isn't footer template in grid
                 if (option.tableFooterTemplate == null && option.enablePaging) {
                     this.buildDefaultTableFooterElement(option, footer, totalItemsCount);
                 } else if (option.tableFooterTemplate != null) {
@@ -444,10 +481,10 @@ var TesserisPro;
                         footerContainer.setAttribute("ng-controller", "tgrid-footer-controller");
                         option.tableFooterTemplate.applyTemplate(footerContainer);
 
-                        angular.bootstrap(footerContainer, [(footerModel).angularModuleName]);
+                        angular.bootstrap(footerContainer, [footerModel.angularModuleName]);
                         footer.appendChild(footerContainer);
                     } else {
-                        (footerModel).apply();
+                        footerModel.apply();
                     }
                 } else {
                     footer.innerHTML = "";
@@ -460,7 +497,7 @@ var TesserisPro;
                     filterPopupContainer.className = "tgrid-filter-popup-container";
                     filterPopupContainer.setAttribute("ng-controller", "tgrid-filter-popup-controller");
                     this.buildDefaultFilteringPopUp(option, filterPopupContainer);
-                    angular.bootstrap(filterPopupContainer, [(filterPopupModel).angularModuleName]);
+                    angular.bootstrap(filterPopupContainer, [filterPopupModel.angularModuleName]);
 
                     filterPopup.appendChild(filterPopupContainer);
                 } else {
@@ -470,7 +507,7 @@ var TesserisPro;
                     option.filterPopup.applyTemplate(filterPopupContainer);
                     filterPopup.innerHTML = "";
 
-                    angular.bootstrap(filterPopupContainer, [(filterPopupModel).angularModuleName]);
+                    angular.bootstrap(filterPopupContainer, [filterPopupModel.angularModuleName]);
 
                     filterPopup.appendChild(filterPopupContainer);
                 }
@@ -491,189 +528,177 @@ var TesserisPro;
                 return sortArrowContainer;
             };
 
-            AngularHtmlProvider.prototype.removeArrows = function (htmlNode) {
-                var element = htmlNode.getElementsByClassName("tgrid-arrow-up");
-                for (var i = 0; i < element.length; i++) {
-                    element[i].parentNode.removeChild(element[i]);
-                    i--;
-                }
-                var element = htmlNode.getElementsByClassName("tgrid-arrow-down");
-                for (var i = 0; i < element.length; i++) {
-                    element[i].parentNode.removeChild(element[i]);
-                    i--;
-                }
-            };
-
-            AngularHtmlProvider.prototype.removeFilterButtons = function (container) {
-                var elements = container.getElementsByClassName("tgrid-filter-button");
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].parentNode.removeChild(elements[i]);
-                    i--;
-                }
-                var elements = container.getElementsByClassName("tgrid-filter-button-active");
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].parentNode.removeChild(elements[i]);
-                    i--;
-                }
-            };
-
             // Mobile Methods
             AngularHtmlProvider.prototype.updateMobileItemsList = function (option, container, items, selected) {
-                var appModule = angular.module("TGridTbody", []);
-                this.angularMobileItemsViewModel = new TesserisPro.TGrid.AngularItemsViewModel(items, option, selected);
-                var itemsViewModel = this.angularMobileItemsViewModel;
-                appModule.controller("TableCtrl", [
-                    '$scope',
-                    function ($scope) {
-                        itemsViewModel.setScope($scope);
-                    }
-                ]).directive('ngShowInFocus', function () {
-                    return {
-                        replace: true,
-                        restrict: 'A',
-                        link: function (scope, element, attr) {
-                            scope.$watch(attr.ngShowInFocus, function (value) {
-                                if (value) {
-                                    element.css('display', 'block');
-                                    element.focus();
-                                } else {
-                                    element.css('display', 'none');
-                                }
-                            });
-                        }
-                    };
-                });
-                var rowsContainer = document.createElement('div');
-                var mobileContainer = document.createElement('div');
-                rowsContainer.setAttribute("ng-controller", "TableCtrl");
+                var scope = angular.element(container).scope();
 
-                mobileContainer = this.appendMobileTableElement(option, container, items, 0, action);
-                mobileContainer.setAttribute("ng-repeat-start", "item in items");
-                mobileContainer.setAttribute("ng-class", "{'tgrid-mobile-row' : !item.isGroupHeader, 'tgrid-mobile-group-header':  item.isGroupHeader,'tgrid-mobile-row selected': !item.isGroupHeader && item.isSelected }");
-                var action = "item.select($event, item, $parent.items)";
-                if (isNotNull(option.rowClick)) {
-                    action = "item.model.".concat(option.rowClick).concat("(item.item ,$event)");
+                for (var i = 0; i < items.length; i++) {
+                    this.appendMobileElement(option, container, items[i], 0, selected, scope);
                 }
-                mobileContainer.setAttribute("ng-click", "!item.isGroupHeader ? " + action + ": item.toggleGroupCollapsing($event, item)");
-                rowsContainer.appendChild(mobileContainer);
-                var detailsRow = this.buildMobileDetailsRow(option);
-                rowsContainer.appendChild(detailsRow);
-
-                angular.bootstrap(rowsContainer, ["TGridTbody"]);
-                container.appendChild(rowsContainer);
 
                 //Hide table on mobile devices
-                addClass(container, "mobile");
-                option.showDetailFor.column = -1;
+                var bodyClass = container.getAttribute("class");
+                if (bodyClass == null || bodyClass == undefined || bodyClass == '') {
+                    bodyClass = "mobile";
+                } else {
+                    if (bodyClass.indexOf("mobile") == -1) {
+                        bodyClass += " mobile";
+                    }
+                }
+                container.setAttribute("class", bodyClass);
+
+                var phase = scope.$$phase;
+                if (phase != '$apply' && phase != '$digest') {
+                    scope.$apply();
+                }
             };
 
-            AngularHtmlProvider.prototype.appendMobileTableElement = function (option, container, items, groupLevel, action) {
-                var mobileRow = document.createElement('div');
-                if (items.length > 0) {
-                    if (option.enableGrouping) {
-                        if (items[0].isGroupHeader) {
-                            this.buildMobileGroupHeaderRow(option, items[0].item, mobileRow);
+            AngularHtmlProvider.prototype.appendMobileElement = function (option, container, item, groupLevel, selected, scope) {
+                // Prepare child scope
+                var childScope = this.buildRowScope(option, scope, item);
+                angular.extend(childScope, { item: item.item, viewModel: item });
+
+                var itemWithDetails;
+                var rowWithDetail;
+                if (item.isGroupHeader) {
+                    var mobileGroupHeader = this.buildGroupMobileHeaderRow(option, item.item);
+                    var rowTemplate = option.compile(mobileGroupHeader.outerHTML);
+                    var rowElement = rowTemplate(childScope)[0];
+                    if (option.enableCollapsing) {
+                        if (!item.item.collapse) {
+                            rowElement.onclick = function (e) {
+                                var item = angular.element(e.target).scope()["item"];
+                                TesserisPro.TGrid.Grid.getGridObject(e.target).setCollapsedFilters(item.filterDescriptor);
+                            };
+                        } else {
+                            rowElement.onclick = function (e) {
+                                var item = angular.element(e.target).scope()["item"];
+                                TesserisPro.TGrid.Grid.getGridObject(e.target).removeCollapsedFilters(item.filterDescriptor);
+                            };
                         }
                     }
-                    this.buildMobileRowElement(option, items[0].item, container, action, mobileRow);
-                }
-                return mobileRow;
-            };
-
-            AngularHtmlProvider.prototype.updateMobileDetailRow = function (option, container, item) {
-                this.angularMobileItemsViewModel.setItemSelection(item, option.isSelected(item.item));
-            };
-
-            AngularHtmlProvider.prototype.buildMobileGroupHeaderRow = function (option, item, mobileRow) {
-                this.appendIndentMobileGroupHeader(mobileRow, option.columns.length);
-
-                var headerDiv = document.createElement("div");
-                headerDiv.setAttribute("ng-hide", "!item.isGroupHeader");
-
-                if (option.groupHeaderTemplate != null) {
-                    option.groupHeaderTemplate.applyTemplate(headerDiv);
+                    container.appendChild(rowElement);
                 } else {
-                    this.createDefaultGroupHeader(headerDiv);
+                    var row = this.buildMobileRowElement(option, item, container, selected, scope);
+                    container.appendChild(row);
                 }
-
-                addClass(headerDiv, 'tgrid-mobile-group-header-container');
-
-                if (option.enableCollapsing) {
-                    addClass(mobileRow, "collapsing");
-                }
-                mobileRow.appendChild(headerDiv);
             };
+
+            AngularHtmlProvider.prototype.updateMobileDetailRow = function (options, container, item) {
+                var scope = angular.element(container).scope();
+                var childScope = this.buildRowScope(options, scope, item);
+                angular.extend(childScope, { item: item.item, viewModel: item });
+
+                var detailRow = container.getElementsByClassName("tgrid-mobile-details");
+                if (detailRow.length > 0) {
+                    var itemWithDetails = angular.element(detailRow[0]).scope()["item"];
+                    if (options.showDetailFor.item != itemWithDetails || options.showDetailFor.item == item.item) {
+                        detailRow[0].parentNode.removeChild(detailRow[0]);
+                    }
+                }
+
+                var targetRow;
+
+                for (var i = 0; i < container.children.length; i++) {
+                    if (angular.element(container.children.item(i)).scope()["item"] == item.item) {
+                        targetRow = container.children.item(i);
+                        break;
+                    }
+                }
+
+                if (targetRow != null) {
+                    if (options.isSelected(item.item)) {
+                        addClass(targetRow, "selected");
+                    } else {
+                        removeClass(targetRow, "selected");
+                    }
+
+                    // if (shouldAddDetails) {
+                    if (options.showDetailFor.item == item.item) {
+                        var detailsTemplate = this.getActualDetailsTemplate(options);
+
+                        // Insert row details after selected item
+                        if (detailsTemplate != null) {
+                            var details = this.buildMobileDetailsRow(options, detailsTemplate, childScope);
+
+                            insertAfter(targetRow, details);
+                            var scope = angular.element(container).scope();
+                            var phase = scope.$$phase;
+                            if (phase != '$apply' && phase != '$digest') {
+                                scope.$apply();
+                            }
+                        }
+                    }
+                }
+            };
+
             AngularHtmlProvider.prototype.appendIndentMobileGroupHeader = function (target, level) {
                 for (var i = 0; i < level; i++) {
                     var indentDiv = document.createElement("div");
                     indentDiv.className = "tgrid-mobile-group-indent-div";
-                    indentDiv.setAttribute("ng-hide", "!item.isGroupHeader || ".concat(i.toString()).concat(" >= item.item.level"));
+                    indentDiv.setAttribute("ng-hide", "!item.isGroupHeader || ".concat(i.toString()).concat(" >= item.level"));
                     target.appendChild(indentDiv);
                 }
             };
 
-            AngularHtmlProvider.prototype.buildMobileRowElement = function (option, item, container, action, mobileRow) {
-                this.appendIndentMobileRow(mobileRow, option.groupBySortDescriptors.length);
+            AngularHtmlProvider.prototype.buildMobileRowElement = function (option, item, container, selected, scope) {
+                // Prepare child scope
+                var childScope = this.buildRowScope(option, scope, item);
+                angular.extend(childScope, { item: item.item, viewModel: item });
 
-                var rowTemplate = document.createElement("div");
-                rowTemplate.setAttribute("ng-hide", "item.isGroupHeader");
-                rowTemplate.className = "tgrid-mobile-div";
+                var rowElement = document.createElement("div");
+                addClass(rowElement, "tgrid-mobile-row");
+                if (isNotNull(option.rowClick)) {
+                    rowElement.setAttribute("ng-click", "$parent.".concat(option.rowClick).concat("(item, $event);"));
+                }
 
+                if (option.isSelected(item.item)) {
+                    addClass(rowElement, "selected");
+                }
+
+                for (var i = 0; i < option.groupBySortDescriptors.length; i++) {
+                    rowElement.innerHTML += "<div class='tgrid-mobile-group-indent-div'></div>";
+                }
+
+                var rowContent = document.createElement("div");
+                addClass(rowContent, 'tgrid-mobile-div');
                 if (option.mobileTemplateHtml != null) {
-                    option.mobileTemplateHtml.applyTemplate(rowTemplate);
+                    option.mobileTemplateHtml.applyTemplate(rowContent);
                 } else {
-                    rowTemplate = this.createDefaultMobileTemplate(rowTemplate, option);
+                    this.createDefaultMobileTemplate(rowContent, option);
                 }
-                mobileRow.appendChild(rowTemplate);
-                mobileRow.setAttribute("ng-click", action);
 
-                mobileRow["dataContext"] = item.item;
+                rowElement.appendChild(rowContent);
+
+                var rowTemplate = option.compile(rowElement.outerHTML);
+
+                var row = rowTemplate(childScope)[0];
+
+                if (isNull(option.rowClick)) {
+                    (function (item) {
+                        row.onclick = function (e) {
+                            if (option.selectionMode != 0 /* None */) {
+                                var s = container;
+                                selected(item, e.ctrlKey);
+                            }
+                        };
+                    })(item);
+                }
+
+                return row;
             };
 
-            AngularHtmlProvider.prototype.appendIndentMobileRow = function (target, level) {
-                for (var i = 0; i < level; i++) {
-                    var indentDiv = document.createElement("div");
-                    indentDiv.className = "tgrid-mobile-row-indent-div";
-                    indentDiv.setAttribute("ng-hide", "item.isGroupHeader || ".concat(i.toString()).concat(" >= item.item.level"));
-                    target.appendChild(indentDiv);
-                }
-            };
-
-            AngularHtmlProvider.prototype.buildMobileDetailsRow = function (option) {
-                var mobileDetailsContainer = document.createElement("div");
-                mobileDetailsContainer.setAttribute("ng-repeat-end", "");
-                mobileDetailsContainer.setAttribute("ng-hide", "!item.showDetail");
-                addClass(mobileDetailsContainer, "tgrid-mobile-details");
-                var indentsAreAppended = false;
-                if (isNotNull(option.detailsTemplateHtml)) {
-                    var detailRowMobile = document.createElement("div");
-                    this.appendIndentMobileRow(mobileDetailsContainer, option.groupBySortDescriptors.length);
-                    indentsAreAppended = true;
-                    detailRowMobile.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column != -1");
-                    option.detailsTemplateHtml.applyTemplate(detailRowMobile);
-                    mobileDetailsContainer.appendChild(detailRowMobile);
-                }
-                for (var i = 0; i < option.columns.length; i++) {
-                    if (isNotNull(option.columns[i].cellDetail)) {
-                        var detailCellMobile = document.createElement("div");
-                        if (!indentsAreAppended) {
-                            this.appendIndentMobileRow(mobileDetailsContainer, option.groupBySortDescriptors.length);
-                            indentsAreAppended = true;
-                        }
-
-                        addClass(mobileDetailsContainer, "tgrid-details");
-                        detailCellMobile.setAttribute("ng-hide", "$parent.options.showDetailFor.item != item.item || $parent.options.showDetailFor.column !=".concat(i.toString()));
-                        option.columns[i].cellDetail.applyTemplate(detailCellMobile);
-                        mobileDetailsContainer.appendChild(detailCellMobile);
-                    }
-                }
-                return mobileDetailsContainer;
+            AngularHtmlProvider.prototype.buildMobileDetailsRow = function (option, template, childScope) {
+                var detailDiv = document.createElement("div");
+                addClass(detailDiv, "tgrid-mobile-details");
+                template.applyTemplate(detailDiv);
+                return option.compile(detailDiv.outerHTML)(childScope)[0];
             };
 
             AngularHtmlProvider.prototype.createDefaultGroupHeader = function (tableRowElement) {
                 var groupHeaderContainer = document.createElement("div");
                 var groupHeaderName = document.createElement("span");
-                groupHeaderName.innerHTML = "{{item.item.value}}";
+                groupHeaderName.innerHTML = "{{item.value}}";
                 groupHeaderContainer.appendChild(groupHeaderName);
                 tableRowElement.appendChild(groupHeaderContainer);
                 return tableRowElement;
@@ -681,7 +706,7 @@ var TesserisPro;
 
             AngularHtmlProvider.prototype.createDefaultCell = function (cell, defaultCellBindingName) {
                 var spanForCell = document.createElement("span");
-                var textBinding = "{{item.item.".concat(defaultCellBindingName).concat("}}");
+                var textBinding = "{{item.".concat(defaultCellBindingName).concat("}}");
                 spanForCell.innerHTML = textBinding;
                 cell.appendChild(spanForCell);
             };
@@ -705,7 +730,7 @@ var TesserisPro;
                         var columnData = document.createElement("span");
                         if (option.columns[i].member != null) {
                             var columnBinding = document.createElement('span');
-                            columnData.innerHTML = ": {{item.item." + option.columns[i].member + "}}";
+                            columnData.innerHTML = ": {{item." + option.columns[i].member + "}}";
                             columnData.appendChild(columnBinding);
                         } else {
                             columnData.innerHTML = ": ";
@@ -715,43 +740,50 @@ var TesserisPro;
                         rowTemplate.appendChild(mobileColumnContainer);
                     }
                 }
-                return rowTemplate;
             };
+
             AngularHtmlProvider.prototype.buildDefaultFilteringPopUp = function (option, filterPopupContainer) {
-                //var columnNameContainer = document.createElement("div");
-                //var columnName = document.createElement("span");
-                //columnName.innerHTML = "{{path}}";
-                //columnNameContainer.appendChild(columnName);
-                //filterPopupContainer.appendChild(columnNameContainer);
+                var filterHeader = document.createElement("div");
+                filterHeader.className = "filterHeader";
+                filterPopupContainer.appendChild(filterHeader);
+
+                var filterName = document.createElement("span");
+                filterName.appendChild(document.createTextNode("{{path }}"));
+                filterHeader.appendChild(filterName);
+
+                var closeConteiner = document.createElement("div");
+                closeConteiner.className = "closeConteiner";
+                closeConteiner.onclick = function (e) {
+                    var grid = TGrid.Grid.getGridObject(e.target);
+                    grid.filterPopupViewModel.onClose();
+                };
+                filterHeader.appendChild(closeConteiner);
+
                 var filterCondition = document.createElement("select");
-
-                // append filter conditions
-                var selectOption = document.createElement("option");
-                selectOption.value = TGrid.FilterCondition.None.toString();
-                //selectOption.value = FilterCondition.None.toString();
-                selectOption.text = "None";
-                filterCondition.appendChild(selectOption);
-
-                var selectOption = document.createElement("option");
-                selectOption.value = TGrid.FilterCondition.Equals.toString();
-                selectOption.text = "Equals";
-                filterCondition.appendChild(selectOption);
-
-                var selectOption = document.createElement("option");
-                selectOption.value = TGrid.FilterCondition.NotEquals.toString();
-                selectOption.text = "Not equals";
-                filterCondition.appendChild(selectOption);
-
-                // end append filter conditions
+                filterCondition.setAttribute("ng-model", "condition");
+                filterCondition.setAttribute("ng-options", "condition.value as condition.name for condition in availableConditions");
+                filterCondition.className = "grid-filter-popup-options";
                 filterPopupContainer.appendChild(filterCondition);
-                filterCondition.selectedIndex = 1;
 
                 var filterText = document.createElement("input");
                 filterText.type = "text";
-                filterText.className = 'tgrid-filter-input-text';
-                filterText.setAttribute("value", "");
-                filterText.style.width = '150px';
+                filterText.setAttribute("ng-model", "value");
+                filterText.className = "grid-filter-popup-path";
                 filterPopupContainer.appendChild(filterText);
+
+                var caseSensitiveInput = document.createElement("input");
+                caseSensitiveInput.type = "checkbox";
+                caseSensitiveInput.setAttribute("ng-model", "caseSensitive");
+                caseSensitiveInput.className = "grid-filter-popup-casesens";
+
+                var caseSensitiveLabel = document.createElement("label");
+                caseSensitiveLabel.className = "grid-filter-popup-casesens-label";
+                caseSensitiveLabel.appendChild(caseSensitiveInput);
+                caseSensitiveLabel.appendChild(document.createTextNode("Case sensitive"));
+                filterPopupContainer.appendChild(caseSensitiveLabel);
+
+                var buttonsContainer = document.createElement("div");
+                buttonsContainer.className = "tgrid-filter-popup-buttons-container";
 
                 var applyButton = document.createElement("div");
                 applyButton.className = "tgrid-filter-popup-button";
@@ -760,42 +792,21 @@ var TesserisPro;
                     var grid = TGrid.Grid.getGridObject(e.target);
                     grid.filterPopupViewModel.onApply();
                 };
-                (applyButton).innerHTML = "OK";
-                filterPopupContainer.appendChild(applyButton);
+                applyButton.innerHTML = "Filter";
 
                 var clearButton = document.createElement("div");
                 clearButton.className = 'tgrid-filter-popup-button';
                 clearButton.style.width = '70px';
                 clearButton.onclick = function (e) {
                     var grid = TGrid.Grid.getGridObject(e.target);
-                    grid.filterPopupViewModel.onClose();
-                    filterText.setAttribute("value", "");
+                    grid.filterPopupViewModel.onClear();
                 };
-                (clearButton).innerHTML = 'Cancel';
-                filterPopupContainer.appendChild(clearButton);
-            };
+                clearButton.innerHTML = 'Clear';
 
-            AngularHtmlProvider.prototype.appendIndentRow = function (target, level) {
-                for (var i = 0; i < level; i++) {
-                    var cell = document.createElement("td");
-                    cell.className = "tgrid-table-indent-cell";
-                    cell.setAttribute("ng-hide", "item.isGroupHeader || $parent.options.groupBySortDescriptors.length <=".concat(i.toString()));
-                    var indentContent = document.createElement("div");
-                    indentContent.className = "tgrid-table-indent-cell-content";
-                    cell.appendChild(indentContent);
-                    target.appendChild(cell);
-                }
-            };
-            AngularHtmlProvider.prototype.appendIndentGroupHeader = function (target, level) {
-                for (var i = 0; i < level; i++) {
-                    var cell = document.createElement("td");
-                    cell.className = "tgrid-table-indent-cell";
-                    cell.setAttribute("ng-hide", "!item.isGroupHeader || item.item.level <= ".concat(i.toString()));
-                    var indentContent = document.createElement("div");
-                    indentContent.className = "tgrid-table-indent-cell-content";
-                    cell.appendChild(indentContent);
-                    target.appendChild(cell);
-                }
+                buttonsContainer.appendChild(applyButton);
+                buttonsContainer.appendChild(clearButton);
+
+                filterPopupContainer.appendChild(buttonsContainer);
             };
             AngularHtmlProvider.moduleFooterCounter = 0;
             return AngularHtmlProvider;
@@ -804,4 +815,3 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
-//# sourceMappingURL=AngularHtmlProvider.js.map

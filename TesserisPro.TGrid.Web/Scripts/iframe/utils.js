@@ -145,5 +145,4 @@ function containsClass(target, className) {
         }
     }
 }
-//# sourceMappingURL=utils.js.map
-//# sourceMappingURL=utils.js.map
+//#endregion

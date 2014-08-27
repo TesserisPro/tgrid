@@ -1,17 +1,17 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
     // 1. The above copyright notice and this permission notice shall be included in all
     //    copies or substantial portions of the Software.
     //
@@ -34,11 +34,31 @@ var TesserisPro;
             function AngularFilterPopupViewModel(container, onCloseFilterPopup) {
                 this.container = container;
                 this.onCloseFilterPopup = onCloseFilterPopup;
+                this.path = "";
+                this.value = "";
+                this.caseSensitive = false;
+                this.condition = 0 /* Contains */;
+
+                this.availableConditions = [];
+                for (var i in TGrid.FilterCondition) {
+                    if (!isNaN(i)) {
+                        continue;
+                    }
+
+                    this.availableConditions.push({
+                        name: i,
+                        value: TGrid.FilterCondition[i]
+                    });
+                }
             }
             AngularFilterPopupViewModel.prototype.setScope = function (scope) {
                 var _this = this;
                 this.$scope = scope;
                 this.$scope.path = this.path;
+                this.$scope.value = this.value;
+                this.$scope.condition = this.condition;
+                this.$scope.caseSensitive = this.caseSensitive;
+                this.$scope.availableConditions = this.availableConditions;
                 this.$scope.onApply = function () {
                     return _this.onApply();
                 };
@@ -54,19 +74,17 @@ var TesserisPro;
             };
 
             AngularFilterPopupViewModel.prototype.onApply = function () {
-                this.condition = (this.container.getElementsByTagName("select")[0]).selectedIndex;
                 var grid = TGrid.Grid.getGridObject(this.container);
+                if (this.$scope.value.toString().trim() != "") {
+                    grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
+                    grid.options.filterDescriptor.addChild(new TGrid.FilterDescriptor(this.$scope.path, this.$scope.value, this.$scope.caseSensitive, this.$scope.condition));
+                    grid.applyFilters();
 
-                grid.options.filterDescriptor.removeChildByPath(this.$scope.path);
-                if (this.condition != TGrid.FilterCondition.None) {
-                    this.value = (this.container.getElementsByTagName("input")[0]).value;
-                //    this.value = (<HTMLInputElement>this.container.getElementsByTagName("input")[0]).value;
-                //    grid.options.filterDescriptor.addChild(new FilterDescriptor(this.$scope.path, this.value, false, this.condition));
-                //}
-                grid.applyFilters();
-
-                hideElement(this.container);
-                this.onCloseFilterPopup(this.container);
+                    hideElement(this.container);
+                    this.onCloseFilterPopup(this.container);
+                } else {
+                    this.onClear();
+                }
             };
 
             AngularFilterPopupViewModel.prototype.onClear = function () {
@@ -88,16 +106,17 @@ var TesserisPro;
                 this.$scope.path = column.filterMemberPath;
                 for (var i = 0; i < options.filterDescriptor.children.length; i++) {
                     if (options.filterDescriptor.children[i].path == column.filterMemberPath) {
-                        (this.container.getElementsByTagName("input")[0]).value = options.filterDescriptor.children[i].value;
-                        (this.container.getElementsByTagName("select")[0]).selectedIndex = options.filterDescriptor.children[i].condition;
+                        this.$scope.value = options.filterDescriptor.children[i].value;
+                        this.$scope.caseSensitive = options.filterDescriptor.children[i].caseSensitive;
+                        this.$scope.condition = options.filterDescriptor.children[i].condition;
                         this.$scope.$apply();
                         return;
                     }
                 }
 
-                (this.container.getElementsByTagName("input")[0]).value = '';
-                (this.container.getElementsByTagName("select")[0]).selectedIndex = TGrid.FilterCondition.None;
-                //(<HTMLSelectElement>this.container.getElementsByTagName("select")[0]).selectedIndex = FilterCondition.None;
+                this.$scope.value = "";
+                this.$scope.caseSensitive = false;
+                this.$scope.condition = 0 /* Contains */;
                 this.$scope.$apply();
             };
 
@@ -110,4 +129,3 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
-//# sourceMappingURL=AngularFilterPopupViewModel.js.map

@@ -1,38 +1,38 @@
+//=====================================================================================
+//
+// The Tesseris Free License
+//
+// Copyright(c) 2014 Tesseris Pro LLC
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this
+// software and associated documentation files(the "Software"), to deal in the Software
+// without restriction, including without limitation the rights to use, copy, modify,
+// merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following
+// conditions:
+//
+// 1. The above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software.
+//
+// 2. Any software that fully or partially contains or uses materials covered by
+//    this license shall notify users about this notice and above copyright.The
+//    notification can be made in "About box" and / or site main web - page footer.The
+//    notification shall contain name of Tesseris Pro company and name of the Software
+//    covered by current license.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+// PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//=====================================================================================
+//
+/// <reference path="SortDescriptor.ts" />
+/// <reference path="FilterDescriptor.ts" />
 var TesserisPro;
 (function (TesserisPro) {
-    //=====================================================================================
-    //
-    // The Tesseris Free License
-    //
-    // Copyright(c) 2014 Tesseris Pro LLC
-    //
-    // Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    // software and associated documentation files(the "Software"), to deal in the Software
-    // without restriction, including without limitation the rights to use, copy, modify,
-    // merge, publish, distribute, sublicense, and / or sell copies of the Software, and to
-    // permit persons to whom the Software is furnished to do so, subject to the following
-    // conditions:
-    //
-    // 1. The above copyright notice and this permission notice shall be included in all
-    //    copies or substantial portions of the Software.
-    //
-    // 2. Any software that fully or partially contains or uses materials covered by
-    //    this license shall notify users about this notice and above copyright.The
-    //    notification can be made in "About box" and / or site main web - page footer.The
-    //    notification shall contain name of Tesseris Pro company and name of the Software
-    //    covered by current license.
-    //
-    // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-    // PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-    // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-    // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    //
-    //=====================================================================================
-    //
-    /// <reference path="SortDescriptor.ts" />
-    /// <reference path="FilterDescriptor.ts" />
     (function (TGrid) {
         var ArrayItemsProvider = (function () {
             function ArrayItemsProvider(items) {
@@ -188,14 +188,14 @@ var TesserisPro;
             };
 
             ArrayItemsProvider.prototype.isFilterSatisfied = function (item, filterDescriptor) {
-                if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensetive, filterDescriptor.condition)) {
-                    if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.Or) {
+                if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensitive, filterDescriptor.condition)) {
+                    if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1 /* Or */) {
                         return true;
                     } else {
                         return this.isChildFiltersSatisfied(item, filterDescriptor);
                     }
                 } else {
-                    if (filterDescriptor.parentChildUnionOperator == TGrid.LogicalOperator.And) {
+                    if (filterDescriptor.parentChildUnionOperator == 0 /* And */) {
                         return false;
                     } else {
                         return this.isChildFiltersSatisfied(item, filterDescriptor);
@@ -204,9 +204,9 @@ var TesserisPro;
             };
 
             ArrayItemsProvider.prototype.isChildFiltersSatisfied = function (item, filterDescriptor) {
-                if (filterDescriptor.childrenUnionOperator == TGrid.LogicalOperator.Or) {
+                if (filterDescriptor.childrenUnionOperator == 1 /* Or */) {
                     for (var i = 0; i < filterDescriptor.children.length; i++) {
-                        if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
+                        if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
                             return true;
                         }
                     }
@@ -214,7 +214,7 @@ var TesserisPro;
                     return false;
                 } else {
                     for (var i = 0; i < filterDescriptor.children.length; i++) {
-                        if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensetive, filterDescriptor.children[i].condition)) {
+                        if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
                             return false;
                         }
                     }
@@ -223,25 +223,45 @@ var TesserisPro;
                 }
             };
 
-            ArrayItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, caseSensetive, condition) {
+            ArrayItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, caseSensitive, condition) {
                 if (!value) {
-                    case TGrid.FilterCondition.None:
                     return true;
-                    case TGrid.FilterCondition.Equals:
+                }
 
-                var citem = item;
-                var cvalue = value;
-                if (caseSensetive) {
-                    citem = (item || "").toString().toLowerCase();
-                    cvalue = (value || "").toString().toLowerCase();
+                var citem = (item || "").toString().trim();
+                var cvalue = (value || "").toString().trim();
+                if (!caseSensitive) {
+                    citem = (item || "").toString().trim().toLowerCase();
+                    cvalue = (value || "").toString().trim().toLowerCase();
                 }
 
                 switch (condition) {
                     case 0 /* Contains */:
-                        return (citem || "").toString().indexOf((cvalue || "").toString()) > -1;
+                        return citem.indexOf((cvalue || "").toString()) > -1;
+                    case 1 /* Equals */:
                         return (citem == cvalue);
-                    case TGrid.FilterCondition.NotEquals:
+                    case 2 /* NotEquals */:
                         return (citem != cvalue);
+                    case 3 /* StartsFrom */:
+                        var itemLength = cvalue.length;
+                        var valueLength = citem.substring(0, itemLength);
+                        if (cvalue == valueLength) {
+                            return citem;
+                        } else {
+                            return false;
+                        }
+                    case 4 /* EndsWith */:
+                        var itemLength = citem.length;
+                        var valueLength = cvalue.length;
+
+                        if (itemLength >= valueLength) {
+                            if (cvalue == citem.substring(itemLength - valueLength, itemLength, citem)) {
+                                return citem;
+                            }
+                        } else {
+                            return false;
+                        }
+
                     default:
                         return false;
                 }
@@ -252,4 +272,3 @@ var TesserisPro;
     })(TesserisPro.TGrid || (TesserisPro.TGrid = {}));
     var TGrid = TesserisPro.TGrid;
 })(TesserisPro || (TesserisPro = {}));
-//# sourceMappingURL=ArrayItemsProvider.js.map
