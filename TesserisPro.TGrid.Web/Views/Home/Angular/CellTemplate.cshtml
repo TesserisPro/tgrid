@@ -14,9 +14,9 @@
         <script src="~/Scripts/iframe/angular.js"></script>
         <script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
 
-        <script src="~/Scripts/iframe/tgrid-array-items-provider-debug.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-debug.js" type="text/javascript"></script>
-        <script src="~/Scripts/iframe/tgrid-angular-debug.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-array-items-provider-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-angular-min.js" type="text/javascript"></script>
     </head>
     <body> 
         <div ng-app="SampleModule"> 
@@ -25,17 +25,17 @@
                      <script type="text/html">
                          <column data-g-member ="Name">
                             <cell>
-                                <span style="color: #b6424e;">{{item.item.Name}}</span>
+                                <span style="color: #b6424e;">{{item.Name}}</span>
                             </cell>
                         </column>
                         <column data-g-member ="Surname">
                             <cell>
-                                <span>{{item.item.Surname}}</span>
+                                <span>{{item.Surname}}</span>
                             </cell>
                         </column>
                         <column data-g-member ="Age">
                             <cell>
-                                <span style="color: #b6424e;">{{item.item.Age}}</span>
+                                <span style="color: #b6424e;">{{item.Age}}</span>
                             </cell>
                         </column>
                     </script>

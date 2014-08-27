@@ -4,23 +4,23 @@
     <div ng-app="SampleModule"> 
         <div ng-controller="ctrl">
             <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="false" selectionmode="none">
-               <script type="text/html">
+                    <script type="text/html">
                     <column data-g-member="Name">
                         <cell>
-                            <span style="color: green;" ng-hide="item.model.editingItem == item.item.Name && item.model.valueForSaving == item.item"  ng-click="item.model.toggleActive(item.item, item.item.Name, 'Name')">{{item.item.Name}}</span>                                     
-                            <input class="tgrid-edit-input" style="color: green;"  ng-show-in-focus="item.model.editingItem == item.item.Name && item.model.valueForSaving == item.item" ng-blur="setItemValue(item.model.getValueForSaving())" ng-model="item.model.valueForEditing" style="display:none;" />             
+							<span class="tgrid-edit-span" style="color: green;" ng-hide="viewModel.model.editingItem == item.Name && viewModel.model.valueForSaving == item" ng-click="viewModel.model.toggleActive(item, item.Name, 'Name')">{{item.Name}}</span>                                     
+                            <input class="tgrid-edit-input" style="color: green;"  ng-show-in-focus="viewModel.model.editingItem == item.Name && viewModel.model.valueForSaving == item && viewModel.model.colName == 'Name'" ng-blur="setItemValue(viewModel.model.getValueForSaving())" ng-model="viewModel.model.valueForEditing" style="display:none;" />             
                         </cell>
                     </column>
                     <column data-g-member="Surname">
                         <cell>
-                            <span ng-hide="item.model.editingItem == item.item.Surname && item.model.valueForSaving == item.item"  ng-click="item.model.toggleActive(item.item, item.item.Surname, 'Surname')">{{item.item.Surname}}</span>                                     
-                            <input class="tgrid-edit-input" ng-show-in-focus="item.model.editingItem == item.item.Surname && item.model.valueForSaving == item.item"  ng-blur="setItemValue(item.model.getValueForSaving())"  ng-model="item.model.valueForEditing" style="display:none;" />                 
+							<span class="tgrid-edit-span" ng-hide="viewModel.model.editingItem == item.Surname && viewModel.model.valueForSaving == item" ng-click="viewModel.model.toggleActive(item, item.Surname, 'Surname')">{{item.Surname}}</span>                                     
+							<input class="tgrid-edit-input" ng-show-in-focus="viewModel.model.editingItem == item.Surname && viewModel.model.valueForSaving == item && viewModel.model.colName == 'Surname'" ng-blur="setItemValue(viewModel.model.getValueForSaving())" ng-model="viewModel.model.valueForEditing" style="display:none;" />                 
                         </cell>
                     </column>
                     <column data-g-member="Age">
                         <cell>
-                            <span style="color: #b6424e;" ng-hide="item.model.editingItem == item.item.Age && item.model.valueForSaving == item.item"  ng-click="item.model.toggleActive(item.item,  item.item.Age, 'Age')">{{item.item.Age}}</span>                                     
-                            <input class="tgrid-edit-input" style="color: #b6424e;" ng-show-in-focus="item.model.editingItem == item.item.Age && item.model.valueForSaving == item.item" ng-blur="setItemValue(item.model.getValueForSaving())" ng-model="item.model.valueForEditing" style="display:none;" />                   
+							<span class="tgrid-edit-span" style="color: #b6424e;" ng-hide="viewModel.model.editingItem == item.Age && viewModel.model.valueForSaving == item" ng-click="viewModel.model.toggleActive(item,  item.Age, 'Age')">{{item.Age}}</span>                                     
+							<input class="tgrid-edit-input" style="color: #b6424e;" ng-show-in-focus="viewModel.model.editingItem == item.Age && viewModel.model.valueForSaving == item && viewModel.model.colName == 'Age'" ng-blur="setItemValue(viewModel.model.getValueForSaving())" ng-model="viewModel.model.valueForEditing" style="display:none;" />                   
                         </cell>
                     </column>
                 </script>

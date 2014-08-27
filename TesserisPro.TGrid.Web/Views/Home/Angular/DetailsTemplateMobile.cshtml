@@ -27,7 +27,7 @@
                            <celldetail>
                                 <div>
                                     <div>This is a sample of cell details: </div>
-                                    <div style="color: #444;"> {{item.item.detail_Name}}</div>
+                                    <div style="color: #444;"> {{item.detail_Name}}</div>
                                 </div>
                             </celldetail>
                         </column>
@@ -38,24 +38,24 @@
                        <mobile>
 							<div>
 								<span>First Name: </span>
-								<span>{{item.item.Name}}</span>
-								<a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">...</a>
+								<span>{{item.Name}}</span>
+								<a href ng-click="viewModel.toggleDetailsForCell(0); $event.stopPropagation();">...</a>
 								<br />
 								<span>Last Name: </span>
-								<span>{{item.item.Surname}}</span>
+								<span>{{item.Surname}}</span>
 								<br />
 								<span>Age: </span>
-								<span>{{item.item.Age}}</span>
+								<span>{{item.Age}}</span>
 								<br />
 							</div>       
 						</mobile>
                         <details>
                             <div>
                                 <div>This is a sample of table row details:  </div>
-                                <div style="color: #444;">{{item.item.detail}}</div>
-                                <div><span>First Name: </span><span style="color: #444;">{{item.item.Name}}</span></div>
-                                <div><span>Last Name: </span><span style="color: #444;">{{item.item.Surname}}</span></div>
-                                <div><span>Age: </span><span style="color: #444;">{{item.item.Age}}</span></div>
+                                <div style="color: #444;">{{item.detail}}</div>
+                                <div><span>First Name: </span><span style="color: #444;">{{item.Name}}</span></div>
+                                <div><span>Last Name: </span><span style="color: #444;">{{item.Surname}}</span></div>
+                                <div><span>Age: </span><span style="color: #444;">{{item.Age}}</span></div>
                             </div>
                         </details>
                     </script>

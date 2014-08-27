@@ -88,7 +88,7 @@ namespace TesserisPro.TGrid.Web
                 angularUrl = "Angular/HeaderTemplate",
                 angularHtmlUrl = "Angular/HeaderTemplateHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jsHeaderTemplate"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -160,7 +160,7 @@ namespace TesserisPro.TGrid.Web
                 angularUrl = "Angular/lazyLoading",
                 angularHtmlUrl = "Angular/lazyLoadingHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jsVirtualizationAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -232,7 +232,7 @@ namespace TesserisPro.TGrid.Web
                 angularUrl = "Angular/GroupingWithVirtualization",
                 angularHtmlUrl = "Angular/GroupingWithVirtualizationHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jsVirtualizationAngular"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -280,7 +280,7 @@ namespace TesserisPro.TGrid.Web
                 angularUrl = "Angular/FooterTemplateAngular",
                 angularHtmlUrl = "Angular/FooterTemplateAngularHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/jsFooterTemplateAngular"
+                angularJsUrl = "Angular/scriptjs"
             });
             listOfDemosDesktop.Add(new UIModel
             {
@@ -391,7 +391,7 @@ namespace TesserisPro.TGrid.Web
                 angularUrl = "Angular/lazyLoadingMobile",
                 angularHtmlUrl = "Angular/lazyLoadingMobileHtml",
                 angularCssUrl = "Angular/StyleCss",
-                angularJsUrl = "Angular/scriptjs"
+                angularJsUrl = "Angular/jsVirtualizationAngular"
             });
             listOfDemosMobile.Add(new UIModel
             {

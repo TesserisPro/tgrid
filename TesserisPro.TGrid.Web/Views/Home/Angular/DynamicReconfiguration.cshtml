@@ -103,7 +103,7 @@
                             First Name
                         </header>
                         <cell>
-                            <span style='color: #259631'>{{item.item.Name}}</span>
+                            <span style='color: #259631'>{{item.Name}}</span>
                         </cell>
                     </column>
                     <column data-g-member="Surname">
@@ -159,12 +159,12 @@
                 $scope.gridOptions;
                 
                 $scope.availableColumns = [
-                    { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" },
+                    { member: "Name", header: "First Name", cell: "<span style='color: #259631'>{{item.Name}}</span>" },
                     { member: "Surname", header: "Second Name", cell: "" },
                     { member: "Age", header: "Age", cell: "" }
                 ];
 
-                $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" };
+                $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.Name}}</span>" };
                 
                 $scope.membersOfColumnsForAdding = new Array();
 
@@ -217,7 +217,7 @@
                         }
                         $scope.gridOptions.applyHandler();
                     }
-                    $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.item.Name}}</span>" };
+                    $scope.columnForAdding = { member: "", header: "", cell: "<span style='color: #259631'>{{item.Name}}</span>" };
                 }
                 $scope.toggleSorting = function () {
                     if (!$scope.gridOptions.enableSorting) {

@@ -21,12 +21,12 @@
 <body>
     <div ng-app="SampleModule">
         <div ng-controller="ctrl">
-            <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true" selectionmode="single" enablegrouping="true">
+            <t-grid id="test-angular" provider="dataProvider" showdetailsonselection="true" selectionmode="single">
                 <script type="text/html">
                     <column data-g-member="Name">
                         <cell>
                             <span>{{item.Name}}</span>
-                            <a href ng-click="item.toggleDetailsForCell(0, item, items); $event.stopPropagation();">...</a>
+							<a href ng-click="viewModel.toggleDetailsForCell(0); $event.stopPropagation();">...</a>
                         </cell>
                         <celldetail>
                             <div>
@@ -38,7 +38,7 @@
                     <column data-g-member="Surname">
                         <cell>
                             <span>{{item.Surname}}</span>
-                            <a href ng-click="viewModel.toggleDetailsForCell(1, item, items); $event.stopPropagation();">...</a>
+                            <a href ng-click="viewModel.toggleDetailsForCell(1); $event.stopPropagation();">...</a>
                         </cell>
                         <celldetail>
                             <div>

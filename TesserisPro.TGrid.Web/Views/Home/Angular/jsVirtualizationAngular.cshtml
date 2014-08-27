@@ -1,0 +1,18 @@
+﻿<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
+
+<pre class="brush: js">
+	var items = [
+		{ Name: "Elizabeth", Surname: "Brown", Age: "20" },
+		//... add your items here
+    ];
+
+   var sampleModule = angular.module("SampleModule", ['TGrid'])
+        .controller("ctrl", function ctrl($scope) {
+            $scope.dataProvider = new TesserisPro.TGrid.ArrayItemsProvider(items);
+        })
+
+    $(function () {
+    })
+</pre>
