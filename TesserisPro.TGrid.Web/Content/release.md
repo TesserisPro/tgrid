@@ -1,4 +1,7 @@
 ﻿# TGrid Releases
+## next
+ * Add optional itemProvider single method for items & itemsCount: getItemsAndTotalCount
+
 ## 0.2.5
  * Added 'rowclick' handler to customize row click action
  * Added possibility to hide grid header

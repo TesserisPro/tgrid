@@ -1224,7 +1224,8 @@ module TesserisPro.TGrid {
                     }
                 };
 
-                if (this.itemProvider.getItemsAndTotalCount) {       //single getItemsAndTotalCount function for items and totalCount
+                if (this.itemProvider.getItemsAndTotalCount) {       
+                    //Single getItemsAndTotalCount function for items and totalCount
                     this.itemProvider.getItemsAndTotalCount(this.getFirstItemNumber(), -1, this.getEffectiveSorting(),
                         this.getEffectiveFiltering(), this.getCollapsedGroupFilter(),
                         function (items, first, count, totalCount) {
