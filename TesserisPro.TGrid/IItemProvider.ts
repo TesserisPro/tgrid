@@ -47,14 +47,6 @@ module TesserisPro.TGrid {
 
         getTotalItemsCount(filter: FilterDescriptor, callback: (total: number) => void): void;
 
-        getItemsAndTotalCount?(
-            skip: number,
-            take: number,
-            sort: Array<SortDescriptor>,
-            filter: FilterDescriptor,
-            collapsedGroupFilters: Array<FilterDescriptor>,
-            callback: (items: Array<any>, firstItem: number, itemsNumber: number, total: number) => void): void;
-
         removeItem(item: any);
 
         addItem(item: any);
