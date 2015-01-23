@@ -239,6 +239,12 @@
     <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumnsWithPercent.cshtml" />
     <Content Include="Views\Home\Knockout\SimpleGridNotSizedColumnsWithPercentHtml.cshtml" />
     <Content Include="Views\Home\Angular\jsHeaderTemplate.cshtml" />
+    <Content Include="Views\Home\Knockout\GetItemsCalls.cshtml" />
+    <Content Include="Views\Home\Knockout\GetItemsCallsHtml.cshtml" />
+    <Content Include="Views\Home\Knockout\GetItemsCallsJs.cshtml" />
+    <Content Include="Views\Home\Angular\GetItemsCalls.cshtml" />
+    <Content Include="Views\Home\Angular\GetItemsCallsHtml.cshtml" />
+    <Content Include="Views\Home\Angular\GetItemsCallsJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
