@@ -1,0 +1,283 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Get items calls knockout</title>
+        <link rel="stylesheet" type="text/css" href="~/Content/Grid.css">
+        <link rel="stylesheet" type="text/css" href="~/Content/iframe.css">
+        <link rel="stylesheet" type="text/css" href="~/Content/itemsOperations.css">    @*only to size grid*@
+
+        <script src="~/Scripts/iframe/jquery-1.11.0.min.js"></script>
+        <script src="~/Scripts/iframe/knockout-3.0.0.js"></script>
+
+        <script src="~/Scripts/iframe/tgrid-min.js" type="text/javascript"></script>
+        <script src="~/Scripts/iframe/tgrid-knockout-min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <div data-bind="tgrid: { provider: itemsProvider, enableFiltering: true, enableSorting: true, enableGrouping: true, enableCollapsing: true }">
+                <script type="text/html">
+                    <column data-g-member="Name">
+                    </column>
+                    <column data-g-member="Surname">
+                    </column>
+                    <column data-g-member="Age">
+                    </column>
+                    <footer>
+                        <span style="float:right; position:absolute; right:3px">
+                            Filtered count: <span data-bind="text: totalCount"></span> &nbsp;
+                        </span>
+                    </footer>
+                </script>
+            </div>
+            <div>
+                Server call count: <span data-bind="text: serverCallCount"></span>
+            </div>
+
+            <script type="text/javascript">
+                var serverCallCount = ko.observable(0);
+                var DemoGetItemsProvider = (function () {
+                    var sourceItems = [
+                        { Name: "John", Surname: "Figgins", Age: "20", detail: "Person details: John Figgins, 20 years, accounter", detail_Name: "First name:  John", detail_Surname: "Last name: Figgins" },
+                        { Name: "Sharilyn", Surname: "Ham", Age: "52", detail: "Person details: Sharilyn Ham, 52 years, sales manager", detail_Name: "First name: Sharilyn", detail_Surname: "Last name: Ham" },
+                        { Name: "Matthew", Surname: "Holz", Age: "42", detail: "Person details: Matthew Holz, 42 years, loan officer", detail_Name: "First name: Matthew", detail_Surname: "Last name: Holz" },
+                        { Name: "Jasmine", Surname: "Seidel", Age: "32", detail: "Person details: Jasmine Seidel, 32 years, sales manager", detail_Name: "First name: Jasmine", detail_Surname: "Last name: Seidel" },
+                        { Name: "Ashley", Surname: "Ronan", Age: "33", detail: "Person details: Ashley Ronan, 33 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Ronan" },
+                        { Name: "Christiana ", Surname: "Gardella", Age: "35", detail: "Person details: item Christiana Gardella, 35 years, cashier", detail_Name: "First name: Christiana", detail_Surname: "Last name: Gardella" },
+                        { Name: "Cathrine", Surname: "Swanson", Age: "30", detail: "Person details: Cathrine Swanson, 30 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                        { Name: "Alison", Surname: "Gardella", Age: "25", detail: "Person details: Alison Gardella, 25 years, sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Gardella" },
+                        { Name: "Ruth", Surname: "Gardella", Age: "20", detail: "Person details: Ruth Gardella, 20 years, retailer", detail_Name: "First name: Ruth", detail_Surname: "Last name: Gardella" },
+                        { Name: "Samantha", Surname: "Swanson", Age: "25", detail: "Person details: Samantha Swanson, 25 years, HR officer", detail_Name: "First name: Samantha ", detail_Surname: "Last name: Swanson" },
+                        { Name: "Alison", Surname: "Arboleda", Age: "32", detail: "Person details:Alison Arboleda, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Arboleda" },
+                        { Name: "Nicole", Surname: "Newlin", Age: "20", detail: "Person details: Nicole Newlin, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Newlin" },
+                        { Name: "Theron", Surname: "Thrush", Age: "28", detail: "Person details: Theron Thrush, 28 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Thrush" },
+                        { Name: "George", Surname: "Smartt", Age: "19", detail: "Person details: George Smartt, 19 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Smartt" },
+                        { Name: "Rob", Surname: "Premo", Age: "28", detail: "Person details: Rob Premo, 28 years,  sales manager", detail_Name: "First name: Rob", detail_Surname: "Last name: Premo" },
+                        { Name: "Larry", Surname: "Figgins", Age: "20", detail: "Person details: Larry Figgins, 20 years, accounter", detail_Name: "First name:  Larry", detail_Surname: "Last name: Figgins" },
+                        { Name: "Tina", Surname: "Ham", Age: "43", detail: "Person details: Tina Ham, 43 years, loan officer", detail_Name: "First name: Tina", detail_Surname: "Last name: Ham" },
+                        { Name: "Nelson", Surname: "Seidel", Age: "31", detail: "Person details: Nelson Seidel, 31 years, sales manager", detail_Name: "First name: Nelson", detail_Surname: "Last name: Seidel" },
+                        { Name: "Ashley", Surname: "Stevens", Age: "22", detail: "Person details: Ashley Stevens, 22 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Stevens" },
+                        { Name: "Ashley", Surname: "Gardella", Age: "21", detail: "Person details: item Ashley Gardella, 21 years, cashier", detail_Name: "First name: Ashley", detail_Surname: "Last name: Gardella" },
+                        { Name: "Cathrine", Surname: "Swanson", Age: "23", detail: "Person details: Cathrine Swanson,23 years, accounter", detail_Name: "First name: Cathrine", detail_Surname: "Last name: Swanson" },
+                        { Name: "Maya", Surname: "Lewis", Age: "25", detail: "Person details: Maya Lewis, 25 years, sales manager", detail_Name: "First name: Maya", detail_Surname: "Last name: Lewis" },
+                        { Name: "Ted", Surname: "Lewis", Age: "20", detail: "Person details: Ted Lewis, 20 years, retailer", detail_Name: "First name: Ted", detail_Surname: "Last name: Lewis" },
+                        { Name: "William", Surname: "Swanson", Age: "25", detail: "Person details: William Swanson, 25 years, HR officer", detail_Name: "First name: William ", detail_Surname: "Last name: Swanson" },
+                        { Name: "Alison", Surname: "Lewis", Age: "32", detail: "Person details:Alison Lewis, 32 years,  sales manager", detail_Name: "First name: Alison", detail_Surname: "Last name: Lewis" },
+                        { Name: "Nicole", Surname: "Turner", Age: "20", detail: "Person details: Nicole Turner, 20 years, accounter", detail_Name: "First name: Nicole", detail_Surname: "Last name: Turner" },
+                        { Name: "Theron", Surname: "Carter", Age: "25", detail: "Person details: Theron Carter, 25 years, accounter", detail_Name: "First name: Theron", detail_Surname: "Last name: Carter" },
+                        { Name: "George", Surname: "Collins", Age: "39", detail: "Person details: George Collins, 39 years, HR manager", detail_Name: "First name: George", detail_Surname: "Last name: Collins" },
+                        { Name: "Matthew", Surname: "Murphy", Age: "28", detail: "Person details: Matthew Murphy, 28 years,  sales manager", detail_Name: "First name: Matthew", detail_Surname: "Last name: Murphy" }
+                    ];
+
+                    function ServerGetItemsProvider() {
+                    }
+
+                    ServerGetItemsProvider.prototype.getItems = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
+                        throw new Error("tGrid called getItems. Should always call getItemsAndTotalCount.");
+                    };
+                    ServerGetItemsProvider.prototype.getTotalItemsCount = function (filterDescriptors, callback) {
+                        throw new Error("tGrid called getTotalItemsCount. Should always call getItemsAndTotalCount.");
+                    };
+
+                    ServerGetItemsProvider.prototype.getItemsAndTotalCount = function (firstItem, itemsNumber, sortDescriptors, filterDescriptors, collapsedFilterDescriptors, callback) {
+                        // In this itemsProvider implementation Collapsed items are NOT filtered.
+                        // Other sample itemProviders only return the first item of a collapsed group. (The first item needed for group name)
+                        // This can be difficult/impossible to do with most generic server webApis.
+                        // And refetching a page from the server because of a single group collapse/expand would be overkill.
+                        // Fortunately Tgrid.buildViewModel code does not rely on a single item per collapsed group - it discards any items in a collapsed group.
+                        // The samples are probably discarding subsequent items to attempt faster processing.
+                        //So just ignore the collapsedFilterDescriptors.
+
+                        //Check if unchanged parms as previous call e.g. group expand/collapse. If so return previous results
+                        var getParmsStr = JSON.stringify({
+                            firstItem: firstItem,
+                            itemsNumber: itemsNumber,
+                            sortDescriptors: sortDescriptors,
+                            filterDescriptors: filterDescriptors,
+                        });
+                        if (getParmsStr === this.prevGetParmsStr) {
+                            callback(this.prevRet.itemsFilteredPaged, this.prevRet.firstItem, this.prevRet.itemsNumber, this.prevRet.filteredItemCount);
+                            return;
+                        }
+
+
+                        //mock of server processing:  return sorted, filtered, paged, items & filtered items count
+                        //all based on ArrayItemsProvider without collapsedFilterDescriptors processing
+                        serverCallCount(serverCallCount() + 1);     //Update the demo's count of server calls
+
+                        var _this = this;
+                        _this.sourceItems = sourceItems;
+
+                        setTimeout(function () {
+
+
+                            // Copy items
+                            var items = new Array();
+                            items = items.concat(_this.sourceItems);
+
+                            // SortItems
+                            _this.sort(items, sortDescriptors);
+
+                            // FilterItems
+                            items = _this.filter(items, filterDescriptors);
+                            var filteredItemCount = items.length;
+
+                            // Apply paging
+                            var itemsFilteredPaged = items.slice(firstItem, firstItem + itemsNumber);
+
+                            _this.prevGetParmsStr = getParmsStr;
+                            _this.prevRet = {
+                                itemsFilteredPaged: itemsFilteredPaged, 
+                                firstItem: firstItem, 
+                                itemsNumber: itemsNumber, 
+                                filteredItemCount: filteredItemCount,
+                            };
+
+                            callback(itemsFilteredPaged, firstItem, itemsNumber, filteredItemCount);
+
+                        }, 200);
+                    }
+
+
+                    //Sorting
+                    ServerGetItemsProvider.prototype.sort = function (items, sortDescriptors) {
+                        var _this = this;
+                        if (sortDescriptors != null && sortDescriptors.length > 0 && isNotNull(sortDescriptors[0].path)) {
+                            items.sort(function (a, b) { return _this.compareRecursive(a, b, sortDescriptors, 0); });
+                        }
+                    };
+                    ServerGetItemsProvider.prototype.compareRecursive = function (a, b, sortDescriptors, i) {
+                        if (i != sortDescriptors.length - 1) {
+                            if (getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path))
+                                return this.sortingOrder(sortDescriptors[i]);
+                            if (getMemberValue(b, sortDescriptors[i].path) > getMemberValue(a, sortDescriptors[i].path))
+                                return this.sortingOrderDesc(sortDescriptors[i]);
+                            return this.compareRecursive(a, b, sortDescriptors, i + 1);
+                        }
+                        else {
+                            return getMemberValue(a, sortDescriptors[i].path) > getMemberValue(b, sortDescriptors[i].path) ? this.sortingOrder(sortDescriptors[i]) : this.sortingOrderDesc(sortDescriptors[i]);
+                        }
+                    };
+                    ServerGetItemsProvider.prototype.sortingOrder = function (sortDescriptor) {
+                        return sortDescriptor.asc ? 1 : -1;
+                    };
+                    ServerGetItemsProvider.prototype.sortingOrderDesc = function (sortDescriptor) {
+                        return sortDescriptor.asc ? -1 : 1;
+                    };
+
+                    //Filtering
+                    ServerGetItemsProvider.prototype.filter = function (items, filterDescriptor, collapsedFilterDescriptors) {
+                        if (filterDescriptor == null) {
+                            return items;
+                        }
+
+                        var filteredItems = [];
+                        for (var j = 0; j < items.length; j++) {
+                            if (!this.isFilterSatisfied(items[j], filterDescriptor)) {
+                                continue;
+                            }
+
+                            filteredItems.push(items[j]);
+                        }
+                        return filteredItems;
+                    };
+                    ServerGetItemsProvider.prototype.isFilterSatisfied = function (item, filterDescriptor) {
+                        if (this.isFilterConditionSatisfied(item[filterDescriptor.path], filterDescriptor.value, filterDescriptor.caseSensitive, filterDescriptor.condition)) {
+                            if (filterDescriptor.children.length == 0 || filterDescriptor.parentChildUnionOperator == 1 /* Or */) {
+                                return true;
+                            }
+                            else {
+                                return this.isChildFiltersSatisfied(item, filterDescriptor);
+                            }
+                        }
+                        else {
+                            if (filterDescriptor.parentChildUnionOperator == 0 /* And */) {
+                                return false;
+                            }
+                            else {
+                                return this.isChildFiltersSatisfied(item, filterDescriptor);
+                            }
+                        }
+                    };
+                    ServerGetItemsProvider.prototype.isChildFiltersSatisfied = function (item, filterDescriptor) {
+                        if (filterDescriptor.childrenUnionOperator == 1 /* Or */) {
+                            for (var i = 0; i < filterDescriptor.children.length; i++) {
+                                if (this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                        else {
+                            for (var i = 0; i < filterDescriptor.children.length; i++) {
+                                if (!this.isFilterConditionSatisfied(item[filterDescriptor.children[i].path], filterDescriptor.children[i].value, filterDescriptor.children[i].caseSensitive, filterDescriptor.children[i].condition)) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    };
+                    ServerGetItemsProvider.prototype.isFilterConditionSatisfied = function (item, value, caseSensitive, condition) {
+                        if (!value) {
+                            return true;
+                        }
+                        var citem = (item || "").toString().trim();
+                        var cvalue = (value || "").toString().trim();
+                        if (!caseSensitive) {
+                            citem = (item || "").toString().trim().toLowerCase();
+                            cvalue = (value || "").toString().trim().toLowerCase();
+                        }
+                        switch (condition) {
+                            case 0 /* Contains */:
+                                return citem.indexOf((cvalue || "").toString()) > -1;
+                            case 1 /* Equals */:
+                                return (citem == cvalue);
+                            case 2 /* NotEquals */:
+                                return (citem != cvalue);
+                            case 3 /* StartsFrom */:
+                                var itemLength = cvalue.length;
+                                var valueLength = citem.substring(0, itemLength);
+                                if (cvalue == valueLength) {
+                                    return citem;
+                                }
+                                else {
+                                    return false;
+                                }
+                            case 4 /* EndsWith */:
+                                var itemLength = citem.length;
+                                var valueLength = cvalue.length;
+                                if (itemLength >= valueLength) {
+                                    if (cvalue == citem.substring(itemLength - valueLength, itemLength, citem)) {
+                                        return citem;
+                                    }
+                                }
+                                else {
+                                    return false;
+                                }
+                            default:
+                                return false;
+                        }
+                    };
+
+
+                    return ServerGetItemsProvider;
+                })();
+
+                function vm() {
+                    var self = this;
+                    self.itemsProvider = new DemoGetItemsProvider();
+                    self.serverCallCount = serverCallCount;
+                };
+
+                $(function () {
+                    ko.applyBindings(new vm());
+                });
+            </script>
+        </div>
+    </body>
+</html>

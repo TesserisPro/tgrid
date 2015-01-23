@@ -248,6 +248,18 @@ namespace TesserisPro.TGrid.Web
             });
             listOfDemosDesktop.Add(new UIModel
             {
+                title = "Get Items calls",
+                url = "Knockout/GetItemsCalls",
+                htmlUrl = "Knockout/GetItemsCallsHtml",
+                cssUrl = "Knockout/StyleCss",
+                jsUrl = "Knockout/GetItemsCallsJs",
+                angularUrl = "Angular/GetItemsCalls",
+                angularHtmlUrl = "Angular/GetItemsCallsHtml",
+                angularCssUrl = "Angular/StyleCss",
+                angularJsUrl = "Angular/GetItemsCallsJs"
+            });
+            listOfDemosDesktop.Add(new UIModel
+            {
                 title = "Virtual scrolling of 100000 rows",
                 url = "Knockout/RowsWithVirtualization",
                 htmlUrl = "Knockout/RowsWithVirtualizationHtml",
