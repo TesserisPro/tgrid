@@ -1,0 +1,36 @@
+﻿<!-- Start the highlighter. -->
+
+<pre class="brush: html">
+    <!-- 
+        Demo use of getItemsAndTotalCount to reduce server calls, replacing getItems & getTotalItemsCount.
+        Check the "Server call count" below the grid.
+        Also demonstrate itemProvider return of Items is not required to remove collapsed group items.
+    -->
+    <div ng-app="SampleModule">
+        <div ng-controller="gridCtrl">
+            <t-grid id="test-angular" provider="dataProvider" enablefiltering="true" enablesorting="true" enablegrouping="true" enablecollapsing="true">
+                <script type="text/html">
+                    <column data-g-member="Name">
+                    </column>
+                    <column data-g-member="Surname">
+                    </column>
+                    <column data-g-member="Age">
+                    </column>
+                    <footer>
+                        <span style="float:right; position:absolute; right:3px">
+                            Filtered count: <span>{{totalCount}}</span> &nbsp;
+                        </span>
+                    </footer>
+                </script>
+            </t-grid>
+        </div>
+        <div ng-controller="demoDataCtrl">
+            Server call count: <span>{{demoData.serverCallCount}}</span>
+        </div>
+    </div>
+
+</pre>
+
+<script type="text/javascript">
+    SyntaxHighlighter.highlight();
+</script>
