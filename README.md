@@ -140,4 +140,4 @@ Editing with templates:
         </script>
     </div>
 
-See more at [Demo page](http://grid.tesseris.com/Home/Demo)
+See more at [Demo page](http://grid.tesseris.com/Home/DemoAngular)
