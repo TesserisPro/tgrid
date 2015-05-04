@@ -90,7 +90,6 @@ module TesserisPro.TGrid {
 
         private manualScrollTimeoutToken: any;
 
-        private pendingCountCallback: (total) => void;
         private isBuisy: boolean = false;
 
         private isFirstRefresh = true;
@@ -135,7 +134,7 @@ module TesserisPro.TGrid {
             }
             this.itemProvider.onReset = () => {
                 if (!this.options.enableVirtualScroll) {
-                    this.pendingCountCallback = (total) => { this.options.firstLoadSize = total; };
+                    this.itemProvider.getTotalItemsCount(this.options.filterDescriptor, (total) => { this.options.firstLoadSize = total; });
                 }
                 this.refreshBody();
             }
@@ -215,7 +214,7 @@ module TesserisPro.TGrid {
                 this.tableBodyContainer.onscroll = () => this.scrollTable();
                 this.mobileContainer.onscroll = () => this.scrollTable();
             } else {
-                this.pendingCountCallback = (total) => { this.options.firstLoadSize = total; };
+                this.itemProvider.getTotalItemsCount(this.options.filterDescriptor, (total) => { this.options.firstLoadSize = total; });
             }
 
             var bodyTable = document.createElement("table");
@@ -1174,99 +1173,83 @@ module TesserisPro.TGrid {
                 this.showBuisyIndicator();
             }
 
-
-            var countCallback = (totalItemsCount) => {
-                if (this.pendingCountCallback) {
-                    this.pendingCountCallback(totalItemsCount);
-                    this.pendingCountCallback = null;
-                }
-                this.totalItemsCount = totalItemsCount;
-                if (this.isFirstRefresh) {
-                    this.refreshFooter();
-                }
-            };
-
-
             if (!this.options.enablePaging) {
-                var itemsCallback = (items, first, count) => {
-                    this.firstVisibleItemIndex = first;
-                    this.visibleItems = items;
-                    this.visibleViewModels = this.buildViewModels(this.visibleItems);
-                    this.updateVisibleItems();
-                    this.updateFooterViewModel();
-                    if (withBuisy) {
-                        this.hideBuisyIndicator();
-                    }
+                this.itemProvider.getTotalItemsCount(
+                    this.getEffectiveFiltering(),
+                    totalitemsCount => {
+                        this.totalItemsCount = totalitemsCount;
+                        if (this.isFirstRefresh) {
+                            this.refreshFooter();
+                        }
+                        this.itemProvider.getItems(
+                            this.getFirstItemNumber(),
+                            this.options.firstLoadSize,
+                            this.getEffectiveSorting(),
+                            this.getEffectiveFiltering(),
+                            this.getCollapsedGroupFilter(),
+                            (items, first, count) => {
+                                this.firstVisibleItemIndex = first;
+                                this.visibleItems = items;
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                                this.updateVisibleItems();
+                                this.updateFooterViewModel();
+                                if (withBuisy) {
+                                    this.hideBuisyIndicator();
+                                }
 
-                    //to avoid infinite loop.
-                    var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, null) : this.htmlProvider.getElementsSize(this.mobileContainer, null);
-                    if (elementsSize > 0 && this.options.firstLoadSize > 0 && isNotNoU(this.options.firstLoadSize)) {
-                        if (this.isDesktopMode() && elementsSize < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
-                            this.options.firstLoadSize *= 2;
-                            if (this.options.firstLoadSize > this.totalItemsCount) {
-                                this.options.firstLoadSize = this.totalItemsCount;
-                            }
-                            this.refreshBody();
-                        }
-                        else if (!this.isDesktopMode() && this.htmlProvider.getElementsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
-                            this.options.firstLoadSize *= 2;
-                            if (this.options.firstLoadSize > this.totalItemsCount) {
-                                this.options.firstLoadSize = this.totalItemsCount;
-                            }
-                            this.refreshBody();
-                        }
-                        else {
-                            this.onReady();
-                        }
-                    }
-                    else {
-                        this.onReady();
-                    }
-                };
-
-                if (this.itemProvider.getItemsAndTotalCount) {       
-                    //Single getItemsAndTotalCount function for items and totalCount
-                    this.itemProvider.getItemsAndTotalCount(this.getFirstItemNumber(), -1, this.getEffectiveSorting(),
-                        this.getEffectiveFiltering(), this.getCollapsedGroupFilter(),
-                        function (items, first, count, totalCount) {
-                            countCallback(totalCount);
-                            itemsCallback(items, first, count);
-                        });
-                } else {
-                    //Separate getTotalItemsCount & getItems functions
-                    this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), totalItemsCount => {
-                        countCallback(totalItemsCount);
-                        this.itemProvider.getItems(this.getFirstItemNumber(), this.options.firstLoadSize, this.getEffectiveSorting(),
-                            this.getEffectiveFiltering(), this.getCollapsedGroupFilter(), itemsCallback)
-                    })
-                }
+                                //to avoid infinite loop.
+                                var elementsSize = this.isDesktopMode() ? this.htmlProvider.getElementsSize(this.tableBody, null) : this.htmlProvider.getElementsSize(this.mobileContainer, null);
+                                if (elementsSize > 0 && this.options.firstLoadSize > 0 && isNotNoU(this.options.firstLoadSize)) {
+                                    if (this.isDesktopMode() && elementsSize < (this.tableBodyContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                        this.options.firstLoadSize *= 2;
+                                        if (this.options.firstLoadSize > this.totalItemsCount) {
+                                            this.options.firstLoadSize = this.totalItemsCount;
+                                        }
+                                        this.refreshBody();
+                                    }
+                                    else if (!this.isDesktopMode() && this.htmlProvider.getElementsSize(this.mobileContainer, null) < (this.mobileContainer.clientHeight + 100) && (this.options.firstLoadSize < this.totalItemsCount)) {
+                                        this.options.firstLoadSize *= 2;
+                                        if (this.options.firstLoadSize > this.totalItemsCount) {
+                                            this.options.firstLoadSize = this.totalItemsCount;
+                                        }
+                                        this.refreshBody();
+                                    }
+                                    else {
+                                        this.onReady();
+                                    }
+                                }
+                                else {
+                                    this.onReady();
+                                }
+                            })
+                    });
             } else {
-                var itemsCallback = (items, first, count) => {
-                    this.firstVisibleItemIndex = first;
-                    this.visibleItems = items;
-                    this.visibleViewModels = this.buildViewModels(this.visibleItems);
-                    this.updateVisibleItems();
-                    this.updateFooterViewModel();
-                    if (withBuisy) {
-                        this.hideBuisyIndicator();
-                    }
-                    this.onReady();
-                };
-
-                if (this.itemProvider.getItemsAndTotalCount) {       //single getItemsAndTotalCount function for items and count
-                    this.itemProvider.getItemsAndTotalCount(this.getFirstItemNumber(), this.getPageSize(),
-                            this.getEffectiveSorting(), this.getEffectiveFiltering(), this.getCollapsedGroupFilter(),
-                            function (items, first, count, totalCount) {
-                                countCallback(totalCount);
-                                itemsCallback(items, first, count);
-                            });
-                } else {
-                    this.itemProvider.getTotalItemsCount(this.getEffectiveFiltering(), (totalItemsCount) => {
-                        countCallback(totalItemsCount);
-                        this.itemProvider.getItems(this.getFirstItemNumber(), this.getPageSize(),
-                            this.getEffectiveSorting(), this.getEffectiveFiltering(), this.getCollapsedGroupFilter(), itemsCallback)
-                    })
-                }
+                this.itemProvider.getTotalItemsCount(
+                    this.getEffectiveFiltering(),
+                    totalitemsCount => {
+                        this.totalItemsCount = totalitemsCount;
+                        if (this.isFirstRefresh) {
+                            this.refreshFooter();
+                        }
+                        this.itemProvider.getItems(
+                            this.getFirstItemNumber(),
+                            this.getPageSize(),
+                            this.getEffectiveSorting(),
+                            this.getEffectiveFiltering(),
+                            this.getCollapsedGroupFilter(),
+                            (items, first, count) => {
+                                this.firstVisibleItemIndex = first;
+                                this.visibleItems = items;
+                                this.visibleViewModels = this.buildViewModels(this.visibleItems);
+                                this.updateVisibleItems();
+                                this.updateFooterViewModel();
+                                if (withBuisy) {
+                                    this.hideBuisyIndicator();
+                                }
+                                this.onReady();
+                            })
+                        }
+                    );
             }
         }
 
